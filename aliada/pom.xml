@@ -1,0 +1,123 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>eu.aliada</groupId>
+	<artifactId>aliada</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>pom</packaging>
+	<name>ALIADA Top Level Project</name>
+	<description>
+	    ALIADA (ally in Spanish, female genre) will automatize the publication in the Linked Open Data 
+	    Cloud of datasets hosted by different Library or Collection Management Software.
+	    ALIADA will support the whole life cycle of reuse of multilingual open data from public bodies, 
+	    initially the museums and libraries involved in the consortium, providing a usable and open source tool 
+	    that automatize the selection, publication and linking of datasets in the Linked Data Cloud 
+	    by the ALIADA users: IT staff, documentalist, curators and librarians in institutions that own datasets 
+	    managed by libray and/or museum management software.
+	    This is the top level container for all ALIADA modules.</description>
+	<url>http://aliada-project.eu</url>
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<maven.compiler.source>1.7</maven.compiler.source>
+		<maven.compiler.target>1.7</maven.compiler.target>
+		<java.version>1.7</java.version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<slf4j.version>1.7.5</slf4j.version>
+		<log4j.version>1.2.17</log4j.version>
+		<junit.version>4.11</junit.version>
+		<mockito.version>1.9.5-rc1</mockito.version>
+	</properties>
+	<developers>
+		<developer>
+			<name>Andrea Gazzarini</name>
+			<email>andrea.gazzarini@atcult.it</email>
+			<url>http://it.linkedin.com/in/andreagazzarini</url>
+			<organization>@Cult</organization>
+		</developer>
+	</developers>
+	<dependencies>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>${slf4j.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+			<version>1.7.5</version>
+		</dependency>
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>${log4j.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>${junit.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-all</artifactId>
+			<version>${mockito.version}</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+	<build>
+		<!-- COBERTURA PLUGIN -->
+		<plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>cobertura-maven-plugin</artifactId>
+				<version>2.6</version>
+				<configuration>
+					<instrumentation>
+						<excludes>
+							<exclude>**/*CumulusTestSuite.class</exclude>
+							<exclude>**/*TestUtils.class</exclude>
+							<exclude>**/*TestCase.class</exclude>
+							<exclude>**/*Test.class</exclude>
+							<exclude>**/*Exception.class</exclude>
+						</excludes>
+					</instrumentation>
+					<check>
+						<haltOnFailure>false</haltOnFailure>
+						<lineRate>80</lineRate>
+						<branchRate>80</branchRate>
+						<totalLineRate>80</totalLineRate>
+						<totalBranchRate>80</totalBranchRate>
+					</check>
+					<format>xml</format>
+				</configuration>
+			</plugin>
+			<!-- CHECKSTYLE PLUGIN -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-checkstyle-plugin</artifactId>
+				<version>2.10</version>
+				<configuration>
+					<configLocation>https://raw.githubusercontent.com/ALIADA/aliada-tool/master/aliada/src/site/dev/cumulus_coding_rules.xml</configLocation>
+					<failsOnError>false</failsOnError>
+				</configuration>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>checkstyle</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+	<modules>
+		<module>aliada-shared-module</module>
+		<module>aliada-rdfizer</module>
+		<module>aliada-user-interface</module>
+		<module>aliada-links-discovery</module>
+		<module>aliada-linked-data-server</module>
+		<module>aliada-ckan-datahub-page-creation</module>
+	</modules>
+</project>
