@@ -98,7 +98,7 @@
 				<artifactId>maven-checkstyle-plugin</artifactId>
 				<version>2.10</version>
 				<configuration>
-					<configLocation>https://raw.githubusercontent.com/ALIADA/aliada-tool/master/aliada/src/site/dev/cumulus_coding_rules.xml</configLocation>
+					<configLocation>https://raw.githubusercontent.com/ALIADA/aliada-tool/master/aliada/src/site/dev/aliada-coding-rules.xml</configLocation>
 					<failsOnError>false</failsOnError>
 				</configuration>
 				<executions>
