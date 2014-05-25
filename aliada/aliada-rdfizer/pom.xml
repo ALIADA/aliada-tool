@@ -10,6 +10,10 @@
   <packaging>war</packaging>
   <name>ALIADA RDF-izer</name>
   <description>The RDF-izer if the RDF conversion pipeline of the ALIADA tool. </description>
+  <properties>
+  	<module.context.root>/rdfizer</module.context.root>
+  	<module.listen.port>8891</module.listen.port>
+  </properties>
   <dependencies>
   	<dependency>
   		<groupId>eu.aliada</groupId>

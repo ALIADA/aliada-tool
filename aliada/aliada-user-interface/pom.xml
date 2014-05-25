@@ -1,13 +1,25 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <parent>
-    <artifactId>aliada</artifactId>
-    <groupId>eu.aliada</groupId>
-    <version>0.0.1-SNAPSHOT</version>
-    <relativePath>..</relativePath>
-  </parent>
-  <artifactId>aliada-user-interface</artifactId>
-  <packaging>war</packaging>
-  <name>ALIADA user interface </name>
-  <description>This is the web module including the ALIADA tool GUI.</description>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<artifactId>aliada</artifactId>
+		<groupId>eu.aliada</groupId>
+		<version>0.0.1-SNAPSHOT</version>
+		<relativePath>..</relativePath>
+	</parent>
+	<artifactId>aliada-user-interface</artifactId>
+	<packaging>war</packaging>
+	<name>ALIADA user interface </name>
+	<description>This is the web module including the ALIADA tool GUI.</description>
+	<properties>
+		<module.context.root>/aliada</module.context.root>
+		<module.listen.port>8080</module.listen.port>
+	</properties>
+	<dependencies>
+		<dependency>
+			<groupId>eu.aliada</groupId>
+			<artifactId>aliada-shared-module</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+	</dependencies>
 </project>
