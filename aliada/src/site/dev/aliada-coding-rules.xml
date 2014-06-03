@@ -137,7 +137,7 @@
 		<module name="UpperEll" />
 	</module>
 	<module name="Header">
-    		<property name="header" value="// ALIADA - Automatic publication under Linked Data paradigm\n//          of library and museum data\n//\n// Component: &lt;component&gt;\n// Responsible: &lt;responsible&gt;\n// Version: xx.xx\n"/>
+    		<property name="header" value="// ALIADA - Automatic publication under Linked Data paradigm\n//          of library and museum data\n//\n// Component: &lt;component&gt;\n// Responsible: ALIADA Consortium\n"/>
     		<property name="ignoreLines" value="4,5,6"/>
   	</module>
 </module>
