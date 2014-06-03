@@ -9,7 +9,6 @@ package eu.aliada.linksDiscovery;
 /**
  * Java program for Git and Maven testing purposes.
  * @author Idoia Murua
- * @version 0.1
  */
 public class HellowWorld {
 
