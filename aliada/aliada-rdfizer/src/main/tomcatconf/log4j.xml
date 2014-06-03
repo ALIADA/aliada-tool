@@ -7,8 +7,14 @@
 			<param name="ConversionPattern" value="%d{ABSOLUTE} %-5p [%c{1}] %m%n" />
 		</layout>
 	</appender>
-	<root>
+	<category name="eu.aliada">
 		<priority value="INFO" />
+	</category>
+	<category name="org">
+		<priority value="ERROR" />
+	</category>	
+	<root>
+		<priority value="ERROR" />
 		<appender-ref ref="CONSOLE" />
 	</root>
 </log4j:configuration>

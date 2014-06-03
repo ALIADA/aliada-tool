@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="  
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
+       http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd">
+	<context:annotation-config/>
+
+	<!-- 
+		For each supported file we will probably import a dedicated settings file
+	-->
+	<import resource="marc.xml" />
+	
+	<!-- 
+		TODO: A Cassandra connector for storing records during the conversion process 
+	 -->
+	 
+	 <!-- 
+	 	TODO: RDF Store connector (specific 2 Virtuoso or a generic one?)
+	  -->
+	 
+	<bean id="validate_input_path" class="eu.aliada.rdfizer.kernel.logic.ValidateInputPath" />
+</beans>

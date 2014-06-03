@@ -27,8 +27,8 @@
 		<log4j.version>1.2.17</log4j.version>
 		<junit.version>4.11</junit.version>
 		<mockito.version>1.9.5-rc1</mockito.version>
-	  	<module.context.root>TO_BE_OVERRIDEN_IN_EACH_MODULE</module.context.root>
-  		<module.listen.port>TO_BE_OVERRIDEN_IN_EACH_MODULE</module.listen.port>
+		<module.context.root>TO_BE_OVERRIDEN_IN_EACH_MODULE</module.context.root>
+		<module.listen.port>TO_BE_OVERRIDEN_IN_EACH_MODULE</module.listen.port>
 	</properties>
 	<developers>
 		<developer>
@@ -38,6 +38,15 @@
 			<organization>@Cult</organization>
 		</developer>
 	</developers>
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>com.ibm.icu</groupId>
+				<artifactId>icu4j</artifactId>
+				<version>3.4.4</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 	<build>
 		<plugins>
 			<plugin>
@@ -47,10 +56,14 @@
 				<configuration>
 					<path>${module.context.root}</path>
 					<port>${module.listen.port}</port>
+					<systemProperties>
+						<log4j.configuration>file://${project.build.directory}/tomcat/conf/log4j.xml</log4j.configuration>
+					</systemProperties>
 				</configuration>
 			</plugin>
 		</plugins>
-	</build>	<dependencies>
+	</build>
+	<dependencies>
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>

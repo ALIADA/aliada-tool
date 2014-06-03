@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="  
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
+       http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd">
+	<context:annotation-config/>
+	
+	<bean id="record-splitter" class="eu.aliada.rdfizer.marc.MarcRecordSplitter">
+		<property name="producer" ref="chunks-producer"/>
+	</bean>
+	
+	<camelContext xmlns="http://camel.apache.org/schema/spring">
+		<template id="chunks-producer" defaultEndpoint="seda:tag-channel?concurrentConsumers=2&amp;size=1000&amp;blockWhenFull=true"/>
+		<route>
+			<from uri="file:/var/data/pipeline/input/marc?move=.done/${date:now:yyyyMMdd}/${file:name.noext}-${date:now:HHmmss}.${file:ext}&amp;preMove=.working&amp;recursive=false" />
+			<to uri="direct:sanity-check-channel" />
+		</route>
+		<route> 
+			<from uri="direct:sanity-check-channel" />
+			<pipeline>
+				<process ref="validate_input_path" />
+				<to uri="direct:record-channel" />
+			</pipeline>
+		</route>
+		<route>
+			<from uri="direct:record-channel" />
+			<process ref="record-splitter"/>
+		</route>
+		<route>
+			<from uri="seda:tag-channel?concurrentConsumers=2&amp;size=1000&amp;blockWhenFull=true" /> 
+			<to uri="seda:triples-channel?size=2500&amp;blockWhenFull=true" />
+		</route>
+		<route>
+			<from uri="seda:triples-channel?size=2500&amp;blockWhenFull=true" />
+	  		<to uri="stream:out"/>
+		</route>	
+	</camelContext>
+</beans>

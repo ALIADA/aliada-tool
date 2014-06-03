@@ -1,24 +1,72 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <parent>
-    <artifactId>aliada</artifactId>
-    <groupId>eu.aliada</groupId>
-    <version>0.0.1-SNAPSHOT</version>
-    <relativePath>..</relativePath>
-  </parent>
-  <artifactId>aliada-rdfizer</artifactId>
-  <packaging>war</packaging>
-  <name>ALIADA RDF-izer</name>
-  <description>The RDF-izer if the RDF conversion pipeline of the ALIADA tool. </description>
-  <properties>
-  	<module.context.root>/rdfizer</module.context.root>
-  	<module.listen.port>8891</module.listen.port>
-  </properties>
-  <dependencies>
-  	<dependency>
-  		<groupId>eu.aliada</groupId>
-  		<artifactId>aliada-shared-module</artifactId>
-  		<version>${project.version}</version>
-  	</dependency>
-  </dependencies>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<artifactId>aliada</artifactId>
+		<groupId>eu.aliada</groupId>
+		<version>0.0.1-SNAPSHOT</version>
+		<relativePath>..</relativePath>
+	</parent>
+	<artifactId>aliada-rdfizer</artifactId>
+	<packaging>war</packaging>
+	<name>ALIADA RDF-izer</name>
+	<description>The RDF-izer if the RDF conversion pipeline of the ALIADA tool. </description>
+	<properties>
+		<module.context.root>/rdfizer</module.context.root>
+		<module.listen.port>8891</module.listen.port>
+		<spring-framework.version>3.1.4.RELEASE</spring-framework.version>
+		<camel.version>2.11.1</camel.version>
+	</properties>
+	<repositories>
+		<repository>
+			<id>atcult</id>
+			<name>AtCult</name>
+			<url>http://151.1.163.3:8537/archiva/repository/internal</url>
+		</repository>
+	</repositories>
+	<dependencies>
+		<!-- Spring -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-web</artifactId>
+			<version>${spring-framework.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>eu.aliada</groupId>
+			<artifactId>aliada-shared-module</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-logging</groupId>
+			<artifactId>commons-logging</artifactId>
+			<version>1.1.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.camel</groupId>
+			<artifactId>camel-core</artifactId>
+			<version>${camel.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.camel</groupId>
+			<artifactId>camel-stream</artifactId>
+			<version>${camel.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.camel</groupId>
+			<artifactId>camel-spring</artifactId>
+			<version>${camel.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.tigris</groupId>
+			<artifactId>marc4j</artifactId>
+			<version>2.4</version>
+		</dependency>
+		<!-- TESTING -->
+		<dependency>
+			<groupId>org.apache.camel</groupId>
+			<artifactId>camel-test-spring</artifactId>
+			<version>${camel.version}</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
 </project>
