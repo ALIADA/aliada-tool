@@ -1,0 +1,530 @@
+<?xml version="1.0"?>
+<rdf:RDF xmlns="http://www.w3.org/2002/07/owl#"
+     xml:base="http://www.w3.org/2002/07/owl"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:ecrm="http://erlangen-crm.org/120111/"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+    <Ontology>
+        <imports rdf:resource="http://erlangen-crm.org/120111/"/>
+    </Ontology>
+	<rdf:Description rdf:about="http://www.szepmuveszeti.hu/resource/E19_Physical_Object/H_3672">
+		<rdf:type rdf:resource="http://erlangen-crm.org/120111/E19_Physical_Object"/>
+	</rdf:Description>
+
+	<!-- RecID - BEGIN -->
+	<rdf:Description rdf:about="http://www.szepmuveszeti.hu/resource/E31_Document/BFM-00120252">
+		<rdf:type rdf:resource="http://erlangen-crm.org/120111/E31_Document"/>
+	</rdf:Description>
+	
+	<rdf:Description rdf:about="http://www.szepmuveszeti.hu/resource/E19_Physical_Object/H_3672">
+		<ecrm:P70i_is_documented_in  rdf:resource="http://www.szepmuveszeti.hu/resource/E31_Document/BFM-00120252"/>
+	</rdf:Description>
+	<!-- RecID - END -->
+
+	<!-- Category - BEGIN -->
+	<rdf:Description rdf:about="http://www.szepmuveszeti.hu/resource/E19_Physical_Object/H_3672">
+		<ecrm:P2_has_type  rdf:resource="http://erlangen-crm.org/120111/E84_Information_Carrier"/>
+	</rdf:Description>
+	<!-- Category - END -->
+
+	<!-- =================================DESCRIPTIVE METADATA================================= -->
+	<!-- ===Object Classification Wrap=== - BEGIN -->
+	<!-- Work Type - BEGIN -->
+	<rdf:Description rdf:about="http://www.szepmuveszeti.hu/resource/E55_Type/Sheet_of_Pictures">
+		<rdf:type rdf:resource="http://erlangen-crm.org/120111/E55_Type"/>
+	</rdf:Description>
+	
+	<rdf:Description rdf:about="http://www.szepmuveszeti.hu/resource/E19_Physical_Object/H_3672">
+		<ecrm:P2_has_type  rdf:resource="http://www.szepmuveszeti.hu/resource/E55_Type/Sheet_of_Pictures"/>
+	</rdf:Description>
+	<!-- Work Type - END -->
+
+<!-- Classification - BEGIN -->
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/resource/E55_Type/Single_Sheet_Woodcut">
+	<rdf:type rdf:resource="http://erlangen-crm.org/120111/E55_Type"/>
+</rdf:Description>
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/resource/E19_Physical_Object/H_3672">
+	<ecrm:P2_has_type  rdf:resource="http://www.szepmuveszeti.hu/resource/E55_Type/Single_Sheet_Woodcut"/>
+</rdf:Description>
+<!-- Classification - END -->
+<!-- ===Object Classification Wrap=== - END -->
+
+
+<!-- ===Object Identification Wrap=== - BEGIN -->
+<!-- Title - BEGIN -->
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/resource/E19_Physical_Object/H_3672/E41_Appellation/1">
+	<rdf:type rdf:resource="http://erlangen-crm.org/120111/E41_Appellation"/>
+	<ecrm:P3_has_note  rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Munchener Bilderbogen Nro. 91: "Auf dem Dorfe."</ecrm:P3_has_note>
+</rdf:Description>
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/resource/E19_Physical_Object/H_3672">
+	<ecrm:P1_is_identified_by  rdf:resource="http://www.szepmuveszeti.hu/resource/E19_Physical_Object/H_3672/E41_Appellation/1"/>
+</rdf:Description>
+<!-- Title - END -->
+
+<!-- Repository - BEGIN -->
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/resource/E39_Actor/1/E82_Actor_Appellation/1">
+	<rdf:type rdf:resource="http://erlangen-crm.org/120111/E82_Actor_Appellation"/>
+	<ecrm:P3_has_note  rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Germanic National Museum, Graphical Collection (Nuremberg)</ecrm:P3_has_note>
+</rdf:Description>
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/resource/E39_Actor/1">
+	<rdf:type rdf:resource="http://erlangen-crm.org/120111/E39_Actor"/>
+	<ecrm:P131_is_identified_by  rdf:resource="http://www.szepmuveszeti.hu/resource/E39_Actor/1/E82_Actor_Appellation/1"/>
+</rdf:Description>
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/resource/E19_Physical_Object/H_3672">
+	<ecrm:P50_has_current_keeper  rdf:resource="http://www.szepmuveszeti.hu/resource/E39_Actor/1"/>
+</rdf:Description>
+<!-- Repository - END -->
+
+<!-- Display Edition - BEGIN -->
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/resource/E19_Physical_Object/H_3672">
+	<ecrm:P3_has_note  rdf:datatype="http://www.w3.org/2001/XMLSchema#string">displayEdition:5. Auflage</ecrm:P3_has_note>
+</rdf:Description>
+<!-- Display Edition - END -->
+
+<!-- Display Object Measurements - BEGIN -->
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/resource/E19_Physical_Object/H_3672">
+	<ecrm:P3_has_note  rdf:datatype="http://www.w3.org/2001/XMLSchema#string">displayObjectMeasurements:44,3 x 35,4 cm (Sheet); 10 frames</ecrm:P3_has_note>
+</rdf:Description>
+<!-- Display Object Measurements - END -->
+<!-- ===Object Identification Wrap=== - END -->
+
+
+<!-- ===Event Wrap=== - BEGIN -->
+<!-- ==Event 1== - BEGIN -->
+<!-- Event Type -BEGIN -->
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/resource/E55_Type/Draft">
+	<rdf:type rdf:resource="http://erlangen-crm.org/120111/E55_Type"/>
+</rdf:Description>
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/resource/E19_Physical_Object/H_3672/E5_Event/1">
+	<rdf:type rdf:resource="http://erlangen-crm.org/120111/E5_Event"/>
+	<ecrm:P2_has_type  rdf:resource="http://www.szepmuveszeti.hu/resource/E55_Type/Draft"/>
+</rdf:Description>
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/resource/E19_Physical_Object/H_3672">
+	<ecrm:P12B_was_present_at  rdf:resource="http://www.szepmuveszeti.hu/resource/E19_Physical_Object/H_3672/E5_Event/1"/>
+</rdf:Description>
+<!-- Event Type - END -->
+
+<!-- =Event Actor 1= - BEGIN -->
+<!-- Display Actor in Role - BEGIN -->
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/resource/E19_Physical_Object/H_3672/E5_Event/1">
+	<ecrm:P3_has_note  rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Joseph von Camerlohr (Germany, 1820-1851), illustrator</ecrm:P3_has_note>
+</rdf:Description>
+<!-- Display Actor in Role - END -->
+
+<!-- Actor ID - BEGIN -->
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/resource/E39_Actor/2/E42_Identifier/1">
+	<rdf:type rdf:resource="http://erlangen-crm.org/120111/E42_Identifier"/>
+	<ecrm:P3_has_note  rdf:datatype="http://www.w3.org/2001/XMLSchema#string">10153461</ecrm:P3_has_note>
+</rdf:Description>
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/resource/E39_Actor/2">
+	<rdf:type rdf:resource="http://erlangen-crm.org/120111/E39_Actor"/>
+	<ecrm:P48_has_preferred_identifier  rdf:resource="http://www.szepmuveszeti.hu/resource/E39_Actor/2/E42_Identifier/1"/>
+</rdf:Description>
+<!-- Actor ID - END -->
+
+<!-- Name Actor - BEGIN -->
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/resource/E19_Physical_Object/H_3672/E5_Event/1">
+	<ecrm:P11_had_participant  rdf:resource="http://www.szepmuveszeti.hu/resource/E39_Actor/2"/>
+</rdf:Description>
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/resource/E39_Actor/2/E82_Actor_Appellation/1">
+	<rdf:type rdf:resource="http://erlangen-crm.org/120111/E82_Actor_Appellation"/>
+	<ecrm:P3_has_note  rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Camerlohr, Joseph von</ecrm:P3_has_note>
+</rdf:Description>
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/resource/E39_Actor/2/E82_Actor_Appellation/2">
+	<rdf:type rdf:resource="http://erlangen-crm.org/120111/E82_Actor_Appellation"/>
+	<ecrm:P3_has_note  rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Cammerloher, Josef von</ecrm:P3_has_note>
+</rdf:Description>
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/resource/E39_Actor/2">
+	<ecrm:P131_is_identified_by  rdf:resource="http://www.szepmuveszeti.hu/resource/E39_Actor/2/E82_Actor_Appellation/1"/>
+	<ecrm:P131_is_identified_by  rdf:resource="http://www.szepmuveszeti.hu/resource/E39_Actor/2/E82_Actor_Appellation/2"/>
+</rdf:Description>
+<!-- Name Actor - END -->
+
+<!-- Nationality Actor - BEGIN -->
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/resource/E74_Group/1/E82_Actor_Appellation/1">
+	<rdf:type rdf:resource="http://erlangen-crm.org/120111/E82_Actor_Appellation"/>
+	<ecrm:P3_has_note  rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Germany</ecrm:P3_has_note>
+</rdf:Description>
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/resource/E74_Group/1">
+	<rdf:type rdf:resource="http://erlangen-crm.org/120111/E74_Group"/>
+	<ecrm:P131_is_identified_by  rdf:resource="http://www.szepmuveszeti.hu/resource/E74_Group/1/E82_Actor_Appellation/1"/>
+</rdf:Description>
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/resource/E39_Actor/2">
+	<ecrm:P107_is_current_or_former_member_of  rdf:resource="http://www.szepmuveszeti.hu/resource/E74_Group/1"/>
+</rdf:Description>
+<!-- Nationality Actor - END -->
+
+<!-- Vital Dates Actor - BEGIN -->
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/resource/E55_Type/Existance">
+	<rdf:type rdf:resource="http://erlangen-crm.org/120111/E55_Type"/>
+</rdf:Description>
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/resource/E39_Actor/2/E5_Event/1/E52_Time_Span/1">
+	<rdf:type rdf:resource="http://erlangen-crm.org/120111/E52_Time_Span"/>
+	<ecrm:P2_has_type  rdf:resource="http://www.szepmuveszeti.hu/resource/E55_Type/Existance"/>
+	<ecrm:P79_beginning_is_qualified_by  rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1820.09.19</ecrm:P79_beginning_is_qualified_by>
+	<ecrm:P80_end_is_qualified_by  rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1851.07.06</ecrm:P80_end_is_qualified_by>
+</rdf:Description>
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/resource/E39_Actor/2/E5_Event/1">
+	<rdf:type rdf:resource="http://erlangen-crm.org/120111/E5_Event"/>
+	<ecrm:P4_has_time_span  rdf:resource="http://www.szepmuveszeti.hu/resource/E39_Actor/2/E5_Event/1/E52_Time_Span/1"/>
+</rdf:Description>
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/resource/E39_Actor/2">
+	<ecrm:P11_participated_in  rdf:resource="http://www.szepmuveszeti.hu/resource/E39_Actor/2/E5_Event/1"/>
+</rdf:Description>
+<!-- Vital Dates Actor - END -->
+
+<!-- Gender Actor - BEGIN -->
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/resource/E55_Type/male">
+	<rdf:type rdf:resource="http://erlangen-crm.org/120111/E55_Type"/>
+</rdf:Description>
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/resource/E39_Actor/2">
+	<ecrm:P2_has_type  rdf:resource="http://www.szepmuveszeti.hu/resource/E55_Type/male"/>
+</rdf:Description>
+<!-- Gender Actor - END -->
+
+<!-- Role Actor - BEGIN -->
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/resource/E39_Actor/2">
+	<ecrm:P3_has_note  rdf:datatype="http://www.w3.org/2001/XMLSchema#string">term:illustrator</ecrm:P3_has_note>
+</rdf:Description>
+<!-- Role Actor - END -->
+<!-- =Event Actor 1= - END -->
+
+<!-- =Event Actor 2= - BEGIN -->
+<!-- Display Actor in Role - BEGIN -->
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/resource/E19_Physical_Object/H_3672/E5_Event/1">
+	<ecrm:P3_has_note  rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Andreas Muller (1831) (Germany, 1831-1901), illustrator</ecrm:P3_has_note>
+</rdf:Description>
+<!-- Display Actor in Role - END -->
+
+<!-- Name Actor - BEGIN -->
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/resource/E39_Actor/3">
+	<rdf:type rdf:resource="http://erlangen-crm.org/120111/E39_Actor"/>
+</rdf:Description>
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/resource/E19_Physical_Object/H_3672/E5_Event/1">
+	<ecrm:P11_had_participant  rdf:resource="http://www.szepmuveszeti.hu/resource/E39_Actor/3"/>
+</rdf:Description>
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/resource/E39_Actor/3/E82_Actor_Appellation/1">
+	<rdf:type rdf:resource="http://erlangen-crm.org/120111/E82_Actor_Appellation"/>
+	<ecrm:P3_has_note  rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Muller, Andreas (1831)</ecrm:P3_has_note>
+</rdf:Description>
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/resource/E39_Actor/3/E82_Actor_Appellation/2">
+	<rdf:type rdf:resource="http://erlangen-crm.org/120111/E82_Actor_Appellation"/>
+	<ecrm:P3_has_note  rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Komponiermuller</ecrm:P3_has_note>
+</rdf:Description>
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/resource/E39_Actor/3">
+	<ecrm:P131_is_identified_by  rdf:resource="http://www.szepmuveszeti.hu/resource/E39_Actor/3/E82_Actor_Appellation/1"/>
+	<ecrm:P131_is_identified_by  rdf:resource="http://www.szepmuveszeti.hu/resource/E39_Actor/3/E82_Actor_Appellation/2"/>
+</rdf:Description>
+<!-- Name Actor - END -->
+
+<!-- Vital Dates Actor - BEGIN -->
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/resource/E55_Type/Existance">
+	<rdf:type rdf:resource="http://erlangen-crm.org/120111/E55_Type"/>
+</rdf:Description>
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/resource/E39_Actor/3/E5_Event/1/E52_Time_Span/1">
+	<rdf:type rdf:resource="http://erlangen-crm.org/120111/E52_Time_Span"/>
+	<ecrm:P2_has_type  rdf:resource="http://www.szepmuveszeti.hu/resource/E55_Type/Existance"/>
+	<ecrm:P79_beginning_is_qualified_by  rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1831.07.23</ecrm:P79_beginning_is_qualified_by>
+	<ecrm:P80_end_is_qualified_by  rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1901.12.07</ecrm:P80_end_is_qualified_by>
+</rdf:Description>
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/resource/E39_Actor/3/E5_Event/1">
+	<rdf:type rdf:resource="http://erlangen-crm.org/120111/E5_Event"/>
+	<ecrm:P4_has_time_span  rdf:resource="http://www.szepmuveszeti.hu/resource/E39_Actor/3/E5_Event/1/E52_Time_Span/1"/>
+</rdf:Description>
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/resource/E39_Actor/3">
+	<ecrm:P11_participated_in  rdf:resource="http://www.szepmuveszeti.hu/resource/E39_Actor/3/E5_Event/1"/>
+</rdf:Description>
+<!-- Vital Dates Actor - END -->
+
+<!-- Gender Actor - BEGIN -->
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/resource/E39_Actor/3">
+	<ecrm:P2_has_type  rdf:resource="http://www.szepmuveszeti.hu/resource/E55_Type/male"/>
+</rdf:Description>
+<!-- Gender Actor - END -->
+
+<!-- Role Actor - BEGIN -->
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/resource/E39_Actor/3">
+	<ecrm:P3_has_note  rdf:datatype="http://www.w3.org/2001/XMLSchema#string">term:illustrator</ecrm:P3_has_note>
+</rdf:Description>
+<!-- Role Actor - END -->
+<!-- =Event Actor 2= - END -->
+
+<!-- Event Date - BEGIN -->
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/resource/E19_Physical_Object/H_3672/E5_Event/1/E52_Time_Span/1">
+	<rdf:type rdf:resource="http://erlangen-crm.org/120111/E52_Time_Span"/>
+	<ecrm:P79_beginning_is_qualified_by  rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1871</ecrm:P79_beginning_is_qualified_by>
+	<ecrm:P80_end_is_qualified_by  rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1871</ecrm:P80_end_is_qualified_by>
+</rdf:Description>
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/resource/E19_Physical_Object/H_3672/E5_Event/1">
+	<ecrm:P4_has_time_span  rdf:resource="http://www.szepmuveszeti.hu/resource/E19_Physical_Object/H_3672/E5_Event/1/E52_Time_Span/1"/>
+</rdf:Description>
+<!-- Event Date - END -->
+
+<!-- Term Materials Tech/term - BEGIN -->
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/resource/E55_Type/Paper">
+	<rdf:type rdf:resource="http://erlangen-crm.org/120111/E55_Type"/>
+</rdf:Description>
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/resource/E19_Physical_Object/H_3672/E5_Event/1">
+	<ecrm:P32_used_general_technique  rdf:resource="http://www.szepmuveszeti.hu/resource/E55_Type/Paper"/>
+</rdf:Description>
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/resource/E55_Type/Wood_engraving">
+	<rdf:type rdf:resource="http://erlangen-crm.org/120111/E55_Type"/>
+</rdf:Description>
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/resource/E19_Physical_Object/H_3672/E5_Event/1">
+	<ecrm:P32_used_general_technique  rdf:resource="http://www.szepmuveszeti.hu/resource/E55_Type/Wood_engraving"/>
+</rdf:Description>
+<!-- Term Materials Tech/term - END -->
+<!-- ==Event 1== - END -->
+
+
+<!-- ==Event 2== - BEGIN -->
+<!-- Event Type -BEGIN -->
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/resource/E55_Type/Publication">
+	<rdf:type rdf:resource="http://erlangen-crm.org/120111/E55_Type"/>
+</rdf:Description>
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/resource/E19_Physical_Object/H_3672/E5_Event/2">
+	<rdf:type rdf:resource="http://erlangen-crm.org/120111/E5_Event"/>
+	<ecrm:P2_has_type  rdf:resource="http://www.szepmuveszeti.hu/resource/E55_Type/Publication"/>
+</rdf:Description>
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/resource/E19_Physical_Object/H_3672">
+	<ecrm:P12B_was_present_at  rdf:resource="http://www.szepmuveszeti.hu/resource/E19_Physical_Object/H_3672/E5_Event/2"/>
+</rdf:Description>
+<!-- Event Type - END -->
+
+<!-- =Event Actor 1= - BEGIN -->
+<!-- Actor ID - BEGIN -->
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/resource/E39_Actor/4">
+	<rdf:type rdf:resource="http://erlangen-crm.org/120111/E39_Actor"/>
+</rdf:Description>
+<!-- Actor ID - END -->
+
+<!-- Name Actor - BEGIN -->
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/resource/E19_Physical_Object/H_3672/E5_Event/2">
+	<ecrm:P11_had_participant  rdf:resource="http://www.szepmuveszeti.hu/resource/E39_Actor/4"/>
+</rdf:Description>
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/resource/E39_Actor/4/E82_Actor_Appellation/1">
+	<rdf:type rdf:resource="http://erlangen-crm.org/120111/E82_Actor_Appellation"/>
+	<ecrm:P3_has_note  rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Braun, Kaspar (1807)</ecrm:P3_has_note>
+</rdf:Description>
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/resource/E39_Actor/4/E82_Actor_Appellation/2">
+	<rdf:type rdf:resource="http://erlangen-crm.org/120111/E82_Actor_Appellation"/>
+	<ecrm:P3_has_note  rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Braun, Caspar</ecrm:P3_has_note>
+</rdf:Description>
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/resource/E39_Actor/4">
+	<ecrm:P131_is_identified_by  rdf:resource="http://www.szepmuveszeti.hu/resource/E39_Actor/4/E82_Actor_Appellation/1"/>
+	<ecrm:P131_is_identified_by  rdf:resource="http://www.szepmuveszeti.hu/resource/E39_Actor/4/E82_Actor_Appellation/2"/>
+</rdf:Description>
+<!-- Name Actor - END -->
+
+<!-- Vital Dates Actor - BEGIN -->
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/resource/E39_Actor/4/E5_Event/1/E52_Time_Span/1">
+	<rdf:type rdf:resource="http://erlangen-crm.org/120111/E52_Time_Span"/>
+	<ecrm:P2_has_type  rdf:resource="http://www.szepmuveszeti.hu/resource/E55_Type/Existance"/>
+	<ecrm:P79_beginning_is_qualified_by  rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1807.08.13</ecrm:P79_beginning_is_qualified_by>
+	<ecrm:P80_end_is_qualified_by  rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1877.10.20</ecrm:P80_end_is_qualified_by>
+</rdf:Description>
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/resource/E39_Actor/4/E5_Event/1">
+	<rdf:type rdf:resource="http://erlangen-crm.org/120111/E5_Event"/>
+	<ecrm:P4_has_time_span  rdf:resource="http://www.szepmuveszeti.hu/resource/E39_Actor/4/E5_Event/1/E52_Time_Span/1"/>
+</rdf:Description>
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/resource/E39_Actor/4">
+	<ecrm:P11_participated_in  rdf:resource="http://www.szepmuveszeti.hu/resource/E39_Actor/4/E5_Event/1"/>
+</rdf:Description>
+<!-- Vital Dates Actor - END -->
+
+<!-- Gender Actor - BEGIN -->
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/resource/E39_Actor/4">
+	<ecrm:P2_has_type  rdf:resource="http://www.szepmuveszeti.hu/resource/E55_Type/male"/>
+</rdf:Description>
+<!-- Gender Actor - END -->
+
+<!-- Role Actor - BEGIN -->
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/resource/E39_Actor/4">
+	<ecrm:P3_has_note  rdf:datatype="http://www.w3.org/2001/XMLSchema#string">term:publisher</ecrm:P3_has_note>
+</rdf:Description>
+<!-- Role Actor - END -->
+<!-- =Event Actor 1= - END -->
+<!-- ==Event 2== - END -->
+
+<!-- ===Object Relation=== - BEGIN -->
+<!-- Subjects - BEGIN -->
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/resource/E19_Physical_Object/H_3672/E42_Identifier/1">
+	<rdf:type rdf:resource="http://erlangen-crm.org/120111/E42_Identifier"/>
+	<ecrm:P3_has_note  rdf:datatype="http://www.w3.org/2001/XMLSchema#string">25 I 24</ecrm:P3_has_note>
+</rdf:Description>
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/resource/E19_Physical_Object/H_3672">
+	<ecrm:P48_has_preferred_identifier  rdf:resource="http://www.szepmuveszeti.hu/resource/E19_Physical_Object/H_3672/E42_Identifier/1"/>
+</rdf:Description>
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/resource/E19_Physical_Object/H_3672">
+	<ecrm:P3_has_note  rdf:datatype="http://www.w3.org/2001/XMLSchema#string">term:villagers, villein</ecrm:P3_has_note>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/resource/E19_Physical_Object/H_3672/E42_Identifier/2">
+	<rdf:type rdf:resource="http://erlangen-crm.org/120111/E42_Identifier"/>
+	<ecrm:P3_has_note  rdf:datatype="http://www.w3.org/2001/XMLSchema#string">46 A 13 2</ecrm:P3_has_note>
+</rdf:Description>
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/resource/E19_Physical_Object/H_3672">
+	<ecrm:P48_has_preferred_identifier  rdf:resource="http://www.szepmuveszeti.hu/resource/E19_Physical_Object/H_3672/E42_Identifier/2"/>
+</rdf:Description>
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/resource/E19_Physical_Object/H_3672">
+	<ecrm:P3_has_note  rdf:datatype="http://www.w3.org/2001/XMLSchema#string">term:public road in village</ecrm:P3_has_note>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/resource/E19_Physical_Object/H_3672/E42_Identifier/3">
+	<rdf:type rdf:resource="http://erlangen-crm.org/120111/E42_Identifier"/>
+	<ecrm:P3_has_note  rdf:datatype="http://www.w3.org/2001/XMLSchema#string">43 B 31</ecrm:P3_has_note>
+</rdf:Description>
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/resource/E19_Physical_Object/H_3672">
+	<ecrm:P48_has_preferred_identifier  rdf:resource="http://www.szepmuveszeti.hu/resource/E19_Physical_Object/H_3672/E42_Identifier/3"/>
+</rdf:Description>
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/resource/E19_Physical_Object/H_3672">
+	<ecrm:P3_has_note  rdf:datatype="http://www.w3.org/2001/XMLSchema#string">term:inn, coffee-house, public house, etc.</ecrm:P3_has_note>
+</rdf:Description>
+<!-- Subjects - END -->
+
+<!-- Related Works - BEGIN -->
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/resource/E18_Physical_Thing/1">
+	<rdf:type rdf:resource="http://erlangen-crm.org/120111/E18_Physical_Thing"/>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/resource/E19_Physical_Object/H_3672">
+	<ecrm:P46_forms_part_of  rdf:resource="http://www.szepmuveszeti.hu/resource/E18_Physical_Thing/1"/>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/resource/E18_Physical_Thing/1">
+	<ecrm:P3_has_note  rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Braun, Kaspar (1807) and Schneider, Friedrich: Munchener Bilderbogen, 1848-1870, Germanisches Nationalmuseum Nurnberg</ecrm:P3_has_note>
+</rdf:Description>
+<!-- Related Works - END -->
+<!-- ===Object Relation=== - END -->
+
+<!-- =================================ADMINISTRATIVE METADATA================================= -->
+<!-- ===Rights Work=== - BEGIN -->
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/resource/E19_Physical_Object/H_3672/E30_Right/1">
+	<rdf:type rdf:resource="http://erlangen-crm.org/120111/E30_Right"/>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/resource/E19_Physical_Object/H_3672">
+	<ecrm:P104_is_subject_to  rdf:resource="http://www.szepmuveszeti.hu/resource/E19_Physical_Object/H_3672/E30_Right/1"/>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/resource/E55_Type/Copyright">
+	<rdf:type rdf:resource="http://erlangen-crm.org/120111/E55_Type"/>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/resource/E19_Physical_Object/H_3672/E30_Right/1">
+	<ecrm:P2_has_type  rdf:resource="http://www.szepmuveszeti.hu/resource/E55_Type/Copyright"/>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/resource/E39_Actor/5">
+	<rdf:type rdf:resource="http://erlangen-crm.org/120111/E39_Actor"/>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/resource/E19_Physical_Object/H_3672/E30_Right/1">
+	<ecrm:P75B_is_possessed_by  rdf:resource="http://www.szepmuveszeti.hu/resource/E39_Actor/5"/>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/resource/E39_Actor/5/E82_Actor_Appellation/1">
+	<rdf:type rdf:resource="http://erlangen-crm.org/120111/E82_Actor_Appellation"/>
+	<ecrm:P3_has_note  rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Germanisches Nationalmuseum Nurnberg</ecrm:P3_has_note>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/resource/E39_Actor/5">
+	<ecrm:P131_is_identified_by  rdf:resource="http://www.szepmuveszeti.hu/resource/E39_Actor/5/E82_Actor_Appellation/1"/>
+</rdf:Description>
+<!-- ===Rights Work=== - END -->
+
+
+<!-- ===Record=== - BEGIN -->
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/resource/E31_Document/obj_00120252">
+	<rdf:type rdf:resource="http://erlangen-crm.org/120111/E31_Document"/>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/resource/E19_Physical_Object/H_3672">
+	<ecrm:P70B_is_documented_in  rdf:resource="http://www.szepmuveszeti.hu/resource/E31_Document/obj_00120252"/>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/resource/E31_Document/obj_00120252/E42_Identifier/1">
+	<rdf:type rdf:resource="http://erlangen-crm.org/120111/E42_Identifier"/>
+	<ecrm:P3_has_note  rdf:datatype="http://www.w3.org/2001/XMLSchema#string">obj 00120252</ecrm:P3_has_note>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/resource/E31_Document/obj_00120252">
+	<ecrm:P48_has_preferred_identifier  rdf:resource="http://www.szepmuveszeti.hu/resource/E31_Document/obj_00120252/E42_Identifier/1"/>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/resource/E55_Type/Item">
+	<rdf:type rdf:resource="http://erlangen-crm.org/120111/E55_Type"/>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/resource/E31_Document/obj_00120252">
+	<ecrm:P2_has_type  rdf:resource="http://www.szepmuveszeti.hu/resource/E55_Type/Item"/>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/resource/E39_Actor/6">
+	<rdf:type rdf:resource="http://erlangen-crm.org/120111/E39_Actor"/>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/resource/E31_Document/obj_00120252">
+	<ecrm:P67_refers_to  rdf:resource="http://www.szepmuveszeti.hu/resource/E39_Actor/6"/>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/resource/E39_Actor/6/E82_Actor_Appellation/1">
+	<rdf:type rdf:resource="http://erlangen-crm.org/120111/E82_Actor_Appellation"/>
+	<ecrm:P3_has_note  rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Bildarchiv Foto Marburg</ecrm:P3_has_note>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/resource/E39_Actor/6">
+	<ecrm:P131_is_identified_by  rdf:resource="http://www.szepmuveszeti.hu/resource/E39_Actor/6/E82_Actor_Appellation/1"/>
+</rdf:Description>
+<!-- ===Record=== - END -->
+
+
+<!-- ===Resource=== - BEGIN -->
+<!-- IDOIA: I think this part is not completly mapped -->
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/resource/E19_Physical_Object/H_3672/E30_Right/2">
+	<rdf:type rdf:resource="http://erlangen-crm.org/120111/E30_Right"/>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/resource/E39_Actor/7">
+	<rdf:type rdf:resource="http://erlangen-crm.org/120111/E39_Actor"/>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/resource/E19_Physical_Object/H_3672/E30_Right/2">
+	<ecrm:P75B_is_possessed_by  rdf:resource="http://www.szepmuveszeti.hu/resource/E39_Actor/7"/>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/resource/E39_Actor/7/E82_Actor_Appellation/1">
+	<rdf:type rdf:resource="http://erlangen-crm.org/120111/E82_Actor_Appellation"/>
+	<ecrm:P3_has_note  rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Germanisches Nationalmuseum</ecrm:P3_has_note>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/resource/E39_Actor/7">
+	<ecrm:P131_is_identified_by  rdf:resource="http://www.szepmuveszeti.hu/resource/E39_Actor/7/E82_Actor_Appellation/1"/>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/resource/E19_Physical_Object/H_3672/E30_Right/3">
+	<rdf:type rdf:resource="http://erlangen-crm.org/120111/E30_Right"/>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/resource/E39_Actor/8">
+	<rdf:type rdf:resource="http://erlangen-crm.org/120111/E39_Actor"/>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/resource/E19_Physical_Object/H_3672/E30_Right/3">
+	<ecrm:P75B_is_possessed_by  rdf:resource="http://www.szepmuveszeti.hu/resource/E39_Actor/8"/>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/resource/E39_Actor/8/E82_Actor_Appellation/1">
+	<rdf:type rdf:resource="http://erlangen-crm.org/120111/E82_Actor_Appellation"/>
+	<ecrm:P3_has_note  rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Germanisches Nationalmuseum</ecrm:P3_has_note>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/resource/E39_Actor/8">
+	<ecrm:P131_is_identified_by  rdf:resource="http://www.szepmuveszeti.hu/resource/E39_Actor/8/E82_Actor_Appellation/1"/>
+</rdf:Description>
+<!-- ===Resource=== - END -->
+	
+</rdf:RDF>
+

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="  
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
+       http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd">
+	
+	<camelContext xmlns="http://camel.apache.org/schema/spring">
+		<template id="marc-records-chunks-producer" defaultEndpoint="seda:record-channel?concurrentConsumers=2&amp;size=1000&amp;blockWhenFull=true"/>	
+		<route>
+			<from uri="file:/var/data/pipeline/input/lido?move=.done/${date:now:yyyyMMdd}/${file:name.noext}-${date:now:HHmmss}.${file:ext}&amp;preMove=.working&amp;recursive=false" />
+		    <setHeader headerName="format">
+				<constant>lido</constant>
+		    </setHeader>
+			<to uri="direct:sanity-check-channel" />
+		</route>
+		<route>
+			<from uri="file:/var/data/pipeline/input/marcxml?move=.done/${date:now:yyyyMMdd}/${file:name.noext}-${date:now:HHmmss}.${file:ext}&amp;preMove=.working&amp;recursive=false" />
+		    <setHeader headerName="format">
+				<constant>marcxml</constant>
+		    </setHeader>
+			<to uri="direct:sanity-check-channel" />
+		</route>
+		<route>
+			<from uri="direct:sanity-check-channel" />
+			<process ref="validate_input_path" />
+			<to uri="direct:records-channel" />
+		</route>
+		<route>
+			<from uri="direct:records-channel" />
+			<when>
+			    <simple>${header.format} == 'lido'</simple>
+				<process ref="lido-record-splitter"/>
+			</when>
+			<when>
+			    <simple>${header.format} == 'marcxml'</simple>
+				<process ref="marcxml-record-splitter"/>
+			</when>	
+			<otherwise>
+				<log message="&lt;RDF-IZER-00023> : Unsupported format has been detected with datafile ${body}.)" loggingLevel="ERROR" logName="eu.aliada.pipeline"/>			    
+			</otherwise>		
+		</route>
+		<route>
+			<from uri="seda:marcxml-record-channel?concurrentConsumers=2&amp;size=1000&amp;blockWhenFull=true" /> 
+			<!-- todo MARCXML format conversion rules engine -->
+			<to uri="seda:triples-channel?size=2500&amp;blockWhenFull=true" />
+		</route>
+		<route>
+			<from uri="seda:lido-record-channel?concurrentConsumers=2&amp;size=1000&amp;blockWhenFull=true" /> 
+			<!-- todo LIDO format conversion rules engine -->
+			<to uri="seda:triples-channel?size=2500&amp;blockWhenFull=true" />
+		</route>
+		<route>
+			<from uri="seda:triples-channel?size=2500&amp;blockWhenFull=true" />
+	  		<to uri="stream:out"/>
+		</route>	
+	</camelContext>
+</beans>
