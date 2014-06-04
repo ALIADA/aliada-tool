@@ -8,11 +8,13 @@
        http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd">
 	<context:annotation-config/>
 
-	<!-- 
-		For each supported file we will probably import a dedicated settings file
-	-->
-	<import resource="marc.xml" />
+	<!-- conversion pipeline definition -->
+	<import resource="pipeline-definition.xml" />
 	
+	<!-- Supported formats (with their specific settings) -->
+	<import resource="marc-settings.xml" />
+	<import resource="lido-settings.xml" />
+		
 	<!-- 
 		TODO: A Cassandra connector for storing records during the conversion process 
 	 -->

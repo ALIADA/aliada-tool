@@ -22,9 +22,9 @@ import eu.aliada.rdfizer.log.MessageCatalog;
 import eu.aliada.shared.log.Log;
 
 /**
- * Marc record splitter. 
+ * MarcXML record splitter. 
  * 
- * @author agazzarini
+ * @author Andrea Gazzarini
  * @since 1.0
  */
 public class MarcRecordSplitter implements Processor {
@@ -57,8 +57,6 @@ public class MarcRecordSplitter implements Processor {
 			while (reader.hasNext()) {
 				final Record record = reader.next();
 				
-				// TODO: Add to external storage (i.e. Cassandra)
-				// TODO: split
 			}
 		} catch (final MarcException exception) {
 			log.error(MessageCatalog._00021_BAD_MARCXML_FILE, file.getAbsolutePath());
