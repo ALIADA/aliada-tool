@@ -2,6 +2,9 @@
 <web-app xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	version="2.5" >
+	<description>
+		RDF-izer defines an RDF conversion pipeline that can be configured to process and convert (in RDF) several data formats.
+	</description>
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
 		<param-value>/WEB-INF/rdfizer.xml</param-value>

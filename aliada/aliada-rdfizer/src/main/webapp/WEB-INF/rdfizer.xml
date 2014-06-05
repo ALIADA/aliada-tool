@@ -7,6 +7,16 @@
        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
        http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd">
 	<context:annotation-config/>
+	<context:component-scan base-package="eu.aliada" />
+	<bean id="configuration" class="org.apache.camel.spring.spi.BridgePropertyPlaceholderConfigurer">
+  		<property name="locations">
+  		    <list>
+		        <value>classpath:default-pipeline-settings.properties</value>
+		        <value>classpath:pipeline-settings.properties</value>
+		    </list>
+  		</property>
+  		<property name="ignoreResourceNotFound" value="true"/> 
+	</bean>
 
 	<!-- conversion pipeline definition -->
 	<import resource="pipeline-definition.xml" />
@@ -23,5 +33,10 @@
 	 	TODO: RDF Store connector (specific 2 Virtuoso or a generic one?)
 	  -->
 	 
+	 <!-- 
+	 	Shared processors 
+	  -->
 	<bean id="validate_input_path" class="eu.aliada.rdfizer.kernel.logic.ValidateInputPath" />
+	
+
 </beans>
