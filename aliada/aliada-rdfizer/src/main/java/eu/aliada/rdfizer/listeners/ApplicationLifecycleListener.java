@@ -23,17 +23,13 @@ public class ApplicationLifecycleListener implements ServletContextListener {
 	@Override
 	public void contextInitialized(final ServletContextEvent event) {
 		logger.info(MessageCatalog._00001_STARTING);
-		
-		// TODO: startup checks
-		
+
 		logger.info(MessageCatalog._00010_STARTED);
 	}
 
 	@Override
 	public void contextDestroyed(final ServletContextEvent event) {
 		logger.info(MessageCatalog._00011_STOPPING);
-		
-		// TODO: startup checks
 		
 		logger.info(MessageCatalog._00012_STOPPED);	
 	}

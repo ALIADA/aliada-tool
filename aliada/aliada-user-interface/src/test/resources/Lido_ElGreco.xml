@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<lido:lidoWrap 
+	xmlns:lido="http://www.lido-schema.org" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://www.lido-schema.org/schema/v1.0/lido-v1.0.xsd">
+    <lido:lido>
+        <lido:lidoRecID lido:source="dgb" lido:type="local">2659</lido:lidoRecID>
+        <lido:objectPublishedID lido:source="Access Pinturas el Greco" lido:type="local">306</lido:objectPublishedID>
+        <lido:objectPublishedID lido:source="El Greco: todas sus pinturas" lido:type="local">129a</lido:objectPublishedID>
+        <lido:descriptiveMetadata xml:lang="es">
+            <lido:objectClassificationWrap>
+                <lido:objectWorkTypeWrap>
+                    <lido:objectWorkType>
+                        <lido:conceptID lido:type="url">http://elgreco.digibis.com/concepts/13</lido:conceptID>
+                        <lido:conceptID lido:type="local">13</lido:conceptID>
+                        <lido:term lido:pref="preferred" xml:lang="es">Pintura</lido:term>
+                        <lido:term lido:pref="preferred" xml:lang="en">Painting</lido:term>
+                    </lido:objectWorkType>
+                </lido:objectWorkTypeWrap>
+                <lido:classificationWrap>
+                    <lido:classification>
+                        <lido:conceptID lido:type="url">http://elgreco.digibis.com/concepts/53</lido:conceptID>
+                        <lido:conceptID lido:type="local">53</lido:conceptID>
+                        <lido:term lido:pref="preferred" xml:lang="es">Obras del Greco</lido:term>
+                        <lido:term lido:pref="preferred" xml:lang="en">Works by El Greco</lido:term>
+                    </lido:classification>
+                </lido:classificationWrap>
+            </lido:objectClassificationWrap>
+            <lido:objectIdentificationWrap>
+                <lido:titleWrap>
+                    <lido:titleSet>
+                        <lido:appellationValue xml:lang="es">La Resurrección de Cristo</lido:appellationValue>
+                    </lido:titleSet>
+                    <lido:titleSet>
+                        <lido:appellationValue xml:lang="en">The Resurrection</lido:appellationValue>
+                    </lido:titleSet>
+                </lido:titleWrap>
+                <lido:inscriptionsWrap>
+                    <lido:inscriptions>
+                        <lido:inscriptionDescription>
+                            <lido:descriptiveNoteValue xml:lang="es">Firmado con caracteres griegos en el margen inferior del lienzo</lido:descriptiveNoteValue>
+                        </lido:inscriptionDescription>
+                    </lido:inscriptions>
+                </lido:inscriptionsWrap>
+                <lido:repositoryWrap>
+                    <lido:repositorySet>
+                        <lido:repositoryName>
+                            <lido:legalBodyID lido:type="url">http://elgreco.digibis.com/agents/1029</lido:legalBodyID>
+                            <lido:legalBodyID lido:type="local">1029</lido:legalBodyID>
+                            <lido:legalBodyName>
+                                <lido:appellationValue xml:lang="es" lido:pref="preferred">Museo Nacional del Prado (Madrid)</lido:appellationValue>
+                            </lido:legalBodyName>
+                            <lido:legalBodyName>
+                                <lido:appellationValue xml:lang="es" lido:pref="alternate">Museo del PradoMadrid</lido:appellationValue>
+                            </lido:legalBodyName>
+                            <lido:legalBodyName>
+                                <lido:appellationValue xml:lang="es" lido:pref="alternate">Museo nacional del Prado (Madrid)</lido:appellationValue>
+                            </lido:legalBodyName>
+                            <lido:legalBodyName>
+                                <lido:appellationValue xml:lang="es" lido:pref="alternate">Museo del Prado Madrid</lido:appellationValue>
+                            </lido:legalBodyName>
+                            <lido:legalBodyName>
+                                <lido:appellationValue xml:lang="es" lido:pref="alternate">Museo Nacional de Pintura y Escultura (Madrid)</lido:appellationValue>
+                            </lido:legalBodyName>
+                        </lido:repositoryName>
+                    </lido:repositorySet>
+                </lido:repositoryWrap>
+                <lido:objectDescriptionWrap>
+                    <lido:objectDescriptionSet>
+                        <lido:descriptiveNoteValue xml:lang="es">Cristo porta una banderola, símbolo del triunfo sobre la muerte, el manto púrpura -color litúrgico del sacrificio y del martirio- y el nimbo romboidal de tradición bizantina. La composición se ajusta a la tradición difundida tras el Concilio de Trento, en la que algunos de los soldados que rodean la tumba de Cristo aparecen despiertos, destacando sus acentuados escorzos. En los márgenes laterales se aprecia la imprimación de la tela, donde el artista ensaya los colores y descarga los grandes pinceles de pelo grueso. Firmado con caracteres griegos en el margen inferior del lienzo, pertenece al retablo mayor de la Iglesia del Colegio de doña María de Aragón, junto a otras obras del Museo del Prado: El Bautismo de Cristo (P00821), La Crucifixión (P00823), Pentecostés (P00828), La Anunciación (P03888). Un boceto o reducción autógrafa se encuentra en el Art Museum of Saint Louis, Missouri.</lido:descriptiveNoteValue>
+                        <lido:sourceDescriptiveNote xml:lang="es">Museo Nacional del Prado</lido:sourceDescriptiveNote>
+                        <lido:sourceDescriptiveNote>https://www.museodelprado.es/coleccion/galeria-on-line/galeria-on-line/obra/la-resurreccion/</lido:sourceDescriptiveNote>
+                    </lido:objectDescriptionSet>
+                    <lido:objectDescriptionSet>
+                        <lido:descriptiveNoteValue xml:lang="es">Según la mayor parte de la crítica el cuadro constituía originariamente el pendant de la Pentecostés (n. 130), tanto por las dimensiones como por el alargamiento expresionista de las figuras</lido:descriptiveNoteValue>
+                        <lido:sourceDescriptiveNote xml:lang="es">El Greco: todas sus pinturas (1981) - ISBN 84-279-9100-2</lido:sourceDescriptiveNote>
+                    </lido:objectDescriptionSet>
+                </lido:objectDescriptionWrap>
+            </lido:objectIdentificationWrap>
+            <lido:eventWrap>
+                <lido:eventSet>
+                    <lido:event>
+                        <lido:eventType>
+                            <lido:conceptID lido:source="crm-concepts" lido:type="url">http://www.cidoc-crm.org/crm-concepts/E65</lido:conceptID>
+                            <lido:term xml:lang="en" lido:pref="preferred">Creation</lido:term>
+                        </lido:eventType>
+                        <lido:eventActor>
+                            <lido:actorInRole>
+                                <lido:actor>
+                                    <lido:actorID lido:type="url">http://elgreco.digibis.com/agents/1028</lido:actorID>
+                                    <lido:actorID lido:type="local">1028</lido:actorID>
+                                    <lido:nameActorSet>
+                                        <lido:appellationValue xml:lang="es" lido:pref="preferred">El Greco1541-1614VIAFhttp://viaf.org/viaf/100215785</lido:appellationValue>
+                                        <lido:sourceAppellation xml:lang="es">VIAF</lido:sourceAppellation>
+                                        <lido:sourceAppellation>http://viaf.org/viaf/100215785</lido:sourceAppellation>
+                                    </lido:nameActorSet>
+                                    <lido:nameActorSet>
+                                        <lido:appellationValue xml:lang="es" lido:pref="alternate">Domenico Theotocopouli‏</lido:appellationValue>
+                                    </lido:nameActorSet>
+                                    <lido:nameActorSet>
+                                        <lido:appellationValue xml:lang="es" lido:pref="alternate">Domenico Theotokopoulos</lido:appellationValue>
+                                    </lido:nameActorSet>
+                                    <lido:nameActorSet>
+                                        <lido:appellationValue xml:lang="es" lido:pref="alternate">Domenico Theotokopuli El Greco</lido:appellationValue>
+                                    </lido:nameActorSet>
+                                    <lido:nameActorSet>
+                                        <lido:appellationValue xml:lang="es" lido:pref="alternate">Tehocopopuli, Domenico‏</lido:appellationValue>
+                                    </lido:nameActorSet>
+                                    <lido:nameActorSet>
+                                        <lido:appellationValue xml:lang="es" lido:pref="alternate">Δομήνικος Θεοτοκόπουλος</lido:appellationValue>
+                                    </lido:nameActorSet>
+                                    <lido:nameActorSet>
+                                        <lido:appellationValue xml:lang="es" lido:pref="alternate">Doménikos Theotokópoulos</lido:appellationValue>
+                                    </lido:nameActorSet>
+                                </lido:actor>
+                                <lido:roleActor>
+                                    <lido:conceptID lido:type="url">http://elgreco.digibis.com/concepts/14</lido:conceptID>
+                                    <lido:conceptID lido:type="local">14</lido:conceptID>
+                                    <lido:term lido:pref="preferred" xml:lang="es">Pintor</lido:term>
+                                    <lido:term lido:pref="preferred" xml:lang="en">Painter</lido:term>
+                                </lido:roleActor>
+                            </lido:actorInRole>
+                        </lido:eventActor>
+                        <lido:eventDate>
+                            <lido:date>
+                                <lido:earliestDate>1597</lido:earliestDate>
+                                <lido:latestDate>1600</lido:latestDate>
+                            </lido:date>
+                        </lido:eventDate>
+                    </lido:event>
+                </lido:eventSet>
+            </lido:eventWrap>
+        </lido:descriptiveMetadata>
+        <lido:administrativeMetadata xml:lang="es">
+            <lido:recordWrap>
+                <lido:recordID lido:type="local">2659</lido:recordID>
+                <lido:recordType>
+                    <lido:term xml:lang="en">item</lido:term>
+                </lido:recordType>
+                <lido:recordSource>
+                    <lido:legalBodyID lido:type="local">DGB</lido:legalBodyID>
+                </lido:recordSource>
+            </lido:recordWrap>
+        </lido:administrativeMetadata>
+    </lido:lido>
+</lido:lidoWrap>

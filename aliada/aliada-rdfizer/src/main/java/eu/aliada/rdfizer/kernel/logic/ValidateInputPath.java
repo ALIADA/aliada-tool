@@ -17,7 +17,7 @@ import eu.aliada.shared.log.Log;
 /**
  * A general-purpose file path validator processor.
  * 
- * @author Andrea Gazzarini
+ * @author Andrea Gazzarini 
  * @since 1.0
  */
 public class ValidateInputPath implements Processor {
