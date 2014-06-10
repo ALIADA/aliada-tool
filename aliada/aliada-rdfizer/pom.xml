@@ -17,13 +17,6 @@
 		<spring-framework.version>3.1.4.RELEASE</spring-framework.version>
 		<camel.version>2.11.1</camel.version>
 	</properties>
-	<repositories>
-		<repository>
-			<id>atcult</id>
-			<name>AtCult</name>
-			<url>http://151.1.163.3:8537/archiva/repository/internal</url>
-		</repository>
-	</repositories>
 	<dependencies>
 		<!-- Spring -->
 		<dependency>
@@ -57,9 +50,9 @@
 			<version>${camel.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.tigris</groupId>
-			<artifactId>marc4j</artifactId>
-			<version>2.4</version>
+			<groupId>info.freelibrary</groupId>
+			<artifactId>freelib-marc4j</artifactId>
+			<version>2.6.3</version>
 		</dependency>
 		<!-- TESTING -->
 		<dependency>

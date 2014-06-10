@@ -25,5 +25,7 @@ public interface MessageCatalog {
 	String _00022_PIPELINE_STARTING = LT + MODULE_NAME + "-00022> : RDF-izer pipeline is starting...preliminary checks start...";
 	String _00023_PIPELINE_STARTED = LT + MODULE_NAME + "-00023> : RDF-izer pipeline configuration seems Ok. The pipeline is active.";
 	String _00024_PIPELINE_STOPPING = LT + MODULE_NAME + "-00024> : Shutdown procedure for RDF-izer pipeline has been initiated...";
-	String _00025_PIPELINE_STOPPED = LT + MODULE_NAME + "-00025> : RDF-izer pipeline has been shutdown.";	
+	String _00025_PIPELINE_STOPPED = LT + MODULE_NAME + "-00025> : RDF-izer pipeline has been shutdown.";
+	String _00026_NO_STREAM_AVAILABLE = LT + MODULE_NAME + "-00026> : RecordSplitter cannot execute: no available stream to process.";
+	String _00027_INPUSTREAM_IO_FAILURE = LT + MODULE_NAME + "-00027> : RecordSplitter raised an I/O failure (datafile was %s):. See below for further details.";		
 }

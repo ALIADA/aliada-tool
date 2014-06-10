@@ -9,10 +9,16 @@
 	
 	<bean id="startup_listener" class="eu.aliada.rdfizer.listeners.PipelineStartupListener" />
 	<bean id="shutdown_listener" class="eu.aliada.rdfizer.listeners.PipelineShutdownListener"/>
-	
+	<bean id="marcxml-records_splitter" class="eu.aliada.rdfizer.kernel.logic.RecordSplitter">
+	    <property name="producer" ref="marcxml-records-producer"/>
+	</bean>
+	<bean id="lido-records_splitter" class="eu.aliada.rdfizer.kernel.logic.RecordSplitter">
+	    <property name="producer" ref="lido-records-producer"/>
+	</bean>
+		
 	<camelContext xmlns="http://camel.apache.org/schema/spring">
-		<template id="marc-records-chunks-producer" defaultEndpoint="seda:marcxml-record-channel?concurrentConsumers=2&amp;size=1000&amp;blockWhenFull=true"/>	
-		<template id="lido-records-chunks-producer" defaultEndpoint="seda:lido-record-channel?concurrentConsumers=2&amp;size=1000&amp;blockWhenFull=true"/>	
+		<template id="marcxml-records-producer" defaultEndpoint="seda:marcxml-record-channel?concurrentConsumers=2&amp;size=1000&amp;blockWhenFull=true"/>	
+		<template id="lido-records-producer" defaultEndpoint="seda:lido-record-channel?concurrentConsumers=2&amp;size=1000&amp;blockWhenFull=true"/>	
 		<route>
 			<from uri="file:{{lido.input.dir}}?move=.done/${date:now:yyyyMMdd}/${file:name.noext}-${date:now:HHmmss}.${file:ext}&amp;preMove=.working&amp;recursive=false" />
 		    <setHeader headerName="format">
@@ -36,11 +42,11 @@
 			<from uri="direct:records-channel" />
 			<when>
 			    <simple>${header.format} == 'lido'</simple>
-				<!-- <process ref="lido-record-splitter"/> -->
+				<process ref="lido-records-splitter"/>
 			</when>
 			<when>
 			    <simple>${header.format} == 'marcxml'</simple>
-				<process ref="marcxml-record-splitter"/>
+				<process ref="marcxml-records-splitter"/>
 			</when>	
 			<otherwise>
 				<log message="&lt;RDF-IZER-00023> : Unsupported format has been detected in input datafile." loggingLevel="ERROR" logName="eu.aliada.pipeline"/>			    
