@@ -6,6 +6,8 @@
 package eu.aliada.linksDiscovery.rest;
 
 import java.io.File;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Path;
@@ -17,6 +19,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import eu.aliada.linksDiscovery.model.LinksDiscoveryResponse;
 import eu.aliada.linksDiscovery.impl.LinksDiscovery;
 import eu.aliada.linksDiscovery.log.MessageCatalog;
 import eu.aliada.shared.log.Log;
@@ -28,7 +31,7 @@ import eu.aliada.shared.log.Log;
  * @author Idoia Murua
  * @since 1.0
  */
-@Path("/linksDiscovery")
+@Path("/")
 public class LinksDiscoveryREST {
 	private final Log logger = new Log(LinksDiscovery.class);
 	private LinksDiscovery linksDisc;
@@ -47,6 +50,7 @@ public class LinksDiscoveryREST {
 	/**
 	 * Links discovery REST service.
 	 *
+     * @param inputURI			URI of the SPARQL/Update endpoint of the source dataset from where we want to generate links. 
      * @param inputLogin		Login required for authentication in the SPARQL endpoint. 
      * @param inputPassword		Password required for authentication in the SPARQL endpoint. 
      * @param inputGraph		Only retrieve instances from a specific graph in that SPARQL endpoint. 
@@ -73,10 +77,14 @@ public class LinksDiscoveryREST {
 		@FormParam("outputPassword") String outputPassword,
 		@FormParam("outputGraph") String outputGraph) {
 
-		File configurationFile = new File("D:\\Proyectos\\downloads\\SILK\\silk_2.5.3\\examples\\generatour_foaf_config_v2.xml");
+		String confFileName = "D:\\Proyectos\\downloads\\SILK\\silk_2.5.3\\examples\\generatour_foaf_config_v2.xml"; 
+//		String confFileName = "D:\\Proyectos\\downloads\\SILK\\silk_2.6.0\\commandline\\aliada_lido_dbpedia_config.xml"; 
+		File configurationFile = new File(confFileName);
 		int numThreads = 8;
 		boolean reload = true;
 		linksDisc.discoveryLinks(configurationFile, numThreads, reload);
-		return Response.accepted().build();
+		LinksDiscoveryResponse linksDiscoveryResponse = new LinksDiscoveryResponse();
+		linksDiscoveryResponse.setLinksCreated(true);
+		return Response.status(Response.Status.CREATED).entity(linksDiscoveryResponse).build();
 	}
 }
