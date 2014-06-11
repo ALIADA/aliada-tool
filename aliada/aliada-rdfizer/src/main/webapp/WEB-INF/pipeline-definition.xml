@@ -9,12 +9,8 @@
 	
 	<bean id="startup_listener" class="eu.aliada.rdfizer.listeners.PipelineStartupListener" />
 	<bean id="shutdown_listener" class="eu.aliada.rdfizer.listeners.PipelineShutdownListener"/>
-	<bean id="marcxml-records_splitter" class="eu.aliada.rdfizer.kernel.logic.RecordSplitter">
-	    <property name="producer" ref="marcxml-records-producer"/>
-	</bean>
-	<bean id="lido-records_splitter" class="eu.aliada.rdfizer.kernel.logic.RecordSplitter">
-	    <property name="producer" ref="lido-records-producer"/>
-	</bean>
+	<bean id="marcxml-records-splitter" class="eu.aliada.rdfizer.kernel.logic.RecordSplitter"/>
+	<bean id="lido-records-splitter" class="eu.aliada.rdfizer.kernel.logic.RecordSplitter"/>
 		
 	<camelContext xmlns="http://camel.apache.org/schema/spring">
 		<template id="marcxml-records-producer" defaultEndpoint="seda:marcxml-record-channel?concurrentConsumers=2&amp;size=1000&amp;blockWhenFull=true"/>	

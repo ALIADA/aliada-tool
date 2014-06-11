@@ -8,7 +8,7 @@
 		</layout>
 	</appender>
 	<category name="eu.aliada">
-		<priority value="INFO" />
+		<priority value="DEBUG" />
 	</category>
 	<category name="org">
 		<priority value="ERROR" />

@@ -46,7 +46,7 @@ public class RecordSplitter<R> implements Processor, ApplicationContextAware {
 		try {
 			inputStream = new FileInputStream(file);
 		
-			final StreamSplitter<R> streamSplitter = context.getBean(format + "-splitter", StreamSplitter.class);
+			final StreamSplitter<R> streamSplitter = context.getBean(format + "-stream-splitter", StreamSplitter.class);
 					
 			final Iterator<R> iterator = streamSplitter.iterator();
 			while (iterator.hasNext()) {
