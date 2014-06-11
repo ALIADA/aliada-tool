@@ -6,9 +6,7 @@
      xmlns:owl="http://www.w3.org/2002/07/owl#"
      xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
      xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
-    <Ontology>
-        <imports rdf:resource="http://aliada-project.eu/2014/aliada-ontology#"/>
-    </Ontology>
+
 	<rdf:Description rdf:about="http://www.szepmuveszeti.hu/id/resource/E19_Physical_Object/H_3672">
 		<rdf:type rdf:resource="http://erlangen-crm.org/current/E19_Physical_Object"/>
 	</rdf:Description>

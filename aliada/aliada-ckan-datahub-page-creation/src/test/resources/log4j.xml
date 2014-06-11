@@ -11,7 +11,4 @@
 		<priority value="INFO" />
 		<appender-ref ref="CONSOLE" />
 	</root>
-    <category name="eu.aliada">
-        <priority value="INFO" />
-    </category>
 </log4j:configuration>
