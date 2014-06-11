@@ -1,5 +1,3 @@
-_:node18pjqcjckx1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#Ontology> .
-_:node18pjqcjckx1 <http://www.w3.org/2002/07/owl#imports> <http://aliada-project.eu/2014/aliada-ontology#> .
 <http://www.szepmuveszeti.hu/id/resource/E19_Physical_Object/H_3672> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://erlangen-crm.org/current/E19_Physical_Object> .
 <http://www.szepmuveszeti.hu/id/resource/E31_Document/BFM-00120252> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://erlangen-crm.org/current/E31_Document> .
 <http://www.szepmuveszeti.hu/id/resource/E19_Physical_Object/H_3672> <http://erlangen-crm.org/current/P70i_is_documented_in> <http://www.szepmuveszeti.hu/id/resource/E31_Document/BFM-00120252> .
