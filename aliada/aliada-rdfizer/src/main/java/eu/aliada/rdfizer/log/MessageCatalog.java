@@ -28,4 +28,7 @@ public interface MessageCatalog {
 	String _00025_PIPELINE_STOPPED = LT + MODULE_NAME + "-00025> : RDF-izer pipeline has been shutdown.";
 	String _00026_NO_STREAM_AVAILABLE = LT + MODULE_NAME + "-00026> : RecordSplitter cannot execute: no available stream to process.";
 	String _00027_INPUSTREAM_IO_FAILURE = LT + MODULE_NAME + "-00027> : RecordSplitter raised an I/O failure (datafile was %s):. See below for further details.";		
+	String _00028_MISSING_INPUT_PARAM = LT + MODULE_NAME + "-00028> : Invalid request: mandatory parameter '%s' is missing.";		
+	String _00029_NEW_JOB_REQUEST = LT + MODULE_NAME + "-00029> : A job creation request has been detected.";		
+	String _00030_NEW_JOB_REQUEST_DEBUG = LT + MODULE_NAME + "-00030> : Job creation request formally valid. Configuration ID is %s and datafile is %s.";		
 }
