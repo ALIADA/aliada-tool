@@ -58,10 +58,18 @@
 					<path>${module.context.root}</path>
 					<port>${module.listen.port}</port>
 					<contextReloadable>true</contextReloadable>
+					<contextFile>tomcat/context.xml</contextFile>
 					<systemProperties>
 						<log4j.configuration>file://${project.build.directory}/tomcat/conf/log4j.xml</log4j.configuration>
 					</systemProperties>
 				</configuration>
+				<dependencies>
+					<dependency>
+						<groupId>mysql</groupId>
+						<artifactId>mysql-connector-java</artifactId>
+						<version>5.1.6</version>
+					</dependency>
+				</dependencies>
 			</plugin>
 		</plugins>
 	</build>
