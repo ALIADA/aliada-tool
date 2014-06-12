@@ -3,7 +3,7 @@
 //
 // Component: aliada-rdfizer
 // Responsible: ALIADA Consortium
-package eu.aliada.rdfizer.marc;
+package eu.aliada.rdfizer.pipeline.format.marcxml;
 
 import java.io.InputStream;
 import java.util.Collections;

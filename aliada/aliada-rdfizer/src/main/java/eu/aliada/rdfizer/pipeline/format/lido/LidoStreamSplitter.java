@@ -3,7 +3,7 @@
 //
 // Component: aliada-rdfizer
 // Responsible: ALIADA Consortiums
-package eu.aliada.rdfizer.lido;
+package eu.aliada.rdfizer.pipeline.format.lido;
 
 import java.io.BufferedWriter;
 import java.io.InputStream;
@@ -22,6 +22,7 @@ import org.apache.camel.ProducerTemplate;
 
 import com.google.common.collect.AbstractIterator;
 
+import eu.aliada.rdfizer.domain.RecordChunk;
 import eu.aliada.rdfizer.kernel.framework.StreamSplitter;
 import eu.aliada.shared.log.Log;
 
@@ -31,7 +32,7 @@ import eu.aliada.shared.log.Log;
  * @author Andrea Gazzarini
  * @since 1.0
  */
-public class LidoStreamSplitter implements StreamSplitter<String> {
+public class LidoStreamSplitter implements StreamSplitter<RecordChunk<String, String>> {
 	private Log log = new Log(LidoStreamSplitter.class);
 	private ProducerTemplate producer;
 	private InputStream stream;
@@ -40,14 +41,14 @@ public class LidoStreamSplitter implements StreamSplitter<String> {
 	private boolean splitCompleted;
 	
 	@Override
-	public Iterator<String> iterator() {
+	public Iterator<RecordChunk<String, String>> iterator() {
 		try {
 			final StringWriter outputWriter = new StringWriter();
 			final BufferedWriter bufferedOutputWriter = new BufferedWriter(outputWriter);
 			final XMLEventWriter writer = XMLOutputFactory.newInstance().createXMLEventWriter(bufferedOutputWriter);
-			return new AbstractIterator<String>() {
+			return new AbstractIterator<RecordChunk<String, String>>() {
 				@Override
-				protected String computeNext() {
+				protected RecordChunk<String, String> computeNext() {
 					try {
 						boolean isActivelyPrinting = false;
 						while (reader.hasNext()) {
@@ -57,7 +58,8 @@ public class LidoStreamSplitter implements StreamSplitter<String> {
 					    	  writer.flush();
 					    	  isActivelyPrinting = false;
 					    	  recordsCount++;
-					    	  return outputWriter.toString();				    	  
+					    	  // TODO: CORRELATION / REC ID
+					    	  return new RecordChunk<String, String>("MISSING_ID", outputWriter.toString());				    	  
 					      }
 					      
 					      if (!isActivelyPrinting && event.isStartElement() && event.asStartElement().getName().getLocalPart().equals("lido")) {
@@ -111,7 +113,7 @@ public class LidoStreamSplitter implements StreamSplitter<String> {
 	}
 
 	@Override
-	public void dispatchForFurtherProcessing(final String record) {
+	public void dispatchForFurtherProcessing(final RecordChunk<String, String> record) {
 		producer.send(new Processor() {
 			@Override
 			public void process(final Exchange outExchange) {

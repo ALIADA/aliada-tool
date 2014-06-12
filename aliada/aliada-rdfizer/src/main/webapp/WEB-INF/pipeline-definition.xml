@@ -9,8 +9,8 @@
 	
 	<bean id="startup_listener" class="eu.aliada.rdfizer.listeners.PipelineStartupListener" />
 	<bean id="shutdown_listener" class="eu.aliada.rdfizer.listeners.PipelineShutdownListener"/>
-	<bean id="marcxml-records-splitter" class="eu.aliada.rdfizer.kernel.logic.RecordSplitter"/>
-	<bean id="lido-records-splitter" class="eu.aliada.rdfizer.kernel.logic.RecordSplitter"/>
+	<bean id="marcxml-records-splitter" class="eu.aliada.rdfizer.pipeline.common.RecordSplitter"/>
+	<bean id="lido-records-splitter" class="eu.aliada.rdfizer.pipeline.common.RecordSplitter"/>
 		
 	<camelContext xmlns="http://camel.apache.org/schema/spring">
 		<template id="marcxml-records-producer" defaultEndpoint="seda:marcxml-record-channel?concurrentConsumers=2&amp;size=1000&amp;blockWhenFull=true"/>	
@@ -56,7 +56,8 @@
 		<route>
 			<from uri="seda:lido-record-channel?concurrentConsumers=2&amp;size=1000&amp;blockWhenFull=true" /> 
 			<!-- TODO LIDO format conversion rules engine -->
-			<to uri="seda:triples-channel?size=2500&amp;blockWhenFull=true" />
+			<to uri="stream:out"/>
+			<!--  <to uri="seda:triples-channel?size=2500&amp;blockWhenFull=true" /> -->
 		</route>
 		<route>
 			<from uri="seda:triples-channel?size=2500&amp;blockWhenFull=true" />

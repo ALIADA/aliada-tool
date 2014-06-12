@@ -2,12 +2,34 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
 	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:jee="http://www.springframework.org/schema/jee"
 	xsi:schemaLocation="  
-       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
-       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
-       http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd">
+		http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd	
+		http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
+		http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd">
 	<context:annotation-config/>
-	<context:component-scan base-package="eu.aliada" />
+	<context:component-scan base-package="eu.aliada.rdfizer" />
+	<jpa:repositories base-package="eu.aliada.rdfizer.datasource"/>
+	
+	<bean id="transactionManager" 
+	    class="org.springframework.orm.jpa.JpaTransactionManager"
+	    p:entityManagerFactory-ref="entityManagerFactory"/>
+
+	<jee:jndi-lookup id="dataSource" jndi-name="java:comp/env/jdbc/aliada" expected-type="javax.sql.DataSource" />
+		
+    <bean id="entityManagerFactory" 
+          class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean"
+    	  p:dataSource-ref="dataSource"
+          p:persistenceUnitName="RDFizerPU">
+        <property name="jpaVendorAdapter">
+            <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter" />
+        </property>
+    </bean>
+	
 	<bean id="configuration" class="org.apache.camel.spring.spi.BridgePropertyPlaceholderConfigurer">
   		<property name="locations">
   		    <list>
@@ -24,11 +46,7 @@
 	<!-- Supported formats (with their specific settings) -->
 	<import resource="marc-settings.xml" />
 	<import resource="lido-settings.xml" />
-		
-	<!-- 
-		TODO: A Cassandra connector for storing records during the conversion process 
-	 -->
-	 
+	
 	 <!-- 
 	 	TODO: RDF Store connector (specific 2 Virtuoso or a generic one?)
 	  -->
@@ -36,7 +54,7 @@
 	 <!-- 
 	 	Shared processors 
 	  -->
-	<bean id="validate_input_path" class="eu.aliada.rdfizer.kernel.logic.ValidateInputPath" />
+	<bean id="validate_input_path" class="eu.aliada.rdfizer.pipeline.common.ValidateInputPath" />
 	
 
 </beans>
