@@ -17,6 +17,12 @@
 		<spring-framework.version>3.2.9.RELEASE</spring-framework.version>
 		<camel.version>2.11.1</camel.version>
 	</properties>
+	<repositories>
+		<repository>
+			<id>nxparser-repo</id>
+			<url>http://nxparser.googlecode.com/svn/repository</url>
+		</repository>
+	</repositories>
 	<dependencies>
 		<!-- Spring -->
 		<dependency>
@@ -86,6 +92,11 @@
 			<groupId>org.glassfish.jersey.ext</groupId>
 			<artifactId>jersey-spring3</artifactId>
 			<version>${jersey.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.semanticweb.yars</groupId>
+			<artifactId>nxparser</artifactId>
+			<version>1.2.3</version>
 		</dependency>
 	</dependencies>
 </project>
