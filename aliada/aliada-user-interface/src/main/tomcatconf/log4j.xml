@@ -7,6 +7,9 @@
 			<param name="ConversionPattern" value="%d{ABSOLUTE} %-5p [%c{1}] %m%n" />
 		</layout>
 	</appender>
+	<category name="eu.aliada">
+		<priority value="INFO" />
+	</category>
 	<root>
 		<priority value="INFO" />
 		<appender-ref ref="CONSOLE" />
