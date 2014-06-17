@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<lido:lidoWrap xmlns:lido="http://www.lido-schema.org">
+  <lido:lido>
+    <lido:lidoRecID lido:source="Szépművészeti Múzeum" lido:type="local">szepmuveszeti.hu_object_29</lido:lidoRecID>
+    <lido:category>
+      <lido:conceptID lido:type="URI">http://terminology.lido-schema.org/lido00096</lido:conceptID>
+      <lido:conceptID lido:type="URI">http://www.cidoc-crm.org/crm-concepts/E22</lido:conceptID>
+      <lido:term xml:lang="en">man-made object</lido:term>
+    </lido:category>
+    <lido:descriptiveMetadata xml:lang="hu">
+      <lido:objectClassificationWrap>
+        <lido:objectWorkTypeWrap>
+          <lido:objectWorkType lido:sortorder="1" lido:type="local">
+            <lido:term lido:encodinganalog="classification_mapped" lido:label="Tárgy típusa">festmény</lido:term>
+          </lido:objectWorkType>
+        </lido:objectWorkTypeWrap>
+        <lido:classificationWrap>
+          <lido:classification lido:type="europeana:type">
+            <lido:term>IMAGE</lido:term>
+          </lido:classification>
+          <lido:classification lido:sortorder="3" lido:type="Collection name">
+            <lido:term lido:encodinganalog="department_orig" lido:label="Gyűjtemény">1800 utáni gyűjtemény</lido:term>
+          </lido:classification>
+        </lido:classificationWrap>
+      </lido:objectClassificationWrap>
+      <lido:objectIdentificationWrap>
+        <lido:titleWrap>
+          <lido:titleSet lido:sortorder="1">
+            <lido:appellationValue lido:label="cím" lido:pref="preferred" xml:lang="hu">Világosszürke fal</lido:appellationValue>
+          </lido:titleSet>
+        </lido:titleWrap>
+        <lido:repositoryWrap>
+          <lido:repositorySet lido:type="Current">
+            <lido:repositoryName>
+              <lido:legalBodyName>
+                <lido:appellationValue lido:pref="preferred" xml:lang="hu">Szépművészeti Múzeum</lido:appellationValue>
+              </lido:legalBodyName>
+              <lido:legalBodyWeblink lido:formatResource="text/html" lido:label="Intézmény honlapja" xml:lang="hu">http://www.szepmuveszeti.hu</lido:legalBodyWeblink>
+            </lido:repositoryName>
+            <lido:workID lido:sortorder="1" lido:type="Inventory Number">576.B</lido:workID>
+            <lido:repositoryLocation>
+              <lido:namePlaceSet>
+                <lido:appellationValue lido:pref="preferred" xml:lang="hu">1146 Budapest, Dózsa György út 41.</lido:appellationValue>
+              </lido:namePlaceSet>
+              <lido:gml>
+                <gml:Point xmlns:gml="http://www.opengis.net/gml" srsName="EPSG-4326">
+                  <gml:pos>47.516353 19.076471</gml:pos>
+                </gml:Point>
+              </lido:gml>
+              <lido:partOfPlace lido:politicalEntity="City">
+                <lido:placeID lido:label="GeoNames identifier" lido:source="GeoNames" lido:type="URI">http://sws.geonames.org/3054643</lido:placeID>
+                <lido:namePlaceSet>
+                  <lido:appellationValue lido:pref="preferred" xml:lang="hu">Budapest</lido:appellationValue>
+                </lido:namePlaceSet>
+              </lido:partOfPlace>
+              <lido:partOfPlace lido:politicalEntity="Country">
+                <lido:placeID lido:label="GeoNames identifier" lido:source="GeoNames" lido:type="URI">http://sws.geonames.org/719819</lido:placeID>
+                <lido:namePlaceSet>
+                  <lido:appellationValue lido:pref="preferred" xml:lang="hu">Magyarország</lido:appellationValue>
+                </lido:namePlaceSet>
+              </lido:partOfPlace>
+              <lido:partOfPlace lido:politicalEntity="Continent">
+                <lido:placeID lido:label="GeoNames identifier" lido:source="GeoNames" lido:type="URI">http://sws.geonames.org/6255148</lido:placeID>
+                <lido:namePlaceSet>
+                  <lido:appellationValue lido:pref="preferred" xml:lang="hu">Európa</lido:appellationValue>
+                </lido:namePlaceSet>
+              </lido:partOfPlace>
+            </lido:repositoryLocation>
+          </lido:repositorySet>
+        </lido:repositoryWrap>
+        <lido:objectMeasurementsWrap>
+          <lido:objectMeasurementsSet lido:sortorder="1">
+            <lido:displayObjectMeasurements>60 x 82 cm</lido:displayObjectMeasurements>
+            <lido:objectMeasurements>
+              <lido:measurementsSet lido:sortorder="1">
+                <lido:measurementType lido:encodinganalog="dimension_type">Magasság</lido:measurementType>
+                <lido:measurementUnit lido:encodinganalog="dimension_unit">centiméter</lido:measurementUnit>
+                <lido:measurementValue>60.0</lido:measurementValue>
+              </lido:measurementsSet>
+              <lido:measurementsSet lido:sortorder="2">
+                <lido:measurementType lido:encodinganalog="dimension_type">Szélesség</lido:measurementType>
+                <lido:measurementUnit lido:encodinganalog="dimension_unit">centiméter</lido:measurementUnit>
+                <lido:measurementValue>82.0</lido:measurementValue>
+              </lido:measurementsSet>
+            </lido:objectMeasurements>
+          </lido:objectMeasurementsSet>
+        </lido:objectMeasurementsWrap>
+      </lido:objectIdentificationWrap>
+      <lido:eventWrap>
+        <lido:eventSet>
+          <lido:event>
+            <lido:eventType>
+              <lido:conceptID lido:type="URI">http://terminology.lido-schema.org/lido00012</lido:conceptID>
+              <lido:conceptID lido:type="URI">http://www.cidoc-crm.org/crm-concepts/E65</lido:conceptID>
+              <lido:term xml:lang="en">creation</lido:term>
+            </lido:eventType>
+            <lido:eventActor>
+              <lido:displayActorInRole>alkotó: Josef Albers, német (Bottrop 1888 – 1976 New Haven)</lido:displayActorInRole>
+              <lido:actorInRole>
+                <lido:actor lido:type="person">
+                  <lido:actorID lido:source="Szépművészeti Múzeum" lido:type="local">173</lido:actorID>
+                  <lido:actorID lido:source="VIAF" lido:type="URI">http://viaf.org/viaf/12347231</lido:actorID>
+                  <lido:nameActorSet>
+                    <lido:appellationValue lido:pref="preferred">Josef Albers</lido:appellationValue>
+                    <lido:sourceAppellation>Szépművészeti Múzeum</lido:sourceAppellation>
+                  </lido:nameActorSet>
+                  <lido:nameActorSet>
+                    <lido:appellationValue lido:pref="alternate">Josef Albers</lido:appellationValue>
+                    <lido:sourceAppellation>Szépművészeti Múzeum</lido:sourceAppellation>
+                  </lido:nameActorSet>
+                  <lido:nationalityActor>
+                    <lido:term>német</lido:term>
+                  </lido:nationalityActor>
+                  <lido:vitalDatesActor>
+                    <lido:earliestDate>1888</lido:earliestDate>
+                    <lido:latestDate>1976</lido:latestDate>
+                  </lido:vitalDatesActor>
+                </lido:actor>
+                <lido:roleActor>
+                  <lido:term>alkotó</lido:term>
+                </lido:roleActor>
+              </lido:actorInRole>
+            </lido:eventActor>
+            <lido:eventDate>
+              <lido:displayDate>1958</lido:displayDate>
+              <lido:date>
+                <lido:earliestDate>1958</lido:earliestDate>
+                <lido:latestDate>1958</lido:latestDate>
+              </lido:date>
+            </lido:eventDate>
+            <lido:eventMaterialsTech>
+              <lido:displayMaterialsTech>olaj, farostlemez</lido:displayMaterialsTech>
+            </lido:eventMaterialsTech>
+          </lido:event>
+        </lido:eventSet>
+      </lido:eventWrap>
+    </lido:descriptiveMetadata>
+    <lido:administrativeMetadata xml:lang="hu">
+      <lido:rightsWorkWrap>
+        <lido:rightsWorkSet>
+          <lido:creditLine xml:lang="hu">Copyright © Szépművészeti Múzeum</lido:creditLine>
+        </lido:rightsWorkSet>
+      </lido:rightsWorkWrap>
+      <lido:recordWrap>
+        <lido:recordID lido:source="Szépművészeti Múzeum" lido:type="local object id">29</lido:recordID>
+        <lido:recordType>
+          <lido:conceptID lido:type="URI">http://terminology.lido-schema.org/lido00141</lido:conceptID>
+          <lido:term xml:lang="en">item</lido:term>
+        </lido:recordType>
+        <lido:recordSource lido:type="institution">
+          <lido:legalBodyID lido:type="local">Szépművészeti Múzeum</lido:legalBodyID>
+          <lido:legalBodyName>
+            <lido:appellationValue lido:pref="preferred" xml:lang="hu">Szépművészeti Múzeum</lido:appellationValue>
+            <lido:appellationValue lido:pref="alternate" xml:lang="en">Museum of Fine Arts Budapest</lido:appellationValue>
+          </lido:legalBodyName>
+          <lido:legalBodyWeblink lido:formatResource="text/html" lido:label="Intézmény honlapja" xml:lang="hu">http://www.szepmuveszeti.hu</lido:legalBodyWeblink>
+        </lido:recordSource>
+        <lido:recordSource lido:type="europeana:dataProvider">
+          <lido:legalBodyName>
+            <lido:appellationValue lido:pref="preferred" xml:lang="hu">Szépművészeti Múzeum</lido:appellationValue>
+            <lido:appellationValue lido:pref="alternate" xml:lang="en">Museum of Fine Arts Budapest</lido:appellationValue>
+          </lido:legalBodyName>
+          <lido:legalBodyWeblink lido:formatResource="text/html" lido:label="Intézmény honlapja" xml:lang="hu">http://www.szepmuveszeti.hu</lido:legalBodyWeblink>
+        </lido:recordSource>
+        <lido:recordRights>
+          <lido:rightsHolder>
+            <lido:legalBodyName>
+              <lido:appellationValue lido:pref="preferred" xml:lang="hu">Szépművészeti Múzeum</lido:appellationValue>
+              <lido:appellationValue lido:pref="alternate" xml:lang="en">Museum of Fine Arts Budapest</lido:appellationValue>
+            </lido:legalBodyName>
+            <lido:legalBodyWeblink lido:formatResource="text/html" lido:label="Intézmény honlapja" xml:lang="hu">http://www.szepmuveszeti.hu</lido:legalBodyWeblink>
+          </lido:rightsHolder>
+        </lido:recordRights>
+        <lido:recordInfoSet>
+          <lido:recordInfoLink>http://www.szepmuveszeti.hu/adatlap/29</lido:recordInfoLink>
+        </lido:recordInfoSet>
+      </lido:recordWrap>
+      <lido:resourceWrap>
+        <lido:resourceSet lido:sortorder="1">
+          <lido:resourceID lido:encodinganalog="fileid" lido:label="File ID" lido:source="Szépművészeti Múzeum" lido:type="local">11645</lido:resourceID>
+          <lido:resourceRepresentation>
+            <lido:linkResource lido:formatResource="image/jpeg">http://www.szepmuveszeti.hu/data/mutargykepek/1/1645/11645.jpg</lido:linkResource>
+          </lido:resourceRepresentation>
+          <lido:resourceType>
+            <lido:term>digital image</lido:term>
+          </lido:resourceType>
+          <lido:rightsResource>
+            <lido:rightsType>
+              <lido:conceptID lido:type="URL">http://creativecommons.org/licenses/by-nc-nd/4.0/</lido:conceptID>
+              <lido:term lido:pref="preferred" xml:lang="en">Creative Commons (BY-NC-ND)</lido:term>
+            </lido:rightsType>
+            <lido:rightsHolder>
+              <lido:legalBodyName>
+                <lido:appellationValue lido:pref="preferred" xml:lang="hu">Szépművészeti Múzeum</lido:appellationValue>
+                <lido:appellationValue lido:pref="alternate" xml:lang="en">Museum of Fine Arts Budapest</lido:appellationValue>
+              </lido:legalBodyName>
+              <lido:legalBodyWeblink lido:formatResource="text/html" lido:label="Intézmény honlapja" xml:lang="hu">http://www.szepmuveszeti.hu</lido:legalBodyWeblink>
+            </lido:rightsHolder>
+            <lido:creditLine>Copyright © Szépművészeti Múzeum</lido:creditLine>
+          </lido:rightsResource>
+        </lido:resourceSet>
+      </lido:resourceWrap>
+    </lido:administrativeMetadata>
+  </lido:lido>
+</lido:lidoWrap>
