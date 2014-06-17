@@ -1,0 +1,550 @@
+<?xml version="1.0"?>
+<rdf:RDF xmlns="http://www.w3.org/2002/07/owl#"
+     xml:base="http://www.w3.org/2002/07/owl"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:ecrm="http://erlangen-crm.org/current/"
+	 xmlns:skos="http://www.w3.org/2004/02/skos/core#"
+	 xmlns:wgs84_pos="http://www.w3.org/2003/01/geo/wgs84_pos#"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/id/resource/E22_Man-Made_Object/szepmuveszeti.hu_object_29">
+	<rdf:type rdf:resource="http://erlangen-crm.org/current/E22_Man-Made_Object"/>
+</rdf:Description>
+
+<!-- RecID - BEGIN -->
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/id/resource/E31_Document/szepmuveszeti.hu_object_29/E41_Appellation/1">
+	<rdf:type rdf:resource="http://erlangen-crm.org/current/E41_Appellation"/>
+	<ecrm:P3_has_note  rdf:datatype="http://www.w3.org/2001/XMLSchema#string">szepmuveszeti.hu_object_29</ecrm:P3_has_note>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/id/resource/E31_Document/szepmuveszeti.hu_object_29">
+	<rdf:type rdf:resource="http://erlangen-crm.org/current/E31_Document"/>
+	<ecrm:P1_is_identified_by  rdf:resource="http://www.szepmuveszeti.hu/id/resource/E31_Document/szepmuveszeti.hu_object_29/E41_Appellation/1"/>
+</rdf:Description>
+	
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/id/resource/E22_Man-Made_Object/szepmuveszeti.hu_object_29">
+	<ecrm:P70i_is_documented_in  rdf:resource="http://www.szepmuveszeti.hu/id/resource/E31_Document/szepmuveszeti.hu_object_29"/>
+</rdf:Description>
+<!-- RecID - END -->
+
+<!-- Category - BEGIN -->
+<rdf:Description rdf:about="http://terminology.lido-schema.org/lido00096">
+	<rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
+</rdf:Description>
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/id/resource/E22_Man-Made_Object/szepmuveszeti.hu_object_29">
+	<ecrm:P2_has_type  rdf:resource="http://terminology.lido-schema.org/lido00096"/>
+</rdf:Description>
+<!-- Category - END -->
+
+<!-- =================================DESCRIPTIVE METADATA================================= -->
+<!-- ===Object Classification Wrap=== - BEGIN -->
+<!-- Work Type - BEGIN -->
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/id/resource/Concept/festmény">
+	<rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
+</rdf:Description>
+	
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/id/resource/E22_Man-Made_Object/szepmuveszeti.hu_object_29">
+	<ecrm:P2_has_type  rdf:resource="http://www.szepmuveszeti.hu/id/resource/Concept/festmény"/>
+</rdf:Description>
+<!-- Work Type - END -->
+
+<!-- Classification - BEGIN -->
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/id/resource/Concept/IMAGE">
+	<rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
+</rdf:Description>
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/id/resource/E22_Man-Made_Object/szepmuveszeti.hu_object_29">
+	<ecrm:P2_has_type  rdf:resource="http://www.szepmuveszeti.hu/id/resource/Concept/IMAGE"/>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/id/resource/Concept/1800_utáni_gy?jtemény">
+	<rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
+</rdf:Description>
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/id/resource/E22_Man-Made_Object/szepmuveszeti.hu_object_29">
+	<ecrm:P2_has_type  rdf:resource="http://www.szepmuveszeti.hu/id/resource/Concept/1800_utáni_gy?jtemény"/>
+</rdf:Description>
+<!-- Classification - END -->
+<!-- ===Object Classification Wrap=== - END -->
+
+
+<!-- ===Object Identification Wrap=== - BEGIN -->
+<!-- Title - BEGIN -->
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/id/resource/E22_Man-Made_Object/szepmuveszeti.hu_object_29/E41_Appellation/1">
+	<rdf:type rdf:resource="http://erlangen-crm.org/current/E41_Appellation"/>
+	<ecrm:P3_has_note  rdf:datatype="http://www.w3.org/2001/XMLSchema#string" xml:lang="hu">Világosszürke fal</ecrm:P3_has_note>
+</rdf:Description>
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/id/resource/E22_Man-Made_Object/szepmuveszeti.hu_object_29">
+	<ecrm:P1_is_identified_by  rdf:resource="http://www.szepmuveszeti.hu/id/resource/E22_Man-Made_Object/szepmuveszeti.hu_object_29/E41_Appellation/1"/>
+</rdf:Description>
+<!-- Title - END -->
+
+<!-- Repository - BEGIN -->
+<!-- Repository:legalBodyWeblink -->
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/id/resource/Concept/web_resource">
+	<rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
+</rdf:Description>
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/id/resource/E73_Information_Object/1/E75_Conceptual_Object_Appellation/1">
+	<rdf:type rdf:resource="http://erlangen-crm.org/current/E75_Conceptual_Object_Appellation"/>
+	<ecrm:P3_has_note  rdf:datatype="http://www.w3.org/2001/XMLSchema#string" xml:lang="hu">http://www.szepmuveszeti.hu</ecrm:P3_has_note>
+</rdf:Description>
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/id/resource/E73_Information_Object/1">
+	<rdf:type rdf:resource="http://erlangen-crm.org/current/E73_Information_Object"/>
+	<ecrm:P2_has_type  rdf:resource="http://www.szepmuveszeti.hu/id/resource/Concept/web_resource"/>
+	<ecrm:P149_is_identified_by  rdf:resource="http://www.szepmuveszeti.hu/id/resource/E73_Information_Object/1/E75_Conceptual_Object_Appellation/1"/>
+</rdf:Description>
+<!-- Repository:legalBodyName -->
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/id/resource/E39_Actor/1/E82_Actor_Appellation/1">
+	<rdf:type rdf:resource="http://erlangen-crm.org/current/E82_Actor_Appellation"/>
+	<ecrm:P3_has_note  rdf:datatype="http://www.w3.org/2001/XMLSchema#string" xml:lang="hu">Szépm?vészeti Múzeum</ecrm:P3_has_note>
+</rdf:Description>
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/id/resource/E39_Actor/1">
+	<rdf:type rdf:resource="http://erlangen-crm.org/current/E39_Actor"/>
+	<ecrm:P131_is_identified_by  rdf:resource="http://www.szepmuveszeti.hu/id/resource/E39_Actor/1/E82_Actor_Appellation/1"/>
+	<ecrm:P129B_is_subject_of  rdf:resource="http://www.szepmuveszeti.hu/id/resource/E73_Information_Object/1"/>
+</rdf:Description>
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/id/resource/E22_Man-Made_Object/szepmuveszeti.hu_object_29">
+	<ecrm:P50_has_current_keeper  rdf:resource="http://www.szepmuveszeti.hu/id/resource/E39_Actor/1"/>
+</rdf:Description>
+<!-- Repository:repositoryLocation -->
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/id/resource/E53_Place/1/E44_Place_Appellation/1">
+	<rdf:type rdf:resource="http://erlangen-crm.org/current/E44_Place_Appellation"/>
+	<ecrm:P3_has_note  rdf:datatype="http://www.w3.org/2001/XMLSchema#string" xml:lang="hu">1146 Budapest, Dózsa György út 41.</ecrm:P3_has_note>
+</rdf:Description>
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/id/resource/E53_Place/1">
+	<rdf:type rdf:resource="http://erlangen-crm.org/current/E53_Place"/>
+	<ecrm:P87_is_identified_by  rdf:resource="http://www.szepmuveszeti.hu/id/resource/E53_Place/1/E44_Place_Appellation/1"/>
+</rdf:Description>
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/id/resource/E22_Man-Made_Object/szepmuveszeti.hu_object_29">
+	<ecrm:P55_has_current_location  rdf:resource="http://www.szepmuveszeti.hu/id/resource/E53_Place/1"/>
+</rdf:Description>
+<!-- Repository:gml -->
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/id/resource/E53_Place/1">
+	<wgs84_pos:lat>47.516353</wgs84_pos:lat>
+	<wgs84_pos:long>19.076471</wgs84_pos:long>
+</rdf:Description>
+<!-- Repository:partOfPlace -->
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/id/resource/E53_Place/2/E44_Place_Appellation/1">
+	<rdf:type rdf:resource="http://erlangen-crm.org/current/E44_Place_Appellation"/>
+	<ecrm:P3_has_note  rdf:datatype="http://www.w3.org/2001/XMLSchema#string" xml:lang="hu">Budapest</ecrm:P3_has_note>
+</rdf:Description>
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/id/resource/E53_Place/2">
+	<rdf:type rdf:resource="http://erlangen-crm.org/current/E53_Place"/>
+	<ecrm:P87_is_identified_by  rdf:resource="http://www.szepmuveszeti.hu/id/resource/E53_Place/2/E44_Place_Appellation/1"/>
+	<ecrm:P88_consists_of  rdf:resource="http://www.szepmuveszeti.hu/id/resource/E53_Place/1"/>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/id/resource/E53_Place/3/E44_Place_Appellation/1">
+	<rdf:type rdf:resource="http://erlangen-crm.org/current/E44_Place_Appellation"/>
+	<ecrm:P3_has_note  rdf:datatype="http://www.w3.org/2001/XMLSchema#string" xml:lang="hu">Magyarország</ecrm:P3_has_note>
+</rdf:Description>
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/id/resource/E53_Place/3">
+	<rdf:type rdf:resource="http://erlangen-crm.org/current/E53_Place"/>
+	<ecrm:P87_is_identified_by  rdf:resource="http://www.szepmuveszeti.hu/id/resource/E53_Place/3/E44_Place_Appellation/1"/>
+	<ecrm:P88_consists_of  rdf:resource="http://www.szepmuveszeti.hu/id/resource/E53_Place/1"/>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/id/resource/E53_Place/4/E44_Place_Appellation/1">
+	<rdf:type rdf:resource="http://erlangen-crm.org/current/E44_Place_Appellation"/>
+	<ecrm:P3_has_note  rdf:datatype="http://www.w3.org/2001/XMLSchema#string" xml:lang="hu">Európa</ecrm:P3_has_note>
+</rdf:Description>
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/id/resource/E53_Place/4">
+	<rdf:type rdf:resource="http://erlangen-crm.org/current/E53_Place"/>
+	<ecrm:P87_is_identified_by  rdf:resource="http://www.szepmuveszeti.hu/id/resource/E53_Place/4/E44_Place_Appellation/1"/>
+	<ecrm:P88_consists_of  rdf:resource="http://www.szepmuveszeti.hu/id/resource/E53_Place/1"/>
+</rdf:Description>
+<!-- Repository - END -->
+
+<!-- Display Object Measurements - BEGIN -->
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/id/resource/E22_Man-Made_Object/szepmuveszeti.hu_object_29">
+	<ecrm:P3_has_note  rdf:datatype="http://www.w3.org/2001/XMLSchema#string">60 x 82 cm</ecrm:P3_has_note>
+</rdf:Description>
+<!-- Display Object Measurements - END -->
+
+<!-- Object Measurements - BEGIN -->
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/id/resource/E58_Measurement_Unit/1">
+	<rdf:type rdf:resource="http://erlangen-crm.org/current/E58_Measurement_Unit"/>
+	<ecrm:P3_has_note  rdf:datatype="http://www.w3.org/2001/XMLSchema#string" xml:lang="hu">centiméter</ecrm:P3_has_note>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/id/resource/E22_Man-Made_Object/szepmuveszeti.hu_object_29/E54_Dimension/1">
+	<rdf:type rdf:resource="http://erlangen-crm.org/current/E54_Dimension"/>
+	<ecrm:P3_has_note  rdf:datatype="http://www.w3.org/2001/XMLSchema#string" xml:lang="hu">Magasság</ecrm:P3_has_note>
+	<ecrm:P91_has_unit  rdf:resource="http://www.szepmuveszeti.hu/id/resource/E58_Measurement_Unit/1"/>
+	<ecrm:P90_has_value>60.0</ecrm:P90_has_value>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/id/resource/E22_Man-Made_Object/szepmuveszeti.hu_object_29/E54_Dimension/2">
+	<rdf:type rdf:resource="http://erlangen-crm.org/current/E54_Dimension"/>
+	<ecrm:P3_has_note  rdf:datatype="http://www.w3.org/2001/XMLSchema#string" xml:lang="hu">Szélesség</ecrm:P3_has_note>
+	<ecrm:P91_has_unit  rdf:resource="http://www.szepmuveszeti.hu/id/resource/E58_Measurement_Unit/1"/>
+	<ecrm:P90_has_value>82.0</ecrm:P90_has_value>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/id/resource/E22_Man-Made_Object/szepmuveszeti.hu_object_29">
+	<ecrm:P43_has_dimension  rdf:resource="http://www.szepmuveszeti.hu/id/resource/E22_Man-Made_Object/szepmuveszeti.hu_object_29/E54_Dimension/1"/>
+	<ecrm:P43_has_dimension  rdf:resource="http://www.szepmuveszeti.hu/id/resource/E22_Man-Made_Object/szepmuveszeti.hu_object_29/E54_Dimension/2"/>
+</rdf:Description>
+<!-- Object Measurements - END -->
+<!-- ===Object Identification Wrap=== - END -->
+
+
+<!-- ===Event Wrap=== - BEGIN -->
+<!-- ==Event 1== - BEGIN -->
+<!-- Event Type -BEGIN -->
+<rdf:Description rdf:about="http://terminology.lido-schema.org/lido00012">
+	<rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
+</rdf:Description>
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/id/resource/E22_Man-Made_Object/szepmuveszeti.hu_object_29/E65_Creation/1">
+	<rdf:type rdf:resource="http://erlangen-crm.org/current/E65_Creation"/>
+	<ecrm:P2_has_type  rdf:resource="http://terminology.lido-schema.org/lido00012"/>
+</rdf:Description>
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/id/resource/E22_Man-Made_Object/szepmuveszeti.hu_object_29">
+	<ecrm:P12B_was_present_at  rdf:resource="http://www.szepmuveszeti.hu/id/resource/E22_Man-Made_Object/szepmuveszeti.hu_object_29/E65_Creation/1"/>
+</rdf:Description>
+<!-- Event Type - END -->
+
+<!-- =Event Actor 1= - BEGIN -->
+<!-- Display Actor in Role - BEGIN -->
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/id/resource/E22_Man-Made_Object/szepmuveszeti.hu_object_29/E65_Creation/1">
+	<ecrm:P3_has_note  rdf:datatype="http://www.w3.org/2001/XMLSchema#string" xml:lang="hu">alkotó: Josef Albers, német (Bottrop 1888 – 1976 New Haven)</ecrm:P3_has_note>
+</rdf:Description>
+<!-- Display Actor in Role - END -->
+
+<!-- Actor ID - BEGIN -->
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/id/resource/Concept/LocalIdentifier">
+	<rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
+</rdf:Description>
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/id/resource/Concept/VIAFIdentifier">
+	<rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
+</rdf:Description>
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/id/resource/E39_Actor/2/E42_Identifier/1">
+	<rdf:type rdf:resource="http://erlangen-crm.org/current/E42_Identifier"/>
+	<ecrm:P3_has_note  rdf:datatype="http://www.w3.org/2001/XMLSchema#string">173</ecrm:P3_has_note>
+	<ecrm:P2_has_type  rdf:resource="http://www.szepmuveszeti.hu/id/resource/Concept/LocalIdentifier"/>
+</rdf:Description>
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/id/resource/E39_Actor/2/E42_Identifier/2">
+	<rdf:type rdf:resource="http://erlangen-crm.org/current/E42_Identifier"/>
+	<ecrm:P3_has_note  rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://viaf.org/viaf/12347231</ecrm:P3_has_note>
+	<ecrm:P2_has_type  rdf:resource="http://www.szepmuveszeti.hu/id/resource/Concept/VIAFIdentifier"/>
+</rdf:Description>
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/id/resource/E39_Actor/2">
+	<rdf:type rdf:resource="http://erlangen-crm.org/current/E39_Actor"/>
+	<ecrm:P48_has_preferred_identifier  rdf:resource="http://www.szepmuveszeti.hu/id/resource/E39_Actor/2/E42_Identifier/1"/>
+	<ecrm:P48_has_preferred_identifier  rdf:resource="http://www.szepmuveszeti.hu/id/resource/E39_Actor/2/E42_Identifier/2"/>
+</rdf:Description>
+<!-- Actor ID - END -->
+
+<!-- Name Actor - BEGIN -->
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/id/resource/E22_Man-Made_Object/szepmuveszeti.hu_object_29/E5_Event/1">
+	<ecrm:P11_had_participant  rdf:resource="http://www.szepmuveszeti.hu/id/resource/E39_Actor/2"/>
+</rdf:Description>
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/id/resource/E39_Actor/2/E82_Actor_Appellation/1">
+	<rdf:type rdf:resource="http://erlangen-crm.org/current/E82_Actor_Appellation"/>
+	<ecrm:P3_has_note  rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Josef Albers</ecrm:P3_has_note>
+</rdf:Description>
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/id/resource/E39_Actor/2/E82_Actor_Appellation/2">
+	<rdf:type rdf:resource="http://erlangen-crm.org/current/E82_Actor_Appellation"/>
+	<ecrm:P3_has_note  rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Josef Albers</ecrm:P3_has_note>
+</rdf:Description>
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/id/resource/E39_Actor/2">
+	<ecrm:P131_is_identified_by  rdf:resource="http://www.szepmuveszeti.hu/id/resource/E39_Actor/2/E82_Actor_Appellation/1"/>
+	<ecrm:P131_is_identified_by  rdf:resource="http://www.szepmuveszeti.hu/id/resource/E39_Actor/2/E82_Actor_Appellation/2"/>
+</rdf:Description>
+<!-- Name Actor - END -->
+
+<!-- Nationality Actor - BEGIN -->
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/id/resource/E74_Group/1/E82_Actor_Appellation/1">
+	<rdf:type rdf:resource="http://erlangen-crm.org/current/E82_Actor_Appellation"/>
+	<ecrm:P3_has_note  rdf:datatype="http://www.w3.org/2001/XMLSchema#string" xml:lang="hu">német</ecrm:P3_has_note>
+</rdf:Description>
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/id/resource/E74_Group/1">
+	<rdf:type rdf:resource="http://erlangen-crm.org/current/E74_Group"/>
+	<ecrm:P131_is_identified_by  rdf:resource="http://www.szepmuveszeti.hu/id/resource/E74_Group/1/E82_Actor_Appellation/1"/>
+</rdf:Description>
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/id/resource/E39_Actor/2">
+	<ecrm:P107_is_current_or_former_member_of  rdf:resource="http://www.szepmuveszeti.hu/id/resource/E74_Group/1"/>
+</rdf:Description>
+<!-- Nationality Actor - END -->
+
+<!-- Vital Dates Actor - BEGIN -->
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/id/resource/Concept/Existance">
+	<rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
+</rdf:Description>
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/id/resource/E39_Actor/2/E5_Event/1/E52_Time_Span/1">
+	<rdf:type rdf:resource="http://erlangen-crm.org/current/E52_Time_Span"/>
+	<ecrm:P2_has_type  rdf:resource="http://www.szepmuveszeti.hu/id/resource/Concept/Existance"/>
+	<ecrm:P79_beginning_is_qualified_by  rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1888</ecrm:P79_beginning_is_qualified_by>
+	<ecrm:P80_end_is_qualified_by  rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1976</ecrm:P80_end_is_qualified_by>
+</rdf:Description>
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/id/resource/E39_Actor/2/E5_Event/1">
+	<rdf:type rdf:resource="http://erlangen-crm.org/current/E5_Event"/>
+	<ecrm:P4_has_time_span  rdf:resource="http://www.szepmuveszeti.hu/id/resource/E39_Actor/2/E5_Event/1/E52_Time_Span/1"/>
+</rdf:Description>
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/id/resource/E39_Actor/2">
+	<ecrm:P11_participated_in  rdf:resource="http://www.szepmuveszeti.hu/id/resource/E39_Actor/2/E5_Event/1"/>
+</rdf:Description>
+<!-- Vital Dates Actor - END -->
+
+<!-- Role Actor - BEGIN -->
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/id/resource/E39_Actor/2">
+	<ecrm:P3_has_note  rdf:datatype="http://www.w3.org/2001/XMLSchema#string" xml:lang="hu">alkotó</ecrm:P3_has_note>
+</rdf:Description>
+<!-- Role Actor - END -->
+<!-- =Event Actor 1= - END -->
+
+
+<!-- Event Date - BEGIN -->
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/id/resource/E22_Man-Made_Object/szepmuveszeti.hu_object_29/E5_Event/1/E52_Time_Span/1">
+	<rdf:type rdf:resource="http://erlangen-crm.org/current/E52_Time_Span"/>
+	<ecrm:P79_beginning_is_qualified_by  rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1958</ecrm:P79_beginning_is_qualified_by>
+	<ecrm:P80_end_is_qualified_by  rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1958</ecrm:P80_end_is_qualified_by>
+</rdf:Description>
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/id/resource/E22_Man-Made_Object/szepmuveszeti.hu_object_29/E5_Event/1">
+	<ecrm:P4_has_time_span  rdf:resource="http://www.szepmuveszeti.hu/id/resource/E22_Man-Made_Object/szepmuveszeti.hu_object_29/E5_Event/1/E52_Time_Span/1"/>
+	<ecrm:P3_has_note  rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1958</ecrm:P3_has_note>
+</rdf:Description>
+<!-- Event Date - END -->
+
+<!-- Term Materials Tech/term - BEGIN -->
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/id/resource/E22_Man-Made_Object/szepmuveszeti.hu_object_29/E5_Event/1">
+	<ecrm:P3_has_note  rdf:datatype="http://www.w3.org/2001/XMLSchema#string" xml:lang="hu">olaj, farostlemez</ecrm:P3_has_note>
+</rdf:Description>
+<!-- Term Materials Tech/term - END -->
+<!-- ==Event 1== - END -->
+
+
+<!-- =================================ADMINISTRATIVE METADATA================================= -->
+<!-- ===Rights Work=== - BEGIN -->
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/id/resource/E22_Man-Made_Object/szepmuveszeti.hu_object_29/E30_Right/1">
+	<rdf:type rdf:resource="http://erlangen-crm.org/current/E30_Right"/>
+	<ecrm:P3_has_note  rdf:datatype="http://www.w3.org/2001/XMLSchema#string" xml:lang="hu">Copyright © Szépmuvészeti Múzeum</ecrm:P3_has_note>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/id/resource/E22_Man-Made_Object/szepmuveszeti.hu_object_29">
+	<ecrm:P104_is_subject_to  rdf:resource="http://www.szepmuveszeti.hu/id/resource/E22_Man-Made_Object/szepmuveszeti.hu_object_29/E30_Right/1"/>
+</rdf:Description>
+<!-- ===Rights Work=== - END -->
+
+
+<!-- ===Record=== - BEGIN -->
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/id/resource/E31_Document/29">
+	<rdf:type rdf:resource="http://erlangen-crm.org/current/E31_Document"/>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/id/resource/E22_Man-Made_Object/szepmuveszeti.hu_object_29">
+	<ecrm:P70B_is_documented_in  rdf:resource="http://www.szepmuveszeti.hu/id/resource/E31_Document/29"/>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/id/resource/E31_Document/29/E42_Identifier/1">
+	<rdf:type rdf:resource="http://erlangen-crm.org/current/E42_Identifier"/>
+	<ecrm:P3_has_note  rdf:datatype="http://www.w3.org/2001/XMLSchema#string">29</ecrm:P3_has_note>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/id/resource/E31_Document/29">
+	<ecrm:P48_has_preferred_identifier  rdf:resource="http://www.szepmuveszeti.hu/id/resource/E31_Document/29/E42_Identifier/1"/>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://terminology.lido-schema.org/lido00141">
+	<rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/id/resource/E31_Document/29">
+	<ecrm:P2_has_type  rdf:resource="http://terminology.lido-schema.org/lido00141"/>
+</rdf:Description>
+
+<!-- Record Source 1 - BEGIN -->
+<!-- IDOIA: instance <http://www.szepmuveszeti.hu/id/resource/E39_Actor/3> owl:sameAs  <http://www.szepmuveszeti.hu/id/resource/E39_Actor/1> -->
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/id/resource/E39_Actor/3">
+	<rdf:type rdf:resource="http://erlangen-crm.org/current/E39_Actor"/>
+</rdf:Description>
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/id/resource/E31_Document/29">
+	<ecrm:P67_refers_to  rdf:resource="http://www.szepmuveszeti.hu/id/resource/E39_Actor/3"/>
+</rdf:Description>
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/id/resource/E39_Actor/3/E82_Actor_Appellation/1">
+	<rdf:type rdf:resource="http://erlangen-crm.org/current/E82_Actor_Appellation"/>
+	<ecrm:P3_has_note  rdf:datatype="http://www.w3.org/2001/XMLSchema#string" xml:lang="hu">Szépmuvészeti Múzeum</ecrm:P3_has_note>
+	<ecrm:P3_has_note  rdf:datatype="http://www.w3.org/2001/XMLSchema#string" xml:lang="en">Museum of Fine Arts Budapest</ecrm:P3_has_note>
+</rdf:Description>
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/id/resource/E39_Actor/3">
+	<ecrm:P131_is_identified_by  rdf:resource="http://www.szepmuveszeti.hu/id/resource/E39_Actor/3/E82_Actor_Appellation/1"/>
+</rdf:Description>
+<!-- legalBodyWeblink -->
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/id/resource/E73_Information_Object/2/E75_Conceptual_Object_Appellation/1">
+	<rdf:type rdf:resource="http://erlangen-crm.org/current/E75_Conceptual_Object_Appellation"/>
+	<ecrm:P3_has_note  rdf:datatype="http://www.w3.org/2001/XMLSchema#string" xml:lang="hu">http://www.szepmuveszeti.hu</ecrm:P3_has_note>
+</rdf:Description>
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/id/resource/E73_Information_Object/2">
+	<rdf:type rdf:resource="http://erlangen-crm.org/current/E73_Information_Object"/>
+	<ecrm:P2_has_type  rdf:resource="http://www.szepmuveszeti.hu/id/resource/Concept/web_resource"/>
+	<ecrm:P149_is_identified_by  rdf:resource="http://www.szepmuveszeti.hu/id/resource/E73_Information_Object/2/E75_Conceptual_Object_Appellation/1"/>
+</rdf:Description>
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/id/resource/E39_Actor/3">
+	<ecrm:P129B_is_subject_of  rdf:resource="http://www.szepmuveszeti.hu/id/resource/E73_Information_Object/2"/>
+</rdf:Description>
+<!-- Record Source 1 - END -->
+
+<!-- Record Rights - BEGIN -->
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/id/resource/E31_Document/29/E30_Right/1">
+	<rdf:type rdf:resource="http://erlangen-crm.org/current/E30_Right"/>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/id/resource/E31_Document/29">
+	<ecrm:P104_is_subject_to  rdf:resource="http://www.szepmuveszeti.hu/id/resource/E31_Document/29/E30_Right/1"/>
+</rdf:Description>
+
+<!-- IDOIA: instance <http://www.szepmuveszeti.hu/id/resource/E39_Actor/4> owl:sameAs <http://www.szepmuveszeti.hu/id/resource/E39_Actor/3> owl:sameAs  <http://www.szepmuveszeti.hu/id/resource/E39_Actor/1> -->
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/id/resource/E39_Actor/4">
+	<rdf:type rdf:resource="http://erlangen-crm.org/current/E39_Actor"/>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/id/resource/E19_Physical_Object/H_3672/E30_Right/1">
+	<ecrm:P75B_is_possessed_by  rdf:resource="http://www.szepmuveszeti.hu/id/resource/E39_Actor/4"/>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/id/resource/E39_Actor/4/E82_Actor_Appellation/1">
+	<rdf:type rdf:resource="http://erlangen-crm.org/current/E82_Actor_Appellation"/>
+	<ecrm:P3_has_note  rdf:datatype="http://www.w3.org/2001/XMLSchema#string" xml:lang="hu">Szépmuvészeti Múzeum</ecrm:P3_has_note>
+	<ecrm:P3_has_note  rdf:datatype="http://www.w3.org/2001/XMLSchema#string" xml:lang="en">Museum of Fine Arts Budapest</ecrm:P3_has_note>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/id/resource/E39_Actor/4">
+	<ecrm:P131_is_identified_by  rdf:resource="http://www.szepmuveszeti.hu/id/resource/E39_Actor/4/E82_Actor_Appellation/1"/>
+</rdf:Description>
+<!-- legalBodyWeblink -->
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/id/resource/E73_Information_Object/3/E75_Conceptual_Object_Appellation/1">
+	<rdf:type rdf:resource="http://erlangen-crm.org/current/E75_Conceptual_Object_Appellation"/>
+	<ecrm:P3_has_note  rdf:datatype="http://www.w3.org/2001/XMLSchema#string" xml:lang="hu">http://www.szepmuveszeti.hu</ecrm:P3_has_note>
+</rdf:Description>
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/id/resource/E73_Information_Object/3">
+	<rdf:type rdf:resource="http://erlangen-crm.org/current/E73_Information_Object"/>
+	<ecrm:P2_has_type  rdf:resource="http://www.szepmuveszeti.hu/id/resource/Concept/web_resource"/>
+	<ecrm:P149_is_identified_by  rdf:resource="http://www.szepmuveszeti.hu/id/resource/E73_Information_Object/3/E75_Conceptual_Object_Appellation/1"/>
+</rdf:Description>
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/id/resource/E39_Actor/4">
+	<ecrm:P129B_is_subject_of  rdf:resource="http://www.szepmuveszeti.hu/id/resource/E73_Information_Object/3"/>
+</rdf:Description>
+<!-- Record Rights - END -->
+
+<!-- recordInfoLink - BEGIN -->
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/id/resource/Concept/object_HTML_representation">
+	<rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
+</rdf:Description>
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/id/resource/E73_Information_Object/4/E75_Conceptual_Object_Appellation/1">
+	<rdf:type rdf:resource="http://erlangen-crm.org/current/E75_Conceptual_Object_Appellation"/>
+<!-- IDOIA: This link is the HTML page to present when <http://www.szepmuveszeti.hu/id/resource/E31_Document/szepmuveszeti.hu_object_29> is accessed via Web browser -->
+	<ecrm:P3_has_note  rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://www.szepmuveszeti.hu/adatlap/29</ecrm:P3_has_note>
+</rdf:Description>
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/id/resource/E73_Information_Object/4">
+	<rdf:type rdf:resource="http://erlangen-crm.org/current/E73_Information_Object"/>
+	<ecrm:P2_has_type  rdf:resource="http://www.szepmuveszeti.hu/id/resource/Concept/object_HTML_representation"/>
+	<ecrm:P149_is_identified_by  rdf:resource="http://www.szepmuveszeti.hu/id/resource/E73_Information_Object/4/E75_Conceptual_Object_Appellation/1"/>
+</rdf:Description>
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/id/resource/E31_Document/29">
+	<ecrm:P129B_is_subject_of  rdf:resource="http://www.szepmuveszeti.hu/id/resource/E73_Information_Object/4"/>
+</rdf:Description>
+<!-- recordInfoLink - END -->
+<!-- ===Record=== - END -->
+
+
+<!-- ===Resource=== - BEGIN -->
+<!-- resourceID -->
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/id/resource/E36_Visual_Item/1">
+	<rdf:type rdf:resource="http://erlangen-crm.org/current/E36_Visual_Item"/>
+</rdf:Description>
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/id/resource/E22_Man-Made_Object/szepmuveszeti.hu_object_29">
+	<ecrm:P138i_has_representation  rdf:resource="http://www.szepmuveszeti.hu/id/resource/E36_Visual_Item/1"/>
+</rdf:Description>
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/id/resource/E36_Visual_Item/1/E42_Identifier/1">
+	<rdf:type rdf:resource="http://erlangen-crm.org/current/E42_Identifier"/>
+	<ecrm:P3_has_note  rdf:datatype="http://www.w3.org/2001/XMLSchema#string">11645</ecrm:P3_has_note>
+</rdf:Description>
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/id/resource/E36_Visual_Item/1">
+	<ecrm:P48_has_preferred_identifier  rdf:resource="http://www.szepmuveszeti.hu/id/resource/E36_Visual_Item/1/E42_Identifier/1"/>
+</rdf:Description>
+
+<!-- resourceRepresentation -->
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/id/resource/E73_Information_Object/5/E75_Conceptual_Object_Appellation/1">
+	<rdf:type rdf:resource="http://erlangen-crm.org/current/E75_Conceptual_Object_Appellation"/>
+	<ecrm:P3_has_note  rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://www.szepmuveszeti.hu/data/mutargykepek/1/1645/11645.jpg</ecrm:P3_has_note>
+</rdf:Description>
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/id/resource/E73_Information_Object/5">
+	<rdf:type rdf:resource="http://erlangen-crm.org/current/E73_Information_Object"/>
+	<ecrm:P2_has_type  rdf:resource="http://www.szepmuveszeti.hu/id/resource/Concept/web_resource"/>
+	<ecrm:P149_is_identified_by  rdf:resource="http://www.szepmuveszeti.hu/id/resource/E73_Information_Object/5/E75_Conceptual_Object_Appellation/1"/>
+</rdf:Description>
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/id/resource/E36_Visual_Item/1">
+	<ecrm:P129B_is_subject_of  rdf:resource="http://www.szepmuveszeti.hu/id/resource/E73_Information_Object/5"/>
+</rdf:Description>
+
+<!-- resourceType -->
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/id/resource/Concept/digital_image">
+	<rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
+</rdf:Description>
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/id/resource/E36_Visual_Item/1">
+	<ecrm:P2_has_type  rdf:resource="http://www.szepmuveszeti.hu/id/resource/Concept/digital_image"/>
+</rdf:Description>
+
+<!-- rightsResource -->
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/id/resource/E36_Visual_Item/1/E30_Right/1">
+	<rdf:type rdf:resource="http://erlangen-crm.org/current/E30_Right"/>
+	<ecrm:P3_has_note  rdf:datatype="http://www.w3.org/2001/XMLSchema#string" xml:lang="hu">Copyright © Szépmuvészeti Múzeum</ecrm:P3_has_note>
+</rdf:Description>
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/id/resource/E36_Visual_Item/1">
+	<ecrm:P104_is_subject_to  rdf:resource="http://www.szepmuveszeti.hu/id/resource/E36_Visual_Item/1/E30_Right/1"/>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/id/resource/E55_Type/Creative_Commons_(BY-NC-ND)">
+	<rdf:type rdf:resource="http://erlangen-crm.org/current/E55_Type"/>
+</rdf:Description>
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/id/resource/E36_Visual_Item/1/E30_Right/1">
+	<ecrm:P2_has_type  rdf:resource="http://www.szepmuveszeti.hu/id/resource/E55_Type/Creative_Commons_(BY-NC-ND)"/>
+</rdf:Description>
+<!-- Copyright link -->
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/id/resource/E73_Information_Object/6/E75_Conceptual_Object_Appellation/1">
+	<rdf:type rdf:resource="http://erlangen-crm.org/current/E75_Conceptual_Object_Appellation"/>
+	<ecrm:P3_has_note  rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://creativecommons.org/licenses/by-nc-nd/4.0/</ecrm:P3_has_note>
+</rdf:Description>
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/id/resource/E73_Information_Object/6">
+	<rdf:type rdf:resource="http://erlangen-crm.org/current/E73_Information_Object"/>
+	<ecrm:P2_has_type  rdf:resource="http://www.szepmuveszeti.hu/id/resource/Concept/web_resource"/>
+	<ecrm:P149_is_identified_by  rdf:resource="http://www.szepmuveszeti.hu/id/resource/E73_Information_Object/6/E75_Conceptual_Object_Appellation/1"/>
+</rdf:Description>
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/id/resource/E36_Visual_Item/1/E30_Right/1">
+	<ecrm:P129B_is_subject_of  rdf:resource="http://www.szepmuveszeti.hu/id/resource/E73_Information_Object/6"/>
+</rdf:Description>
+
+
+<!-- IDOIA: instance <http://www.szepmuveszeti.hu/id/resource/E39_Actor/5> owl:sameAs <http://www.szepmuveszeti.hu/id/resource/E39_Actor/4> owl:sameAs <http://www.szepmuveszeti.hu/id/resource/E39_Actor/3> owl:sameAs  <http://www.szepmuveszeti.hu/id/resource/E39_Actor/1> -->
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/id/resource/E39_Actor/5">
+	<rdf:type rdf:resource="http://erlangen-crm.org/current/E39_Actor"/>
+</rdf:Description>
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/id/resource/E36_Visual_Item/1/E30_Right/1">
+	<ecrm:P75B_is_possessed_by  rdf:resource="http://www.szepmuveszeti.hu/id/resource/E39_Actor/5"/>
+</rdf:Description>
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/id/resource/E39_Actor/5/E82_Actor_Appellation/1">
+	<rdf:type rdf:resource="http://erlangen-crm.org/current/E82_Actor_Appellation"/>
+	<ecrm:P3_has_note  rdf:datatype="http://www.w3.org/2001/XMLSchema#string" xml:lang="hu">Szépmuvészeti Múzeum</ecrm:P3_has_note>
+	<ecrm:P3_has_note  rdf:datatype="http://www.w3.org/2001/XMLSchema#string" xml:lang="en">Museum of Fine Arts Budapest</ecrm:P3_has_note>
+</rdf:Description>
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/id/resource/E39_Actor/5">
+	<ecrm:P131_is_identified_by  rdf:resource="http://www.szepmuveszeti.hu/id/resource/E39_Actor/5/E82_Actor_Appellation/1"/>
+</rdf:Description>
+<!-- legalBodyWeblink -->
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/id/resource/E73_Information_Object/7/E75_Conceptual_Object_Appellation/1">
+	<rdf:type rdf:resource="http://erlangen-crm.org/current/E75_Conceptual_Object_Appellation"/>
+	<ecrm:P3_has_note  rdf:datatype="http://www.w3.org/2001/XMLSchema#string" xml:lang="hu">http://www.szepmuveszeti.hu</ecrm:P3_has_note>
+</rdf:Description>
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/id/resource/E73_Information_Object/7">
+	<rdf:type rdf:resource="http://erlangen-crm.org/current/E73_Information_Object"/>
+	<ecrm:P2_has_type  rdf:resource="http://www.szepmuveszeti.hu/id/resource/Concept/web_resource"/>
+	<ecrm:P149_is_identified_by  rdf:resource="http://www.szepmuveszeti.hu/id/resource/E73_Information_Object/7/E75_Conceptual_Object_Appellation/1"/>
+</rdf:Description>
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/id/resource/E39_Actor/5">
+	<ecrm:P129B_is_subject_of  rdf:resource="http://www.szepmuveszeti.hu/id/resource/E73_Information_Object/7"/>
+</rdf:Description>
+
+<!-- ===Resource=== - END -->
+	
+</rdf:RDF>
+
