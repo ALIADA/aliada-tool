@@ -4,6 +4,6 @@
 // Component: aliada-rdfizer
 // Responsible: ALIADA Consortium
 /**
- * LIDO format managing components.
+ * Generic XML format managing components.
  */
-package eu.aliada.rdfizer.pipeline.format.lido;
+package eu.aliada.rdfizer.pipeline.format.xml;

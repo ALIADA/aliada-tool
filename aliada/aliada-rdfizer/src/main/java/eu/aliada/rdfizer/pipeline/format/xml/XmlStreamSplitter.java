@@ -3,7 +3,7 @@
 //
 // Component: aliada-rdfizer
 // Responsible: ALIADA Consortiums
-package eu.aliada.rdfizer.pipeline.format.lido;
+package eu.aliada.rdfizer.pipeline.format.xml;
 
 import java.io.BufferedWriter;
 import java.io.InputStream;
@@ -32,8 +32,8 @@ import eu.aliada.shared.log.Log;
  * @author Andrea Gazzarini
  * @since 1.0
  */
-public class LidoStreamSplitter implements StreamSplitter<RecordChunk<String, String>> {
-	private Log log = new Log(LidoStreamSplitter.class);
+public class XmlStreamSplitter implements StreamSplitter<RecordChunk<String, String>> {
+	private Log log = new Log(XmlStreamSplitter.class);
 	private ProducerTemplate producer;
 	private InputStream stream;
 	private XMLEventReader reader;

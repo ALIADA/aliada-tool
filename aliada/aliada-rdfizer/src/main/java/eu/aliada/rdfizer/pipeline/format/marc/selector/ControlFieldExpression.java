@@ -34,6 +34,11 @@ public class ControlFieldExpression implements Expression<String> {
 			final ControlField field = (ControlField) target.getVariableField(fieldSpecs);
 			return (field != null) ? field.getData() : null;
 		}
+
+		@Override
+		public String specs() {
+			throw new UnsupportedOperationException();
+		}
 	};
 
 	private final Expression<String> partialSelector = new Expression<String>() {
@@ -53,8 +58,14 @@ public class ControlFieldExpression implements Expression<String> {
 			
 			return data.substring(startIndex, endIndex);
 		}
+		
+		@Override
+		public String specs() {
+			throw new UnsupportedOperationException();
+		}
 	};
 
+	private final String specs;
 	private final String fieldSpecs;
 	private int startIndex;
 	private int endIndex;
@@ -107,10 +118,16 @@ public class ControlFieldExpression implements Expression<String> {
 			fieldSpecs = specs.trim();
 			currentState = fullSelector;
 		}
+		this.specs = specs;
 	}
 	
 	@Override
 	public String evaluate(final Record target) {
 		return currentState.evaluate(target);
+	}
+	
+	@Override
+	public String specs() {
+		return specs;
 	}
 }

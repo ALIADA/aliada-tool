@@ -29,4 +29,11 @@ public interface Expression<T> {
 	 * @return the evaluation of this expression as a string (null in case of empty evaluation).
 	 */
 	T evaluate(final Record target);
+	
+	/**
+	 * Returns a string representation of the specs associated with this expression.
+	 * 
+	 * @return a string representation of the specs associated with this expression.
+	 */
+	String specs();
 }

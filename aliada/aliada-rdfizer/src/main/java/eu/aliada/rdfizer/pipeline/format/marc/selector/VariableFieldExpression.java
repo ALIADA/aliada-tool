@@ -48,6 +48,7 @@ public class VariableFieldExpression implements Expression<String> {
 	private final String fieldNumber;
 	private final char subfieldCode;
 	
+	private final String specs;
 	private final boolean hasIndicatorPattern;
 	private char firstIndicatorPattern;
 	private char secondIndicatorPattern;
@@ -88,6 +89,7 @@ public class VariableFieldExpression implements Expression<String> {
 			subfieldCode = specs.charAt(specs.trim().length() - 1);			
 			hasIndicatorPattern = false;
 		}
+		this.specs = specs;
 	}
 	
 	@Override
@@ -122,6 +124,11 @@ public class VariableFieldExpression implements Expression<String> {
 		return null;
 	}
 	
+	@Override
+	public String specs() {
+		return specs;
+	}
+
 	/**
 	 * Returns true if the given pattern matches the given indicator.
 	 * 
