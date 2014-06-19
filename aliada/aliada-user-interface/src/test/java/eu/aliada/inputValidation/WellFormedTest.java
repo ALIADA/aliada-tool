@@ -23,8 +23,10 @@ public class WellFormedTest extends TestCase{
         WellFormed wf = new WellFormed();
         //LIDO
         //boolean result = wf.isWellFormedXML("src/test/resources/lido/lido_elGreco.xml");
-        //MARC
-        boolean result = wf.isWellFormedXML("src/test/resources/marc/marc_comic.xml");
+        //MARC bib
+        //boolean result = wf.isWellFormedXML("src/test/resources/marc/marc_bib.xml");
+        //MARC aut
+        boolean result = wf.isWellFormedXML("src/test/resources/marc/marc_aut.xml");
         if (result) {
             log.info("BIEN");
         } else {
