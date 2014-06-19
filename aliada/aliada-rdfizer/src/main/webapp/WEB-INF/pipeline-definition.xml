@@ -41,9 +41,12 @@
 				<process ref="lido-records-splitter"/>
 			</when>
 			<when>
-			    <simple>${header.format} == 'marcxml'</simple>
-				<process ref="marcxml-records-splitter"/>
-			</when>	
+				<simple>${in.header.format} == 'marcxml'</simple>
+				 <split streaming="true">
+					<tokenize token="record" xml="true" />
+					<to uri="seda:marcxml-record-channel?concurrentConsumers=2&amp;size=1000&amp;blockWhenFull=true" />
+				 </split>
+			</when>
 			<otherwise>
 				<log message="&lt;RDF-IZER-00023> : Unsupported format has been detected in input datafile." loggingLevel="ERROR" logName="eu.aliada.pipeline"/>			    
 			</otherwise>		
