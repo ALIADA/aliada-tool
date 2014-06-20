@@ -26,8 +26,11 @@ public class XMLValidationTest extends TestCase {
                 //LIDO
                 //xmlVal.isValidatedXMLFile("src/test/resources/lido/lido_mFBA.xml",
                 //"src/main/webapp/WEB-INF/xmlValidators/lido-v1.0.xsd");
-                //MARC
-                xmlVal.isValidatedXMLFile("src/test/resources/marc/marc_comic.xml",
+                //MARC bib
+                //xmlVal.isValidatedXMLFile("src/test/resources/marc/marc_bib.xml",
+                //"src/main/webapp/WEB-INF/xmlValidators/MARC21slim.xsd");
+                //MARC aut
+                xmlVal.isValidatedXMLFile("src/test/resources/marc/marc_aut.xml",
                 "src/main/webapp/WEB-INF/xmlValidators/MARC21slim.xsd");
         if (result) {
             log.info("BIEN");
