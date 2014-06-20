@@ -4,6 +4,6 @@
 // Component: aliada-rdfizer
 // Responsible: ALIADA Consortium
 /**
- * RDF-izer pipeline processors involved in parallel conversion (by means of record chunks).
+ * LIDO format managing components.
  */
-package eu.aliada.rdfizer.pipeline.parallel;
+package eu.aliada.rdfizer.pipeline.format.lido;

@@ -15,7 +15,7 @@
 		<module.context.root>/rdfizer</module.context.root>
 		<module.listen.port>8891</module.listen.port>
 		<spring-framework.version>3.2.9.RELEASE</spring-framework.version>
-		<camel.version>2.11.1</camel.version>
+		<camel.version>2.13.1</camel.version>
 	</properties>
 	<repositories>
 		<repository>

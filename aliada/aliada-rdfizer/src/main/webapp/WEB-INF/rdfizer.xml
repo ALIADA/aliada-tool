@@ -44,7 +44,7 @@
 	<import resource="pipeline-definition.xml" />
 	
 	<!-- Supported formats (with their specific settings) -->
-	<import resource="marc-settings.xml" />
+<!-- 	<import resource="marc-settings.xml" /> -->
 	<import resource="lido-settings.xml" />
 	
 	 <!-- 

@@ -1,32 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
 	xsi:schemaLocation="  
        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
        http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd">
-	
+
 	<bean id="startup_listener" class="eu.aliada.rdfizer.listeners.PipelineStartupListener" />
-	<bean id="shutdown_listener" class="eu.aliada.rdfizer.listeners.PipelineShutdownListener"/>
-	<bean id="marcxml-records-splitter" class="eu.aliada.rdfizer.pipeline.common.RecordSplitter"/>
-	<bean id="lido-records-splitter" class="eu.aliada.rdfizer.pipeline.common.RecordSplitter"/>
-		
-	<camelContext xmlns="http://camel.apache.org/schema/spring">
-		<template id="marcxml-records-producer" defaultEndpoint="seda:marcxml-record-channel?concurrentConsumers=2&amp;size=1000&amp;blockWhenFull=true"/>	
-		<template id="lido-records-producer" defaultEndpoint="seda:lido-record-channel?concurrentConsumers=2&amp;size=1000&amp;blockWhenFull=true"/>	
+	<bean id="shutdown_listener" class="eu.aliada.rdfizer.listeners.PipelineShutdownListener" />
+	<bean id="xml-document-translator" class="eu.aliada.rdfizer.pipeline.format.xml.SynchXmlDocumentTranslator">
+		<constructor-arg value="lido"/>
+	</bean>
+	<bean id="debugger" class="eu.aliada.rdfizer.pipeline.common.JustDebug"/> 
+
+	<camelContext xmlns="http://camel.apache.org/schema/spring" trace="true" >
 		<route>
-			<from uri="file:{{lido.input.dir}}?move=.done/${date:now:yyyyMMdd}/${file:name.noext}-${date:now:HHmmss}.${file:ext}&amp;preMove=.working&amp;recursive=false" />
-		    <setHeader headerName="format">
+			<from uri="file:{{lido.input.dir}}?move=../.done&amp;preMove=.working" />
+			<setHeader headerName="format">
 				<constant>lido</constant>
-		    </setHeader>
+			</setHeader>
 			<to uri="direct:sanity-check-channel" />
 		</route>
 		<route>
-			<from uri="file:{{marcxml.input.dir}}?move=.done/${date:now:yyyyMMdd}/${file:name.noext}-${date:now:HHmmss}.${file:ext}&amp;preMove=.working&amp;recursive=false" />
-		    <setHeader headerName="format">
+			<from uri="file:{{marcxml.input.dir}}?move=../.done&amp;preMove=.working" />
+			<setHeader headerName="format">
 				<constant>marcxml</constant>
-		    </setHeader>
+			</setHeader>
 			<to uri="direct:sanity-check-channel" />
 		</route>
 		<route>
@@ -36,32 +35,38 @@
 		</route>
 		<route>
 			<from uri="direct:records-channel" />
-			<when>
-			    <simple>${header.format} == 'lido'</simple>
-				<process ref="lido-records-splitter"/>
-			</when>
-			<when>
-			    <simple>${header.format} == 'marcxml'</simple>
-				<process ref="marcxml-records-splitter"/>
-			</when>	
-			<otherwise>
-				<log message="&lt;RDF-IZER-00023> : Unsupported format has been detected in input datafile." loggingLevel="ERROR" logName="eu.aliada.pipeline"/>			    
-			</otherwise>		
+			<choice>
+				<when>
+					<simple>${header.format} == 'lido'</simple>
+					<split streaming="true">
+						<tokenize token="lido" xml="true" />
+						<to uri="seda:lido-record-channel?concurrentConsumers=2&amp;size=1000&amp;blockWhenFull=true" />
+					</split>
+				</when>
+				<when>
+					<simple>${header.format} == 'marcxml'</simple>
+				</when>
+				<otherwise>
+					<log
+						message="&lt;RDF-IZER-00023> : Unsupported format has been detected in input datafile."
+						loggingLevel="ERROR" logName="eu.aliada.pipeline" />
+				</otherwise>
+			</choice>	
 		</route>
 		<route>
-			<from uri="seda:marcxml-record-channel?concurrentConsumers=2&amp;size=1000&amp;blockWhenFull=true" /> 
+			<from
+				uri="seda:marcxml-record-channel?concurrentConsumers=2&amp;size=1000&amp;blockWhenFull=true" />
 			<!-- TODO MARCXML format conversion rules engine -->
 			<to uri="seda:triples-channel?size=2500&amp;blockWhenFull=true" />
 		</route>
 		<route>
-			<from uri="seda:lido-record-channel?concurrentConsumers=2&amp;size=1000&amp;blockWhenFull=true" /> 
-			<!-- TODO LIDO format conversion rules engine -->
-			<to uri="stream:out"/>
-			<!--  <to uri="seda:triples-channel?size=2500&amp;blockWhenFull=true" /> -->
+			<from uri="seda:lido-record-channel?concurrentConsumers=2&amp;size=1000&amp;blockWhenFull=true" />
+			<process ref="xml-document-translator"/>
+			<to uri="seda:triples-channel?size=2500&amp;blockWhenFull=true" />
 		</route>
 		<route>
 			<from uri="seda:triples-channel?size=2500&amp;blockWhenFull=true" />
-	  		<to uri="stream:out"/>
-		</route>	
+			<process ref="debugger"/>
+		</route>
 	</camelContext>
 </beans>

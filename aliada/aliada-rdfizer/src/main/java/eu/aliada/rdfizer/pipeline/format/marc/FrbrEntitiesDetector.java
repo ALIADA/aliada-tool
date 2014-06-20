@@ -8,10 +8,7 @@ package eu.aliada.rdfizer.pipeline.format.marc;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.marc4j.marc.Record;
-import org.springframework.beans.factory.annotation.Autowired;
 
-import eu.aliada.rdfizer.pipeline.common.RecordSplitter;
-import eu.aliada.rdfizer.pipeline.format.marc.selector.FirstMatch;
 import eu.aliada.shared.log.Log;
 
 /**
@@ -21,10 +18,8 @@ import eu.aliada.shared.log.Log;
  * @since 1.0
  */
 public class FrbrEntitiesDetector implements Processor {
-	private Log log = new Log(RecordSplitter.class);
+	private Log log = new Log(FrbrEntitiesDetector.class);
 
-	@Autowired
-	private FirstMatch workDetectionExpression;
 	
 	// TODO: JMX per entità individuate e "mancate"
 	

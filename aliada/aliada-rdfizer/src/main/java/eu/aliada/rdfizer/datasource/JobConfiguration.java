@@ -33,6 +33,9 @@ public class JobConfiguration {
     @Column(name = "DATAFILE", nullable = false)
     private String datafile;
 
+    @Column(name = "NAMESPACE", nullable = false)
+    private String namespace;
+    
     /**
      * Returns the identifier of this job configuration.
      * 
@@ -86,4 +89,22 @@ public class JobConfiguration {
 	public void setDatafile(final String datafile) {
 		this.datafile = datafile;
 	}
+	
+    /**
+     * Returns the namespace of this job configuration.
+     * 
+     * @return the namespace of this job configuration.
+     */
+	public String getNamespace() {
+		return namespace;
+	}
+
+	/**
+	 * Sets the namespace of this job configuration.
+	 * 
+	 * @param namespace the datafile of this job configuration.
+	 */
+	public void setNamespace(final String namespace) {
+		this.namespace = namespace;
+	}	
 }

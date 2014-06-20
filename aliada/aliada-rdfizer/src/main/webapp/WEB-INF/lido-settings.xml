@@ -5,7 +5,21 @@
 	xsi:schemaLocation="  
        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd">
-	<bean id="lido-stream-splitter" class="eu.aliada.rdfizer.pipeline.format.xml.XmlStreamSplitter">
-		<property name="producer" ref="lido-records-producer"/>
+       
+	<bean id="subject-detection-rule" class="eu.aliada.rdfizer.pipeline.format.lido.SubjectDetectionRule" scope="prototype">
+		<constructor-arg value="lido/lidoRecID | lido/category"/>
+	</bean>
+	
+	<bean id="LidoRecID" class="eu.aliada.rdfizer.pipeline.format.lido.LidoRecIDRule" scope="prototype">
+		<constructor-arg value="lido/lidoRecID/text()"/>
+	</bean>
+	
+	<bean id="lido-registry" class="eu.aliada.rdfizer.pipeline.rules.Registry" scope="prototype">
+		<constructor-arg ref="subject-detection-rule"/>
+		<constructor-arg>
+			<list>
+				<ref local="LidoRecID"/>
+			</list>
+		</constructor-arg>
 	</bean>
 </beans>
