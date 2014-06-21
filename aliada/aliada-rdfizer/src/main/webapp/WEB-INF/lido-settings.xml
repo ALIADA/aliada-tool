@@ -10,15 +10,41 @@
 		<constructor-arg value="lido/lidoRecID | lido/category"/>
 	</bean>
 	
-	<bean id="LidoRecID" class="eu.aliada.rdfizer.pipeline.format.lido.LidoRecIDRule" scope="prototype">
+	<bean id="lidoRecID" class="eu.aliada.rdfizer.pipeline.format.lido.LidoRecIDRule" scope="prototype">
 		<constructor-arg value="lido/lidoRecID/text()"/>
 	</bean>
+	
+	<bean id="category" class="eu.aliada.rdfizer.pipeline.format.lido.SPOR" scope="prototype">
+		<constructor-arg value="lido/category/conceptID"/>
+		<constructor-arg value="http://www.w3.org/1999/02/22-rdf-syntax-ns#type"/>
+		<constructor-arg value="http://www.w3.org/2004/02/skos/core#Concept"/>	
+		<constructor-arg value="http://erlangen-crm.org/current/P2_has_type"/>	
+	</bean>
+	
+	<bean id="workType" class="eu.aliada.rdfizer.pipeline.format.lido.LocalNamePOR" scope="prototype">
+		<constructor-arg value="lido/descriptiveMetadata/objectClassificationWrap/objectWorkTypeWrap/objectWorkType/term"/>
+		<constructor-arg value="http://www.szepmuveszeti.hu/id/resource/Concept/"/>
+		<constructor-arg value="http://www.w3.org/1999/02/22-rdf-syntax-ns#type"/>
+		<constructor-arg value="http://www.w3.org/2004/02/skos/core#Concept"/>	
+		<constructor-arg value="http://erlangen-crm.org/current/P2_has_type"/>	
+	</bean>
+	
+	<bean id="classification" class="eu.aliada.rdfizer.pipeline.format.lido.LocalNamePOR" scope="prototype">
+		<constructor-arg value="lido/descriptiveMetadata/objectClassificationWrap/classificationWrap/classification/term"/>
+		<constructor-arg value="http://www.szepmuveszeti.hu/id/resource/Concept/"/>
+		<constructor-arg value="http://www.w3.org/1999/02/22-rdf-syntax-ns#type"/>
+		<constructor-arg value="http://www.w3.org/2004/02/skos/core#Concept"/>	
+		<constructor-arg value="http://erlangen-crm.org/current/P2_has_type"/>	
+	</bean>	
 	
 	<bean id="lido-registry" class="eu.aliada.rdfizer.pipeline.rules.Registry" scope="prototype">
 		<constructor-arg ref="subject-detection-rule"/>
 		<constructor-arg>
 			<list>
-				<ref local="LidoRecID"/>
+				<ref local="lidoRecID"/>
+				<ref local="category"/>
+				<ref local="workType"/>
+				<ref local="classification"/>
 			</list>
 		</constructor-arg>
 	</bean>

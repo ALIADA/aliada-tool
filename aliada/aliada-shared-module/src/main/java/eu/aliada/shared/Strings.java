@@ -5,6 +5,9 @@
 // Responsible: ALIADA Consortiums
 package eu.aliada.shared;
 
+import java.text.Normalizer;
+import java.text.Normalizer.Form;
+
 /**
  * Strings Booch utility.
  * 
@@ -32,4 +35,18 @@ public abstract class Strings {
 	public static boolean isNullOrEmpty(final String value) {
 		return value == null || value.trim().length() == 0;
 	}	
+	
+	/**
+	 * Converts the given value to a string that can be used as local name in URIs.
+	 * Basically it will normalize diacritics and replace spaces with underscores.
+	 * 
+	 * @param value the source string.
+	 * @return a string that can be used as local name in URIs.
+	 */
+	public static String toURILocalName(final String value) {
+		   return value == null ? null
+			        : Normalizer.normalize(value, Form.NFD)
+			            .replaceAll("\\p{InCombiningDiacriticalMarks}+", "")
+			            .replaceAll(" ", "_");
+	}
 }

@@ -1,0 +1,59 @@
+## RECORD ID BEGIN
+#set($recid = $xpath.value("lido/lidoRecID/text()",$root))
+#set($appellation_s = "#prefix/E41Appellation/#newId")
+##
+<$appellation_s> <#rdf("type")> <#ecrm("E41Appellation")> .
+<$appellation_s> <#ecrm("P3_has_note")> "$recid" .
+##
+#set($document_s = "#prefix/E31_Document/#newId")
+<$document_s> <#rdf("type")> <#ecrm("E31_Document")> . 
+<$document_s> <#ecrm("P1_is_identified_by")> <$appellation_s> . 
+##
+<$tls> <#ecrm("P70i_is_documented_in")> <$document_s> .
+## RECORD ID END
+## CATEGORY BEGIN
+#set($categories = $xpath.many("lido/category/conceptID/text()",$root))
+#foreach($category in $categories)
+<$category.textContent> <#rdf("type")> <http://www.w3.org/2004/02/skos/core#Concept> .
+<$tls> <#ecrm("P2_has_type")> <$category> .
+#end
+## CATEGORY END
+## WORK TYPE BEGIN
+#set($workTypes = $xpath.many("lido/descriptiveMetadata/objectClassificationWrap/objectWorkTypeWrap/objectWorkType/term",$root))
+#foreach($workType in $workTypes)
+	#set($s = "<#prefix/Concept/#normalize($workType.textContent)>")
+$s <#rdf("type")> <http://www.w3.org/2004/02/skos/core#Concept> .
+<$tls> <#ecrm("P2_has_type")> $s .
+#end
+## WORK TYPE END
+## CLASSIFICATION BEGIN
+#set($classifications = $xpath.many("lido/descriptiveMetadata/objectClassificationWrap/classificationWrap/classification/term",$root))
+#foreach($classification in $classifications)
+	#set($s = "<#prefix/Concept/#normalize($classification.textContent)>")
+$s <#rdf("type")> <http://www.w3.org/2004/02/skos/core#Concept> .
+<$tls> <#ecrm("P2_has_type")> $s .
+#end
+## CLASSIFICATION END
+## OBJECT ID BEGIN
+#set($titles = $xpath.many("lido/descriptiveMetadata/objectIdentificationWrap/titleWrap/titleSet/appellationValue",$root))
+#foreach($title in $titles)
+	#set($appellation_s = "#prefix/E41Appellation/#newId")
+<$appellation_s> <#rdf("type")> <#ecrm("E41Appellation")> .
+<$appellation_s> <#ecrm("P3_has_note")> "$title.textContent" .
+#end	
+## OBJECT ID END
+## REPOSITORY BEGIN
+## REPOSITORY WEBLINK BEGIN
+#set($weblink = $xpath.one("lido/descriptiveMetadata/objectIdentificationWrap/repositoryWrap/repositorySet/repositoryName/legalBodyWeblink",$root))
+#set($web_resource_s = "<#prefix/Concept/web_resource>")
+#set($conceptual_appellation_s = "#prefix/E75_Conceptual_Object_Appellation/#newId")
+#set($information_object_s = "#prefix/E73_Information_Object/#newId")
+$web_resource_s <#rdf("type")> <http://www.w3.org/2004/02/skos/core#Concept> .
+<$conceptual_appellation_s> <#rdf("type")> <#ecrm("E75_Conceptual_Object_Appellation")> .
+<$conceptual_appellation_s> <#ecrm("P3_has_note")> "$weblink.textContent" .
+<$information_object_s> <#rdf("type")> <#ecrm("E73_Information_Object")> .
+<$information_object_s> <#ecrm("P2_has_type")> $web_resource_s . 
+<$information_object_s> <#ecrn("P149_is_identified_by")> <$conceptual_appellation_s> . 
+## REPOSITORY WEBLINK END
+
+## REPOSITORY END

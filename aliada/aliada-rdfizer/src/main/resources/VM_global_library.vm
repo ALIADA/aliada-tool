@@ -1,0 +1,12 @@
+#macro (prefix)$configuration.prefix#end	
+
+#macro (value $expression)$xpath.val($expression,$root)#end
+	
+#macro (newId)$function.id#end
+#macro (normalize $v)$function.normalize($v)#end
+
+#macro (owl $v)http://www.w3.org/2002/07/owl#$v#end
+#macro (rdf $v)http://www.w3.org/1999/02/22-rdf-syntax-ns#$v#end
+#macro (rdfs $v)http://www.w3.org/2000/01/rdf-schema#$v#end
+#macro (ecrm $v)http://erlangen-crm.org/current/$v#end
+	

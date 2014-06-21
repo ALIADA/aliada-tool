@@ -24,6 +24,7 @@ import eu.aliada.rdfizer.pipeline.rules.XPathBasedRule;
  * @author Andrea Gazzarini
  * @since 1.0
  */
+// TODO: DRAFT!
 public class SubjectDetectionRule extends XPathBasedRule<Node> {
 //	private final XPathExpression idExpression = compile("lidoRecID/text()");
 //	private final XPathExpression categoryExpression = compile("/lidoRecID/text()");

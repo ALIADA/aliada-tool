@@ -27,6 +27,7 @@ import eu.aliada.shared.ID;
  * @author Andrea Gazzarini
  * @since 1.0
  */
+// TODO: HARDCODED URIs
 public class LidoRecIDRule extends XPathBasedRule<List<Triple>> {
 	
 	private static final Resource E31_DOCUMENT = new Resource("http://erlangen-crm.org/current/E31_Document");
