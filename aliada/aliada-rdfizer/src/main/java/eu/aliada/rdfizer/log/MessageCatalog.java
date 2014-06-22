@@ -36,4 +36,5 @@ public interface MessageCatalog {
 	String _00033_UNSUPPORTED_FORMAT = LT + MODULE_NAME + "-00033> : Unsupported format (%s) detected for job %s.";		
 	String _00034_NWS_SYSTEM_INTERNAL_FAILURE = LT + MODULE_NAME + "-00034> : System internal failure. See below for further details.";
 	String _00035_XPATH_COMPILATION_FAILURE = LT + MODULE_NAME + "-00035> : Unable to compile XPATH expression (%s).";
+	String _00036_UNSUPPORTED_INPUT_ENCODING = LT + MODULE_NAME + "-00036> : Unsupported input encoding (%s) in template (%s) processing request.";	
 }

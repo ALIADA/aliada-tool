@@ -1,7 +1,8 @@
 #macro (prefix)$configuration.prefix#end	
 
 #macro (value $expression)$xpath.val($expression,$root)#end
-	
+
+#macro (new_n3_uri $kind)<#prefix/$kind/#newId>#end
 #macro (newId)$function.id#end
 #macro (normalize $v)$function.normalize($v)#end
 
@@ -9,4 +10,5 @@
 #macro (rdf $v)http://www.w3.org/1999/02/22-rdf-syntax-ns#$v#end
 #macro (rdfs $v)http://www.w3.org/2000/01/rdf-schema#$v#end
 #macro (ecrm $v)http://erlangen-crm.org/current/$v#end
-	
+#macro (wgs $v)http://www.w3.org/2003/01/geo/wgs84_pos#$v#end
+#macro (skos $v)http://www.w3.org/2004/02/skos/core#$v#end
