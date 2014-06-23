@@ -427,21 +427,17 @@
 <!-- Record Rights - END -->
 
 <!-- recordInfoLink - BEGIN -->
-<rdf:Description rdf:about="http://www.szepmuveszeti.hu/id/resource/Concept/object_HTML_representation">
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/id/resource/Concept/HTMLrepresentation">
 	<rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
 </rdf:Description>
-<rdf:Description rdf:about="http://www.szepmuveszeti.hu/id/resource/E73_Information_Object/4/E75_Conceptual_Object_Appellation/1">
-	<rdf:type rdf:resource="http://erlangen-crm.org/current/E75_Conceptual_Object_Appellation"/>
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/id/resource/E36_Visual_Item/1">
+	<rdf:type rdf:resource="http://erlangen-crm.org/current/E36_Visual_Item"/>
+	<ecrm:P2_has_type  rdf:resource="http://www.szepmuveszeti.hu/id/resource/Concept/HTMLrepresentation"/>
 <!-- IDOIA: This link is the HTML page to present when <http://www.szepmuveszeti.hu/id/resource/E31_Document/szepmuveszeti.hu_object_29> is accessed via Web browser -->
 	<ecrm:P3_has_note  rdf:datatype="http://www.w3.org/2001/XMLSchema#string">http://www.szepmuveszeti.hu/adatlap/29</ecrm:P3_has_note>
 </rdf:Description>
-<rdf:Description rdf:about="http://www.szepmuveszeti.hu/id/resource/E73_Information_Object/4">
-	<rdf:type rdf:resource="http://erlangen-crm.org/current/E73_Information_Object"/>
-	<ecrm:P2_has_type  rdf:resource="http://www.szepmuveszeti.hu/id/resource/Concept/object_HTML_representation"/>
-	<ecrm:P149_is_identified_by  rdf:resource="http://www.szepmuveszeti.hu/id/resource/E73_Information_Object/4/E75_Conceptual_Object_Appellation/1"/>
-</rdf:Description>
-<rdf:Description rdf:about="http://www.szepmuveszeti.hu/id/resource/E31_Document/29">
-	<ecrm:P129B_is_subject_of  rdf:resource="http://www.szepmuveszeti.hu/id/resource/E73_Information_Object/4"/>
+<rdf:Description rdf:about="http://www.szepmuveszeti.hu/id/resource/E22_Man-Made_Object/szepmuveszeti.hu_object_29">
+	<ecrm:P138i_has_representation  rdf:resource="http://www.szepmuveszeti.hu/id/resource/E36_Visual_Item/1"/>
 </rdf:Description>
 <!-- recordInfoLink - END -->
 <!-- ===Record=== - END -->
