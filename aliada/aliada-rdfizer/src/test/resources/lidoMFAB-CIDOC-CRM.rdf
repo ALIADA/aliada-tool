@@ -273,12 +273,12 @@
 </rdf:Description>
 <rdf:Description rdf:about="http://www.szepmuveszeti.hu/id/resource/E39_Actor/2/E5_Event/1/E52_Time_Span/1">
 	<rdf:type rdf:resource="http://erlangen-crm.org/current/E52_Time_Span"/>
-	<ecrm:P2_has_type  rdf:resource="http://www.szepmuveszeti.hu/id/resource/Concept/Existance"/>
 	<ecrm:P79_beginning_is_qualified_by  rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1888</ecrm:P79_beginning_is_qualified_by>
 	<ecrm:P80_end_is_qualified_by  rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1976</ecrm:P80_end_is_qualified_by>
 </rdf:Description>
 <rdf:Description rdf:about="http://www.szepmuveszeti.hu/id/resource/E39_Actor/2/E5_Event/1">
 	<rdf:type rdf:resource="http://erlangen-crm.org/current/E5_Event"/>
+	<ecrm:P2_has_type  rdf:resource="http://www.szepmuveszeti.hu/id/resource/Concept/Existance"/>
 	<ecrm:P4_has_time_span  rdf:resource="http://www.szepmuveszeti.hu/id/resource/E39_Actor/2/E5_Event/1/E52_Time_Span/1"/>
 </rdf:Description>
 <rdf:Description rdf:about="http://www.szepmuveszeti.hu/id/resource/E39_Actor/2">
