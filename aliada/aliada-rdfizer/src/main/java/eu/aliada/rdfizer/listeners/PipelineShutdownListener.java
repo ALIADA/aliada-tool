@@ -20,11 +20,10 @@ import eu.aliada.shared.log.Log;
  */
 public class PipelineShutdownListener implements ApplicationListener<ContextClosedEvent>
 {
-	final static Log LOGGER = new Log(PipelineShutdownListener.class);
+	static final Log LOGGER = new Log(PipelineShutdownListener.class);
 	
 	@Override
-	public void onApplicationEvent(final ContextClosedEvent event)
-	{
+	public void onApplicationEvent(final ContextClosedEvent event) {
 		LOGGER.info(MessageCatalog._00024_PIPELINE_STOPPING);
 		
 		LOGGER.info(MessageCatalog._00025_PIPELINE_STOPPED);

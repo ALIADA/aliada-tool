@@ -3,7 +3,7 @@
 //
 // Component: aliada-rdfizer
 // Responsible: ALIADA Consortiums
-package eu.aliada.rdfizer.pipeline.common;
+package eu.aliada.rdfizer.pipeline.processors;
 
 import java.util.ArrayList;
 import java.util.List;

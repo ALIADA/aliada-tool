@@ -1,31 +1,32 @@
 ## SHORTCUTS
-#set($is_a = "<#rdf('type')>")
-#set($E41Appellation = "<#ecrm('E41Appellation')>")
-#set($P3_has_note = "<#ecrm('P3_has_note')>")
-#set($P2_has_type = "<#ecrm('P2_has_type')>")
-#set($Concept = "<#skos('Concept')>")
+#set($is_a = "#rdf('type')")
+#set($E41Appellation = "#ecrm('E41Appellation')")
+#set($P3_has_note = "#ecrm('P3_has_note')")
+#set($P2_has_type = "#ecrm('P2_has_type')")
+#set($Concept = "#skos('Concept')")
 #set($main_subject = "<${mainSubject}>")
 ## RECORD ID BEGIN
-#set($lidoRecID = $xpath.value("lido/lidoRecID", $root))
+#set($lidoRecID = $xpath.value("lidoRecID", $root))
 #set($appellation_s = "#new_n3_uri('E41Appellation')")
 ##
 $appellation_s $is_a $E41Appellation .
-$appellation_s $P3_has_note "$lidoRecID.textContent" .
+$appellation_s $P3_has_note "$lidoRecID" .
 ##
 #set($document_s = "#new_n3_uri('E31_Document')")
-$document_s $is_a <#ecrm("E31_Document")> . 
-$document_s <#ecrm("P1_is_identified_by")> $appellation_s . 
-$main_subject <#ecrm("P70i_is_documented_in")> $document_s .
+$document_s $is_a #ecrm("E31_Document") .
+$document_s #ecrm("P1_is_identified_by") $appellation_s . 
+$main_subject #ecrm("P70i_is_documented_in") $document_s .
 ## RECORD ID END
 ## CATEGORY BEGIN
-#set($categories = $xpath.many("lido/category/conceptID/text()",$root))
+#set($categories = $xpath.many("category/conceptID",$root))
 #foreach($category in $categories)
-	<$category.textContent> $is_a $Concept .
-	$main_subject $P2_has_type <$category> .
+	#set($categoryURI = "<$category.textContent>")
+	$categoryURI $is_a $Concept .
+	$main_subject $P2_has_type $categoryURI .
 #end
 ## CATEGORY END
 ## WORK TYPE BEGIN
-#set($objectWorkTypes = $xpath.many("lido/descriptiveMetadata/objectClassificationWrap/objectWorkTypeWrap/objectWorkType/term",$root))
+#set($objectWorkTypes = $xpath.many("descriptiveMetadata/objectClassificationWrap/objectWorkTypeWrap/objectWorkType/term",$root))
 #foreach($objectWorkType in $objectWorkTypes)
 	#set($s = "<#prefix/Concept/#normalize($objectWorkType.textContent)>")
     $s $is_a $Concept .
@@ -33,7 +34,7 @@ $main_subject <#ecrm("P70i_is_documented_in")> $document_s .
 #end
 ## WORK TYPE END
 ## CLASSIFICATION BEGIN
-#set($classifications = $xpath.many("lido/descriptiveMetadata/objectClassificationWrap/classificationWrap/classification/term",$root))
+#set($classifications = $xpath.many("descriptiveMetadata/objectClassificationWrap/classificationWrap/classification/term",$root))
 #foreach($classification in $classifications)
 	#set($s = "<#prefix/Concept/#normalize($classification.textContent)>")
 	$s $is_a $Concept .
@@ -41,63 +42,65 @@ $main_subject <#ecrm("P70i_is_documented_in")> $document_s .
 #end
 ## CLASSIFICATION END
 ## OBJECT ID BEGIN
-#set($titles = $xpath.many("lido/descriptiveMetadata/objectIdentificationWrap/titleWrap/titleSet/appellationValue",$root))
+#set($titles = $xpath.many("descriptiveMetadata/objectIdentificationWrap/titleWrap/titleSet/appellationValue",$root))
 #foreach($title in $titles)
 	#set($appellation_s = "#new_n3_uri('E41Appellation')")
-    <$appellation_s> $is_a $E41Appellation .
-    <$appellation_s> $P3_has_note "$title.textContent" .
+    $appellation_s $is_a $E41Appellation .
+    $appellation_s $P3_has_note "$title.textContent" .
 #end	
 ## OBJECT ID END
 ## REPOSITORY BEGIN
-## REPOSITORY WEBLINK BEGIN
-#set($repository = $xpath.one("lido/descriptiveMetadata/objectIdentificationWrap/repositoryWrap/repositorySet/repositoryName", $root))
-#set($weblink = $xpath.one("legalBodyWeblink",$repository))
-#if($weblink)
-    #set($web_resource_s = "<#prefix/Concept/web_resource>")
-    #set($conceptual_appellation_s = "#new_n3_uri('E75_Conceptual_Object_Appellation')")
-    #set($information_object_s = "#new_n3_uri('E73_Information_Object')")
-    $web_resource_s $is_a $Concept .
-    <$conceptual_appellation_s> $is_a <#ecrm("E75_Conceptual_Object_Appellation")> .
-    <$conceptual_appellation_s> $P3_has_note "$weblink.textContent" .
-    <$information_object_s> $is_a <#ecrm("E73_Information_Object")> .
-    <$information_object_s> <#ecrm("P2_has_type")> $web_resource_s . 
-    <$information_object_s> <#ecrn("P149_is_identified_by")> <$conceptual_appellation_s> . 
-#end			
-## REPOSITORY WEBLINK END
-## REPOSITORY NAME BEGIN
-#set($repositoryName = $xpath.one("legalBodyName/appellationValue",$repository))
-#if($repositoryName)
-	#set($repository_appellation = "#new_n3_uri('E82_Actor_Appellation')")
-	<$repository_appellation> $is_a <#ecrm("E82_Actor_Appellation")> .
-	<$repository_appellation> $P3_has_note "$repositoryName.textContent" . 
-##
-	#set($actor = "#new_n3_uri('E39_Actor')")
-	<$actor> $is_a <#ecrm("E39_Actor")> .
-	<$actor> <#ecrm("P131_is_identified_by") <$repository_appellation> .
-	#if($weblink)
-		<$actor> <#ecrm("P129B_is_subject_of") <$information_object_s> .
-	#end
-	$main_subject <#ecrm("P50_has_current_keeper") <$actor> .
-#end		
-## REPOSITORY NAME END
+#set($repository = $xpath.one("descriptiveMetadata/objectIdentificationWrap/repositoryWrap/repositorySet/repositoryName",$root))
+#if($repository)
+	## REPOSITORY WEBLINK BEGIN
+    #set($weblink = $xpath.one("legalBodyWeblink",$repository))
+    #if($weblink)
+        #set($web_resource_s = "<#prefix/Concept/web_resource>")
+        #set($conceptual_appellation_s = "#new_n3_uri('E75_Conceptual_Object_Appellation')")
+        #set($information_object_s = "#new_n3_uri('E73_Information_Object')")
+        $web_resource_s $is_a $Concept .
+        $conceptual_appellation_s $is_a #ecrm("E75_Conceptual_Object_Appellation") .
+        $conceptual_appellation_s $P3_has_note "$weblink.textContent" .
+        $information_object_s $is_a #ecrm("E73_Information_Object") .
+        $information_object_s #ecrm("P2_has_type") $web_resource_s . 
+        $information_object_s #ecrn("P149_is_identified_by") $conceptual_appellation_s . 
+    #end			
+    ## REPOSITORY WEBLINK END
+    ## REPOSITORY NAME BEGIN
+    #set($repositoryName = $xpath.one("legalBodyName/appellationValue",$repository))
+    #if($repositoryName)
+    	#set($repository_appellation = "#new_n3_uri('E82_Actor_Appellation')")
+    	$repository_appellation $is_a #ecrm("E82_Actor_Appellation") .
+    	$repository_appellation $P3_has_note "$repositoryName.textContent" . 
+    ##
+    	#set($actor = "#new_n3_uri('E39_Actor')")
+    	$actor $is_a #ecrm("E39_Actor") .
+    	$actor #ecrm("P131_is_identified_by") $repository_appellation .
+    	#if($weblink)
+    		$actor #ecrm("P129B_is_subject_of") $information_object_s .
+    	#end
+    	$main_subject #ecrm("P50_has_current_keeper") $actor .
+    #end		
+    ## REPOSITORY NAME END
+#end	
 ## REPOSITORY LOCATION BEGIN
-#set($repositoryLocation = $xpath.one("lido/descriptiveMetadata/objectIdentificationWrap/repositoryWrap/repositorySet/repositoryLocation", $root))
+#set($repositoryLocation = $xpath.one("descriptiveMetadata/objectIdentificationWrap/repositoryWrap/repositorySet/repositoryLocation", $root))
 #if ($repositoryLocation)
     #set($address = $xpath.one("namePlaceSet/appellationValue", $repositoryLocation))
     #if ($address)
     	#set($address_name_s = "#new_n3_uri('E44_Place_Appellation')")
     	#set($address_s = "#new_n3_uri('E53_Place')") 	
-    	$address_name_s $is_a <#ecrm("E44_Place_Appellation")> .
+    	$address_name_s $is_a #ecrm("E44_Place_Appellation") .
     	$address_name_s $P3_has_note "$address.textContent" . 
-    	$address_s $is_a <#ecrm("E53_Place")> .
-    	$address_s <#ecrm("P87_is_identified_by") $address_name_s . 
-    	$main_subject <#ecrm("P55_has_current_location") $address_s .
+    	$address_s $is_a #ecrm("E53_Place") .
+    	$address_s #ecrm("P87_is_identified_by") $address_name_s . 
+    	$main_subject #ecrm("P55_has_current_location") $address_s .
     	
         #set($coordinates = $xpath.one("gml/Point/pos", $repositoryLocation))
         #if($coordinates)
     		#set($lat_lon = $coordinates.textContent.split(" "))
-			$address_s <#wgs84("lat")> "$lat_lon[0]" .
-			$address_s <#wgs84("lon")> "$lat_lon[1]" . 
+			$address_s #wgs84("lat") "$lat_lon[0]" .
+			$address_s #wgs84("lon") "$lat_lon[1]" . 
         #end	
 		
 		#set($places = $xpath.many("partOfPlace/namePlaceSet/appellationValue", $repositoryLocation))
@@ -105,43 +108,43 @@ $main_subject <#ecrm("P70i_is_documented_in")> $document_s .
 			#foreach ($place in $places)
     			#set($place_appellation_s = "#new_n3_uri('E44_Place_Appellation')")
     			#set($place_s = "#new_n3_uri('E53_Place')")	
-    			$place_appellation_s $is_a <#ecrm("E44_Place_Appellation")> .
+    			$place_appellation_s $is_a #ecrm("E44_Place_Appellation") .
     			$place_appellation_s $P3_has_note "$place.textContent" . 
-    			$place_s $is_a <#ecrm("E53_Place")> .
-    			$place_s <#ecrm("P87_is_identified_by") $place_appellation_s . 
-    			$place_s <#ecrm("P88_consists_of") $address_s . 
+    			$place_s $is_a #ecrm("E53_Place") .
+    			$place_s #ecrm("P87_is_identified_by") $place_appellation_s . 
+    			$place_s #ecrm("P88_consists_of") $address_s . 
 			#end
 		#end
     #end    
 #end
 ## REPOSITORY LOCATION END
 ## OBJECT MEASUREMENT START
-#set($objectMeasurementsSets = $xpath.many("lido/descriptiveMetadata/objectIdentificationWrap/objectMeasurementsWrap/objectMeasurementsSet", $root))
+#set($objectMeasurementsSets = $xpath.many("descriptiveMetadata/objectIdentificationWrap/objectMeasurementsWrap/objectMeasurementsSet", $root))
 #if($objectMeasurementsSets)
 	#foreach($objectMeasurementsSet in $objectMeasurementsSets)
 		#set($displayObjectMeasurements = $xpath.one("displayObjectMeasurements", $objectMeasurementsSet))
 		#if ($displayObjectMeasurements)
-			$main_subject $P3_has_note <$displayObjectMeasurements.textContent> . 
+			$main_subject $P3_has_note $displayObjectMeasurements.textContent . 
 		#end	
 		#set($measurementsSets = $xpath.many("objectMeasurements/measurementsSet", $objectMeasurementsSet))
 		#if ($measurementsSets)
 			#foreach($measurementsSet in $measurementsSets)
-					#set($measurementUnit = $xpath.one("measurementUnit", $measurementsSet))
-					#if ($measurementUnit)
-						#set($unit_s = "#new_n3_uri('E58_Measurement_Unit')")
-						$unit_s $is_a <#ecrm("E58_Measurement_Unit")> . 
-						$unit_s <#ecrm("P3_has_note") "$measurementUnit.textContent" . 	
-					#end	
-					#set($measurementType = $xpath.one("measurementType", $measurementsSet))
-					#set($measurementValue = $xpath.one("measurementValue", $measurementsSet))					
-					#if($measurementType && $measurementValue)
-						#set($type_s = "#new_n3_uri('E54_Dimension')")
-						$type_s $is_a <#ecrm("E54_Dimension")> . 
-						$type_s <#ecrm("P3_has_note") "$measurementType.textContent" . 
-						$type_s <#ecrm("P91_has_unit") $unit_s . 
-						$type_s <#ecrm("P90_has_value") "$measurementValue.textContent" .
-						$main_subject <#ecrm("P43_has_dimension") $type .	
-					#end	
+				#set($measurementUnit = $xpath.one("measurementUnit", $measurementsSet))
+				#if ($measurementUnit)
+					#set($unit_s = "#new_n3_uri('E58_Measurement_Unit')")
+					$unit_s $is_a #ecrm("E58_Measurement_Unit") . 
+					$unit_s #ecrm("P3_has_note") "$measurementUnit.textContent" . 	
+				#end	
+				#set($measurementType = $xpath.one("measurementType", $measurementsSet))
+				#set($measurementValue = $xpath.one("measurementValue", $measurementsSet))					
+				#if($measurementType && $measurementValue)
+					#set($type_s = "#new_n3_uri('E54_Dimension')")
+					$type_s $is_a #ecrm("E54_Dimension") . 
+					$type_s #ecrm("P3_has_note") "$measurementType.textContent" . 
+					$type_s #ecrm("P91_has_unit") $unit_s . 
+					$type_s #ecrm("P90_has_value") "$measurementValue.textContent" .
+					$main_subject #ecrm("P43_has_dimension") $type_s .	
+				#end	
 			#end	
 		#end	
 	#end	

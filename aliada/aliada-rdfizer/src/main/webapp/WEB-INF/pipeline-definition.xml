@@ -8,11 +8,11 @@
 
 	<bean id="startup_listener" class="eu.aliada.rdfizer.listeners.PipelineStartupListener" />
 	<bean id="shutdown_listener" class="eu.aliada.rdfizer.listeners.PipelineShutdownListener" />
-	<bean id="xml-document-translator" class="eu.aliada.rdfizer.pipeline.format.xml.SynchXmlDocumentTranslator">
-		<constructor-arg value="lido"/>
-	</bean>
-	<bean id="debugger" class="eu.aliada.rdfizer.pipeline.common.JustDebug"/> 
-
+	<bean id="translate-xml-document" class="eu.aliada.rdfizer.pipeline.format.xml.SynchXmlDocumentTranslator"/>
+	
+	<bean id="debugger" class="eu.aliada.rdfizer.pipeline.processors.JustDebug"/> 
+	<bean id="xpath" class="eu.aliada.rdfizer.pipeline.format.xml.XPath"/> 
+	<bean id="function" class="eu.aliada.rdfizer.Function"/>
 	<camelContext xmlns="http://camel.apache.org/schema/spring" trace="true" >
 		<route>
 			<from uri="file:{{lido.input.dir}}?move=../.done&amp;preMove=.working" />
@@ -45,10 +45,10 @@
 				</when>
 				<when>
 					<simple>${in.header.format} == 'marcxml'</simple>
-					 <split streaming="true">
+					<split streaming="true">
 						<tokenize token="record" xml="true" />
 						<to uri="seda:marcxml-record-channel?concurrentConsumers=2&amp;size=1000&amp;blockWhenFull=true" />
-					 </split>
+					</split>
 				</when>
 				<otherwise>
 					<log message="&lt;RDF-IZER-00023> : Unsupported format has been detected in input datafile." loggingLevel="ERROR" logName="eu.aliada.pipeline"/>			    
@@ -59,15 +59,15 @@
 			<from
 				uri="seda:marcxml-record-channel?concurrentConsumers=2&amp;size=1000&amp;blockWhenFull=true" />
 			<!-- TODO MARCXML format conversion rules engine -->
-			<to uri="seda:triples-channel?size=2500&amp;blockWhenFull=true" />
+			<to uri="seda:triples-channel?size=250&amp;blockWhenFull=true" />
 		</route>
 		<route>
 			<from uri="seda:lido-record-channel?concurrentConsumers=2&amp;size=1000&amp;blockWhenFull=true" />
-			<process ref="xml-document-translator"/>
-			<to uri="seda:triples-channel?size=2500&amp;blockWhenFull=true" />
+			<process ref="translate-xml-document"/>
+			<to uri="seda:triples-channel?size=250&amp;blockWhenFull=true" />
 		</route>
 		<route>
-			<from uri="seda:triples-channel?size=2500&amp;blockWhenFull=true" />
+			<from uri="seda:triples-channel?size=250&amp;blockWhenFull=true" />
 			<process ref="debugger"/>
 		</route>
 	</camelContext>

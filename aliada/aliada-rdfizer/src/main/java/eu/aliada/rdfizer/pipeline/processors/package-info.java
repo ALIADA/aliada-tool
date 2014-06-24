@@ -4,6 +4,6 @@
 // Component: aliada-rdfizer
 // Responsible: ALIADA Consortium
 /**
- * RDF-izer domain model package.
+ * RDF-izer pipeline common and shared stuff (e.g. processors and helpers).
  */
-package eu.aliada.rdfizer.domain;
+package eu.aliada.rdfizer.pipeline.processors;

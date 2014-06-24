@@ -5,31 +5,32 @@
 // Responsible: ALIADA Consortiums
 package eu.aliada.rdfizer.pipeline.format.xml;
 
+import java.io.BufferedWriter;
 import java.io.StringReader;
-import java.util.ArrayList;
-import java.util.List;
+import java.io.StringWriter;
+import java.io.Writer;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.camel.Exchange;
+import org.apache.camel.Message;
 import org.apache.camel.Processor;
-import org.semanticweb.yars.nx.Node;
-import org.semanticweb.yars.nx.Triple;
+import org.apache.velocity.Template;
+import org.apache.velocity.VelocityContext;
+import org.apache.velocity.app.VelocityEngine;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 
-import eu.aliada.rdfizer.pipeline.rules.Registry;
-import eu.aliada.rdfizer.pipeline.rules.XPathBasedRule;
+import eu.aliada.rdfizer.Function;
+import eu.aliada.rdfizer.framework.MainSubjectDetectionRule;
 
 /**
  * An XML document translator.
- * The prefix "Synch" means synchronous, indicating that this processor executes the conversion 
- * job on a given document *sequentially*; specifically that means each (conversion) rule, 
- * associated with the incoming format, found in the registry will be processed sequentially.
  * 
  * @author Andrea Gazzarini
  * @since 1.0
@@ -48,47 +49,51 @@ public class SynchXmlDocumentTranslator implements Processor, ApplicationContext
 		};
 	};
 	
-	final ThreadLocal<Registry> registries = new ThreadLocal<Registry>() {
-		protected Registry initialValue() {
-			return (Registry) context.getBean(format + "-registry");
+	final ThreadLocal<VelocityContext> contexts = new ThreadLocal<VelocityContext>() {
+		protected VelocityContext initialValue() {
+			final VelocityContext context = new VelocityContext();
+			context.put("xpath", xpath);
+			context.put("function", function);
+			return context;
 		};
-	};
-			
-	private ApplicationContext context;
-	private String format;
+	};	
 	
-	/**
-	 * Builds a new translator associated with a given format.
-	 * The format name will be used for registry lookup. 
-	 * 
-	 * @param accept the format associated with this translator.
-	 */
-	public SynchXmlDocumentTranslator(final String accept) {
-		this.format = accept;
-	}
+	@Autowired
+	private VelocityEngine velocityEngine;
+	
+	@Autowired
+	private XPath xpath;
+	
+	@Autowired
+	private Function function;
+	
+	private ApplicationContext context;
 	
 	@Override
 	public void process(final Exchange exchange) throws Exception {
-		final String recordAsString = exchange.getIn().getBody(String.class);
-		final List<Triple> triples = new ArrayList<Triple>();
-		
-		final Registry registry = registries.get();
-			
+		final Message in = exchange.getIn();
+		final String recordAsString = in.getBody(String.class);
+		final String format = in.getHeader("format", String.class);
 		final Document document = builders.get().parse(new InputSource(new StringReader(recordAsString)));
 		
-		final Node subject = registry.getSubjectRule().execute(
-				null,
-				document, 
-				null);
-
-		if (subject != null) {
-			for (final XPathBasedRule<List<Triple>> rule : registries.get()) {
-				rule.execute(subject, document, triples);
-			}
+		@SuppressWarnings("unchecked")
+		final MainSubjectDetectionRule<Document, String> rule = (MainSubjectDetectionRule<Document, String>) context.getBean(format + "-subject-detection-rule");
+		
+		final String mainSubject = rule.computeFrom(document);
+		
+		final VelocityContext velocityContext = contexts.get();
+		velocityContext.put("mainSubject", mainSubject);
+		velocityContext.put("root", document.getDocumentElement());
+		try {
+			final Writer sw = new StringWriter();
+			final Writer w = new BufferedWriter(sw);
+			final Template template = velocityEngine.getTemplate(format + ".n3.vm");	 
+			template.merge(velocityContext, w);
+			in.setBody(sw.toString());
+		} finally {
+			contexts.get().remove("mainSubject");
+			contexts.get().remove("root");
 		}
-		
-		
-		exchange.getIn().setBody(triples);
 	}
 
 	@Override

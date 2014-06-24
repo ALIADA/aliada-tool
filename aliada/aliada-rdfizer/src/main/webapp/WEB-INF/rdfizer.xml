@@ -40,6 +40,22 @@
   		<property name="ignoreResourceNotFound" value="true"/> 
 	</bean>
 
+	<bean id="velocityEngine" class="org.springframework.ui.velocity.VelocityEngineFactoryBean">
+		<property name="velocityProperties">
+			<props>
+				<prop key="resource.loader">class</prop>
+				<prop key="class.resource.loader.class">
+					org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+				</prop>
+				<prop key="directive.set.null.allowed">true</prop>
+				<prop key="input.encoding">UTF-8</prop>
+				<prop key="output.encoding">UTF-8</prop>
+				<prop key="velocimacro.library">VM_global_library.vm</prop>
+				<prop key="resource.manager.class">eu.aliada.rdfizer.pipeline.templating.AliadaResourceManager</prop>
+			</props>
+		</property>
+	</bean>
+
 	<!-- conversion pipeline definition -->
 	<import resource="pipeline-definition.xml" />
 	
@@ -54,7 +70,7 @@
 	 <!-- 
 	 	Shared processors 
 	  -->
-	<bean id="validate_input_path" class="eu.aliada.rdfizer.pipeline.common.ValidateInputPath" />
+	<bean id="validate_input_path" class="eu.aliada.rdfizer.pipeline.processors.ValidateInputPath" />
 	
 
 </beans>

@@ -3,7 +3,7 @@
 //
 // Component: aliada-rdfizer
 // Responsible: ALIADA Consortium
-package eu.aliada.rdfizer.pipeline.format.templating;
+package eu.aliada.rdfizer.pipeline.templating;
 
 import java.io.FilterReader;
 import java.io.IOException;
@@ -12,10 +12,10 @@ import java.io.Reader;
 /**
  * A FilterReader that strips leading whitespaces.
  * This is basically needed for template processing: on developers side, we want to allow
- * indentation on templates, that makes transformation templates more readabale and maintainable.
+ * indentation on templates, that definitely makes transformation templates more readable and maintainable.
  * At the same time, the final output stream mustn't have any leading whitespace. 
  * So, instead of doing something on Writer side, we prefer to have a Reader, that will be used by 
- * the Velocity runtime, that communicates a streams without leading spaces.
+ * the Velocity runtime, that reads a streams without any leading (white)space.
  * 
  * As a nice addition in future we could skip comments too.
  * 
@@ -23,6 +23,8 @@ import java.io.Reader;
  * @since 1.0
  */
 public class RemoveLeadingWhitespacesReader extends FilterReader {
+	private boolean isSkipping; 
+
 	/**
 	 * Builds a new reader with the given inner reader.
 	 * 
@@ -32,28 +34,25 @@ public class RemoveLeadingWhitespacesReader extends FilterReader {
 		super(reader);
 	}
 
-	private boolean isSkipping; 
-
 	@Override
-	public int read(final char[] buf, final int from, final int len) throws IOException {
+	public int read(final char[] buffer, final int from, final int length) throws IOException {
 		int numchars = 0;
 		while (numchars == 0) {
-			numchars = in.read(buf, from, len); 
+			numchars = in.read(buffer, from, length); 
 			if (numchars == -1) {
-				return -1; 
+				return numchars; 
 			}
 
 			int last = from;
 			for (int i = from; i < from + numchars; i++) {
+				final char ch = buffer[i];
 				if (!isSkipping) {
-					if (buf[i] == '\n') {
-						buf[last++] = buf[i]; 
+					if (ch == '\n') {
 						isSkipping = true;
-					} else {
-						buf[last++] = buf[i]; 
-					}
-				} else if (!Character.isWhitespace(buf[i])) {
-					buf[last++] = buf[i]; 
+					} 
+					buffer[last++] = ch;
+				} else if (!Character.isWhitespace(buffer[i])) {
+					buffer[last++] = ch;
 					isSkipping = false; 
 				}
 			}

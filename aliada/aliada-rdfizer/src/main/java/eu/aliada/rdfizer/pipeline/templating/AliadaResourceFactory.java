@@ -3,7 +3,7 @@
 //
 // Component: aliada-rdfizer
 // Responsible: ALIADA Consortiums
-package eu.aliada.rdfizer.pipeline.format.templating;
+package eu.aliada.rdfizer.pipeline.templating;
 import org.apache.velocity.runtime.resource.ContentResource;
 import org.apache.velocity.runtime.resource.Resource;
 import org.apache.velocity.runtime.resource.ResourceManager;
@@ -29,7 +29,7 @@ public abstract class AliadaResourceFactory {
             case ResourceManager.RESOURCE_CONTENT:
                 return new ContentResource();
             default:
-            	throw new IllegalArgumentException("Unknown resource type: " + resourceType);
+            	throw new IllegalArgumentException("WARNIGN: Unknown resource type: " + resourceType);
         }
     }
 }

@@ -13,6 +13,7 @@ import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
+import org.springframework.stereotype.Component;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
@@ -22,6 +23,7 @@ import org.w3c.dom.NodeList;
  * @author Andrea Gazzarini
  * @since 1.0
  */
+@Component
 public class XPath {
 	final ThreadLocal<Map<String, XPathExpression>> expressions = new ThreadLocal<Map<String, XPathExpression>>() {
 		protected Map<String, XPathExpression> initialValue() {
@@ -35,7 +37,6 @@ public class XPath {
 		};
 	};
 	
-	
 	final XPathFactory xpathfactory = XPathFactory.newInstance();
 
 	/**
@@ -47,7 +48,8 @@ public class XPath {
 	 * @throws XPathExpressionException in case of XPATH failure.
 	 */
 	public String value(final String expression, final Object context) throws XPathExpressionException {
-		return (String) xpath(expression).evaluate(context, XPathConstants.STRING);
+		final String result = (String) xpath(expression).evaluate(context, XPathConstants.STRING);
+		return result != null && result.trim().length() != 0 ? result : null;
 	}	
 	
 	/**

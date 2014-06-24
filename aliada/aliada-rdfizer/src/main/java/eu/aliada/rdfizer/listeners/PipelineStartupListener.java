@@ -19,13 +19,11 @@ import eu.aliada.shared.log.Log;
  * @author Andrea Gazzarini
  * @since 1.0
  */
-public class PipelineStartupListener implements ApplicationListener<ContextStartedEvent>
-{
-	final static Log LOGGER = new Log(PipelineStartupListener.class);
+public class PipelineStartupListener implements ApplicationListener<ContextStartedEvent> {
+	static final Log LOGGER = new Log(PipelineStartupListener.class);
 	
 	@Override
-	public void onApplicationEvent(final ContextStartedEvent event)
-	{
+	public void onApplicationEvent(final ContextStartedEvent event) {
 		LOGGER.info(MessageCatalog._00022_PIPELINE_STARTING);
 		
 		LOGGER.info(MessageCatalog._00023_PIPELINE_STARTED);

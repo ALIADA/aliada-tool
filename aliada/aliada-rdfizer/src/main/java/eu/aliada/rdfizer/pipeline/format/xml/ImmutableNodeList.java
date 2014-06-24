@@ -16,6 +16,15 @@ import com.google.common.collect.AbstractIterator;
 
 /**
  * A {@link List} adapter for {@link NodeList}.
+ * Sadly, {@link NodeList} is not an {@link Iterable} so cannot be used in 
+ * a Velocity template. 
+ * This class simply decorates a {@link NodeList} adding *only* the behaviour required for iteration.
+ * 
+ * As the name suggests: the list is supposed to be immutable so each method that tries to modify its content
+ * throw {@link UnsupportedOperationException}.
+ * 
+ * As an additional note, this is not a complete "List" adapter...following a "TSTTCPW" approach :D a lot of methods 
+ * (those we don't need at the moment) throw {@link UnsupportedOperationException}.
  * 
  * @author Andrea Gazzarini
  * @since 1.0

@@ -3,7 +3,7 @@
 //
 // Component: aliada-rdfizer
 // Responsible: ALIADA Consortiums
-package eu.aliada.rdfizer.pipeline.format.templating;
+package eu.aliada.rdfizer.pipeline.templating;
 
 import java.util.Iterator;
 

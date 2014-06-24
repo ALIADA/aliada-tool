@@ -3,7 +3,7 @@
 //
 // Component: aliada-rdfizer
 // Responsible: ALIADA Consortiums
-package eu.aliada.rdfizer.pipeline.format.templating;
+package eu.aliada.rdfizer.pipeline.templating;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -20,19 +20,29 @@ import org.apache.velocity.runtime.parser.ParseException;
 
 /** 
  * A subclass of Velocity template for ALIADA specific needs.
+ * We need this class for handling (i.e. avoiding) leading spaces in templates.
  * 
+ * @see RemoveLeadingWhitespacesReader
  * @author Andrea Gazzarini
  * @since 1.0
  */
-public class AliadaTemplate extends Template {
+public final class AliadaTemplate extends Template {
+	
+	/**
+	 * Reads the template, load the corresponding resource, by injecting a special reader.
+	 * That reader is different from the original used in Velocity because it skips all leading spaces.
+	 * 
+	 * @see RemoveLeadingWhitespacesReader
+	 * @return true if the template has been loaded and initialized.
+	 */
 	@Override
 	public boolean process() {
         data = null;
         final InputStream is = resourceLoader.getResourceStream(name);
-
+        
         if (is != null) {
             try {
-                BufferedReader br = new BufferedReader(new RemoveLeadingWhitespacesReader(new InputStreamReader(is, encoding)));
+                final BufferedReader br = new BufferedReader(new RemoveLeadingWhitespacesReader(new InputStreamReader(is, encoding)));
                 data = rsvc.parse(br, name);
                 initDocument();
                 return true;
@@ -53,6 +63,6 @@ public class AliadaTemplate extends Template {
             }
         } else {
             throw new ResourceNotFoundException("Unknown resource error for resource " + name);
-        }
+        } 
     }
 }

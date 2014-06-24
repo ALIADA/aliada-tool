@@ -1,10 +1,16 @@
-package eu.aliada.rdfizer.pipeline.common;
+package eu.aliada.rdfizer.pipeline.processors;
 
 import java.util.Collection;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 
+/**
+ * A simple debug processor.
+ * 
+ * @author Andrea Gazzarini
+ * @since 1.0
+ */
 public class JustDebug implements Processor {
 
 	@SuppressWarnings("rawtypes")
@@ -17,8 +23,7 @@ public class JustDebug implements Processor {
 			for (Object object : c) {
 				System.out.println(object);
 			}
-		} else
-		{
+		} else {
 			System.out.println(o);
 		}
 	}

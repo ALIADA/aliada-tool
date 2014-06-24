@@ -3,7 +3,7 @@
 //
 // Component: aliada-rdfizer
 // Responsible: ALIADA Consortium
-package eu.aliada.rdfizer.pipeline.common;
+package eu.aliada.rdfizer.pipeline.processors;
 
 import java.io.File;
 import java.io.FileNotFoundException;
