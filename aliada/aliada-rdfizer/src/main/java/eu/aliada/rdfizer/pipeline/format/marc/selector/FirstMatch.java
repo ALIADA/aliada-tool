@@ -7,16 +7,16 @@ package eu.aliada.rdfizer.pipeline.format.marc.selector;
 
 import static eu.aliada.shared.Strings.isNotNullAndNotEmpty;
 
-import org.marc4j.marc.Record;
 
 /**
  * A composite expression that selects the first not-null evaluation of a set of expressions.
  * 
  * @author Andrea Gazzarini
  * @since 1.0
+ * @param <K> the record kind.
  */
-public class FirstMatch implements Expression<String> {
-	private final Expression<String> [] expressions;
+public class FirstMatch<K> implements Expression<String, K> {
+	private final Expression<String, K> [] expressions;
 	
 	/**
 	 * Builds a new {@link FirstMatch} with a given expressions chain.
@@ -24,13 +24,13 @@ public class FirstMatch implements Expression<String> {
 	 * @param expressions the expressions that form the execution chain.
 	 */
 	@SafeVarargs
-	public FirstMatch(final Expression<String> ... expressions) {
+	public FirstMatch(final Expression<String, K> ... expressions) {
 		this.expressions = expressions;
 	}
 	
 	@Override
-	public String evaluate(final Record target) {
-		for (final Expression<String> expression : expressions) {
+	public String evaluate(final K target) {
+		for (final Expression<String, K> expression : expressions) {
 			final String result = expression.evaluate(target);
 			if (isNotNullAndNotEmpty(result)) {
 				return result;

@@ -3,10 +3,15 @@
 //
 // Component: aliada-rdfizer
 // Responsible: ALIADA Consortiums
-package eu.aliada.rdfizer.pipeline.format.marc.selector;
+package eu.aliada.rdfizer.pipeline.format.marc.selector.xml;
 
-import org.marc4j.marc.ControlField;
-import org.marc4j.marc.Record;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+import org.w3c.dom.Document;
+
+import eu.aliada.rdfizer.pipeline.format.marc.selector.Expression;
+import eu.aliada.rdfizer.pipeline.format.xml.XPath;
 
 /**
  * A selector expression interpreter for MARC control fields.
@@ -20,7 +25,9 @@ import org.marc4j.marc.Record;
  * @author Andrea Gazzarini
  * @since 1.0
  */
-public class ControlFieldExpression implements Expression<String> {
+@Component
+@Scope("prototype")
+public class ControlFieldExpression implements Expression<String, Document> {
 	
 	static final String MISSING_SQ_BRACKET_ERR_MESSAGE = "Invalid specs (%s): a square bracket is missing.";
 	static final String MISSING_MINUS = "Invalid specs (%s): index separator '-' is missing.";
@@ -28,11 +35,17 @@ public class ControlFieldExpression implements Expression<String> {
 	static final String START_INDEX_NAN = "Invalid specs (%s): unable to get a valid start index.";
 	static final String END_INDEX_NAN = "Invalid specs (%s): unable to get a valid end index.";
 	
-	private final Expression<String> fullSelector = new Expression<String>() {
+	@Autowired
+	private XPath xpath;
+	
+	private final Expression<String, Document> fullSelector = new Expression<String, Document>() {
 		@Override
-		public String evaluate(final Record target) {
-			final ControlField field = (ControlField) target.getVariableField(fieldSpecs);
-			return (field != null) ? field.getData() : null;
+		public String evaluate(final Document target) {
+			try {
+				return xpath.value(expression, target);
+			} catch (final Exception exception) {
+				throw new RuntimeException(exception);
+			}
 		}
 
 		@Override
@@ -41,22 +54,24 @@ public class ControlFieldExpression implements Expression<String> {
 		}
 	};
 
-	private final Expression<String> partialSelector = new Expression<String>() {
+	private final Expression<String, Document> partialSelector = new Expression<String, Document>() {
 		@Override
-		public String evaluate(final Record target) {
-			final ControlField field = (ControlField) target.getVariableField(fieldSpecs);
-			if (field == null) {
-				// TODO: JMX
-				return null;
+		public String evaluate(final Document target) {
+			try {
+				final String data = xpath.value(expression, target);
+				if (data == null) {
+					return null;
+				}
+				
+				if (data == null || data.length() <= endIndex) {
+					// TODO: log + JMX
+					return null;	
+				}
+				
+				return data.substring(startIndex, endIndex);
+			} catch (final Exception exception) {
+				throw new RuntimeException(exception);
 			}
-			
-			final String data = field.getData();
-			if (data == null || data.length() <= endIndex) {
-				// TODO: log + JMX
-				return null;	
-			}
-			
-			return data.substring(startIndex, endIndex);
 		}
 		
 		@Override
@@ -66,10 +81,10 @@ public class ControlFieldExpression implements Expression<String> {
 	};
 
 	private final String specs;
-	private final String fieldSpecs;
+	private final String expression;
 	private int startIndex;
 	private int endIndex;
-	private final Expression<String> currentState;
+	private final Expression<String, Document> currentState;
 	
 	/**
 	 * Builds a new control field expression with the given specs.
@@ -112,17 +127,25 @@ public class ControlFieldExpression implements Expression<String> {
 				throw new IllegalArgumentException(String.format(END_INDEX_NAN, specs));			
 			}			
 			
-			fieldSpecs = specs.substring(0, indexOfOpeningSquareBracket).trim();
+			expression = new StringBuilder()
+				.append("controlfield[@tag='")
+				.append(specs.substring(0, indexOfOpeningSquareBracket).trim())
+				.append("']/text()")
+				.toString();
 			currentState = partialSelector;
 		} else {
-			fieldSpecs = specs.trim();
+			expression = new StringBuilder()
+				.append("controlfield[@tag='")
+				.append(specs.trim())
+				.append("']/text()")
+				.toString();
 			currentState = fullSelector;
 		}
 		this.specs = specs;
 	}
 	
 	@Override
-	public String evaluate(final Record target) {
+	public String evaluate(final Document target) {
 		return currentState.evaluate(target);
 	}
 	

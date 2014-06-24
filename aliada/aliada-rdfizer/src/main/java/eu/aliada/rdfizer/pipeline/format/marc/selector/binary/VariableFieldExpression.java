@@ -3,7 +3,7 @@
 //
 // Component: aliada-rdfizer
 // Responsible: ALIADA Consortiums
-package eu.aliada.rdfizer.pipeline.format.marc.selector;
+package eu.aliada.rdfizer.pipeline.format.marc.selector.binary;
 
 import java.util.List;
 
@@ -12,8 +12,10 @@ import org.marc4j.marc.Record;
 import org.marc4j.marc.Subfield;
 import org.marc4j.marc.VariableField;
 
+import eu.aliada.rdfizer.pipeline.format.marc.selector.Expression;
+
 /**
- * A selector expression interpreter for MARC control fields.
+ * A selector expression interpreter for MARC variable fields.
  * It accepts these kind of specs:
  * 
  * <ul>
@@ -41,7 +43,7 @@ import org.marc4j.marc.VariableField;
  * @author Andrea Gazzarini
  * @since 1.0
  */
-public class VariableFieldExpression implements Expression<String> {
+public class VariableFieldExpression implements Expression<String, Record> {
 	static final String MISSING_PARENTHESIS_ERR_MESSAGE = "Invalid specs (%s): a parenthesis is missing.";
 	static final String BAD_INDICATORS_PATTERN_ERR_MESSAGE = "Invalid specs (%s): bad indicators pattern.";
 	

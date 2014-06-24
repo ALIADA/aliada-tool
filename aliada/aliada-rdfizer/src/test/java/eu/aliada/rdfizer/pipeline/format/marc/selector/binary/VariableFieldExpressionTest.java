@@ -3,7 +3,7 @@
 //
 // Component: aliada-rdfizer
 // Responsible: ALIADA Consortiums
-package eu.aliada.rdfizer.pipeline.format.marc.selector;
+package eu.aliada.rdfizer.pipeline.format.marc.selector.binary;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
@@ -15,6 +15,8 @@ import org.marc4j.marc.MarcFactory;
 import org.marc4j.marc.Record;
 
 import eu.aliada.rdfizer.TestData;
+import eu.aliada.rdfizer.pipeline.format.marc.selector.binary.ControlFieldExpression;
+import eu.aliada.rdfizer.pipeline.format.marc.selector.binary.VariableFieldExpression;
 
 /**
  * Test case for {@link VariableFieldExpression}.

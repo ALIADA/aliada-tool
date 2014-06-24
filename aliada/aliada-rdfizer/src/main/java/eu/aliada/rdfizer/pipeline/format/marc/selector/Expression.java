@@ -5,9 +5,6 @@
 // Responsible: ALIADA Consortiums
 package eu.aliada.rdfizer.pipeline.format.marc.selector;
 
-import org.marc4j.marc.Record;
-
-
 /**
  * Expression interface for MARC evaluators.
  * 
@@ -18,8 +15,9 @@ import org.marc4j.marc.Record;
  * @author Andrea Gazzarini
  * @since 1.0
  * @param <T> the evaluation result kind.
+ * @param <K> the record kind.
  */
-public interface Expression<T> {
+public interface Expression<T, K> {
 	String NULL_SPECS_ERR_MESSAGE = "Expression specs cannot be null.";
 	
 	/**
@@ -28,7 +26,7 @@ public interface Expression<T> {
 	 * @param target the target record.
 	 * @return the evaluation of this expression as a string (null in case of empty evaluation).
 	 */
-	T evaluate(final Record target);
+	T evaluate(final K target);
 	
 	/**
 	 * Returns a string representation of the specs associated with this expression.

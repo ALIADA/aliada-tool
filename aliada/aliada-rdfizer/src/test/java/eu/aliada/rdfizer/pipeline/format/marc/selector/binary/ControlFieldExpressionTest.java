@@ -3,7 +3,7 @@
 //
 // Component: aliada-rdfizer
 // Responsible: ALIADA Consortiums
-package eu.aliada.rdfizer.pipeline.format.marc.selector;
+package eu.aliada.rdfizer.pipeline.format.marc.selector.binary;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
