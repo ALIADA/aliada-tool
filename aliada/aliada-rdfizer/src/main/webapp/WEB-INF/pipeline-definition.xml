@@ -9,10 +9,15 @@
 	<bean id="startup_listener" class="eu.aliada.rdfizer.listeners.PipelineStartupListener" />
 	<bean id="shutdown_listener" class="eu.aliada.rdfizer.listeners.PipelineShutdownListener" />
 	<bean id="translate-xml-document" class="eu.aliada.rdfizer.pipeline.format.xml.SynchXmlDocumentTranslator"/>
-	
 	<bean id="debugger" class="eu.aliada.rdfizer.pipeline.processors.JustDebug"/> 
 	<bean id="xpath" class="eu.aliada.rdfizer.pipeline.format.xml.XPath"/> 
 	<bean id="function" class="eu.aliada.rdfizer.Function"/>
+	<bean id="marc-xml-to-document-translator" class="eu.aliada.rdfizer.pipeline.format.xml.MarcXmlRecordToDocumentTranslator" />
+	
+	<bean id="frbr-entities-detector" class="eu.aliada.rdfizer.pipeline.format.marc.frbr.FrbrEntitiesDetector" >
+		<property name="workDetector" ref="work-detector"/>
+	</bean>	
+	
 	<camelContext xmlns="http://camel.apache.org/schema/spring" trace="true" >
 		<route>
 			<from uri="file:{{lido.input.dir}}?move=../.done&amp;preMove=.working" />
@@ -56,10 +61,9 @@
 			</choice>	
 		</route>
 		<route>
-			<from
-				uri="seda:marcxml-record-channel?concurrentConsumers=2&amp;size=1000&amp;blockWhenFull=true" />
-			<!-- TODO MARCXML format conversion rules engine -->
-			<to uri="seda:triples-channel?size=250&amp;blockWhenFull=true" />
+			<from uri="seda:marcxml-record-channel?concurrentConsumers=2&amp;size=1000&amp;blockWhenFull=true" />
+			<process ref="marc-xml-to-document-translator"/>
+			<to uri="seda:frbr-detector-channel?size=2500&amp;blockWhenFull=true" />
 		</route>
 		<route>
 			<from uri="seda:lido-record-channel?concurrentConsumers=2&amp;size=1000&amp;blockWhenFull=true" />
@@ -67,8 +71,15 @@
 			<to uri="seda:triples-channel?size=250&amp;blockWhenFull=true" />
 		</route>
 		<route>
+			<from uri="seda:frbr-detector-channel?size=2500&amp;blockWhenFull=true" />
+			<process ref="frbr-entities-detector"/>
+			<to uri="seda:triples-channel?size=250&amp;blockWhenFull=true" />
+		</route>
+		<route>
 			<from uri="seda:triples-channel?size=250&amp;blockWhenFull=true" />
 			<process ref="debugger"/>
 		</route>
 	</camelContext>
+	
+	
 </beans>
