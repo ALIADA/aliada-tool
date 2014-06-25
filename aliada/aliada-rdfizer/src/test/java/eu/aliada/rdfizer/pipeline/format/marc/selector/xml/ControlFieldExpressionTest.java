@@ -9,17 +9,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.fail;
 
-import java.io.StringWriter;
-import java.io.Writer;
-
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.OutputKeys;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
 
 import org.junit.Test;
 import org.w3c.dom.Document;
@@ -31,10 +22,10 @@ import eu.aliada.rdfizer.pipeline.format.xml.XPath;
 /**
  * Test case for {@link ControlFieldExpression}.
  * 
- * @author Andrea Gazzarini
+ * @author Emiliano Cammilletti
  * @since 1.0
  */
-public class ControlFieldExpressionTest implements TestData {
+public class ControlFieldExpressionTest implements TestData{
 	/**
 	 * In case specs are null then an exception must be thrown.
 	 */
@@ -240,9 +231,8 @@ public class ControlFieldExpressionTest implements TestData {
 	 * @param controlFieldName the control field name.
 	 * @param controlFieldValue the control field value.
 	 * @return a new record with the given control field.
-	 * @throws ParserConfigurationException 
 	 */
-	private Document newRecord(final String controlFieldName,final String controlFieldValue) {
+	private Document newRecord(final String controlFieldName, final String controlFieldValue) {
 		Document document = null;
 		try {
 			DocumentBuilderFactory factory = DocumentBuilderFactory
@@ -263,15 +253,6 @@ public class ControlFieldExpressionTest implements TestData {
 		}
 		
 		return document;
-	}
-
-	public static final void print(Document xml) throws Exception {
-		Transformer tf = TransformerFactory.newInstance().newTransformer();
-		tf.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
-		tf.setOutputProperty(OutputKeys.INDENT, "yes");
-		Writer out = new StringWriter();
-		tf.transform(new DOMSource(xml), new StreamResult(out));
-		System.out.println(out.toString());
 	}
 	
 }

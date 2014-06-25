@@ -9,16 +9,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.fail;
 
-import java.io.StringWriter;
-import java.io.Writer;
-
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.transform.OutputKeys;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
 
 import org.junit.Test;
 import org.w3c.dom.Document;
@@ -30,7 +22,7 @@ import eu.aliada.rdfizer.pipeline.format.xml.XPath;
 /**
  * Test case for {@link VariableFieldExpression}.
  * 
- * @author Andrea Gazzarini
+ * @author Emiliano Cammilletti
  * @since 1.0
  */
 public class VariableFieldExpressionTest implements TestData {
@@ -316,15 +308,6 @@ public class VariableFieldExpressionTest implements TestData {
 		}
 
 		return document;
-	}
-	
-	public static final void print(final Document xml) throws Exception {
-		Transformer tf = TransformerFactory.newInstance().newTransformer();
-		tf.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
-		tf.setOutputProperty(OutputKeys.INDENT, "yes");
-		Writer out = new StringWriter();
-		tf.transform(new DOMSource(xml), new StreamResult(out));
-		System.out.println(out.toString());
 	}
 	
 }

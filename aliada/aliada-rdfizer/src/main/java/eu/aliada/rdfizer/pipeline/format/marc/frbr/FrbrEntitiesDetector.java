@@ -24,6 +24,12 @@ public class FrbrEntitiesDetector implements Processor {
 	@Autowired
 	WorkDetector workDetector;
 	
+	@Autowired
+	ExpressionDetector expressionDetector;
+	
+	@Autowired
+	ManifestationDetector manifestationDetector;
+	
 	// TODO: JMX per entità individuate e "mancate"
 	
 
@@ -33,12 +39,20 @@ public class FrbrEntitiesDetector implements Processor {
 		
 	//	System.out.println(workDetector.getFirstMatchUniformTitle().evaluate(target));
 		
-		String s = 	workDetector.getFirstMatchUniformTitle().evaluate(target) + " -- " + 
-					workDetector.getFirstMatchOrderedWorkSequenceTagForDate().evaluate(target) + " -- " +
-					workDetector.getFirstMatchOrderedWorkSequenceTagForOtherStandardIdentifier().evaluate(target) + " -- " +
-					workDetector.getFirstMatchOrderedWorkSequenceTagForCharacterDistinguish().evaluate(target);
+		String w = 	workDetector.getFirstMatchForUniformTitle().evaluate(target) + " -- " + 
+					workDetector.getFirstMatchForDate().evaluate(target) + " -- " +
+					workDetector.getFirstMatchForOtherStandardIdentifier().evaluate(target) + " -- " +
+					workDetector.getFirstMatchForCharacterDistinguish().evaluate(target);
 		
-		exchange.getIn().setBody(s);
+		String e = 	expressionDetector.getFirstMatchForcontentType().evaluate(target) + " -- " + 
+				expressionDetector.getFirstMatchForDate().evaluate(target) + " -- " +
+				expressionDetector.getFirstMatchForOtherDistinguishFeatureForWork().evaluate(target) + " -- " +
+				expressionDetector.getFirstMatchLanguage().evaluate(target);
+	
+		String m = manifestationDetector.getFirstMatchForControlNumber().evaluate(target);
+		
+		
+		exchange.getIn().setBody(m + " |" + w + "| " + e);
 		
 		// 1 group
 //		detectWork(record);
@@ -53,13 +67,7 @@ public class FrbrEntitiesDetector implements Processor {
 		// ...
 	}
 
-	public WorkDetector getWorkDetector() {
-		return workDetector;
-	}
 
-	public void setWorkDetector(WorkDetector workDetector) {
-		this.workDetector = workDetector;
-	}
 	
 //	@Override
 //	public void dispatchForFurtherProcessing(final Record record) {

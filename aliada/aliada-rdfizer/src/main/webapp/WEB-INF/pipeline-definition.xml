@@ -14,9 +14,8 @@
 	<bean id="function" class="eu.aliada.rdfizer.Function"/>
 	<bean id="marc-xml-to-document-translator" class="eu.aliada.rdfizer.pipeline.format.xml.MarcXmlRecordToDocumentTranslator" />
 	
-	<bean id="frbr-entities-detector" class="eu.aliada.rdfizer.pipeline.format.marc.frbr.FrbrEntitiesDetector" >
-		<property name="workDetector" ref="work-detector"/>
-	</bean>	
+	<bean id="frbr-entities-detector" class="eu.aliada.rdfizer.pipeline.format.marc.frbr.FrbrEntitiesDetector" />
+		
 	
 	<camelContext xmlns="http://camel.apache.org/schema/spring" trace="true" >
 		<route>
