@@ -37,4 +37,8 @@ public interface MessageCatalog {
 	String _00034_NWS_SYSTEM_INTERNAL_FAILURE = LT + MODULE_NAME + "-00034> : System internal failure. See below for further details.";
 	String _00035_XPATH_COMPILATION_FAILURE = LT + MODULE_NAME + "-00035> : Unable to compile XPATH expression (%s).";
 	String _00036_UNSUPPORTED_INPUT_ENCODING = LT + MODULE_NAME + "-00036> : Unsupported input encoding (%s) in template (%s) processing request.";	
+	String _00037_WRONG_INPUT_FILENAME = 
+			LT + MODULE_NAME + "-00037> : RDFizer requires a data file with the following format " 
+					+ "<name>[.suffix].<valid job id>. Your input file name (%s) doesn't follow this convention.";	
+	String _00038_UNKNOWN_JOB_ID = LT + MODULE_NAME + "-00038> : Unable to find the job configuration associated with job identifier %s";		
 }

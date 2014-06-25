@@ -72,7 +72,7 @@ $main_subject #ecrm("P70i_is_documented_in") $document_s .
     	#set($repository_appellation = "#new_n3_uri('E82_Actor_Appellation')")
     	$repository_appellation $is_a #ecrm("E82_Actor_Appellation") .
     	$repository_appellation $P3_has_note "$repositoryName.textContent" . 
-    ##
+##
     	#set($actor = "#new_n3_uri('E39_Actor')")
     	$actor $is_a #ecrm("E39_Actor") .
     	$actor #ecrm("P131_is_identified_by") $repository_appellation .
@@ -95,14 +95,14 @@ $main_subject #ecrm("P70i_is_documented_in") $document_s .
     	$address_s $is_a #ecrm("E53_Place") .
     	$address_s #ecrm("P87_is_identified_by") $address_name_s . 
     	$main_subject #ecrm("P55_has_current_location") $address_s .
-    	
+##  	
         #set($coordinates = $xpath.one("gml/Point/pos", $repositoryLocation))
         #if($coordinates)
     		#set($lat_lon = $coordinates.textContent.split(" "))
-			$address_s #wgs84("lat") "$lat_lon[0]" .
-			$address_s #wgs84("lon") "$lat_lon[1]" . 
+			$address_s #wgs("lat") "$lat_lon[0]" .
+			$address_s #wgs("lon") "$lat_lon[1]" . 
         #end	
-		
+##		
 		#set($places = $xpath.many("partOfPlace/namePlaceSet/appellationValue", $repositoryLocation))
 		#if ($places)
 			#foreach ($place in $places)

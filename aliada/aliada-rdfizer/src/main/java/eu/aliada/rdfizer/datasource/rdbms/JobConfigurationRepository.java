@@ -3,7 +3,7 @@
 //
 // Component: aliada-rdfizer
 // Responsible: ALIADA Consortium
-package eu.aliada.rdfizer.datasource;
+package eu.aliada.rdfizer.datasource.rdbms;
 import org.springframework.data.repository.CrudRepository;
 
 /**

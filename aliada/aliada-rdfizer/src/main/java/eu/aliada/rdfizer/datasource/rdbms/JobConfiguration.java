@@ -3,7 +3,7 @@
 //
 // Component: aliada-rdfizer
 // Responsible: ALIADA Consortiums
-package eu.aliada.rdfizer.datasource;
+package eu.aliada.rdfizer.datasource.rdbms;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

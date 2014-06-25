@@ -11,6 +11,7 @@ import java.io.FileNotFoundException;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 
+import eu.aliada.rdfizer.Constants;
 import eu.aliada.rdfizer.log.MessageCatalog;
 import eu.aliada.shared.log.Log;
 
@@ -30,6 +31,21 @@ public class ValidateInputPath implements Processor {
 			final String path = inputFile.getAbsolutePath();
 			log.error(MessageCatalog._00020_WRONG_FILE_PERMISSIONS, path);
 			throw new FileNotFoundException(path);
+		}
+		
+		final String name = inputFile.getName();
+		final int indexOfDot = name.lastIndexOf(".");
+		if (indexOfDot == -1) {
+			log.error(MessageCatalog._00037_WRONG_INPUT_FILENAME, name);
+			throw new IllegalArgumentException(name);			
+		}
+		
+		try {
+			final Integer jobId = Integer.parseInt(name.substring(indexOfDot + 1));
+			exchange.getIn().setHeader(Constants.JOB_ID_ATTRIBUTE_NAME, jobId);
+		} catch (Exception exception) {
+			log.error(MessageCatalog._00037_WRONG_INPUT_FILENAME, name);
+			throw new IllegalArgumentException(name);			
 		}
 	}
 }

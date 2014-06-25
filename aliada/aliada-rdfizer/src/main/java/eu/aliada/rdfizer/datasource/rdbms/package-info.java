@@ -6,4 +6,4 @@
 /**
  * RDF-izer integration / datasource package.
  */
-package eu.aliada.rdfizer.datasource;
+package eu.aliada.rdfizer.datasource.rdbms;

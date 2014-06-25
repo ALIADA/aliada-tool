@@ -26,8 +26,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Component;
 
-import eu.aliada.rdfizer.datasource.JobConfiguration;
-import eu.aliada.rdfizer.datasource.JobConfigurationRepository;
+import eu.aliada.rdfizer.datasource.Cache;
+import eu.aliada.rdfizer.datasource.rdbms.JobConfiguration;
+import eu.aliada.rdfizer.datasource.rdbms.JobConfigurationRepository;
 import eu.aliada.rdfizer.log.MessageCatalog;
 import eu.aliada.shared.log.Log;
 
@@ -52,9 +53,9 @@ public class RDFizerResource {
 	
 	@Value(value = "${lido.input.dir}")
 	protected String lidoInputDir;
-
+	
 	@Autowired
-	protected JobConfigurationRepository jobConfigurationRepository;
+	protected Cache cache;
 	
 	/**
 	 * Creates a new job on the RDF-izer.
@@ -74,7 +75,7 @@ public class RDFizerResource {
 		
 		String path = null;
 		try {
-			final JobConfiguration job = jobConfigurationRepository.findOne(id);
+			final JobConfiguration job = cache.getJobConfiguration(id);
 			if (job == null) {
 				LOGGER.error(MessageCatalog._00032_JOB_CONFIGURATION_NOT_FOUND, id);
 				return Response.status(Status.BAD_REQUEST).build();								
@@ -94,9 +95,9 @@ public class RDFizerResource {
 				LOGGER.error(MessageCatalog._00033_UNSUPPORTED_FORMAT, job.getFormat(), id);
 				return Response.status(Status.BAD_REQUEST).build();										
 			}
-			
+						
 			final java.nio.file.Path source = Paths.get(path);
-			final java.nio.file.Path target = Paths.get("/var/data/pipeline/input/marcxml/" + datafile.getName());
+			final java.nio.file.Path target = Paths.get(listenPath + "/" + rdfizerDataFilename(datafile, id));
 			
 			Files.move(source, target, REPLACE_EXISTING);
 			return Response.created(uriInfo.getAbsolutePathBuilder().build()).build();
@@ -116,12 +117,38 @@ public class RDFizerResource {
 	 * @return the path where RDF-izer is listening for input datafiles.
 	 */
 	// TODO : supported formats are wrongly hard-coded
-	private String listenPath(final String format) {
+	String listenPath(final String format) {
 		if ("lido".equals(format)) {
 			return lidoInputDir;
 		} else if ("marcxml".equals(format)) {
 			return marcXmlInputDir;
 		}
 		return null;
+	}
+	
+	/**
+	 * Returns a valid RDFizer datafile name.
+	 * RDFizer needs an input file with a given format, specifically composed by
+	 * 
+	 * name.suffix.jobid
+	 * 
+	 * where 
+	 * 
+	 * <ul>
+	 * 	<li>name is the original input file name;</li>
+	 * 	<li>suffix (optional) is the suffix of the original input file;</li>
+	 * 	<li>jobid is the identifier that has been assigned to the job;</li>
+	 * </ul>
+	 * 
+	 * @param file the input data file.
+	 * @param jobId the job identifier.
+	 * @return a valid RDFizer datafile name.
+	 */
+	String rdfizerDataFilename(final File file, final Integer jobId) {
+		return new StringBuilder()
+			.append(file.getName())
+			.append(".")
+			.append(jobId)
+			.toString();
 	}
 }

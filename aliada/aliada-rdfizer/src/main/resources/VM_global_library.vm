@@ -1,4 +1,4 @@
-#macro (prefix)$configuration.prefix#end	
+#macro (prefix)${configuration.namespace}/id/resource#end	
 
 #macro (value $expression)$xpath.val($expression,$root)#end
 

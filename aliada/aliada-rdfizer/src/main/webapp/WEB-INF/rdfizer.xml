@@ -13,7 +13,7 @@
 		http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd">
 	<context:annotation-config/>
 	<context:component-scan base-package="eu.aliada.rdfizer" />
-	<jpa:repositories base-package="eu.aliada.rdfizer.datasource"/>
+	<jpa:repositories base-package="eu.aliada.rdfizer.datasource.rdbms"/>
 	
 	<bean id="transactionManager" 
 	    class="org.springframework.orm.jpa.JpaTransactionManager"
