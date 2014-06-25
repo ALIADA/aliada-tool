@@ -3,11 +3,12 @@
 //
 // Component: aliada-rdfizer
 // Responsible: ALIADA Consortiums
-package eu.aliada.rdfizer.pipeline.format.marc;
+package eu.aliada.rdfizer.pipeline.format.marc.frbr;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
-import org.marc4j.marc.Record;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.w3c.dom.Document;
 
 import eu.aliada.shared.log.Log;
 
@@ -20,13 +21,25 @@ import eu.aliada.shared.log.Log;
 public class FrbrEntitiesDetector implements Processor {
 	private Log log = new Log(FrbrEntitiesDetector.class);
 
+	@Autowired
+	WorkDetector workDetector;
 	
 	// TODO: JMX per entità individuate e "mancate"
 	
+
 	@Override
 	public void process(final Exchange exchange) throws Exception {
-		final Record record = exchange.getIn().getBody(Record.class);
-
+		final Document target = exchange.getIn().getBody(Document.class);
+		
+	//	System.out.println(workDetector.getFirstMatchUniformTitle().evaluate(target));
+		
+		String s = 	workDetector.getFirstMatchUniformTitle().evaluate(target) + " -- " + 
+					workDetector.getFirstMatchOrderedWorkSequenceTagForDate().evaluate(target) + " -- " +
+					workDetector.getFirstMatchOrderedWorkSequenceTagForOtherStandardIdentifier().evaluate(target) + " -- " +
+					workDetector.getFirstMatchOrderedWorkSequenceTagForCharacterDistinguish().evaluate(target);
+		
+		exchange.getIn().setBody(s);
+		
 		// 1 group
 //		detectWork(record);
 //		
@@ -38,6 +51,14 @@ public class FrbrEntitiesDetector implements Processor {
 		
 		// 2 group
 		// ...
+	}
+
+	public WorkDetector getWorkDetector() {
+		return workDetector;
+	}
+
+	public void setWorkDetector(WorkDetector workDetector) {
+		this.workDetector = workDetector;
 	}
 	
 //	@Override

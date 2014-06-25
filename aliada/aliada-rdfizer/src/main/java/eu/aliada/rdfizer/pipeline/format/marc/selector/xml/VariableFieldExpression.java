@@ -53,7 +53,7 @@ public class VariableFieldExpression implements Expression<String, Document> {
 	private final String specs;
 
 	@Autowired
-	private XPath xpath;	
+	XPath xpath;	
 	/**
 	 * Builds a new expression with the given specs.
 	 * 
@@ -83,7 +83,7 @@ public class VariableFieldExpression implements Expression<String, Document> {
 			char secondIndicatorPattern = pattern.charAt(1);
 			
 			final StringBuilder expressionBuilder = new StringBuilder()
-				.append("datafield[@tag='")
+				.append("record/datafield[@tag='")
 				.append(specs.substring(0, indexOfOpeningParenthesis).trim())
 				.append("'");
 			
@@ -110,17 +110,17 @@ public class VariableFieldExpression implements Expression<String, Document> {
 			}
 
 			expressionBuilder
-				.append("]/subfield[@code=']")
-				.append(specs.charAt(specs.trim().length() - 1))
+				.append("]/subfield[@code='")
+				.append(specs.charAt(specs.trim().length() - 1)).append("']")
 				.toString();
 			expression = expressionBuilder.toString();
 			
 		} else {
 			expression = new StringBuilder()
-				.append("datafield[@tag='")
+				.append("record/datafield[@tag='")
 				.append(specs.substring(0, 3))
-				.append("']/subfield[@code=']")
-				.append(specs.charAt(specs.trim().length() - 1))
+				.append("']/subfield[@code='")
+				.append(specs.charAt(specs.trim().length() - 1)).append("']")
 				.toString();
 		}
 		this.specs = specs;

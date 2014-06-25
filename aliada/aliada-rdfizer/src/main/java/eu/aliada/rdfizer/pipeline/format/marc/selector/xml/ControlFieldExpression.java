@@ -36,7 +36,7 @@ public class ControlFieldExpression implements Expression<String, Document> {
 	static final String END_INDEX_NAN = "Invalid specs (%s): unable to get a valid end index.";
 	
 	@Autowired
-	private XPath xpath;
+	XPath xpath;
 	
 	private final Expression<String, Document> fullSelector = new Expression<String, Document>() {
 		@Override
@@ -128,14 +128,14 @@ public class ControlFieldExpression implements Expression<String, Document> {
 			}			
 			
 			expression = new StringBuilder()
-				.append("controlfield[@tag='")
+				.append("record/controlfield[@tag='")
 				.append(specs.substring(0, indexOfOpeningSquareBracket).trim())
 				.append("']/text()")
 				.toString();
 			currentState = partialSelector;
 		} else {
 			expression = new StringBuilder()
-				.append("controlfield[@tag='")
+				.append("record/controlfield[@tag='")
 				.append(specs.trim())
 				.append("']/text()")
 				.toString();
