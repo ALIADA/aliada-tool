@@ -33,6 +33,14 @@ public class Cache {
 		crm2AliadaClasses.put("E22", "http://erlangen-crm.org/current/E22_Man-Made_Object");
 		crm2AliadaClasses.put("E25", "http://erlangen-crm.org/current/E25_Man-Made_Feature");
 		crm2AliadaClasses.put("E78", "http://erlangen-crm.org/current/E78_Collection");	
+		crm2AliadaClasses.put("E78", "http://erlangen-crm.org/current/E78_Collection");	
+
+	}
+	
+	private final Map<String, String> crm2AliadaEventTypes = new HashMap<String, String>();
+	{
+		crm2AliadaEventTypes.put("http://www.cidoc-crm.org/crm-concepts/E65", "http://erlangen-crm.org/current/E65_Creation");
+		crm2AliadaEventTypes.put("http://terminology.lido-schema.org/lido00012", "http://erlangen-crm.org/current/E65_Creation");
 	}
 	
 	final ConcurrentMap<Integer, JobConfiguration> activeJobConfigurations 
@@ -60,6 +68,22 @@ public class Cache {
 		}
 		return uri != null ? uri : DEFAULT_ALIADA_CLASS;
 	}
+	
+	/**
+	 * Returns the ALIADA event type class corresponding to the given CIDOC-CRM class.
+	 * 
+	 * @param crmClass the CIDOC-CRM event type class.
+	 * @return the ALIADA class that corresponds to the given input class.
+	 */
+	public String getAliadaEventTypeClassFrom(final String crmClass) {
+		String uri = crm2AliadaClasses.get(crmClass);
+		if (uri == null) {
+			uri = rdfStore.crm2AliadaClass(crmClass);
+		}
+		return uri;
+	}
+	
+	
 	
 	/**
 	 * Returns the job configuration associated with a given identifier.

@@ -4,7 +4,7 @@
 // Component: aliada-rdfizer
 // Responsible: ALIADA Consortiums
 package eu.aliada.rdfizer.pipeline.format.lido;
-
+ 
 import static eu.aliada.shared.Strings.isNullOrEmpty;
 
 import java.util.List;
@@ -43,7 +43,6 @@ public class LidoMainSubjectDetectionRule implements MainSubjectDetectionRule<El
 			if (isNullOrEmpty(lidoRecId)) {
 				throw new UnableToDetermineMainSubectException("Unable to find a record ID.");
 			}
-
 			final StringBuilder builder = new StringBuilder(configuration.getNamespace());
 			String clazzURI = null;
 			List<Node> categories = xpath.many("category/conceptID", input);

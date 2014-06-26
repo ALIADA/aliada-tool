@@ -19,22 +19,23 @@ import javax.persistence.Table;
  * @since 1.0
  */
 @Entity
-@Table(name = "JOB_CONFIGURATION")
-@NamedQueries({
-    @NamedQuery(name = "JobConfiguration.findById", query = "SELECT j FROM JobConfiguration j WHERE j.id = :jobid")})
+@Table(name = "rdfizer_job_instances")
 public class JobConfiguration {
     @Id
-    @Column(name = "ID", nullable = false)
+    @Column(name = "job_id", nullable = false)
     private Integer id;
     
-    @Column(name = "FORMAT", nullable = false)
+    @Column(name = "format", nullable = false)
     private String format;
     
-    @Column(name = "DATAFILE", nullable = false)
+    @Column(name = "datafile", nullable = false)
     private String datafile;
 
-    @Column(name = "NAMESPACE", nullable = false)
+    @Column(name = "namespace", nullable = false)
     private String namespace;
+        
+    @Column(name = "aliada_ontology", nullable = false)
+    private String aliadaOntonologyNamespace;
     
     /**
      * Returns the identifier of this job configuration.
@@ -107,4 +108,22 @@ public class JobConfiguration {
 	public void setNamespace(final String namespace) {
 		this.namespace = namespace;
 	}	
+	
+    /**
+     * Returns the ALIADA ontology namespace of this job configuration.
+     * 
+     * @return the ALIADA ontology namespace of this job configuration.
+     */
+	public String getAliadaOntologyNamespace() {
+		return aliadaOntonologyNamespace;
+	}
+
+	/**
+	 * Sets the ALIADA ontology namespace of this job configuration.
+	 * 
+	 * @param aliadaOntonologyNamespace the datafile of this job configuration.
+	 */
+	public void setAliadaOntologyNamespace(final String aliadaOntonologyNamespace) {
+		this.aliadaOntonologyNamespace = aliadaOntonologyNamespace;
+	}		
 }

@@ -7,18 +7,16 @@
 #set($main_subject = "<${mainSubject}>")
 ## RECORD ID BEGIN
 #set($lidoRecID = $xpath.value("lidoRecID", $root))
-#set($appellation_s = "#new_n3_uri('E41Appellation')")
-##
+#set($appellation_s = "#uri('E41Appellation' $lidoRecID)")
+#set($document_s = "#uri('E31_Document' $lidoRecID)")
 $appellation_s $is_a $E41Appellation .
 $appellation_s $P3_has_note "$lidoRecID" .
-##
-#set($document_s = "#new_n3_uri('E31_Document')")
 $document_s $is_a #ecrm("E31_Document") .
 $document_s #ecrm("P1_is_identified_by") $appellation_s . 
 $main_subject #ecrm("P70i_is_documented_in") $document_s .
 ## RECORD ID END
 ## CATEGORY BEGIN
-#set($categories = $xpath.many("category/conceptID",$root))
+#set($categories = $xpath.many("category/conceptID[type='URI']",$root))
 #foreach($category in $categories)
 	#set($categoryURI = "<$category.textContent>")
 	$categoryURI $is_a $Concept .
@@ -28,25 +26,22 @@ $main_subject #ecrm("P70i_is_documented_in") $document_s .
 ## WORK TYPE BEGIN
 #set($objectWorkTypes = $xpath.many("descriptiveMetadata/objectClassificationWrap/objectWorkTypeWrap/objectWorkType/term",$root))
 #foreach($objectWorkType in $objectWorkTypes)
-	#set($s = "<#prefix/Concept/#normalize($objectWorkType.textContent)>")
-    $s $is_a $Concept .
-    $main_subject $P2_has_type $s .
+    $main_subject $P2_has_type #aliada($objectWorkType.textContent) .
 #end
 ## WORK TYPE END
 ## CLASSIFICATION BEGIN
 #set($classifications = $xpath.many("descriptiveMetadata/objectClassificationWrap/classificationWrap/classification/term",$root))
 #foreach($classification in $classifications)
-	#set($s = "<#prefix/Concept/#normalize($classification.textContent)>")
-	$s $is_a $Concept .
-	$main_subject $P2_has_type $s .
+	$main_subject $P2_has_type #aliada($classification.textContent) .
 #end
 ## CLASSIFICATION END
 ## OBJECT ID BEGIN
 #set($titles = $xpath.many("descriptiveMetadata/objectIdentificationWrap/titleWrap/titleSet/appellationValue",$root))
 #foreach($title in $titles)
-	#set($appellation_s = "#new_n3_uri('E41Appellation')")
+	#set($value = $title.textContent)
+	#set($appellation_s = "#uri('E41Appellation' $value)")
     $appellation_s $is_a $E41Appellation .
-    $appellation_s $P3_has_note "$title.textContent" .
+    $appellation_s $P3_has_note "$value" .
 #end	
 ## OBJECT ID END
 ## REPOSITORY BEGIN
@@ -55,25 +50,26 @@ $main_subject #ecrm("P70i_is_documented_in") $document_s .
 	## REPOSITORY WEBLINK BEGIN
     #set($weblink = $xpath.one("legalBodyWeblink",$repository))
     #if($weblink)
-        #set($web_resource_s = "<#prefix/Concept/web_resource>")
-        #set($conceptual_appellation_s = "#new_n3_uri('E75_Conceptual_Object_Appellation')")
-        #set($information_object_s = "#new_n3_uri('E73_Information_Object')")
-        $web_resource_s $is_a $Concept .
+		#set($value = $weblink.textContent)
+        #set($web_resource_s = "#aliada('web_resource')")
+        #set($conceptual_appellation_s = "#uri_with_fragment('E75_Conceptual_Object_Appellation' $value)")
+        #set($information_object_s = "#uri('E73_Information_Object' $value)")
         $conceptual_appellation_s $is_a #ecrm("E75_Conceptual_Object_Appellation") .
         $conceptual_appellation_s $P3_has_note "$weblink.textContent" .
         $information_object_s $is_a #ecrm("E73_Information_Object") .
-        $information_object_s #ecrm("P2_has_type") $web_resource_s . 
+        $information_object_s $P2_has_type $web_resource_s . 
         $information_object_s #ecrn("P149_is_identified_by") $conceptual_appellation_s . 
     #end			
     ## REPOSITORY WEBLINK END
     ## REPOSITORY NAME BEGIN
     #set($repositoryName = $xpath.one("legalBodyName/appellationValue",$repository))
     #if($repositoryName)
-    	#set($repository_appellation = "#new_n3_uri('E82_Actor_Appellation')")
+		#set($value = $repositoryName.textContent)
+    	#set($repository_appellation = "#uri('E82_Actor_Appellation' $value)")
     	$repository_appellation $is_a #ecrm("E82_Actor_Appellation") .
-    	$repository_appellation $P3_has_note "$repositoryName.textContent" . 
+    	$repository_appellation $P3_has_note "$value" . 
 ##
-    	#set($actor = "#new_n3_uri('E39_Actor')")
+    	#set($actor = "#uri('E39_Actor' $value)")
     	$actor $is_a #ecrm("E39_Actor") .
     	$actor #ecrm("P131_is_identified_by") $repository_appellation .
     	#if($weblink)
@@ -88,10 +84,11 @@ $main_subject #ecrm("P70i_is_documented_in") $document_s .
 #if ($repositoryLocation)
     #set($address = $xpath.one("namePlaceSet/appellationValue", $repositoryLocation))
     #if ($address)
-    	#set($address_name_s = "#new_n3_uri('E44_Place_Appellation')")
-    	#set($address_s = "#new_n3_uri('E53_Place')") 	
+		#set($value = $address.textContent)
+    	#set($address_name_s = "#uri_with_strong_normalization('E44_Place_Appellation' $value)")
+    	#set($address_s = "#uri_with_strong_normalization('E53_Place' $value)") 	
     	$address_name_s $is_a #ecrm("E44_Place_Appellation") .
-    	$address_name_s $P3_has_note "$address.textContent" . 
+    	$address_name_s $P3_has_note "$value" . 
     	$address_s $is_a #ecrm("E53_Place") .
     	$address_s #ecrm("P87_is_identified_by") $address_name_s . 
     	$main_subject #ecrm("P55_has_current_location") $address_s .
@@ -106,10 +103,11 @@ $main_subject #ecrm("P70i_is_documented_in") $document_s .
 		#set($places = $xpath.many("partOfPlace/namePlaceSet/appellationValue", $repositoryLocation))
 		#if ($places)
 			#foreach ($place in $places)
-    			#set($place_appellation_s = "#new_n3_uri('E44_Place_Appellation')")
-    			#set($place_s = "#new_n3_uri('E53_Place')")	
+				#set($value = $place.textContent)
+    			#set($place_appellation_s = "#uri('E44_Place_Appellation' $value)")
+    			#set($place_s = "#uri('E53_Place' $value)")	
     			$place_appellation_s $is_a #ecrm("E44_Place_Appellation") .
-    			$place_appellation_s $P3_has_note "$place.textContent" . 
+    			$place_appellation_s $P3_has_note "$value" . 
     			$place_s $is_a #ecrm("E53_Place") .
     			$place_s #ecrm("P87_is_identified_by") $place_appellation_s . 
     			$place_s #ecrm("P88_consists_of") $address_s . 
@@ -124,23 +122,25 @@ $main_subject #ecrm("P70i_is_documented_in") $document_s .
 	#foreach($objectMeasurementsSet in $objectMeasurementsSets)
 		#set($displayObjectMeasurements = $xpath.one("displayObjectMeasurements", $objectMeasurementsSet))
 		#if ($displayObjectMeasurements)
-			$main_subject $P3_has_note $displayObjectMeasurements.textContent . 
+			$main_subject $P3_has_note "$displayObjectMeasurements.textContent" . 
 		#end	
 		#set($measurementsSets = $xpath.many("objectMeasurements/measurementsSet", $objectMeasurementsSet))
-		#if ($measurementsSets)
+		#if (!$measurementsSets.isEmpty())
 			#foreach($measurementsSet in $measurementsSets)
 				#set($measurementUnit = $xpath.one("measurementUnit", $measurementsSet))
+				#set($m_unit = $measurementUnit.textContent)
 				#if ($measurementUnit)
-					#set($unit_s = "#new_n3_uri('E58_Measurement_Unit')")
+					#set($unit_s = "#uri('E58_Measurement_Unit' $m_unit)")
 					$unit_s $is_a #ecrm("E58_Measurement_Unit") . 
-					$unit_s #ecrm("P3_has_note") "$measurementUnit.textContent" . 	
+					$unit_s $P3_has_note "$m_unit" . 	
 				#end	
 				#set($measurementType = $xpath.one("measurementType", $measurementsSet))
 				#set($measurementValue = $xpath.one("measurementValue", $measurementsSet))					
 				#if($measurementType && $measurementValue)
-					#set($type_s = "#new_n3_uri('E54_Dimension')")
+					#set($m_type = $measurementType.textContent)
+					#set($type_s = "#uri('E54_Dimension' $m_type)")
 					$type_s $is_a #ecrm("E54_Dimension") . 
-					$type_s #ecrm("P3_has_note") "$measurementType.textContent" . 
+					$type_s $P3_has_note "$m_type" . 
 					$type_s #ecrm("P91_has_unit") $unit_s . 
 					$type_s #ecrm("P90_has_value") "$measurementValue.textContent" .
 					$main_subject #ecrm("P43_has_dimension") $type_s .	
@@ -150,3 +150,91 @@ $main_subject #ecrm("P70i_is_documented_in") $document_s .
 	#end	
 #end	
 ## OBJECT MEASUREMENT END
+## EVENTS START
+## EVENT TYPES START
+#set($events = $xpath.many("descriptiveMetadata/eventWrap/eventSet/event", $root))
+#foreach($event in $events)
+	#set($event_type_uri = $xpath.value("eventType[@type='URI']", $event))
+	#if($function.isNotNullAndNotEmpty($event_type_uri))
+		#set($event_type_uri = "<$event_type_uri>")
+		#set($event_type_s = "#uri_with_fragment('E65_Creation' $event_type_uri)")
+		$event_type_uri $is_a $Concept .
+		$event_type_s $is_a #ecrm("E65_Creation") . 
+		$event_type_s $P2_has_type $event_type_uri . 
+		$main_subject #ecrm("P12B_was_present_at") $event_type_s . 
+	#end	
+	## EVENT ACTORS START
+	#set($actors = $xpath.many("eventActor", $event))
+	#foreach($actor in $actors)
+		#set($displaysActorInRole = $xpath.many("displayActorInRole", $actor))
+		#if($event_type_s)
+    		#foreach($displayLabel in $displaysActorInRole)
+				$event_type_s $P3_has_note "$displayLabel.textContent" . 
+    		#end	
+		#end	
+		#set($actor = $xpath.one("actorInRole/actor", $actor))
+		#set($actor_identifiers = $xpath.many("actorID[@type='local']", $actor))
+		#foreach($actor_identifier in $actor_identifiers)
+			#set($value = $actor_identifier.textContent)
+			#set($id_s = "#uri('E42_Identifier' $value)")
+			#if(!$author_s)
+				#set($author_s = "#uri('E39_Actor' $value)")
+			#end	
+			$id_s $is_a #ecrm('E42_Identifier') .
+			$id_s $P3_has_note "$value" . 
+			$id_s $P2_has_type #aliada('LocalIdentifier') . 
+		#end	
+		#set($actor_identifiers = $xpath.many("actorID[@type='URI' and @source='VIAF']", $actor))
+		#foreach($actor_identifier in $actor_identifiers)
+			#set($value = $actor_identifier.textContent)
+			#set($id_s = "#uri_with_fragment('E42_Identifier' $value)")
+			#if(!$author_s)
+				#set($author_s = "#uri_with_fragment('E39_Actor' $value)")
+			#end	
+			$id_s $is_a #ecrm('E42_Identifier') .
+			$id_s $P3_has_note "$value" . 
+			$id_s $P2_has_type #aliada('VIAFIdentifier') . 
+		#end		
+		#if ($author_s)
+    		#set($actor_names = $xpath.many("nameActorSet/appellationValue[@pref='preferred']", $actor))
+    		#foreach($actor_name in $actor_names)
+    			#set($value = $actor_name.textContent)
+    			#set($actor_name_s = "#uri('E82_Actor_Appellation' $value)")
+    			$actor_name_s $is_a #ecrm("E82_Actor_Appellation")
+    			$actor_name_s $P3_has_note "$value" .
+				$author_s #ecrm('P131_is_identified_by') $actor_name_s . 
+    		#end 	
+    		#set($actor_nationalities = $xpath.many("nationalityActor/term",$actor))
+    		#foreach($nationality in $actor_nationalities)
+    			#set($value = $nationality.textContent)
+    			#set($nationality_s = "#uri('E82_Actor_Appellation' $value)")
+    			#set($group_s = "#uri('E74_Group' $value)")
+    			$nationality_s $is_a #ecrm('E82_Actor_Appellation') . 
+    			$nationality_s $P3_has_note "$value" .
+    			$group_s $is_a #ecrm('E74_Group') . 
+    			$group_s #ecrm('P131_is_identified_by') $nationality_s . 
+    			$author_s #ecrm('P107_is_current_or_former_member_of') $group_s . 
+    		#end	
+			#set($earliest_date = $xpath.value("vitalDatesActor/earliestDate",$actor))
+			#set($latest_date = $xpath.value("vitalDatesActor/latestDate",$actor))
+			#if ($function.isNotNullAndNotEmpty($earliest_date) || $function.isNotNullAndNotEmpty($latest_date))
+				#set($time_span_s = "#new_uri('E52_Time_Span')")
+				#set($time_span_event_s = "#new_uri('E5_Event')")
+				$time_span $is_a #ecrm("E52_Time_Span") . 
+				#if ($function.isNotNullAndNotEmpty($earliest_date))
+					$time_span_s #ecrm("P79_beginning_is_qualified_by") "$earliest_date" . 
+				#end	
+				#if ($function.isNotNullAndNotEmpty($latest_date))
+					$time_span_s #ecrm("P80_end_is_qualified_by") "$latest_date" . 
+				#end	
+				$time_span_event_s $is_a #ecrm("E5_Event") . 
+				$time_span_event_s $P2_has_type #aliada("Existance") . 
+				$time_span_event_s #ecrm("P4_has_time_span") $time_span_s . 
+				$author_s #ecrm("P11_participated_in") $time_span_event_s .
+			#end	
+		#end	
+	#end	
+	## EVENT ACTORS END
+#end	
+## EVENT TYPES END
+## EVENTS END

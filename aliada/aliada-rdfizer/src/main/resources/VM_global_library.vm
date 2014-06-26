@@ -1,11 +1,25 @@
-#macro (prefix)${configuration.namespace}/id/resource#end	
+## Generates ALIADA resource prefix
+#macro (prefix)${configuration.namespace}id/resource#end	
 
 #macro (value $expression)$xpath.val($expression,$root)#end
 
-#macro (new_n3_uri $kind)<#prefix/$kind/#newId>#end
-#macro (newId)$function.id#end
-#macro (normalize $v)$function.normalize($v)#end
+## Creates a new URI with an auto-increment local identifier.
+#macro (new_uri $kind)<#prefix/$kind/#newId>#end
+ 
+## Creates a new URI with the given literal as local name. Normalization applies.
+#macro (uri $kind $literal)<#prefix/$kind/$function.normalize($literal)>#end
 
+## Creates a new URI with the given literal as local name. Strong normalization applies.
+#macro (uri_with_strong_normalization $kind $literal)<#prefix/$kind/$function.normalizeStrong($literal)>#end
+
+## Creates a URI with an ending fragment (the literal argument). Makes no normalization on that value. 
+#macro (uri_with_fragment $kind $literal)<#prefix/$kind#$literal>#end
+
+## Creates a new (monotonically incremented) id
+#macro (newId)$function.id#end
+
+## NAMESPACES SHORTCUTS
+#macro (aliada $literal)<${configuration.aliadaOntologyNamespace}id/resource/$function.normalizeWithoutLowercase($literal)>#end
 #macro (owl $v)<http://www.w3.org/2002/07/owl#$v>#end
 #macro (rdf $v)<http://www.w3.org/1999/02/22-rdf-syntax-ns#$v>#end
 #macro (rdfs $v)<http://www.w3.org/2000/01/rdf-schema#$v>#end
