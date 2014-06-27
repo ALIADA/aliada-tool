@@ -707,7 +707,8 @@
       <property name="firstMatchForcontentType" ref="e-first-match-content-type" />
       <property name="firstMatchForDate" ref="e-first-match-date" />
       <property name="firstMatchLanguage" ref="e-first-match-language" />
-	  <property name="firstMatchForOtherDistinguishFeatureForWork" ref="e-first-match-other-distinguish-feature-Work" />	
+	  <property name="firstMatchForOtherDistinguishFeatureForWork" ref="e-first-match-other-distinguish-feature-Work" />
+	  <property name="firstMatchForUniformTitle" ref="w-first-match-uniform-title" />	
 	</bean>
 	
 	<bean id="manifestation-detector" class="eu.aliada.rdfizer.pipeline.format.marc.frbr.ManifestationDetector">

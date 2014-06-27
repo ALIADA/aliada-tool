@@ -10,11 +10,12 @@ import org.w3c.dom.Document;
 import eu.aliada.rdfizer.pipeline.format.marc.selector.FirstMatch;
 
 /**
+ * Class containes "expression" objects which extracts values related with Manifestation entity.
  * 
  * @author Emiliano Cammilletti
  * @since 1.0
 */
-public class ManifestationDetector {
+public class ManifestationDetector extends AbstractEntityDetecor {
 	
  private FirstMatch<Document> firstMatchForControlNumber;
 
@@ -31,6 +32,11 @@ public final FirstMatch<Document> getFirstMatchForControlNumber() {
 public final void setFirstMatchForControlNumber(
 		final FirstMatch<Document> firstMatchForControlNumber) {
 	this.firstMatchForControlNumber = firstMatchForControlNumber;
-} 
+}
+
+	@Override
+	String concat(final Document target) {
+		return null;
+	} 
 	
 }

@@ -10,18 +10,19 @@ import org.w3c.dom.Document;
 import eu.aliada.rdfizer.pipeline.format.marc.selector.FirstMatch;
 
 /**
- * Detect entity Expression.
+ * Class containes "expression" objects which extracts values related with Expression entity.
  * 
  * @author Emiliano Cammilletti
  * @since 1.0
 */
-public class ExpressionDetector {
+public class ExpressionDetector extends AbstractEntityDetecor{
 
 	
 	 private FirstMatch<Document> firstMatchForcontentType;
 	 private FirstMatch<Document> firstMatchForDate;
 	 private FirstMatch<Document> firstMatchLanguage;
 	 private FirstMatch<Document> firstMatchForOtherDistinguishFeatureForWork;
+	 private FirstMatch<Document> firstMatchForUniformTitle;
 	 
 	/**
 	 * @return the firstMatchForcontentType
@@ -74,5 +75,34 @@ public class ExpressionDetector {
 		this.firstMatchForOtherDistinguishFeatureForWork = firstMatchForOtherDistinguishFeatureForWork;
 	}
 	 
+	/**
+	 * @return the firstMatchForUniformTitle
+	 */
+	public FirstMatch<Document> getFirstMatchForUniformTitle() {
+		return firstMatchForUniformTitle;
+	}
+
+	/**
+	 * @param firstMatchForUniformTitle
+	 *            the firstMatchForUniformTitle to set
+	 */
+	public void setFirstMatchForUniformTitle(
+			final FirstMatch<Document> firstMatchForUniformTitle) {
+		this.firstMatchForUniformTitle = firstMatchForUniformTitle;
+	}
 	
+	/**
+	 * This method concat every xpath values for the expression entity 
+	 * 
+	 * @param target the target
+	 * @return the value 
+	 */
+	String concat(final Document target) {
+		StringBuffer buffer = new StringBuffer();
+		return 	 buffer.append(getFirstMatchForUniformTitle().evaluate(target))
+				.append(getFirstMatchForcontentType().evaluate(target)) 
+				.append(getFirstMatchForDate().evaluate(target)) 
+				.append(getFirstMatchLanguage().evaluate(target)) 
+				.append(getFirstMatchForOtherDistinguishFeatureForWork().evaluate(target)).toString();
+	}
 }

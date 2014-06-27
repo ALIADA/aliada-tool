@@ -10,6 +10,8 @@ import org.apache.camel.Processor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.w3c.dom.Document;
 
+import eu.aliada.rdfizer.datasource.Cache;
+import eu.aliada.rdfizer.pipeline.format.marc.frbr.model.EntitiesUriDocument;
 import eu.aliada.shared.log.Log;
 
 /**
@@ -31,51 +33,21 @@ public class FrbrEntitiesDetector implements Processor {
 	ManifestationDetector manifestationDetector;
 	
 	// TODO: JMX per entità individuate e "mancate"
-	
+	@Autowired
+	private Cache cache;
 
 	@Override
 	public void process(final Exchange exchange) throws Exception {
 		final Document target = exchange.getIn().getBody(Document.class);
 		
-	//	System.out.println(workDetector.getFirstMatchUniformTitle().evaluate(target));
+		EntitiesUriDocument entitiesDocument = new EntitiesUriDocument(target);
+		entitiesDocument.setWorkUri("id/resource/work/" + entitiesDocument.getIdentifier(workDetector.concat(target)));
+		entitiesDocument.setExpressionUri("id/resource/expression/" + entitiesDocument.getIdentifier(expressionDetector.concat(target)));
+		entitiesDocument.setManifestationUri("id/resource/work/" + manifestationDetector.getFirstMatchForControlNumber());
 		
-		String w = 	workDetector.getFirstMatchForUniformTitle().evaluate(target) + " -- " + 
-					workDetector.getFirstMatchForDate().evaluate(target) + " -- " +
-					workDetector.getFirstMatchForOtherStandardIdentifier().evaluate(target) + " -- " +
-					workDetector.getFirstMatchForCharacterDistinguish().evaluate(target);
+		exchange.getIn().setBody(entitiesDocument);
 		
-		String e = 	expressionDetector.getFirstMatchForcontentType().evaluate(target) + " -- " + 
-				expressionDetector.getFirstMatchForDate().evaluate(target) + " -- " +
-				expressionDetector.getFirstMatchForOtherDistinguishFeatureForWork().evaluate(target) + " -- " +
-				expressionDetector.getFirstMatchLanguage().evaluate(target);
-	
-		String m = manifestationDetector.getFirstMatchForControlNumber().evaluate(target);
-		
-		
-		exchange.getIn().setBody(m + " |" + w + "| " + e);
-		
-		// 1 group
-//		detectWork(record);
-//		
-//		detectExpression(record);
-//		
-//		detectManifestation(record);
-//		
-//		detectItem(record);
-		
-		// 2 group
-		// ...
 	}
 
-
 	
-//	@Override
-//	public void dispatchForFurtherProcessing(final Record record) {
-//		producer.send(new Processor() {
-//			@Override
-//			public void process(final Exchange outExchange) {
-//				outExchange.getIn().setBody(record);
-//			}
-//		});
-//	}	
 }
