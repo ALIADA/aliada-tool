@@ -61,7 +61,7 @@
 		</route>
 		<route>
 			<from uri="seda:marcxml-record-channel?concurrentConsumers=2&amp;size=1000&amp;blockWhenFull=true" />
-			<process ref="marc-xml-to-document-translator"/>
+			<process ref="xml-to-document-translator"/>
 			<to uri="seda:frbr-detector-channel?size=2500&amp;blockWhenFull=true" />
 		</route>
 		<route>

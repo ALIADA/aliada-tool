@@ -36,7 +36,7 @@ public final void setFirstMatchForControlNumber(
 
 	@Override
 	String concat(final Document target) {
-		return null;
+		return firstMatchForControlNumber.evaluate(target);
 	} 
 	
 }
