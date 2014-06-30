@@ -7,6 +7,7 @@ package eu.aliada.shared;
 
 import java.text.Normalizer;
 import java.text.Normalizer.Form;
+import java.util.UUID;
 
 /**
  * Strings Booch utility.
@@ -47,6 +48,7 @@ public abstract class Strings {
 		   return value == null ? null
 			        : Normalizer.normalize(value, Form.NFD)
 			            .replaceAll("\\p{InCombiningDiacriticalMarks}+", "")
+			            .replaceAll("©", "")
 			            .replaceAll(" ", "_");
 	}
 }

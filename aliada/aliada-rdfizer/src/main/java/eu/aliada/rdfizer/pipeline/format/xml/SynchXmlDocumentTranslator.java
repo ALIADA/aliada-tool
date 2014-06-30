@@ -6,13 +6,8 @@
 package eu.aliada.rdfizer.pipeline.format.xml;
 
 import java.io.BufferedWriter;
-import java.io.StringReader;
 import java.io.StringWriter;
 import java.io.Writer;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Message;
@@ -25,7 +20,6 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.xml.sax.InputSource;
 
 import eu.aliada.rdfizer.Constants;
 import eu.aliada.rdfizer.Function;
@@ -42,19 +36,6 @@ import eu.aliada.shared.log.Log;
  * @since 1.0
  */
 public class SynchXmlDocumentTranslator implements Processor, ApplicationContextAware {
-	
-	final ThreadLocal<DocumentBuilder> builders = new ThreadLocal<DocumentBuilder>() {
-		protected DocumentBuilder initialValue() {
-			try {
-				final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-				factory.setNamespaceAware(false);
-				return factory.newDocumentBuilder();
-			} catch (final ParserConfigurationException exception) {
-				throw new IllegalStateException(exception);
-			}
-		};
-	};
-	
 	final ThreadLocal<VelocityContext> contexts = new ThreadLocal<VelocityContext>() {
 		protected VelocityContext initialValue() {
 			final VelocityContext context = new VelocityContext();
@@ -83,7 +64,7 @@ public class SynchXmlDocumentTranslator implements Processor, ApplicationContext
 	@Override
 	public void process(final Exchange exchange) throws Exception {
 		final Message in = exchange.getIn();
-		final String recordAsString = in.getBody(String.class);
+		final Document document = in.getBody(Document.class);
 		final String format = in.getHeader(Constants.FORMAT_ATTRIBUTE_NAME, String.class);
 		final Integer jobId = in.getHeader(Constants.JOB_ID_ATTRIBUTE_NAME, Integer.class);
 		final JobConfiguration configuration = cache.getJobConfiguration(jobId);
@@ -92,7 +73,6 @@ public class SynchXmlDocumentTranslator implements Processor, ApplicationContext
 			throw new IllegalArgumentException(String.valueOf(jobId));
 		}
 		
-		final Document document = builders.get().parse(new InputSource(new StringReader(recordAsString)));
 		final Element root = document.getDocumentElement();
 		
 		@SuppressWarnings("unchecked")

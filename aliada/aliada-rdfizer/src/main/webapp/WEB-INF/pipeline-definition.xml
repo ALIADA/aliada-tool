@@ -12,7 +12,7 @@
 	<bean id="debugger" class="eu.aliada.rdfizer.pipeline.processors.JustDebug"/> 
 	<bean id="xpath" class="eu.aliada.rdfizer.pipeline.format.xml.XPath"/> 
 	<bean id="function" class="eu.aliada.rdfizer.Function"/>
-	<bean id="marc-xml-to-document-translator" class="eu.aliada.rdfizer.pipeline.format.xml.MarcXmlRecordToDocumentTranslator" />
+	<bean id="xml-to-document-translator" class="eu.aliada.rdfizer.pipeline.format.xml.XmlRecordToDocumentTranslator" />
 	
 	<bean id="frbr-entities-detector" class="eu.aliada.rdfizer.pipeline.format.marc.frbr.FrbrEntitiesDetector" />
 		
@@ -61,11 +61,12 @@
 		</route>
 		<route>
 			<from uri="seda:marcxml-record-channel?concurrentConsumers=2&amp;size=1000&amp;blockWhenFull=true" />
-			<process ref="marc-xml-to-document-translator"/>
+			<process ref="xml-to-document-translator"/>
 			<to uri="seda:frbr-detector-channel?size=2500&amp;blockWhenFull=true" />
 		</route>
 		<route>
 			<from uri="seda:lido-record-channel?concurrentConsumers=2&amp;size=1000&amp;blockWhenFull=true" />
+			<process ref="xml-to-document-translator"/>
 			<process ref="translate-xml-document"/>
 			<to uri="seda:triples-channel?size=250&amp;blockWhenFull=true" />
 		</route>

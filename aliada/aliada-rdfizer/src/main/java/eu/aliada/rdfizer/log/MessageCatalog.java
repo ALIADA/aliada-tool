@@ -40,5 +40,7 @@ public interface MessageCatalog {
 	String _00037_WRONG_INPUT_FILENAME = 
 			LT + MODULE_NAME + "-00037> : RDFizer requires a data file with the following format " 
 					+ "<name>[.suffix].<valid job id>. Your input file name (%s) doesn't follow this convention.";	
-	String _00038_UNKNOWN_JOB_ID = LT + MODULE_NAME + "-00038> : Unable to find the job configuration associated with job identifier %s";		
+	String _00038_UNKNOWN_JOB_ID = LT + MODULE_NAME + "-00038> : Unable to find the job configuration associated with job identifier %s";	
+	String _00039_STRING_TO_XML_FAILURE = LT + MODULE_NAME + "-00039> : Unable to translate  a given stream in a DOM Document. See below for further details.";	
+	String _00039_STRING_TO_XML_FAILURE_DEBUG_MESSAGE = LT + MODULE_NAME + "-00039> : ";	
 }

@@ -5,8 +5,7 @@
 // Responsible: ALIADA Consortiums
 package eu.aliada.rdfizer.pipeline.format.xml;
 
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
+import java.io.StringReader;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -14,17 +13,22 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
 import org.w3c.dom.Document;
+import org.xml.sax.InputSource;
+
+import eu.aliada.rdfizer.log.MessageCatalog;
+import eu.aliada.shared.log.Log;
+
 /**
- * A process to converter an Xml format to Document object.
+ * Converts an XML stream to a Document object.
+ * The incoming stream is supposed to be a valid XML document.
  * 
  * @author Emiliano Cammilletti
+ * @author Andrea Gazzarini
  * @since 1.0
  */
-public class MarcXmlRecordToDocumentTranslator implements Processor, ApplicationContextAware {
-
+public class XmlRecordToDocumentTranslator implements Processor {
+	private final Log logger = new Log(XmlRecordToDocumentTranslator.class);
 	
 	final ThreadLocal<DocumentBuilder> builders = new ThreadLocal<DocumentBuilder>() {
 		protected DocumentBuilder initialValue() {
@@ -38,24 +42,16 @@ public class MarcXmlRecordToDocumentTranslator implements Processor, Application
 		};
 	};
 	
-	@SuppressWarnings("unused")
-	private ApplicationContext context;
-	
-	
 	@Override
 	public void process(final Exchange exchange) throws Exception {
 		final String xmlRecord = exchange.getIn().getBody(String.class);
-		final DocumentBuilder db =  builders.get();
-        final InputStream is = new ByteArrayInputStream(xmlRecord.getBytes("utf-8"));
-        final Document target = db.parse(is);
-		exchange.getIn().setBody(target);
+		try {
+			final Document product =  builders.get().parse(new InputSource(new StringReader(xmlRecord)));
+			exchange.getIn().setBody(product);
+		} catch (final Exception exception) {
+			logger.error(MessageCatalog._00039_STRING_TO_XML_FAILURE, exception);
+			logger.debug(MessageCatalog._00039_STRING_TO_XML_FAILURE_DEBUG_MESSAGE, xmlRecord);
+			throw exception;
+		}
 	}
-	
-	
-	@Override
-	public void setApplicationContext(final ApplicationContext context) {
-		this.context = context;
-	}
-	
-
 }
