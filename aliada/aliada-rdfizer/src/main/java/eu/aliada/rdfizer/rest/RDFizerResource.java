@@ -28,7 +28,6 @@ import org.springframework.stereotype.Component;
 
 import eu.aliada.rdfizer.datasource.Cache;
 import eu.aliada.rdfizer.datasource.rdbms.JobConfiguration;
-import eu.aliada.rdfizer.datasource.rdbms.JobConfigurationRepository;
 import eu.aliada.rdfizer.log.MessageCatalog;
 import eu.aliada.shared.log.Log;
 
@@ -116,7 +115,6 @@ public class RDFizerResource {
 	 * @param format the format associated with the current conversion request.
 	 * @return the path where RDF-izer is listening for input datafiles.
 	 */
-	// TODO : supported formats are wrongly hard-coded
 	String listenPath(final String format) {
 		if ("lido".equals(format)) {
 			return lidoInputDir;

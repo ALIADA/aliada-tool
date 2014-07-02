@@ -52,34 +52,38 @@ $main_subject #ecrm("P70i_is_documented_in") $document_s .
 #if ($repositoryLocation)
     #set($address = $xpath.one("namePlaceSet/appellationValue", $repositoryLocation))
     #if ($address)
+		#set($E53_Place = "#ecrm('E53_Place')")
+		#set($P87_is_identified_by = "#ecrm('P87_is_identified_by')")
 		#set($value = $address.textContent)
     	#set($address_name_s = "#uri_with_strong_normalization('E44_Place_Appellation' $value)")
     	#set($address_s = "#uri_with_strong_normalization('E53_Place' $value)") 	
     	$address_name_s $is_a #ecrm("E44_Place_Appellation") .
     	$address_name_s $P3_has_note "$value" . 
-    	$address_s $is_a #ecrm("E53_Place") .
-    	$address_s #ecrm("P87_is_identified_by") $address_name_s . 
+    	$address_s $is_a $E53_Place .
+    	$address_s $P87_is_identified_by $address_name_s . 
     	$main_subject #ecrm("P55_has_current_location") $address_s .
 ##  	
         #set($coordinates = $xpath.one("gml/Point/pos", $repositoryLocation))
         #if($coordinates)
     		#set($lat_lon = $coordinates.textContent.split(" "))
-			$address_s #wgs("lat") "$lat_lon[0]" .
-			$address_s #wgs("lon") "$lat_lon[1]" . 
+			#if($lat_lon && $lat_lon.length == 2)
+				$address_s #wgs("lat") "$lat_lon[0]" .
+				$address_s #wgs("lon") "$lat_lon[1]" . 
+			#end	
         #end	
 ##		
 		#set($places = $xpath.many("partOfPlace/namePlaceSet/appellationValue", $repositoryLocation))
-		#if ($places)
-			#foreach ($place in $places)
-				#set($value = $place.textContent)
-    			#set($place_appellation_s = "#uri('E44_Place_Appellation' $value)")
-    			#set($place_s = "#uri('E53_Place' $value)")	
-    			$place_appellation_s $is_a #ecrm("E44_Place_Appellation") .
-    			$place_appellation_s $P3_has_note "$value" . 
-    			$place_s $is_a #ecrm("E53_Place") .
-    			$place_s #ecrm("P87_is_identified_by") $place_appellation_s . 
-    			$place_s #ecrm("P88_consists_of") $address_s . 
-			#end
+		#set($E44_Place_Appellation = "#ecrm('E44_Place_Appellation')")
+		#set($P88_consists_of = "#ecrm('P88_consists_of')")
+		#foreach ($place in $places)
+			#set($value = $place.textContent)
+			#set($place_appellation_s = "#uri('E44_Place_Appellation' $value)")
+			#set($place_s = "#uri('E53_Place' $value)")	
+			$place_appellation_s $is_a $E44_Place_Appellation .
+			$place_appellation_s $P3_has_note "$value" . 
+			$place_s $is_a $E53_Place .
+			$place_s $P87_is_identified_by $place_appellation_s . 
+			$place_s $P88_consists_of $address_s . 
 		#end
     #end    
 #end
@@ -91,13 +95,15 @@ $main_subject #ecrm("P70i_is_documented_in") $document_s .
 	#if ($displayObjectMeasurements)
 		$main_subject $P3_has_note "$displayObjectMeasurements.textContent" . 
 	#end	
+	#set($E58_Measurement_Unit = "#ecrm('E58_Measurement_Unit')")
+	#set($E54_Dimension = "#ecrm('E54_Dimension')")
 	#set($measurementsSets = $xpath.many("objectMeasurements/measurementsSet", $objectMeasurementsSet))
 	#foreach($measurementsSet in $measurementsSets)
 		#set($measurementUnit = $xpath.one("measurementUnit", $measurementsSet))
 		#set($m_unit = $measurementUnit.textContent)
 		#if ($measurementUnit)
 			#set($unit_s = "#uri('E58_Measurement_Unit' $m_unit)")
-			$unit_s $is_a #ecrm("E58_Measurement_Unit") . 
+			$unit_s $is_a $E58_Measurement_Unit . 
 			$unit_s $P3_has_note "$m_unit" . 	
 		#end	
 		#set($measurementType = $xpath.one("measurementType", $measurementsSet))
@@ -105,7 +111,7 @@ $main_subject #ecrm("P70i_is_documented_in") $document_s .
 		#if($measurementType && $measurementValue)
 			#set($m_type = $measurementType.textContent)
 			#set($type_s = "#uri('E54_Dimension' $m_type)")
-			$type_s $is_a #ecrm("E54_Dimension") . 
+			$type_s $is_a $E54_Dimension . 
 			$type_s $P3_has_note "$m_type" . 
 			$type_s #ecrm("P91_has_unit") $unit_s . 
 			$type_s #ecrm("P90_has_value") "$measurementValue.textContent" .
@@ -117,15 +123,17 @@ $main_subject #ecrm("P70i_is_documented_in") $document_s .
 ## EVENTS START
 ## EVENT TYPES START
 #set($events = $xpath.many("descriptiveMetadata/eventWrap/eventSet/event", $root))
+#set($E65_Creation = "#ecrm('E65_Creation')")
+#set($P12B_was_present_at = "#ecrm('P12B_was_present_at')")
 #foreach($event in $events)
 	#set($event_type_uri = $xpath.value("eventType[@type='URI']", $event))
 	#if($function.isNotNullAndNotEmpty($event_type_uri))
 		#set($event_type_uri = "<$event_type_uri>")
 		#set($event_type_s = "#uri_with_fragment('E65_Creation' $event_type_uri)")
 		$event_type_uri $is_a $Concept .
-		$event_type_s $is_a #ecrm("E65_Creation") . 
+		$event_type_s $is_a $E65_Creation . 
 		$event_type_s $P2_has_type $event_type_uri . 
-		$main_subject #ecrm("P12B_was_present_at") $event_type_s . 
+		$main_subject $P12B_was_present_at $event_type_s . 
 	#end	
 	## EVENT ACTORS START
 	#set($actors = $xpath.many("eventActor", $event))

@@ -20,8 +20,9 @@ import eu.aliada.rdfizer.log.MessageCatalog;
 import eu.aliada.shared.log.Log;
 
 /**
- * Converts an XML stream to a Document object.
+ * Converts an XML stream to a {@link Document} object.
  * The incoming stream is supposed to be a valid XML document.
+ * The outcoming message will contain the DOM {@link Document}.
  * 
  * @author Emiliano Cammilletti
  * @author Andrea Gazzarini
@@ -31,6 +32,7 @@ public class XmlRecordToDocumentTranslator implements Processor {
 	private final Log logger = new Log(XmlRecordToDocumentTranslator.class);
 	
 	final ThreadLocal<DocumentBuilder> builders = new ThreadLocal<DocumentBuilder>() {
+		@Override
 		protected DocumentBuilder initialValue() {
 			try {
 				final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();

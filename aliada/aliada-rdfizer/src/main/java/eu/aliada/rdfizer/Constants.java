@@ -19,4 +19,5 @@ public interface Constants {
 	String JOB_CONFIGURATION_ATTRIBUTE_NAME = "configuration";
 	String XPATH_ATTRIBUTE_NAME = "xpath";
 	String FUNCTION_ATTRIBUTE_NAME = "function";
+	String FRBR_DATA_ATTRIBUTE_NAME = "frbr";
 }

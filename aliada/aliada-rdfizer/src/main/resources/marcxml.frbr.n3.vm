@@ -1,0 +1,9 @@
+#set($work_s = "#uri('F1_Work' $frbr.workURI)")
+#set($expression_s = "#uri('F24_Publication_Expression' $frbr.expressionURI)")
+#set($manifestation_s = "#uri('F3_Manifestation_Product_Type' $frbr.manifestationURI)")
+#set($is_a = "#rdf('type')")
+$work_s $is_a #efrbroo('F1_Work') . 
+$expression_s $is_a #efrbroo('F24_Publication_Expression') . 
+$manifestation_s $is_a #efrbroo('F3_Manifestation_Product_Type') . 
+$work_s #efrbroo('R40_has_representative_expression') $expression_s . 
+$expression_s #efrbroo('R4_carriers_provided_by') $manifestation_s . 

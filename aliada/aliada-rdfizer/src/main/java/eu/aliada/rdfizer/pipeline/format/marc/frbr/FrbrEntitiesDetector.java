@@ -5,6 +5,8 @@
 // Responsible: ALIADA Consortiums
 package eu.aliada.rdfizer.pipeline.format.marc.frbr;
 
+import java.util.UUID;
+
 import org.apache.camel.Exchange;
 import org.apache.camel.Message;
 import org.apache.camel.Processor;
@@ -13,13 +15,16 @@ import org.w3c.dom.Document;
 
 import eu.aliada.rdfizer.Constants;
 import eu.aliada.rdfizer.datasource.Cache;
-import eu.aliada.rdfizer.pipeline.format.marc.frbr.model.EntitiesUriDocument;
+import eu.aliada.rdfizer.datasource.rdbms.JobConfiguration;
+import eu.aliada.rdfizer.log.MessageCatalog;
+import eu.aliada.rdfizer.pipeline.format.marc.frbr.model.FrbrDocument;
 import eu.aliada.shared.log.Log;
 
 /**
  * Extracts from a given (MARC) record, the FRBR entities.
  * 
  * @author Emiliano Cammilletti
+ * @author Andrea Gazzarini
  * @since 1.0
  */
 public class FrbrEntitiesDetector implements Processor {
@@ -34,30 +39,36 @@ public class FrbrEntitiesDetector implements Processor {
 	@Autowired
 	ManifestationDetector manifestationDetector;
 	
-	/*
- 	* TODO  This attibute must be configurable
- 	* 
- 	*/
-	private String uriConstant = "/id/resource/";
-	
-	// TODO: JMX per entità individuate e "mancate"
 	@Autowired
 	private Cache cache;
 
 	@Override
 	public void process(final Exchange exchange) throws Exception {
-		
 		final Message in = exchange.getIn();
 		final Integer jobId = in.getHeader(Constants.JOB_ID_ATTRIBUTE_NAME, Integer.class);
-		final String namespace = cache.getJobConfiguration(jobId).getNamespace();
+		final JobConfiguration configuration = cache.getJobConfiguration(jobId);
+		if (configuration == null) {
+			log.error(MessageCatalog._00038_UNKNOWN_JOB_ID, jobId);
+			throw new IllegalArgumentException(String.valueOf(jobId));
+		}
 		
 		final Document target = exchange.getIn().getBody(Document.class);
-		
-		EntitiesUriDocument entitiesDocument = new EntitiesUriDocument(target);
-		entitiesDocument.setWorkUri(namespace + uriConstant + "work/" + entitiesDocument.getIdentifier(workDetector.concat(target)));
-		entitiesDocument.setExpressionUri(namespace + uriConstant + "expression/" + entitiesDocument.getIdentifier(expressionDetector.concat(target)));
-		entitiesDocument.setManifestationUri(namespace + uriConstant + "manifestation/" + manifestationDetector.concat(target));
-		
+
+		final FrbrDocument entitiesDocument = new FrbrDocument(
+				target,
+				workDetector.concat(target),
+				expressionDetector.concat(target),
+				manifestationDetector.concat(target));
 		exchange.getIn().setBody(entitiesDocument);
 	}
+	
+	/**
+	 * Return an unique identifier from a string.
+	 * 
+	 * @param value the string value.
+	 * @return the identifier associated with the incoming value.
+	 */
+	public String identifier(final String value) {
+		return UUID.nameUUIDFromBytes(value.getBytes()).toString();
+	}	
 }
