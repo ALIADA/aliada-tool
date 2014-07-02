@@ -125,5 +125,6 @@
 		<module>aliada-links-discovery</module>
 		<module>aliada-linked-data-server</module>
 		<module>aliada-ckan-datahub-page-creation</module>
+		<module>aliada-links-discovery-application-client</module>
 	</modules>
 </project>
