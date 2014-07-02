@@ -22,7 +22,7 @@ public interface MainSubjectDetectionRule<I, O> {
 	 * @param input the input.
 	 * @param configuration the configuration of the job associated with the current conversion.
 	 * @return the main subject.
-	 * @throws UnableToDetermineMainSubectException in case the subject cannot be determined.
+	 * @throws UnableToProceedWithConversionException in case the subject cannot be determined.
 	 */
-	O computeFrom(I input, JobConfiguration configuration) throws UnableToDetermineMainSubectException;
+	O computeFrom(I input, JobConfiguration configuration) throws UnableToProceedWithConversionException;
 }

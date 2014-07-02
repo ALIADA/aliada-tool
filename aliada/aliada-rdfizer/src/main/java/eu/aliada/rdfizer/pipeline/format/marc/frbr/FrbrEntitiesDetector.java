@@ -51,15 +51,14 @@ public class FrbrEntitiesDetector implements Processor {
 			log.error(MessageCatalog._00038_UNKNOWN_JOB_ID, jobId);
 			throw new IllegalArgumentException(String.valueOf(jobId));
 		}
-		
-		final Document target = exchange.getIn().getBody(Document.class);
 
-		final FrbrDocument entitiesDocument = new FrbrDocument(
-				target,
-				workDetector.concat(target),
-				expressionDetector.concat(target),
-				manifestationDetector.concat(target));
-		exchange.getIn().setBody(entitiesDocument);
+		final FrbrDocument entitiesDocument = frbrDetection(exchange.getIn().getBody(Document.class));
+		if (entitiesDocument.isValid()) {
+			in.setBody(entitiesDocument);
+		} else {
+			log.debug(MessageCatalog._00041_FRBR_ENTITY_DETECTION_FAILED);
+			in.setBody(null);
+		}
 	}
 	
 	/**
@@ -69,6 +68,20 @@ public class FrbrEntitiesDetector implements Processor {
 	 * @return the identifier associated with the incoming value.
 	 */
 	public String identifier(final String value) {
-		return UUID.nameUUIDFromBytes(value.getBytes()).toString();
+		return value != null ? UUID.nameUUIDFromBytes(value.getBytes()).toString() : null;
 	}	
+	
+	/**
+	 * Detects the FRBR entities.
+	 * 
+	 * @param target the current record (as {@link Document}). 
+	 * @return the FRBR value object.
+	 */
+	FrbrDocument frbrDetection(final Document target) {
+		return new FrbrDocument(
+				target,
+				identifier(workDetector.detect(target)),
+				identifier(expressionDetector.detect(target)),
+				identifier(manifestationDetector.detect(target)));
+	}
 }

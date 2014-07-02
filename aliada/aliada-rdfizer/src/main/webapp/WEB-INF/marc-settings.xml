@@ -9,7 +9,7 @@
 
 <!-- S T A R T   R U L E S   F O R   W O R K   E N T I T Y  -->
 
-	<bean id="w-first-match-uniform-title"
+	<bean id="work-uniform-title"
 		class="eu.aliada.rdfizer.pipeline.format.marc.selector.FirstMatch">
 		<constructor-arg>
 			<list>
@@ -241,7 +241,7 @@
 		</constructor-arg>
 	</bean>
 
-	<bean id="w-first-match-work-date"
+	<bean id="work-date"
 		class="eu.aliada.rdfizer.pipeline.format.marc.selector.FirstMatch">
 		<constructor-arg>
 			<list>
@@ -330,7 +330,7 @@
 		</constructor-arg>
 	</bean>
 
-	<bean id="w-first-match-other-standard-identifier"
+	<bean id="work-other-standard-identifier"
 		class="eu.aliada.rdfizer.pipeline.format.marc.selector.FirstMatch">
 		<constructor-arg>
 			<list>
@@ -351,7 +351,7 @@
 		</constructor-arg>
 	</bean>
 	
-	<bean id="w-first-match-character-distinguish" class="eu.aliada.rdfizer.pipeline.format.marc.selector.FirstMatch" >
+	<bean id="work-character-distinguish" class="eu.aliada.rdfizer.pipeline.format.marc.selector.FirstMatch" >
 		<constructor-arg>
 		 <list>
 		  <bean class="eu.aliada.rdfizer.pipeline.format.marc.selector.xml.VariableFieldExpression">
@@ -364,8 +364,8 @@
 	
 <!-- S T A R T   R U L E S   F O R   E X P R E S S I O N   E N T I T Y  -->
 
-	<bean id="e-first-match-content-type"
-		class="eu.aliada.rdfizer.pipeline.format.marc.selector.FirstMatch">
+	<bean id="expression-content-type"
+		class="eu.aliada.rdfizer.pipeline.format.marc.selector.AllMatches">
 		<constructor-arg>
 			<list>
 				<bean
@@ -421,8 +421,8 @@
 		</constructor-arg>
 	</bean>
 
-	<bean id="e-first-match-date"
-		class="eu.aliada.rdfizer.pipeline.format.marc.selector.FirstMatch">
+	<bean id="expression-date"
+		class="eu.aliada.rdfizer.pipeline.format.marc.selector.AllMatches">
 		<constructor-arg>
 			<list>
 				<bean
@@ -509,8 +509,8 @@
 		</constructor-arg>
 	</bean>
 
-	<bean id="e-first-match-language"
-		class="eu.aliada.rdfizer.pipeline.format.marc.selector.FirstMatch">
+	<bean id="expression-language"
+		class="eu.aliada.rdfizer.pipeline.format.marc.selector.AllMatches">
 		<constructor-arg>
 			<list>
 				<bean
@@ -585,8 +585,8 @@
 		</constructor-arg>
 	</bean>
 
-	<bean id="e-first-match-other-distinguish-feature-Work"
-		class="eu.aliada.rdfizer.pipeline.format.marc.selector.FirstMatch">
+	<bean id="expression-other-distinguish-feature-Work"
+		class="eu.aliada.rdfizer.pipeline.format.marc.selector.AllMatches">
 		<constructor-arg>
 			<list>
 				<bean
@@ -682,7 +682,7 @@
 
 <!-- S T A R T   R U L E S   F O R   M A N I F E S T A T I O N   E N T I T Y  -->
 
-	<bean id="m-first-match-control-number"
+	<bean id="manifestation-control-number"
 		class="eu.aliada.rdfizer.pipeline.format.marc.selector.FirstMatch">
 		<constructor-arg>
 			<list>
@@ -697,22 +697,28 @@
 <!-- E N D   R U L E S   F O R   M A N I F E S T A T I O N   E N T I T Y  -->
 	
 	<bean id="work-detector" class="eu.aliada.rdfizer.pipeline.format.marc.frbr.WorkDetector">
-      <property name="firstMatchForUniformTitle" ref="w-first-match-uniform-title" />
-      <property name="firstMatchForDate" ref="w-first-match-work-date" />
-      <property name="firstMatchForOtherStandardIdentifier" ref="w-first-match-other-standard-identifier" />
-	  <property name="firstMatchForCharacterDistinguish" ref="w-first-match-character-distinguish" />	
+		<constructor-arg ref="work-uniform-title"/>
+		<constructor-arg>
+	      	<list>
+	      		<ref bean="work-date"/>
+	      		<ref bean="work-other-standard-identifier"/>
+	      		<ref bean="work-character-distinguish"/>
+	      	</list>
+		</constructor-arg>
 	</bean>
 
 	<bean id="expression-detector" class="eu.aliada.rdfizer.pipeline.format.marc.frbr.ExpressionDetector">
-      <property name="firstMatchForcontentType" ref="e-first-match-content-type" />
-      <property name="firstMatchForDate" ref="e-first-match-date" />
-      <property name="firstMatchLanguage" ref="e-first-match-language" />
-	  <property name="firstMatchForOtherDistinguishFeatureForWork" ref="e-first-match-other-distinguish-feature-Work" />
-	  <property name="firstMatchForUniformTitle" ref="w-first-match-uniform-title" />	
+		<constructor-arg>
+			<list>
+      			<ref bean="expression-content-type"/>
+				<ref bean="expression-date" />
+				<ref bean="expression-language" />
+				<ref bean="expression-other-distinguish-feature-Work" />
+			</list>
+		</constructor-arg>
 	</bean>
-	
+				
 	<bean id="manifestation-detector" class="eu.aliada.rdfizer.pipeline.format.marc.frbr.ManifestationDetector">
-      <property name="firstMatchForControlNumber" ref="m-first-match-control-number" />
-	</bean>
-		
+      <constructor-arg ref="manifestation-control-number" />
+	</bean>	
 </beans>

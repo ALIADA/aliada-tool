@@ -12,7 +12,7 @@ import org.w3c.dom.Element;
 
 import eu.aliada.rdfizer.Constants;
 import eu.aliada.rdfizer.datasource.rdbms.JobConfiguration;
-import eu.aliada.rdfizer.framework.UnableToDetermineMainSubectException;
+import eu.aliada.rdfizer.framework.UnableToProceedWithConversionException;
 import eu.aliada.rdfizer.pipeline.format.marc.frbr.model.FrbrDocument;
 import eu.aliada.rdfizer.pipeline.format.xml.SynchXmlDocumentTranslator;
 
@@ -30,9 +30,9 @@ public class FrbrDocumentTranslator extends SynchXmlDocumentTranslator {
 	protected void populateVelocityContext(
 			final VelocityContext velocityContext, 
 			final Message message, 
-			final JobConfiguration configuration) throws UnableToDetermineMainSubectException {
+			final JobConfiguration configuration) throws UnableToProceedWithConversionException {
 		final FrbrDocument data = message.getBody(FrbrDocument.class);
-		
+				
 		final Document document = data.getDocument();
 		final Element root = document.getDocumentElement();
 		velocityContext.put(Constants.ROOT_ELEMENT_ATTRIBUTE_NAME, root);

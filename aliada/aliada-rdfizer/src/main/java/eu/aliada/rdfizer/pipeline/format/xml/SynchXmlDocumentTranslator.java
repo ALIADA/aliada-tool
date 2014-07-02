@@ -27,7 +27,7 @@ import eu.aliada.rdfizer.Function;
 import eu.aliada.rdfizer.datasource.Cache;
 import eu.aliada.rdfizer.datasource.rdbms.JobConfiguration;
 import eu.aliada.rdfizer.framework.MainSubjectDetectionRule;
-import eu.aliada.rdfizer.framework.UnableToDetermineMainSubectException;
+import eu.aliada.rdfizer.framework.UnableToProceedWithConversionException;
 import eu.aliada.rdfizer.log.MessageCatalog;
 import eu.aliada.shared.log.Log;
 
@@ -87,6 +87,13 @@ public class SynchXmlDocumentTranslator implements Processor, ApplicationContext
 	@Override
 	public final void process(final Exchange exchange) throws Exception {
 		final Message in = exchange.getIn();
+		
+		// Sanity check: if previous processor didn't put a valid data object in the body
+		// the conversion chain for this record must stop here
+		if (in.getBody() == null) {
+			return;
+		}
+		
 		final String format = in.getHeader(Constants.FORMAT_ATTRIBUTE_NAME, String.class);
 		final Integer jobId = in.getHeader(Constants.JOB_ID_ATTRIBUTE_NAME, Integer.class);
 		final JobConfiguration configuration = cache.getJobConfiguration(jobId);
@@ -135,12 +142,12 @@ public class SynchXmlDocumentTranslator implements Processor, ApplicationContext
 	 * @param velocityContext the velocity context.
 	 * @param message the incoming message.
 	 * @param configuration the job configuration.
-	 * @throws UnableToDetermineMainSubectException in case is not possible to determine the main entity subject.
+	 * @throws UnableToProceedWithConversionException in case is not possible to determine the main entity subject.
 	 */
 	protected void populateVelocityContext(
 			final VelocityContext velocityContext, 
 			final Message message, 
-			final JobConfiguration configuration) throws UnableToDetermineMainSubectException {
+			final JobConfiguration configuration) throws UnableToProceedWithConversionException {
 		final String format = message.getHeader(Constants.FORMAT_ATTRIBUTE_NAME, String.class);
 
 		@SuppressWarnings("unchecked")

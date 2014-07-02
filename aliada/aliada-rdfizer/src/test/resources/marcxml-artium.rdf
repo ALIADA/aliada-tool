@@ -1,0 +1,247 @@
+<?xml version="1.0"?>
+<rdf:RDF xmlns="http://www.w3.org/2oo2/07/owl#"
+     xml:base="http://www.w3.org/2oo2/07/owl"
+     xmlns:rdfs="http://www.w3.org/2oo0/01/rdf-schema#"
+     xmlns:efrbroo="http://erlangen-crm.org/efrbroo/"
+     xmlns:owl="http://www.w3.org/2oo2/07/owl#"
+     xmlns:xsd="http://www.w3.org/2oo1/XMLSchema#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+	 xmlns:ecrm "http://erlangen-crm.org/current/>
+
+	 
+	 
+	 <!-- MANIFESTATION CREATION. 
+	 ISBN: marc:datafield tag="020" marc:subfield code="a":978-84-234-1398-0 ISBN 
+	 <marc:datafield tag="852" ind1=" " ind2=" "> <marc:subfield code="S">COM MAL3 1</marc:subfield>: Manifestation identifier. This one for what??????????
+	  <marc:controlfield tag="oo1">oooooo145395</marc:controlfield>: to recreate the URI!!! BEGIN -->
+	 
+	 <rdf:Description rdf:about="http://www.artium.org/id/resource/F3_Manifestation_Product_Type/oooooo145395">
+		<rdf:type rdf:resource="efrbroo:F3_Manifestation_Product_Type"/>
+		<ecrm:P149_is_identified_by rdf:resource="http://www.artium.org/id/resource/F3_Manifestation_Product_Type/oooooo145395/E75_Conceptual_Object_Appellation/1"/>
+	</rdf:Description>
+	
+	<rdf:Description rdf:about="http://www.artium.org/id/resource/F3_Manifestation_Product_Type/oooooo145395/E75_Conceptual_Object_Appellation/1">
+		<rdf:type rdf:resource="efrbroo:E75_Conceptual_Object_Appellation"/>
+		<ecrm:P3_has_note  rdf:datatype="http://www.w3.org/2oo1/XMLSchema#string">978-84-234-1398-0</ecrm:P3_has_note>
+	</rdf:Description>
+	<!-- ISBN: marc:datafield tag="020" marc:subfield code="a":978-84-234-1398-0  
+	marc:datafield tag="852" ind1=" " ind2=" "> <marc:subfield code="S">COM MAL3 1</marc:subfield>: END -->
+	<!-- ============================================================================ -->
+	
+	<!-- EXPRESSION CREATION. -	SUMMARY: marc:datafield tag="520" marc:subfield code ="a": La mejor forma de sobrellevar la crisis es riéndose de ella. En este libro, 
+el conocido humorista gráfico Malagón nos propone un viaje por los mercados, los bancos, la sanidad, 
+los indignados, la casta política y los recortes, en el que retrata con sorna todo lo que al final nos 
+cabrea de esta crisis. Y es que el cabreo puede ser el motor del cambio. Abandonemos nuestro acomodado 
+enfado frente a la televisión y pasemos al siguiente estado de ánimo, un creciente y cada vez más generalizado
+ cabreo ante la realidad que, debido a algunos, tenemos muchos. (Fuente: Planeta de Libros) BEGIN -->
+ 
+   <!-- F2 Expression -->
+    <rdf:Description rdf:about="http://www.artium.org/id/resource/F3_Manifestation_Product_Type/oooooo145395/F2_Expression/1">
+		<rdf:type rdf:resource="efrbroo:F2_Expression"/>
+		<!-- to link the expression with the manifestation -->
+		<efrbroo:R4_carriers_provided_by rdf:resource="http://www.artium.org/id/resource/F3_Manifestation_Product_Type/oooooo145395" />
+  </rdf:Description>
+  
+  <!-- F24_Publication_Expression to hold the summary--> 
+    <rdf:Description rdf:about="http://www.artium.org/id/resource/F3_Manifestation_Product_Type/oooooo145395/F24_Publication_Expression/1">
+	<rdf:type rdf:resource="efrbroo:F24_Publication_Expression"/>
+	<!-- to link to the expression -->
+	<efrbroo:R14_incorporates rdf:resource="http://www.artium.org/id/resource/F3_Manifestation_Product_Type/oooooo145395/F2_Expression/1" />
+	<!-- to link to the linguistic object that holds the summary -->
+	<ecrm:P106_is_composed_of rdf:resource="http://www.artium.org/id/resource/F3_Manifestation_Product_Type/oooooo145395/F24_Publication_Expression/1/E33_Linguistic_Object/1" />
+	</rdf:Description>
+	<!-- F24_Publication_Expression/1 -->
+	<rdf:Description rdf:about="http://www.artium.org/id/resource/F3_Manifestation_Product_Type/oooooo145395/F24_Publication_Expression/1/E33_Linguistic_Object/1">
+	 <rdf:type rdf:resource="efrbroo:E33_Linguistic_Object"/>
+	 <ecrm:P3_has_note rdf:datatype="http://www.w3.org/2oo1/XMLSchema#string">La mejor forma de sobrellevar la crisis es riéndose de ella. En este libro, el conocido humorista gráfico Malagón nos propone un viaje por los mercados, los bancos, la sanidad, los indignados, la casta política y los recortes, en el que retrata con sorna todo lo que al final nos cabrea de esta crisis. Y es que el cabreo puede ser el motor del cambio. Abandonemos nuestro acomodado enfado frente a la televisión y pasemos al siguiente estado de ánimo, un creciente y cada vez más generalizado cabreo ante la realidad que, debido a algunos, tenemos muchos. Fuente: Planeta de Libros</ecrm:P3_has_note>
+	<!-- Language association <marc:datafield tag="040" ind1=" " ind2=" "> <marc:subfield code="b">spa</marc:subfield>-->    
+	<ecrm:P72_has_language rdf:resource="http://www.artium.org/id/resource/E56_Language/spa" />
+	</rdf:Description>
+	
+	<!-- Language instance creation <marc:datafield tag="040" ind1=" " ind2=" "> <marc:subfield code="b">spa</marc:subfield>
+-->
+	<rdf:Description rdf:about="http://www.artium.org/id/resource/E56_Language/spa" >
+	<rdf:type rdf:resource="efrbroo:E56_Language" />
+	<ecrm:P3_has_note rdf:datatype="http://www.w3.org/2oo1/XMLSchema#string">spa</ecrm:P3_has_note>
+	</rdf:Description>
+	
+	<!-- to link the manifestation with the publication expression -->
+	<rdf:Description rdf:about="http://www.artium.org/id/resource/F3_Manifestation_Product_Type/oooooo145395">
+	<efrbroo:CLP128_should_carry rdf:resource="http://www.artium.org/id/resource/F3_Manifestation_Product_Type/oooooo145395/F24_Publication_Expression/1" />
+	</rdf:Description>
+ 
+	<!-- marc:datafield tag="520" marc:subfield code ="a":  
+	END-->
+    <!-- ============================================================================ -->
+    
+	<!-- marc:datafield tag="1oo" code ="a"  <marc:subfield code="a">Malagón.</marc:subfield> 
+	marc:datafield tag="9oo"  code="a" Rubio Malagón, José.    BEGIN-->
+	<!-- Person creation -->
+	<rdf:Description rdf:about="http://www.artium.org/id/resource/E21_Person/Malagon" >
+	<rdf:type rdf:resource="efrbroo:E21_Person" />
+	<ecrm:P131_is_identified_by rdf:resource="http://www.artium.org/id/resource/E21_Person/Malagon/E82_Actor_Appellation/1"/>
+	<ecrm:P131_is_identified_by rdf:resource="http://www.artium.org/id/resource/E21_Person/Malagon/E82_Actor_Appellation/2"/>
+	</rdf:Description>
+	
+	<!-- What is the relation of the Person with the Manifestation, Work or whatever ????????????????????????? -->
+	
+	<!-- appellation 1: 520 - a -->
+	<rdf:Description rdf:about="http://www.artium.org/id/resource/E21_Person/Malagon/E82_Actor_Appellation/1" >
+	 <rdf:type rdf:resource="efrbroo:E82_Actor_Appellation" />
+	 <ecrm:P3_has_note rdf:datatype="http://www.w3.org/2oo1/XMLSchema#string">Malagon</ecrm:P3_has_note>
+	</rdf:Description>
+	
+	<!-- appellation 2: 9oo -  a-->
+	<rdf:Description rdf:about="http://www.artium.org/id/resource/E21_Person/Malagon/E82_Actor_Appellation/2" >
+	 <rdf:type rdf:resource="efrbroo:E82_Actor_Appellation" />
+	 <ecrm:P3_has_note rdf:datatype="http://www.w3.org/2oo1/XMLSchema#string">Rubio Malagón, José</ecrm:P3_has_note>
+	</rdf:Description>
+	<!-- marc:datafield tag="1oo" code ="a" END-->
+	<!-- ============================================================================ -->
+
+	 <!-- marc:datafield tag="245" code ="a" and "b" <marc:subfield code="a">¡Cabreaos! :</marc:subfield> <marc:subfield code="b">se ríen por encima de nuestras posibilidades /</marc:subfield>BEGIN-->
+	 <rdf:Description rdf:about="http://www.artium.org/id/resource/F3_Manifestation_Product_Type/oooooo145395/E35_Title/1">
+	  <rdf:type rdf:resource="efrbroo:E35_Title" />
+	  <ecrm:P3_has_note rdf:datatype="http://www.w3.org/2oo1/XMLSchema#string">¡Cabreaos!: se ríen por encima de nuestras posibilidades</ecrm:P3_has_note>
+	 </rdf:Description>
+	 
+	 <!-- to assign the title to the Manifestation -->
+	 <rdf:Description rdf:about="http://www.artium.org/id/resource/F3_Manifestation_Product_Type/oooooo145395">
+	 <ecrm:P102_has_title rdf:resource="http://www.artium.org/id/resource/F3_Manifestation_Product_Type/oooooo145395/E35_Title/1" />
+	 </rdf:Description>
+	 
+	<!-- marc:datafield tag="245" code ="a" and "b" <marc:subfield code="a">¡Cabreaos! :</marc:subfield> <marc:subfield code="b">	 END -->
+		<!-- F24_Publication_Expression/2 -->
+	 <rdf:Description rdf:about="http://www.artium.org/id/resource/F3_Manifestation_Product_Type/oooooo145395/F24_Publication_Expression/2">
+		<rdf:type rdf:resource="efrbroo:F24_Publication_Expression" />
+		<!-- to link to the expression -->
+		<efrbroo:R14_incorporates rdf:resource="http://www.artium.org/id/resource/F3_Manifestation_Product_Type/oooooo145395/F2_Expression/1" />
+		<!-- to link to the linguistic object that holds the statement of responsibility -->
+		<ecrm:P106_is_composed_of rdf:resource="http://www.artium.org/id/resource/F3_Manifestation_Product_Type/oooooo145395/F24_Publication_Expression/2/E33_Linguistic_Object/1" />
+	 </rdf:Description>
+	 
+	 <rdf:Description rdf:about="http://www.artium.org/id/resource/F3_Manifestation_Product_Type/oooooo145395/F24_Publication_Expression/2/E33_Linguistic_Object/1">
+		<rdf:type rdf:resource="efrbroo:E33_Linguistic_Object"/>
+		<ecrm:P3_has_note rdf:datatype="http://www.w3.org/2oo1/XMLSchema#string">Malagón.</ecrm:P3_has_note>
+		<!-- type: statement of responsibility -->
+		<ecrm:P2_has_type rdf:resource="http://aliada-project.eu/2014/aliada-ontology/id/resource/Concept/MARC/1"/>
+	</rdf:Description>
+	  <!-- marc:datafield tag="245" code ="c"  <marc:subfield code="c">Malagón.</marc:subfield> Statement of responsibility END-->
+	 <!-- ============================================================================ -->
+	 
+	 <!-- marc:datafield tag="260" code ="a" marc:subfield code="a">Barcelona :</marc:subfield> Place of publication BEGIN -->
+	 <!-- F24_Publication_Expression/3 -->
+	 <rdf:Description rdf:about="http://www.artium.org/id/resource/F3_Manifestation_Product_Type/oooooo145395/F24_Publication_Expression/3">
+		<rdf:type rdf:resource="efrbroo:F24_Publication_Expression" />
+		<!-- to link to the expression -->
+		<efrbroo:R14_incorporates rdf:resource="http://www.artium.org/id/resource/F3_Manifestation_Product_Type/oooooo145395/F2_Expression/1" />
+		<!-- to link to the linguistic object that holds the statement of responsibility -->
+		<ecrm:P106_is_composed_of rdf:resource="http://www.artium.org/id/resource/F3_Manifestation_Product_Type/oooooo145395/F24_Publication_Expression/3/E33_Linguistic_Object/1" />
+	 </rdf:Description>
+	 
+	 <rdf:Description rdf:about="http://www.artium.org/id/resource/F3_Manifestation_Product_Type/oooooo145395/F24_Publication_Expression/3/E33_Linguistic_Object/1">
+		<rdf:type rdf:resource="efrbroo:E33_Linguistic_Object"/>
+		<ecrm:P3_has_note rdf:datatype="http://www.w3.org/2oo1/XMLSchema#string">Barcelona</ecrm:P3_has_note>
+		<!-- type: Place of publication/distribution -->
+		<ecrm:P2_has_type rdf:resource="http://aliada-project.eu/2014/aliada-ontology/id/resource/Concept/MARC/3"/>
+	</rdf:Description>
+	 <!-- marc:datafield tag="260" code ="a" marc:subfield code="a">Barcelona :</marc:subfield> Place of publication END -->
+	 <!-- ============================================================================ -->
+	
+	<!-- marc:datafield tag="260" code ="b" <marc:subfield code="b">Grupo Planeta,</marc:subfield> Publisher/distributor BEGIN -->
+	 <!-- F24_Publication_Expression/4 -->
+	 
+	 <rdf:Description rdf:about="http://www.artium.org/id/resource/F3_Manifestation_Product_Type/oooooo145395/F24_Publication_Expression/4">
+		<rdf:type rdf:resource="efrbroo:F24_Publication_Expression" />
+		<!-- to link to the expression -->
+		<efrbroo:R14_incorporates rdf:resource="http://www.artium.org/id/resource/F3_Manifestation_Product_Type/oooooo145395/F2_Expression/1" />
+		<!-- to link to the linguistic object that holds the statement of responsibility -->
+		<ecrm:P106_is_composed_of rdf:resource="http://www.artium.org/id/resource/F3_Manifestation_Product_Type/oooooo145395/F24_Publication_Expression/4/E33_Linguistic_Object/1" />
+	 </rdf:Description>
+	 
+	 <rdf:Description rdf:about="http://www.artium.org/id/resource/F3_Manifestation_Product_Type/oooooo145395/F24_Publication_Expression/4/F30_Publication_Event/1">
+		<rdf:type rdf:resource="efrbroo:F30_Publication_Event" />
+		<efrbroo:R24_created rdf:resource="http://www.artium.org/id/resource/F3_Manifestation_Product_Type/oooooo145395/F24_Publication_Expression/4" />
+	 	 <ecrm:P14_carried_out_by rdf:resource="http://www.artium.org/id/resource/F3_Manifestation_Product_Type/oooooo145395/F24_Publication_Expression/4/F30_Publication_Event/1/E39_Actor/1"/>
+	 </rdf:Description>
+	 
+	 <rdf:Description rdf:about="http://www.artium.org/id/resource/F3_Manifestation_Product_Type/oooooo145395/F24_Publication_Expression/4/F30_Publication_Event/1/E39_Actor/1" >
+	 <rdf:type rdf:resource="efrbroo:E39_Actor"/>
+	 <ecrm:P131_is_identified_by rdf:resource="http://www.artium.org/id/resource/F3_Manifestation_Product_Type/oooooo145395/F24_Publication_Expression/4/F30_Publication_Event/1/E39_Actor/1/E82_Actor_Appellation/1" />
+	 </rdf:Description>
+	 
+	<rdf:Description rdf:about="http://www.artium.org/id/resource/F3_Manifestation_Product_Type/oooooo145395/F24_Publication_Expression/4/F30_Publication_Event/1/E39_Actor/1/E82_Actor_Appellation/1" >
+	<rdf:type rdf:resource="efrbroo:E82_Actor_Appellation"/>
+	<ecrm:P3_has_note rdf:datatype="http://www.w3.org/2oo1/XMLSchema#string">Grupo Planeta,</ecrm:P3_has_note>
+	</rdf:Description>
+	
+	 <rdf:Description rdf:about="http://www.artium.org/id/resource/F3_Manifestation_Product_Type/oooooo145395/F24_Publication_Expression/4/E33_Linguistic_Object/1">
+		<rdf:type rdf:resource="efrbroo:E33_Linguistic_Object"/>
+		<ecrm:P3_has_note rdf:datatype="http://www.w3.org/2oo1/XMLSchema#string">Grupo Planeta,</ecrm:P3_has_note>
+		<!-- type: Publisher/distributor -->
+		<ecrm:P2_has_type rdf:resource="http://aliada-project.eu/2014/aliada-ontology/id/resource/Concept/MARC/4"/>
+	</rdf:Description>
+	  <!-- marc:datafield tag="260" code ="b" <marc:subfield code="b">Grupo Planeta,</marc:subfield> Publisher/distributor END -->
+	  <!-- ============================================================================ -->
+	  
+	  <!-- marc:datafield tag="260" code ="c" <marc:subfield code="c">2013.</marc:subfield> Date of publication BEGIN -->
+	 <!-- F24_Publication_Expression/5 -->
+	  <rdf:Description rdf:about="http://www.artium.org/id/resource/F3_Manifestation_Product_Type/oooooo145395/F24_Publication_Expression/5">
+		<rdf:type rdf:resource="efrbroo:F24_Publication_Expression" />
+		<!-- to link to the expression -->
+		<efrbroo:R14_incorporates rdf:resource="http://www.artium.org/id/resource/F3_Manifestation_Product_Type/oooooo145395/F2_Expression/1" />
+		<!-- to link to the linguistic object that holds the statement of responsibility -->
+		<ecrm:P106_is_composed_of rdf:resource="http://www.artium.org/id/resource/F3_Manifestation_Product_Type/oooooo145395/F24_Publication_Expression/5/E33_Linguistic_Object/1" />
+	 </rdf:Description>
+	 <rdf:Description rdf:about="http://www.artium.org/id/resource/F3_Manifestation_Product_Type/oooooo145395/F24_Publication_Expression/5/E33_Linguistic_Object/1">
+		<rdf:type rdf:resource="efrbroo:E33_Linguistic_Object"/>
+		<ecrm:P3_has_note rdf:datatype="http://www.w3.org/2oo1/XMLSchema#string">2013</ecrm:P3_has_note>
+		<!-- type: Date of publication/distribution -->
+		<ecrm:P2_has_type rdf:resource="http://aliada-project.eu/2014/aliada-ontology/id/resource/Concept/MARC/5"/>
+	</rdf:Description>
+	
+	<rdf:Description rdf:about="http://www.artium.org/id/resource/F3_Manifestation_Product_Type/oooooo145395/F24_Publication_Expression/5/F30_Publication_Event/1">
+		<rdf:type rdf:resource="efrbroo:F30_Publication_Event" />
+		<ecrm:P4_has_time-span rdf:resource="http://www.artium.org/id/resource/F3_Manifestation_Product_Type/oooooo145395/F24_Publication_Expression/5/F30_Publication_Event/1/E52_Time-Span/1" />
+	 </rdf:Description>
+	 <rdf:Description rdf:about="http://www.artium.org/id/resource/F3_Manifestation_Product_Type/oooooo145395/F24_Publication_Expression/5/F30_Publication_Event/1/E52_Time-Span/1">
+		<rdf:type rdf:resource="efrbroo:E52_Time-Span" />
+		<ecrm:P82_at_some_time_within rdf:datatype="http://www.w3.org/2oo1/XMLSchema#string">2013</ecrm:P82_at_some_time_within>
+	 </rdf:Description>
+	 	  <!-- marc:datafield tag="260" code ="c" <marc:subfield code="c">2013.</marc:subfield> Date of publication END -->
+	 <!-- ============================================================================ -->
+	 
+	 
+	 <!-- marc:datafield tag="3oo" code ="a" <marc:subfield code="a">134 p. :</marc:subfield> Physical Description - Extent of carrier (44)BEGIN -->
+	 <!-- ?????????????????????? -->
+	 <!-- marc:datafield tag="3oo" code ="a" <marc:subfield code="a">134 p. :</marc:subfield> Physical Description - Extent of carrier (44)END -->
+	 <!-- ============================================================================ --> 
+	 
+	 <!-- WORK CREATION 
+	marc:datafield tag="650" code ="a" <marc:subfield code="a">Cómics</marc:subfield>
+										  <marc:subfield code="a">Corrupción política</marc:subfield>	
+										  <marc:subfield code="a">Denuncia y crítica social</marc:subfield> Term for C/O/E/P BEGIN -->
+	 
+	 <rdf:Description rdf:about="http://www.artium.org/id/resource/F3_Manifestation_Product_Type/oooooo145395">
+		<rdf:type rdf:resource="efrbroo:F1_Work" />
+		 <!-- concept "Cómics" in the ontology -->
+		 <ecrm:P2_has_type rdf:resource="http://id.sgcb.mcu.es/Autoridades/LEM201oo2139/concept" />
+		 
+		 <!-- concept "Corrupción política" in the ontology -->
+		 <ecrm:P2_has_type rdf:resource="http://id.sgcb.mcu.es/Autoridades/LEM201oo2390/concept" />
+		 
+		 <!-- concept "Denuncia y crítica social" is not in the ontology!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
+		 
+		 <!--- to link the work with the Expression (but with the most representative one!!, is there another way to link????????????????????????) -->
+		 <efrbroo:R40_has_representative_expression rdf:resource="http://www.artium.org/id/resource/F3_Manifestation_Product_Type/oooooo145395/F2_Expression/1"/>
+		 
+	 </rdf:Description>
+	 <!-- marc:datafield tag="650" code ="a" <marc:subfield code="a">Cómics</marc:subfield> Term for C/O/E/P END -->
+	  <!-- ============================================================================ -->
+	  
+	  <!-- 650 code="y" and code="v" ???????????????????????? -->
+	  
+	  
+	  
+</rdf:RDF>
+

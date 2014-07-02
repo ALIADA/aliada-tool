@@ -28,7 +28,6 @@ import eu.aliada.rdfizer.pipeline.format.xml.XPath;
 @Component
 @Scope("prototype")
 public class ControlFieldExpression implements Expression<String, Document> {
-	
 	static final String MISSING_SQ_BRACKET_ERR_MESSAGE = "Invalid specs (%s): a square bracket is missing.";
 	static final String MISSING_MINUS = "Invalid specs (%s): index separator '-' is missing.";
 	static final String WRONG_MINUS_POSITION = "Invalid specs (%s): index separator '-' must be between square brackets.";

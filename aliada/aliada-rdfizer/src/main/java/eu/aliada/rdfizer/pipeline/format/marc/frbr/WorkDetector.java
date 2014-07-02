@@ -5,90 +5,40 @@
 // Responsible: ALIADA Consortiums
 package eu.aliada.rdfizer.pipeline.format.marc.frbr;
 
+import static eu.aliada.shared.Strings.isNullOrEmpty;
+
+import java.util.List;
+import java.util.Map;
+
 import org.w3c.dom.Document;
 
+import eu.aliada.rdfizer.pipeline.format.marc.selector.Expression;
 import eu.aliada.rdfizer.pipeline.format.marc.selector.FirstMatch;
-
 /**
  * Class for detecting entity Work.
  * Class containes "expression" objects which extracts values related with Work entity. 
  *  
  * @author Emiliano Cammilletti
+ * @author Andrea Gazzarini
  * @since 1.0
  */
-public class WorkDetector extends AbstractEntityDetecor {
+public class WorkDetector extends AbstractEntityDetector {
 
-	private FirstMatch<Document> firstMatchForUniformTitle;
-	private FirstMatch<Document> firstMatchForDate;
-	private FirstMatch<Document> firstMatchForOtherStandardIdentifier;
-	private FirstMatch<Document> firstMatchForCharacterDistinguish;
+	private final FirstMatch<Document> uniformTitleDetectionRule;
 
+	private final List<Expression<Map<String, String>, Document>> expressions;
+	
 	/**
-	 * @return the firstMatchForUniformTitle
+	 * Builds a new detector with the following rules.
+	 * 
+	 * @param uniformTitleDetectionRule the uniform title detection rule.
+	 * @param expressions the subsequent detection rules.
 	 */
-	public FirstMatch<Document> getFirstMatchForUniformTitle() {
-		return firstMatchForUniformTitle;
-	}
-
-	/**
-	 * @param firstMatchForUniformTitle
-	 *            the firstMatchForUniformTitle to set
-	 */
-	public void setFirstMatchForUniformTitle(
-			final FirstMatch<Document> firstMatchForUniformTitle) {
-		this.firstMatchForUniformTitle = firstMatchForUniformTitle;
-	}
-
-	/**
-	 * @return the firstMatchForSequenceTagForDate
-	 */
-
-	/**
-	 * @return the firstMatchForOtherStandardIdentifier
-	 */
-	public FirstMatch<Document> getFirstMatchForOtherStandardIdentifier() {
-		return firstMatchForOtherStandardIdentifier;
-	}
-
-	/**
-	 * @return the firstMatchForForDate
-	 */
-	public final FirstMatch<Document> getFirstMatchForDate() {
-		return firstMatchForDate;
-	}
-
-	/**
-	 * @param firstMatchForDate
-	 *            the firstMatchForDate to set
-	 */
-	public final void setFirstMatchForDate(
-			final FirstMatch<Document> firstMatchForDate) {
-		this.firstMatchForDate = firstMatchForDate;
-	}
-
-	/**
-	 * @param firstMatchForOtherStandardIdentifier
-	 *            the firstMatchForOtherStandardIdentifier to set
-	 */
-	public void setFirstMatchForOtherStandardIdentifier(
-			final FirstMatch<Document> firstMatchForOtherStandardIdentifier) {
-		this.firstMatchForOtherStandardIdentifier = firstMatchForOtherStandardIdentifier;
-	}
-
-	/**
-	 * @return the firstMatchForCharacterDistinguish
-	 */
-	public FirstMatch<Document> getFirstMatchForCharacterDistinguish() {
-		return firstMatchForCharacterDistinguish;
-	}
-
-	/**
-	 * @param firstMatchForCharacterDistinguish
-	 *            the firstMatchForCharacterDistinguish to set
-	 */
-	public void setFirstMatchForCharacterDistinguish(
-			final FirstMatch<Document> firstMatchForCharacterDistinguish) {
-		this.firstMatchForCharacterDistinguish = firstMatchForCharacterDistinguish;
+	public WorkDetector(
+			final FirstMatch<Document> uniformTitleDetectionRule,
+			final List<Expression<Map<String, String>, Document>> expressions) {
+		this.uniformTitleDetectionRule = uniformTitleDetectionRule;
+		this.expressions = expressions;
 	}
 
 	/**
@@ -97,13 +47,20 @@ public class WorkDetector extends AbstractEntityDetecor {
 	 * @param target the target
 	 * @return the value 
 	 */
-	String concat(final Document target) {
-		StringBuffer buffer = new StringBuffer();
+	String detect(final Document target) {
+		final StringBuilder buffer = new StringBuilder();
 		
-		return  buffer.append(getFirstMatchForUniformTitle().evaluate(target))
-				.append(getFirstMatchForDate().evaluate(target))
-				.append(getFirstMatchForOtherStandardIdentifier().evaluate(target))
-				.append(getFirstMatchForCharacterDistinguish().evaluate(target)).toString();
+		final String uniformTitle = uniformTitleDetectionRule.evaluate(target);
+		if (isNullOrEmpty(uniformTitle)) {
+			// TODO: Log + JMX 
+			return null; 
+		}			
+		
+		append(buffer, uniformTitle);
+		
+		for (final Expression<Map<String, String>, Document> expression : expressions) {
+			append(buffer, expression.evaluate(target));
+		}
+		return buffer.toString();
 	}
-
 }

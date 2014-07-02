@@ -79,4 +79,13 @@ public final class FrbrDocument implements Serializable {
 	public Document getDocument() {
 		return document;
 	}
+	
+	/**
+	 * Checks if the detected FRBR structure can be considered valid for further processing.
+	 * 
+	 * @return true if the detected FRBR structure can be considered valid, otherwise false.
+	 */
+	public boolean isValid() {
+		return workURI != null && expressionURI != null && manifestationURI != null && document != null;
+	}
 }
