@@ -65,9 +65,13 @@ public class LinkingProcess {
 			logger.error(MessageCatalog._00032_BAD_CONFIG_FILE, exception, propertiesFileName);
 			return false;
     	}
-		linkingXMLConfigFile = new File(linkingXMLConfigFilename);
-	    if (!linkingXMLConfigFile.exists())
-	    	return false;
+		try{
+			linkingXMLConfigFile = new File(linkingXMLConfigFilename);
+			if (!linkingXMLConfigFile.exists())
+				return false;
+		}catch (Exception exception) {
+			return false;
+		}
 		return true;
     }
     
