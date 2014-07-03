@@ -42,7 +42,7 @@ public class LinksDiscoveryClient {
 		Client client = ClientBuilder.newClient();
 		WebTarget webTarget = client.target(ALIADA_LInksDiscoveryServiceURL);
 		
-		//Guardar los datos de usuario modificados
+		//Data to be sent via HTTP POST
 		Form f = new Form();
 		f.param("inputURI", inputURI);
 		f.param("inputLogin", inputLogin);
@@ -59,6 +59,28 @@ public class LinksDiscoveryClient {
 		System.out.println(postResponse.readEntity(String.class));
 	}
 	
+	/**
+	 * Implementation of a Links Discovery REST service client application.
+	 *
+     *
+     * @return 					
+     * @since 1.0
+	 */
+	public void newJob(Integer id){
+		Client client = ClientBuilder.newClient();
+		WebTarget webTarget = client.target(ALIADA_LInksDiscoveryServiceURL);
+
+		//Data to be sent via HTTP POST
+		Form f = new Form();
+		f.param("jobid", "1");
+
+		//POST 
+		Response postResponse = webTarget.path("/jobs").request().post(Entity.entity(f, MediaType.APPLICATION_FORM_URLENCODED_TYPE));
+		System.out.println(postResponse.getStatus());
+		System.out.println(postResponse.readEntity(String.class));
+	}
+	
+
 	/**
 	 * Main function.
 	 *
@@ -77,6 +99,7 @@ public class LinksDiscoveryClient {
 		String outputLogin = ""; 
 		String outputPassword = ""; 
 		String outputGraph = "";
-		client.linksDiscover(inputURI, inputLogin, inputPassword, inputGraph, outputURI, outputLogin, outputPassword, outputGraph);
+//		client.linksDiscover(inputURI, inputLogin, inputPassword, inputGraph, outputURI, outputLogin, outputPassword, outputGraph);
+		client.newJob(1);
 	}
 }

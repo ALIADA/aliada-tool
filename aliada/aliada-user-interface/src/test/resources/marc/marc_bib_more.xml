@@ -1,0 +1,763 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<marc:collection xmlns:marc="http://www.loc.gov/MARC21/slim" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.loc.gov/MARC21/slim http://www.loc.gov/standards/marcxml/schema/MARC21slim.xsd">
+	<marc:record>
+		<marc:leader>03253nam a2200337   4500</marc:leader>
+		<marc:controlfield tag="001">000000134130</marc:controlfield>
+		<marc:controlfield tag="003">CaOOAMICUS</marc:controlfield>
+		<marc:controlfield tag="005">20120608100108.0</marc:controlfield>
+		<marc:controlfield tag="008">111205s2010    is o          000 0deng u</marc:controlfield>
+		<marc:datafield tag="020" ind1=" " ind2=" ">
+			<marc:subfield code="a">978-965-278-374-5</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="040" ind1=" " ind2=" ">
+			<marc:subfield code="a">BCD</marc:subfield>
+			<marc:subfield code="b">spa</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="110" ind1="2" ind2=" ">
+			<marc:subfield code="a">Muze'on Yi´sra'el (Jerusalem) .</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="245" ind1="1" ind2="0">
+			<marc:subfield code="a">Contemporary art in the Israel Museum, Jerusalem /</marc:subfield>
+			<marc:subfield code="c">edited by Suzanne Landau.</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="260" ind1=" " ind2=" ">
+			<marc:subfield code="a">Jerusalem :</marc:subfield>
+			<marc:subfield code="b">The Israel Museum,</marc:subfield>
+			<marc:subfield code="c">cop. 2010.</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="300" ind1=" " ind2=" ">
+			<marc:subfield code="a">1 v. :</marc:subfield>
+			<marc:subfield code="b">fot. ;</marc:subfield>
+			<marc:subfield code="c">28 cm</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="511" ind1="0" ind2=" ">
+			<marc:subfield code="a">Artistas: Magdalena Abakanovicz, Absalon, Vito Acconci, Darren Almond, Francis Al?s, Carlos Amorales, Nobuyoshi Araki, Richard Artschwager, john Baldessarri, Miroslaw Balka, Stephan Balkenhol, Yael Bartana, Jean-Michel Basquiat, Guy Ben-Ner, Pierre Bismuth, Barbara Bloom, Christian Boltanski, Michael Borremans, Ce´leste Boursier-Mougenot, Sophie Calle, Mircea Cantor, Cao Fei, Janet Cardiff &amp; George Bures Miller, Mauricio Cattelan, Peter Coffin, Jonas Dahlberg, Thomas Demand, Braco Dimitrijevic, Mark Dion, Stan Douglas, Keith Edmier, Olafur Eliasson, Michael Elmgreen &amp; Ingar Dragset, Leandro Erlich, Hans-Peter Feldmann, Teresita Ferna´ndez, Meter Fischli / David Weiss, Ceal Floyer, Tom Friedman, Anya Gallacio, Tim Gardner, Gideon Gechtman, Ori Gerst, Gilbert &amp; George, Robert Gober, Anthony Goicolea, Zvi Goldstein, Dominique Gonzales-Foerster, Douglas Gordon, Antony Gormley, Rodney Graham, Andreas Gursky, Mona Hatoum, Susan Hiller, Damien Hirst, Jenny Holzer, Teresa Hubbad / Alexander Birchler, Pierre Huyghe, Junya Ishigami, Erez Israeli, Alfredo Jaar, Ann Veronica Janssens, Isaac Julien, Jesper Just, Anish Kapoor, Talia Keinan, William Kentridge, Jon Kessler, Anselm Kiefer, Sigalit Landau, Annette Lemieux, Sherrie Levine, Mark Lewis, Ann Lislegaard, Sharon Lockhart, Vera Lutter, Allan McCollum, Christian Marclay, Ohad Meromi, Annette Messager, Aernout Mik, Mariko Mori, Joshua Mosley, Vik Muniz, Efrat Natan, Rivane Neuenschwander, Moshe Ninio, Gabriel Orozco, Adrian Paci, Nam June Paik, Roxy Paine, Raymond Pettibon, Paul Pfeiffer, Jack Pierson, Richard Prince, Philippe Ramette, Charles Ray, Gerard Richter, Pipilotti Rist, Ugo Rondinone, Thomas Ruff, Anri Sala, Doris Salcedo, Yehudit Sasportas, Miri Segal, Tino Sehgal,  Andres Serrano, Gil Marco Shani, Cindy Sherman, Yinka Shonibare, Kiki Smith, Doron Solomons, Haim Steinbach, Jana Sterbak, Angela Straissheim, Thomas Struth, Yoshihiro Suda, Do-Ho Suh, Tabaimo, Nahum Tevet, Wolfgang Tillmans, Su-Mei Tse, James Turrell, Luc Tuymans, Piotr Uklanski, Micha Ullman, Paloma Varga Weisz, Hill Viola, Sharif Waked, Jeff Wall, Mark Wallinger, Lawrence Weiner, Gal Weinstein, Steve Wolfe</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="590" ind1="1" ind2=" ">
+			<marc:subfield code="a">BCD11</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="610" ind1="2" ind2="4">
+			<marc:subfield code="a">Muze'on Yi´sra'el (Jerusalem)</marc:subfield>
+			<marc:subfield code="v">Fondos de museos.</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="650" ind1=" " ind2="4">
+			<marc:subfield code="a">Arte</marc:subfield>
+			<marc:subfield code="y">S. XXI.</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="700" ind1="1" ind2=" ">
+			<marc:subfield code="a">Landau, Suzanne.</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="710" ind1="2" ind2=" ">
+			<marc:subfield code="a">Muze'on Yi´sra'el (Jerusalem) .</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="850" ind1=" " ind2=" ">
+			<marc:subfield code="a">ARTP</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="852" ind1=" " ind2=" ">
+			<marc:subfield code="a">ARTP</marc:subfield>
+			<marc:subfield code="x">****</marc:subfield>
+			<marc:subfield code="m">FON ISRAEL 3</marc:subfield>
+			<marc:subfield code="q">INTERCAMBIO</marc:subfield>
+			<marc:subfield code="A">1   173@  </marc:subfield>
+			<marc:subfield code="B">53039</marc:subfield>
+			<marc:subfield code="F">44841         </marc:subfield>
+			<marc:subfield code="S">FON ISRAEL 3</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="910" ind1="2" ind2=" ">
+			<marc:subfield code="a">Israel Museum (Jerusalem)</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="910" ind1="2" ind2=" ">
+			<marc:subfield code="a">The Israel Museum (Jerusalem)</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="910" ind1="2" ind2=" ">
+			<marc:subfield code="a">Israel Museum (Jerusalem)</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="910" ind1="2" ind2=" ">
+			<marc:subfield code="a">The Israel Museum (Jerusalem)</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="990" ind1="1" ind2="0">
+			<marc:subfield code="a">91001a</marc:subfield>
+			<marc:subfield code="b">11002a</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="990" ind1="1" ind2="0">
+			<marc:subfield code="a">91002a</marc:subfield>
+			<marc:subfield code="b">11002a</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="990" ind1="1" ind2="0">
+			<marc:subfield code="a">91003a</marc:subfield>
+			<marc:subfield code="b">71002a</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="990" ind1="1" ind2="0">
+			<marc:subfield code="a">91004a</marc:subfield>
+			<marc:subfield code="b">71002a</marc:subfield>
+		</marc:datafield>
+	</marc:record>
+	<marc:record>
+		<marc:leader>00842nab a2200217   4500</marc:leader>
+		<marc:controlfield tag="001">000000125262</marc:controlfield>
+		<marc:controlfield tag="003">CaOOAMICUS</marc:controlfield>
+		<marc:controlfield tag="005">20091117173909.0</marc:controlfield>
+		<marc:controlfield tag="008">091117s2008    sp            0     spa u</marc:controlfield>
+		<marc:datafield tag="040" ind1=" " ind2=" ">
+			<marc:subfield code="a">BCD</marc:subfield>
+			<marc:subfield code="b">spa</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="041" ind1="1" ind2=" ">
+			<marc:subfield code="a">spa</marc:subfield>
+			<marc:subfield code="h">eng</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="100" ind1="1" ind2=" ">
+			<marc:subfield code="a">Bader, Joerg.</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="245" ind1="1" ind2="0">
+			<marc:subfield code="a">Arte contempora´neo_ ¿hasta cuando? =</marc:subfield>
+			<marc:subfield code="b">Contemporary art_ until when? /</marc:subfield>
+			<marc:subfield code="c">Joerg Bader.</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="246" ind1="1" ind2="1">
+			<marc:subfield code="a">Contemporary art_ until when?</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="500" ind1=" " ind2=" ">
+			<marc:subfield code="a">La´piz, n. 245 (julio 2008) ; pp. 82-87</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="520" ind1="3" ind2=" ">
+			<marc:subfield code="a">Bolzano tiene un nuevo centro de arte moderno y contempora´neo: Museion</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="546" ind1=" " ind2=" ">
+			<marc:subfield code="a">texto en espan~ol e ingle´s</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="590" ind1="1" ind2=" ">
+			<marc:subfield code="a">BCD5</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="610" ind1="2" ind2="4">
+			<marc:subfield code="a">Museion - Museum fu¨r moderne und zeitgeno¨ssische Kunst (Bolzano)</marc:subfield>
+			<marc:subfield code="v">Arti´culos periodi´sticos.</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="650" ind1=" " ind2="4">
+			<marc:subfield code="a">Museos</marc:subfield>
+			<marc:subfield code="z">Italia</marc:subfield>
+			<marc:subfield code="v">Arti´culos periodi´sticos.</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="773" ind1="0" ind2=" ">
+			<marc:subfield code="t">La´piz.</marc:subfield>
+			<marc:subfield code="x">0212-1700</marc:subfield>
+			<marc:subfield code="g">n. 245 (julio 2008) ; pp. 82-87</marc:subfield>
+			<marc:subfield code="w">(BCD)53196</marc:subfield>
+		</marc:datafield>
+	</marc:record>
+	<marc:record>
+		<marc:leader>00949nam a2200229   4500</marc:leader>
+		<marc:controlfield tag="001">000000121069</marc:controlfield>
+		<marc:controlfield tag="003">CaOOAMICUS</marc:controlfield>
+		<marc:controlfield tag="005">20090312120006.0</marc:controlfield>
+		<marc:controlfield tag="008">090312n        be o          000 0deng u</marc:controlfield>
+		<marc:datafield tag="040" ind1=" " ind2=" ">
+			<marc:subfield code="a">BCD</marc:subfield>
+			<marc:subfield code="b">spa</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="245" ind1="0" ind2="0">
+			<marc:subfield code="a">Contemporary art.</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="260" ind1=" " ind2=" ">
+			<marc:subfield code="a">Knokke :</marc:subfield>
+			<marc:subfield code="b">Andre Simoens Gallery,</marc:subfield>
+			<marc:subfield code="c">[s. a.]</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="300" ind1=" " ind2=" ">
+			<marc:subfield code="a">[68] p. :</marc:subfield>
+			<marc:subfield code="b">fot. ;</marc:subfield>
+			<marc:subfield code="c">20 x 20 cm</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="500" ind1=" " ind2=" ">
+			<marc:subfield code="a">Donacio´n ARCO 2008</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="511" ind1="0" ind2=" ">
+			<marc:subfield code="a">Artistas: Pierre Alechinsky, Karel Appel, Jean-Michel Atlan, Jean-Michel Basquiat, Ejler Bille, Fernando Botero, Marcel Broodthaers, Christo,  Constant, Corneille, Jacques Doucet, Jean Dubuffet, Gilbert and George, Asger Jorn, Kenneth Noland, Bram van Velde, Paul Wunderlich, Ossip Zadkine</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="590" ind1="1" ind2=" ">
+			<marc:subfield code="a">BCD11</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="650" ind1=" " ind2="4">
+			<marc:subfield code="a">Pintura</marc:subfield>
+			<marc:subfield code="y">S. XX.</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="650" ind1=" " ind2="4">
+			<marc:subfield code="a">Escultura</marc:subfield>
+			<marc:subfield code="y">S. XX.</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="650" ind1=" " ind2="4">
+			<marc:subfield code="a">Fotografi´a</marc:subfield>
+			<marc:subfield code="y">S. XX.</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="710" ind1="2" ind2=" ">
+			<marc:subfield code="a">Andre Simoens Gallery (Knokke, Be´lgica)</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="850" ind1=" " ind2=" ">
+			<marc:subfield code="a">ARTP</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="852" ind1=" " ind2=" ">
+			<marc:subfield code="a">ARTP</marc:subfield>
+			<marc:subfield code="x">****</marc:subfield>
+			<marc:subfield code="m">EC 4059</marc:subfield>
+			<marc:subfield code="q">ARCO</marc:subfield>
+			<marc:subfield code="A">1   173@  </marc:subfield>
+			<marc:subfield code="B">46748</marc:subfield>
+			<marc:subfield code="F">38743         </marc:subfield>
+			<marc:subfield code="S">EC 4059</marc:subfield>
+		</marc:datafield>
+	</marc:record>
+	<marc:record>
+		<marc:leader>01119nam a2200253   4500</marc:leader>
+		<marc:controlfield tag="001">000000116482</marc:controlfield>
+		<marc:controlfield tag="003">CaOOAMICUS</marc:controlfield>
+		<marc:controlfield tag="005">20080728150241.0</marc:controlfield>
+		<marc:controlfield tag="008">080724s2006    xxko          000 0deng u</marc:controlfield>
+		<marc:datafield tag="020" ind1=" " ind2=" ">
+			<marc:subfield code="a">0-9553411-0-8</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="020" ind1=" " ind2=" ">
+			<marc:subfield code="a">1-86154-305-0</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="040" ind1=" " ind2=" ">
+			<marc:subfield code="a">BCD</marc:subfield>
+			<marc:subfield code="b">spa</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="245" ind1="0" ind2="0">
+			<marc:subfield code="a">Contemporary art in print :</marc:subfield>
+			<marc:subfield code="b">the publications of Charles Booth-Clibborn and his imprint : the Paragon Press 2001 - 2006 /</marc:subfield>
+			<marc:subfield code="c">edited by Etienne Lullin and Florian-Oliver Simm.</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="260" ind1=" " ind2=" ">
+			<marc:subfield code="a">London :</marc:subfield>
+			<marc:subfield code="b">The Paragon Press,</marc:subfield>
+			<marc:subfield code="c">2006.</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="300" ind1=" " ind2=" ">
+			<marc:subfield code="a">336 p. :</marc:subfield>
+			<marc:subfield code="b">fot. ;</marc:subfield>
+			<marc:subfield code="c">30 cm</marc:subfield>
+			</marc:datafield>
+		<marc:datafield tag="500" ind1=" " ind2=" ">
+			<marc:subfield code="a">Donacio´n ARCO 2008</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="511" ind1="0" ind2=" ">
+			<marc:subfield code="a">Artistas: Roger Ackling, Hurvin Anderson, Gillian Carnegie, Jake and Dinos Chapman, Alan Davie, Peter Doig, Terry Frost, Damien Hirst, Gary Hume, Michael Landy, Christopher Le Brun, Elizabeth Magill, Sarah Morris, Paul Morrison, Grayson Perry, Marc Quinn, George Shaw, Bill Woodrow.</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="590" ind1="1" ind2=" ">
+			<marc:subfield code="a">BCD4</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="650" ind1=" " ind2="4">
+			<marc:subfield code="a">Pintura</marc:subfield>
+			<marc:subfield code="y">S. XX.</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="650" ind1=" " ind2="4">
+			<marc:subfield code="a">Dibujo</marc:subfield>
+			<marc:subfield code="y">S. XX.</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="700" ind1="1" ind2=" ">
+			<marc:subfield code="a">Lullin, Etienne.</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="700" ind1="1" ind2=" ">
+			<marc:subfield code="a">Simm, Florian-Oliver.</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="850" ind1=" " ind2=" ">
+			<marc:subfield code="a">ARTP</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="852" ind1=" " ind2=" ">
+			<marc:subfield code="a">ARTP</marc:subfield>
+			<marc:subfield code="x">****</marc:subfield>
+			<marc:subfield code="m">EC 3978</marc:subfield>
+			<marc:subfield code="q">ARCO</marc:subfield>
+			<marc:subfield code="A">1   173@  </marc:subfield>
+			<marc:subfield code="B">43905</marc:subfield>
+			<marc:subfield code="F">36926         </marc:subfield>
+			<marc:subfield code="S">EC 3978</marc:subfield>
+		</marc:datafield>
+	</marc:record>
+	<marc:record>
+		<marc:leader>01287nab a2200253   4500</marc:leader>
+		<marc:controlfield tag="001">000000116333</marc:controlfield>
+		<marc:controlfield tag="003">CaOOAMICUS</marc:controlfield>
+		<marc:controlfield tag="005">20080723174856.0</marc:controlfield>
+		<marc:controlfield tag="008">080716s2005    sp uu         0    0spa u</marc:controlfield>
+		<marc:datafield tag="040" ind1=" " ind2=" ">
+			<marc:subfield code="a">BCD</marc:subfield>
+			<marc:subfield code="b">spa</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="041" ind1="1" ind2=" ">
+			<marc:subfield code="a">spa</marc:subfield>
+			<marc:subfield code="h">eng</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="245" ind1="0" ind2="0">
+			<marc:subfield code="a">Centro de Arte Contempora´neo, Leo´n</marc:subfield>
+			<marc:subfield code="h">[Arti´culo] =</marc:subfield>
+			<marc:subfield code="b">Contemporary Art Center, Leo´n : M. Mansilla &amp; Tun~o´n.</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="246" ind1="1" ind2="1">
+			<marc:subfield code="a">Contemporary Art Center, Leo´n : M. Mansilla &amp; Tun~o´n</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="500" ind1=" " ind2=" ">
+			<marc:subfield code="a">AV Monografi´as, n. 111-112 (2005)</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="505" ind1="0" ind2=" ">
+			<marc:subfield code="a">Contiene fotografi´as y planos</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="520" ind1="3" ind2=" ">
+			<marc:subfield code="a">El MUSAC, Museo de Arte Contempora´neo de Leo´n, se ha emplazado en un edificio construido por la unio´n de piezas auto´nomas en un contorno irregular y quebrado, y cuyo exterior se muestra con vidrios de seguridad coloreados</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="546" ind1=" " ind2=" ">
+			<marc:subfield code="a">Texto paralelo en espan~ol e ingle´s</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="590" ind1="1" ind2=" ">
+			<marc:subfield code="a">BCD1</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="610" ind1="2" ind2="4">
+			<marc:subfield code="a">Mansilla + Tun~o´n Arquitectos (Firma)</marc:subfield>
+			<marc:subfield code="v">Arti´culos periodi´sticos.</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="610" ind1="2" ind2="4">
+			<marc:subfield code="a">Museo de Arte Contempora´neo de Castilla y Leo´n (Leo´n)</marc:subfield>
+			<marc:subfield code="v">Arti´culos periodi´sticos.</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="650" ind1=" " ind2="4">
+			<marc:subfield code="a">Arquitectura</marc:subfield>
+			<marc:subfield code="z">Espan~a</marc:subfield>
+			<marc:subfield code="y">S. XX</marc:subfield>
+			<marc:subfield code="v">Arti´culos periodi´sticos.</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="650" ind1=" " ind2="4">
+			<marc:subfield code="a">Edificios para museos</marc:subfield>
+			<marc:subfield code="z">Espan~a</marc:subfield>
+			<marc:subfield code="v">Arti´culos periodi´sticos.</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="650" ind1=" " ind2="4">
+			<marc:subfield code="a">Edificios culturales</marc:subfield>
+			<marc:subfield code="v">Arti´culos periodi´sticos.</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="773" ind1="0" ind2=" ">
+			<marc:subfield code="t">AV.</marc:subfield>
+			<marc:subfield code="x">0213-487X</marc:subfield>
+			<marc:subfield code="g">n. 111-112 (2005) ; pp. 76-85</marc:subfield>
+			<marc:subfield code="w">(BCD)76782</marc:subfield>
+		</marc:datafield>
+	</marc:record>
+	<marc:record>
+		<marc:leader>00921nam a2200265   4500</marc:leader>
+		<marc:controlfield tag="001">000000103037</marc:controlfield>
+		<marc:controlfield tag="003">CaOOAMICUS</marc:controlfield>
+		<marc:controlfield tag="005">20061204135347.0</marc:controlfield>
+		<marc:controlfield tag="008">061204s1995    be o          000 0 fre u</marc:controlfield>
+		<marc:datafield tag="040" ind1=" " ind2=" ">
+			<marc:subfield code="a">BCD</marc:subfield>
+			<marc:subfield code="b">spa</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="041" ind1="1" ind2=" ">
+			<marc:subfield code="a">fre</marc:subfield>
+			<marc:subfield code="h">ger</marc:subfield>
+			<marc:subfield code="h">eng</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="111" ind1="2" ind2=" ">
+			<marc:subfield code="a">Foire d'Art Actuel</marc:subfield>
+			<marc:subfield code="n">(14 :,</marc:subfield>
+			<marc:subfield code="d">1995 :</marc:subfield>
+			<marc:subfield code="c">Be´lgica)</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="245" ind1="1" ind2="0">
+			<marc:subfield code="a">Foire d'art actuel =</marc:subfield>
+			<marc:subfield code="b">Aktuele kunstmarkt = Contemporary Art fair.</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="246" ind1="1" ind2="1">
+			<marc:subfield code="a">Aktuele kunstmarkt </marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="246" ind1="1" ind2="1">
+			<marc:subfield code="a">Contemporary Art Fair</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="260" ind1=" " ind2=" ">
+			<marc:subfield code="a">[S. l.] :</marc:subfield>
+			<marc:subfield code="b">Association des Galeries d'Art Actuel,</marc:subfield>
+			<marc:subfield code="c">[1995?]</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="300" ind1=" " ind2=" ">
+			<marc:subfield code="a">1 v. :</marc:subfield>
+			<marc:subfield code="b">fot. ;</marc:subfield>
+			<marc:subfield code="c">24 cm</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="500" ind1=" " ind2=" ">
+			<marc:subfield code="a">Donacio´n ARCO 2006</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="546" ind1=" " ind2=" ">
+			<marc:subfield code="a">Texto en france´s, alema´n e ingle´s</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="585" ind1=" " ind2=" ">
+			<marc:subfield code="a">Exposicio´n entre el 21 y el 25 de abril de 1995</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="590" ind1="1" ind2=" ">
+			<marc:subfield code="a">BCD4</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="650" ind1=" " ind2="4">
+			<marc:subfield code="a">Galeri´as de arte</marc:subfield>
+			<marc:subfield code="v">Directorios.</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="710" ind1="2" ind2=" ">
+			<marc:subfield code="a">Association des Galeries d'Art Actuel.</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="850" ind1=" " ind2=" ">
+			<marc:subfield code="a">ARTP</marc:subfield>
+		</marc:datafield><marc:datafield tag="852" ind1=" " ind2=" ">
+			<marc:subfield code="a">ARTP</marc:subfield>
+			<marc:subfield code="x">****</marc:subfield>
+			<marc:subfield code="m">R 97</marc:subfield>
+			<marc:subfield code="q">ARCO</marc:subfield>
+			<marc:subfield code="A">1   173@  </marc:subfield>
+			<marc:subfield code="B">34618</marc:subfield>
+			<marc:subfield code="F">29558         </marc:subfield>
+			<marc:subfield code="S">R 97</marc:subfield>
+		</marc:datafield>
+	</marc:record>
+	<marc:record>
+		<marc:leader>01833nam a2200265   4500</marc:leader>
+		<marc:controlfield tag="001">000000062646</marc:controlfield>
+		<marc:controlfield tag="003">CaOOAMICUS</marc:controlfield>
+		<marc:controlfield tag="005">20030328105627.0</marc:controlfield>
+		<marc:controlfield tag="008">030328s1996    xxkoooo       001 0deng u</marc:controlfield>
+		<marc:datafield tag="020" ind1=" " ind2=" ">
+			<marc:subfield code="a">0-415-91190-7</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="040" ind1=" " ind2=" ">
+			<marc:subfield code="a">BCD</marc:subfield>
+			<marc:subfield code="b">spa</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="245" ind1="0" ind2="0">
+			<marc:subfield code="a">Contemporary art and multicultural education /</marc:subfield>
+			<marc:subfield code="c">edited by Susan Cahan and Zoya Kocur.</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="260" ind1=" " ind2=" ">
+			<marc:subfield code="a">New York :</marc:subfield>
+			<marc:subfield code="b">The New Museum of Contemporary Art  ;</marc:subfield>
+			<marc:subfield code="a">London ;</marc:subfield>
+			<marc:subfield code="a">New York :</marc:subfield>
+			<marc:subfield code="b">Routledge,</marc:subfield>
+			<marc:subfield code="c">1996.</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="300" ind1=" " ind2=" ">
+			<marc:subfield code="a">xxxi, 392 p. :</marc:subfield>
+			<marc:subfield code="b">fot. ;</marc:subfield>
+			<marc:subfield code="c">27 cm</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="511" ind1="1" ind2=" ">
+			<marc:subfield code="a">Artistas: John Ahearn, Rigoberto Torres, Melissa Antonow, Kristine Yuki Aono, Eduardo Aparicio, Ida Applebroog, Tomie Arai, Luis Cruz Azaceta, Border Art Workshop = Taller de Arte Fronterizo, Coqui Caldero´n, Ken Chu, Houston COnvill, Joseph Depace, Estella Conwill Majozo, Jimmie Durham, Epoxy Art Group, Guillermo Go´mez-Pen~a, Gran Fury, Group Material, Dolores Guerrero-cruz, Guerrilla Girls, Marina Gutie´rrez, David Hammons, Keith Haring, Richard Hill, Jean LaMarr, Elizabeth Layton, Dinh Le, Maya Lin, Yolanda M. Lo´pez, James Luna, Amalia Mesa-Bains, Kay Miller, Yong Soon Min, Lorraine O'Grady, Barbara Jo Revelle, Jolene Rickard, Faith Ringgold, Juan Sa´nchez, Andre´s Serrano, Helen Zughaib Shoreman, Coreen Simpson, Elizabeth Sisco, Louis Hock, David Avalos, Clarissa Sligh, Diosa Summers, Masami Teraoka, Danny Tisdale, Richard Ray Whitman, Pat Ward Williams, Krzysztof Wodiczko, David Wojnarowicz, YA-YA, Inc.</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="590" ind1="1" ind2=" ">
+			<marc:subfield code="a">BCD3</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="650" ind1=" " ind2="4">
+			<marc:subfield code="a">Arte</marc:subfield>
+			<marc:subfield code="x">Educacio´n y ensen~anza.</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="650" ind1=" " ind2="4">
+			<marc:subfield code="a">Pluralidad cultural.</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="700" ind1="1" ind2=" ">
+			<marc:subfield code="a">Cahan, Susan.</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="700" ind1="1" ind2=" ">
+			<marc:subfield code="a">Kocur, Zoya.</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="710" ind1="2" ind2=" ">
+			<marc:subfield code="a">New Museum of Contemporary Art (Nueva York)</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="850" ind1=" " ind2=" ">
+			<marc:subfield code="a">ARTP</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="852" ind1=" " ind2=" ">
+			<marc:subfield code="a">ARTP</marc:subfield>
+			<marc:subfield code="x">****</marc:subfield>
+			<marc:subfield code="m">EDU 21</marc:subfield>
+			<marc:subfield code="q">Compra</marc:subfield>
+			<marc:subfield code="A">1   173@  </marc:subfield>
+			<marc:subfield code="B">9913</marc:subfield>
+			<marc:subfield code="F">9583          </marc:subfield>
+			<marc:subfield code="S">EDU 21</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="910" ind1="2" ind2=" ">
+			<marc:subfield code="a">The New Museum of Contemporary Art (Nueva York) .</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="990" ind1="1" ind2="0">
+			<marc:subfield code="a">91001a</marc:subfield>
+			<marc:subfield code="b">71003a</marc:subfield>
+		</marc:datafield>
+	</marc:record>
+	<marc:record>
+		<marc:leader>01082nam a2200289   4500</marc:leader>
+		<marc:controlfield tag="001">000000059815</marc:controlfield>
+		<marc:controlfield tag="003">CaOOAMICUS</marc:controlfield>
+		<marc:controlfield tag="005">20031222170533.0</marc:controlfield>
+		<marc:controlfield tag="008">030131s1996    gw oooo       001 0dger u</marc:controlfield>
+		<marc:datafield tag="040" ind1=" " ind2=" ">
+			<marc:subfield code="a">BCD</marc:subfield>
+			<marc:subfield code="b">spa</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="041" ind1="1" ind2=" ">
+			<marc:subfield code="a">ger</marc:subfield>
+			<marc:subfield code="h">eng</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="100" ind1="1" ind2=" ">
+			<marc:subfield code="a">Nechvatal, Joseph,</marc:subfield>
+			<marc:subfield code="d">1951-</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="245" ind1="1" ind2="0">
+			<marc:subfield code="a">Joseph Nechvatal :</marc:subfield>
+			<marc:subfield code="b">retrospektive /</marc:subfield>
+			<marc:subfield code="c">[texto, Johanna Drucker].</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="260" ind1=" " ind2=" ">
+			<marc:subfield code="a">Ko¨ln :</marc:subfield>
+			<marc:subfield code="b">Galerie Berndt,</marc:subfield>
+			<marc:subfield code="c">[1996?]</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="300" ind1=" " ind2=" ">
+			<marc:subfield code="a">31 p. :</marc:subfield>
+			<marc:subfield code="b">fot. ;</marc:subfield>
+			<marc:subfield code="c">26 cm</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="440" ind1=" " ind2="0">
+			<marc:subfield code="a">Contemporary Art (Galerie Berndt)</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="490" ind1="1" ind2=" ">
+			<marc:subfield code="a">Contemporary Art</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="500" ind1=" " ind2=" ">
+			<marc:subfield code="a">Textos en alema´n e ingle´s</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="585" ind1=" " ind2=" ">
+			<marc:subfield code="a">Exposicio´n celebrada en la Galerie Berndt Kunsthandel GmbH de Ko¨ln del 5 de julio al 14 de septiembre de 1996</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="590" ind1="1" ind2=" ">
+			<marc:subfield code="a">BCD4</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="600" ind1="1" ind2="4">
+			<marc:subfield code="a">Nechvatal, Joseph,</marc:subfield>
+			<marc:subfield code="d">1951- </marc:subfield>
+			<marc:subfield code="v">Exposiciones.</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="650" ind1=" " ind2="4">
+			<marc:subfield code="a">Arte electrogra´fico</marc:subfield>
+			<marc:subfield code="z">Estados Unidos</marc:subfield>
+			<marc:subfield code="y">S. XX</marc:subfield>
+			<marc:subfield code="v">Exposiciones .</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="700" ind1="1" ind2=" ">
+			<marc:subfield code="a">Drucker, Johanna.</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="710" ind1="2" ind2=" ">
+			<marc:subfield code="a">Galerie Berndt Kunsthandel GmbH (Colonia)</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="830" ind1=" " ind2="0">
+			<marc:subfield code="a">Contemporary Art (Galerie Berndt)</marc:subfield>
+		</marc:datafield><marc:datafield tag="850" ind1=" " ind2=" ">
+			<marc:subfield code="a">ARTP</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="852" ind1=" " ind2=" ">
+			<marc:subfield code="a">ARTP</marc:subfield>
+			<marc:subfield code="x">****</marc:subfield>
+			<marc:subfield code="m">AR NEC-JO 1</marc:subfield>
+			<marc:subfield code="q">BBAA</marc:subfield>
+			<marc:subfield code="A">1   173@  </marc:subfield>
+			<marc:subfield code="B">7273</marc:subfield>
+			<marc:subfield code="F">7300          </marc:subfield>
+			<marc:subfield code="S">AR NEC-JO 1</marc:subfield>
+		</marc:datafield>
+	</marc:record>
+	<marc:record>
+		<marc:leader>01158nam a2200289   4500</marc:leader>
+		<marc:controlfield tag="001">000000059514</marc:controlfield>
+		<marc:controlfield tag="003">CaOOAMICUS</marc:controlfield>
+		<marc:controlfield tag="005">20030124133140.0</marc:controlfield>
+		<marc:controlfield tag="008">030124s2001    fr oooo       001 0deng u</marc:controlfield>
+		<marc:datafield tag="020" ind1=" " ind2=" ">
+			<marc:subfield code="a">2-84066-050-4</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="040" ind1=" " ind2=" ">
+			<marc:subfield code="a">BCD</marc:subfield>
+			<marc:subfield code="b">spa</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="111" ind1="2" ind2=" ">
+			<marc:subfield code="a">Caribbean Biennial</marc:subfield>
+			<marc:subfield code="n">(6a.)</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="245" ind1="1" ind2="0">
+			<marc:subfield code="a">6th Caribbean Biennial /</marc:subfield>
+			<marc:subfield code="c">a project by Maurizio Cattelan ; edited by Bettina Funcke ;  [organized by Maurizio Cattelan, and Jens Hoffmann].</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="246" ind1="1" ind2=" ">
+			<marc:subfield code="a">Sixth Caribbean Biennial</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="260" ind1=" " ind2=" ">
+			<marc:subfield code="a">[Dijon] :</marc:subfield>
+			<marc:subfield code="b">Les Presses du Re´el,</marc:subfield>
+			<marc:subfield code="c">cop. 2001.</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="300" ind1=" " ind2=" ">
+			<marc:subfield code="a">1 v. :</marc:subfield>
+			<marc:subfield code="b">fot. ;</marc:subfield>
+			<marc:subfield code="c">27 cm</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="490" ind1="1" ind2=" ">
+			<marc:subfield code="a">Contemporary Art</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="500" ind1=" " ind2=" ">
+			<marc:subfield code="a">Datos tomados de la cub.</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="511" ind1="1" ind2=" ">
+			<marc:subfield code="a">Artistas: Vanessa Beecroft, Olafur Eliasson, Douglas Gordon, Mariko Mori, Chris Ofili, Gabriel Orozco, Elisabeth Peyton, Pipilotti Rist, Tobias Rehberger, Rirkrit Tiravanija</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="590" ind1="1" ind2=" ">
+			<marc:subfield code="a">BCD3</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="650" ind1=" " ind2="4">
+			<marc:subfield code="a">Arte</marc:subfield>
+			<marc:subfield code="y">S. XX</marc:subfield>
+			<marc:subfield code="v">Congresos y asambleas.</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="700" ind1="1" ind2=" ">
+			<marc:subfield code="a">Cattelan, Maurizio,</marc:subfield>
+			<marc:subfield code="d">1960- .</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="700" ind1="1" ind2=" ">
+			<marc:subfield code="a">Funcke, Bettina.</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="700" ind1="1" ind2=" ">
+			<marc:subfield code="a">Hoffmann, Jens.</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="830" ind1=" " ind2="0">
+			<marc:subfield code="a">Contemporary Art (Les Presses du Re´el)</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="850" ind1=" " ind2=" ">
+			<marc:subfield code="a">ARTP</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="852" ind1=" " ind2=" ">
+			<marc:subfield code="a">ARTP</marc:subfield>
+			<marc:subfield code="x">****</marc:subfield>
+			<marc:subfield code="m">EC 781</marc:subfield>
+			<marc:subfield code="q">Compra</marc:subfield>
+			<marc:subfield code="A">1   173@  </marc:subfield>
+			<marc:subfield code="B">7070</marc:subfield>
+			<marc:subfield code="F">7099          </marc:subfield>
+			<marc:subfield code="S">EC 781</marc:subfield>
+		</marc:datafield>
+	</marc:record>
+	<marc:record>
+		<marc:leader>00542nam a2200193   4500</marc:leader>
+		<marc:controlfield tag="001">000000055725</marc:controlfield>
+		<marc:controlfield tag="003">CaOOAMICUS</marc:controlfield>
+		<marc:controlfield tag="005">20021007130436.0</marc:controlfield>
+		<marc:controlfield tag="008">021007s1988    xxuo          000 0deng u</marc:controlfield>
+		<marc:datafield tag="020" ind1=" " ind2=" ">
+			<marc:subfield code="a">3-8228-0075-9</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="040" ind1=" " ind2=" ">
+			<marc:subfield code="a">BCD</marc:subfield>
+			<marc:subfield code="b">spa</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="100" ind1="1" ind2=" ">
+			<marc:subfield code="a">Honnef, Klaus.</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="245" ind1="1" ind2="0">
+			<marc:subfield code="a">Contemporary art /</marc:subfield>
+			<marc:subfield code="c">Klaus Honnef.</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="260" ind1=" " ind2=" ">
+			<marc:subfield code="a">[Ko¨ln] :</marc:subfield>
+			<marc:subfield code="b">Taschen,</marc:subfield>
+			<marc:subfield code="c">cop. 1988.</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="300" ind1=" " ind2=" ">
+			<marc:subfield code="a">279 p. :</marc:subfield>
+			<marc:subfield code="b">fot. ;</marc:subfield>
+			<marc:subfield code="c">31 cm</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="590" ind1="1" ind2=" ">
+			<marc:subfield code="a">BCD9</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="650" ind1=" " ind2="4">
+			<marc:subfield code="a">Arte</marc:subfield>
+			<marc:subfield code="x">Historia</marc:subfield>
+			<marc:subfield code="y">S. XX.</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="850" ind1=" " ind2=" ">
+			<marc:subfield code="a">ARTP</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="852" ind1=" " ind2=" ">
+			<marc:subfield code="a">ARTP</marc:subfield>
+			<marc:subfield code="x">****</marc:subfield>
+			<marc:subfield code="m">M 143</marc:subfield>
+			<marc:subfield code="q">BBAA</marc:subfield>
+			<marc:subfield code="A">1   173@  </marc:subfield>
+			<marc:subfield code="B">4747</marc:subfield>
+			<marc:subfield code="F">4789          </marc:subfield>
+			<marc:subfield code="S">M 143</marc:subfield>
+		</marc:datafield>
+	</marc:record>
+	<marc:record>
+		<marc:leader>01379nam a2200229   4500</marc:leader>
+		<marc:controlfield tag="001">000000050196</marc:controlfield>
+		<marc:controlfield tag="003">CaOOAMICUS</marc:controlfield>
+		<marc:controlfield tag="005">20020520122602.0</marc:controlfield>
+		<marc:controlfield tag="008">020320t1996    xxuao         000 0deng u</marc:controlfield>
+		<marc:datafield tag="020" ind1=" " ind2=" ">
+			<marc:subfield code="a">0-8109-6331-0</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="040" ind1=" " ind2=" ">
+			<marc:subfield code="a">BCD</marc:subfield>
+			<marc:subfield code="b">spa</marc:subfield>
+		</marc:datafield><marc:datafield tag="245" ind1="0" ind2="0">
+			<marc:subfield code="a">Contemporary art in Asia :</marc:subfield>
+			<marc:subfield code="b">traditions tensions /</marc:subfield>
+			<marc:subfield code="c">guest curator Apinan Poshyananda ; essays by Apinan Poshyananda...[et al.].</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="260" ind1=" " ind2=" ">
+			<marc:subfield code="a">New York :</marc:subfield>
+			<marc:subfield code="b">Asia Society Galleries,</marc:subfield>
+			<marc:subfield code="c">cop. 1996.</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="300" ind1=" " ind2=" ">
+			<marc:subfield code="a">239 p. :</marc:subfield>
+			<marc:subfield code="b">fot., il. ;</marc:subfield>
+			<marc:subfield code="c">30 cm</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="511" ind1="1" ind2=" ">
+			<marc:subfield code="a">Artistas: India: Sheela Gowda, Bhupen Khakhar, Nalini Malani, Ravinder G. Reddy, N.N. Rimzon, Arpita Singh ; Indonesia: Nindityo Adipurnomo, Arahmaiani, I Wayan Bendi, Dadang Christanto, Heri Dono, FX Harsono ; Filipinas: Agnes Arellano, Imelda Cajipe-Endaya, Reamillo &amp; Juliet, Sanggawa Group ; Corea del Sur: Cho Duck Hyun, Choi Jeong-Hwa, Kim Ho-Suk, Soo-Ja Kim, Yun Suknam ; Thailandia: Montien Boonma, Kamol Phaosavasdi, Chatchai Puipia, Araya Rasdjarmrearnsook, Navin Rawanchaikul, Jakapan Vilasineekul</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="585" ind1=" " ind2=" ">
+			<marc:subfield code="a">Cata´logo editado con motivo de la exposicio´n Contemporary Art in Asia : traditions / tensions</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="590" ind1="1" ind2=" ">
+			<marc:subfield code="a">BCD8</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="650" ind1=" " ind2="4">
+			<marc:subfield code="a">Arte</marc:subfield>
+			<marc:subfield code="z">Asia</marc:subfield>
+			<marc:subfield code="y">S. XX</marc:subfield>
+			<marc:subfield code="v">Exposiciones colectivas.</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="700" ind1="1" ind2=" ">
+			<marc:subfield code="a">Poshyananda, Apinan.</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="710" ind1="2" ind2=" ">
+			<marc:subfield code="a">Asia Society Galleries (Nueva York)</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="850" ind1=" " ind2=" ">
+			<marc:subfield code="a">ARTP</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="852" ind1=" " ind2=" ">
+			<marc:subfield code="a">ARTP</marc:subfield>
+			<marc:subfield code="x">****</marc:subfield>
+			<marc:subfield code="m">EC 287</marc:subfield>
+			<marc:subfield code="q">Donacio´n</marc:subfield>
+			<marc:subfield code="A">1   173@  </marc:subfield>
+			<marc:subfield code="B">1493</marc:subfield>
+			<marc:subfield code="F">1585          </marc:subfield>
+			<marc:subfield code="S">EC 287</marc:subfield>
+		</marc:datafield>
+	</marc:record>
+</marc:collection>
