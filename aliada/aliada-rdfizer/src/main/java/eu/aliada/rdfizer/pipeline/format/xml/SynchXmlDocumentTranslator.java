@@ -8,6 +8,9 @@ package eu.aliada.rdfizer.pipeline.format.xml;
 import java.io.BufferedWriter;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.lang.management.ManagementFactory;
+
+import javax.management.MBeanServer;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Message;
@@ -83,6 +86,8 @@ public class SynchXmlDocumentTranslator implements Processor, ApplicationContext
 	protected Function function;
 	
 	protected ApplicationContext context;
+	
+	protected MBeanServer mxServer = ManagementFactory.getPlatformMBeanServer();
 	
 	@Override
 	public final void process(final Exchange exchange) throws Exception {

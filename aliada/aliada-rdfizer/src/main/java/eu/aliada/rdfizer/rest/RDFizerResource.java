@@ -9,11 +9,20 @@ import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.management.ManagementFactory;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.inject.Singleton;
+import javax.management.InstanceAlreadyExistsException;
+import javax.management.JMException;
+import javax.management.MBeanRegistrationException;
+import javax.management.MBeanServer;
+import javax.management.NotCompliantMBeanException;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Context;
@@ -29,6 +38,8 @@ import org.springframework.stereotype.Component;
 import eu.aliada.rdfizer.datasource.Cache;
 import eu.aliada.rdfizer.datasource.rdbms.JobConfiguration;
 import eu.aliada.rdfizer.log.MessageCatalog;
+import eu.aliada.rdfizer.mx.ManagementRegistrar;
+import eu.aliada.rdfizer.mx.RDFizer;
 import eu.aliada.shared.log.Log;
 
 /**
@@ -40,7 +51,7 @@ import eu.aliada.shared.log.Log;
 @Singleton
 @Component
 @Path("/")
-public class RDFizerResource {
+public class RDFizerResource implements RDFizer {
 	
 	private static final Log LOGGER = new Log(RDFizerResource.class);
 
@@ -55,16 +66,36 @@ public class RDFizerResource {
 	
 	@Autowired
 	protected Cache cache;
+
+	protected boolean enabled = true;
 	
+	@PUT
+	@Path("/enable")
+	@Override
+	public void enable() {
+		enabled = true;
+	}
+
+	@POST
+	@Path("/disable")
+	@Override
+	public void disable() {
+		enabled = false;
+	}
+
 	/**
 	 * Creates a new job on the RDF-izer.
 	 * 
 	 * @param id the job identifier associated with this instance.
 	 * @return a response which includes the URI of the new job.
 	 */
-	@POST
+	@PUT
 	@Path("/jobs/{jobid}")
 	public Response newJob(@PathParam("jobid") final Integer id) {
+		if (!enabled) {
+			return Response.status(Status.NOT_ACCEPTABLE).build();
+		}
+		
 		LOGGER.debug(MessageCatalog._00029_NEW_JOB_REQUEST);
 		
 		if (id == null) {
@@ -74,13 +105,13 @@ public class RDFizerResource {
 		
 		String path = null;
 		try {
-			final JobConfiguration job = cache.getJobConfiguration(id);
-			if (job == null) {
+			final JobConfiguration configuration = cache.getJobConfiguration(id);
+			if (configuration == null) {
 				LOGGER.error(MessageCatalog._00032_JOB_CONFIGURATION_NOT_FOUND, id);
 				return Response.status(Status.BAD_REQUEST).build();								
 			}
 			
-			final File datafile = new File(job.getDatafile());
+			final File datafile = new File(configuration.getDatafile());
 			if (!datafile.canWrite()) {
 				LOGGER.error(MessageCatalog._00020_WRONG_FILE_PERMISSIONS, datafile.getAbsolutePath());
 				return Response.status(Status.BAD_REQUEST).build();						
@@ -89,14 +120,21 @@ public class RDFizerResource {
 			path = datafile.getAbsolutePath();
 			LOGGER.debug(MessageCatalog._00030_NEW_JOB_REQUEST_DEBUG, id, path);
 			
-			final String listenPath = listenPath(job.getFormat());
+			final String listenPath = listenPath(configuration.getFormat());
 			if (listenPath == null) {
-				LOGGER.error(MessageCatalog._00033_UNSUPPORTED_FORMAT, job.getFormat(), id);
+				LOGGER.error(MessageCatalog._00033_UNSUPPORTED_FORMAT, configuration.getFormat(), id);
 				return Response.status(Status.BAD_REQUEST).build();										
 			}
 						
 			final java.nio.file.Path source = Paths.get(path);
 			final java.nio.file.Path target = Paths.get(listenPath + "/" + rdfizerDataFilename(datafile, id));
+			
+			try {
+				final JobResource newJobResource = new JobResource(configuration);
+				ManagementRegistrar.registerJob(newJobResource);
+			} catch (JMException exception) {
+				LOGGER.error(MessageCatalog._00045_MX_JOB_RESOURCE_REGISTRATION_FAILED, configuration.getId());
+			}
 			
 			Files.move(source, target, REPLACE_EXISTING);
 			return Response.created(uriInfo.getAbsolutePathBuilder().build()).build();
@@ -148,5 +186,54 @@ public class RDFizerResource {
 			.append(".")
 			.append(jobId)
 			.toString();
+	}
+	
+	/**
+	 * Initialises this resource.
+	 */
+	@PostConstruct
+	public void init() {
+		final MBeanServer mxServer = ManagementFactory.getPlatformMBeanServer();
+		if (mxServer.isRegistered(ManagementRegistrar.RDFIZER_OBJECT_NAME)) {
+			LOGGER.error(MessageCatalog._00043_MX_RESOURCE_ALREADY_REGISTERED, ManagementRegistrar.RDFIZER_OBJECT_NAME);
+		} else {
+			try {
+				mxServer.registerMBean(this, ManagementRegistrar.RDFIZER_OBJECT_NAME);
+				LOGGER.info(MessageCatalog._00044_MX_RESOURCE_REGISTERED, ManagementRegistrar.RDFIZER_OBJECT_NAME);				
+			} catch (JMException exception) {
+				LOGGER.error(MessageCatalog._00042_MX_SUBSYSTEM_FAILURE, exception);
+			}
+		}
+	}
+	
+	/**
+	 * Shutdown procedure for this resource.
+	 */
+	@PreDestroy
+	public void destroy() {
+		final MBeanServer mxServer = ManagementFactory.getPlatformMBeanServer();
+		try {
+			mxServer.unregisterMBean(ManagementRegistrar.RDFIZER_OBJECT_NAME);
+		} catch (final Exception exception) {
+			LOGGER.error(MessageCatalog._00042_MX_SUBSYSTEM_FAILURE, exception);
+		}
+	}
+
+	@Override
+	public int getRunningJobsCount() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int getCompletedJobsCount() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int getProcessedRecordsCount() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 }

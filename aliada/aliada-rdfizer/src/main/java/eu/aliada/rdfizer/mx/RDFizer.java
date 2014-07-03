@@ -15,14 +15,34 @@ import javax.management.MXBean;
  */
 @MXBean
 public interface RDFizer {
-	
+	/**
+	 * Returns the total number of running jobs.
+	 * 
+	 * @return the total number of running jobs.
+	 */
 	int getRunningJobsCount();
 	
+	/**
+	 * Returns the total number of completed jobs.
+	 * 
+	 * @return the total number of completed jobs.
+	 */
 	int getCompletedJobsCount();
 	
+	/**
+	 * Returns the total number of processed records.
+	 * 
+	 * @return the total number of processed records.
+	 */	
 	int getProcessedRecordsCount();
 	
-	void start();
-	
-	void stop();
+	/**
+	 * Enables the RDFizer for further job processing.
+	 */
+	void enable();
+
+	/**
+	 * Disables the RDFizer for further job processing.
+	 */
+	void disable();
 }

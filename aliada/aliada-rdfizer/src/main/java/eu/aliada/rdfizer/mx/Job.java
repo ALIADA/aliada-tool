@@ -5,19 +5,66 @@
 // Responsible: ALIADA Consortiums
 package eu.aliada.rdfizer.mx;
 
+import javax.management.MXBean;
+
+/**
+ * Management interface of a RDFizer job.
+ * 
+ * @author Andrea Gazzarini
+ * @since 1.0
+ */
+@MXBean
 public interface Job {
+	/**
+	 * Returns the identifier associated with this job.
+	 * 
+	 * @return the identifier associated with this job.
+	 */
+	Integer getID(); 
+
+	/**
+	 * Returns the format associated with this job.
+	 * 
+	 * @return the format associated with this job.
+	 */
+	String getFormat(); 
 	
-	boolean isRunning();
-	
-	String getAssociatedFormat();
-	
+	/**
+	 * Returns true if split has been completed for this job.
+	 * Querying for {@link #getTotalRecordsCount()} makes sense only when this method returns true.
+	 * 
+	 * @return true if split has been completed for this job.
+	 */
 	boolean isSplitCompleted();
 	
+	/**
+	 * Returns the total records count for this job.
+	 * Note that this counter could vary between requests if {@link #isSplitCompleted()} indicates
+	 * that split hasn't been yet completed.
+	 * 
+	 * @return the total records count for this job.
+	 */
 	int getTotalRecordsCount();
 	
+	/**
+	 * Returns the total number of processed records for this job.
+	 * A "processed" record is a record that has been translated.
+	 * 
+	 * @return the total number of processed records for this job.
+	 */
 	int getProcessedRecordsCount();
-	
+
+	/**
+	 * Returns the total number of emitted statements for this job.
+	 * 
+	 * @return the total number of emitted statements for this job.
+	 */
 	int getOutputStatementsCount();
 	
-	double getStatementsThroughput();
+	/**
+	 * Returns the record processing throughput in terms of records / sec.
+	 * 
+	 * @return the record processing throughput in terms of records / sec.
+	 */
+	double getRecordsThroughput();
 }
