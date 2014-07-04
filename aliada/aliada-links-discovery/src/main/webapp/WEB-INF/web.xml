@@ -4,24 +4,6 @@
          xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
          version="2.5">
 	<display-name>Links Discovery</display-name>
-<!--  Params to create the sub_jobs properties files: BEGIN -->
-	<context-param>
-		<param-name>ddbb.username</param-name>
-		<param-value>aliada</param-value>
-	</context-param>
-	<context-param>
-		<param-name>ddbb.password</param-name>
-		<param-value>aliada</param-value>
-	</context-param>
-	<context-param>
-		<param-name>ddbb.driverClassName</param-name>
-		<param-value>com.mysql.jdbc.Driver</param-value>
-	</context-param>
-	<context-param>
-		<param-name>ddbb.url</param-name>
-		<param-value>jdbc:mysql://localhost:3306/aliada</param-value>
-	</context-param>
-<!--  Params to create the sub_jobs properties files: END -->
 	<listener>
 		<listener-class>eu.aliada.linksDiscovery.listeners.ApplicationLifecycleListener</listener-class>
 	</listener>
