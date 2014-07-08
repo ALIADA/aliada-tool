@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Silk>
+  <Prefixes>
+    <Prefix id="rdf" namespace="http://www.w3.org/1999/02/22-rdf-syntax-ns#"/>
+    <Prefix id="owl" namespace="http://www.w3.org/2002/07/owl#"/>
+    <Prefix id="rdfs" namespace="http://www.w3.org/2000/01/rdf-schema#"/>
+  </Prefixes>
+
+  <DataSources>
+
+	<DataSource id="Geonames" type="sparqlEndpoint">
+		<Param name="pageSize" value="1000"/>
+		<Param name="pauseTime" value="0"/>
+		<Param name="retryCount" value="3"/>
+		<Param name="endpointURI" value="http://factforge.net/sparql"/>
+		<Param name="retryPause" value="1000"/>
+		<Param name="graph" value=""/>
+		<Param name="queryParameters" value=""/>
+		<Param name="login" value=""/>
+		<Param name="entityList" value=""/>
+		<Param name="parallel" value="true"/>
+		<Param name="password" value=""/>
+	</DataSource>
+  </DataSources>
+  
+  <Interlinks>
+	<Interlink id="lido_geonames_place">
+	  <LinkType>&lt;http://www.w3.org/2002/07/owl#sameAs&gt;</LinkType>
+	  <SourceDataset dataSource="LIDO_ds" var="place">
+		<RestrictTo> ?place &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#type&gt; &lt;http://erlangen-crm.org/current/E53_Place&gt; . </RestrictTo>
+	  </SourceDataset>
+	  <TargetDataset dataSource="Geonames" var="b">
+		<RestrictTo> ?b &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#type&gt; &lt;http://www.geonames.org/ontology#Feature&gt; . </RestrictTo>
+	  </TargetDataset>
+	  <LinkageRule>
+		<Aggregate type="max">
+			<Compare metric="levenshteinDistance" threshold="2">
+				<TransformInput function="lowerCase">
+					<Input path="?place/&lt;http://erlangen-crm.org/current/P87_is_identified_by&gt;[&lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#type&gt; = &lt;http://erlangen-crm.org/current/E44_Place_Appellation&gt;]/&lt;http://erlangen-crm.org/current/P3_has_note&gt;" />
+				</TransformInput>
+				<TransformInput function="lowerCase">
+					<Input path="?b/&lt;http://www.geonames.org/ontology#name&gt;" />
+				</TransformInput>
+			</Compare>
+			<Compare metric="wgs84" threshold="10">
+				<TransformInput function="concat">
+					<Input path="?place/&lt;http://www.w3.org/2003/01/geo/wgs84_pos#lat&gt;" />
+					<Input path="?place/&lt;http://www.w3.org/2003/01/geo/wgs84_pos#long&gt;" />
+					<Param name="glue" value=" "/>
+				</TransformInput>
+				<TransformInput function="concat">
+					<Input path="?b/&lt;http://www.w3.org/2003/01/geo/wgs84_pos#lat&gt;" />
+					<Input path="?b/&lt;http://www.w3.org/2003/01/geo/wgs84_pos#long&gt;" />
+					<Param name="glue" value=" "/>
+				</TransformInput>
+				<Param name="unit" value="km"/>
+			</Compare>
+		</Aggregate>              
+	  </LinkageRule>
+	  <Filter/>
+
+	  <Outputs>
+      </Outputs>
+	</Interlink>
+
+
+	</Interlinks>  
+
+</Silk>

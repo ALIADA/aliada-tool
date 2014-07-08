@@ -6,7 +6,7 @@
 package eu.aliada.linksDiscovery.model;
 
 /**
- * RDF-izer Job entity.
+ * Links discovery job configuration.
  * 
  * @author Idoia Murua
  * @since 1.0
@@ -32,7 +32,6 @@ public class JobConfiguration {
 	public Integer getId() {
 		return id;
 	}
-
 	/**
 	 * Sets the identifier of this job configuration.
 	 * 
@@ -50,7 +49,6 @@ public class JobConfiguration {
 	public String getInputURI() {
 		return inputURI;
 	}
-
 	/**
 	 * Sets the URI of the SPARQL/Update endpoint of the source dataset from where we want to generate links.
 	 * 
@@ -68,7 +66,6 @@ public class JobConfiguration {
 	public String getInputLogin() {
 		return inputLogin;
 	}
-
 	/**
 	 * Sets the login required for authentication in the SPARQL endpoint.
 	 * 
@@ -86,7 +83,6 @@ public class JobConfiguration {
 	public String getInputPassword() {
 		return inputPassword;
 	}
-
 	/**
 	 * Sets the password required for authentication in the SPARQL endpoint.
 	 * 
@@ -105,7 +101,6 @@ public class JobConfiguration {
 	public String getInputGraph() {
 		return inputGraph;
 	}
-
 	/**
 	 * Sets graph in that SPARQL endpoint from which to retrieve instances. 
      * If not specified, the query will not be restricted to any specific graph.
@@ -124,7 +119,6 @@ public class JobConfiguration {
 	public String getOutputURI() {
 		return outputURI;
 	}
-
 	/**
 	 * Sets the URI of the SPARQL/Update endpoint of the dataset where to store the generated links. If omitted, the input URI will be used.
 	 * 
@@ -142,7 +136,6 @@ public class JobConfiguration {
 	public String getOutputLogin() {
 		return outputLogin;
 	}
-
 	/**
 	 * Sets the login required for authentication in the SPARQL endpoint.
 	 * 
@@ -160,7 +153,6 @@ public class JobConfiguration {
 	public String getOutputPassword() {
 		return outputPassword;
 	}
-
 	/**
 	 * Sets the password required for authentication in the SPARQL endpoint.
 	 * 
@@ -179,7 +171,6 @@ public class JobConfiguration {
 	public String getOutputGraph() {
 		return outputGraph;
 	}
-
 	/**
 	 * Sets the URI of the graph where to put the discovered links. 
      * If not specified, no graph will be used for the update.
@@ -198,7 +189,6 @@ public class JobConfiguration {
 	public String getConfigFile() {
 		return configFile;
 	}
-
 	/**
 	 * Sets the path of the configuration file for the linking processes. 
 	 * 
@@ -216,7 +206,6 @@ public class JobConfiguration {
 	public String getTmpDir() {
 		return tmpDir;
 	}
-
 	/**
 	 * Sets the path of the temporary directory for creating temporary files.
 	 * 

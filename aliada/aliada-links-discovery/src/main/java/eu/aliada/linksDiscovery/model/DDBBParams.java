@@ -6,7 +6,7 @@
 package eu.aliada.linksDiscovery.model;
 
 /**
- * RDF-izer Job entity.
+ * Links discovery DDBB parameters.
  * 
  * @author Idoia Murua
  * @since 1.0

@@ -10,7 +10,9 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.Produces;
 import javax.ws.rs.FormParam;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.POST;
+import javax.ws.rs.GET;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -23,6 +25,7 @@ import eu.aliada.linksDiscovery.impl.LinksDiscovery;
 import eu.aliada.linksDiscovery.log.MessageCatalog;
 import eu.aliada.linksDiscovery.model.JobConfiguration;
 import eu.aliada.linksDiscovery.model.DDBBParams;
+import eu.aliada.linksDiscovery.model.Job;
 import eu.aliada.shared.log.Log;
 
 
@@ -46,7 +49,7 @@ public class LinksDiscoveryResource {
 	 * Creates a new job on the Links Discovery Component.
 	 * 
 	 * @param id the job identifier associated with this instance.
-	 * @return a response which includes the URI of the new job.
+	 * @return a response which includes the info of the new job.
      * @since 1.0
 	 */
 	@POST
@@ -65,8 +68,8 @@ public class LinksDiscoveryResource {
 		}
 
 		DBConnectionManager db = (DBConnectionManager) context.getAttribute("db");
-	    JobConfiguration job = db.getJobConfiguration(id);
-		if (job == null) {
+	    JobConfiguration jobConf = db.getJobConfiguration(id);
+		if (jobConf == null) {
 			logger.error(MessageCatalog._00023_JOB_CONFIGURATION_NOT_FOUND, id);
 			return Response.status(Status.BAD_REQUEST).build();								
 		}
@@ -77,12 +80,34 @@ public class LinksDiscoveryResource {
 		ddbbParams.setDriverClassName(context.getInitParameter("ddbb.driverClassName"));
 		ddbbParams.setUrl(context.getInitParameter("ddbb.url"));
 		LinksDiscovery linksDisc = new LinksDiscovery();
-		linksDisc.programLinkingProcesses(job, db, ddbbParams);
+		Job job = linksDisc.programLinkingProcesses(jobConf, db, ddbbParams);
 		
-/*		LinksDiscoveryResponse linksDiscoveryResponse = new LinksDiscoveryResponse();
-		linksDiscoveryResponse.setLinksCreated(true);
-		return Response.status(Response.Status.CREATED).entity(linksDiscoveryResponse).build();*/
-		return Response.created(uriInfo.getAbsolutePathBuilder().build()).build();
+//		return Response.created(uriInfo.getAbsolutePathBuilder().build()).build();
+		return Response.status(Response.Status.CREATED).entity(job).build();
 	}
 
+	/**
+	 * Gets job info.
+	 * 
+	 * @param id the job identifier associated with this instance.
+	 * @return a response which includes the info the job.
+     * @since 1.0
+	 */
+	@GET
+	@Path("/jobs/{jobid}")
+	@Produces({MediaType.TEXT_XML, MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+	public Response getJob(
+		@Context HttpServletRequest request,
+		@PathParam("jobid") Integer id) {
+		logger.debug(MessageCatalog._00025_GET_JOB_REQUEST);
+		
+		if (id == null) {
+			logger.error(MessageCatalog._00022_MISSING_INPUT_PARAM, "jobid");
+			return Response.status(Status.BAD_REQUEST).build();			
+		}
+
+		DBConnectionManager db = (DBConnectionManager) context.getAttribute("db");
+		Job job = db.getJob(id);
+		return Response.status(Response.Status.ACCEPTED).entity(job).build();
+	}
 }
