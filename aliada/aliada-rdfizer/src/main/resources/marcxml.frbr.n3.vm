@@ -2,8 +2,30 @@
 #set($expression_s = "#uri('F24_Publication_Expression' $frbr.expressionURI)")
 #set($manifestation_s = "#uri('F3_Manifestation_Product_Type' $frbr.manifestationURI)")
 #set($is_a = "#rdf('type')")
+#set($P3_has_note = "#ecrm('P3_has_note')")
+#set($P2_has_type = "#ecrm('P2_has_type')")
+#set($P149_is_identified_by = "#ecrm('P149_is_identified_by')")
 $work_s $is_a #efrbroo('F1_Work') . 
 $expression_s $is_a #efrbroo('F24_Publication_Expression') . 
 $manifestation_s $is_a #efrbroo('F3_Manifestation_Product_Type') . 
 $work_s #efrbroo('R40_has_representative_expression') $expression_s . 
 $expression_s #efrbroo('R4_carriers_provided_by') $manifestation_s . 
+##
+## MANIFESTATION
+##
+## 001
+#set($controlNumber = $xpath.cf("001",$root))
+#if ($controlNumber)
+    #set($id_s = "#uri('E75_Conceptual_Object_Appellation' $controlNumber)")
+    $id_s $is_a #efrbroo("E75_Conceptual_Object_Appellation") . 
+    $id_s $P3_has_note "$controlNumber" . 
+    $manifestation_s $P149_is_identified_by $id_s .
+#end	
+## 245a
+#set($titleOfManifestation = "#df('245' 'a' $root)")
+#if($titleOfManifestation) 
+	#set($title_s = "#uri('E35_Title' $titleOfManifestation)")
+	$title_s $is_a #ecrm('E35_Title') . 
+	$title_s $P3_has_note "$titleOfManifestation" . 
+	$manifestation_s #ecrm('P102_has_title') $title_s . 
+#end	
