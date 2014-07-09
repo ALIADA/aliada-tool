@@ -23,6 +23,7 @@ public class JobConfiguration {
     private String outputGraph;
     private String configFile;
     private String tmpDir;
+    private String clientAppBinDir;
     
     /**
      * Returns the identifier of this job configuration.
@@ -213,5 +214,22 @@ public class JobConfiguration {
 	 */
 	public void setTmpDir(String tmpDir) {
 		this.tmpDir = tmpDir;
+	}		
+
+	/**
+     * Returns the path of the Links Discovery client application binary directory.
+     * 
+     * @return The path of the Links Discovery client application binary directory.
+     */
+	public String getClientAppBinDir() {
+		return clientAppBinDir;
+	}
+	/**
+	 * Sets the path of the Links Discovery client application binary directory.
+	 * 
+	 * @param clientAppBinDir The Links Discovery client application binary directory.
+	 */
+	public void setClientAppBinDir(String clientAppBinDir) {
+		this.clientAppBinDir = clientAppBinDir;
 	}		
 }

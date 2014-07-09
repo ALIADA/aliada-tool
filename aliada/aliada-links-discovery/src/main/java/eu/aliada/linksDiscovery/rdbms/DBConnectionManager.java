@@ -71,6 +71,7 @@ public class DBConnectionManager {
 				job.setOutputGraph(resultSet.getString("output_graph"));
 				job.setConfigFile(resultSet.getString("config_file"));
 				job.setTmpDir(resultSet.getString("tmp_dir"));
+				job.setClientAppBinDir(resultSet.getString("client_app_bin_dir"));
 		    }
 		} catch (SQLException exception) {
 			logger.error(MessageCatalog._00024_DATA_ACCESS_FAILURE, exception);

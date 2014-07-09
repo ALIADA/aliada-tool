@@ -46,7 +46,7 @@ public class LinkingProcess {
 	private final Log logger = new Log(LinkingProcess.class);
 	private final static String CRONTAB_FILENAME = "aliada_links_discovery.cron"; 
 	//Name of the linking process to program with crontab, that executes eu.aliada.linksDiscovery.impl.LinkingProcess java application
-	private final static String LINKING_PROCESS_NAME = "/bin/links-discovery-task-runner.sh";
+	private final static String LINKING_PROCESS_NAME = "links-discovery-task-runner.sh";
 	private String dbUsername;
 	private String dbPassword;
 	private String dbDriverClassName;

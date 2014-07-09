@@ -318,7 +318,7 @@ public class LinksDiscovery {
 		return linkingConfigFilename;
 	}
 
-	public boolean insertLinkingProcessInCrontabFile(String crontabFilename, int jobId, int subjobId, String linkingPropConfigFilename)
+	public boolean insertLinkingProcessInCrontabFile(String crontabFilename, String clientAppBinDir, int jobId, int subjobId, String linkingPropConfigFilename)
 	{
 		if(linkingPropConfigFilename == null)
 			return false;
@@ -333,9 +333,11 @@ public class LinksDiscovery {
 			int minute = calendar.get(Calendar.MINUTE);
 			int day = calendar.get(Calendar.DAY_OF_MONTH);
 			int month = calendar.get(Calendar.MONTH) + 1;
+			//Compose script name that executes eu.aliada.linksDiscovery.impl.LinkingProcess java application
+			String linkingProcessPath = clientAppBinDir + "/" + LINKING_PROCESS_NAME;
 			String cronTabLine = "%d %d %d %d * %s %d %d %s";
-			//Place script name that executes eu.aliada.linksDiscovery.impl.LinkingProcess java application
-			String linkingProcessCronJob = String.format(cronTabLine, hour, minute, day, month, LINKING_PROCESS_NAME, jobId, subjobId, linkingPropConfigFilename);
+			//Compose crontab line to insert
+			String linkingProcessCronJob = String.format(cronTabLine, minute, hour, day, month, linkingProcessPath, jobId, subjobId, linkingPropConfigFilename);
         	out.write(linkingProcessCronJob);
         	out.newLine();
 			out.close();
@@ -379,7 +381,7 @@ public class LinksDiscovery {
 					String linkingPropConfigFilename = createLinkingPropConfigFile(jobConf.getTmpDir(), ddbbParams);
 					if (linkingPropConfigFilename != null){
 						logger.info(MessageCatalog._00039_INSERT_lINKING_CRONTAB_FILE, subjobId);
-						if(insertLinkingProcessInCrontabFile(crontabFilename, jobConf.getId(), subjobId, linkingPropConfigFilename)){
+						if(insertLinkingProcessInCrontabFile(crontabFilename, jobConf.getClientAppBinDir(), jobConf.getId(), subjobId, linkingPropConfigFilename)){
 							//Insert job-subjob in DDBB
 							logger.info(MessageCatalog._00042_INSERT_SUBJOB_DDBB, jobConf.getId(), subjobId);
 							db.insertSubjobToDDBB(jobConf.getId(), subjobId, subjobConf[i], linkingXMLConfigFilename,jobConf.getTmpDir());
