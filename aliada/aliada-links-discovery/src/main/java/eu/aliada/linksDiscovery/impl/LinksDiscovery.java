@@ -351,12 +351,12 @@ public class LinksDiscovery {
 	/**
 	 * Links discovery implementation.
 	 *
-     * @param configurationFile	The configuration file.  
-     * @param numThreads		The number of threads to be used for matching. 
-     * @param reload			Specifies if the entity cache is to be reloaded 
-     *
-     * @return 					
-     * @since 1.0
+	 * @param configurationFile	The configuration file.  
+	 * @param numThreads		The number of threads to be used for matching. 
+	 * @param reload			Specifies if the entity cache is to be reloaded 
+	 *
+	 * @return 					
+	 * @since 1.0
 	 */
 	public Job programLinkingProcesses(JobConfiguration jobConf, DBConnectionManager db, DDBBParams ddbbParams) {
 		logger.info(MessageCatalog._00030_STARTING);

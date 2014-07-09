@@ -148,8 +148,8 @@ public class DBConnectionManager {
 			String sql = "SELECT * FROM linksdiscovery_job_instances WHERE job_id=" + id;
 			ResultSet resultSet = sta.executeQuery(sql);
 			while (resultSet.next()) {
-				job.setStartDate(resultSet.getDate("start_date"));
-				job.setEndDate(resultSet.getDate("end_date"));
+				job.setStartDate(resultSet.getTimestamp("start_date"));
+				job.setEndDate(resultSet.getTimestamp("end_date"));
 				//Determine job status
 				String status = job_status_idle;
 				if(job.getStartDate() != null){
@@ -168,8 +168,8 @@ public class DBConnectionManager {
 				Subjob subjob = new Subjob();
 				subjob.setId(resultSet.getInt("subjob_id"));
 				subjob.setName(resultSet.getString("name"));
-				subjob.setStartDate(resultSet.getDate("start_date"));
-				subjob.setEndDate(resultSet.getDate("end_date"));
+				subjob.setStartDate(resultSet.getTimestamp("start_date"));
+				subjob.setEndDate(resultSet.getTimestamp("end_date"));
 				//Determine subjob status
 				String status = job_status_idle;
 				if(subjob.getStartDate() != null){
