@@ -46,7 +46,7 @@ public class LinkingProcess {
 	private final Log logger = new Log(LinkingProcess.class);
 	private final static String CRONTAB_FILENAME = "aliada_links_discovery.cron"; 
 	//Name of the linking process to program with crontab, that executes eu.aliada.linksDiscovery.impl.LinkingProcess java application
-	private final static String LINKING_PROCESS_NAME = "links-discovery-task-runner.sh";
+	private final static String LINKING_PROCESS_NAME = "/bin/links-discovery-task-runner.sh";
 	private String dbUsername;
 	private String dbPassword;
 	private String dbDriverClassName;
@@ -273,9 +273,9 @@ public class LinkingProcess {
 		return numLinks;
 	}
 
-	public String removeSubjobFromCrontab(int job, int subjob){
+	public String removeSubjobFromCrontab(int job, int subjob, String propertiesFileName){
 		//String to supress from crontab file
-		String crontabLineToSearch = String.format("%s %d %d", LINKING_PROCESS_NAME, job, subjob);
+		String crontabLineToSearch = String.format("%s %d %d %s", LINKING_PROCESS_NAME, job, subjob, propertiesFileName);
 		//Create a new crontab file supressing the subjob already finished
 		String crontabFilename = tmpDir + File.separator + CRONTAB_FILENAME;
 		//Replace Windows file separator by "/" Java file separator
@@ -319,6 +319,21 @@ public class LinkingProcess {
 			logger.error(MessageCatalog._00033_EXTERNAL_PROCESS_START_FAILURE, exception, command);
 	    }
 		return crontabFilename;
+	}
+
+	public void removeConfigFiles(String propertiesFileName, String linkingXMLConfigFilename){
+		//Remove configuration files
+		try {
+		    File f = new File(propertiesFileName);
+		    if (f.exists())
+		    	f.delete();
+		    f = new File(linkingXMLConfigFilename);
+		    if (f.exists())
+		    	f.delete();
+		} catch (Exception exception) {
+			logger.error(MessageCatalog._00066_FILE_REMOVING_FAILURE, exception);
+		}
+		return;
 	}
 
 	
@@ -378,7 +393,10 @@ public class LinkingProcess {
 			lProcess.updateSubjobEndDate(job, subjob, numLinks);
 			//Remove from crontab the programmed process (subjob)
 			lProcess.logger.info(MessageCatalog._00063_REMOVING_SUBJOB_FROM_CRONTAB, job, subjob);
-			lProcess.removeSubjobFromCrontab(job, subjob);
+			lProcess.removeSubjobFromCrontab(job, subjob, propertiesFileName);
+			//Remove config files
+			lProcess.logger.info(MessageCatalog._00065_REMOVING_CONFIG_FILES);
+			lProcess.removeConfigFiles(propertiesFileName, lProcess.linkingXMLConfigFilename);
 			//Update job end_date of DDBB, if needed
 			lProcess.logger.info(MessageCatalog._00057_UPDATING_JOB_DDBB, job);
 			lProcess.updateJobEndDate(job);
