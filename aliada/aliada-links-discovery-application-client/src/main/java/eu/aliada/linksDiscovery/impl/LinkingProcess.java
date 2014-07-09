@@ -96,14 +96,26 @@ public class LinkingProcess {
 		}
     	
     }
+    
+    public void closeDDBBConnection() {
+    	try {
+    		conn.close();
+		} catch (SQLException exception) {
+			logger.error(MessageCatalog._00024_DATA_ACCESS_FAILURE, exception);
+		}
+    	return;
+    }
+
 
 	public boolean getSubjobConfiguration(int jobid, int subjobid) {
 		//Get subjob properties from DDBB
+		boolean found = false;
 		try {
 			Statement sta = conn.createStatement();
 			String sql = "SELECT * FROM linksdiscovery_subjob_instances WHERE job_id=" + jobid + " AND subjob_id=" + subjobid;
 			ResultSet resultSet = sta.executeQuery(sql);
 			while (resultSet.next()) {
+				found = true;
 	    		linkingXMLConfigFilename = resultSet.getString("config_file");
 	    		linkingNumThreads = resultSet.getInt("num_threads");
 	    		linkingReload = resultSet.getBoolean("reload");
@@ -111,9 +123,12 @@ public class LinkingProcess {
 	    		//Verify that the XML configuration file for SILK really exists
 	    		try{
 	    			linkingXMLConfigFile = new File(linkingXMLConfigFilename);
-	    			if (!linkingXMLConfigFile.exists())
+	    			if (!linkingXMLConfigFile.exists()){
+	    				logger.error(MessageCatalog._00031_FILE_NOT_FOUND, linkingXMLConfigFilename);
 	    				return false;
+	    			}
 	    		}catch (Exception exception) {
+    				logger.error(MessageCatalog._00031_FILE_NOT_FOUND, exception, linkingXMLConfigFilename);
 	    			return false;
 	    		}
 		    }
@@ -121,7 +136,10 @@ public class LinkingProcess {
 			logger.error(MessageCatalog._00024_DATA_ACCESS_FAILURE, exception);
 			return false;
 		}
-		return true;
+		if(!found){
+			logger.error(MessageCatalog._00067_SUBJOB_CONFIGURATION_NOT_FOUND, jobid, subjobid);
+		}
+		return found;
 	}
     
 	public boolean updateSubjobStartDate(int job, int subjob){
@@ -368,12 +386,14 @@ public class LinkingProcess {
 			//Get subjob properties from DDBB
 			lProcess.logger.info(MessageCatalog._00064_GET_PROPERTIES_FROM_DDBB, job, subjob);
 			if(!lProcess.getSubjobConfiguration(job, subjob)){
+				lProcess.closeDDBBConnection();
 				lProcess.logger.info(MessageCatalog._00059_STOPPING);
 				System.exit(2);
 			}
 			//Update subjob start_date in DDBB
 			lProcess.logger.info(MessageCatalog._00056_UPDATING_SUBJOB_DDBB, job, subjob);
 			if(!lProcess.updateSubjobStartDate(job, subjob)){
+				lProcess.closeDDBBConnection();
 				lProcess.logger.info(MessageCatalog._00059_STOPPING);
 				System.exit(2);
 			}

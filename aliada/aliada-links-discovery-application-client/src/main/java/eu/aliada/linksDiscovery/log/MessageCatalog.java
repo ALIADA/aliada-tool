@@ -40,4 +40,5 @@ public interface MessageCatalog {
 	String _00064_GET_PROPERTIES_FROM_DDBB = LT + MODULE_NAME + "-00064> : Getting properties from DDBB job %d subjob %d .";
 	String _00065_REMOVING_CONFIG_FILES = LT + MODULE_NAME + "-00065> : Removing configuration files.";
 	String _00066_FILE_REMOVING_FAILURE = LT + MODULE_NAME + "-00066> : Error removing configuration files %s.";
+	String _00067_SUBJOB_CONFIGURATION_NOT_FOUND = LT + MODULE_NAME + "-00067> : Unable to find a configuration for creating a subjob with job_id %s, subjob_id %d.";	
 }

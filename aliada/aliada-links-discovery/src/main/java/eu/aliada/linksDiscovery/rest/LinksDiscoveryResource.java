@@ -50,7 +50,7 @@ public class LinksDiscoveryResource {
 	 * 
 	 * @param id the job identifier associated with this instance.
 	 * @return a response which includes the info of the new job.
-     * @since 1.0
+	 * @since 1.0
 	 */
 	@POST
 	@Path("/jobs")
@@ -91,7 +91,7 @@ public class LinksDiscoveryResource {
 	 * 
 	 * @param id the job identifier associated with this instance.
 	 * @return a response which includes the info the job.
-     * @since 1.0
+	 * @since 1.0
 	 */
 	@GET
 	@Path("/jobs/{jobid}")
