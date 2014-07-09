@@ -32,9 +32,9 @@ PRIMARY KEY ( `user_name` )
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tiempo de generación: 12-06-2014 a las 12:13:33
--- Versión del servidor: 5.0.95
--- Versión de PHP: 5.1.6
+-- Tiempo de generaciï¿½n: 12-06-2014 a las 12:13:33
+-- Versiï¿½n del servidor: 5.0.95
+-- Versiï¿½n de PHP: 5.1.6
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 
@@ -48,7 +48,7 @@ SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 -- Estructura de tabla para la tabla `organisation`
 --
 
-CREATE TABLE IF NOT EXISTS `organisation` (
+CREATE TABLE IF NOT EXISTS `aliada`.`organisation` (
   `organisation_name` varchar(32) NOT NULL,
   `organisation_path` varchar(128) NOT NULL,
   `organisation_uri_domain` varchar(128) NOT NULL,
@@ -69,7 +69,7 @@ CREATE TABLE IF NOT EXISTS `organisation` (
 -- Estructura de tabla para la tabla `profile`
 --
 
-CREATE TABLE IF NOT EXISTS `profile` (
+CREATE TABLE IF NOT EXISTS `aliada`.`profile` (
   `profile_id` int(11) NOT NULL,
   `profile_name` varchar(32) NOT NULL,
   `profile_type_code` int(11) NOT NULL,
@@ -97,7 +97,7 @@ CREATE TABLE IF NOT EXISTS `profile` (
 -- Estructura de tabla para la tabla `template`
 --
 
-CREATE TABLE IF NOT EXISTS `template` (
+CREATE TABLE IF NOT EXISTS `aliada`.`template` (
   `template_id` int(11) NOT NULL,
   `template_name` varchar(32) NOT NULL,
   `template_description` varchar(128) default NULL,
@@ -115,7 +115,7 @@ CREATE TABLE IF NOT EXISTS `template` (
 -- Estructura de tabla para la tabla `template_xml_tag`
 --
 
-CREATE TABLE IF NOT EXISTS `template_xml_tag` (
+CREATE TABLE IF NOT EXISTS `aliada`.`template_xml_tag` (
   `template_id` int(11) NOT NULL,
   `xml_tag_id` varchar(32) NOT NULL,
   PRIMARY KEY  (`template_id`,`xml_tag_id`),
@@ -133,7 +133,7 @@ CREATE TABLE IF NOT EXISTS `template_xml_tag` (
 -- Estructura de tabla para la tabla `t_character_set`
 --
 
-CREATE TABLE IF NOT EXISTS `t_character_set` (
+CREATE TABLE IF NOT EXISTS `aliada`.`t_character_set` (
   `character_set_code` int(11) NOT NULL,
   `character_set_name` varchar(32) NOT NULL,
   `character_set_description` varchar(128) default NULL,
@@ -144,7 +144,7 @@ CREATE TABLE IF NOT EXISTS `t_character_set` (
 -- Volcar la base de datos para la tabla `t_character_set`
 --
 
-INSERT INTO `t_character_set` (`character_set_code`, `character_set_name`, `character_set_description`) VALUES
+INSERT INTO `aliada`.`t_character_set` (`character_set_code`, `character_set_name`, `character_set_description`) VALUES
 (0, 'MARC standard', NULL),
 (1, 'AMICUS', NULL),
 (2, 'Latin1', NULL);
@@ -155,7 +155,7 @@ INSERT INTO `t_character_set` (`character_set_code`, `character_set_name`, `char
 -- Estructura de tabla para la tabla `t_file_format`
 --
 
-CREATE TABLE IF NOT EXISTS `t_file_format` (
+CREATE TABLE IF NOT EXISTS `aliada`.`t_file_format` (
   `file_format_code` int(11) NOT NULL,
   `file_format_name` varchar(32) NOT NULL,
   `file_format_description` varchar(128) default NULL,
@@ -166,7 +166,7 @@ CREATE TABLE IF NOT EXISTS `t_file_format` (
 -- Volcar la base de datos para la tabla `t_file_format`
 --
 
-INSERT INTO `t_file_format` (`file_format_code`, `file_format_name`, `file_format_description`) VALUES
+INSERT INTO `aliada`.`t_file_format` (`file_format_code`, `file_format_name`, `file_format_description`) VALUES
 (0, 'XML', 'XML file');
 
 -- --------------------------------------------------------
@@ -175,7 +175,7 @@ INSERT INTO `t_file_format` (`file_format_code`, `file_format_name`, `file_forma
 -- Estructura de tabla para la tabla `t_file_type`
 --
 
-CREATE TABLE IF NOT EXISTS `t_file_type` (
+CREATE TABLE IF NOT EXISTS `aliada`.`t_file_type` (
   `file_type_code` int(11) NOT NULL,
   `file_type_name` varchar(32) NOT NULL,
   `file_type_description` varchar(128) default NULL,
@@ -186,7 +186,7 @@ CREATE TABLE IF NOT EXISTS `t_file_type` (
 -- Volcar la base de datos para la tabla `t_file_type`
 --
 
-INSERT INTO `t_file_type` (`file_type_code`, `file_type_name`, `file_type_description`) VALUES
+INSERT INTO `aliada`.`t_file_type` (`file_type_code`, `file_type_name`, `file_type_description`) VALUES
 (0, 'Bibliographic', NULL),
 (1, 'Authority', NULL),
 (2, 'Museum Resource', NULL);
@@ -197,7 +197,7 @@ INSERT INTO `t_file_type` (`file_type_code`, `file_type_name`, `file_type_descri
 -- Estructura de tabla para la tabla `t_metadata_scheme`
 --
 
-CREATE TABLE IF NOT EXISTS `t_metadata_scheme` (
+CREATE TABLE IF NOT EXISTS `aliada`.`t_metadata_scheme` (
   `metadata_code` int(11) NOT NULL,
   `metadata_name` varchar(32) NOT NULL,
   `metadata_description` varchar(128) default NULL,
@@ -208,7 +208,7 @@ CREATE TABLE IF NOT EXISTS `t_metadata_scheme` (
 -- Volcar la base de datos para la tabla `t_metadata_scheme`
 --
 
-INSERT INTO `t_metadata_scheme` (`metadata_code`, `metadata_name`, `metadata_description`) VALUES
+INSERT INTO `aliada`.`t_metadata_scheme` (`metadata_code`, `metadata_name`, `metadata_description`) VALUES
 (0, 'MARC21', NULL),
 (1, 'LIDO', NULL),
 (2, 'Dublin Core', NULL);
@@ -219,7 +219,7 @@ INSERT INTO `t_metadata_scheme` (`metadata_code`, `metadata_name`, `metadata_des
 -- Estructura de tabla para la tabla `t_profile_type`
 --
 
-CREATE TABLE IF NOT EXISTS `t_profile_type` (
+CREATE TABLE IF NOT EXISTS `aliada`.`t_profile_type` (
   `profile_code` int(11) NOT NULL,
   `profile_name` varchar(32) NOT NULL,
   `profile_description` varchar(128) default NULL,
@@ -230,7 +230,7 @@ CREATE TABLE IF NOT EXISTS `t_profile_type` (
 -- Volcar la base de datos para la tabla `t_profile_type`
 --
 
-INSERT INTO `t_profile_type` (`profile_code`, `profile_name`, `profile_description`) VALUES
+INSERT INTO `aliada`.`t_profile_type` (`profile_code`, `profile_name`, `profile_description`) VALUES
 (0, 'ILS', NULL),
 (1, 'TMS', NULL),
 (2, 'Drupal', NULL);
@@ -241,7 +241,7 @@ INSERT INTO `t_profile_type` (`profile_code`, `profile_name`, `profile_descripti
 -- Estructura de tabla para la tabla `t_user_role`
 --
 
-CREATE TABLE IF NOT EXISTS `t_user_role` (
+CREATE TABLE IF NOT EXISTS `aliada`.`t_user_role` (
   `user_role_code` int(11) NOT NULL,
   `user_role` varchar(32) NOT NULL,
   PRIMARY KEY  (`user_role_code`)
@@ -251,7 +251,7 @@ CREATE TABLE IF NOT EXISTS `t_user_role` (
 -- Volcar la base de datos para la tabla `t_user_role`
 --
 
-INSERT INTO `t_user_role` (`user_role_code`, `user_role`) VALUES
+INSERT INTO `aliada`.`t_user_role` (`user_role_code`, `user_role`) VALUES
 (0, 'Basic'),
 (1, 'Administrator');
 
@@ -261,7 +261,7 @@ INSERT INTO `t_user_role` (`user_role_code`, `user_role`) VALUES
 -- Estructura de tabla para la tabla `t_user_type`
 --
 
-CREATE TABLE IF NOT EXISTS `t_user_type` (
+CREATE TABLE IF NOT EXISTS `aliada`.`t_user_type` (
   `user_type_code` int(11) NOT NULL,
   `user_type` varchar(32) NOT NULL,
   PRIMARY KEY  (`user_type_code`)
@@ -271,7 +271,7 @@ CREATE TABLE IF NOT EXISTS `t_user_type` (
 -- Volcar la base de datos para la tabla `t_user_type`
 --
 
-INSERT INTO `t_user_type` (`user_type_code`, `user_type`) VALUES
+INSERT INTO `aliada`.`t_user_type` (`user_type_code`, `user_type`) VALUES
 (0, 'Basic'),
 (1, 'Advanced');
 
@@ -281,7 +281,7 @@ INSERT INTO `t_user_type` (`user_type_code`, `user_type`) VALUES
 -- Estructura de tabla para la tabla `t_xml_tag_type`
 --
 
-CREATE TABLE IF NOT EXISTS `t_xml_tag_type` (
+CREATE TABLE IF NOT EXISTS `aliada`.`t_xml_tag_type` (
   `xml_tag_type_code` int(11) NOT NULL,
   `xml_tag_type_name` varchar(32) NOT NULL,
   `xml_tag_type_description` varchar(128) default NULL,
@@ -292,7 +292,7 @@ CREATE TABLE IF NOT EXISTS `t_xml_tag_type` (
 -- Volcar la base de datos para la tabla `t_xml_tag_type`
 --
 
-INSERT INTO `t_xml_tag_type` (`xml_tag_type_code`, `xml_tag_type_name`, `xml_tag_type_description`) VALUES
+INSERT INTO `aliada`.`t_xml_tag_type` (`xml_tag_type_code`, `xml_tag_type_name`, `xml_tag_type_description`) VALUES
 (0, 'MARC21 Bibliographic', NULL),
 (1, 'MARC21 Authority', NULL),
 (2, 'LIDO', NULL),
@@ -304,7 +304,7 @@ INSERT INTO `t_xml_tag_type` (`xml_tag_type_code`, `xml_tag_type_name`, `xml_tag
 -- Estructura de tabla para la tabla `user`
 --
 
-CREATE TABLE IF NOT EXISTS `user` (
+CREATE TABLE IF NOT EXISTS `aliada`.`user` (
   `user_name` varchar(20) NOT NULL,
   `user_password` varchar(32) NOT NULL,
   `user_email` varchar(128) NOT NULL,
@@ -326,7 +326,7 @@ CREATE TABLE IF NOT EXISTS `user` (
 -- Estructura de tabla para la tabla `xml_tag`
 --
 
-CREATE TABLE IF NOT EXISTS `xml_tag` (
+CREATE TABLE IF NOT EXISTS `aliada`.`xml_tag` (
   `xml_tag_id` varchar(32) NOT NULL,
   `xml_tag_mandatory` tinyint(1) NOT NULL,
   `xml_tag_description` varchar(128) NOT NULL,
@@ -339,7 +339,7 @@ CREATE TABLE IF NOT EXISTS `xml_tag` (
 -- Volcar la base de datos para la tabla `xml_tag`
 --
 
-INSERT INTO `xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES
 ('001', 0, '', 0),
 ('040', 0, '', 0),
 ('100', 0, '', 0),
@@ -352,7 +352,7 @@ INSERT INTO `xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`,
 --
 -- Filtros para la tabla `profile`
 --
-ALTER TABLE `profile`
+ALTER TABLE `aliada`.`profile`
   ADD CONSTRAINT `profile_ibfk_5` FOREIGN KEY (`character_set_code`) REFERENCES `t_character_set` (`character_set_code`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `profile_ibfk_1` FOREIGN KEY (`profile_type_code`) REFERENCES `t_profile_type` (`profile_code`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `profile_ibfk_2` FOREIGN KEY (`metadata_scheme_code`) REFERENCES `t_metadata_scheme` (`metadata_code`) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -362,19 +362,19 @@ ALTER TABLE `profile`
 --
 -- Filtros para la tabla `template_xml_tag`
 --
-ALTER TABLE `template_xml_tag`
+ALTER TABLE `aliada`.`template_xml_tag`
   ADD CONSTRAINT `template_xml_tag_ibfk_2` FOREIGN KEY (`xml_tag_id`) REFERENCES `xml_tag` (`xml_tag_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `template_xml_tag_ibfk_1` FOREIGN KEY (`template_id`) REFERENCES `template` (`template_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `user`
 --
-ALTER TABLE `user`
+ALTER TABLE `aliada`.`user`
   ADD CONSTRAINT `user_ibfk_2` FOREIGN KEY (`user_role_code`) REFERENCES `t_user_role` (`user_role_code`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `user_ibfk_1` FOREIGN KEY (`user_type_code`) REFERENCES `t_user_type` (`user_type_code`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `xml_tag`
 --
-ALTER TABLE `xml_tag`
+ALTER TABLE `aliada`.`xml_tag`
   ADD CONSTRAINT `xml_tag_ibfk_1` FOREIGN KEY (`xml_tag_type_code`) REFERENCES `t_xml_tag_type` (`xml_tag_type_code`) ON DELETE CASCADE ON UPDATE CASCADE;

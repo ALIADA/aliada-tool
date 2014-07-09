@@ -2,7 +2,17 @@
  
 JAVA_REQUIRED_VERSION=1.7
 
-CLASSPATH=../lib/*
+#Get directory where script is located
+# Absolute path to this script, e.g. /home/user/bin/foo.sh
+SCRIPT=$(readlink -f "$0")
+# Absolute path this script is in, thus /home/user/bin
+SCRIPTPATH=$(dirname "$SCRIPT")
+echo $SCRIPTPATH
+
+#CLASSPATH=../lib/*
+CLASSPATH=$SCRIPTPATH/../lib/*
+
+#JAVA_OPTS=-Dlog4j.configuration='log4j.xml'
 
 if [ -z "$JAVA" ]; then
     if [ -n "$JAVA_HOME" ]; then
@@ -11,6 +21,7 @@ if [ -z "$JAVA" ]; then
         export JAVA="java"
     fi
 fi
+
 
 $JAVA -version 2> /dev/null > /dev/null
 if [ $? -eq 0 ]; then
@@ -37,6 +48,9 @@ else
 	exit 127
 fi
 
+echo "$JAVA" $JAVA_OPTS \
+         -classpath "$CLASSPATH" \
+         eu.aliada.linksDiscovery.impl.LinkingProcess "$@"
 "$JAVA" $JAVA_OPTS \
          -classpath "$CLASSPATH" \
-         IDOIA-THE-NAME-OF-THE-CLASS-MUST-BE-HERE "$@"
+         eu.aliada.linksDiscovery.impl.LinkingProcess "$@"

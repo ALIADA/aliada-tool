@@ -13,6 +13,8 @@ import eu.aliada.linksDiscovery.rdbms.DBConnectionManager;
 import eu.aliada.linksDiscovery.model.DDBBParams;
 
 import java.io.BufferedWriter;
+import java.io.InputStreamReader;
+import java.io.BufferedReader;
 import java.io.FileWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -124,8 +126,7 @@ public class LinksDiscovery {
 			BufferedWriter out = new BufferedWriter(fstream);
 			// Execute system command "crontab -l"
 	    	String command = "crontab -l";
-	    	/*
-		    try {
+	    	try {
 		    	String s = null;
 	  	    	Process crontabList = Runtime.getRuntime().exec(command);
 		    	BufferedReader stdInput = new BufferedReader(new InputStreamReader(crontabList.getInputStream()));
@@ -136,7 +137,7 @@ public class LinksDiscovery {
 		    } catch (IOException exception) {
 		    	crontabFilename = null;
 				logger.error(MessageCatalog._00033_EXTERNAL_PROCESS_START_FAILURE, exception, command);
-		    }*/
+		    }
 			out.close();
 		} catch (IOException exception) {
 			logger.error(MessageCatalog._00034_FILE_CREATION_FAILURE, exception, crontabFilename);
@@ -319,8 +320,8 @@ public class LinksDiscovery {
 			int day = calendar.get(Calendar.DAY_OF_MONTH);
 			int month = calendar.get(Calendar.MONTH) + 1;
 			String cronTabLine = "%d %d %d %d * %s %d %d %s";
-			//TODO: Place log configuration options correctly
-			String linkingJob = "java -Dlog4j.configuration='log4j.xml' eu.aliada.linksDiscovery.impl.LinkingProcess";
+			//Place script name that executes eu.aliada.linksDiscovery.impl.LinkingProcess java application
+			String linkingJob = "links-discovery-task-runner.sh";
 			String linkingProcessCronJob = String.format(cronTabLine, hour, minute, day, month, linkingJob, jobId, subjobId, linkingPropConfigFilename);
         	out.write(linkingProcessCronJob);
         	out.newLine();
@@ -347,7 +348,7 @@ public class LinksDiscovery {
 	public void programLinkingProcesses(JobConfiguration job, DBConnectionManager db, DDBBParams ddbbParams) {
 		logger.info(MessageCatalog._00030_STARTING);
 		this.db = db;
-		//Update job´s start-date in DDBB
+		//Update jobÂ´s start-date in DDBB
 		db.updateJobStartDate(job.getId());
 		//Get files and other parameters to generate linking processes (subjobs)
 		logger.info(MessageCatalog._00035_GET_lINKING_CONFIG_FILES);
