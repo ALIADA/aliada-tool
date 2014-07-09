@@ -8,8 +8,6 @@
      xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
 	 xmlns:ecrm "http://erlangen-crm.org/current/>
 
-	 
-	 
 	 <!-- MANIFESTATION CREATION. 
 	 ISBN: marc:datafield tag="020" marc:subfield code="a":978-84-234-1398-0 ISBN 
 	 <marc:datafield tag="852" ind1=" " ind2=" "> <marc:subfield code="S">COM MAL3 1</marc:subfield>: Manifestation identifier. This one for what??????????
@@ -100,7 +98,7 @@ enfado frente a la televisión y pasemos al siguiente estado de ánimo, un cre
 	<!-- ============================================================================ -->
 
 	 <!-- marc:datafield tag="245" code ="a" and "b" <marc:subfield code="a">¡Cabreaos! :</marc:subfield> <marc:subfield code="b">se ríen por encima de nuestras posibilidades /</marc:subfield>BEGIN-->
-	 <rdf:Description rdf:about="http://www.artium.org/id/resource/F3_Manifestation_Product_Type/oooooo145395/E35_Title/1">
+	 <rdf:Description rdf:about="http://www.artium.org/id/resource/E35_Title/1">
 	  <rdf:type rdf:resource="efrbroo:E35_Title" />
 	  <ecrm:P3_has_note rdf:datatype="http://www.w3.org/2oo1/XMLSchema#string">¡Cabreaos!: se ríen por encima de nuestras posibilidades</ecrm:P3_has_note>
 	 </rdf:Description>

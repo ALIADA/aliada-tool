@@ -51,7 +51,7 @@
         	#set($repository_appellation = "#uri('E82_Actor_Appellation' $value)")
         	$repository_appellation $is_a #ecrm("E82_Actor_Appellation") .
         	$repository_appellation $P3_has_note "$value" . 
-    ##
+##
         	#set($actor = "#uri('E39_Actor' $value)")
         	$actor $is_a #ecrm("E39_Actor") .
         	$actor #ecrm("P131_is_identified_by") $repository_appellation .
@@ -63,3 +63,8 @@
         ## LEGAL BODY NAME END
     #end	
 #end	
+
+#macro (dfi $tag $ind1 $ind2 $code $record)$xpath.one("record/datafield[@tag='${tag}' and @ind1='${ind1}' and @ind2='${ind2}']/subfield[@code='${code}']")#end
+#macro (dfis $tag $ind1 $ind2 $code $record)$xpath.many("record/datafield[@tag='${tag}' and @ind1='${ind1}' and @ind2='${ind2}']/subfield[@code='${code}']")#end
+#macro (df $tag $code $record)$xpath.one("record/datafield[@tag='${tag}']/subfield[@code='${code}']")#end
+#macro (dfs $tag $code $record)$xpath.many("record/datafield[@tag='${tag}']/subfield[@code='${code}']")#end
