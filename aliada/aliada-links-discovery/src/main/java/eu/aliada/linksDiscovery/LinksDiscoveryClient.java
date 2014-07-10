@@ -14,7 +14,7 @@ import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Response;
 
 /**
- * Implementation of a Links Discovery REST service client application. 
+ * Implementation of an example of a Links Discovery REST service client application. 
  * @author Idoia Murua
  * @since 1.0
  */
@@ -24,82 +24,72 @@ public class LinksDiscoveryClient {
 
 	/**
 	 * Implementation of a Links Discovery REST service client application.
+	 * POST /links-discovery/
 	 *
-     * @param inputURI			URI of the SPARQL/Update endpoint of the source dataset from where we want to generate links. 
-     * @param inputLogin		Login required for authentication in the SPARQL endpoint. 
-     * @param inputPassword		Password required for authentication in the SPARQL endpoint. 
-     * @param inputGraph		Only retrieve instances from a specific graph in that SPARQL endpoint. 
-     * 							If not specified, the query will not be restricted to any specific graph.
-     * @param outputURI			URI of the SPARQL/Update endpoint of the dataset where to store the generated links. If omitted, the input URI will be used.
-     * @param outputLogin		Login required for authentication in the SPARQL/Update endpoint. 
-     * @param outputPassword	Password required for authentication in the SPARQL/Update endpoint. 
-     * @param outputGraph		The URI of the graph where to put the dicovered links. If not specified, no graph will be used for the update.
-     *
-     * @return 					
-     * @since 1.0
+	 *
+	 * @return 					
+	 * @since 1.0
 	 */
-	public void linksDiscover(String inputURI, String inputLogin, String inputPassword, String inputGraph, String outputURI, String outputLogin, String outputPassword, String outputGraph){
+	public void newJob(int jobid){
+		//Convert integer to string
+		String s_jobid = "" + jobid;
 		Client client = ClientBuilder.newClient();
 		WebTarget webTarget = client.target(ALIADA_LInksDiscoveryServiceURL);
-		
+
 		//Data to be sent via HTTP POST
 		Form f = new Form();
-		f.param("inputURI", inputURI);
-		f.param("inputLogin", inputLogin);
-		f.param("inputPassword", inputPassword);
-		f.param("inputGraph", inputGraph);
-		f.param("outputURI", outputURI);
-		f.param("outputLogin", outputLogin);
-		f.param("outputPassword", outputPassword);
-		f.param("outputGraph", outputGraph);
+		f.param("jobid", s_jobid);
 
-		//POST 
-		Response postResponse = webTarget.request().post(Entity.entity(f, MediaType.APPLICATION_FORM_URLENCODED_TYPE));
-		System.out.println(postResponse.getStatus());
-		System.out.println(postResponse.readEntity(String.class));
+		//POST (Response in XML format)
+		String accept_type = MediaType.APPLICATION_XML; //If we want the response in XML format
+		Response postResponse = webTarget.path("/jobs").request(accept_type).post(Entity.entity(f, MediaType.APPLICATION_FORM_URLENCODED_TYPE));
+		System.out.println("status =" + postResponse.getStatus());
+		System.out.println("response data=" + postResponse.readEntity(String.class));
 	}
 	
 	/**
 	 * Implementation of a Links Discovery REST service client application.
+	 * GET /links-discovery/<jobid>
 	 *
-     *
-     * @return 					
-     * @since 1.0
+	 *
+	 * @return 					
+	 * @since 1.0
 	 */
-	public void newJob(Integer id){
+	public void getJob(Integer jobid){
+		//Convert integer to string
+		String s_jobid = "" + jobid;
 		Client client = ClientBuilder.newClient();
 		WebTarget webTarget = client.target(ALIADA_LInksDiscoveryServiceURL);
 
-		//Data to be sent via HTTP POST
-		Form f = new Form();
-		f.param("jobid", "1");
+		//GET (Response in XML format) 
+		String accept_type = MediaType.APPLICATION_XML; //If we want the response in XML format
+		Response getResponse = webTarget.path("/jobs").path(s_jobid).request(accept_type).get();
+		System.out.println("status =" + getResponse.getStatus());
+		System.out.println("response data=" + getResponse.readEntity(String.class));
 
-		//POST 
-		Response postResponse = webTarget.path("/jobs").request().post(Entity.entity(f, MediaType.APPLICATION_FORM_URLENCODED_TYPE));
-		System.out.println(postResponse.getStatus());
-		System.out.println(postResponse.readEntity(String.class));
+		//GET (Response in JSON format)
+		accept_type = MediaType.APPLICATION_JSON; //If we want the response in JSON format
+		getResponse = webTarget.path("/jobs").path(s_jobid).request(accept_type).get();
+		System.out.println("status =" + getResponse.getStatus());
+		System.out.println("response data=" + getResponse.readEntity(String.class));
+		
 	}
 	
 
 	/**
 	 * Main function.
 	 *
-     * @param args				Application arguments. 
-     *
-     * @return 					
-     * @since 1.0
+	 * @param args				Application arguments. 
+	 *
+	 * @return 					
+	 * @since 1.0
 	 */
 	public static void main(String[] args) {
 		LinksDiscoveryClient client = new LinksDiscoveryClient();
-		String inputURI = "";		
-		String inputLogin = "";	 
-		String inputPassword = ""; 
-		String inputGraph = "";
-		String outputURI = "";
-		String outputLogin = ""; 
-		String outputPassword = ""; 
-		String outputGraph = "";
-//		client.linksDiscover(inputURI, inputLogin, inputPassword, inputGraph, outputURI, outputLogin, outputPassword, outputGraph);
-		client.newJob(1);
+		int jobid = 1;
+		//Create a Links Discovery Job
+		client.newJob(jobid);
+		//Get info about the created job
+		client.getJob(jobid);
 	}
 }

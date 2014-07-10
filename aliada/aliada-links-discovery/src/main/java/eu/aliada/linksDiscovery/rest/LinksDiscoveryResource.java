@@ -82,8 +82,7 @@ public class LinksDiscoveryResource {
 		LinksDiscovery linksDisc = new LinksDiscovery();
 		Job job = linksDisc.programLinkingProcesses(jobConf, db, ddbbParams);
 		
-//		return Response.created(uriInfo.getAbsolutePathBuilder().build()).build();
-		return Response.status(Response.Status.CREATED).entity(job).build();
+		return Response.created(uriInfo.getAbsolutePathBuilder().build()).entity(job).build();
 	}
 
 	/**
@@ -103,7 +102,7 @@ public class LinksDiscoveryResource {
 		
 		if (id == null) {
 			logger.error(MessageCatalog._00022_MISSING_INPUT_PARAM, "jobid");
-			return Response.status(Status.BAD_REQUEST).build();			
+			return Response.status(Status.BAD_REQUEST).build();
 		}
 
 		DBConnectionManager db = (DBConnectionManager) context.getAttribute("db");

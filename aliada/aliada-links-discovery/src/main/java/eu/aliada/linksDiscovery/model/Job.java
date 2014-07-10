@@ -27,6 +27,10 @@ public class Job {
 
     @XmlElement
 	private ArrayList<Subjob> subjobs = new ArrayList<Subjob>();
+    
+    public Job() {// JAXB needs this
+    	this.subjobs = new ArrayList<Subjob>();
+    } 
 
     /**
      * Returns the identifier of this job.

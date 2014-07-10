@@ -24,6 +24,8 @@ public class Subjob {
     private int numLinks;
     private String status;
 
+    public Subjob(){} // JAXB needs this
+
     /**
      * Returns the identifier of this subjob.
      * 
