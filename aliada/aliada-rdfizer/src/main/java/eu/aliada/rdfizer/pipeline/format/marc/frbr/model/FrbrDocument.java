@@ -21,54 +21,54 @@ public final class FrbrDocument implements Serializable {
 
 	private final Document document;
 	
-	private final String workURI;
-	private final String expressionURI;
-	private final String manifestationURI;
+	private final String workID;
+	private final String expressionID;
+	private final String manifestationID;
 	
 	/**
 	 * Builds a new {@link FrbrDocument} with the given DOM {@link Document}.
 	 * 
 	 * @param document the {@link Document}.
-	 * @param workURI the URI that has been assigned to the Work.
-	 * @param expressionURI the URI that has been assigned to the Expression.
-	 * @param manifestationURI the URI that has been assigned to the Manifestation.
+	 * @param workID the ID that has been assigned to the Work.
+	 * @param expressionID the ID that has been assigned to the Expression.
+	 * @param manifestationID the ID that has been assigned to the Manifestation.
 	 */
 	public FrbrDocument(
 			final Document document,
-			final String workURI,
-			final String expressionURI,
-			final String manifestationURI) {
+			final String workID,
+			final String expressionID,
+			final String manifestationID) {
 		this.document = document;
-		this.workURI = workURI;
-		this.expressionURI = expressionURI;
-		this.manifestationURI = manifestationURI;
+		this.workID = workID;
+		this.expressionID = expressionID;
+		this.manifestationID = manifestationID;
 	}
 	
 	/**
-	 * Returns the URI that has been associated with the Work.
+	 * Returns the ID that has been associated with the Work.
 	 * 
-	 * @return the URI that has been associated with the Work.
+	 * @return the ID that has been associated with the Work.
 	 */
-	public String getWorkURI() {
-		return workURI;
+	public String getWorkID() {
+		return workID;
 	}
 	
 	/**
-	 * Returns the URI that has been associated with the Expression.
+	 * Returns the ID that has been associated with the Expression.
 	 * 
-	 * @return the URI that has been associated with the Expression.
+	 * @return the ID that has been associated with the Expression.
 	 */
-	public String getExpressionURI() {
-		return expressionURI;
+	public String getExpressionID() {
+		return expressionID;
 	}
 
 	/**
-	 * Returns the URI that has been associated with the Manifestation.
+	 * Returns the ID that has been associated with the Manifestation.
 	 * 
-	 * @return the URI that has been associated with the Manifestation.
+	 * @return the ID that has been associated with the Manifestation.
 	 */
-	public String getManifestationURI() {
-		return manifestationURI;
+	public String getManifestationID() {
+		return manifestationID;
 	}
 	
 	/**
@@ -86,6 +86,6 @@ public final class FrbrDocument implements Serializable {
 	 * @return true if the detected FRBR structure can be considered valid, otherwise false.
 	 */
 	public boolean isValid() {
-		return workURI != null && expressionURI != null && manifestationURI != null && document != null;
+		return workID != null && expressionID != null && manifestationID != null && document != null;
 	}
 }

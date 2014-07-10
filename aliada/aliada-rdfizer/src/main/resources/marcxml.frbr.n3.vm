@@ -1,10 +1,14 @@
-#set($work_s = "#uri('F1_Work' $frbr.workURI)")
-#set($expression_s = "#uri('F24_Publication_Expression' $frbr.expressionURI)")
-#set($manifestation_s = "#uri('F3_Manifestation_Product_Type' $frbr.manifestationURI)")
+#set($work_s = "#uri('F1_Work' $frbr.workID)")
+#set($expression_s = "#uri('F24_Publication_Expression' $frbr.expressionID)")
+#set($manifestation_s = "#uri('F3_Manifestation_Product_Type' $frbr.manifestationID)")
 #set($is_a = "#rdf('type')")
 #set($P3_has_note = "#ecrm('P3_has_note')")
 #set($P2_has_type = "#ecrm('P2_has_type')")
 #set($P149_is_identified_by = "#ecrm('P149_is_identified_by')")
+#set($E55_Type = "#ecrm('E55_Type')")
+#set($CLP2_should_have_type = "#ecrm('CLP2_should_have_type')")
+#set($E35_Title = "#ecrm('E35_Title')")
+#set($P102_has_title = "#ecrm('P102_has_title')")
 $work_s $is_a #efrbroo('F1_Work') . 
 $expression_s $is_a #efrbroo('F24_Publication_Expression') . 
 $manifestation_s $is_a #efrbroo('F3_Manifestation_Product_Type') . 
@@ -21,11 +25,41 @@ $expression_s #efrbroo('R4_carriers_provided_by') $manifestation_s .
     $id_s $P3_has_note "$controlNumber" . 
     $manifestation_s $P149_is_identified_by $id_s .
 #end	
+#simplest_mapping_with_no_repeatable_tag ($manifestation_s "130" "h" $root "E55_Type" $E55_Type $CLP2_should_have_type)
+## 130
+#simplest_mapping_with_no_repeatable_tag ($manifestation_s "130" "h" $root "E55_Type" $E55_Type $CLP2_should_have_type)
+## 210
+#simplest_mapping_with_no_repeatable_tag ($manifestation_s "210" "a" $root "E35_Title" $E35_Title $P102_has_title)
+## 222
+#simplest_mapping_with_no_repeatable_tag ($manifestation_s "222" "a" $root "E35_Title" $E35_Title $P102_has_title)
+## 240
+#simplest_mapping_with_no_repeatable_tag ($manifestation_s "240" "h" $root "E55_Type" $E55_Type $CLP2_should_have_type)
+## 242
+#simplest_mapping_with_no_repeatable_tag ($manifestation_s "242" "a" $root "E35_Title" $E35_Title $P102_has_title)
+#simplest_mapping_with_no_repeatable_tag ($manifestation_s "242" "h" $root "E55_Type" $E55_Type $CLP2_should_have_type)
+#simplest_mapping_with_no_repeatable_tag ($manifestation_s "242" "n" $root "E35_Title" $E35_Title $P102_has_title)
+#simplest_mapping_with_no_repeatable_tag ($manifestation_s "242" "p" $root "E55_Type" $E55_Type $CLP2_should_have_type)
+## 243
+#simplest_mapping_with_no_repeatable_tag ($manifestation_s "243" "h" $root "E55_Type" $E55_Type $CLP2_should_have_type)
 ## 245a
-#set($titleOfManifestation = "#df('245' 'a' $root)")
-#if($titleOfManifestation) 
-	#set($title_s = "#uri('E35_Title' $titleOfManifestation)")
-	$title_s $is_a #ecrm('E35_Title') . 
-	$title_s $P3_has_note "$titleOfManifestation" . 
-	$manifestation_s #ecrm('P102_has_title') $title_s . 
-#end	
+#simplest_mapping_with_no_repeatable_tag ($manifestation_s "245" "a" $root "E35_Title" $E35_Title $P102_has_title)
+#simplest_mapping_with_no_repeatable_tag ($manifestation_s "245" "h" $root "E55_Type" $E55_Type $CLP2_should_have_type)
+#simplest_mapping_with_no_repeatable_tag ($manifestation_s "245" "n" $root "E35_Title" $E35_Title $P102_has_title)
+#simplest_mapping_with_no_repeatable_tag ($manifestation_s "245" "p" $root "E55_Type" $E55_Type $CLP2_should_have_type)
+## 246
+#simplest_mapping_with_repeatable_tag ($manifestation_s "246" "a" $root "E35_Title" $E35_Title $P102_has_title)
+#simplest_mapping_with_repeatable_tag ($manifestation_s "246" "h" $root "E55_Type" $E55_Type $CLP2_should_have_type)
+#simplest_mapping_with_repeatable_tag ($manifestation_s "246" "n" $root "E35_Title" $E35_Title $P102_has_title)
+#simplest_mapping_with_repeatable_tag ($manifestation_s "246" "p" $root "E55_Type" $E55_Type $CLP2_should_have_type)
+## 247
+#simplest_mapping_with_repeatable_tag ($manifestation_s "247" "a" $root "E35_Title" $E35_Title $P102_has_title)
+#simplest_mapping_with_repeatable_tag ($manifestation_s "247" "h" $root "E55_Type" $E55_Type $CLP2_should_have_type)
+#simplest_mapping_with_repeatable_tag ($manifestation_s "247" "n" $root "E35_Title" $E35_Title $P102_has_title)
+#simplest_mapping_with_repeatable_tag ($manifestation_s "247" "p" $root "E55_Type" $E55_Type $CLP2_should_have_type)
+#simplest_mapping_with_repeatable_tag ($manifestation_s "247" "x" $root "F13_Identifier" "#efrbroo('F13_Identifier')" $CLP2_should_have_type)
+## 300
+#simplest_mapping_with_no_repeatable_tag ($manifestation_s "300" "c" $root "E54_Dimension" "#ecrm('E54_Dimension')" "#ecrm('CLP43_should_have_dimension')")
+#simplest_mapping_with_no_repeatable_tag ($manifestation_s "300" "f" $root "E55_Type" $E55_Type $CLP2_should_have_type)
+#simplest_mapping_with_no_repeatable_tag ($manifestation_s "300" "g" $root "E54_Dimension" "#ecrm('E54_Dimension')" "#ecrm('CLP43_should_have_dimension')")
+## 340
+#simplest_mapping_with_no_repeatable_tag ($manifestation_s "340" "b" $root "E54_Dimension" "#ecrm('E54_Dimension')" "#ecrm('CLP43_should_have_dimension')")
