@@ -24,7 +24,7 @@ public class LinksDiscoveryClient {
 
 	/**
 	 * Implementation of a Links Discovery REST service client application.
-	 * POST /links-discovery/
+	 * POST /links-discovery/jobs/
 	 *
 	 *
 	 * @return 					
@@ -49,7 +49,7 @@ public class LinksDiscoveryClient {
 	
 	/**
 	 * Implementation of a Links Discovery REST service client application.
-	 * GET /links-discovery/<jobid>
+	 * GET /links-discovery/jobs/<jobid>
 	 *
 	 *
 	 * @return 					
