@@ -112,6 +112,25 @@ public class XPath {
 	}
 	
 	/**
+	 * Returns the value of the data field associated with the given tag.
+	 * 
+	 * @param tag the tag name / number.
+	 * @param record the (MARC) record.
+	 * @param code the subfield code.
+	 * @return the value of the requested control field, null in case there's no such control field.
+	 * @throws XPathExpressionException in case of XPATH compilation failure.
+	 */
+	public ImmutableNodeList dfs(final String tag, final String code, final Object record) throws XPathExpressionException {
+		final String xpath = new StringBuilder("datafield[@tag='")
+			.append(tag)
+			.append("']/subfield[@code='")
+			.append(code)
+			.append("']")
+			.toString();
+		return many(xpath, record);
+	}	
+	
+	/**
 	 * Lazily creates, caches and returns an XPATH expression.
 	 * 
 	 * @param expression the XPATH expression as a string.

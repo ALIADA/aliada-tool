@@ -7,10 +7,10 @@
 #macro (new_uri $kind)<#prefix/$kind/#newId>#end
  
 ## Creates a new URI with the given literal as local name. Normalization applies.
-#macro (uri $kind $literal)<#prefix/$kind/$function.normalize($literal)>#end
+#macro (uri $kind $literal)<#prefix/$kind/$function.normalize(${literal})>#end
 
 ## Creates a new URI with the given literal as local name. Strong normalization applies.
-#macro (uri_with_strong_normalization $kind $literal)<#prefix/$kind/$function.normalizeStrong($literal)>#end
+#macro (uri_with_strong_normalization $kind $literal)<#prefix/$kind/$function.normalizeStrong(${literal})>#end
 
 ## Creates a URI with an ending fragment (the literal argument). Makes no normalization on that value. 
 #macro (uri_with_fragment $kind $literal)<#prefix/$kind#$literal>#end
@@ -64,7 +64,20 @@
     #end	
 #end	
 
-#macro (dfi $tag $ind1 $ind2 $code $record)$xpath.one("record/datafield[@tag='${tag}' and @ind1='${ind1}' and @ind2='${ind2}']/subfield[@code='${code}']")#end
-#macro (dfis $tag $ind1 $ind2 $code $record)$xpath.many("record/datafield[@tag='${tag}' and @ind1='${ind1}' and @ind2='${ind2}']/subfield[@code='${code}']")#end
-#macro (df $tag $code $record)$xpath.one("record/datafield[@tag='${tag}']/subfield[@code='${code}']")#end
-#macro (dfs $tag $code $record)$xpath.many("record/datafield[@tag='${tag}']/subfield[@code='${code}']")#end
+#macro(simplest_mapping_with_no_repeatable_tag $s $tag $subfield $record $type $kind $predicate) 
+	#set($tagValue = $xpath.df($tag,$subfield,$record))
+	#if($tagValue) 
+		#set($text = $tagValue.textContent)
+    	#set($s1 = "#uri_with_strong_normalization(${type} ${text})")
+    	$s1 $is_a $kind . 
+    	$s1 $P3_has_note "$text" . 
+    	$s $predicate $s1 . 
+	#end	
+#end	
+
+#macro(simplest_mapping_with_repeatable_tag $s $tag $subfield $record $type $kind $predicate) 
+	#set($tagValues = $xpath.dfs($tag,$subfield,$record))
+	#foreach($tagValue in $tagValues) 
+		#simplest_mapping_with_no_repeatable_tag $s $tag $subfield $record $type $kind $predicate)
+	#end	
+#end	
