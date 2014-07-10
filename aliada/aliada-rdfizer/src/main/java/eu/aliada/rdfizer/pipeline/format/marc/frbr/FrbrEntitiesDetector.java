@@ -82,6 +82,6 @@ public class FrbrEntitiesDetector implements Processor {
 				target,
 				identifier(workDetector.detect(target)),
 				identifier(expressionDetector.detect(target)),
-				identifier(manifestationDetector.detect(target)));
+				manifestationDetector.detect(target));
 	}
 }
