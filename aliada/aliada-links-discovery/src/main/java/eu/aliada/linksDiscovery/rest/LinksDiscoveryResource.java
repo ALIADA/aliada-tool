@@ -37,7 +37,7 @@ import eu.aliada.shared.log.Log;
  */
 @Path("/")
 public class LinksDiscoveryResource {
-	private final Log logger = new Log(LinksDiscovery.class);
+	private final Log logger = new Log(LinksDiscoveryResource.class);
 
 	@Context
 	private UriInfo uriInfo;

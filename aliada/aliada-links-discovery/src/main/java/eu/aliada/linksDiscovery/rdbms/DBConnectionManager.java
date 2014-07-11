@@ -15,7 +15,6 @@ import java.sql.SQLException;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
-import eu.aliada.linksDiscovery.impl.LinksDiscovery;
 import eu.aliada.linksDiscovery.model.JobConfiguration;
 import eu.aliada.linksDiscovery.model.SubjobConfiguration;
 import eu.aliada.linksDiscovery.model.Job;
@@ -32,7 +31,7 @@ import eu.aliada.shared.log.Log;
  * @since 1.0
  */
 public class DBConnectionManager {
-	private final Log logger = new Log(LinksDiscovery.class);
+	private final Log logger = new Log(DBConnectionManager.class);
 	/* Job and subjob possible states */
 	private final static String job_status_idle = "idle"; 
 	private final static String job_status_running = "running"; 
