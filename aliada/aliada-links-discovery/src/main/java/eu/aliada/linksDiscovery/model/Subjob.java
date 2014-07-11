@@ -22,7 +22,7 @@ public class Subjob {
     private Date startDate;
     private Date endDate;
     private int numLinks;
-    private String status;
+    private String status; /* Possible values: idle, running, finished. */
 
     public Subjob(){} // JAXB needs this
 
@@ -43,11 +43,11 @@ public class Subjob {
 		this.id = id;
 	}
 
-    /**
-     * Returns the name of the subjob.
-     * 
-     * @return The name of the subjob.
-     */
+	/**
+	 * Returns the name of the subjob.
+	 * 
+	 * @return The name of the subjob.
+	 */
 	public String getName() {
 		return name;
 	}
@@ -61,10 +61,10 @@ public class Subjob {
 	}
 
 	/**
-     * Returns the start date of the subjob.
-     * 
-     * @return The start date of the subjob.
-     */
+	 * Returns the start date of the subjob.
+	 * 
+	 * @return The start date of the subjob.
+	 */
 	public Date getStartDate() {
 		return startDate;
 	}
@@ -78,10 +78,10 @@ public class Subjob {
 	}
 
 	/**
-     * Returns the end date of the subjob.
-     * 
-     * @return The end date of the subjob.
-     */
+	 * Returns the end date of the subjob.
+	 * 
+	 * @return The end date of the subjob.
+	 */
 	public Date getEndDate() {
 		return endDate;
 	}
@@ -94,11 +94,11 @@ public class Subjob {
 		this.endDate = endDate;
 	}
 
-    /**
-     * Returns the number of links generated.
-     * 
-     * @return The number of links generated.
-     */
+	/**
+	 * Returns the number of links generated.
+	 * 
+	 * @return The number of links generated.
+	 */
 	public Integer getNumLinks() {
 		return numLinks;
 	}
@@ -113,15 +113,17 @@ public class Subjob {
 
 
 	/**
-     * Returns the status of the subjob.
-     * 
-     * @return The status of the subjob.
-     */
+	 * Returns the status of the subjob.
+	 * Possible values: idle, running, finished.
+	 * 
+	 * @return The status of the subjob.
+	 */
 	public String getStatus() {
 		return status;
 	}
 	/**
 	 * Sets the status of the subjob.
+	 * Possible values: idle, running, finished.
 	 * 
 	 * @param status The status of the subjob.
 	 */

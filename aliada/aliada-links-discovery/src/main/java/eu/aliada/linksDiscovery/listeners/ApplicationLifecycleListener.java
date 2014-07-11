@@ -26,13 +26,16 @@ public class ApplicationLifecycleListener implements ServletContextListener {
 	@Override
 	public void contextInitialized(final ServletContextEvent event) {
 		logger.info(MessageCatalog._00001_STARTING);
-    	ServletContext sc = event.getServletContext();
+		ServletContext sc = event.getServletContext();
+    	//Get DDBB connection
 		DBConnectionManager db = new DBConnectionManager();
-    	sc.setAttribute("db", db);
+		//Save DDBB connection in Servlet Context attribute
+		sc.setAttribute("db", db);
 	}
 
 	@Override
 	public void contextDestroyed(final ServletContextEvent event) {
+		//Close DDBB connection
 		DBConnectionManager db = (DBConnectionManager) event.getServletContext().getAttribute("db");
 		db.closeConnection();
 		logger.info(MessageCatalog._00012_STOPPED);	

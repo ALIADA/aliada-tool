@@ -66,19 +66,20 @@ public class LinksDiscoveryResource {
 			logger.error(MessageCatalog._00022_MISSING_INPUT_PARAM, "jobid");
 			return Response.status(Status.BAD_REQUEST).build();			
 		}
-
+		
+		//Get configuration parameters
 		DBConnectionManager db = (DBConnectionManager) context.getAttribute("db");
-	    JobConfiguration jobConf = db.getJobConfiguration(id);
+		JobConfiguration jobConf = db.getJobConfiguration(id);
 		if (jobConf == null) {
 			logger.error(MessageCatalog._00023_JOB_CONFIGURATION_NOT_FOUND, id);
 			return Response.status(Status.BAD_REQUEST).build();								
 		}
-		//Program linking processes
 		DDBBParams ddbbParams = new DDBBParams();
 		ddbbParams.setUsername(context.getInitParameter("ddbb.username"));
 		ddbbParams.setPassword(context.getInitParameter("ddbb.password"));
 		ddbbParams.setDriverClassName(context.getInitParameter("ddbb.driverClassName"));
 		ddbbParams.setUrl(context.getInitParameter("ddbb.url"));
+		//Program linking processes
 		LinksDiscovery linksDisc = new LinksDiscovery();
 		Job job = linksDisc.programLinkingProcesses(jobConf, db, ddbbParams);
 		
@@ -89,7 +90,7 @@ public class LinksDiscoveryResource {
 	 * Gets job info.
 	 * 
 	 * @param id the job identifier associated with this instance.
-	 * @return a response which includes the info the job.
+	 * @return a response which includes the info of the job.
 	 * @since 1.0
 	 */
 	@GET

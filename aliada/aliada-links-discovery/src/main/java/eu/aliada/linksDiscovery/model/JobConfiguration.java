@@ -43,10 +43,10 @@ public class JobConfiguration {
 	}
 
 	/**
-     * Returns the URI of the SPARQL/Update endpoint of the source dataset from where we want to generate links.
-     * 
-     * @return The URI of the SPARQL/Update endpoint of the source dataset from where we want to generate links.
-     */
+	 * Returns the URI of the SPARQL/Update endpoint of the source dataset from where we want to generate links.
+	 * 
+	 * @return The URI of the SPARQL/Update endpoint of the source dataset from where we want to generate links.
+	 */
 	public String getInputURI() {
 		return inputURI;
 	}
@@ -59,11 +59,11 @@ public class JobConfiguration {
 		this.inputURI = inputURI;
 	}
 
-    /**
-     * Returns the login required for authentication in the SPARQL endpoint.
-     * 
-     * @return The login required for authentication in the SPARQL endpoint.
-     */
+	/**
+	 * Returns the login required for authentication in the SPARQL endpoint.
+	 * 
+	 * @return The login required for authentication in the SPARQL endpoint.
+	 */
 	public String getInputLogin() {
 		return inputLogin;
 	}
@@ -76,11 +76,11 @@ public class JobConfiguration {
 		this.inputLogin = inputLogin;
 	}
 	
-    /**
-     * Returns the password required for authentication in the SPARQL endpoint.
-     * 
-     * @return The password required for authentication in the SPARQL endpoint.
-     */
+	/**
+	 * Returns the password required for authentication in the SPARQL endpoint.
+	 * 
+	 * @return The password required for authentication in the SPARQL endpoint.
+	 */
 	public String getInputPassword() {
 		return inputPassword;
 	}
@@ -93,18 +93,18 @@ public class JobConfiguration {
 		this.inputPassword = inputPassword;
 	}	
 	
-    /**
-     * Returns graph in that SPARQL endpoint from which to retrieve instances. 
-     * If not specified, the query will not be restricted to any specific graph.
-     * 
-     * @return Graph in that SPARQL endpoint from which to retrieve instances. 
-     */
+	/**
+	 * Returns graph in that SPARQL endpoint from which to retrieve instances. 
+	 * If not specified, the query will not be restricted to any specific graph.
+	 * 
+	 * @return Graph in that SPARQL endpoint from which to retrieve instances. 
+	 */
 	public String getInputGraph() {
 		return inputGraph;
 	}
 	/**
 	 * Sets graph in that SPARQL endpoint from which to retrieve instances. 
-     * If not specified, the query will not be restricted to any specific graph.
+	 * If not specified, the query will not be restricted to any specific graph.
 	 * 
 	 * @param inputGraph Graph in that SPARQL endpoint from which to retrieve instances.
 	 */
@@ -113,10 +113,10 @@ public class JobConfiguration {
 	}		
 
 	/**
-     * Returns the URI of the SPARQL/Update endpoint of the dataset where to store the generated links. If omitted, the input URI will be used.
-     * 
-     * @return The URI of the SPARQL/Update endpoint of the dataset where to store the generated links. If omitted, the input URI will be used.
-     */
+	 * Returns the URI of the SPARQL/Update endpoint of the dataset where to store the generated links. If omitted, the input URI will be used.
+	 * 
+	 * @return The URI of the SPARQL/Update endpoint of the dataset where to store the generated links. If omitted, the input URI will be used.
+	 */
 	public String getOutputURI() {
 		return outputURI;
 	}
@@ -129,11 +129,11 @@ public class JobConfiguration {
 		this.outputURI = outputURI;
 	}
 
-    /**
-     * Returns the login required for authentication in the SPARQL endpoint.
-     * 
-     * @return The login required for authentication in the SPARQL endpoint.
-     */
+	/**
+	 * Returns the login required for authentication in the SPARQL endpoint.
+	 * 
+	 * @return The login required for authentication in the SPARQL endpoint.
+	 */
 	public String getOutputLogin() {
 		return outputLogin;
 	}
@@ -146,11 +146,11 @@ public class JobConfiguration {
 		this.outputLogin = outputLogin;
 	}
 	
-    /**
-     * Returns the password required for authentication in the SPARQL endpoint.
-     * 
-     * @return The password required for authentication in the SPARQL endpoint.
-     */
+	/**
+	 * Returns the password required for authentication in the SPARQL endpoint.
+	 * 
+	 * @return The password required for authentication in the SPARQL endpoint.
+	 */
 	public String getOutputPassword() {
 		return outputPassword;
 	}
@@ -163,18 +163,18 @@ public class JobConfiguration {
 		this.outputPassword = outputPassword;
 	}	
 	
-    /**
-     * Returns the URI of the graph where to put the discovered links. 
-     * If not specified, no graph will be used for the update.
-     * 
-     * @return The URI of the graph where to put the discovered links. 
-     */
+	/**
+	 * Returns the URI of the graph where to put the discovered links. 
+	 * If not specified, no graph will be used for the update.
+	 * 
+	 * @return The URI of the graph where to put the discovered links. 
+	 */
 	public String getOutputGraph() {
 		return outputGraph;
 	}
 	/**
 	 * Sets the URI of the graph where to put the discovered links. 
-     * If not specified, no graph will be used for the update.
+	 * If not specified, no graph will be used for the update.
 	 * 
 	 * @param outputGraph The URI of the graph where to put the discovered links. 
 	 */
@@ -183,10 +183,10 @@ public class JobConfiguration {
 	}		
 
 	/**
-     * Returns the path of the configuration file for the linking processes.
-     * 
-     * @return The path of the configuration file for the linking processes. 
-     */
+	 * Returns the path of the configuration file for the linking processes.
+	 * 
+	 * @return The path of the configuration file for the linking processes. 
+	 */
 	public String getConfigFile() {
 		return configFile;
 	}
@@ -200,10 +200,10 @@ public class JobConfiguration {
 	}		
 
 	/**
-     * Returns the path of the temporary directory for creating temporary files.
-     * 
-     * @return The path of the temporary directory for creating temporary files.
-     */
+	 * Returns the path of the temporary directory for creating temporary files.
+	 * 
+	 * @return The path of the temporary directory for creating temporary files.
+	 */
 	public String getTmpDir() {
 		return tmpDir;
 	}
@@ -217,10 +217,10 @@ public class JobConfiguration {
 	}		
 
 	/**
-     * Returns the path of the Links Discovery client application binary directory.
-     * 
-     * @return The path of the Links Discovery client application binary directory.
-     */
+	 * Returns the path of the Links Discovery client application binary directory.
+	 * 
+	 * @return The path of the Links Discovery client application binary directory.
+	 */
 	public String getClientAppBinDir() {
 		return clientAppBinDir;
 	}

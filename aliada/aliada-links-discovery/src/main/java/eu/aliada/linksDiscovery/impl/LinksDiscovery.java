@@ -43,7 +43,9 @@ import org.w3c.dom.Attr;
 import org.xml.sax.SAXException;
 
 /**
- * Links discovery implementation via Silk library. 
+ * Links Discovery implementation. 
+ * It programs via crontab the subjobs (Linking Processes) that uses SILK library.
+ *  
  * @author Idoia Murua
  * @since 1.0
  */
@@ -52,9 +54,11 @@ public class LinksDiscovery {
 	private final Log logger = new Log(LinksDiscovery.class);
 	private final static String CRONTAB_FILENAME = "aliada_links_discovery.cron"; 
 	private final static String PROPFILE_FILENAME = "linking";
-	//Name of the linking process to program with crontab, that executes eu.aliada.linksDiscovery.impl.LinkingProcess java application
+	/* Name of the linking process to program with crontab, that executes 
+	eu.aliada.linksDiscovery.impl.LinkingProcess java application */
 	private final static String LINKING_PROCESS_NAME = "links-discovery-task-runner.sh";
-	//Parameters for configuring the input datasource of ALIADA from where to link 
+	/* Parameters for configuring the input datasource of ALIADA from where
+	to link */ 
 	private final static String pageSize = "1000"; 
 	private final static String pauseTime = "0"; 
 	private final static String retryCount = "3"; 
@@ -63,7 +67,15 @@ public class LinksDiscovery {
 	private final static String entityList = ""; 
 	private final static String parallel = ""; 
 
-	public SubjobConfiguration[] getLinkingConfigFiles(String propertiesFileName) {
+	/**
+	 * Gets the subjobs configuration from a properties file.
+	 *
+	 * @param propertiesFileName	the name of the properties file.
+     * @return	a list of {@link eu.aliada.linksDiscovery.model.SubjobConfiguration}
+     * 			which contain the configuration of each subjob.
+	 * @since 1.0
+	 */
+	private SubjobConfiguration[] getLinkingConfigFiles(String propertiesFileName) {
 		Vector<SubjobConfiguration> v = new Vector<SubjobConfiguration>();
 		String nameProp = "linking.name.";
 		String fileProp = "linking.file.";
@@ -120,7 +132,16 @@ public class LinksDiscovery {
     	}
 	}
 
-	public String createCrontabFile(String tmpDir){
+	/**
+	 * Creates a new crontab file which contains formed programmed tasks. 
+	 * This way, former tasks are not removed when programming again via crontab.
+	 *
+	 * @param tmpDir	the name of temporary folder where to create the new 
+	 * 					crontab file.
+     * @return the name of the newly created crontab file.
+	 * @since 1.0
+	 */
+	private String createCrontabFile(String tmpDir){
 		String crontabFilename = tmpDir + File.separator + CRONTAB_FILENAME;
 		//Replace Windows file separator by "/" Java file separator
 		crontabFilename = crontabFilename.replace("\\", "/");
@@ -141,20 +162,31 @@ public class LinksDiscovery {
 		        while ((s = stdInput.readLine()) != null) {
 		        	out.write(s);
 		        	out.newLine();
-	            }
-		    } catch (IOException exception) {
+		        }
+	    	} catch (IOException exception) {
 		    	crontabFilename = null;
-				logger.error(MessageCatalog._00033_EXTERNAL_PROCESS_START_FAILURE, exception, command);
+		    	logger.error(MessageCatalog._00033_EXTERNAL_PROCESS_START_FAILURE, exception, command);
 		    }
-			out.close();
+	    	out.close();
 		} catch (IOException exception) {
 			logger.error(MessageCatalog._00034_FILE_CREATION_FAILURE, exception, crontabFilename);
-	    	crontabFilename = null;
+			crontabFilename = null;
 		}
 		return crontabFilename;
 	}
 
-	public 	void appendChildParam(Document doc, Element parentElem, String paramName, String paramValue){
+	/**
+	 * Appends a XML element of the following type to a parent XML element:
+	 *  <Param name=<paramName> value=<paramValue> />
+	 *
+	 * @param doc			the XML Document element.
+	 * @param parentElem	the parent XML element where to append the created
+	 * 						XML element.
+	 * @param paramName		the value of the "name" attribute.
+	 * @param paramValue	the value of the "value" attribute.
+	 * @since 1.0
+	 */
+	private 	void appendChildParam(Document doc, Element parentElem, String paramName, String paramValue){
 		//Create new <Param> element
 		Element paramElem = doc.createElement("Param"); 
 		//set attributes to Param element
@@ -169,7 +201,23 @@ public class LinksDiscovery {
 		return;
 	}
 
-	public String createLinkingXMLConfigFile(String linkingFile, String ds, JobConfiguration jobConf){
+	/**
+	 * Creates a XML configuration file for the SILK process. 
+	 * Reads an input XML file and creates a new one adding information
+	 * regarding the inputs and outputs.
+	 * This new information is provided by the {@link eu.aliada.linksDiscovery.model.JobConfiguration}
+	 * input parameter.
+	 *
+	 * @param linkingFile	the name of the input XML file from which to start
+	 * 						creating the new one.
+	 * @param ds			the name of the input dataset description to be
+	 * 						included in the XML file.
+	 * @param jobConf		a {@link eu.aliada.linksDiscovery.model.JobConfiguration}
+	 * 						containing information to be included in the XML file.
+     * @return the name of the newly created XML configuration file.
+	 * @since 1.0
+	 */
+	private String createLinkingXMLConfigFile(String linkingFile, String ds, JobConfiguration jobConf){
 		// Read XML file and create a new one with SPARQL enpoints referring information (input & output)
 		File inputXMLFile = new File(linkingFile);
 		String inputFileName = inputXMLFile.getName();
@@ -288,7 +336,18 @@ public class LinksDiscovery {
 		return linkingXMLConfigFilename;
 	}
 	
-	public String createLinkingPropConfigFile(String tmpDir, DDBBParams ddbbParams){
+	/**
+	 * Creates a properties file for the process to be programmed. 
+	 * This file contains the parameters to be used to connect to the DDBB.
+	 *
+	 * @param tmpDir		the name of the temporary directory where to create
+	 *						the properties file.
+	 * @param ddbbParams	the {@link eu.aliada.linksDiscovery.model.DDBBParams} 
+	 * 						which contains the DDBB parameters.
+     * @return the name of the newly created properties file.
+	 * @since 1.0
+	 */
+	private String createLinkingPropConfigFile(String tmpDir, DDBBParams ddbbParams){
 		// Create properties file for linking process/subjob to be scheduled with crontab
 		//Compose new file name
 		String linkingConfigFilename = tmpDir + File.separator + PROPFILE_FILENAME + System.currentTimeMillis() + ".properties";
@@ -299,17 +358,17 @@ public class LinksDiscovery {
 			BufferedWriter out = new BufferedWriter(fstream);
 			//DDBB connection parameters
 			String prop = "database.username=" + ddbbParams.getUsername();
-        	out.write(prop);
-        	out.newLine();
+			out.write(prop);
+			out.newLine();
 			prop = "database.password=" + ddbbParams.getPassword();
-        	out.write(prop);
-        	out.newLine();
+			out.write(prop);
+			out.newLine();
 			prop = "database.driverClassName=" + ddbbParams.getDriverClassName();
-        	out.write(prop);
-        	out.newLine();
+			out.write(prop);
+			out.newLine();
 			prop = "database.url=" + ddbbParams.getUrl();
-        	out.write(prop);
-        	out.newLine();
+			out.write(prop);
+			out.newLine();
 			out.close();
 		} catch (IOException exception) {
 			logger.error(MessageCatalog._00034_FILE_CREATION_FAILURE, exception, linkingConfigFilename);
@@ -318,7 +377,22 @@ public class LinksDiscovery {
 		return linkingConfigFilename;
 	}
 
-	public boolean insertLinkingProcessInCrontabFile(String crontabFilename, String clientAppBinDir, int jobId, int subjobId, String linkingPropConfigFilename)
+	/**
+	 * Programs the linking processes by inserting them in the crontab file.
+	 *
+	 * @param crontabFilename			the name of the crontab file.
+	 * @param clientAppBinDir			the folder where the process to be 
+	 * 									executed resides.
+	 * @param jobId						the job identifier. It will be passed
+	 * 									as input parameter to the linking process
+	 * @param subjobId					the subjob identifier. It will be passed
+	 * 									as input parameter to the linking process
+	 * @param linkingPropConfigFilename	the name of the properties file. It will be passed
+	 * 									as input parameter to the linking process
+     * @return true if the process has been inserted in the file. False otherwise.
+	 * @since 1.0
+	 */
+	private boolean insertLinkingProcessInCrontabFile(String crontabFilename, String clientAppBinDir, int jobId, int subjobId, String linkingPropConfigFilename)
 	{
 		if(linkingPropConfigFilename == null)
 			return false;
@@ -338,8 +412,8 @@ public class LinksDiscovery {
 			String cronTabLine = "%d %d %d %d * %s %d %d %s";
 			//Compose crontab line to insert
 			String linkingProcessCronJob = String.format(cronTabLine, minute, hour, day, month, linkingProcessPath, jobId, subjobId, linkingPropConfigFilename);
-        	out.write(linkingProcessCronJob);
-        	out.newLine();
+			out.write(linkingProcessCronJob);
+			out.newLine();
 			out.close();
 		} catch (IOException exception) {
 			logger.error(MessageCatalog._00034_FILE_CREATION_FAILURE, exception, crontabFilename);
@@ -349,13 +423,15 @@ public class LinksDiscovery {
 	}
 
 	/**
-	 * Links discovery implementation.
+	 * It programs via crontab the subjobs (Linking Processes) that uses SILK library.
 	 *
-	 * @param configurationFile	The configuration file.  
-	 * @param numThreads		The number of threads to be used for matching. 
-	 * @param reload			Specifies if the entity cache is to be reloaded 
-	 *
-	 * @return 					
+	 * @param jobConf		the {@link eu.aliada.linksDiscovery.model.JobConfiguration}
+	 *						that contains information for configuring the linking processes.  
+	 * @param db			The DDBB connection. 
+	 * @param ddbbParams	the {@link eu.aliada.linksDiscovery.model.DDBBParams} 
+	 * 						which contains the DDBB parameters for the subjobs 
+	 * 						to be programmed.
+	 * @return the {@link eu.aliada.linksDiscovery.model.job} created.  					
 	 * @since 1.0
 	 */
 	public Job programLinkingProcesses(JobConfiguration jobConf, DBConnectionManager db, DDBBParams ddbbParams) {
@@ -390,17 +466,17 @@ public class LinksDiscovery {
 				}
 			}
 			// Execute system command "crontab contrabfilename"
-	    	String command = "crontab " + crontabFilename;
-		    try {
+			String command = "crontab " + crontabFilename;
+			try {
 				logger.info(MessageCatalog._00040_EXECUTING_CRONTAB);
-		    	Runtime.getRuntime().exec(command);
-		    } catch (IOException exception) {
+				Runtime.getRuntime().exec(command);
+			} catch (IOException exception) {
 				logger.error(MessageCatalog._00033_EXTERNAL_PROCESS_START_FAILURE, exception, command);
-		    }
+			}
 		}
 		Job job = db.getJob(jobConf.getId());
 		logger.info(MessageCatalog._00041_STOPPED);
-    	return job;
+		return job;
 	}
 
 }

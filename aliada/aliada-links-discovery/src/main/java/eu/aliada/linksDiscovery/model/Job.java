@@ -23,7 +23,7 @@ public class Job {
     private Date startDate;
     private Date endDate;
     private int numLinks;
-    private String status;
+    private String status; /* Possible values: idle, running, finished. */
 
     @XmlElement
 	private ArrayList<Subjob> subjobs = new ArrayList<Subjob>();
@@ -50,10 +50,10 @@ public class Job {
 	}
 
 	/**
-     * Returns the start date of the job.
-     * 
-     * @return The start date of the job.
-     */
+	 * Returns the start date of the job.
+	 * 
+	 * @return The start date of the job.
+	 */
 	public Date getStartDate() {
 		return startDate;
 	}
@@ -67,10 +67,10 @@ public class Job {
 	}
 
 	/**
-     * Returns the end date of the job.
-     * 
-     * @return The end date of the job.
-     */
+	 * Returns the end date of the job.
+	 * 
+	 * @return The end date of the job.
+	 */
 	public Date getEndDate() {
 		return endDate;
 	}
@@ -83,11 +83,11 @@ public class Job {
 		this.endDate = endDate;
 	}
 
-    /**
-     * Returns the number of links generated.
-     * 
-     * @return The number of links generated.
-     */
+	/**
+	 * Returns the number of links generated.
+	 * 
+	 * @return The number of links generated.
+	 */
 	public Integer getNumLinks() {
 		return numLinks;
 	}
@@ -102,15 +102,17 @@ public class Job {
 
 
 	/**
-     * Returns the status of the job.
-     * 
-     * @return The status of the job.
-     */
+	 * Returns the status of the job.
+	 * Possible values: idle, running, finished.
+	 *  
+	 * @return The status of the job.
+	 */
 	public String getStatus() {
 		return status;
 	}
 	/**
 	 * Sets the status of the job.
+	 * Possible values: idle, running, finished.
 	 * 
 	 * @param status The status of the job.
 	 */
@@ -119,10 +121,10 @@ public class Job {
 	}
 	
 	/**
-     * Returns the subjobs of the job.
-     * 
-     * @return The subjobs of the job.
-     */
+	 * Returns the subjobs of the job.
+	 * 
+	 * @return The subjobs of the job.
+	 */
 	public Subjob[] getSubjobs() {
 		return this.subjobs.toArray(new Subjob[]{});
 	}

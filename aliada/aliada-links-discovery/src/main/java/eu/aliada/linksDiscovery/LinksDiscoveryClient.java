@@ -14,23 +14,22 @@ import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Response;
 
 /**
- * Implementation of an example of a Links Discovery REST service client application. 
+ * Implementation of an example of a Links Discovery REST service client application.
+ *
  * @author Idoia Murua
  * @since 1.0
  */
 public class LinksDiscoveryClient {
 	protected String ALIADA_LInksDiscoveryServiceURL = "http://localhost:8890/links-discovery/";
-	
 
 	/**
 	 * Implementation of a Links Discovery REST service client application.
 	 * POST /links-discovery/jobs/
 	 *
-	 *
-	 * @return 					
+	 * @param jobid the job identifier.
 	 * @since 1.0
 	 */
-	public void newJob(int jobid){
+	public void newJob(int jobid) {
 		//Convert integer to string
 		String s_jobid = "" + jobid;
 		Client client = ClientBuilder.newClient();
@@ -51,8 +50,7 @@ public class LinksDiscoveryClient {
 	 * Implementation of a Links Discovery REST service client application.
 	 * GET /links-discovery/jobs/<jobid>
 	 *
-	 *
-	 * @return 					
+	 * @param jobid the job identifier.
 	 * @since 1.0
 	 */
 	public void getJob(Integer jobid){
@@ -79,9 +77,7 @@ public class LinksDiscoveryClient {
 	/**
 	 * Main function.
 	 *
-	 * @param args				Application arguments. 
-	 *
-	 * @return 					
+	 * @param args				Application arguments.
 	 * @since 1.0
 	 */
 	public static void main(String[] args) {
