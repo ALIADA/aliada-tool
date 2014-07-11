@@ -11,7 +11,9 @@ import eu.aliada.linkedDataServerSetup.model.JobConfiguration;
 import eu.aliada.linkedDataServerSetup.model.Job;
 import eu.aliada.linkedDataServerSetup.rdbms.DBConnectionManager;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 
 /**
  * Linked Data Server setup implementation. 
@@ -39,10 +41,16 @@ public class LinkedDataServerSetup {
 		db.updateJobStartDate(jobConf.getId());
 		//TODO: Execute ISQL commands for rewriting rules in Virtuoso
 		// Execute system command "crontab contrabfilename"
-		String command = "D:\\Proyectos\\downloads\\OpenLinkVirtuoso\\virtuoso-opensource\\bin\\isql 172.25.5.15:1111 dba dba exec='select * from DB.DBA.load_list;'";
+		String command = "D:\\Proyectos\\downloads\\OpenLinkVirtuoso\\virtuoso-opensource\\bin\\isql 172.25.5.15:1111 dba dba 'exec=select * from DB.DBA.load_list;'";
 		try {
 			logger.info(MessageCatalog._00040_EXECUTING_CRONTAB);
 			Runtime.getRuntime().exec(command);
+  	    	Process crontabList = Runtime.getRuntime().exec(command);
+	    	BufferedReader stdInput = new BufferedReader(new InputStreamReader(crontabList.getInputStream()));
+	    	String s = "";
+	        while ((s = stdInput.readLine()) != null) {
+	        	System.out.println(s);
+	        }
 		} catch (IOException exception) {
 			logger.error(MessageCatalog._00033_EXTERNAL_PROCESS_START_FAILURE, exception, command);
 		}
