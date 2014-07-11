@@ -88,7 +88,7 @@ public class DBConnectionManager {
 	 *
 	 * @param jobId	the job identification.
 	 * @return	the {@link eu.aliada.linksDiscovery.model.JobConfiguration}
-     * 			which contains the configuration of the job.
+	 * 			which contains the configuration of the job.
 	 * @since 1.0
 	 */
 	public JobConfiguration getJobConfiguration(Integer jobId) {
@@ -177,8 +177,8 @@ public class DBConnectionManager {
 	 * @param jobId						the job identification.
 	 * @param subjobId					the subjob identification.
 	 * @param subjobConf				{@link eu.aliada.linksDiscovery.model.SubjobConfiguration}
-     * 									which contain the configuration of the 
-     * 									subjob
+	 * 									which contain the configuration of the 
+	 * 									subjob
 	 * @param linkingXMLConfigFilename	Name of the XML configuration file for 
 	 * 									the SILK process.
 	 * @param tmpDir					the name of temporary folder.
@@ -211,7 +211,7 @@ public class DBConnectionManager {
 	 *
 	 * @param jobId	the job identification.
 	 * @return	the {@link eu.aliada.linksDiscovery.model.Job}
-     * 			which contains the job information.
+	 * 			which contains the job information.
 	 * @since 1.0
 	 */
 	public Job getJob(int jobId) {

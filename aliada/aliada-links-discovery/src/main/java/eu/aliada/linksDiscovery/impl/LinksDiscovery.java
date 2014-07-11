@@ -138,7 +138,7 @@ public class LinksDiscovery {
 	 *
 	 * @param tmpDir	the name of temporary folder where to create the new 
 	 * 					crontab file.
-     * @return the name of the newly created crontab file.
+	 * @return the name of the newly created crontab file.
 	 * @since 1.0
 	 */
 	private String createCrontabFile(String tmpDir){
@@ -149,7 +149,7 @@ public class LinksDiscovery {
 		File f = new File(crontabFilename);
 		if (f.exists())
 			f.delete();
-	    //Now, create a new one
+		//Now, create a new one
 		try {
 			FileWriter fstream = new FileWriter(crontabFilename);
 			BufferedWriter out = new BufferedWriter(fstream);
@@ -214,7 +214,7 @@ public class LinksDiscovery {
 	 * 						included in the XML file.
 	 * @param jobConf		a {@link eu.aliada.linksDiscovery.model.JobConfiguration}
 	 * 						containing information to be included in the XML file.
-     * @return the name of the newly created XML configuration file.
+	 * @return the name of the newly created XML configuration file.
 	 * @since 1.0
 	 */
 	private String createLinkingXMLConfigFile(String linkingFile, String ds, JobConfiguration jobConf){
@@ -344,7 +344,7 @@ public class LinksDiscovery {
 	 *						the properties file.
 	 * @param ddbbParams	the {@link eu.aliada.linksDiscovery.model.DDBBParams} 
 	 * 						which contains the DDBB parameters.
-     * @return the name of the newly created properties file.
+	 * @return the name of the newly created properties file.
 	 * @since 1.0
 	 */
 	private String createLinkingPropConfigFile(String tmpDir, DDBBParams ddbbParams){
@@ -389,7 +389,7 @@ public class LinksDiscovery {
 	 * 									as input parameter to the linking process
 	 * @param linkingPropConfigFilename	the name of the properties file. It will be passed
 	 * 									as input parameter to the linking process
-     * @return true if the process has been inserted in the file. False otherwise.
+	 * @return true if the process has been inserted in the file. False otherwise.
 	 * @since 1.0
 	 */
 	private boolean insertLinkingProcessInCrontabFile(String crontabFilename, String clientAppBinDir, int jobId, int subjobId, String linkingPropConfigFilename)

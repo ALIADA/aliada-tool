@@ -17,11 +17,11 @@ public class DDBBParams {
 	private String driverClassName;
 	private String url;
 
-    /**
-     * Returns the username for the DDBB.
-     *
-     * @return The username for the DDBB.
-     */
+	/**
+	 * Returns the username for the DDBB.
+	 *
+	 * @return The username for the DDBB.
+	 */
 	public String getUsername() {
 		return username;
 	}
