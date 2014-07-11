@@ -71,8 +71,8 @@ public class LinksDiscovery {
 	 * Gets the subjobs configuration from a properties file.
 	 *
 	 * @param propertiesFileName	the name of the properties file.
-     * @return	a list of {@link eu.aliada.linksDiscovery.model.SubjobConfiguration}
-     * 			which contain the configuration of each subjob.
+	 * @return	a list of {@link eu.aliada.linksDiscovery.model.SubjobConfiguration}
+	 *			which contain the configuration of each subjob.
 	 * @since 1.0
 	 */
 	private SubjobConfiguration[] getLinkingConfigFiles(String propertiesFileName) {
@@ -88,48 +88,48 @@ public class LinksDiscovery {
 		int idx = 1;
 		try {
 			InputStream propertyStream = new FileInputStream(propertiesFileName);
-    		Properties p = new Properties();
-    		p.load( propertyStream );
-    		name = p.getProperty(nameProp + idx);
-    		file = p.getProperty(fileProp + idx);
-    		ds = p.getProperty(dsProp + idx);
-       	 	while ((name != null) && (file != null) && (ds != null)){
-        		SubjobConfiguration subjobConf = new SubjobConfiguration();
-        		subjobConf.setName(name);
-    			subjobConf.setLinkingXMLConfigFilename(file);
-    			subjobConf.setDs(ds);
+			Properties p = new Properties();
+			p.load( propertyStream );
+			name = p.getProperty(nameProp + idx);
+			file = p.getProperty(fileProp + idx);
+			ds = p.getProperty(dsProp + idx);
+			while ((name != null) && (file != null) && (ds != null)){
+				SubjobConfiguration subjobConf = new SubjobConfiguration();
+				subjobConf.setName(name);
+				subjobConf.setLinkingXMLConfigFilename(file);
+				subjobConf.setDs(ds);
     	   		
-    			if (p.getProperty(numThreadsProp + idx) != null)
-    	   			subjobConf.setLinkingNumThreads(new Integer(p.getProperty(numThreadsProp + idx)));
-    	   		else
-        			//Default value: numthreads=1
-    	   			subjobConf.setLinkingNumThreads(1);
+				if (p.getProperty(numThreadsProp + idx) != null)
+					subjobConf.setLinkingNumThreads(new Integer(p.getProperty(numThreadsProp + idx)));
+				else
+					//Default value: numthreads=1
+					subjobConf.setLinkingNumThreads(1);
         		
-    	   		if (p.getProperty(reloadProp + idx) != null)
-    	   			subjobConf.setLinkingReload(new Boolean(p.getProperty(reloadProp + idx)));
-        		else
-        			//Default value: reload=true
-        			subjobConf.setLinkingReload(true);
+				if (p.getProperty(reloadProp + idx) != null)
+					subjobConf.setLinkingReload(new Boolean(p.getProperty(reloadProp + idx)));
+				else
+					//Default value: reload=true
+					subjobConf.setLinkingReload(true);
     			
-    	   		v.add(subjobConf);
-    			idx++;
-        		name = p.getProperty(nameProp + idx);
-        		file = p.getProperty(fileProp + idx);
-        		ds = p.getProperty(dsProp + idx);
-    		}
+				v.add(subjobConf);
+				idx++;
+				name = p.getProperty(nameProp + idx);
+				file = p.getProperty(fileProp + idx);
+				ds = p.getProperty(dsProp + idx);
+			}
 
-    		if (v.size() == 0) {
-    			return new SubjobConfiguration[0];
-    		}
+			if (v.size() == 0) {
+				return new SubjobConfiguration[0];
+			}
 
-    		return (SubjobConfiguration[]) v.toArray(new SubjobConfiguration[v.size()]);
-    	} catch(FileNotFoundException exception) {
+			return (SubjobConfiguration[]) v.toArray(new SubjobConfiguration[v.size()]);
+		} catch(FileNotFoundException exception) {
 			logger.error(MessageCatalog._00031_FILE_NOT_FOUND, propertiesFileName);
 			return new SubjobConfiguration[0];
-    	} catch(IOException exception) {
+		} catch(IOException exception) {
 			logger.error(MessageCatalog._00032_BAD_FILE, exception, propertiesFileName);
 			return new SubjobConfiguration[0];
-    	}
+		}
 	}
 
 	/**
@@ -146,9 +146,9 @@ public class LinksDiscovery {
 		//Replace Windows file separator by "/" Java file separator
 		crontabFilename = crontabFilename.replace("\\", "/");
 		//Remove the crontab file if it already exists
-	    File f = new File(crontabFilename);
-	    if (f.exists())
-	    	f.delete();
+		File f = new File(crontabFilename);
+		if (f.exists())
+			f.delete();
 	    //Now, create a new one
 		try {
 			FileWriter fstream = new FileWriter(crontabFilename);
@@ -186,7 +186,7 @@ public class LinksDiscovery {
 	 * @param paramValue	the value of the "value" attribute.
 	 * @since 1.0
 	 */
-	private 	void appendChildParam(Document doc, Element parentElem, String paramName, String paramValue){
+	private void appendChildParam(Document doc, Element parentElem, String paramName, String paramValue){
 		//Create new <Param> element
 		Element paramElem = doc.createElement("Param"); 
 		//set attributes to Param element

@@ -27,7 +27,7 @@ public class ApplicationLifecycleListener implements ServletContextListener {
 	public void contextInitialized(final ServletContextEvent event) {
 		logger.info(MessageCatalog._00001_STARTING);
 		ServletContext sc = event.getServletContext();
-    	//Get DDBB connection
+		//Get DDBB connection
 		DBConnectionManager db = new DBConnectionManager();
 		//Save DDBB connection in Servlet Context attribute
 		sc.setAttribute("db", db);

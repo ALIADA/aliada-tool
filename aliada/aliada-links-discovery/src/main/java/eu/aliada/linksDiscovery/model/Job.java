@@ -19,24 +19,24 @@ import javax.xml.bind.annotation.XmlElement;
  */
 @XmlRootElement
 public class Job {
-    private int id;
-    private Date startDate;
-    private Date endDate;
-    private int numLinks;
-    private String status; /* Possible values: idle, running, finished. */
+	private int id;
+	private Date startDate;
+	private Date endDate;
+	private int numLinks;
+	private String status; /* Possible values: idle, running, finished. */
 
-    @XmlElement
+	@XmlElement
 	private ArrayList<Subjob> subjobs = new ArrayList<Subjob>();
     
-    public Job() {// JAXB needs this
-    	this.subjobs = new ArrayList<Subjob>();
-    } 
+	public Job() {// JAXB needs this
+		this.subjobs = new ArrayList<Subjob>();
+	} 
 
-    /**
-     * Returns the identifier of this job.
-     * 
-     * @return The identifier of this job.
-     */
+	/**
+	 * Returns the identifier of this job.
+	 * 
+	 * @return The identifier of this job.
+	 */
 	public Integer getId() {
 		return id;
 	}

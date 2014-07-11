@@ -76,7 +76,7 @@ public class DBConnectionManager {
 	/**
 	 * Returns the DDBB connection.
 	 *
-     * @return	the DDBB connection.
+	 * @return	the DDBB connection.
 	 * @since 1.0
 	 */
 	public Connection getConnection() {
@@ -87,7 +87,7 @@ public class DBConnectionManager {
 	 * Gets the job configuration from the DDBB.
 	 *
 	 * @param jobId	the job identification.
-     * @return	the {@link eu.aliada.linksDiscovery.model.JobConfiguration}
+	 * @return	the {@link eu.aliada.linksDiscovery.model.JobConfiguration}
      * 			which contains the configuration of the job.
 	 * @since 1.0
 	 */
@@ -123,7 +123,7 @@ public class DBConnectionManager {
 	 * Updates the start_date of the job.
 	 *
 	 * @param jobId	the job identification.
-     * @return true if the date has been updated correctly in the DDBB. False otherwise.
+	 * @return true if the date has been updated correctly in the DDBB. False otherwise.
 	 * @since 1.0
 	 */
 	public boolean updateJobStartDate(int jobId){
@@ -149,7 +149,7 @@ public class DBConnectionManager {
 	 * Updates the end_date of the job.
 	 *
 	 * @param jobId	the job identification.
-     * @return true if the date has been updated correctly in the DDBB. False otherwise.
+	 * @return true if the date has been updated correctly in the DDBB. False otherwise.
 	 * @since 1.0
 	 */
 	public boolean updateJobEndDate(int jobId){
@@ -182,7 +182,7 @@ public class DBConnectionManager {
 	 * @param linkingXMLConfigFilename	Name of the XML configuration file for 
 	 * 									the SILK process.
 	 * @param tmpDir					the name of temporary folder.
-     * @return true if the subjob has been inserted correctly in the DDBB. False otherwise.
+	 * @return true if the subjob has been inserted correctly in the DDBB. False otherwise.
 	 * @since 1.0
 	 */
 	public boolean insertSubjobToDDBB(int jobId, int subjobId, SubjobConfiguration subjobConf, String linkingXMLConfigFilename, String tmpDir){
@@ -210,7 +210,7 @@ public class DBConnectionManager {
 	 * Returns job and its corresponding subjobs information in the DDBB.
 	 *
 	 * @param jobId	the job identification.
-     * @return	the {@link eu.aliada.linksDiscovery.model.Job}
+	 * @return	the {@link eu.aliada.linksDiscovery.model.Job}
      * 			which contains the job information.
 	 * @since 1.0
 	 */

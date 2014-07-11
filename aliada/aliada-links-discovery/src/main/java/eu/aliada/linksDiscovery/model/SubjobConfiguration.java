@@ -12,17 +12,17 @@ package eu.aliada.linksDiscovery.model;
  * @since 1.0
  */
 public class SubjobConfiguration {
-    private String name;
-    private String linkingXMLConfigFilename;
-    private String ds;
-    private int linkingNumThreads;
-    private boolean linkingReload;
+	private String name;
+	private String linkingXMLConfigFilename;
+	private String ds;
+	private int linkingNumThreads;
+	private boolean linkingReload;
     
-    /**
-     * Returns the name of the subjob.
-     * 
-     * @return The name of the subjob.
-     */
+	/**
+	 * Returns the name of the subjob.
+	 * 
+	 * @return The name of the subjob.
+	 */
 	public String getName() {
 		return name;
 	}

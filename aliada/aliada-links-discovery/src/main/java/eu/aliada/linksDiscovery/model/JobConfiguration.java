@@ -12,24 +12,24 @@ package eu.aliada.linksDiscovery.model;
  * @since 1.0
  */
 public class JobConfiguration {
-    private Integer id;
-    private String inputURI;
-    private String inputLogin;
-    private String inputPassword;
-    private String inputGraph;
-    private String outputURI;
-    private String outputLogin;
-    private String outputPassword;
-    private String outputGraph;
-    private String configFile;
-    private String tmpDir;
-    private String clientAppBinDir;
+	private Integer id;
+	private String inputURI;
+	private String inputLogin;
+	private String inputPassword;
+	private String inputGraph;
+	private String outputURI;
+	private String outputLogin;
+	private String outputPassword;
+	private String outputGraph;
+	private String configFile;
+	private String tmpDir;
+	private String clientAppBinDir;
     
-    /**
-     * Returns the identifier of this job configuration.
-     * 
-     * @return The identifier of this job configuration.
-     */
+	/**
+	 * Returns the identifier of this job configuration.
+	 * 
+	 * @return The identifier of this job configuration.
+	 */
 	public Integer getId() {
 		return id;
 	}

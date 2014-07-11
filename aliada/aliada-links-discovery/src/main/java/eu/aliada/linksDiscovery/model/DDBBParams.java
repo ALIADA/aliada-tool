@@ -12,11 +12,11 @@ package eu.aliada.linksDiscovery.model;
  * @since 1.0
  */
 public class DDBBParams {
-    private String username;
-    private String password;
-    private String driverClassName;
-    private String url;
-    
+	private String username;
+	private String password;
+	private String driverClassName;
+	private String url;
+
     /**
      * Returns the username for the DDBB.
      *

@@ -70,7 +70,7 @@ public class LinkingProcess {
 	 * Gets the properties from a properties file.
 	 *
 	 * @param propertiesFileName	the name of the properties file.
-     * @return true if the properties have been obtained. False otherwise.
+	 * @return true if the properties have been obtained. False otherwise.
 	 * @since 1.0
 	 */
 	public boolean getConfigProperties (String propertiesFileName) {
@@ -99,7 +99,7 @@ public class LinkingProcess {
 	/**
 	 * Gets the DDBB connection.
 	 *
-     * @return true if the DDBB connection has been obtained. False otherwise.
+	 * @return true if the DDBB connection has been obtained. False otherwise.
 	 * @since 1.0
 	 */
 	public boolean connectToDDBB() {
@@ -137,7 +137,7 @@ public class LinkingProcess {
 	 *
 	 * @param jobId		the job identification.
 	 * @param subjobId	the subjob identification.
-     * @return true if the subjob configuration has been obtained. False otherwise.
+	 * @return true if the subjob configuration has been obtained. False otherwise.
 	 * @since 1.0
 	 */
 	public boolean getSubjobConfiguration(int jobId, int subjobId) {
@@ -180,26 +180,26 @@ public class LinkingProcess {
 	 *
 	 * @param jobId		the job identification.
 	 * @param subjobId	the subjob identification.
-     * @return true if the date has been updated correctly in the DDBB. False otherwise.
+	 * @return true if the date has been updated correctly in the DDBB. False otherwise.
 	 * @since 1.0
 	 */
 	public boolean updateSubjobStartDate(int jobId, int subjobId){
 		//Update start_date of subjob
-    	try {
+		try {
 			PreparedStatement preparedStatement = null;		
-		    preparedStatement = conn.prepareStatement("UPDATE linksdiscovery_subjob_instances SET start_date = ? WHERE job_id = ? AND subjob_id = ?");
-		      // parameters start with 1
-		      java.util.Date today = new java.util.Date();
-		      java.sql.Timestamp todaySQL = new java.sql.Timestamp(today.getTime());
-		      preparedStatement.setTimestamp(1, todaySQL);
-		      preparedStatement.setInt(2, jobId);
-		      preparedStatement.setInt(3, subjobId);
-		      preparedStatement.executeUpdate();
+			preparedStatement = conn.prepareStatement("UPDATE linksdiscovery_subjob_instances SET start_date = ? WHERE job_id = ? AND subjob_id = ?");
+			// parameters start with 1
+			java.util.Date today = new java.util.Date();
+			java.sql.Timestamp todaySQL = new java.sql.Timestamp(today.getTime());
+			preparedStatement.setTimestamp(1, todaySQL);
+			preparedStatement.setInt(2, jobId);
+			preparedStatement.setInt(3, subjobId);
+			preparedStatement.executeUpdate();
 		} catch (SQLException exception) {
 			logger.error(MessageCatalog._00024_DATA_ACCESS_FAILURE, exception);
 			return false;
 		}
-  		return true;
+		return true;
 	}
 
 	/**
@@ -207,34 +207,34 @@ public class LinkingProcess {
 	 *
 	 * @param jobId		the job identification.
 	 * @param subjobId	the subjob identification.
-     * @return true if the data have been updated correctly in the DDBB. False otherwise.
+	 * @return true if the data have been updated correctly in the DDBB. False otherwise.
 	 * @since 1.0
 	 */
 	public boolean updateSubjobEndDate(int jobId, int subjobId, int numLinks){
 		//Update end_date, num_links of subjob
-    	try {
-			PreparedStatement preparedStatement = null;		
-		    preparedStatement = conn.prepareStatement("UPDATE linksdiscovery_subjob_instances SET end_date = ?, num_links = ?  WHERE job_id = ? AND subjob_id = ?");
-		      // parameters start with 1
-		      java.util.Date today = new java.util.Date();
-		      java.sql.Timestamp todaySQL = new java.sql.Timestamp(today.getTime());
-		      preparedStatement.setTimestamp(1, todaySQL);
-		      preparedStatement.setInt(2, numLinks);
-		      preparedStatement.setInt(3, jobId);
-		      preparedStatement.setInt(4, subjobId);
-		      preparedStatement.executeUpdate();
+		try {
+    		PreparedStatement preparedStatement = null;		
+    		preparedStatement = conn.prepareStatement("UPDATE linksdiscovery_subjob_instances SET end_date = ?, num_links = ?  WHERE job_id = ? AND subjob_id = ?");
+    		// parameters start with 1
+    		java.util.Date today = new java.util.Date();
+    		java.sql.Timestamp todaySQL = new java.sql.Timestamp(today.getTime());
+    		preparedStatement.setTimestamp(1, todaySQL);
+    		preparedStatement.setInt(2, numLinks);
+    		preparedStatement.setInt(3, jobId);
+    		preparedStatement.setInt(4, subjobId);
+    		preparedStatement.executeUpdate();
 		} catch (SQLException exception) {
 			logger.error(MessageCatalog._00024_DATA_ACCESS_FAILURE, exception);
 			return false;
 		}
-  		return true;
+		return true;
 	}
 
 	/**
 	 * Checks if all subjobs of a job have finished.
 	 *
 	 * @param jobId		the job identification.
-     * @return true if all subjobs of the job have finished. False otherwise.
+	 * @return true if all subjobs of the job have finished. False otherwise.
 	 * @since 1.0
 	 */
 	public boolean checkJobSubjobsFinished(int job){
@@ -259,7 +259,7 @@ public class LinkingProcess {
 	 * Updates the end_date of the job.
 	 *
 	 * @param jobId	the job identification.
-     * @return true if the date has been updated correctly in the DDBB. False otherwise.
+	 * @return true if the date has been updated correctly in the DDBB. False otherwise.
 	 * @since 1.0
 	 */
 	public boolean updateJobEndDate(int jobId){
@@ -288,7 +288,7 @@ public class LinkingProcess {
 	 * Obtain triples generated output file name from XML config file,
 	 * generated by SILK.
 	 *
-     * @return	triples generated output file name from XML config file,
+	 * @return	triples generated output file name from XML config file,
 	 * 			generated by SILK.
 	 * @since 1.0
 	 */
@@ -377,7 +377,7 @@ public class LinkingProcess {
 	 * @param subjobId				the subjob identification.
 	 * @param propertiesFileName	the name of the properties file of the programmed subjob.
 	 * 
-     * @return true if the subjob has been removed correctly from the crontab. False otherwise.
+	 * @return true if the subjob has been removed correctly from the crontab. False otherwise.
 	 * @since 1.0
 	 */
 	public boolean removeSubjobFromCrontab(int jobId, int subjobId, String propertiesFileName){
@@ -389,7 +389,7 @@ public class LinkingProcess {
 		//Replace Windows file separator by "/" Java file separator
 		crontabFilename = crontabFilename.replace("\\", "/");
 		//Remove the crontab file if it already exists
-	    File f = new File(crontabFilename);
+		File f = new File(crontabFilename);
 	    if (f.exists())
 	    	f.delete();
 	    //Now, create a new one
@@ -461,8 +461,8 @@ public class LinkingProcess {
 	 * When finished, all temporary files are removed, and the programmed subjob
 	 * is removed from crontab    
 	 *
-     * @param args	Application arguments. 
-     * @since 1.0
+	 * @param args	Application arguments. 
+	 * @since 1.0
 	 */
 	public static void main(String[] args) {
 		LinkingProcess lProcess = new LinkingProcess();

@@ -17,20 +17,20 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @XmlRootElement
 public class Subjob {
-    private int id;
-    private String name;
-    private Date startDate;
-    private Date endDate;
-    private int numLinks;
-    private String status; /* Possible values: idle, running, finished. */
+	private int id;
+	private String name;
+	private Date startDate;
+	private Date endDate;
+	private int numLinks;
+	private String status; /* Possible values: idle, running, finished. */
 
-    public Subjob(){} // JAXB needs this
+	public Subjob(){} // JAXB needs this
 
-    /**
-     * Returns the identifier of this subjob.
-     * 
-     * @return The identifier of this subjob.
-     */
+	/**
+	 * Returns the identifier of this subjob.
+	 * 
+	 * @return The identifier of this subjob.
+	 */
 	public Integer getId() {
 		return id;
 	}
