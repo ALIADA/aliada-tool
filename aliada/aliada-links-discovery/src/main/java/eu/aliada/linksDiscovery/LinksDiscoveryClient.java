@@ -20,7 +20,7 @@ import javax.ws.rs.core.Response;
  * @since 1.0
  */
 public class LinksDiscoveryClient {
-	protected String ALIADA_LInksDiscoveryServiceURL = "http://localhost:8890/links-discovery/";
+	protected String ALIADA_LinksDiscoveryServiceURL = "http://localhost:8890/links-discovery/";
 
 	/**
 	 * Implementation of a Links Discovery REST service client application.
@@ -33,7 +33,7 @@ public class LinksDiscoveryClient {
 		//Convert integer to string
 		String s_jobid = "" + jobid;
 		Client client = ClientBuilder.newClient();
-		WebTarget webTarget = client.target(ALIADA_LInksDiscoveryServiceURL);
+		WebTarget webTarget = client.target(ALIADA_LinksDiscoveryServiceURL);
 
 		//Data to be sent via HTTP POST
 		Form f = new Form();
@@ -57,7 +57,7 @@ public class LinksDiscoveryClient {
 		//Convert integer to string
 		String s_jobid = "" + jobid;
 		Client client = ClientBuilder.newClient();
-		WebTarget webTarget = client.target(ALIADA_LInksDiscoveryServiceURL);
+		WebTarget webTarget = client.target(ALIADA_LinksDiscoveryServiceURL);
 
 		//GET (Response in XML format) 
 		String accept_type = MediaType.APPLICATION_XML; //If we want the response in XML format
