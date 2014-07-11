@@ -390,9 +390,9 @@ public class LinkingProcess {
 		crontabFilename = crontabFilename.replace("\\", "/");
 		//Remove the crontab file if it already exists
 		File f = new File(crontabFilename);
-	    if (f.exists())
-	    	f.delete();
-	    //Now, create a new one
+		if (f.exists())
+			f.delete();
+		//Now, create a new one
 		try {
 			FileWriter fstream = new FileWriter(crontabFilename);
 			BufferedWriter out = new BufferedWriter(fstream);
