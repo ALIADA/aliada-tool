@@ -6,26 +6,43 @@
 package eu.aliada.linksDiscovery.model;
 
 /**
- * RDF-izer Job entity.
+ * Links discovery subjob configuration.
  * 
  * @author Idoia Murua
  * @since 1.0
  */
 public class SubjobConfiguration {
-    private String linkingXMLConfigFilename;
-    private String ds;
-    private int linkingNumThreads;
-    private boolean linkingReload;
+	private String name;
+	private String linkingXMLConfigFilename;
+	private String ds;
+	private int linkingNumThreads;
+	private boolean linkingReload;
     
-    /**
-     * Returns the name of the linking XML configuration file.
-     * 
-     * @return The name of the linking XML configuration file.
-     */
+	/**
+	 * Returns the name of the subjob.
+	 * 
+	 * @return The name of the subjob.
+	 */
+	public String getName() {
+		return name;
+	}
+	/**
+	 * Sets the name of the subjob.
+	 * 
+	 * @param name The name of the subjob.
+	 */
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	/**
+	 * Returns the name of the linking XML configuration file.
+	 * 
+	 * @return The name of the linking XML configuration file.
+	 */
 	public String getLinkingXMLConfigFilename() {
 		return linkingXMLConfigFilename;
 	}
-
 	/**
 	 * Sets the name of the linking XML configuration file.
 	 * 
@@ -35,15 +52,14 @@ public class SubjobConfiguration {
 		this.linkingXMLConfigFilename = linkingXMLConfigFilename;
 	}
 
-    /**
-     * Returns the name of ALIADA datasource in the linking XML configuration file.
-     * 
-     * @return The name of ALIADA datasource in the linking XML configuration file.
-     */
+	/**
+	 * Returns the name of ALIADA datasource in the linking XML configuration file.
+	 * 
+	 * @return The name of ALIADA datasource in the linking XML configuration file.
+	 */
 	public String getDs() {
 		return ds;
 	}
-
 	/**
 	 * Sets the name of ALIADA datasource in the linking XML configuration file.
 	 * 
@@ -54,14 +70,13 @@ public class SubjobConfiguration {
 	}
 
 	/**
-     * Returns the number of threads for the SILK process.
-     * 
-     * @return The number of threads for the SILK process.
-     */
-	public int geLlinkingNumThreads() {
+	 * Returns the number of threads for the SILK process.
+	 * 
+	 * @return The number of threads for the SILK process.
+	 */
+	public int geLinkingNumThreads() {
 		return linkingNumThreads;
 	}
-
 	/**
 	 * Sets the number of threads for the SILK process.
 	 * 
@@ -71,19 +86,18 @@ public class SubjobConfiguration {
 		this.linkingNumThreads = linkingNumThreads;
 	}
 
-    /**
-     * Returns the reload parameter for SILK.
-     *  (Specifies if the entity cache is to be reloaded before executing the matching. Default: true) 
-     * 
-     * @return The reload parameter for SILK.
-     */
+	/**
+	 * Returns the reload parameter for SILK.
+	 * Specifies if the entity cache is to be reloaded before executing the matching. Default: true. 
+	 * 
+	 * @return The reload parameter for SILK.
+	 */
 	public boolean getLinkingReload() {
 		return linkingReload;
 	}
-
 	/**
 	 * Sets the reload parameter for SILK.
-     *  (Specifies if the entity cache is to be reloaded before executing the matching. Default: true) 
+	 * Specifies if the entity cache is to be reloaded before executing the matching. Default: true. 
 	 * 
 	 * @param linkingReload The reload parameter for SILK.
 	 */

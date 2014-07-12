@@ -6,22 +6,22 @@
 package eu.aliada.linksDiscovery.model;
 
 /**
- * RDF-izer Job entity.
- * 
+ * Links discovery DDBB parameters.
+ *
  * @author Idoia Murua
  * @since 1.0
  */
 public class DDBBParams {
-    private String username;
-    private String password;
-    private String driverClassName;
-    private String url;
-    
-    /**
-     * Returns the username for the DDBB.
-     * 
-     * @return The username for the DDBB.
-     */
+	private String username;
+	private String password;
+	private String driverClassName;
+	private String url;
+
+	/**
+	 * Returns the username for the DDBB.
+	 *
+	 * @return The username for the DDBB.
+	 */
 	public String getUsername() {
 		return username;
 	}
@@ -34,11 +34,11 @@ public class DDBBParams {
 		this.username = username;
 	}
 
-    /**
-     * Returns the password for the DDBB.
-     * 
-     * @return The password for the DDBB.
-     */
+	/**
+	 * Returns the password for the DDBB.
+	 * 
+	 * @return The password for the DDBB.
+	 */
 	public String getPassword() {
 		return password;
 	}
@@ -51,11 +51,11 @@ public class DDBBParams {
 		this.password = password;
 	}
 
-    /**
-     * Returns the driverClassName for the DDBB.
-     * 
-     * @return The driverClassName for the DDBB.
-     */
+	/**
+	 * Returns the driverClassName for the DDBB.
+	 * 
+	 * @return The driverClassName for the DDBB.
+	 */
 	public String getDriverClassName() {
 		return driverClassName;
 	}
@@ -68,11 +68,11 @@ public class DDBBParams {
 		this.driverClassName = driverClassName;
 	}
 
-    /**
-     * Returns the url for the DDBB.
-     * 
-     * @return The url for the DDBB.
-     */
+	/**
+	 * Returns the url for the DDBB.
+	 * 
+	 * @return The url for the DDBB.
+	 */
 	public String getUrl() {
 		return url;
 	}
@@ -84,5 +84,4 @@ public class DDBBParams {
 	public void setUrl(String url) {
 		this.url = url;
 	}
-
 }

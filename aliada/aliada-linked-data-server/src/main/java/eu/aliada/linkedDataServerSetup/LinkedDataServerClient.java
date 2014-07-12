@@ -1,9 +1,9 @@
 // ALIADA - Automatic publication under Linked Data paradigm
 //          of library and museum data
 //
-// Component: aliada-links-discovery
+// Component: aliada-linked-data-server
 // Responsible: ALIADA Consortium
-package eu.aliada.linksDiscovery;
+package eu.aliada.linkedDataServerSetup;
 
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Client;
@@ -14,17 +14,17 @@ import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Response;
 
 /**
- * Implementation of an example of a Links Discovery REST service client application.
+ * Implementation of an example of a Linked Data Server REST service client application.
  *
  * @author Idoia Murua
  * @since 1.0
  */
-public class LinksDiscoveryClient {
-	protected String ALIADA_LinksDiscoveryServiceURL = "http://localhost:8890/links-discovery/";
+public class LinkedDataServerClient {
+	protected String ALIADA_LinkedDataServerURL = "http://localhost:8889/lds/";
 
 	/**
-	 * Implementation of a Links Discovery REST service client application.
-	 * POST /links-discovery/jobs/
+	 * Implementation of a Linked Data Server REST service client application.
+	 * POST /lds/jobs/
 	 *
 	 * @param jobid the job identifier.
 	 * @since 1.0
@@ -33,7 +33,7 @@ public class LinksDiscoveryClient {
 		//Convert integer to string
 		String s_jobid = "" + jobid;
 		Client client = ClientBuilder.newClient();
-		WebTarget webTarget = client.target(ALIADA_LinksDiscoveryServiceURL);
+		WebTarget webTarget = client.target(ALIADA_LinkedDataServerURL);
 
 		//Data to be sent via HTTP POST
 		Form f = new Form();
@@ -47,8 +47,8 @@ public class LinksDiscoveryClient {
 	}
 	
 	/**
-	 * Implementation of a Links Discovery REST service client application.
-	 * GET /links-discovery/jobs/<jobid>
+	 * Implementation of a Linked Data Server REST service client application.
+	 * GET /lds/jobs/<jobid>
 	 *
 	 * @param jobid the job identifier.
 	 * @since 1.0
@@ -57,7 +57,7 @@ public class LinksDiscoveryClient {
 		//Convert integer to string
 		String s_jobid = "" + jobid;
 		Client client = ClientBuilder.newClient();
-		WebTarget webTarget = client.target(ALIADA_LinksDiscoveryServiceURL);
+		WebTarget webTarget = client.target(ALIADA_LinkedDataServerURL);
 
 		//GET (Response in XML format) 
 		String accept_type = MediaType.APPLICATION_XML; //If we want the response in XML format
@@ -81,9 +81,9 @@ public class LinksDiscoveryClient {
 	 * @since 1.0
 	 */
 	public static void main(String[] args) {
-		LinksDiscoveryClient client = new LinksDiscoveryClient();
+		LinkedDataServerClient client = new LinkedDataServerClient();
 		int jobid = 1;
-		//Create a Links Discovery Job
+		//Create a Linked Data Server Job
 		client.newJob(jobid);
 		//Get info about the created job
 		client.getJob(jobid);

@@ -1,9 +1,9 @@
 // ALIADA - Automatic publication under Linked Data paradigm
 //          of library and museum data
 //
-// Component: aliada-links-discovery
+// Component: aliada-linked-data-server
 // Responsible: ALIADA Consortium
-package eu.aliada.linksDiscovery.rest;
+package eu.aliada.linkedDataServerSetup.rest;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Path;
@@ -20,24 +20,23 @@ import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.core.Response.Status;
 import javax.servlet.ServletContext;
 
-import eu.aliada.linksDiscovery.rdbms.DBConnectionManager;
-import eu.aliada.linksDiscovery.impl.LinksDiscovery;
-import eu.aliada.linksDiscovery.log.MessageCatalog;
-import eu.aliada.linksDiscovery.model.JobConfiguration;
-import eu.aliada.linksDiscovery.model.DDBBParams;
-import eu.aliada.linksDiscovery.model.Job;
+import eu.aliada.linkedDataServerSetup.rdbms.DBConnectionManager;
+import eu.aliada.linkedDataServerSetup.impl.LinkedDataServerSetup;
+import eu.aliada.linkedDataServerSetup.log.MessageCatalog;
+import eu.aliada.linkedDataServerSetup.model.JobConfiguration;
+import eu.aliada.linkedDataServerSetup.model.Job;
 import eu.aliada.shared.log.Log;
 
 
 /**
- * REST services definition for aliada-links-dicovery component.
+ * REST services definition for aliada-linked-data-server component.
  *
  * @author Idoia Murua
  * @since 1.0
  */
 @Path("/")
-public class LinksDiscoveryResource {
-	private final Log logger = new Log(LinksDiscoveryResource.class);
+public class LinkedDataServerResource {
+	private final Log logger = new Log(LinkedDataServerResource.class);
 
 	@Context
 	private UriInfo uriInfo;
@@ -46,7 +45,7 @@ public class LinksDiscoveryResource {
 	ServletContext context;
 	
 	/**
-	 * Creates a new job on the Links Discovery Component.
+	 * Creates a new job on the Linked Data Server Component.
 	 * 
 	 * @param id the job identifier associated with this instance.
 	 * @return a response which includes the info of the new job.
@@ -74,14 +73,9 @@ public class LinksDiscoveryResource {
 			logger.error(MessageCatalog._00023_JOB_CONFIGURATION_NOT_FOUND, id);
 			return Response.status(Status.BAD_REQUEST).build();								
 		}
-		DDBBParams ddbbParams = new DDBBParams();
-		ddbbParams.setUsername(context.getInitParameter("ddbb.username"));
-		ddbbParams.setPassword(context.getInitParameter("ddbb.password"));
-		ddbbParams.setDriverClassName(context.getInitParameter("ddbb.driverClassName"));
-		ddbbParams.setUrl(context.getInitParameter("ddbb.url"));
 		//Program linking processes
-		LinksDiscovery linksDisc = new LinksDiscovery();
-		Job job = linksDisc.programLinkingProcesses(jobConf, db, ddbbParams);
+		LinkedDataServerSetup ldsSetup = new LinkedDataServerSetup();
+		Job job = ldsSetup.setup(jobConf, db);
 		
 		return Response.created(uriInfo.getAbsolutePathBuilder().build()).entity(job).build();
 	}

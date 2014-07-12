@@ -18,7 +18,7 @@
 	</servlet>
  	<servlet-mapping>
 		<servlet-name>ALIADA Links Discovery</servlet-name>
-		<url-pattern>/aliada/linksDiscovery/*</url-pattern>
+		<url-pattern>/*</url-pattern>
 	</servlet-mapping>
 	<resource-ref>
 		<description>ALIADA Datasource</description>

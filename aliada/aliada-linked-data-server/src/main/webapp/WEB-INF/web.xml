@@ -3,4 +3,26 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
          version="2.5">
-</web-app>
+	<display-name>Linked Data Server</display-name>
+	<listener>
+		<listener-class>eu.aliada.linkedDataServerSetup.listeners.ApplicationLifecycleListener</listener-class>
+	</listener>
+	<servlet>
+		<servlet-name>ALIADA Linked Data Server</servlet-name>
+		<servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>
+		<init-param>
+			<param-name>jersey.config.server.provider.packages</param-name>
+			<param-value>eu.aliada.linkedDataServerSetup.rest</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+ 	<servlet-mapping>
+		<servlet-name>ALIADA Linked Data Server</servlet-name>
+		<url-pattern>/*</url-pattern>
+	</servlet-mapping>
+	<resource-ref>
+		<description>ALIADA Datasource</description>
+		<res-ref-name>jdbc/aliada</res-ref-name>
+		<res-type>javax.sql.DataSource</res-type>
+		<res-auth>Container</res-auth>
+	</resource-ref></web-app>

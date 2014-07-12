@@ -10,6 +10,7 @@ CREATE TABLE `aliada`.`linksdiscovery_job_instances` (
 `output_graph`  VARCHAR( 245 ) default NULL,
 `config_file`  VARCHAR( 245 ) default NULL,
 `tmp_dir`  VARCHAR( 245 ) default NULL,
+`client_app_bin_dir`  VARCHAR( 245 ) default NULL,
 `start_date` DATETIME default NULL,
 `end_date` DATETIME default NULL ,
 PRIMARY KEY ( `job_id` )
@@ -18,6 +19,12 @@ PRIMARY KEY ( `job_id` )
 CREATE TABLE `aliada`.`linksdiscovery_subjob_instances` (
 `job_id` INT NOT NULL ,
 `subjob_id` INT NOT NULL ,
+`name`  VARCHAR( 245 ) default NULL,
+`config_file`  VARCHAR( 245 ) default NULL,
+`num_threads` INT default 1 ,
+`reload` BOOLEAN default 0 ,
+`tmp_dir`  VARCHAR( 245 ) default NULL,
+`num_links` INT default 0 ,
 `start_date` DATETIME default NULL,
 `end_date` DATETIME default NULL ,
 PRIMARY KEY ( `job_id` , `subjob_id`)

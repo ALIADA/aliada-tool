@@ -1,21 +1,21 @@
 // ALIADA - Automatic publication under Linked Data paradigm
 //          of library and museum data
 //
-// Component: aliada-links-discovery
+// Component: aliada-linked-data-server
 // Responsible: ALIADA Consortium
-package eu.aliada.linksDiscovery.listeners;
+package eu.aliada.linkedDataServerSetup.listeners;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
-import eu.aliada.linksDiscovery.log.MessageCatalog;
+import eu.aliada.linkedDataServerSetup.log.MessageCatalog;
 import eu.aliada.shared.log.Log;
-import eu.aliada.linksDiscovery.rdbms.DBConnectionManager;
+import eu.aliada.linkedDataServerSetup.rdbms.DBConnectionManager;
 
 import javax.servlet.ServletContext;
 
 /**
- * Links discovery startup and shutdown listener.
+ * Linked Data Server startup and shutdown listener.
  * 
  * @author Idoia Murua
  * @since 1.0
