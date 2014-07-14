@@ -13,12 +13,8 @@ import eu.aliada.linkedDataServerSetup.rdbms.DBConnectionManager;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.Properties;
 import java.net.URLEncoder;
 
 /**
@@ -117,9 +113,8 @@ public class LinkedDataServerSetup {
 				//Execute ISQL command
 				try {
 					logger.info(MessageCatalog._00040_EXECUTING_ISQL);
-					Runtime.getRuntime().exec(isqlCommand);
-					Process crontabList = Runtime.getRuntime().exec(isqlCommand);
-					BufferedReader stdInput = new BufferedReader(new InputStreamReader(crontabList.getInputStream()));
+					Process commandProcess = Runtime.getRuntime().exec(isqlCommand);
+					BufferedReader stdInput = new BufferedReader(new InputStreamReader(commandProcess.getInputStream()));
 					String s = "";
 					while ((s = stdInput.readLine()) != null) {
 						System.out.println(s);
