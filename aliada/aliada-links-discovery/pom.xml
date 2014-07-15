@@ -25,5 +25,11 @@
 			<artifactId>commons-logging</artifactId>
 			<version>1.1.1</version>
 		</dependency>
+		<!-- Jersey JSON provider: MOXY -->
+		<dependency>
+		    <groupId>org.glassfish.jersey.media</groupId>
+		    <artifactId>jersey-media-moxy</artifactId>
+		    <version>2.10.1</version>
+		</dependency>
 	</dependencies>
 </project>
