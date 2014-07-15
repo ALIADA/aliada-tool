@@ -46,12 +46,24 @@ public class LinkedDataServerSetup {
 	private String getIsqlCommandsFile(JobConfiguration jobConf){
 		String isqlCommandsFilename;
 		isqlCommandsFilename = jobConf.getIsqlCommandsFilename();
-		File f = new File(isqlCommandsFilename);
-		if (!f.exists()){
-			//If there is not a ISQL command file specifically fpr this job, use the default one
+		//Check if isqlCommandsFilename exists
+		boolean isqlCommandsFilenameExists = false;
+		if(isqlCommandsFilename != null){
+			File f = new File(isqlCommandsFilename);
+			if (f.exists())
+				isqlCommandsFilenameExists = true;
+		}
+		if (!isqlCommandsFilenameExists){
+			//If there is not a ISQL command file specifically for this job, use the default one
 			isqlCommandsFilename = jobConf.getIsqlCommandsFilenameDefault();
-			f = new File(isqlCommandsFilename);
-			if (!f.exists()){
+			//Check if default isqlCommandsFilename exists
+			isqlCommandsFilenameExists = false;
+			if(isqlCommandsFilename != null){
+				File f = new File(isqlCommandsFilename);
+				if (f.exists())
+					isqlCommandsFilenameExists = true;
+			}
+			if (!isqlCommandsFilenameExists){
 				logger.error(MessageCatalog._00031_FILE_NOT_FOUND, isqlCommandsFilename);
 				isqlCommandsFilename = null;
 			}
