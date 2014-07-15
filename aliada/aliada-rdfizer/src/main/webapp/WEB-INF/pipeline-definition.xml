@@ -14,7 +14,13 @@
 	<bean id="string-to-xml" class="eu.aliada.rdfizer.pipeline.format.xml.XmlRecordToDocumentTranslator" />
 	<bean id="xml-to-rdf" class="eu.aliada.rdfizer.pipeline.format.xml.SynchXmlDocumentTranslator"/>
 	<bean id="marcxml-to-rdf-using-frbr" class="eu.aliada.rdfizer.pipeline.format.marc.frbr.FrbrDocumentTranslator"/>
-	<bean id="detect-frbr-entities" class="eu.aliada.rdfizer.pipeline.format.marc.frbr.FrbrEntitiesDetector" />
+	<bean id="detect-frbr-entities" class="eu.aliada.rdfizer.pipeline.format.marc.frbr.FrbrEntitiesDetector" />	
+	<bean id="count-lido-records" class="eu.aliada.rdfizer.pipeline.format.xml.RecordCounter">
+		<constructor-arg value="lido"/>
+	</bean>	
+	<bean id="count-marcxml-records" class="eu.aliada.rdfizer.pipeline.format.xml.RecordCounter">
+		<constructor-arg value="record"/>
+	</bean>		
 	<camelContext xmlns="http://camel.apache.org/schema/spring" trace="true" >
 		<route>
 			<from uri="file:{{lido.input.dir}}?move=../.done&amp;preMove=.working" />
@@ -40,6 +46,7 @@
 			<choice>
 				<when>
 					<simple>${header.format} == 'lido'</simple>
+					<process ref="count-lido-records"/>
 					<split streaming="true">
 						<tokenize token="lido" xml="true" />
 						<to uri="seda:lido-record-channel?concurrentConsumers=2&amp;size=1000&amp;blockWhenFull=true" />
@@ -47,6 +54,7 @@
 				</when>
 				<when>
 					<simple>${in.header.format} == 'marcxml'</simple>
+					<process ref="count-marcxml-records"/>
 					<split streaming="true">
 						<tokenize token="record" xml="true" />
 						<to uri="seda:marcxml-record-channel?concurrentConsumers=2&amp;size=1000&amp;blockWhenFull=true" />

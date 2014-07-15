@@ -23,9 +23,9 @@ public class JobResource implements Job {
 
 	private final JobConfiguration configuration;
 	
-	private AtomicInteger totalRecordsCount;
-	private AtomicInteger totalProcessedRecordsCount;
-	private AtomicInteger totalOutputStatementsCount;
+	private int totalRecordsCount;
+	private AtomicInteger totalProcessedRecordsCount = new AtomicInteger();
+	private AtomicInteger totalOutputStatementsCount = new AtomicInteger();
 	
 	/**
 	 * Builds a new {@link JobResource} with the given configuration.
@@ -36,14 +36,32 @@ public class JobResource implements Job {
 		this.configuration = configuration;
 	}
 
-	@Override
-	public boolean isSplitCompleted() {
-		return false;
+	/**
+	 * Sets the total records count.
+	 * 
+	 * @param size how many records for this job.
+	 */
+	public void setTotalRecordsCount(final int size) {
+		this.totalRecordsCount = size;
 	}
 
+	/**
+	 * Increments the total processed records count.
+	 */
+	public void incrementProcessedRecordsCount() {
+		totalProcessedRecordsCount.incrementAndGet();
+	}
+
+	/**
+	 * Increments the total output statements count.
+	 */
+	public void incrementOutputStatementsCount() {
+		totalOutputStatementsCount.incrementAndGet();
+	}
+	
 	@Override
 	public int getTotalRecordsCount() {
-		return totalRecordsCount.get();
+		return totalRecordsCount;
 	}
 
 	@Override
@@ -58,10 +76,8 @@ public class JobResource implements Job {
 
 	@Override
 	public double getRecordsThroughput() {
-		// TODO Auto-generated method stub
 		return 0;
 	}
-	// 
 
 	@Override
 	public Integer getID() {

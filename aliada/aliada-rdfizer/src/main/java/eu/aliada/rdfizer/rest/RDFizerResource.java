@@ -12,15 +12,14 @@ import java.io.IOException;
 import java.lang.management.ManagementFactory;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.sql.Timestamp;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.inject.Singleton;
-import javax.management.InstanceAlreadyExistsException;
 import javax.management.JMException;
-import javax.management.MBeanRegistrationException;
 import javax.management.MBeanServer;
-import javax.management.NotCompliantMBeanException;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -37,7 +36,9 @@ import org.springframework.stereotype.Component;
 
 import eu.aliada.rdfizer.datasource.Cache;
 import eu.aliada.rdfizer.datasource.rdbms.JobConfiguration;
+import eu.aliada.rdfizer.datasource.rdbms.JobConfigurationRepository;
 import eu.aliada.rdfizer.log.MessageCatalog;
+import eu.aliada.rdfizer.mx.InMemoryJobResourceRegistry;
 import eu.aliada.rdfizer.mx.ManagementRegistrar;
 import eu.aliada.rdfizer.mx.RDFizer;
 import eu.aliada.shared.log.Log;
@@ -67,7 +68,15 @@ public class RDFizerResource implements RDFizer {
 	@Autowired
 	protected Cache cache;
 
+	@Autowired
+	protected InMemoryJobResourceRegistry jobRegistry;
+
+	@Autowired
+	protected JobConfigurationRepository jobConfigurationRepository;
+	
 	protected boolean enabled = true;
+	
+	protected AtomicInteger runningJobCount = new AtomicInteger();
 	
 	@PUT
 	@Path("/enable")
@@ -132,17 +141,22 @@ public class RDFizerResource implements RDFizer {
 			try {
 				final JobResource newJobResource = new JobResource(configuration);
 				ManagementRegistrar.registerJob(newJobResource);
+				jobRegistry.addJobResource(newJobResource);
 			} catch (JMException exception) {
 				LOGGER.error(MessageCatalog._00045_MX_JOB_RESOURCE_REGISTRATION_FAILED, configuration.getId());
 			}
 			
 			Files.move(source, target, REPLACE_EXISTING);
+
+			configuration.setStartDate(new Timestamp(System.currentTimeMillis()));
+			jobConfigurationRepository.save(configuration);
+			runningJobCount.incrementAndGet();
 			return Response.created(uriInfo.getAbsolutePathBuilder().build()).build();
 		} catch (final IOException exception) {
-			LOGGER.debug(MessageCatalog._00030_NEW_JOB_REQUEST_DEBUG, id, path);
+			LOGGER.error(MessageCatalog._00030_NEW_JOB_REQUEST_DEBUG, id, path);
 			return Response.serverError().build();						
 		} catch (final DataAccessException exception)  {
-			LOGGER.debug(MessageCatalog._00031_DATA_ACCESS_FAILURE, exception);
+			LOGGER.error(MessageCatalog._00031_DATA_ACCESS_FAILURE, exception);
 			return Response.serverError().build();						
 		}
 	}
@@ -221,13 +235,11 @@ public class RDFizerResource implements RDFizer {
 
 	@Override
 	public int getRunningJobsCount() {
-		// TODO Auto-generated method stub
-		return 0;
+		return runningJobCount.get();
 	}
 
 	@Override
 	public int getCompletedJobsCount() {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 

@@ -30,14 +30,6 @@ public interface Job {
 	String getFormat(); 
 	
 	/**
-	 * Returns true if split has been completed for this job.
-	 * Querying for {@link #getTotalRecordsCount()} makes sense only when this method returns true.
-	 * 
-	 * @return true if split has been completed for this job.
-	 */
-	boolean isSplitCompleted();
-	
-	/**
 	 * Returns the total records count for this job.
 	 * Note that this counter could vary between requests if {@link #isSplitCompleted()} indicates
 	 * that split hasn't been yet completed.
