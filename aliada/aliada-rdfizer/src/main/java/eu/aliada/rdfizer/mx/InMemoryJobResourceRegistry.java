@@ -24,7 +24,7 @@ import eu.aliada.rdfizer.rest.JobResource;
 @Scope("singleton")
 public final class InMemoryJobResourceRegistry {
 	
-	private final Map<Integer, JobResource> registry = new HashMap<Integer, JobResource>();
+	final Map<Integer, JobResource> registry = new HashMap<Integer, JobResource>();
 	
 	/**
 	 * Adds a new resource to this registry.

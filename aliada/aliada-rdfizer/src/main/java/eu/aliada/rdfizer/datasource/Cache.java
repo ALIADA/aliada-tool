@@ -27,17 +27,16 @@ import com.googlecode.concurrentlinkedhashmap.ConcurrentLinkedHashMap;
 @Component
 public class Cache {
 	
-	private static final String DEFAULT_ALIADA_CLASS = "http://erlangen-crm.org/120111/E19_Physical_Object";
-	private final Map<String, String> crm2AliadaClasses = new HashMap<String, String>();
+	static final String DEFAULT_ALIADA_CLASS = "http://erlangen-crm.org/120111/E19_Physical_Object";
+	final Map<String, String> crm2AliadaClasses = new HashMap<String, String>();
 	{
 		crm2AliadaClasses.put("E22", "http://erlangen-crm.org/current/E22_Man-Made_Object");
 		crm2AliadaClasses.put("E25", "http://erlangen-crm.org/current/E25_Man-Made_Feature");
 		crm2AliadaClasses.put("E78", "http://erlangen-crm.org/current/E78_Collection");	
 		crm2AliadaClasses.put("E78", "http://erlangen-crm.org/current/E78_Collection");	
-
 	}
 	
-	private final Map<String, String> crm2AliadaEventTypes = new HashMap<String, String>();
+	final Map<String, String> crm2AliadaEventTypes = new HashMap<String, String>();
 	{
 		crm2AliadaEventTypes.put("http://www.cidoc-crm.org/crm-concepts/E65", "http://erlangen-crm.org/current/E65_Creation");
 		crm2AliadaEventTypes.put("http://terminology.lido-schema.org/lido00012", "http://erlangen-crm.org/current/E65_Creation");
@@ -50,10 +49,10 @@ public class Cache {
 			.build();
 	
 	@Autowired
-	private AliadaRDFStoreDAO rdfStore;
+	AliadaRDFStoreDAO rdfStore;
 	
 	@Autowired
-	protected JobConfigurationRepository jobConfigurationRepository;
+	JobConfigurationRepository jobConfigurationRepository;
 	
 	/**
 	 * Returns the ALIADA class corresponding to the given CIDOC-CRM class.
@@ -76,20 +75,18 @@ public class Cache {
 	 * @return the ALIADA class that corresponds to the given input class.
 	 */
 	public String getAliadaEventTypeClassFrom(final String crmClass) {
-		String uri = crm2AliadaClasses.get(crmClass);
+		String uri = crm2AliadaEventTypes.get(crmClass);
 		if (uri == null) {
 			uri = rdfStore.crm2AliadaClass(crmClass);
 		}
 		return uri;
 	}
-	
-	
-	
+
 	/**
 	 * Returns the job configuration associated with a given identifier.
 	 * 
 	 * @param id the job identifier.
-	 * @return the job configuration associated with a given identifier.
+	 * @return the job configuration associated with a given identifier (or null).
 	 */
 	public JobConfiguration getJobConfiguration(final Integer id) {
 		JobConfiguration configuration = activeJobConfigurations.get(id);
