@@ -103,9 +103,9 @@ public class DBConnectionManager {
 				job.setSqlPassword(resultSet.getString("sql_password"));
 				job.setGraph(resultSet.getString("graph"));
 				job.setDatasetBase(resultSet.getString("dataset_base"));
-				job.setUriMappingfile(resultSet.getString("uri_mapping_file"));
 				job.setIsqlCommandPath(resultSet.getString("isql_command_path"));
-				job.setTmpDir(resultSet.getString("tmp_dir"));
+				job.setIsqlCommandsFilename(resultSet.getString("isql_commands_file"));
+				job.setIsqlCommandsFilenameDefault(resultSet.getString("isql_commands_file_default"));
 		    }
 		} catch (SQLException exception) {
 			logger.error(MessageCatalog._00024_DATA_ACCESS_FAILURE, exception);

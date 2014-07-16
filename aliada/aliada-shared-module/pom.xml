@@ -9,4 +9,11 @@
   <artifactId>aliada-shared-module</artifactId>
   <name>ALIADA Shared components / classes / utilities</name>
   <description>This module contains classes that can be reused by other core modules.</description>
+	<dependencies>
+		<dependency>
+			<groupId>commons-codec</groupId>
+			<artifactId>commons-codec</artifactId>
+			<version>1.9</version>
+		</dependency>
+	</dependencies>
 </project>

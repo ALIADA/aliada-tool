@@ -439,15 +439,17 @@ public class LinkingProcess {
 	 */
 	public void removeConfigFiles(String propertiesFileName, String linkingXMLConfigFilename){
 		//Remove configuration files
+		String fileName = propertiesFileName; 
 		try {
 			File f = new File(propertiesFileName);
 			if (f.exists())
 				f.delete();
+			fileName = linkingXMLConfigFilename;
 			f = new File(linkingXMLConfigFilename);
 			if (f.exists())
 				f.delete();
 		} catch (Exception exception) {
-			logger.error(MessageCatalog._00066_FILE_REMOVING_FAILURE, exception);
+			logger.error(MessageCatalog._00066_FILE_REMOVING_FAILURE, exception, fileName);
 		}
 		return;
 	}

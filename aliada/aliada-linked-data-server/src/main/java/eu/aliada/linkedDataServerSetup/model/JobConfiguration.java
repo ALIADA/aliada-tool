@@ -19,9 +19,9 @@ public class JobConfiguration {
 	private String sqlPassword;
 	private String graph;
 	private String datasetBase;
-	private String uriMappingfile;
 	private String isqlCommandPath;
-	private String tmpDir;
+	private String isqlCommandsFilename;
+	private String isqlCommandsFilenameDefault;
     
 	/**
 	 * Returns the identifier of this job configuration.
@@ -143,27 +143,6 @@ public class JobConfiguration {
 	}
 
 	/**
-	 * Returns the path of the file containing the mappings to be done for HTML
-	 * rendering.
-	 * 
-	 * @return	The path of the file containing the mappings to be done for HTML
-	 * 			rendering.
-	 */
-	public String getUriMappingfile() {
-		return uriMappingfile;
-	}
-	/**
-	 * Sets the path of the file containing the mappings to be done for HTML
-	 * rendering.
-	 * 
-	 * @param uriMappingfile	The path of the file containing the mappings
-	 * 							to be done for HTML rendering. 
-	 */
-	public void setUriMappingfile(String uriMappingfile) {
-		this.uriMappingfile = uriMappingfile;
-	}		
-
-	/**
 	 * Returns the path of the ISQL command of the RDF store.
 	 * 
 	 * @return The path of the ISQL command of the RDF store.
@@ -181,19 +160,44 @@ public class JobConfiguration {
 	}		
 
 	/**
-	 * Returns the path of the temporary directory for creating temporary files.
+	 * Returns the path of the file containing the ISQL commands for URL 
+	 * rewriting in Virtuoso.
 	 * 
-	 * @return The path of the temporary directory for creating temporary files.
+	 * @return The path of the file containing the ISQL commands for URL 
+	 *         rewriting in Virtuoso.
 	 */
-	public String getTmpDir() {
-		return tmpDir;
+	public String getIsqlCommandsFilename() {
+		return isqlCommandsFilename;
 	}
 	/**
-	 * Sets the path of the temporary directory for creating temporary files.
+	 * Sets the path of the file containing the ISQL commands for URL 
+	 * rewriting in Virtuoso.
 	 * 
-	 * @param tmpDir The path of the temporary directory for creating temporary files.
+	 * @param isqlCommandsFilename The path of the file containing 
+	 *        the ISQL commands for URL rewriting in Virtuoso.
 	 */
-	public void setTmpDir(String tmpDir) {
-		this.tmpDir = tmpDir;
+	public void setIsqlCommandsFilename(String isqlCommandsFilename) {
+		this.isqlCommandsFilename = isqlCommandsFilename;
+	}		
+
+	/**
+	 * Returns the path of the default file containing the ISQL commands for URL 
+	 * rewriting in Virtuoso. It contains the default mapping for HTML rendering.
+	 * 
+	 * @return The path of the default file containing the ISQL commands for URL 
+	 *         rewriting in Virtuoso.  It contains the default mapping for HTML rendering.
+	 */
+	public String getIsqlCommandsFilenameDefault() {
+		return isqlCommandsFilenameDefault;
+	}
+	/**
+	 * Sets the path of the default file containing the ISQL commands for URL 
+	 * rewriting in Virtuoso. It contains the default mapping for HTML rendering.
+	 * 
+	 * @param isqlCommandsFilenameDefault The path of the default file containing 
+	 *        the ISQL commands for URL rewriting in Virtuoso.
+	 */
+	public void setIsqlCommandsFilenameDefault(String isqlCommandsFilenameDefault) {
+		this.isqlCommandsFilenameDefault = isqlCommandsFilenameDefault;
 	}		
 }
