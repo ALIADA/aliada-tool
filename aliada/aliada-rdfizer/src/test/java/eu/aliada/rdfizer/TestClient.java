@@ -11,14 +11,19 @@ import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
 
-import org.glassfish.jersey.client.JerseyClient;
-
-public class TestClient {
-
+/**
+ * To be removed, this is used just for running some sample job.
+ * 
+ * @author Andrea Gazzarini
+ * @since 1.0
+ */
+public abstract class TestClient {
 	/**
-	 * @param args
+	 * To be removed, this is used just for running some sample job.
+	 * 
+	 * @param args the command line arguments.
 	 */   
-	public static void main(String[] args) {
+	public static void main(final String[] args) {
 		Client client = ClientBuilder.newClient();
 		WebTarget webTarget = client.target("http://localhost:8891/rdfizer");
 		Response response = webTarget.path("/jobs/1").request().put(Entity.text("1"));

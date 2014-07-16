@@ -5,7 +5,7 @@
 // Responsible: ALIADA Consortiums
 package eu.aliada.rdfizer.mx;
 
-import static eu.aliada.rdfizer.TestData.RANDOMIZER;
+import static eu.aliada.rdfizer.TestUtils.newJobResource;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
@@ -15,7 +15,6 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 
-import eu.aliada.rdfizer.datasource.rdbms.JobConfiguration;
 import eu.aliada.rdfizer.rest.JobResource;
 
 /**
@@ -42,16 +41,12 @@ public class InMemoryJobResourceRegistryTest {
 	 */
 	@Test
 	public void addAndGetJobResource() {
-		final Integer id = RANDOMIZER.nextInt();
-		final JobConfiguration configuration = new JobConfiguration();
-		configuration.setId(id);
-		final JobResource resource = new JobResource(configuration);
-		
+		final JobResource resource = newJobResource();
 		cut.addJobResource(resource);
 		
 		assertFalse(cut.registry.isEmpty());
 		
-		final JobResource result = cut.getJobResource(id);
+		final JobResource result = cut.getJobResource(resource.getID());
 		
 		assertSame(resource, result);
 		assertEquals(resource.getID(), result.getID());
@@ -62,13 +57,9 @@ public class InMemoryJobResourceRegistryTest {
 	 */
 	@Test
 	public void jobResourceNotFound() {
-		final Integer id = RANDOMIZER.nextInt();
-		final JobConfiguration configuration = new JobConfiguration();
-		configuration.setId(id);
-		final JobResource resource = new JobResource(configuration);
-		
+		final JobResource resource = newJobResource();
 		cut.addJobResource(resource);
 
-		assertNull(cut.getJobResource(id + 1));
+		assertNull(cut.getJobResource(resource.getID() + 1));
 	}
 }

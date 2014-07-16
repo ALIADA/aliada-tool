@@ -5,7 +5,8 @@
 // Responsible: ALIADA Consortiums
 package eu.aliada.rdfizer.datasource;
 
-import static eu.aliada.rdfizer.TestData.RANDOMIZER;
+import static eu.aliada.rdfizer.TestUtils.newJobConfiguration;
+import static eu.aliada.rdfizer.TestUtils.randomString;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
@@ -64,8 +65,8 @@ public class CacheTest {
 	 */
 	@Test
 	public void crmClassNotFoundInCacheButFoundInRDFStore() {
-		final String aClassThatIsNotInCache = String.valueOf(RANDOMIZER.nextLong());
-		final String expectedResult = String.valueOf(RANDOMIZER.nextLong());
+		final String aClassThatIsNotInCache = randomString();
+		final String expectedResult = randomString();
 		when(dao.crm2AliadaClass(aClassThatIsNotInCache)).thenReturn(expectedResult);
 
 		assertEquals(
@@ -80,7 +81,7 @@ public class CacheTest {
 	 */
 	@Test
 	public void crmClassNotFound() {
-		final String aClassThatIsNotInCache = String.valueOf(RANDOMIZER.nextLong());
+		final String aClassThatIsNotInCache = randomString();
 		when(dao.crm2AliadaClass(aClassThatIsNotInCache)).thenReturn(null);
 
 		assertEquals(
@@ -110,8 +111,8 @@ public class CacheTest {
 	 */
 	@Test
 	public void crmEventTypeNotFoundInCacheButFoundInRDFStore() {
-		final String anEventTypeThatIsNotInCache = String.valueOf(RANDOMIZER.nextLong());
-		final String expectedResult = String.valueOf(RANDOMIZER.nextLong());
+		final String anEventTypeThatIsNotInCache = randomString();
+		final String expectedResult = randomString();
 		when(dao.crm2AliadaClass(anEventTypeThatIsNotInCache)).thenReturn(expectedResult);
 
 		assertEquals(
@@ -126,7 +127,7 @@ public class CacheTest {
 	 */
 	@Test
 	public void crmEventTypeNotFound() {
-		final String anEventTypeThatIsNotInCache = String.valueOf(RANDOMIZER.nextLong());
+		final String anEventTypeThatIsNotInCache = randomString();
 		when(dao.crm2AliadaClass(anEventTypeThatIsNotInCache)).thenReturn(null);
 
 		assertNull(cut.getAliadaEventTypeClassFrom(anEventTypeThatIsNotInCache));
@@ -139,13 +140,11 @@ public class CacheTest {
 	 */
 	@Test
 	public void jobConfigurationInCache() {
-		final Integer id = RANDOMIZER.nextInt();
-		final JobConfiguration configuration = new JobConfiguration();
-		configuration.setId(id);
-		cut.activeJobConfigurations.put(id, configuration);
+		final JobConfiguration configuration = newJobConfiguration();
+		cut.activeJobConfigurations.put(configuration.getId(), configuration);
 		
-		assertSame(configuration, cut.getJobConfiguration(id));
-		assertEquals(id, cut.getJobConfiguration(id).getId());
+		assertSame(configuration, cut.getJobConfiguration(configuration.getId()));
+		assertEquals(configuration.getId(), cut.getJobConfiguration(configuration.getId()).getId());
 		
 		verifyZeroInteractions(repository);
 	}
@@ -155,15 +154,13 @@ public class CacheTest {
 	 */
 	@Test
 	public void jobConfigurationNotInCache() {
-		final Integer id = RANDOMIZER.nextInt();
-		final JobConfiguration configuration = new JobConfiguration();
-		configuration.setId(id);
-		assertNull(cut.activeJobConfigurations.get(id));
+		final JobConfiguration configuration = newJobConfiguration();
+		assertNull(cut.activeJobConfigurations.get(configuration.getId()));
 		
-		when(repository.findOne(id)).thenReturn(configuration);
+		when(repository.findOne(configuration.getId())).thenReturn(configuration);
 		
-		assertSame(configuration, cut.getJobConfiguration(id));
-		assertEquals(id, cut.getJobConfiguration(id).getId());
+		assertSame(configuration, cut.getJobConfiguration(configuration.getId()));
+		assertEquals(configuration.getId(), cut.getJobConfiguration(configuration.getId()).getId());
 	}	 
 	
 	/**
@@ -171,13 +168,11 @@ public class CacheTest {
 	 */
 	@Test
 	public void jobConfigurationNotFound() {
-		final Integer id = RANDOMIZER.nextInt();
-		final JobConfiguration configuration = new JobConfiguration();
-		configuration.setId(id);
-		assertNull(cut.activeJobConfigurations.get(id));
+		final JobConfiguration configuration = newJobConfiguration();
+		assertNull(cut.activeJobConfigurations.get(configuration.getId()));
 		
-		when(repository.findOne(id)).thenReturn(null);
+		when(repository.findOne(configuration.getId())).thenReturn(null);
 		
-		assertNull(cut.getJobConfiguration(id));
+		assertNull(cut.getJobConfiguration(configuration.getId()));
 	}		
 }
