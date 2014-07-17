@@ -20,11 +20,15 @@ import javax.annotation.PreDestroy;
 import javax.inject.Singleton;
 import javax.management.JMException;
 import javax.management.MBeanServer;
+import javax.management.ObjectName;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
@@ -32,6 +36,7 @@ import javax.ws.rs.core.UriInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataAccessException;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
 import eu.aliada.rdfizer.datasource.Cache;
@@ -41,6 +46,7 @@ import eu.aliada.rdfizer.log.MessageCatalog;
 import eu.aliada.rdfizer.mx.InMemoryJobResourceRegistry;
 import eu.aliada.rdfizer.mx.ManagementRegistrar;
 import eu.aliada.rdfizer.mx.RDFizer;
+import eu.aliada.rdfizer.rest.sto.Jobs;
 import eu.aliada.shared.log.Log;
 
 /**
@@ -93,6 +99,56 @@ public class RDFizerResource implements RDFizer {
 	}
 
 	/**
+	 * Returns a short summary of all jobs managed by this RDFizer instance.
+	 * Jobs are divided by status: running and completed.
+	 * For each job a minimal set of information are returned, if caller wants to know more about 
+	 * a specific job then a call to {@link #getJob(Integer)} must be issued.
+	 * 
+	 * @return a short summary of all jobs managed by this RDFizer instance.
+	 */
+	@GET
+	@Path("/jobs")
+	@Produces({MediaType.TEXT_XML, MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+	public Response getJobs() {
+		return Response.ok()
+				.entity(
+						new Jobs(
+								jobConfigurationRepository.findAll(
+										new Sort(
+												Sort.Direction.DESC, 
+												"startDate"))))
+												.build();
+	}
+	
+	/**
+	 * Returns a detailed summary of the job associated with the given identifier.
+	 * 
+	 * @param id the job identifier.
+	 * @return a detailed summary of the job associated with the given identifier.
+	 */
+	@GET
+	@Path("/jobs/{jobid}")
+	@Produces({MediaType.TEXT_XML, MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+	public Response getJob(@PathParam("jobid") final Integer id) {
+		final JobConfiguration configuration = cache.getJobConfiguration(id);
+		if (configuration == null) {
+			LOGGER.error(MessageCatalog._00032_JOB_CONFIGURATION_NOT_FOUND, id);
+			return Response.status(Status.NOT_FOUND).build();											
+		}
+		
+		final ObjectName objectName = ManagementRegistrar.createJobObjectName(configuration.getFormat(), id);
+		if (ManagementRegistrar.isAlreadyRegistered(objectName)) {
+			// TODO: in the final implementation we mustn't rely on job registry but instead we should 
+			// build a DTO for each invocation.
+			final JobResource resource = jobRegistry.getJobResource(id);
+			return Response.ok().entity(resource).build();
+		} else {
+			final JobResource resource = new JobResource(configuration);
+			return Response.ok().entity(resource).build();
+		}
+	}
+	
+	/**
 	 * Creates a new job on the RDF-izer.
 	 * 
 	 * @param id the job identifier associated with this instance.
@@ -117,7 +173,7 @@ public class RDFizerResource implements RDFizer {
 			final JobConfiguration configuration = cache.getJobConfiguration(id);
 			if (configuration == null) {
 				LOGGER.error(MessageCatalog._00032_JOB_CONFIGURATION_NOT_FOUND, id);
-				return Response.status(Status.BAD_REQUEST).build();								
+				return Response.status(Status.NOT_FOUND).build();								
 			}
 			
 			final File datafile = new File(configuration.getDatafile());
@@ -140,6 +196,7 @@ public class RDFizerResource implements RDFizer {
 			
 			try {
 				final JobResource newJobResource = new JobResource(configuration);
+				newJobResource.setRunning(true);
 				ManagementRegistrar.registerJob(newJobResource);
 				jobRegistry.addJobResource(newJobResource);
 			} catch (JMException exception) {

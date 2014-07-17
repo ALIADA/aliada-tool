@@ -59,4 +59,11 @@ public interface Job {
 	 * @return the record processing throughput in terms of records / sec.
 	 */
 	double getRecordsThroughput();
+	
+	/**
+	 * Returns true if this job is running.
+	 * 
+	 * @return true if this job is running.
+	 */
+	boolean isRunning();
 }
