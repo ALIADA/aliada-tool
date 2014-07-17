@@ -4,7 +4,7 @@
 // Component: aliada-rdfizer
 // Responsible: ALIADA Consortium
 package eu.aliada.rdfizer.datasource.rdbms;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 
 /**
  * Job Configuration repository.
@@ -13,6 +13,6 @@ import org.springframework.data.repository.CrudRepository;
  * @author Andrea Gazzarini
  * @since 1.0
  */
-public interface JobConfigurationRepository extends CrudRepository<JobConfiguration, Integer> {
+public interface JobConfigurationRepository extends PagingAndSortingRepository<JobConfiguration, Integer> {
 	// No need of other methods at the moment
 }

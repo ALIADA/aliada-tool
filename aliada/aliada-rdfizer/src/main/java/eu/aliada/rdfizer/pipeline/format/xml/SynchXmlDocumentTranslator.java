@@ -8,9 +8,6 @@ package eu.aliada.rdfizer.pipeline.format.xml;
 import java.io.BufferedWriter;
 import java.io.StringWriter;
 import java.io.Writer;
-import java.lang.management.ManagementFactory;
-
-import javax.management.MBeanServer;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Message;
@@ -32,6 +29,8 @@ import eu.aliada.rdfizer.datasource.rdbms.JobConfiguration;
 import eu.aliada.rdfizer.framework.MainSubjectDetectionRule;
 import eu.aliada.rdfizer.framework.UnableToProceedWithConversionException;
 import eu.aliada.rdfizer.log.MessageCatalog;
+import eu.aliada.rdfizer.mx.InMemoryJobResourceRegistry;
+import eu.aliada.rdfizer.rest.JobResource;
 import eu.aliada.shared.log.Log;
 
 /**
@@ -87,7 +86,8 @@ public class SynchXmlDocumentTranslator implements Processor, ApplicationContext
 	
 	protected ApplicationContext context;
 	
-	protected MBeanServer mxServer = ManagementFactory.getPlatformMBeanServer();
+	@Autowired
+	protected InMemoryJobResourceRegistry jobRegistry;
 	
 	@Override
 	public final void process(final Exchange exchange) throws Exception {
@@ -125,6 +125,8 @@ public class SynchXmlDocumentTranslator implements Processor, ApplicationContext
 			template.merge(velocityContext, w);
 			w.flush();
 			in.setBody(sw.toString());
+			
+			incrementProcessedRecordsCount(jobId);
 		} catch (final ResourceNotFoundException exception) {
 			log.error(MessageCatalog._00040_TEMPLATE_NOT_FOUND, exception, format);
 		} finally {
@@ -173,5 +175,17 @@ public class SynchXmlDocumentTranslator implements Processor, ApplicationContext
 	 */
 	protected String templateName(final String format) {
 		return new StringBuilder(format).append(".n3.vm").toString();
+	}
+	
+	/**
+	 * Updates the processed records on the management interface of the given job. 
+	 * 
+	 * @param jobId the job identifier.
+	 */
+	void incrementProcessedRecordsCount(final Integer jobId) {
+		final JobResource resource = jobRegistry.getJobResource(jobId);
+		if (resource != null) {
+			resource.incrementProcessedRecordsCount();
+		}
 	}
 }

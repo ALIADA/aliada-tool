@@ -7,12 +7,12 @@ package eu.aliada.rdfizer.mx;
 
 import java.lang.management.ManagementFactory;
 
+import javax.management.InstanceNotFoundException;
 import javax.management.JMException;
 import javax.management.MBeanServer;
 import javax.management.MalformedObjectNameException;
 import javax.management.ObjectName;
 
-import eu.aliada.rdfizer.rest.JobResource;
 import eu.aliada.shared.log.Log;
 
 /**
@@ -43,7 +43,7 @@ public abstract class ManagementRegistrar {
 	 * @param job the job manageable resource.
 	 * @throws JMException in case of management subsystem failure.
 	 */
-	public static void registerJob(final JobResource job) throws JMException {
+	public static void registerJob(final Job job) throws JMException {
 		MX_SERVER.registerMBean(job, createJobObjectName(job.getFormat(), job.getID()));
 	}
 	
@@ -58,6 +58,31 @@ public abstract class ManagementRegistrar {
 		try {
 			return new ObjectName(JOB_OBJECT_NAME_PREFIX + format + ",ID=" + jobId);
 		} catch (final MalformedObjectNameException exception) {
+			throw new RuntimeException(exception);
+		}
+	}
+
+	/**
+	 * Returns true if the mbean associated with the given name is registered with the MBean server.
+	 * 
+	 * @param objectName the MBean object name.
+	 * @return true if the mbean associated with the given name is registered with the MBean server.
+	 */
+	public static boolean isAlreadyRegistered(final ObjectName objectName) {
+		return MX_SERVER.isRegistered(objectName);
+	}
+
+	/**
+	 * Unregisters an MBean.
+	 * 
+	 * @param objectName the MBean object name.
+	 */
+	public static void unregister(final ObjectName objectName) {
+		try {
+			MX_SERVER.unregisterMBean(objectName);
+		} catch (final InstanceNotFoundException ignore) {
+			// Ignore...the MBean has been already unregistered.
+		} catch (final JMException exception) {
 			throw new RuntimeException(exception);
 		}
 	}

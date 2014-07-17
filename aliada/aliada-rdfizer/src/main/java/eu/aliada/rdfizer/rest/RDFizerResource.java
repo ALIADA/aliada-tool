@@ -12,20 +12,23 @@ import java.io.IOException;
 import java.lang.management.ManagementFactory;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.sql.Timestamp;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.inject.Singleton;
-import javax.management.InstanceAlreadyExistsException;
 import javax.management.JMException;
-import javax.management.MBeanRegistrationException;
 import javax.management.MBeanServer;
-import javax.management.NotCompliantMBeanException;
+import javax.management.ObjectName;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
@@ -33,13 +36,17 @@ import javax.ws.rs.core.UriInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataAccessException;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
 import eu.aliada.rdfizer.datasource.Cache;
 import eu.aliada.rdfizer.datasource.rdbms.JobConfiguration;
+import eu.aliada.rdfizer.datasource.rdbms.JobConfigurationRepository;
 import eu.aliada.rdfizer.log.MessageCatalog;
+import eu.aliada.rdfizer.mx.InMemoryJobResourceRegistry;
 import eu.aliada.rdfizer.mx.ManagementRegistrar;
 import eu.aliada.rdfizer.mx.RDFizer;
+import eu.aliada.rdfizer.rest.sto.Jobs;
 import eu.aliada.shared.log.Log;
 
 /**
@@ -67,7 +74,15 @@ public class RDFizerResource implements RDFizer {
 	@Autowired
 	protected Cache cache;
 
+	@Autowired
+	protected InMemoryJobResourceRegistry jobRegistry;
+
+	@Autowired
+	protected JobConfigurationRepository jobConfigurationRepository;
+	
 	protected boolean enabled = true;
+	
+	protected AtomicInteger runningJobCount = new AtomicInteger();
 	
 	@PUT
 	@Path("/enable")
@@ -83,6 +98,56 @@ public class RDFizerResource implements RDFizer {
 		enabled = false;
 	}
 
+	/**
+	 * Returns a short summary of all jobs managed by this RDFizer instance.
+	 * Jobs are divided by status: running and completed.
+	 * For each job a minimal set of information are returned, if caller wants to know more about 
+	 * a specific job then a call to {@link #getJob(Integer)} must be issued.
+	 * 
+	 * @return a short summary of all jobs managed by this RDFizer instance.
+	 */
+	@GET
+	@Path("/jobs")
+	@Produces({MediaType.TEXT_XML, MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+	public Response getJobs() {
+		return Response.ok()
+				.entity(
+						new Jobs(
+								jobConfigurationRepository.findAll(
+										new Sort(
+												Sort.Direction.DESC, 
+												"startDate"))))
+												.build();
+	}
+	
+	/**
+	 * Returns a detailed summary of the job associated with the given identifier.
+	 * 
+	 * @param id the job identifier.
+	 * @return a detailed summary of the job associated with the given identifier.
+	 */
+	@GET
+	@Path("/jobs/{jobid}")
+	@Produces({MediaType.TEXT_XML, MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+	public Response getJob(@PathParam("jobid") final Integer id) {
+		final JobConfiguration configuration = cache.getJobConfiguration(id);
+		if (configuration == null) {
+			LOGGER.error(MessageCatalog._00032_JOB_CONFIGURATION_NOT_FOUND, id);
+			return Response.status(Status.NOT_FOUND).build();											
+		}
+		
+		final ObjectName objectName = ManagementRegistrar.createJobObjectName(configuration.getFormat(), id);
+		if (ManagementRegistrar.isAlreadyRegistered(objectName)) {
+			// TODO: in the final implementation we mustn't rely on job registry but instead we should 
+			// build a DTO for each invocation.
+			final JobResource resource = jobRegistry.getJobResource(id);
+			return Response.ok().entity(resource).build();
+		} else {
+			final JobResource resource = new JobResource(configuration);
+			return Response.ok().entity(resource).build();
+		}
+	}
+	
 	/**
 	 * Creates a new job on the RDF-izer.
 	 * 
@@ -108,7 +173,7 @@ public class RDFizerResource implements RDFizer {
 			final JobConfiguration configuration = cache.getJobConfiguration(id);
 			if (configuration == null) {
 				LOGGER.error(MessageCatalog._00032_JOB_CONFIGURATION_NOT_FOUND, id);
-				return Response.status(Status.BAD_REQUEST).build();								
+				return Response.status(Status.NOT_FOUND).build();								
 			}
 			
 			final File datafile = new File(configuration.getDatafile());
@@ -131,18 +196,24 @@ public class RDFizerResource implements RDFizer {
 			
 			try {
 				final JobResource newJobResource = new JobResource(configuration);
+				newJobResource.setRunning(true);
 				ManagementRegistrar.registerJob(newJobResource);
+				jobRegistry.addJobResource(newJobResource);
 			} catch (JMException exception) {
 				LOGGER.error(MessageCatalog._00045_MX_JOB_RESOURCE_REGISTRATION_FAILED, configuration.getId());
 			}
 			
 			Files.move(source, target, REPLACE_EXISTING);
+
+			configuration.setStartDate(new Timestamp(System.currentTimeMillis()));
+			jobConfigurationRepository.save(configuration);
+			runningJobCount.incrementAndGet();
 			return Response.created(uriInfo.getAbsolutePathBuilder().build()).build();
 		} catch (final IOException exception) {
-			LOGGER.debug(MessageCatalog._00030_NEW_JOB_REQUEST_DEBUG, id, path);
+			LOGGER.error(MessageCatalog._00030_NEW_JOB_REQUEST_DEBUG, id, path);
 			return Response.serverError().build();						
 		} catch (final DataAccessException exception)  {
-			LOGGER.debug(MessageCatalog._00031_DATA_ACCESS_FAILURE, exception);
+			LOGGER.error(MessageCatalog._00031_DATA_ACCESS_FAILURE, exception);
 			return Response.serverError().build();						
 		}
 	}
@@ -221,13 +292,11 @@ public class RDFizerResource implements RDFizer {
 
 	@Override
 	public int getRunningJobsCount() {
-		// TODO Auto-generated method stub
-		return 0;
+		return runningJobCount.get();
 	}
 
 	@Override
 	public int getCompletedJobsCount() {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 

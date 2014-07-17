@@ -5,6 +5,8 @@
 // Responsible: ALIADA Consortiums
 package eu.aliada.rdfizer.datasource.rdbms;
 
+import java.sql.Timestamp;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -33,8 +35,14 @@ public class JobConfiguration {
     private String namespace;
         
     @Column(name = "aliada_ontology", nullable = false)
-    private String aliadaOntonologyNamespace;
+    private String aliadaOntologyNamespace;
     
+    @Column(name = "start_date", nullable = true)
+    private Timestamp startDate;
+
+    @Column(name = "end_date", nullable = true)
+    private Timestamp endDate;
+
     /**
      * Returns the identifier of this job configuration.
      * 
@@ -113,15 +121,51 @@ public class JobConfiguration {
      * @return the ALIADA ontology namespace of this job configuration.
      */
 	public String getAliadaOntologyNamespace() {
-		return aliadaOntonologyNamespace;
+		return aliadaOntologyNamespace;
 	}
 
 	/**
 	 * Sets the ALIADA ontology namespace of this job configuration.
 	 * 
-	 * @param aliadaOntonologyNamespace the datafile of this job configuration.
+	 * @param aliadaOntologyNamespace the datafile of this job configuration.
 	 */
-	public void setAliadaOntologyNamespace(final String aliadaOntonologyNamespace) {
-		this.aliadaOntonologyNamespace = aliadaOntonologyNamespace;
+	public void setAliadaOntologyNamespace(final String aliadaOntologyNamespace) {
+		this.aliadaOntologyNamespace = aliadaOntologyNamespace;
+	}
+
+	/**
+	 * Returns the start date of this job.
+	 * 
+	 * @return the start date of this job.
+	 */
+	public Timestamp getStartDate() {
+		return startDate;
+	}
+
+	/**
+	 * Sets the start date of this job.
+	 * 
+	 * @param startDate the start date of this job.
+	 */
+	public void setStartDate(final Timestamp startDate) {
+		this.startDate = startDate;
+	}
+
+	/**
+	 * Returns the end date of this job.
+	 * 
+	 * @return the end date of this job.
+	 */
+	public Timestamp getEndDate() {
+		return endDate;
+	}
+
+	/**
+	 * Sets the end date of this job.
+	 * 
+	 * @param endDate the end date of this job.
+	 */
+	public void setEndDate(final Timestamp endDate) {
+		this.endDate = endDate;
 	}		
 }

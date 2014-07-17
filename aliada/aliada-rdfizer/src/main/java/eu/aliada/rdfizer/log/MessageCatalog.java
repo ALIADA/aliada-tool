@@ -50,4 +50,6 @@ public interface MessageCatalog {
 	String _00043_MX_RESOURCE_ALREADY_REGISTERED = LT + MODULE_NAME + "-00043> : Management interface already registered (%s). Probably it hasn't been properly unregistered.";
 	String _00044_MX_RESOURCE_REGISTERED = LT + MODULE_NAME + "-00044> : Management interface %s has been registered.";
 	String _00045_MX_JOB_RESOURCE_REGISTRATION_FAILED = LT + MODULE_NAME + "-00045> : Management interface for Job %s cannot be registered. See below for further details.";
+	String _00046_JOB_SIZE = LT + MODULE_NAME + "-00046> : Job associated with id %s consists of %s records.";
+	String _00047_EMPTY_INCOMING_RECORD_STREAM = LT + MODULE_NAME + "-00047> : Incoming string stream doesn't contain a valid record.";
 }
