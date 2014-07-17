@@ -137,7 +137,7 @@ public class LinkedDataServerSetup {
 			}
 		}
 		
-		//Update job end_date of DDBB, if needed
+		//Update job end_date of DDBB
 		logger.info(MessageCatalog._00057_UPDATING_JOB_DDBB, jobConf.getId());
 		db.updateJobEndDate(jobConf.getId());
 		Job job = db.getJob(jobConf.getId());
