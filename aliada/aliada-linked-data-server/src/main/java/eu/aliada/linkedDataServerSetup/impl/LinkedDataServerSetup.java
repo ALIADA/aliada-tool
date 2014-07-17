@@ -115,7 +115,7 @@ public class LinkedDataServerSetup {
 			logger.info(MessageCatalog._00037_ENCODE_PARAMS);
 			boolean encoded = encodeParams(jobConf);
 			if(encoded) {
-				//Compose ISQL command calling statement
+				//Compose ISQL command execution statement
 				String isqlCommandFormat = "%s %s:%d %s %s %s -i %s %s";
 				String isqlCommand = String.format(isqlCommandFormat,
 						jobConf.getIsqlCommandPath(), jobConf.getStoreIp(),

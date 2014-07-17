@@ -13,6 +13,21 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import com.hp.hpl.jena.update.UpdateFactory;
+import com.hp.hpl.jena.update.UpdateRequest;
+import com.hp.hpl.jena.update.UpdateExecutionFactory;
+import com.hp.hpl.jena.update. UpdateProcessor;
+import com.hp.hpl.jena.sparql.modify.UpdateProcessRemoteForm;
+
+import org.apache.http.protocol.HttpContext;
+import org.apache.http.protocol.BasicHttpContext;
+import org.apache.http.client.CredentialsProvider;
+import org.apache.http.impl.client.BasicCredentialsProvider;
+import org.apache.http.auth.AuthScope;
+import org.apache.http.auth.UsernamePasswordCredentials;
+
+import org.apache.http.client.protocol.HttpClientContext;
+
 import org.apache.commons.codec.binary.Base64;
 
 import eu.aliada.shared.log.MessageCatalog;
@@ -61,7 +76,7 @@ public class RDFStoreDAO {
 	 * It loads triples in a graph in the RDF store.
 	 *
 	 * @param triplesFilename	the path of the file containing the triples to load.  
-	 * @param rdfSinkFolder		the URI of the RDF SINK folder in Virtuoso.  
+	 * @param rdfSinkFolder		the URI of the RDF SINK folder in the RDF Store.  
 	 * @param user				the login required for authentication in the RDF store.
 	 * @param password			the password required for authentication in the RDF store.
 	 * @return true if the triples have been loaded. False otherwise.
@@ -113,5 +128,37 @@ public class RDFStoreDAO {
 	    }
 		return done;
 	}
-}
 
+	/**
+	 * It executes an UPDATE SPARQL query on the SPARQL endpoint.
+	 *
+	 * @param sparqlEndpointURI		the SPARQl endpoint URI.  
+	 * @param user					the user name for the SPARQl endpoint.
+	 * @param password				the password for the SPARQl endpoint.
+	 * @param query					the UPDATE query to execute.
+	 * @return true if the graph has been cleared. False otherwise.
+	 * @since 1.0
+	 */
+	public boolean executeUpdateQuerySparqlEndpoint(String sparqlEndpointURI, String user, String password, String query) {
+		boolean done = false;
+		try {
+			//Authentication 
+			HttpContext httpContext = new BasicHttpContext();
+			CredentialsProvider provider = new BasicCredentialsProvider();
+			provider.setCredentials(new AuthScope(AuthScope.ANY_HOST,
+					AuthScope.ANY_PORT), new UsernamePasswordCredentials(user, password));
+			httpContext.setAttribute(HttpClientContext.CREDS_PROVIDER, provider);
+		
+			// Execute the query 
+			UpdateRequest update = UpdateFactory.create(query);
+		
+			UpdateProcessor processor = UpdateExecutionFactory.createRemoteForm(update, sparqlEndpointURI);
+			((UpdateProcessRemoteForm)processor).setHttpContext(httpContext);
+			processor.execute();
+			done = true;
+		} catch (Exception exception) {
+			logger.error(MessageCatalog._00035_SPARQL_FAILED, exception, query);
+		}
+		return done;
+	}
+}

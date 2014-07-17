@@ -17,4 +17,5 @@ public interface MessageCatalog {
 		
 	String _00033_EXTERNAL_PROCESS_START_FAILURE = LT + MODULE_NAME + "-00033> : Could not launch the external process %s.";		
 	String _00034_HTTP_PUT_FAILED = LT + MODULE_NAME + "-00034> : HTTP PUT failed %s.";
+	String _00035_SPARQL_FAILED = LT + MODULE_NAME + "-00035> : SPARQL %s failed.";
 }
