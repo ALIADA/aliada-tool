@@ -108,6 +108,9 @@ public class DBConnectionManager {
 				job.setOutputPassword(resultSet.getString("output_password"));
 				job.setOutputGraph(resultSet.getString("output_graph"));
 				job.setConfigFile(resultSet.getString("config_file"));
+				job.setRdfSinkFolder(resultSet.getString("rdf_sink_folder"));
+				job.setRdfSinkLogin(resultSet.getString("rdf_sink_login"));
+				job.setRdfSinkPassword(resultSet.getString("rdf_sink_password"));
 				job.setTmpDir(resultSet.getString("tmp_dir"));
 				job.setClientAppBinDir(resultSet.getString("client_app_bin_dir"));
 		    }
@@ -184,11 +187,11 @@ public class DBConnectionManager {
 	 * @return true if the subjob has been inserted correctly in the DDBB. False otherwise.
 	 * @since 1.0
 	 */
-	public boolean insertSubjobToDDBB(int jobId, int subjobId, SubjobConfiguration subjobConf, String linkingXMLConfigFilename, String tmpDir){
+	public boolean insertSubjobToDDBB(int jobId, int subjobId, SubjobConfiguration subjobConf, String linkingXMLConfigFilename, JobConfiguration jobConf){
     	try {
     		PreparedStatement preparedStatement = null;		
-    		preparedStatement = conn.prepareStatement("INSERT INTO  linksdiscovery_subjob_instances VALUES (?, ?, ?, ?, ?, ?, ?, default, default, default)");
-    		// (job_id, subjob_id, name, config_file, num_threads, reload, tmp_dir, num_links, start_date, end_date)
+    		preparedStatement = conn.prepareStatement("INSERT INTO  linksdiscovery_subjob_instances VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, default, default, default)");
+    		// (job_id, subjob_id, name, config_file, num_threads, reload, rdf_sink_folder, rdf_sink_login, rdf_sink_password, tmp_dir, num_links, start_date, end_date)
     		// parameters start with 1
     		preparedStatement.setInt(1, jobId);
     		preparedStatement.setInt(2, subjobId);
@@ -196,7 +199,10 @@ public class DBConnectionManager {
     		preparedStatement.setString(4, linkingXMLConfigFilename);
     		preparedStatement.setInt(5, subjobConf.geLinkingNumThreads());
     		preparedStatement.setBoolean(6, subjobConf.getLinkingReload());
-    		preparedStatement.setString(7, tmpDir);
+    		preparedStatement.setString(7, jobConf.getRdfSinkFolder());
+    		preparedStatement.setString(8, jobConf.getRdfSinkLogin());
+    		preparedStatement.setString(9, jobConf.getRdfSinkPassword());
+    		preparedStatement.setString(10, jobConf.getTmpDir());
     		preparedStatement.executeUpdate();
 		} catch (SQLException exception) {
 			logger.error(MessageCatalog._00024_DATA_ACCESS_FAILURE, exception);

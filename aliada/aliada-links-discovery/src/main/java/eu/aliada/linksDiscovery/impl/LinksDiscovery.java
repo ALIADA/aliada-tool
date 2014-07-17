@@ -296,7 +296,7 @@ public class LinksDiscovery {
 					outputsElem.appendChild(outputElem);
 
 					//Create new <Output> element for a File
-					String triplesGeneratedFilename = fileNameWithPathNoExt + "output.nt";
+					String triplesGeneratedFilename = fileNameWithPathNoExt + "output.n3";
 					outputElem = doc.createElement("Output"); 
 					//set attributes to Output element
 					attrType = doc.createAttribute("type"); 
@@ -401,8 +401,13 @@ public class LinksDiscovery {
 			FileWriter fstream = new FileWriter(crontabFilename,true);
 			BufferedWriter out = new BufferedWriter(fstream);
 			Calendar calendar = Calendar.getInstance();
-			//We add an hour to start the programmed processes for every subjob
-			calendar.add(Calendar.HOUR_OF_DAY, subjobId);
+			if(subjobId <= 1) {
+				//If it is the first subjob, add 5 minutes for starting the programmed process
+				calendar.add(Calendar.MINUTE, 5);
+			} else {
+				//We add an hour to start the programmed processes for every other subjob
+				calendar.add(Calendar.HOUR_OF_DAY, subjobId - 1);
+			}
 			int hour = calendar.get(Calendar.HOUR_OF_DAY);
 			int minute = calendar.get(Calendar.MINUTE);
 			int day = calendar.get(Calendar.DAY_OF_MONTH);
@@ -460,7 +465,7 @@ public class LinksDiscovery {
 						if(insertLinkingProcessInCrontabFile(crontabFilename, jobConf.getClientAppBinDir(), jobConf.getId(), subjobId, linkingPropConfigFilename)){
 							//Insert job-subjob in DDBB
 							logger.info(MessageCatalog._00042_INSERT_SUBJOB_DDBB, jobConf.getId(), subjobId);
-							db.insertSubjobToDDBB(jobConf.getId(), subjobId, subjobConf[i], linkingXMLConfigFilename,jobConf.getTmpDir());
+							db.insertSubjobToDDBB(jobConf.getId(), subjobId, subjobConf[i], linkingXMLConfigFilename,jobConf);
 						}
 					}
 				}

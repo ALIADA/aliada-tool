@@ -37,6 +37,10 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+
+//??????
+import eu.aliada.shared.rdfstore.RDFStoreDAO;
+
 /**
  * Links discovery process which uses SILK library for discovering links. 
  * 
@@ -63,8 +67,14 @@ public class LinkingProcess {
 	/* Input paramaters for SILK */
 	private int linkingNumThreads;
 	private boolean linkingReload;
+	/* RDF SINK parameters of the RDF Store*/
+	private String rdfSinkFolder;
+	private String rdfSinkLogin;
+	private String rdfSinkPassword;
 	/* Temporary folder */
 	private String tmpDir;
+	/* Name of the file containing the links */
+	private String triplesFilename;
 
 	/**
 	 * Gets the properties from a properties file.
@@ -153,6 +163,9 @@ public class LinkingProcess {
 	    		linkingNumThreads = resultSet.getInt("num_threads");
 	    		linkingReload = resultSet.getBoolean("reload");
 	    		tmpDir = resultSet.getString("tmp_dir");
+				rdfSinkFolder = resultSet.getString("rdf_sink_folder");
+				rdfSinkLogin = resultSet.getString("rdf_sink_login");
+				rdfSinkPassword = resultSet.getString("rdf_sink_password");
 	    		//Verify that the XML configuration file for SILK really exists
 	    		try{
 	    			linkingXMLConfigFile = new File(linkingXMLConfigFilename);
@@ -352,7 +365,7 @@ public class LinkingProcess {
 	 */
 	public int getNumLinks(){
 		int numLinks = 0;
-		String triplesFilename = getTriplesFilename();
+		triplesFilename = getTriplesFilename();
 		try{
 			BufferedReader br = new BufferedReader(new FileReader(triplesFilename));
 			while ((br.readLine()) != null) {
@@ -511,6 +524,9 @@ public class LinkingProcess {
 			//Check the number of generated links
 			lProcess.logger.info(MessageCatalog._00060_VALIDATING_NUM_GENERATED_LINKS, lProcess.linkingXMLConfigFile, lProcess.linkingNumThreads, lProcess.linkingReload);
 			int numLinks = lProcess.getNumLinks();
+			//Upload generated links to RDF store
+			RDFStoreDAO rdfstoreDAO = new RDFStoreDAO();
+			rdfstoreDAO.loadDataIntoGraph(lProcess.triplesFilename, lProcess.rdfSinkFolder, lProcess.rdfSinkLogin, lProcess.rdfSinkPassword);
 			//Update subjob end_date, num_links of DDBB
 			lProcess.logger.info(MessageCatalog._00056_UPDATING_SUBJOB_DDBB, job, subjob);
 			lProcess.updateSubjobEndDate(job, subjob, numLinks);

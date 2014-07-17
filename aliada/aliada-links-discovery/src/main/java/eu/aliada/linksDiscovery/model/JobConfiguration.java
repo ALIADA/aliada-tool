@@ -22,6 +22,9 @@ public class JobConfiguration {
 	private String outputPassword;
 	private String outputGraph;
 	private String configFile;
+	private String rdfSinkFolder;
+	private String rdfSinkLogin;
+	private String rdfSinkPassword;
 	private String tmpDir;
 	private String clientAppBinDir;
     
@@ -199,6 +202,58 @@ public class JobConfiguration {
 		this.configFile = configFile;
 	}		
 
+	/**
+	 * Returns the URI of the RDF SINK Folder of the RDF store.
+	 * 
+	 * @return The URI of the RDF SINK Folder of the RDF store.
+	 */
+	public String getRdfSinkFolder() {
+		return rdfSinkFolder;
+	}
+	/**
+	 * Sets the URI of the RDF SINK Folder of the RDF store.
+	 * 
+	 * @param rdfSinkFolder The URI of the RDF SINK Folder of the RDF store.
+	 */
+	public void setRdfSinkFolder(String rdfSinkFolder) {
+		this.rdfSinkFolder = rdfSinkFolder;
+	}
+
+	/**
+	 * Returns the login required for authentication in the RDF SINK Folder of the RDF store.
+	 * 
+	 * @return The login required for authentication in the RDF SINK Folder of the RDF store.
+	 */
+	public String getRdfSinkLogin() {
+		return rdfSinkLogin;
+	}
+	/**
+	 * Sets the login required for authentication in the RDF SINK Folder of the RDF store.
+	 * 
+	 * @param rdfSinkLogin The login required for authentication in the RDF SINK Folder of the RDF store.
+	 */
+	public void setRdfSinkLogin(String rdfSinkLogin) {
+		this.rdfSinkLogin = rdfSinkLogin;
+	}
+	
+	/**
+	 * Returns the password required for authentication in the RDF SINK Folder of the RDF store.
+	 * 
+	 * @return The password required for authentication in the RDF SINK Folder of the RDF store.
+	 */
+	public String getRdfSinkPassword() {
+		return rdfSinkPassword;
+	}
+	/**
+	 * Sets the password required for authentication in the RDF SINK Folder of the RDF store.
+	 * 
+	 * @param rdfSinkPassword Password required for authentication in the RDF SINK Folder of the RDF store.
+	 */
+	public void setRdfSinkPassword(String rdfSinkPassword) {
+		this.rdfSinkPassword = rdfSinkPassword;
+	}	
+	
+	
 	/**
 	 * Returns the path of the temporary directory for creating temporary files.
 	 * 

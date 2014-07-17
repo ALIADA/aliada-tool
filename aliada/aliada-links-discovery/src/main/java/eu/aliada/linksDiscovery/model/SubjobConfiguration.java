@@ -17,7 +17,7 @@ public class SubjobConfiguration {
 	private String ds;
 	private int linkingNumThreads;
 	private boolean linkingReload;
-    
+   
 	/**
 	 * Returns the name of the subjob.
 	 * 
@@ -104,5 +104,4 @@ public class SubjobConfiguration {
 	public void setLinkingReload(boolean linkingReload) {
 		this.linkingReload = linkingReload;
 	}
-	
 }
