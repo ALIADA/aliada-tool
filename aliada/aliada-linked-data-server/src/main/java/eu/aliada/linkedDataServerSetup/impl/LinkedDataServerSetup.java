@@ -19,7 +19,7 @@ import java.net.URLEncoder;
 
 /**
  * Linked Data Server setup implementation. 
- * It setups the rewrite rules in Virtuoso for dereferencing the dataset URI-s.
+ * It setups the rewrite rules in Virtuoso for de-referencing the dataset URI-s.
  *  
  * @author Idoia Murua
  * @since 1.0

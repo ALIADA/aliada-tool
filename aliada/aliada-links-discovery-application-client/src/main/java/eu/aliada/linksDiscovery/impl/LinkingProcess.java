@@ -526,7 +526,9 @@ public class LinkingProcess {
 			int numLinks = lProcess.getNumLinks();
 			//Upload generated links to RDF store
 			RDFStoreDAO rdfstoreDAO = new RDFStoreDAO();
-			rdfstoreDAO.loadDataIntoGraph(lProcess.triplesFilename, lProcess.rdfSinkFolder, lProcess.rdfSinkLogin, lProcess.rdfSinkPassword);
+			lProcess.logger.info(MessageCatalog._00068_UPLOADING_GENERATED_LINKS, lProcess.triplesFilename);
+			if(!rdfstoreDAO.loadDataIntoGraph(lProcess.triplesFilename, lProcess.rdfSinkFolder, lProcess.rdfSinkLogin, lProcess.rdfSinkPassword))
+				lProcess.logger.error(MessageCatalog._00069_TRIPLES_FILE_UPLOAD_ERROR, lProcess.triplesFilename);
 			//Update subjob end_date, num_links of DDBB
 			lProcess.logger.info(MessageCatalog._00056_UPDATING_SUBJOB_DDBB, job, subjob);
 			lProcess.updateSubjobEndDate(job, subjob, numLinks);

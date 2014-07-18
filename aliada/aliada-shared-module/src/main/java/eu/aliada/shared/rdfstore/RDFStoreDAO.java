@@ -43,20 +43,20 @@ public class RDFStoreDAO {
 	private final Log logger = new Log(RDFStoreDAO.class);
 
 	/**
-	 * It clears the graph in the RDF store.
+	 * It clears the graph in the RDF store using ISQL.
 	 *
 	 * @param isqlCommandPath	the path of the ISQL command of the RDF store.  
 	 * @param storeIp			the IP of the RDF store.  
 	 * @param storeSqlPort		the port for SQL data access.  
 	 * @param user				the login required for authentication in the RDF store.
 	 * @param password			the password required for authentication in the RDF store.
-	 * @param graphName			the name of the graph.
+	 * @param graphUri			the URI of the graph.
 	 * @return true if the graph has been cleared. False otherwise.
 	 * @since 1.0
 	 */
-	public boolean clearGraph(String isqlCommandPath, String storeIp, int storeSqlPort, String user, String password, String graphName) {
+	public boolean clearGraphByIsql(String isqlCommandPath, String storeIp, int storeSqlPort, String user, String password, String graphUri) {
 		boolean done = false;
-		String clearGraphSPARQL = "EXEC=SPARQL CLEAR GRAPH <" + graphName + ">;";
+		String clearGraphSPARQL = "EXEC=SPARQL CLEAR GRAPH <" + graphUri + ">;";
 		//Compose ISQL command calling statement
 		String isqlCommandFormat = "%s %s:%d %s %s \"%s\"";
 		String isqlCommand = String.format(isqlCommandFormat,
@@ -121,7 +121,6 @@ public class RDFStoreDAO {
 				done = false;
 			}
 			((HttpURLConnection)connection).disconnect();
-			done = true;
 		} catch (Exception exception) {
 			done = false;
 			logger.error(MessageCatalog._00034_HTTP_PUT_FAILED, exception, rdfSinkFolder);
@@ -132,11 +131,11 @@ public class RDFStoreDAO {
 	/**
 	 * It executes an UPDATE SPARQL query on the SPARQL endpoint.
 	 *
-	 * @param sparqlEndpointURI		the SPARQl endpoint URI.  
+	 * @param sparqlEndpointURI		the SPARQL endpoint URI.  
 	 * @param user					the user name for the SPARQl endpoint.
 	 * @param password				the password for the SPARQl endpoint.
 	 * @param query					the UPDATE query to execute.
-	 * @return true if the graph has been cleared. False otherwise.
+	 * @return true if the SPARQL has been executed. False otherwise.
 	 * @since 1.0
 	 */
 	public boolean executeUpdateQuerySparqlEndpoint(String sparqlEndpointURI, String user, String password, String query) {
@@ -161,4 +160,23 @@ public class RDFStoreDAO {
 		}
 		return done;
 	}
+
+	/**
+	 * It clears the graph in the RDF store using SPARQL endpoint.
+	 *
+	 * @param sparqlEndpointURI		the SPARQL endpoint URI.  
+	 * @param user					the user name for the SPARQl endpoint.
+	 * @param password				the password for the SPARQl endpoint.
+	 * @param graphUri				the URI of the graph.
+	 * @return true if the graph has been cleared. False otherwise.
+	 * @since 1.0
+	 */
+	public boolean clearGraphBySparql(String sparqlEndpointURI, String user, String password, String graphUri) {
+		boolean done = false;
+		String clearGraphSPARQL = "CLEAR GRAPH <" + graphUri + ">;";
+		//Execute SPARQL
+		done = executeUpdateQuerySparqlEndpoint(sparqlEndpointURI, user, password, clearGraphSPARQL);
+		return done;
+	}
+
 }

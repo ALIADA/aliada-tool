@@ -41,4 +41,6 @@ public interface MessageCatalog {
 	String _00065_REMOVING_CONFIG_FILES = LT + MODULE_NAME + "-00065> : Removing configuration files.";
 	String _00066_FILE_REMOVING_FAILURE = LT + MODULE_NAME + "-00066> : Error removing configuration files %s.";
 	String _00067_SUBJOB_CONFIGURATION_NOT_FOUND = LT + MODULE_NAME + "-00067> : Unable to find a configuration for creating a subjob with job_id %s, subjob_id %d.";	
+	String _00068_UPLOADING_GENERATED_LINKS = LT + MODULE_NAME + "-00068> : Uploading the generated links in triples file %s to the RDF store.";
+	String _00069_TRIPLES_FILE_UPLOAD_ERROR = LT + MODULE_NAME + "-00069> : The triples file %s with the generated links could not be uploaded.";
 }
