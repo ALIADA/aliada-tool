@@ -1,8 +1,8 @@
 CREATE DATABASE IF NOT EXISTS `aliada` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 
-CREATE USER 'aliada'@'%' IDENTIFIED BY '******';
+CREATE USER 'aliada'@'%' IDENTIFIED BY 'aliada';
 
-GRANT ALL PRIVILEGES ON * . * TO 'aliada'@'%' IDENTIFIED BY '******' WITH GRANT OPTION MAX_QUERIES_PER_HOUR 0 MAX_CONNECTIONS_PER_HOUR 0 MAX_UPDATES_PER_HOUR 0 MAX_USER_CONNECTIONS 0 ;
+GRANT ALL PRIVILEGES ON * . * TO 'aliada'@'%' IDENTIFIED BY 'aliada' WITH GRANT OPTION MAX_QUERIES_PER_HOUR 0 MAX_CONNECTIONS_PER_HOUR 0 MAX_UPDATES_PER_HOUR 0 MAX_USER_CONNECTIONS 0 ;
 
 CREATE TABLE `aliada`.`t_user_role` (
 `user_role_code` INT NOT NULL ,
@@ -61,9 +61,42 @@ CREATE TABLE IF NOT EXISTS `aliada`.`organisation` (
 --
 -- Volcar la base de datos para la tabla `organisation`
 --
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `organisation_data_server_configuration`
+--
+
+CREATE TABLE `aliada`.`organisation_data_server_configuration` (
+`organisation_name` varchar(32) NOT NULL,
+`linking_config_file`  VARCHAR( 245 ) default NULL, 
+`tmp_dir`  VARCHAR( 245 ) default NULL,
+`linking_client_app_bin_dir`  VARCHAR( 245 ) default NULL, 
+`sparql_endpoint_uri`  VARCHAR( 245 ) default NULL, 
+`sparql_endpoint_login`  VARCHAR( 32 ) default NULL, 
+`sparql_endpoint _password`  VARCHAR( 32 ) default NULL, 
+`graph_uri`  VARCHAR( 245 ) default NULL, 
+`rdf_sink_folder`  VARCHAR( 245 ) default NULL, 
+`rdf_sink_login`  VARCHAR( 32 ) default NULL, 
+`rdf_sink_password`  VARCHAR( 32 ) default NULL, 
+`store_ip`  VARCHAR( 245 ) default NULL, 
+`store_sql_port`  INT default 1111, 
+`sql_login`  VARCHAR( 32 ) default NULL, 
+`sql_password`  VARCHAR( 32 ) default NULL, 
+`dataset_base`  VARCHAR( 245 ) default NULL, 
+`isql_command_path`  VARCHAR( 245 ) default NULL, 
+`isql_commands_file`  VARCHAR( 245 ) default NULL, 
+`isql_commands_file_default`  VARCHAR( 245 ) default NULL, 
+PRIMARY KEY ( `organisation_name` )
+) ENGINE = InnoDB  DEFAULT CHARSET=utf8;
+
+--
+-- Volcar la base de datos para la tabla `organisation_data_server_configuration`
+--
 
 
 -- --------------------------------------------------------
+
 
 --
 -- Estructura de tabla para la tabla `profile`
@@ -345,6 +378,21 @@ INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_desc
 ('100', 0, '', 0),
 ('245', 1, '', 0);
 
+
+CREATE TABLE IF NOT EXISTS `aliada`.`t_external_dataset` (
+  `external_dataset_code` int(11) NOT NULL,
+  `external_dataset_name` varchar(32) NOT NULL,
+  `external_dataset_description` varchar(128) default NULL,
+  PRIMARY KEY  (`external_dataset_code`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Volcar la base de datos para la tabla `t_external_dataset`
+--
+
+INSERT INTO `aliada`.`t_external_dataset` (`external_dataset_code`, `external_dataset_name`, `external_dataset_description`) VALUES
+(0, 'DBPedia', NULL),
+(1, 'GeoNames', NULL);
 --
 -- Filtros para las tablas descargadas (dump)
 --
