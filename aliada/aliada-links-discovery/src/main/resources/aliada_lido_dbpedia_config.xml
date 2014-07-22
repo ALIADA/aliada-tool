@@ -46,10 +46,6 @@
 	  <Filter/>
 
 	  <Outputs>
-		 <Output id="lido_dbpedia_result_actor" type="file">
-		  <Param name="file" value="lido_dbpedia_output_actor.nt"/>
-		  <Param name="format" value="ntriples"/>
-		</Output>
       </Outputs>
 	</Interlink>
 
@@ -76,10 +72,6 @@
 	  <Filter/>
 
 	  <Outputs>
-		 <Output id="lido_dbpedia_resul_place" type="file">
-		  <Param name="file" value="lido_dbpedia_output_place.nt"/>
-		  <Param name="format" value="ntriples"/>
-		</Output>
       </Outputs>
 	</Interlink>
 
