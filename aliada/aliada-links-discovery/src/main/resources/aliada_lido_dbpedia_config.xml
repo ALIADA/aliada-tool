@@ -32,7 +32,7 @@
 		<RestrictTo> ?b &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#type&gt; &lt;http://dbpedia.org/ontology/Agent&gt; . </RestrictTo>
 	  </TargetDataset>
 	  <LinkageRule>
-		<Compare id="unnamed_6" required="false" weight="1" metric="levenshteinDistance" threshold="3" indexing="true">
+		<Compare id="unnamed_6" required="false" weight="1" metric="levenshteinDistance" threshold="3">
 			<TransformInput id="unnamed_7" function="lowerCase">
 				<Input id="unnamed_8" path="?actor/&lt;http://erlangen-crm.org/current/P131_is_identified_by&gt;[&lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#type&gt; = &lt;http://erlangen-crm.org/current/E82_Actor_Appellation&gt;]/&lt;http://erlangen-crm.org/current/P3_has_note&gt;"/>
 			</TransformInput>
@@ -58,7 +58,7 @@
 		<RestrictTo> ?b &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#type&gt; &lt;http://dbpedia.org/ontology/Place&gt; . </RestrictTo>
 	  </TargetDataset>
 	  <LinkageRule>
-		<Compare id="unnamed_11" required="false" weight="1" metric="levenshteinDistance" threshold="0.0" indexing="true">
+		<Compare id="unnamed_11" required="false" weight="1" metric="levenshteinDistance" threshold="0.0">
 			<TransformInput id="unnamed_12" function="lowerCase">
 				<Input id="unnamed_13" path="?place/&lt;http://erlangen-crm.org/current/P87_is_identified_by&gt;[&lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#type&gt; = &lt;http://erlangen-crm.org/current/E44_Place_Appellation&gt;]/&lt;http://erlangen-crm.org/current/P3_has_note&gt;"/>
 			</TransformInput>
@@ -84,7 +84,7 @@
 		<RestrictTo> ?b &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#type&gt; &lt;http://dbpedia.org/ontology/Work&gt; . </RestrictTo>
 	  </TargetDataset>
 	  <LinkageRule>
-		<Compare id="unnamed_16" required="false" weight="1" metric="levenshteinDistance" threshold="3" indexing="true">
+		<Compare id="unnamed_16" required="false" weight="1" metric="levenshteinDistance" threshold="3">
 			<TransformInput id="unnamed_17" function="lowerCase">
 				<Input id="unnamed_18" path="?work/&lt;http://erlangen-crm.org/current/P1_is_identified_by&gt;[&lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#type&gt; = &lt;http://erlangen-crm.org/current/E41_Appellation&gt;]/&lt;http://erlangen-crm.org/current/P3_has_note&gt;"/>
 			</TransformInput>
