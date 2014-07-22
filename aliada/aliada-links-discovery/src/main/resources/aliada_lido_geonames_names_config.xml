@@ -27,7 +27,7 @@
   </DataSources>
   
   <Interlinks>
-	<Interlink id="lido_geonames_place">
+    <Interlink id="lido_geonames_place">
 	  <LinkType>owl:sameAs</LinkType>
 	  <SourceDataset dataSource="LIDO_ds" var="place">
 		<RestrictTo> ?place rdf:type ecrm:E53_Place . </RestrictTo>
@@ -64,7 +64,7 @@
 
 	  <Outputs>
       </Outputs>
-	</Interlink>
+    </Interlink>
 
   </Interlinks>  
 
