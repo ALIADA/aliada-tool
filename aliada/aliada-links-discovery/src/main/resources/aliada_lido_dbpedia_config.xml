@@ -4,6 +4,9 @@
     <Prefix id="rdf" namespace="http://www.w3.org/1999/02/22-rdf-syntax-ns#"/>
     <Prefix id="owl" namespace="http://www.w3.org/2002/07/owl#"/>
     <Prefix id="rdfs" namespace="http://www.w3.org/2000/01/rdf-schema#"/>
+    <Prefix id="ecrm" namespace="http://erlangen-crm.org/current/"/>
+    <Prefix id="dbpediaont" namespace="http://dbpedia.org/ontology/"/>
+    <Prefix id="dbpediaprop" namespace="http://dbpedia.org/property/"/>
   </Prefixes>
 
   <DataSources>
@@ -24,20 +27,20 @@
   
   <Interlinks>
 	<Interlink id="lido_dbpedia_actor">
-	  <LinkType>&lt;http://www.w3.org/2002/07/owl#sameAs&gt;</LinkType>
+	  <LinkType>owl:sameAs</LinkType>
 	  <SourceDataset dataSource="LIDO_ds" var="actor">
-		<RestrictTo> ?actor &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#type&gt; &lt;http://erlangen-crm.org/current/E39_Actor&gt; . </RestrictTo>
+		<RestrictTo> ?actor rdf:type ecrm:E39_Actor . </RestrictTo>
 	  </SourceDataset>
 	  <TargetDataset dataSource="DBpedia" var="b">
-		<RestrictTo> ?b &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#type&gt; &lt;http://dbpedia.org/ontology/Agent&gt; . </RestrictTo>
+		<RestrictTo> ?b rdf:type dbpediaont:Agent . </RestrictTo>
 	  </TargetDataset>
 	  <LinkageRule>
 		<Compare id="unnamed_6" required="false" weight="1" metric="levenshteinDistance" threshold="3">
 			<TransformInput id="unnamed_7" function="lowerCase">
-				<Input id="unnamed_8" path="?actor/&lt;http://erlangen-crm.org/current/P131_is_identified_by&gt;[&lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#type&gt; = &lt;http://erlangen-crm.org/current/E82_Actor_Appellation&gt;]/&lt;http://erlangen-crm.org/current/P3_has_note&gt;"/>
+				<Input id="unnamed_8" path="?actor/ecrm:P131_is_identified_by[&lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#type&gt; = &lt;http://erlangen-crm.org/current/E82_Actor_Appellation&gt;]/ecrm:P3_has_note"/>
 			</TransformInput>
 			<TransformInput id="unnamed_9" function="lowerCase">
-				<Input id="unnamed_10" path="?b/&lt;http://dbpedia.org/property/name&gt;"/>
+				<Input id="unnamed_10" path="?b/dbpediaprop:name"/>
 			</TransformInput>
 			<Param name="minChar" value="0"/>
 			<Param name="maxChar" value="z"/>
@@ -50,20 +53,20 @@
 	</Interlink>
 
 	<Interlink id="lido_dbpedia_place">
-	  <LinkType>&lt;http://www.w3.org/2002/07/owl#sameAs&gt;</LinkType>
+	  <LinkType>owl:sameAs</LinkType>
 	  <SourceDataset dataSource="LIDO_ds" var="place">
-		<RestrictTo> ?place &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#type&gt; &lt;http://erlangen-crm.org/current/E53_Place&gt; . </RestrictTo>
+		<RestrictTo> ?place rdf:type ecrm:E53_Place . </RestrictTo>
 	  </SourceDataset>
 	  <TargetDataset dataSource="DBpedia" var="b">
-		<RestrictTo> ?b &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#type&gt; &lt;http://dbpedia.org/ontology/Place&gt; . </RestrictTo>
+		<RestrictTo> ?b rdf:type dbpediaont:Place . </RestrictTo>
 	  </TargetDataset>
 	  <LinkageRule>
 		<Compare id="unnamed_11" required="false" weight="1" metric="levenshteinDistance" threshold="0.0">
 			<TransformInput id="unnamed_12" function="lowerCase">
-				<Input id="unnamed_13" path="?place/&lt;http://erlangen-crm.org/current/P87_is_identified_by&gt;[&lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#type&gt; = &lt;http://erlangen-crm.org/current/E44_Place_Appellation&gt;]/&lt;http://erlangen-crm.org/current/P3_has_note&gt;"/>
+				<Input id="unnamed_13" path="?place/ecrm:P87_is_identified_by[&lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#type&gt; = &lt;http://erlangen-crm.org/current/E44_Place_Appellation&gt;]/ecrm:P3_has_note"/>
 			</TransformInput>
 			<TransformInput id="unnamed_14" function="lowerCase">
-				<Input id="unnamed_15" path="?b/&lt;http://www.w3.org/2000/01/rdf-schema#label&gt;"/>
+				<Input id="unnamed_15" path="?b/rdfs:label"/>
 			</TransformInput>
 			<Param name="minChar" value="0"/>
 			<Param name="maxChar" value="z"/>
@@ -76,20 +79,20 @@
 	</Interlink>
 
 	<Interlink id="lido_dbpedia_work">
-	  <LinkType>&lt;http://www.w3.org/2002/07/owl#sameAs&gt;</LinkType>
+	  <LinkType>owl:sameAs</LinkType>
 	  <SourceDataset dataSource="LIDO_ds" var="work">
-		<RestrictTo> ?work &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#type&gt; &lt;http://erlangen-crm.org/current/E22_Man-Made_Object&gt; . </RestrictTo>
+		<RestrictTo> ?work rdf:type ecrm:E22_Man-Made_Object . </RestrictTo>
 	  </SourceDataset>
 	  <TargetDataset dataSource="DBpedia" var="b">
-		<RestrictTo> ?b &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#type&gt; &lt;http://dbpedia.org/ontology/Work&gt; . </RestrictTo>
+		<RestrictTo> ?b rdf:type dbpediaont:Work . </RestrictTo>
 	  </TargetDataset>
 	  <LinkageRule>
 		<Compare id="unnamed_16" required="false" weight="1" metric="levenshteinDistance" threshold="3">
 			<TransformInput id="unnamed_17" function="lowerCase">
-				<Input id="unnamed_18" path="?work/&lt;http://erlangen-crm.org/current/P1_is_identified_by&gt;[&lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#type&gt; = &lt;http://erlangen-crm.org/current/E41_Appellation&gt;]/&lt;http://erlangen-crm.org/current/P3_has_note&gt;"/>
+				<Input id="unnamed_18" path="?work/ecrm:P1_is_identified_by[&lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#type&gt; = &lt;http://erlangen-crm.org/current/E41_Appellation&gt;]/ecrm:P3_has_note"/>
 			</TransformInput>
 			<TransformInput id="unnamed_19" function="lowerCase">
-				<Input id="unnamed_20" path="?b/&lt;http://dbpedia.org/property/name&gt;"/>
+				<Input id="unnamed_20" path="?b/dbpediaprop:name"/>
 			</TransformInput>
 			<Param name="minChar" value="0"/>
 			<Param name="maxChar" value="z"/>
