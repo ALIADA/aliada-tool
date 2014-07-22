@@ -17,7 +17,7 @@ import eu.aliada.rdfizer.pipeline.format.marc.selector.FirstMatch;
  * @author Andrea Gazzarini.
  * @since 1.0
  */
-public class ManifestationDetector extends AbstractEntityDetector {
+public class ManifestationDetector extends AbstractEntityDetector<String> {
 
 	private final FirstMatch<Document> controlNumberDetectionRule;
 

@@ -22,7 +22,7 @@ import eu.aliada.rdfizer.pipeline.format.marc.selector.Expression;
  * @author Andrea Gazzarini
  * @since 1.0
  */
-public class ExpressionDetector extends AbstractEntityDetector {
+public class ExpressionDetector extends AbstractEntityDetector<String> {
 	private final List<Expression<Map<String, String>, Document>> expressions;
 
 	/**

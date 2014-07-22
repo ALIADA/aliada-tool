@@ -50,7 +50,7 @@ public class ControlFieldExpression implements Expression<String, Document> {
 		@Override
 		public String specs() {
 			throw new UnsupportedOperationException();
-		}
+		}	
 	};
 
 	private final Expression<String, Document> partialSelector = new Expression<String, Document>() {
@@ -76,7 +76,7 @@ public class ControlFieldExpression implements Expression<String, Document> {
 		@Override
 		public String specs() {
 			throw new UnsupportedOperationException();
-		}
+		}	
 	};
 
 	private final String specs;

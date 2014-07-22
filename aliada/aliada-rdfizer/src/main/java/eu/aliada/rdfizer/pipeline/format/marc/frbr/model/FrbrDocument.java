@@ -6,6 +6,8 @@
 package eu.aliada.rdfizer.pipeline.format.marc.frbr.model;
 
 import java.io.Serializable;
+import java.util.List;
+import java.util.Map;
 
 import org.w3c.dom.Document;
 
@@ -20,55 +22,71 @@ public final class FrbrDocument implements Serializable {
 	private static final long serialVersionUID = 203862468772292056L;
 
 	private final Document document;
+	private final String workURI;
+	private final String expressionURI;
+	private final String manifestationURI;
+	private final Map<String, List<String>> personURI;
+	private final Map<String, List<String>> familyURI;
+	private final Map<String, List<String>> corporateBodyURI;
+	private final Map<String, List<String>> itemURI;
 	
-	private final String workID;
-	private final String expressionID;
-	private final String manifestationID;
 	
 	/**
 	 * Builds a new {@link FrbrDocument} with the given DOM {@link Document}.
 	 * 
 	 * @param document the {@link Document}.
-	 * @param workID the ID that has been assigned to the Work.
-	 * @param expressionID the ID that has been assigned to the Expression.
-	 * @param manifestationID the ID that has been assigned to the Manifestation.
+	 * @param workURI the URI that has been assigned to the Work.
+	 * @param expressionURI the URI that has been assigned to the Expression.
+	 * @param personURI a map with list of person
+	 * @param familyURI a map with list of family
+	 * @param corporateBodyURI a map with list of corporateBody
+	 * @param itemURI a map with list of item
+	 * @param manifestationURI the URI that has been assigned to the Manifestation.
 	 */
 	public FrbrDocument(
 			final Document document,
-			final String workID,
-			final String expressionID,
-			final String manifestationID) {
+			final String workURI,
+			final String expressionURI,
+			final String manifestationURI,
+			final Map<String, List<String>> personURI, 
+			final Map<String, List<String>> familyURI,
+			final Map<String, List<String>> corporateBodyURI,
+			final Map<String, List<String>> itemURI) {
 		this.document = document;
-		this.workID = workID;
-		this.expressionID = expressionID;
-		this.manifestationID = manifestationID;
+		this.workURI = workURI;
+		this.expressionURI = expressionURI;
+		this.manifestationURI = manifestationURI;
+		this.personURI = personURI;
+		this.familyURI = familyURI;
+		this.corporateBodyURI = corporateBodyURI;
+		this.itemURI = itemURI;
 	}
 	
 	/**
-	 * Returns the ID that has been associated with the Work.
+	 * Returns the URI that has been associated with the Work.
 	 * 
-	 * @return the ID that has been associated with the Work.
+	 * @return the URI that has been associated with the Work.
 	 */
-	public String getWorkID() {
-		return workID;
+	public String getWorkURI() {
+		return workURI;
 	}
 	
 	/**
-	 * Returns the ID that has been associated with the Expression.
+	 * Returns the URI that has been associated with the Expression.
 	 * 
-	 * @return the ID that has been associated with the Expression.
+	 * @return the URI that has been associated with the Expression.
 	 */
-	public String getExpressionID() {
-		return expressionID;
+	public String getExpressionURI() {
+		return expressionURI;
 	}
 
 	/**
-	 * Returns the ID that has been associated with the Manifestation.
+	 * Returns the URI that has been associated with the Manifestation.
 	 * 
-	 * @return the ID that has been associated with the Manifestation.
+	 * @return the URI that has been associated with the Manifestation.
 	 */
-	public String getManifestationID() {
-		return manifestationID;
+	public String getManifestationURI() {
+		return manifestationURI;
 	}
 	
 	/**
@@ -86,6 +104,39 @@ public final class FrbrDocument implements Serializable {
 	 * @return true if the detected FRBR structure can be considered valid, otherwise false.
 	 */
 	public boolean isValid() {
-		return workID != null && expressionID != null && manifestationID != null && document != null;
+		return workURI != null && expressionURI != null && manifestationURI != null && document != null;
+	}
+	
+	/**
+	 * Return a map with tag as key and a List of String which represent the URIs.
+	 * @return the personURI
+	 */
+	public  Map<String, List<String>> getPersonURI() {
+		return personURI;
+	}
+
+	/**
+	 * Return a map with tag as key and a List of String which represent the URIs.
+	 * @return the familyURI
+	 */
+	public  Map<String, List<String>> getFamilyURI() {
+		return familyURI;
+	}
+
+	/**
+	 * Return a map with tag as key and a List of String which represent the URIs.
+	 * @return the corporateBodyURI
+	 */
+	public  Map<String, List<String>> getCorporateBodyURI() {
+		return corporateBodyURI;
+	}
+
+	/**
+	 * Return a map with tag as key and a List of String which represent the URIs.
+	 * 
+	 * @return the itemURI
+	 */
+	public  Map<String, List<String>> getItemURI() {
+		return itemURI;
 	}
 }

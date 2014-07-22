@@ -22,7 +22,7 @@ import eu.aliada.rdfizer.pipeline.format.marc.selector.FirstMatch;
  * @author Andrea Gazzarini
  * @since 1.0
  */
-public class WorkDetector extends AbstractEntityDetector {
+public class WorkDetector extends AbstractEntityDetector<String> {
 
 	private final FirstMatch<Document> uniformTitleDetectionRule;
 

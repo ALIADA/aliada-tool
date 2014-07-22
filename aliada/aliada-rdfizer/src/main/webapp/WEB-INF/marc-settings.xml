@@ -695,6 +695,85 @@
 	</bean>
 
 <!-- E N D   R U L E S   F O R   M A N I F E S T A T I O N   E N T I T Y  -->
+
+
+<!-- S T A R T   R U L E S   F O R   P E R S O N   E N T I T Y  -->
+
+	<bean id="person-identifier"
+		class="eu.aliada.rdfizer.pipeline.format.marc.selector.AllMultipleMatches">
+		<constructor-arg>
+			<list>
+				<bean
+					class="eu.aliada.rdfizer.pipeline.format.marc.selector.xml.MultipleVariableFieldExpression">
+					<constructor-arg value="100(0-1)a-b-c-d-q-u" />
+				</bean>
+			  	<bean
+					class="eu.aliada.rdfizer.pipeline.format.marc.selector.xml.MultipleVariableFieldExpression">
+					<constructor-arg value="700(0-1)a-b-c-d-q-u" />
+				</bean> 
+			</list>
+		</constructor-arg>
+	</bean>
+<!-- E  N  D   R U L E S   F O R   P E R S O N   E N T I T Y  -->
+
+<!-- S T A R T   R U L E S   F O R   F A M I L Y   E N T I T Y  -->
+
+	<bean id="family-identifier"
+		class="eu.aliada.rdfizer.pipeline.format.marc.selector.AllMultipleMatches">
+		<constructor-arg>
+			<list>
+				<bean
+					class="eu.aliada.rdfizer.pipeline.format.marc.selector.xml.MultipleVariableFieldExpression">
+					<constructor-arg value="100(3)a-c-d-g" />
+				</bean>
+			  	<bean
+					class="eu.aliada.rdfizer.pipeline.format.marc.selector.xml.MultipleVariableFieldExpression">
+					<constructor-arg value="700(3)a-c-d-g" />
+				</bean> 
+			</list>
+		</constructor-arg>
+	</bean>
+	
+<!-- E  N  D   R U L E S   F O R   F A M I L Y   E N T I T Y  -->	
+
+<!-- S T A R T   R U L E S   F O R   C O R P O R A T E   B O D Y   E N T I T Y  -->
+
+	<bean id="corporate-body-identifier"
+		class="eu.aliada.rdfizer.pipeline.format.marc.selector.AllMultipleMatches">
+		<constructor-arg>
+			<list>
+				<bean
+					class="eu.aliada.rdfizer.pipeline.format.marc.selector.xml.MultipleVariableFieldExpression">
+					<constructor-arg value="100(3)a-c-d-g" />
+				</bean>
+			  	<bean
+					class="eu.aliada.rdfizer.pipeline.format.marc.selector.xml.MultipleVariableFieldExpression">
+					<constructor-arg value="700(3)a-c-d-g" />
+				</bean> 
+			</list>
+		</constructor-arg>
+	</bean>
+	
+<!-- E  N  D   R U L E S   F O R   F A M I L Y   E N T I T Y  -->	
+
+<!-- S T A R T   R U L E S   F O R   I  T  E  M   E N T I T Y  -->
+
+	<bean id="item-identifier"
+		class="eu.aliada.rdfizer.pipeline.format.marc.selector.AllMultipleMatches">
+		<constructor-arg>
+			<list>
+				<bean
+					class="eu.aliada.rdfizer.pipeline.format.marc.selector.xml.MultipleVariableFieldExpression">
+					<constructor-arg value="852()a" />
+				</bean>
+			</list>
+		</constructor-arg>
+	</bean>
+	
+<!-- E  N  D   R U L E S   F O R   I  T  E  M    E N T I T Y  -->	
+
+
+
 	
 	<bean id="work-detector" class="eu.aliada.rdfizer.pipeline.format.marc.frbr.WorkDetector">
 		<constructor-arg ref="work-uniform-title"/>
@@ -721,4 +800,37 @@
 	<bean id="manifestation-detector" class="eu.aliada.rdfizer.pipeline.format.marc.frbr.ManifestationDetector">
       <constructor-arg ref="manifestation-control-number" />
 	</bean>	
+	
+	<bean id="person-detector" class="eu.aliada.rdfizer.pipeline.format.marc.frbr.PersonDetector">
+		<constructor-arg>
+	      	<list>
+	      		<ref bean="person-identifier"/>
+	      	</list>
+		</constructor-arg>
+	</bean>
+	
+	  <bean id="family-detector" class="eu.aliada.rdfizer.pipeline.format.marc.frbr.FamilyDetector">
+		<constructor-arg>
+	      	<list>
+	      		<ref bean="family-identifier"/>
+	      	</list>
+		</constructor-arg>
+	</bean>
+	
+	<bean id="corporate-body-detector" class="eu.aliada.rdfizer.pipeline.format.marc.frbr.CorporateBodyDetector">
+		<constructor-arg>
+	      	<list>
+	      		<ref bean="corporate-body-identifier"/>
+	      	</list>
+		</constructor-arg>
+	</bean>
+	
+	<bean id="item-detector" class="eu.aliada.rdfizer.pipeline.format.marc.frbr.ItemDetector">
+		<constructor-arg>
+	      	<list>
+	      		<ref bean="item-identifier"/>
+	      	</list>
+		</constructor-arg>
+	</bean>
+	
 </beans>

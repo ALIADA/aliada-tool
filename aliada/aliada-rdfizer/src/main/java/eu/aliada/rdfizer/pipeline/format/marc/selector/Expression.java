@@ -33,5 +33,5 @@ public interface Expression<T, K> {
 	 * 
 	 * @return a string representation of the specs associated with this expression.
 	 */
-	String specs();
+	String specs();	
 }

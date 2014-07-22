@@ -5,8 +5,6 @@
 // Responsible: ALIADA Consortiums
 package eu.aliada.rdfizer.pipeline.format.marc.frbr;
 
-import java.util.UUID;
-
 import org.apache.camel.Exchange;
 import org.apache.camel.Message;
 import org.apache.camel.Processor;
@@ -40,6 +38,18 @@ public class FrbrEntitiesDetector implements Processor {
 	ManifestationDetector manifestationDetector;
 	
 	@Autowired
+	PersonDetector personDetector;
+	
+	@Autowired
+	FamilyDetector familyDetector;
+	
+	@Autowired
+	CorporateBodyDetector corporateBodyDetector;
+	
+	@Autowired
+	ItemDetector itemDetector;
+		
+	@Autowired
 	private Cache cache;
 
 	@Override
@@ -60,17 +70,7 @@ public class FrbrEntitiesDetector implements Processor {
 			in.setBody(null);
 		}
 	}
-	
-	/**
-	 * Return an unique identifier from a string.
-	 * 
-	 * @param value the string value.
-	 * @return the identifier associated with the incoming value.
-	 */
-	public String identifier(final String value) {
-		return value != null ? UUID.nameUUIDFromBytes(value.getBytes()).toString() : null;
-	}	
-	
+
 	/**
 	 * Detects the FRBR entities.
 	 * 
@@ -80,8 +80,13 @@ public class FrbrEntitiesDetector implements Processor {
 	FrbrDocument frbrDetection(final Document target) {
 		return new FrbrDocument(
 				target,
-				identifier(workDetector.detect(target)),
-				identifier(expressionDetector.detect(target)),
-				manifestationDetector.detect(target));
+				AbstractEntityDetector.identifier(workDetector.detect(target)),
+				AbstractEntityDetector.identifier(expressionDetector.detect(target)),
+				manifestationDetector.detect(target),
+				personDetector.detect(target),
+				familyDetector.detect(target),
+				corporateBodyDetector.detect(target),
+				itemDetector.detect(target)
+				);
 	}
 }
