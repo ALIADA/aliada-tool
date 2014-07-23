@@ -33,7 +33,7 @@ public interface MessageCatalog {
 	String _00057_SUBJOB_PARAMETERS = LT + MODULE_NAME + "-00057> : Subjob parameters: job=%d subjob=%d propertiesfile=%s.";	
 	String _00058_SUBJOB_PARAMETERS_INCORRECT = LT + MODULE_NAME + "-00058> : Incorrect Subjob parameters: %s.";	
 	String _00059_STOPPING = LT + MODULE_NAME + "-00059> : LinksDiscovery process finished.";	
-	String _00060_VALIDATING_NUM_GENERATED_LINKS = LT + MODULE_NAME + "-00060> : Validating the number of generated links.";	
+	String _00060_VALIDATING_NUM_GENERATED_LINKS = LT + MODULE_NAME + "-00060> : Validating the number of generated links with config. file %s.";	
 	String _00061_NUM_GENERATED_LINKS = LT + MODULE_NAME + "-00061> : The number of generated links is %d.";	
 	String _00062_XML_FILE_PARSING_FAILURE = LT + MODULE_NAME + "-00062> : Error parsing XML file %s.";	
 	String _00063_REMOVING_SUBJOB_FROM_CRONTAB = LT + MODULE_NAME + "-00063> : Removing job %d subjob %d from crontab.";	
@@ -41,6 +41,6 @@ public interface MessageCatalog {
 	String _00065_REMOVING_CONFIG_FILES = LT + MODULE_NAME + "-00065> : Removing configuration files.";
 	String _00066_FILE_REMOVING_FAILURE = LT + MODULE_NAME + "-00066> : Error removing configuration files %s.";
 	String _00067_SUBJOB_CONFIGURATION_NOT_FOUND = LT + MODULE_NAME + "-00067> : Unable to find a configuration for creating a subjob with job_id %s, subjob_id %d.";	
-	String _00068_UPLOADING_GENERATED_LINKS = LT + MODULE_NAME + "-00068> : Uploading the generated links in triples file %s to the RDF store.";
+	String _00068_UPLOADING_GENERATED_LINKS = LT + MODULE_NAME + "-00068> : Uploading the generated links in triples files to the RDF store.";
 	String _00069_TRIPLES_FILE_UPLOAD_ERROR = LT + MODULE_NAME + "-00069> : The triples file %s with the generated links could not be uploaded.";
 }

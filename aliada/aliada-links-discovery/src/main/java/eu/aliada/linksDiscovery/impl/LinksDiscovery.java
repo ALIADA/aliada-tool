@@ -228,10 +228,10 @@ public class LinksDiscovery {
 			inputFileNameNoExt = inputFileName.substring(0, index);
 		else
 			inputFileNameNoExt = inputFileName;
-		String fileNameWithPathNoExt = jobConf.getTmpDir() + File.separator + inputFileNameNoExt + System.currentTimeMillis();
+		String fileNameWithPathNoExt = jobConf.getTmpDir() + File.separator + inputFileNameNoExt;
 		//Replace Windows file separator by "/" Java file separator
 		fileNameWithPathNoExt = fileNameWithPathNoExt.replace("\\", "/");
-		String linkingXMLConfigFilename = fileNameWithPathNoExt + ".xml";
+		String linkingXMLConfigFilename = fileNameWithPathNoExt + System.currentTimeMillis() + ".xml";
 
 		try {
 			//Read XML file
@@ -296,7 +296,7 @@ public class LinksDiscovery {
 					outputsElem.appendChild(outputElem);
 
 					//Create new <Output> element for a File
-					String triplesGeneratedFilename = fileNameWithPathNoExt + "output.n3";
+					String triplesGeneratedFilename = fileNameWithPathNoExt + System.currentTimeMillis() + "output.n3";
 					outputElem = doc.createElement("Output"); 
 					//set attributes to Output element
 					attrType = doc.createAttribute("type"); 
