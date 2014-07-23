@@ -5,9 +5,14 @@
 // Responsible: ALIADA Consortiums
 package eu.aliada.rdfizer.pipeline.format.xml;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.StringReader;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.math.BigDecimal;
+import java.sql.Timestamp;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Message;
@@ -25,11 +30,15 @@ import org.w3c.dom.Element;
 import eu.aliada.rdfizer.Constants;
 import eu.aliada.rdfizer.Function;
 import eu.aliada.rdfizer.datasource.Cache;
-import eu.aliada.rdfizer.datasource.rdbms.JobConfiguration;
+import eu.aliada.rdfizer.datasource.rdbms.JobInstance;
+import eu.aliada.rdfizer.datasource.rdbms.JobInstanceRepository;
+import eu.aliada.rdfizer.datasource.rdbms.JobStats;
+import eu.aliada.rdfizer.datasource.rdbms.JobStatsRepository;
 import eu.aliada.rdfizer.framework.MainSubjectDetectionRule;
 import eu.aliada.rdfizer.framework.UnableToProceedWithConversionException;
 import eu.aliada.rdfizer.log.MessageCatalog;
 import eu.aliada.rdfizer.mx.InMemoryJobResourceRegistry;
+import eu.aliada.rdfizer.mx.ManagementRegistrar;
 import eu.aliada.rdfizer.rest.JobResource;
 import eu.aliada.shared.log.Log;
 
@@ -89,8 +98,16 @@ public class SynchXmlDocumentTranslator implements Processor, ApplicationContext
 	@Autowired
 	protected InMemoryJobResourceRegistry jobRegistry;
 	
+	@Autowired
+	protected JobInstanceRepository jobInstanceRepository;
+	
+	@Autowired
+	protected JobStatsRepository jobStatsRepository;
+	
 	@Override
 	public final void process(final Exchange exchange) throws Exception {
+		final long begin = System.currentTimeMillis();
+		
 		final Message in = exchange.getIn();
 		
 		// Sanity check: if previous processor didn't put a valid data object in the body
@@ -101,13 +118,16 @@ public class SynchXmlDocumentTranslator implements Processor, ApplicationContext
 		
 		final String format = in.getHeader(Constants.FORMAT_ATTRIBUTE_NAME, String.class);
 		final Integer jobId = in.getHeader(Constants.JOB_ID_ATTRIBUTE_NAME, Integer.class);
-		final JobConfiguration configuration = cache.getJobConfiguration(jobId);
+		final JobInstance configuration = cache.getJobInstance(jobId);
 		if (configuration == null) {
 			log.error(MessageCatalog._00038_UNKNOWN_JOB_ID, jobId);
 			throw new IllegalArgumentException(String.valueOf(jobId));
 		}
 
 		VelocityContext velocityContext = null;
+		String triples = null;
+		long elapsed = 0;
+		
 		try {
 			final Template template = velocityEngine.getTemplate(templateName(format));	 
 			if (template == null) {
@@ -124,12 +144,20 @@ public class SynchXmlDocumentTranslator implements Processor, ApplicationContext
 			final Writer w = new BufferedWriter(sw);
 			template.merge(velocityContext, w);
 			w.flush();
-			in.setBody(sw.toString());
 			
-			incrementProcessedRecordsCount(jobId);
+			elapsed = begin - System.currentTimeMillis();
+			triples = sw.toString();
+						
+			in.setBody(triples);
 		} catch (final ResourceNotFoundException exception) {
 			log.error(MessageCatalog._00040_TEMPLATE_NOT_FOUND, exception, format);
 		} finally {
+			incrementProcessedRecordsCount(jobId);
+
+			if (triples != null) {
+				incrementTriplesStatsAndElapsed(jobId, triples, elapsed);
+			}
+			
 			if (velocityContext != null) {
 				velocityContext.remove(Constants.MAIN_SUBJECT_ATTRIBUTE_NAME);
 				velocityContext.remove(Constants.ROOT_ELEMENT_ATTRIBUTE_NAME);
@@ -154,7 +182,7 @@ public class SynchXmlDocumentTranslator implements Processor, ApplicationContext
 	protected void populateVelocityContext(
 			final VelocityContext velocityContext, 
 			final Message message, 
-			final JobConfiguration configuration) throws UnableToProceedWithConversionException {
+			final JobInstance configuration) throws UnableToProceedWithConversionException {
 		final String format = message.getHeader(Constants.FORMAT_ATTRIBUTE_NAME, String.class);
 
 		@SuppressWarnings("unchecked")
@@ -183,9 +211,102 @@ public class SynchXmlDocumentTranslator implements Processor, ApplicationContext
 	 * @param jobId the job identifier.
 	 */
 	void incrementProcessedRecordsCount(final Integer jobId) {
-		final JobResource resource = jobRegistry.getJobResource(jobId);
-		if (resource != null) {
-			resource.incrementProcessedRecordsCount();
+		final JobResource job = jobRegistry.getJobResource(jobId);
+		if (job != null) {
+			job.incrementProcessedRecordsCount();
+			if (job.isCompleted()) {
+				markJobAsCompleted(job);
+				persistJobStats(job);
+				unregisterJobFromMxSystem(job);
+				removeFromInMemoryCache(job);
+			}
 		}
 	}
+	
+	/**
+	 * Marks a given job as completed.
+	 * 
+	 * @param job the job.
+	 */
+	void markJobAsCompleted(final JobResource job) {
+		final JobInstance instance = cache.getJobInstance(job.getID());
+		instance.setEndDate(new Timestamp(System.currentTimeMillis()));
+		jobInstanceRepository.save(instance);		
+	}
+	
+	/**
+	 * Records the stats of a given (completed) job.
+	 * 
+	 * @param job the job.
+	 */
+	void persistJobStats(final JobResource job) {
+		final JobStats stats = new JobStats();
+		stats.setId(job.getID());
+		stats.setTotalRecordsCount(job.getTotalRecordsCount());
+		stats.setTotalTriplesProduced(job.getOutputStatementsCount());
+		stats.setRecordsThroughput(BigDecimal.valueOf(job.getRecordsThroughput()));
+		stats.setTriplesThroughput(BigDecimal.valueOf(job.getStatementsThroughput()));		
+		jobStatsRepository.save(stats);		
+	}	
+	
+	/**
+	 * Unregisters a job from managemenent (sub)system.
+	 * 
+	 * @param job the job.
+	 */
+	void unregisterJobFromMxSystem(final JobResource job) {
+		ManagementRegistrar.unregister(
+				ManagementRegistrar.createJobObjectName(
+						job.getFormat(), 
+						job.getID()));
+		
+		jobRegistry.removeJob(job.getID());
+	}
+	
+	/**
+	 * Removes a job from local in memory cache.
+	 * 
+	 * @param job the job.
+	 */
+	void removeFromInMemoryCache(final JobResource job) {
+		cache.removeJobInstance(job.getID());		
+	}
+
+	/**
+	 * Counts how many triples are defined in a given input string.
+	 * 
+	 * @param triples the string including triples (one triple per line).
+	 * @return how many triples are defined in the given input string.
+	 */
+	int countTriples(final String triples) {
+		int count = 0;
+		try {
+			final BufferedReader reader = new BufferedReader(new StringReader(triples));
+			while (reader.readLine() != null) {
+				count++;
+			}			
+		} catch (final IOException exception) {
+			log.error(MessageCatalog._00034_NWS_SYSTEM_INTERNAL_FAILURE, exception);
+		}
+		return count;
+	}
+	
+	/**
+	 * Increments job stats (triples production and throughput section) and production elapsed.
+	 * 
+	 * @param jobId the job identifier.
+	 * @param triples the triples.
+	 * @param elapsed the elapsed time.
+	 */
+	void incrementTriplesStatsAndElapsed(
+			final Integer jobId, 
+			final String triples,
+			final long elapsed) {
+		final JobResource job = jobRegistry.getJobResource(jobId);
+		if (job != null) {
+			final int howManyTriples = countTriples(triples);
+			job.incrementOutputStatementsCount(howManyTriples);
+			job.incrementElapsed(elapsed);
+		}
+	}	
 }

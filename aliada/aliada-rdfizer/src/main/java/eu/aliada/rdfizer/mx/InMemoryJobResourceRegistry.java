@@ -43,5 +43,14 @@ public final class InMemoryJobResourceRegistry {
 	 */
 	public JobResource getJobResource(final Integer identifier) {
 		return registry.get(identifier);
+	}
+
+	/**
+	 * Removes a job from this registry.
+	 * 
+	 * @param id the job identifier.
+	 */
+	public void removeJob(final Integer id) {
+		registry.remove(id);
 	}	
 }

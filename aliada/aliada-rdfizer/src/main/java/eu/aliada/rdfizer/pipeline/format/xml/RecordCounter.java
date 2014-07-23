@@ -19,7 +19,7 @@ import org.xml.sax.helpers.DefaultHandler;
 
 import eu.aliada.rdfizer.Constants;
 import eu.aliada.rdfizer.datasource.Cache;
-import eu.aliada.rdfizer.datasource.rdbms.JobConfiguration;
+import eu.aliada.rdfizer.datasource.rdbms.JobInstance;
 import eu.aliada.rdfizer.log.MessageCatalog;
 import eu.aliada.rdfizer.mx.InMemoryJobResourceRegistry;
 import eu.aliada.rdfizer.rest.JobResource;
@@ -63,7 +63,7 @@ public class RecordCounter implements Processor {
 		final File inputFile = exchange.getIn().getBody(File.class);
 		
 		final Integer jobId = exchange.getIn().getHeader(Constants.JOB_ID_ATTRIBUTE_NAME, Integer.class);
-		final JobConfiguration configuration = cache.getJobConfiguration(jobId);
+		final JobInstance configuration = cache.getJobInstance(jobId);
 		if (configuration == null) {
 			log.error(MessageCatalog._00038_UNKNOWN_JOB_ID, jobId);
 			throw new IllegalArgumentException(String.valueOf(jobId));

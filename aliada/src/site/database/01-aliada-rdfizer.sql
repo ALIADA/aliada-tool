@@ -8,3 +8,12 @@ CREATE TABLE `aliada`.`rdfizer_job_instances` (
 `end_date` DATETIME default NULL ,
 PRIMARY KEY ( `job_id` )
 ) ENGINE = InnoDB ;
+
+CREATE TABLE `aliada`.`rdfizer_job_stats` (
+`job_id` INT NOT NULL ,
+`total_records_count`  INT NOT NULL,
+`total_triples_produced`  INT NOT NULL,
+`records_throughput`  DECIMAL NOT NULL,
+`triples_throughput`  DECIMAL NOT NULL,
+PRIMARY KEY ( `job_id` )
+) ENGINE = InnoDB ;

@@ -13,7 +13,7 @@ import org.w3c.dom.Document;
 
 import eu.aliada.rdfizer.Constants;
 import eu.aliada.rdfizer.datasource.Cache;
-import eu.aliada.rdfizer.datasource.rdbms.JobConfiguration;
+import eu.aliada.rdfizer.datasource.rdbms.JobInstance;
 import eu.aliada.rdfizer.log.MessageCatalog;
 import eu.aliada.rdfizer.pipeline.format.marc.frbr.model.FrbrDocument;
 import eu.aliada.shared.log.Log;
@@ -56,7 +56,7 @@ public class FrbrEntitiesDetector implements Processor {
 	public void process(final Exchange exchange) throws Exception {
 		final Message in = exchange.getIn();
 		final Integer jobId = in.getHeader(Constants.JOB_ID_ATTRIBUTE_NAME, Integer.class);
-		final JobConfiguration configuration = cache.getJobConfiguration(jobId);
+		final JobInstance configuration = cache.getJobInstance(jobId);
 		if (configuration == null) {
 			log.error(MessageCatalog._00038_UNKNOWN_JOB_ID, jobId);
 			throw new IllegalArgumentException(String.valueOf(jobId));

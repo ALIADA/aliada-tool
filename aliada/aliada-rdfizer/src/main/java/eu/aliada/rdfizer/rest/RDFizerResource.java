@@ -40,8 +40,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
 import eu.aliada.rdfizer.datasource.Cache;
-import eu.aliada.rdfizer.datasource.rdbms.JobConfiguration;
-import eu.aliada.rdfizer.datasource.rdbms.JobConfigurationRepository;
+import eu.aliada.rdfizer.datasource.rdbms.JobInstance;
+import eu.aliada.rdfizer.datasource.rdbms.JobInstanceRepository;
 import eu.aliada.rdfizer.log.MessageCatalog;
 import eu.aliada.rdfizer.mx.InMemoryJobResourceRegistry;
 import eu.aliada.rdfizer.mx.ManagementRegistrar;
@@ -78,7 +78,7 @@ public class RDFizerResource implements RDFizer {
 	protected InMemoryJobResourceRegistry jobRegistry;
 
 	@Autowired
-	protected JobConfigurationRepository jobConfigurationRepository;
+	protected JobInstanceRepository jobInstanceRepository;
 	
 	protected boolean enabled = true;
 	
@@ -113,7 +113,7 @@ public class RDFizerResource implements RDFizer {
 		return Response.ok()
 				.entity(
 						new Jobs(
-								jobConfigurationRepository.findAll(
+								jobInstanceRepository.findAll(
 										new Sort(
 												Sort.Direction.DESC, 
 												"startDate"))))
@@ -130,7 +130,7 @@ public class RDFizerResource implements RDFizer {
 	@Path("/jobs/{jobid}")
 	@Produces({MediaType.TEXT_XML, MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
 	public Response getJob(@PathParam("jobid") final Integer id) {
-		final JobConfiguration configuration = cache.getJobConfiguration(id);
+		final JobInstance configuration = cache.getJobInstance(id);
 		if (configuration == null) {
 			LOGGER.error(MessageCatalog._00032_JOB_CONFIGURATION_NOT_FOUND, id);
 			return Response.status(Status.NOT_FOUND).build();											
@@ -170,7 +170,7 @@ public class RDFizerResource implements RDFizer {
 		
 		String path = null;
 		try {
-			final JobConfiguration configuration = cache.getJobConfiguration(id);
+			final JobInstance configuration = cache.getJobInstance(id);
 			if (configuration == null) {
 				LOGGER.error(MessageCatalog._00032_JOB_CONFIGURATION_NOT_FOUND, id);
 				return Response.status(Status.NOT_FOUND).build();								
@@ -206,7 +206,7 @@ public class RDFizerResource implements RDFizer {
 			Files.move(source, target, REPLACE_EXISTING);
 
 			configuration.setStartDate(new Timestamp(System.currentTimeMillis()));
-			jobConfigurationRepository.save(configuration);
+			jobInstanceRepository.save(configuration);
 			runningJobCount.incrementAndGet();
 			return Response.created(uriInfo.getAbsolutePathBuilder().build()).build();
 		} catch (final IOException exception) {

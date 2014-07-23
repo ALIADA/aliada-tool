@@ -7,7 +7,7 @@ package eu.aliada.rdfizer;
 
 import java.util.Random;
 
-import eu.aliada.rdfizer.datasource.rdbms.JobConfiguration;
+import eu.aliada.rdfizer.datasource.rdbms.JobInstance;
 import eu.aliada.rdfizer.rest.JobResource;
 
 /**
@@ -42,8 +42,8 @@ public abstract class TestUtils {
 	 * 
 	 * @return a dummy job configuration.
 	 */
-	public static JobConfiguration newJobConfiguration() {
-		final JobConfiguration configuration = new JobConfiguration();
+	public static JobInstance newJobConfiguration() {
+		final JobInstance configuration = new JobInstance();
 		configuration.setId(randomIdentifier());		
 		configuration.setFormat(randomString());
 		return configuration;

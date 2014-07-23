@@ -18,7 +18,7 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
 import eu.aliada.rdfizer.datasource.Cache;
-import eu.aliada.rdfizer.datasource.rdbms.JobConfiguration;
+import eu.aliada.rdfizer.datasource.rdbms.JobInstance;
 import eu.aliada.rdfizer.framework.MainSubjectDetectionRule;
 import eu.aliada.rdfizer.framework.UnableToProceedWithConversionException;
 import eu.aliada.rdfizer.pipeline.format.xml.XPath;
@@ -37,7 +37,7 @@ public class LidoMainSubjectDetectionRule implements MainSubjectDetectionRule<El
 	private Cache cache;
 	
 	@Override
-	public String computeFrom(final Element input, final JobConfiguration configuration) throws UnableToProceedWithConversionException {
+	public String computeFrom(final Element input, final JobInstance configuration) throws UnableToProceedWithConversionException {
 		try {
 			final String lidoRecId = xpath.value("lidoRecID", input);
 			if (isNullOrEmpty(lidoRecId)) {
