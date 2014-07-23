@@ -145,24 +145,22 @@ public class SynchXmlDocumentTranslator implements Processor, ApplicationContext
 			template.merge(velocityContext, w);
 			w.flush();
 			
-			elapsed = begin - System.currentTimeMillis();
+			elapsed = System.currentTimeMillis() - begin;
 			triples = sw.toString();
 						
 			in.setBody(triples);
 		} catch (final ResourceNotFoundException exception) {
 			log.error(MessageCatalog._00040_TEMPLATE_NOT_FOUND, exception, format);
 		} finally {
-			incrementProcessedRecordsCount(jobId);
+			incrementJobStatsAndElapsed(jobId, triples, elapsed);
 
-			if (triples != null) {
-				incrementTriplesStatsAndElapsed(jobId, triples, elapsed);
-			}
-			
 			if (velocityContext != null) {
 				velocityContext.remove(Constants.MAIN_SUBJECT_ATTRIBUTE_NAME);
 				velocityContext.remove(Constants.ROOT_ELEMENT_ATTRIBUTE_NAME);
 				velocityContext.remove(Constants.JOB_CONFIGURATION_ATTRIBUTE_NAME);
 			}
+			
+			checkForCompleteness(jobId);
 		}
 	}
 
@@ -210,16 +208,13 @@ public class SynchXmlDocumentTranslator implements Processor, ApplicationContext
 	 * 
 	 * @param jobId the job identifier.
 	 */
-	void incrementProcessedRecordsCount(final Integer jobId) {
+	void checkForCompleteness(final Integer jobId) {
 		final JobResource job = jobRegistry.getJobResource(jobId);
-		if (job != null) {
-			job.incrementProcessedRecordsCount();
-			if (job.isCompleted()) {
-				markJobAsCompleted(job);
-				persistJobStats(job);
-				unregisterJobFromMxSystem(job);
-				removeFromInMemoryCache(job);
-			}
+		if (job != null && job.isCompleted()) {
+			markJobAsCompleted(job);
+			persistJobStats(job);
+			unregisterJobFromMxSystem(job);
+			removeFromInMemoryCache(job);
 		}
 	}
 	
@@ -232,6 +227,8 @@ public class SynchXmlDocumentTranslator implements Processor, ApplicationContext
 		final JobInstance instance = cache.getJobInstance(job.getID());
 		instance.setEndDate(new Timestamp(System.currentTimeMillis()));
 		jobInstanceRepository.save(instance);		
+	
+		log.info(MessageCatalog._00048_JOB_COMPLETED, job.getID());
 	}
 	
 	/**
@@ -298,15 +295,18 @@ public class SynchXmlDocumentTranslator implements Processor, ApplicationContext
 	 * @param triples the triples.
 	 * @param elapsed the elapsed time.
 	 */
-	void incrementTriplesStatsAndElapsed(
+	void incrementJobStatsAndElapsed(
 			final Integer jobId, 
 			final String triples,
 			final long elapsed) {
 		final JobResource job = jobRegistry.getJobResource(jobId);
 		if (job != null) {
-			final int howManyTriples = countTriples(triples);
-			job.incrementOutputStatementsCount(howManyTriples);
+			job.incrementProcessedRecordsCount();
 			job.incrementElapsed(elapsed);
+			if (triples != null) {
+				final int howManyTriples = countTriples(triples);
+				job.incrementOutputStatementsCount(howManyTriples);				
+			}
 		}
 	}	
 }

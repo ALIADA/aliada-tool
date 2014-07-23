@@ -109,7 +109,9 @@ public class JobResource implements Job {
 	@XmlElement(name = "records-throughput")
 	@Override
 	public double getRecordsThroughput() {
-		return totalProcessedRecordsCount.doubleValue() / (elapsed.get() / 1000);
+		return elapsed.get() != 0 
+				? totalProcessedRecordsCount.doubleValue() / ((elapsed.get() / 1000))
+				: 0;
 	}
 
 	@XmlElement(name = "id")
@@ -141,12 +143,14 @@ public class JobResource implements Job {
 	@XmlElement(name = "completed")
 	@Override
 	public boolean isCompleted() {
-		return totalRecordsCount != totalProcessedRecordsCount.get();
+		return totalRecordsCount == totalProcessedRecordsCount.get();
 	}
 
 	@XmlElement(name = "triples-throughput")
 	@Override
 	public double getStatementsThroughput() {
-		return totalOutputStatementsCount.doubleValue() / (elapsed.get() / 1000);
+		return elapsed.get() != 0 
+				? totalOutputStatementsCount.doubleValue() / ((elapsed.get() / 1000))
+				: 0;		
 	}
 }
