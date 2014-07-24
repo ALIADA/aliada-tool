@@ -4,30 +4,7 @@ CREATE USER 'aliada'@'%' IDENTIFIED BY 'aliada';
 
 GRANT ALL PRIVILEGES ON * . * TO 'aliada'@'%' IDENTIFIED BY 'aliada' WITH GRANT OPTION MAX_QUERIES_PER_HOUR 0 MAX_CONNECTIONS_PER_HOUR 0 MAX_UPDATES_PER_HOUR 0 MAX_USER_CONNECTIONS 0 ;
 
-CREATE TABLE `aliada`.`t_user_role` (
-`user_role_code` INT NOT NULL ,
-`user_role` VARCHAR( 32 ) NOT NULL ,
-PRIMARY KEY ( `user_role_code` )
-) ENGINE = InnoDB ;
-
- CREATE TABLE `aliada`.`t_user_type` (
-`user_type_code` INT NOT NULL ,
-`user_type` VARCHAR( 32 ) NOT NULL ,
-PRIMARY KEY ( `user_type_code` )
-) ENGINE = InnoDB ;
-
- CREATE TABLE `aliada`.`user` (
-`user_name` VARCHAR( 20 ) NOT NULL ,
-`user_password` VARCHAR( 32 ) NOT NULL ,
-`user_email` VARCHAR( 128 ) NOT NULL ,
-`user_type_code` INT NOT NULL ,
-`user_role_code` INT NOT NULL ,
-PRIMARY KEY ( `user_name` )
-) ENGINE = InnoDB ;
-
- 
-
- -- phpMyAdmin SQL Dump
+-- phpMyAdmin SQL Dump
 -- version 2.11.11.3
 -- http://www.phpmyadmin.net
 --
@@ -53,7 +30,7 @@ CREATE TABLE IF NOT EXISTS `aliada`.`organisation` (
   `organisation_path` varchar(128) NOT NULL,
   `organisation_uri_domain` varchar(128) NOT NULL,
   `organisation_uri_resource` varchar(128) NOT NULL,
-  `organisation_logo` varchar(128) NOT NULL,
+  `organisation_logo` BLOB NOT NULL,
   `organisation_catalog_url` varchar(128) NOT NULL,
   PRIMARY KEY  (`organisation_name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -212,6 +189,7 @@ CREATE TABLE IF NOT EXISTS `aliada`.`t_file_type` (
   `file_type_code` int(11) NOT NULL,
   `file_type_name` varchar(32) NOT NULL,
   `file_type_description` varchar(128) default NULL,
+  `file_type_conversion_file` varchar(32) NOT NULL,
   PRIMARY KEY  (`file_type_code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -219,10 +197,10 @@ CREATE TABLE IF NOT EXISTS `aliada`.`t_file_type` (
 -- Volcar la base de datos para la tabla `t_file_type`
 --
 
-INSERT INTO `aliada`.`t_file_type` (`file_type_code`, `file_type_name`, `file_type_description`) VALUES
-(0, 'Bibliographic', NULL),
-(1, 'Authority', NULL),
-(2, 'Museum Resource', NULL);
+INSERT INTO `aliada`.`t_file_type` (`file_type_code`, `file_type_name`, `file_type_description`, `file_type_conversion_file`) VALUES
+(0, 'Bibliographic', NULL, 'marc_bib.xsl'),
+(1, 'Authority', NULL, 'marc_aut.xsl'),
+(2, 'Museum Resource', NULL, 'lido.xsl');
 
 -- --------------------------------------------------------
 
@@ -234,6 +212,7 @@ CREATE TABLE IF NOT EXISTS `aliada`.`t_metadata_scheme` (
   `metadata_code` int(11) NOT NULL,
   `metadata_name` varchar(32) NOT NULL,
   `metadata_description` varchar(128) default NULL,
+  `metadata_conversion_file` varchar(32) NOT NULL,
   PRIMARY KEY  (`metadata_code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -241,10 +220,10 @@ CREATE TABLE IF NOT EXISTS `aliada`.`t_metadata_scheme` (
 -- Volcar la base de datos para la tabla `t_metadata_scheme`
 --
 
-INSERT INTO `aliada`.`t_metadata_scheme` (`metadata_code`, `metadata_name`, `metadata_description`) VALUES
-(0, 'MARC21', NULL),
-(1, 'LIDO', NULL),
-(2, 'Dublin Core', NULL);
+INSERT INTO `aliada`.`t_metadata_scheme` (`metadata_code`, `metadata_name`, `metadata_description`, `metadata_conversion_file`) VALUES
+(0, 'MARC21', NULL, 'MARC21slim.xsd'),
+(1, 'LIDO', NULL, 'lido-v1.0.xsd'),
+(2, 'Dublin Core', NULL, 'xsd');
 
 -- --------------------------------------------------------
 
@@ -277,6 +256,7 @@ INSERT INTO `aliada`.`t_profile_type` (`profile_code`, `profile_name`, `profile_
 CREATE TABLE IF NOT EXISTS `aliada`.`t_user_role` (
   `user_role_code` int(11) NOT NULL,
   `user_role` varchar(32) NOT NULL,
+  `user_role_description` varchar(128) default NULL,
   PRIMARY KEY  (`user_role_code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -284,9 +264,9 @@ CREATE TABLE IF NOT EXISTS `aliada`.`t_user_role` (
 -- Volcar la base de datos para la tabla `t_user_role`
 --
 
-INSERT INTO `aliada`.`t_user_role` (`user_role_code`, `user_role`) VALUES
-(0, 'Basic'),
-(1, 'Administrator');
+INSERT INTO `aliada`.`t_user_role` (`user_role_code`, `user_role`, `user_role_description`) VALUES
+(0, 'Basic', NULL),
+(1, 'Administrator', NULL);
 
 -- --------------------------------------------------------
 
@@ -297,6 +277,7 @@ INSERT INTO `aliada`.`t_user_role` (`user_role_code`, `user_role`) VALUES
 CREATE TABLE IF NOT EXISTS `aliada`.`t_user_type` (
   `user_type_code` int(11) NOT NULL,
   `user_type` varchar(32) NOT NULL,
+  `user_type_description` varchar(128) default NULL,
   PRIMARY KEY  (`user_type_code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -304,9 +285,9 @@ CREATE TABLE IF NOT EXISTS `aliada`.`t_user_type` (
 -- Volcar la base de datos para la tabla `t_user_type`
 --
 
-INSERT INTO `aliada`.`t_user_type` (`user_type_code`, `user_type`) VALUES
-(0, 'Basic'),
-(1, 'Advanced');
+INSERT INTO `aliada`.`t_user_type` (`user_type_code`, `user_type`, `user_type_description`) VALUES
+(0, 'Basic', NULL),
+(1, 'Advanced', NULL);
 
 -- --------------------------------------------------------
 
