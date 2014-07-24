@@ -18,8 +18,8 @@ import static org.mockito.Mockito.when;
 import org.junit.Before;
 import org.junit.Test;
 
-import eu.aliada.rdfizer.datasource.rdbms.JobConfiguration;
-import eu.aliada.rdfizer.datasource.rdbms.JobConfigurationRepository;
+import eu.aliada.rdfizer.datasource.rdbms.JobInstance;
+import eu.aliada.rdfizer.datasource.rdbms.JobInstanceRepository;
 import eu.aliada.rdfizer.datasource.rdfstore.AliadaRDFStoreDAO;
 
 /**
@@ -31,7 +31,7 @@ import eu.aliada.rdfizer.datasource.rdfstore.AliadaRDFStoreDAO;
 public class CacheTest {
 	private Cache cut;
 	private AliadaRDFStoreDAO dao;
-	private JobConfigurationRepository repository;
+	private JobInstanceRepository repository;
 	
 	/**
 	 * Setup fixture for this test case.
@@ -40,9 +40,9 @@ public class CacheTest {
 	public void setUp() {
 		cut = new Cache();
 		dao = mock(AliadaRDFStoreDAO.class);
-		repository = mock(JobConfigurationRepository.class);
+		repository = mock(JobInstanceRepository.class);
 		cut.rdfStore = dao;
-		cut.jobConfigurationRepository = repository;
+		cut.jobInstanceRepository = repository;
 	}
 
 	/**
@@ -140,11 +140,11 @@ public class CacheTest {
 	 */
 	@Test
 	public void jobConfigurationInCache() {
-		final JobConfiguration configuration = newJobConfiguration();
+		final JobInstance configuration = newJobConfiguration();
 		cut.activeJobConfigurations.put(configuration.getId(), configuration);
 		
-		assertSame(configuration, cut.getJobConfiguration(configuration.getId()));
-		assertEquals(configuration.getId(), cut.getJobConfiguration(configuration.getId()).getId());
+		assertSame(configuration, cut.getJobInstance(configuration.getId()));
+		assertEquals(configuration.getId(), cut.getJobInstance(configuration.getId()).getId());
 		
 		verifyZeroInteractions(repository);
 	}
@@ -154,13 +154,13 @@ public class CacheTest {
 	 */
 	@Test
 	public void jobConfigurationNotInCache() {
-		final JobConfiguration configuration = newJobConfiguration();
+		final JobInstance configuration = newJobConfiguration();
 		assertNull(cut.activeJobConfigurations.get(configuration.getId()));
 		
 		when(repository.findOne(configuration.getId())).thenReturn(configuration);
 		
-		assertSame(configuration, cut.getJobConfiguration(configuration.getId()));
-		assertEquals(configuration.getId(), cut.getJobConfiguration(configuration.getId()).getId());
+		assertSame(configuration, cut.getJobInstance(configuration.getId()));
+		assertEquals(configuration.getId(), cut.getJobInstance(configuration.getId()).getId());
 	}	 
 	
 	/**
@@ -168,11 +168,11 @@ public class CacheTest {
 	 */
 	@Test
 	public void jobConfigurationNotFound() {
-		final JobConfiguration configuration = newJobConfiguration();
+		final JobInstance configuration = newJobConfiguration();
 		assertNull(cut.activeJobConfigurations.get(configuration.getId()));
 		
 		when(repository.findOne(configuration.getId())).thenReturn(null);
 		
-		assertNull(cut.getJobConfiguration(configuration.getId()));
+		assertNull(cut.getJobInstance(configuration.getId()));
 	}		
 }

@@ -11,7 +11,7 @@ import java.util.List;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import eu.aliada.rdfizer.datasource.rdbms.JobConfiguration;
+import eu.aliada.rdfizer.datasource.rdbms.JobInstance;
 
 /**
  * A simple transfer object for listing all jobs on the RDFizer.
@@ -39,12 +39,12 @@ public class Jobs {
 	 * 
 	 * @param jobs the job(s) iterator.
 	 */
-	public Jobs(final Iterable<JobConfiguration> jobs) {
-		for (final JobConfiguration jobConfiguration : jobs) {
-			if (jobConfiguration.getEndDate() == null) {
-				activeJobs.add(jobConfiguration.getId());
+	public Jobs(final Iterable<JobInstance> jobs) {
+		for (final JobInstance jobInstance : jobs) {
+			if (jobInstance.getEndDate() == null) {
+				activeJobs.add(jobInstance.getId());
 			} else {
-				completedJobs.add(jobConfiguration.getId());				
+				completedJobs.add(jobInstance.getId());				
 			}
 		}
 	}

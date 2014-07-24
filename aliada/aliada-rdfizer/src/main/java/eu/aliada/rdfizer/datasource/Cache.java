@@ -12,8 +12,8 @@ import java.util.concurrent.ConcurrentMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import eu.aliada.rdfizer.datasource.rdbms.JobConfiguration;
-import eu.aliada.rdfizer.datasource.rdbms.JobConfigurationRepository;
+import eu.aliada.rdfizer.datasource.rdbms.JobInstance;
+import eu.aliada.rdfizer.datasource.rdbms.JobInstanceRepository;
 import eu.aliada.rdfizer.datasource.rdfstore.AliadaRDFStoreDAO;
 
 import com.googlecode.concurrentlinkedhashmap.ConcurrentLinkedHashMap;
@@ -42,9 +42,9 @@ public class Cache {
 		crm2AliadaEventTypes.put("http://terminology.lido-schema.org/lido00012", "http://erlangen-crm.org/current/E65_Creation");
 	}
 	
-	final ConcurrentMap<Integer, JobConfiguration> activeJobConfigurations 
+	final ConcurrentMap<Integer, JobInstance> activeJobConfigurations 
 		= new ConcurrentLinkedHashMap
-			.Builder<Integer, JobConfiguration>()
+			.Builder<Integer, JobInstance>()
 			.maximumWeightedCapacity(50)
 			.build();
 	
@@ -52,7 +52,7 @@ public class Cache {
 	AliadaRDFStoreDAO rdfStore;
 	
 	@Autowired
-	JobConfigurationRepository jobConfigurationRepository;
+	JobInstanceRepository jobInstanceRepository;
 	
 	/**
 	 * Returns the ALIADA class corresponding to the given CIDOC-CRM class.
@@ -83,16 +83,25 @@ public class Cache {
 	}
 
 	/**
-	 * Returns the job configuration associated with a given identifier.
+	 * Returns the job instance associated with a given identifier.
 	 * 
 	 * @param id the job identifier.
-	 * @return the job configuration associated with a given identifier (or null).
+	 * @return the job instance associated with a given identifier (or null).
 	 */
-	public JobConfiguration getJobConfiguration(final Integer id) {
-		JobConfiguration configuration = activeJobConfigurations.get(id);
-		if (configuration == null) {
-			configuration = jobConfigurationRepository.findOne(id);
+	public JobInstance getJobInstance(final Integer id) {
+		JobInstance instance = activeJobConfigurations.get(id);
+		if (instance == null) {
+			instance = jobInstanceRepository.findOne(id);
 		}
-		return configuration;
+		return instance;
+	}
+
+	/**
+	 * Removes the job instance associated with the given identifier.
+	 * 
+	 * @param jobId the job instance associated with the given identifier.
+	 */
+	public void removeJobInstance(final Integer jobId) {
+		activeJobConfigurations.remove(jobId);
 	}
 }

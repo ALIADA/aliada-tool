@@ -13,14 +13,14 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 /**
- * RDF-izer Job entity.
+ * RDF-izer Job instance entity.
  * 
  * @author Andrea Gazzarini
  * @since 1.0
  */
 @Entity
 @Table(name = "rdfizer_job_instances")
-public class JobConfiguration {
+public class JobInstance {
     @Id
     @Column(name = "job_id", nullable = false)
     private Integer id;

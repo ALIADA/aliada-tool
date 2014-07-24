@@ -34,6 +34,10 @@ public interface Job {
 	 * Note that this counter could vary between requests if {@link #isSplitCompleted()} indicates
 	 * that split hasn't been yet completed.
 	 * 
+	 * As side note, a job that has been just created couldn't have been this information
+	 * injected, so, only in this case, in order to indicate this particular state this 
+	 * attribute will return -1.
+	 * 
 	 * @return the total records count for this job.
 	 */
 	int getTotalRecordsCount();
@@ -61,9 +65,28 @@ public interface Job {
 	double getRecordsThroughput();
 	
 	/**
+	 * Returns the statements processing throughput in terms of triples / sec.
+	 * 
+	 * @return the statements processing throughput in terms of triples / sec.
+	 */
+	double getStatementsThroughput();	
+	
+	/**
 	 * Returns true if this job is running.
 	 * 
 	 * @return true if this job is running.
 	 */
 	boolean isRunning();
+	
+	/**
+	 * Returns true if all records belonging to this job have been processed.
+	 * Although similar, this information is a bit different from {@link #isRunning()}.
+	 * A job is running if it has been started and it is not yet completed, while it is 
+	 * completed only if all records have been processed. 
+	 * As consequence of that, a job that for example has been paused / stopped, is not 
+	 * running but is not completed.
+	 * 
+	 * @return true if all records belonging to this job have been processed.
+	 */
+	boolean isCompleted();
 }

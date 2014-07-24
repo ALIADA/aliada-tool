@@ -6,11 +6,12 @@
 package eu.aliada.rdfizer.rest;
 
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicLong;
 
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlElement;
 
-import eu.aliada.rdfizer.datasource.rdbms.JobConfiguration;
+import eu.aliada.rdfizer.datasource.rdbms.JobInstance;
 import eu.aliada.rdfizer.mx.Job;
 
 /**
@@ -25,11 +26,13 @@ import eu.aliada.rdfizer.mx.Job;
 @XmlRootElement(name = "job")
 public class JobResource implements Job {
 
-	private JobConfiguration configuration;
+	private JobInstance configuration;
 	
-	private int totalRecordsCount;
-	private AtomicInteger totalProcessedRecordsCount = new AtomicInteger();
-	private AtomicInteger totalOutputStatementsCount = new AtomicInteger();
+	private int totalRecordsCount = -1;
+	private final AtomicInteger totalProcessedRecordsCount = new AtomicInteger();
+	private final AtomicInteger totalOutputStatementsCount = new AtomicInteger();
+	
+	private final AtomicLong elapsed = new AtomicLong();
 	
 	private boolean isRunning;
 	
@@ -47,7 +50,7 @@ public class JobResource implements Job {
 	 * 
 	 * @param configuration the job instance configuration.
 	 */
-	public JobResource(final JobConfiguration configuration) {
+	public JobResource(final JobInstance configuration) {
 		this.configuration = configuration;
 	}
 
@@ -68,10 +71,21 @@ public class JobResource implements Job {
 	}
 
 	/**
-	 * Increments the total output statements count.
+	 * Increments the total elapsed.
+	 * 
+	 * @param increment the additional elapsed.
 	 */
-	public void incrementOutputStatementsCount() {
-		totalOutputStatementsCount.incrementAndGet();
+	public void incrementElapsed(final long increment) {
+		elapsed.addAndGet(increment);
+	}
+	
+	/**
+	 * Increments the total output statements count.
+	 * 
+	 * @param increment the delta that will be added to the total amount.
+	 */
+	public void incrementOutputStatementsCount(final int increment) {
+		totalOutputStatementsCount.addAndGet(increment);
 	}
 	
 	@XmlElement(name = "total-records-count")
@@ -92,10 +106,12 @@ public class JobResource implements Job {
 		return totalOutputStatementsCount.get();
 	}
 
-	@XmlElement(name = "record-throughput")
+	@XmlElement(name = "records-throughput")
 	@Override
 	public double getRecordsThroughput() {
-		return 0;
+		return elapsed.get() != 0 
+				? totalProcessedRecordsCount.doubleValue() / ((elapsed.get() / 1000))
+				: 0;
 	}
 
 	@XmlElement(name = "id")
@@ -122,5 +138,19 @@ public class JobResource implements Job {
 	 */
 	public void setRunning(final boolean running) {
 		this.isRunning = running;
+	}
+
+	@XmlElement(name = "completed")
+	@Override
+	public boolean isCompleted() {
+		return totalRecordsCount == totalProcessedRecordsCount.get();
+	}
+
+	@XmlElement(name = "triples-throughput")
+	@Override
+	public double getStatementsThroughput() {
+		return elapsed.get() != 0 
+				? totalOutputStatementsCount.doubleValue() / ((elapsed.get() / 1000))
+				: 0;		
 	}
 }

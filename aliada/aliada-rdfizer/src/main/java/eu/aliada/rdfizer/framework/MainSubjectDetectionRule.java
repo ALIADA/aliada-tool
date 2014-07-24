@@ -5,7 +5,7 @@
 // Responsible: ALIADA Consortiums
 package eu.aliada.rdfizer.framework;
  
-import eu.aliada.rdfizer.datasource.rdbms.JobConfiguration;
+import eu.aliada.rdfizer.datasource.rdbms.JobInstance;
  
 /**
  * Before doing a conversion, we need to identify the main subject (i.e. the URI of the new entity).
@@ -24,5 +24,5 @@ public interface MainSubjectDetectionRule<I, O> {
 	 * @return the main subject.
 	 * @throws UnableToProceedWithConversionException in case the subject cannot be determined.
 	 */
-	O computeFrom(I input, JobConfiguration configuration) throws UnableToProceedWithConversionException;
+	O computeFrom(I input, JobInstance configuration) throws UnableToProceedWithConversionException;
 }

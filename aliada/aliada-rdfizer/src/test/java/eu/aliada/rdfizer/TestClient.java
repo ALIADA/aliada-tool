@@ -4,13 +4,13 @@
 // Component: aliada-rdfizer
 // Responsible: ALIADA Consortiums
 package eu.aliada.rdfizer;
-
+ 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
-
+    
 /**
  * To be removed, this is used just for running some sample job.
  * 
