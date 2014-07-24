@@ -42,6 +42,8 @@ import org.springframework.stereotype.Component;
 import eu.aliada.rdfizer.datasource.Cache;
 import eu.aliada.rdfizer.datasource.rdbms.JobInstance;
 import eu.aliada.rdfizer.datasource.rdbms.JobInstanceRepository;
+import eu.aliada.rdfizer.datasource.rdbms.JobStats;
+import eu.aliada.rdfizer.datasource.rdbms.JobStatsRepository;
 import eu.aliada.rdfizer.log.MessageCatalog;
 import eu.aliada.rdfizer.mx.InMemoryJobResourceRegistry;
 import eu.aliada.rdfizer.mx.ManagementRegistrar;
@@ -79,7 +81,10 @@ public class RDFizerResource implements RDFizer {
 
 	@Autowired
 	protected JobInstanceRepository jobInstanceRepository;
-	
+
+	@Autowired
+	protected JobStatsRepository jobStatsRepository;
+
 	protected boolean enabled = true;
 	
 	protected AtomicInteger runningJobCount = new AtomicInteger();
@@ -130,21 +135,23 @@ public class RDFizerResource implements RDFizer {
 	@Path("/jobs/{jobid}")
 	@Produces({MediaType.TEXT_XML, MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
 	public Response getJob(@PathParam("jobid") final Integer id) {
-		final JobInstance configuration = cache.getJobInstance(id);
-		if (configuration == null) {
-			LOGGER.error(MessageCatalog._00032_JOB_CONFIGURATION_NOT_FOUND, id);
+		final JobInstance instance = cache.getJobInstance(id);
+		if (instance == null) {
+			LOGGER.error(MessageCatalog._00032_JOB_INSTANCE_NOT_FOUND, id);
 			return Response.status(Status.NOT_FOUND).build();											
 		}
 		
-		final ObjectName objectName = ManagementRegistrar.createJobObjectName(configuration.getFormat(), id);
+		final ObjectName objectName = ManagementRegistrar.createJobObjectName(instance.getFormat(), id);
 		if (ManagementRegistrar.isAlreadyRegistered(objectName)) {
-			// TODO: in the final implementation we mustn't rely on job registry but instead we should 
-			// build a DTO for each invocation.
 			final JobResource resource = jobRegistry.getJobResource(id);
 			return Response.ok().entity(resource).build();
 		} else {
-			final JobResource resource = new JobResource(configuration);
-			return Response.ok().entity(resource).build();
+			final JobStats stats = jobStatsRepository.findOne(id);
+			if (stats == null) {
+				return Response.status(Status.NOT_FOUND).build();											
+			}
+			stats.setInstance(instance);
+			return Response.ok().entity(stats).build();
 		}
 	}
 	
@@ -172,7 +179,7 @@ public class RDFizerResource implements RDFizer {
 		try {
 			final JobInstance configuration = cache.getJobInstance(id);
 			if (configuration == null) {
-				LOGGER.error(MessageCatalog._00032_JOB_CONFIGURATION_NOT_FOUND, id);
+				LOGGER.error(MessageCatalog._00032_JOB_INSTANCE_NOT_FOUND, id);
 				return Response.status(Status.NOT_FOUND).build();								
 			}
 			
