@@ -304,12 +304,13 @@ public class RDFizerResource implements RDFizer {
 
 	@Override
 	public int getCompletedJobsCount() {
+		// TODO for 2nd iteration
 		return 0;
 	}
 
 	@Override
 	public int getProcessedRecordsCount() {
-		// TODO Auto-generated method stub
+		// TODO for 2nd iteration
 		return 0;
 	}
 }

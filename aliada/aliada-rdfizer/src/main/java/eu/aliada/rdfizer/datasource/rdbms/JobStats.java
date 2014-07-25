@@ -14,6 +14,9 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+
+import eu.aliada.rdfizer.rest.JobResource;
 
 /**
  * RDF-izer Job stats.
@@ -26,32 +29,25 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "job")
 public class JobStats {	
     @Id
-	@XmlElement(name = "id")
     @Column(name = "job_id", nullable = false)
     private Integer id;
     
     @Column(name = "total_records_count", nullable = false)
     private int totalRecordsCount;
     
-	@XmlElement(name = "output-statements-count")
     @Column(name = "total_triples_produced", nullable = false)
     private int totalTriplesProduced;
 
-	@XmlElement(name = "records-throughput")
     @Column(name = "records_throughput", nullable = false)
     private BigDecimal recordsThroughput;
         
-	@XmlElement(name = "triples-throughput")
     @Column(name = "triples_throughput", nullable = false)
     private BigDecimal triplesThroughput;
     
 	@Transient
+	@XmlTransient
     private JobInstance instance;
-    
-	public JobStats() {
-		// NTD
-	}
-	
+   	
     /**
      * Sets the job instance on this stats.
      * 
@@ -77,6 +73,7 @@ public class JobStats {
      * 
      * @return the identifier of this job configuration.
      */
+	@XmlElement(name = "id")
 	public Integer getId() {
 		return id;
 	}
@@ -95,6 +92,7 @@ public class JobStats {
 	 * 
 	 * @return the total records count of the owning job.
 	 */
+	@XmlElement(name = "total-records-count")
 	public int getTotalRecordsCount() {
 		return totalRecordsCount;
 	}
@@ -113,6 +111,7 @@ public class JobStats {
 	 * 
 	 * @return the total number of triples produced by the owning job.
 	 */
+	@XmlElement(name = "output-statements-count")
 	public int getTotalTriplesProduced() {
 		return totalTriplesProduced;
 	}
@@ -131,6 +130,7 @@ public class JobStats {
 	 * 
 	 * @return the record processing throughput in terms of rec / sec.
 	 */
+	@XmlElement(name = "records-throughput")
 	public BigDecimal getRecordsThroughput() {
 		return recordsThroughput;
 	}
@@ -149,6 +149,7 @@ public class JobStats {
 	 * 
 	 * @return the average triples production throughput in terms of triples / sec.
 	 */
+	@XmlElement(name = "triples-throughput")
 	public BigDecimal getTriplesThroughput() {
 		return triplesThroughput;
 	}
@@ -162,16 +163,34 @@ public class JobStats {
 		this.triplesThroughput = throughput;
 	}
 	
+	/**
+	 * Returns true if the job has been completed.
+	 * 
+	 * @see JobResource#isCompleted()
+	 * @return true if the job has been completed.
+	 */
 	@XmlElement(name = "completed")
 	public boolean isCompleted() {
 		return true;
 	}
 	
+	/**
+	 * Returns true if the job is running.
+	 * 
+	 * @see JobResource#isRunning()
+	 * @return true if the job is running.
+	 */
 	@XmlElement(name = "running")
 	public boolean isRunning() {
 		return true;
 	}	
 	
+	/**
+	 * Returns the format that has been associated with this job.
+	 * 
+	 * @see JobResource#getFormat()
+	 * @return the format that has been associated with this job.
+	 */
 	@XmlElement(name = "format")
 	public String getFormat() {
 		return instance != null ? instance.getFormat() : "Unknown";
