@@ -8,10 +8,13 @@
 		</layout>
 	</appender>
 	<category name="eu.aliada">
-		<priority value="INFO" />
+		<priority value="DEBUG" />
 	</category>
+	<category name="org">
+		<priority value="ERROR" />
+	</category>	
 	<root>
-		<priority value="INFO" />
+		<priority value="ERROR" />
 		<appender-ref ref="CONSOLE" />
 	</root>
 </log4j:configuration>
