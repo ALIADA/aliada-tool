@@ -3,7 +3,7 @@
 			xmlns:gml="http://www.opengis.net/gml" 
 			xmlns:lido="http://www.lido-schema.org" 
 			xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
-			xmlns:xml="http://www.w3.org/XML/1998/namespace" 
+			xml:lang="en"
 			targetNamespace="http://www.lido-schema.org" 
 			elementFormDefault="qualified" attributeFormDefault="qualified">
 	<!--  
