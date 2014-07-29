@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<constant name="struts.enable.DynamicMethodInvocation" value="false" />
+		<constant name="struts.devMode" value="false" />
+		<constant name="struts.custom.i18n.resources" value="ApplicationResources" />
+		<constant name="struts.ui.theme" value="simple" />
+	<package name="default" extends="struts-default" namespace="/*">
+		<result-types>
+			<result-type name="tiles"
+				class="org.apache.struts2.views.tiles.TilesResult" />
+		</result-types>
+		<action name="logon" class="eu.aliada.gui.action.LogonAction">
+			<result name="success" type="tiles">/logon.tiles</result>
+			<result name="error" type="tiles">/logon.tiles</result>
+			<result name="config" type="tiles">/welcome.tiles</result>
+			<result name="input" type="tiles">/logon.tiles</result>
+		</action>
+		<action name="validateLogon" class="eu.aliada.gui.action.LogonAction">
+			<result name="success" type="tiles">/welcome.tiles</result>
+	   </action>
+		
+		
+		<action name="importXML" method="importXML" class="eu.aliada.gui.action.ManagingAction">
+			<result name="success" type="tiles">/manage.tiles</result>
+			<result name="error" type="tiles">/manage.tiles</result>
+			<result name="input" type="tiles">/manage.tiles</result>
+			<interceptor-ref name="defaultStack">
+                <param name="fileUpload.allowedTypes">text/xml</param>
+            </interceptor-ref>
+		</action>
+
+		
+
+		<action name="configure" method="execute"
+			class="eu.aliada.gui.action.InstitutionConfigurationAction">
+			<result name="success" type="tiles">/configuration.tiles</result>
+    			<param name="inputName">str</param>
+		</action>
+
+		<action name="manage" method="showProfiles"
+			class="eu.aliada.gui.action.ManagingAction">
+			<result name="success" type="tiles">/manage.tiles</result>
+		</action>
+		
+		<action name="errorLog" class="eu.aliada.gui.action.ManagingAction">
+			<result name="success" type="tiles">/errorLog.tiles</result>
+		</action>
+		
+		<action name="showProfiles" method="showProfiles"
+			class="eu.aliada.gui.action.ManagingAction">
+			<result name="success" type="tiles">/profiles.tiles</result>
+		</action>
+		
+		<action name="showAddProfileForm" method="showAddProfile"
+			class="eu.aliada.gui.action.ManagingAction">
+			<result name="success" type="tiles">/profiles.tiles</result>
+		</action>
+		
+		<action name="addProfile" method="addProfile"
+			class="eu.aliada.gui.action.ManagingAction">
+			<result name="success" type="tiles">/profiles.tiles</result>
+			<result name="error" type="tiles">/profiles.tiles</result>
+		</action>
+		
+		<action name="showEditProfileForm" method="showEditProfile"
+			class="eu.aliada.gui.action.ManagingAction">
+			<result name="success" type="tiles">/profiles.tiles</result>
+			<result name="error" type="tiles">/profiles.tiles</result>
+		</action>
+		
+		<action name="editProfile" method="editProfile"
+			class="eu.aliada.gui.action.ManagingAction">
+			<result name="success" type="tiles">/profiles.tiles</result>
+			<result name="error" type="tiles">/profiles.tiles</result>
+		</action>
+
+		<action name="linking" class="eu.aliada.gui.action.LinkingAction">
+			<result name="success" type="tiles">/linking.tiles</result>
+			<result name="error" type="tiles">/configuration.tiles</result>
+		</action>
+
+		<action name="addInstitution" method="addInstitution"
+			class="eu.aliada.gui.action.InstitutionConfigurationAction">
+			<result name="success" type="tiles">/configuration.tiles</result>
+			<result name="error" type="tiles">/configuration.tiles</result>
+		</action>
+
+		<action name="linkingInfo" class="eu.aliada.gui.action.LinkingInfoAction">
+			<result name="success" type="tiles">/linkingInfo.tiles</result>
+			<result name="error" type="tiles">/linking.tiles</result>
+		</action>
+
+		<action name="showUsers" method="getUsersDb"
+			class="eu.aliada.gui.action.UsersAction">
+			<result name="success" type="tiles">/users.tiles</result>
+			<result name="error" type="tiles">/configuration.tiles</result>
+		</action>
+
+		<action name="showAddForm" method="showAddForm"
+			class="eu.aliada.gui.action.UsersAction">
+			<result name="success" type="tiles">/users.tiles</result>
+		</action>
+
+		<action name="showEditForm" method="prepareToUpdate"
+			class="eu.aliada.gui.action.UsersAction">
+			<result name="success" type="tiles">/users.tiles</result>
+			<result name="error" type="tiles">/users.tiles</result>
+		</action>
+
+		<action name="addUser" method="addUser"
+			class="eu.aliada.gui.action.UsersAction">
+			<result name="success" type="tiles">/users.tiles</result>
+			<result name="error" type="tiles">/users.tiles</result>
+		</action>
+
+		<action name="editUser" method="editUser"
+			class="eu.aliada.gui.action.UsersAction">
+			<result name="success" type="tiles">/users.tiles</result>
+			<result name="error" type="tiles">/users.tiles</result>
+		</action>
+
+		<action name="deleteUser" method="deleteUser"
+			class="eu.aliada.gui.action.UsersAction">
+			<result name="success" type="tiles">/users.tiles</result>
+			<result name="error" type="tiles">/users.tiles</result>
+		</action>
+
+	</package>
+</struts>
