@@ -14,6 +14,8 @@
 	<properties>
 		<module.context.root>/aliada</module.context.root>
 		<module.listen.port>8880</module.listen.port>
+		<struts2.version>2.3.8</struts2.version>
+		<tiles.version>2.2.2</tiles.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -21,5 +23,78 @@
 			<artifactId>aliada-shared-module</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+
+		<dependency>
+			<groupId>org.apache.struts</groupId>
+			<artifactId>struts2-core</artifactId>
+			<version>${struts2.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.struts</groupId>
+			<artifactId>struts2-config-browser-plugin</artifactId>
+			<version>${struts2.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.struts</groupId>
+			<artifactId>struts2-junit-plugin</artifactId>
+			<version>${struts2.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.struts</groupId>
+			<artifactId>struts2-tiles-plugin</artifactId>
+			<version>${struts2.version}</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>commons-logging</groupId>
+			<artifactId>commons-logging</artifactId>
+			<version>1.1.1</version>
+		</dependency>
+
+		<dependency>
+    		<groupId>org.apache.tiles</groupId>
+    		<artifactId>tiles-core</artifactId>
+    		<version>${tiles.version}</version>
+			<exclusions>
+	            <exclusion>
+	                <groupId>org.slf4j</groupId>
+	                <artifactId>slf4j-nop</artifactId>
+	            </exclusion>
+	            <exclusion>
+	                <groupId>org.slf4j</groupId>
+	                <artifactId>slf4j-api</artifactId>
+	             </exclusion>
+	             <exclusion>
+	                 <groupId>org.slf4j</groupId>
+	                 <artifactId>jcl-over-slf4j</artifactId>
+	             </exclusion>
+	        </exclusions>
+    	</dependency>
+    	<dependency>
+			<groupId>org.apache.tiles</groupId>
+			<artifactId>tiles-jsp</artifactId>
+			<version>${tiles.version}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.googlecode.json-simple</groupId>
+			<artifactId>json-simple</artifactId>
+			<version>1.1</version>
+		</dependency>
+
+		<dependency>
+		    <groupId>commons-fileupload</groupId>
+		    <artifactId>commons-fileupload</artifactId>
+		    <version>1.1.1</version>
+		</dependency>
+
+		<dependency>
+		    <groupId>commons-io</groupId>
+		    <artifactId>commons-io</artifactId>
+		    <version>1.0</version>
+		</dependency>
+
+
 	</dependencies>
 </project>
