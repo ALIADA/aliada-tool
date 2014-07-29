@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+
+<tiles-definitions>
+
+	<definition name="baseLayout" template="/content/common/layout.jsp">
+		<put-attribute name="body" value="" />
+		<put-attribute name="menu" value="/content/common/menu.jsp" />
+		<put-attribute name="footer" value="/content/common/footer.jsp" />
+	</definition>
+	
+	<definition name="userLayout" template="/content/common/layoutUser.jsp">
+		<put-attribute name="body" value="" />
+		<put-attribute name="footer" value="/content/common/footer.jsp" />
+	</definition>	
+
+	<definition name="/logon.tiles" template="/content/common/layout-logon.jsp">
+		<put-attribute name="body" value="/content/logon.jsp" />
+		<put-attribute name="footer" value="/content/common/footer.jsp" />
+	</definition>
+	
+	<definition name="/welcome.tiles" template="/content/common/layout-logon.jsp">
+		<put-attribute name="body" value="/content/welcomePage.jsp" />
+		<put-attribute name="footer" value="/content/common/footer.jsp" />
+	</definition>
+
+	<definition name="/configuration.tiles" extends="baseLayout">
+		<put-attribute name="body" value="/content/institutionSettings.jsp" />
+	</definition>
+	
+	<definition name="/errorLog.tiles" extends="baseLayout">
+		<put-attribute name="body" value="/content/errorLog.jsp" />
+	</definition>
+	
+	<definition name="/manage.tiles" extends="baseLayout">
+		<put-attribute name="body" value="/content/manage.jsp" />
+	</definition>
+	
+	<definition name="/profiles.tiles" extends="baseLayout">
+		<put-attribute name="body" value="/content/profiles.jsp" />
+	</definition>
+	
+	<definition name="/users.tiles" extends="userLayout">
+		<put-attribute name="body" value="/content/users.jsp" />		
+	</definition>
+	
+	<definition name="/linking.tiles" extends="baseLayout">
+		<put-attribute name="body" value="/content/linking.jsp" />
+	</definition>
+	
+	<definition name="/linkingInfo.tiles" extends="baseLayout">
+		<put-attribute name="body" value="/content/linkingInfo.jsp" />
+	</definition>
+	
+
+</tiles-definitions>
