@@ -5,9 +5,7 @@
 // Responsible: ALIADA Consortiums
 package eu.aliada.rdfizer.pipeline.format.marc.frbr;
 
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -45,16 +43,6 @@ public class PersonDetector extends AbstractEntityDetector<Map<String, List<Stri
 		for (final Expression<Map<String, List<String>>, Document> expression : expressions) {
 			put(expression.evaluate(target),map);
 		}
-		
-		Iterator<String> iter = map.keySet().iterator();
-		
-		while(iter.hasNext())
-		{
-			String key = iter.next();
-			List<String> l = map.get(key);
-			System.out.println("key: " + key + " Value: " + Arrays.toString(l.toArray()) );
-		}
-		
 		return map;
 	}
 }

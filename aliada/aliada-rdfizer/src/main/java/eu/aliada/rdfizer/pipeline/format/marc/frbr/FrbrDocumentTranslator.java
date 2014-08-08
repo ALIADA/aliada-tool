@@ -32,11 +32,13 @@ public class FrbrDocumentTranslator extends SynchXmlDocumentTranslator {
 			final Message message, 
 			final JobInstance configuration) throws UnableToProceedWithConversionException {
 		final FrbrDocument data = message.getBody(FrbrDocument.class);
-				
-		final Document document = data.getDocument();
-		final Element root = document.getDocumentElement();
-		velocityContext.put(Constants.ROOT_ELEMENT_ATTRIBUTE_NAME, root);
-		velocityContext.put(Constants.FRBR_DATA_ATTRIBUTE_NAME, data);		
+		
+		if(data !=null) {
+			final Document document = data.getDocument();
+			final Element root = document.getDocumentElement();
+			velocityContext.put(Constants.ROOT_ELEMENT_ATTRIBUTE_NAME, root);
+			velocityContext.put(Constants.FRBR_DATA_ATTRIBUTE_NAME, data);
+		}
 	}
 	
 	@Override

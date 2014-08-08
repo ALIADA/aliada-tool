@@ -45,7 +45,7 @@ public interface MessageCatalog {
 	String _00039_STRING_TO_XML_FAILURE_DEBUG_MESSAGE = LT + MODULE_NAME + "-00039> : ";	
 	String _00040_TEMPLATE_NOT_FOUND = LT + MODULE_NAME + "-00040> : Transformation template associated with format %s cannot be found. Check your configuration.";	
 	String _00041_FRBR_ENTITY_DETECTION_FAILED = 
-			LT + MODULE_NAME + "-00041> : FRBR entity detection produced no results. As consequence of that the current record will be skept.";	
+			LT + MODULE_NAME + "-00041> : FRBR entity detection produced invalid results. As consequence of that the current record will be skept. Are you sure the entity processed is a bibliographic record? ";	
 	String _00042_MX_SUBSYSTEM_FAILURE = LT + MODULE_NAME + "-00042> : Management subsystem failure. See below for further details.";
 	String _00043_MX_RESOURCE_ALREADY_REGISTERED = LT + MODULE_NAME + "-00043> : Management interface already registered (%s). Probably it hasn't been properly unregistered.";
 	String _00044_MX_RESOURCE_REGISTERED = LT + MODULE_NAME + "-00044> : Management interface %s has been registered.";

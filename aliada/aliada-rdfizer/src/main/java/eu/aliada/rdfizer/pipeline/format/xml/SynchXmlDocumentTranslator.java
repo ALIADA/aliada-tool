@@ -112,7 +112,7 @@ public class SynchXmlDocumentTranslator implements Processor, ApplicationContext
 		
 		// Sanity check: if previous processor didn't put a valid data object in the body
 		// the conversion chain for this record must stop here
-		if (in.getBody() == null) {
+		if (in.getBody() instanceof NullObject) {
 			return;
 		}
 		
