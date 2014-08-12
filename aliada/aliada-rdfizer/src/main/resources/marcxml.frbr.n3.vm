@@ -48,6 +48,8 @@ $expression_s #efrbroo('R4_carriers_provided_by') $manifestation_s .
 #simplest_mapping_with_repeatable_tag ($work_s "243" "m" $root "E55_Type" $E55_Type $P2_has_type)
 #simplest_mapping_with_repeatable_tag ($work_s "243" "n" $root "E35_Title" $E35_Title $P102_has_title)
 #simplest_mapping_with_repeatable_tag ($work_s "243" "p" $root "E35_Title" $E35_Title $P102_has_title)
+##245
+#simplest_mapping_with_repeatable_tag ($work_s "245" "k" $root "E55_Type" $E55_Type $P2_has_type)
 ## MANIFESTATION
 ## 001
 #set($controlNumber = $xpath.cf("001",$root))
