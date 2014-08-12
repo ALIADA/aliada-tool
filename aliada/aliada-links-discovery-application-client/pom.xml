@@ -4,7 +4,7 @@
 	<parent>
 		<artifactId>aliada</artifactId>
 		<groupId>eu.aliada</groupId>
-		<version>0.0.1-SNAPSHOT</version>
+		<version>1.0</version>
 		<relativePath>..</relativePath>
 	</parent>
 	<artifactId>aliada-links-discovery-application-client</artifactId>
