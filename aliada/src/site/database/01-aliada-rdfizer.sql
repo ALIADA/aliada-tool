@@ -1,5 +1,5 @@
 CREATE TABLE `aliada`.`rdfizer_job_instances` (
-`job_id` INT NOT NULL ,
+`job_id` INT NOT NULL AUTO_INCREMENT,
 `datafile`  VARCHAR( 245 ) default NULL,
 `format`  VARCHAR( 32 ) default NULL,
 `namespace`  VARCHAR( 245 ) default NULL,
