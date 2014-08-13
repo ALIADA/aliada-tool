@@ -241,8 +241,14 @@ public class SynchXmlDocumentTranslator implements Processor, ApplicationContext
 		stats.setId(job.getID());
 		stats.setTotalRecordsCount(job.getTotalRecordsCount());
 		stats.setTotalTriplesProduced(job.getOutputStatementsCount());
-		stats.setRecordsThroughput(BigDecimal.valueOf(job.getRecordsThroughput()));
-		stats.setTriplesThroughput(BigDecimal.valueOf(job.getStatementsThroughput()));		
+		stats.setRecordsThroughput(
+				job.getRecordsThroughput() > 0 
+					? BigDecimal.valueOf(job.getRecordsThroughput())
+					: BigDecimal.ZERO);
+		stats.setTriplesThroughput(
+				job.getStatementsThroughput() > 0
+					? BigDecimal.valueOf(job.getStatementsThroughput())
+					: BigDecimal.ZERO);		
 		jobStatsRepository.save(stats);		
 	}	
 	
