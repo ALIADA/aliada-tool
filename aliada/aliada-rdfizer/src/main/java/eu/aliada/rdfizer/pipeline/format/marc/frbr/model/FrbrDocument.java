@@ -22,13 +22,13 @@ public final class FrbrDocument implements Serializable {
 	private static final long serialVersionUID = 203862468772292056L;
 
 	private final Document document;
-	private final String workURI;
-	private final String expressionURI;
-	private final String manifestationURI;
-	private final Map<String, List<String>> personURI;
-	private final Map<String, List<String>> familyURI;
-	private final Map<String, List<String>> corporateBodyURI;
-	private final Map<String, List<String>> itemURI;
+	private final String workID;
+	private final String expressionID;
+	private final String manifestationID;
+	private final Map<String, List<String>> personID;
+	private final Map<String, List<String>> familyID;
+	private final Map<String, List<String>> corporateBodyID;
+	private final Map<String, List<String>> itemID;
 	
 	
 	/**
@@ -53,13 +53,13 @@ public final class FrbrDocument implements Serializable {
 			final Map<String, List<String>> corporateBodyURI,
 			final Map<String, List<String>> itemURI) {
 		this.document = document;
-		this.workURI = workURI;
-		this.expressionURI = expressionURI;
-		this.manifestationURI = manifestationURI;
-		this.personURI = personURI;
-		this.familyURI = familyURI;
-		this.corporateBodyURI = corporateBodyURI;
-		this.itemURI = itemURI;
+		this.workID = workURI;
+		this.expressionID = expressionURI;
+		this.manifestationID = manifestationURI;
+		this.personID = personURI;
+		this.familyID = familyURI;
+		this.corporateBodyID = corporateBodyURI;
+		this.itemID = itemURI;
 	}
 	
 	/**
@@ -67,8 +67,8 @@ public final class FrbrDocument implements Serializable {
 	 * 
 	 * @return the URI that has been associated with the Work.
 	 */
-	public String getWorkURI() {
-		return workURI;
+	public String getWorkID() {
+		return workID;
 	}
 	
 	/**
@@ -76,8 +76,8 @@ public final class FrbrDocument implements Serializable {
 	 * 
 	 * @return the URI that has been associated with the Expression.
 	 */
-	public String getExpressionURI() {
-		return expressionURI;
+	public String getExpressionID() {
+		return expressionID;
 	}
 
 	/**
@@ -85,8 +85,8 @@ public final class FrbrDocument implements Serializable {
 	 * 
 	 * @return the URI that has been associated with the Manifestation.
 	 */
-	public String getManifestationURI() {
-		return manifestationURI;
+	public String getManifestationID() {
+		return manifestationID;
 	}
 	
 	/**
@@ -104,31 +104,31 @@ public final class FrbrDocument implements Serializable {
 	 * @return true if the detected FRBR structure can be considered valid, otherwise false.
 	 */
 	public boolean isValid() {
-		return workURI != null && expressionURI != null && manifestationURI != null && document != null;
+		return workID != null && expressionID != null && manifestationID != null && document != null;
 	}
 	
 	/**
 	 * Return a map with tag as key and a List of String which represent the URIs.
 	 * @return the personURI
 	 */
-	public  Map<String, List<String>> getPersonURI() {
-		return personURI;
+	public  Map<String, List<String>> getPersonID() {
+		return personID;
 	}
 
 	/**
 	 * Return a map with tag as key and a List of String which represent the URIs.
 	 * @return the familyURI
 	 */
-	public  Map<String, List<String>> getFamilyURI() {
-		return familyURI;
+	public  Map<String, List<String>> getFamilyID() {
+		return familyID;
 	}
 
 	/**
 	 * Return a map with tag as key and a List of String which represent the URIs.
 	 * @return the corporateBodyURI
 	 */
-	public  Map<String, List<String>> getCorporateBodyURI() {
-		return corporateBodyURI;
+	public  Map<String, List<String>> getCorporateBodyID() {
+		return corporateBodyID;
 	}
 
 	/**
@@ -136,7 +136,7 @@ public final class FrbrDocument implements Serializable {
 	 * 
 	 * @return the itemURI
 	 */
-	public  Map<String, List<String>> getItemURI() {
-		return itemURI;
+	public  Map<String, List<String>> getItemID() {
+		return itemID;
 	}
 }

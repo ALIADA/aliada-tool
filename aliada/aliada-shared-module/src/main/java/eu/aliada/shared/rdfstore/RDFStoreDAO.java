@@ -33,6 +33,8 @@ import org.apache.commons.codec.binary.Base64;
 import eu.aliada.shared.log.MessageCatalog;
 import eu.aliada.shared.log.Log;
 
+import static eu.aliada.shared.Strings.*;
+
 /**
  * RDF Store common operations. 
  *  
@@ -160,6 +162,43 @@ public class RDFStoreDAO {
 		}
 		return done;
 	}
+	
+	/**
+	 * It executes an INSERT SPARQL query on the SPARQL endpoint.
+	 *
+	 * @param sparqlEndpointURI		the SPARQL endpoint URI.  
+	 * @param user					the user name for the SPARQl endpoint.
+	 * @param password				the password for the SPARQl endpoint.
+	 * @param triples				the triples that will be added.
+	 * @return true if the SPARQL has been executed. False otherwise.
+	 * @since 1.0
+	 */
+	public boolean executeInsert(
+			final String sparqlEndpointURI, 
+			final String graphName, 
+			final String user, 
+			final String password, 
+			final String triples) {
+		boolean done = false;
+		final String query = buildInsertQuery(graphName, triples);
+		try {
+			HttpContext httpContext = new BasicHttpContext();
+			CredentialsProvider provider = new BasicCredentialsProvider();
+			provider.setCredentials(new AuthScope(AuthScope.ANY_HOST,
+					AuthScope.ANY_PORT), new UsernamePasswordCredentials(user, password));
+			httpContext.setAttribute(HttpClientContext.CREDS_PROVIDER, provider);
+		
+			UpdateRequest update = UpdateFactory.create(query);
+		
+			UpdateProcessor processor = UpdateExecutionFactory.createRemoteForm(update, sparqlEndpointURI);
+			((UpdateProcessRemoteForm)processor).setHttpContext(httpContext);
+			processor.execute();
+			done = true;
+		} catch (Exception exception) {
+			logger.error(MessageCatalog._00035_SPARQL_FAILED, exception, query);
+		}
+		return done;
+	}	
 
 	/**
 	 * It clears the graph in the RDF store using SPARQL endpoint.
@@ -178,5 +217,28 @@ public class RDFStoreDAO {
 		done = executeUpdateQuerySparqlEndpoint(sparqlEndpointURI, user, password, clearGraphSPARQL);
 		return done;
 	}
-
+	
+	/**
+	 * Builds a SPARQL INSERT with the given data.
+	 * 
+	 * @param graphName the graphName, null in case of default graph.
+	 * @param triples the triples (in N3 format) that will be added.
+	 * @return a new SPARQL INSERT query.
+	 */
+	String buildInsertQuery(final String graphName, final String triples) {
+		final StringBuilder builder = new StringBuilder();
+		builder.append("INSERT ");
+		if (isNotNullAndNotEmpty(graphName)) {
+			builder.append("IN GRAPH ");
+			if (graphName.startsWith("<") && graphName.endsWith(">")) {
+				builder.append(graphName);
+			} else 
+			{
+				builder.append("<").append(graphName).append(">");
+			}
+		}
+		
+		builder.append("{ ").append(triples).append("}");
+		return builder.toString();
+	}
 }

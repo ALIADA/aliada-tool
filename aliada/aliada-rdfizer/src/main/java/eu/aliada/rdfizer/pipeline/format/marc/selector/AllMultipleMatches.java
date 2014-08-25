@@ -66,6 +66,7 @@ public class AllMultipleMatches<K> implements Expression<Map<String, List<String
 			while (iterNode.hasNext()) {
 				Node node = iterNode.next();
 				NamedNodeMap attributes = node.getAttributes();
+			   if(attributes != null) {
 				for (int k = 0; k < attributes.getLength(); k++) {
 					Attr attr = (Attr) attributes.item(k);
 					if (attr != null) {
@@ -83,6 +84,7 @@ public class AllMultipleMatches<K> implements Expression<Map<String, List<String
 						}
 					}
 				}
+			  } 
 			}
 		}
 		return result;
@@ -102,6 +104,7 @@ public class AllMultipleMatches<K> implements Expression<Map<String, List<String
 		for (int i = 0; i < list.getLength(); i++) {
 			Node actualNode = list.item(i);
 			NamedNodeMap attributes = actualNode.getAttributes();
+			if(attributes != null) {
 			for (int k = 0; k < attributes.getLength(); k++) {
 				Attr attr = (Attr) attributes.item(k);
 				if(attr != null)
@@ -113,6 +116,8 @@ public class AllMultipleMatches<K> implements Expression<Map<String, List<String
 					}
 				}
 			}
+			}
+			
 		}
 		return builder;
 	}

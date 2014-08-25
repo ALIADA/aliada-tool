@@ -1,5 +1,5 @@
 CREATE TABLE `aliada`.`linkeddataserver_job_instances` (
-`job_id` INT NOT NULL ,
+`job_id` INT NOT NULL AUTO_INCREMENT,
 `store_ip`  VARCHAR( 245 ) default NULL,
 `store_sql_port`  INT default 1111,
 `sql_login`  VARCHAR( 32 ) default NULL,

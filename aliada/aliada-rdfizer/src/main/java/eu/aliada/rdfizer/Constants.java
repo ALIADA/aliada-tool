@@ -20,4 +20,5 @@ public interface Constants {
 	String XPATH_ATTRIBUTE_NAME = "xpath";
 	String FUNCTION_ATTRIBUTE_NAME = "function";
 	String FRBR_DATA_ATTRIBUTE_NAME = "frbr";
+	String GRAPH_ATTRIBUTE_NAME = "graphName";
 }

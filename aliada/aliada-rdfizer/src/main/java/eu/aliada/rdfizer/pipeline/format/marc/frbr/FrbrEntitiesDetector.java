@@ -16,6 +16,7 @@ import eu.aliada.rdfizer.datasource.Cache;
 import eu.aliada.rdfizer.datasource.rdbms.JobInstance;
 import eu.aliada.rdfizer.log.MessageCatalog;
 import eu.aliada.rdfizer.pipeline.format.marc.frbr.model.FrbrDocument;
+import eu.aliada.rdfizer.pipeline.format.xml.NullObject;
 import eu.aliada.shared.log.Log;
 
 /**
@@ -67,7 +68,7 @@ public class FrbrEntitiesDetector implements Processor {
 			in.setBody(entitiesDocument);
 		} else {
 			log.debug(MessageCatalog._00041_FRBR_ENTITY_DETECTION_FAILED);
-			in.setBody(null);
+			in.setBody(NullObject.instance);
 		}
 	}
 

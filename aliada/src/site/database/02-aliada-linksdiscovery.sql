@@ -1,5 +1,5 @@
 CREATE TABLE `aliada`.`linksdiscovery_job_instances` (
-`job_id` INT NOT NULL ,
+`job_id` INT NOT NULL AUTO_INCREMENT,
 `input_uri`  VARCHAR( 245 ) default NULL,
 `input_login`  VARCHAR( 32 ) default NULL,
 `input_password`  VARCHAR( 32 ) default NULL,
