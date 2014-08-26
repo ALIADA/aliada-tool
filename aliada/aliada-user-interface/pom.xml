@@ -94,7 +94,11 @@
 		    <artifactId>commons-io</artifactId>
 		    <version>1.0</version>
 		</dependency>
-
+		<dependency>
+			<groupId>net.sf.jtidy</groupId>
+			<artifactId>jtidy</artifactId>
+			<version>r938</version>
+		</dependency>
 
 	</dependencies>
 </project>
