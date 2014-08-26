@@ -80,7 +80,7 @@ PRIMARY KEY ( `organisation_name` )
 --
 
 CREATE TABLE IF NOT EXISTS `aliada`.`profile` (
-  `profile_id` int(11) NOT NULL,
+  `profile_id` int(11) NOT NULL AUTO_INCREMENT,
   `profile_name` varchar(32) NOT NULL,
   `profile_type_code` int(11) NOT NULL,
   `profile_description` varchar(128) NOT NULL,
@@ -108,7 +108,7 @@ CREATE TABLE IF NOT EXISTS `aliada`.`profile` (
 --
 
 CREATE TABLE IF NOT EXISTS `aliada`.`template` (
-  `template_id` int(11) NOT NULL,
+  `template_id` int(11) NOT NULL AUTO_INCREMENT,
   `template_name` varchar(32) NOT NULL,
   `template_description` varchar(128) default NULL,
   PRIMARY KEY  (`template_id`)
