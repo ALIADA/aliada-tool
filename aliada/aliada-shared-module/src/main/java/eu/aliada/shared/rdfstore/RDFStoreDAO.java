@@ -190,7 +190,7 @@ public class RDFStoreDAO {
 		
 			UpdateRequest update = UpdateFactory.create(query);
 		
-			UpdateProcessor processor = UpdateExecutionFactory.createRemoteForm(update, sparqlEndpointURI);
+			UpdateProcessor processor = UpdateExecutionFactory.createRemote(update, sparqlEndpointURI);
 			((UpdateProcessRemoteForm)processor).setHttpContext(httpContext);
 			processor.execute();
 			done = true;
@@ -227,9 +227,9 @@ public class RDFStoreDAO {
 	 */
 	String buildInsertQuery(final String graphName, final String triples) {
 		final StringBuilder builder = new StringBuilder();
-		builder.append("INSERT ");
+		builder.append("INSERT DATA ");
 		if (isNotNullAndNotEmpty(graphName)) {
-			builder.append("IN GRAPH ");
+			builder.append("{ GRAPH ");
 			if (graphName.startsWith("<") && graphName.endsWith(">")) {
 				builder.append(graphName);
 			} else 
@@ -239,6 +239,9 @@ public class RDFStoreDAO {
 		}
 		
 		builder.append("{ ").append(triples).append("}");
+		if (isNotNullAndNotEmpty(graphName)) {
+			builder.append("}");
+		}
 		return builder.toString();
 	}
 }

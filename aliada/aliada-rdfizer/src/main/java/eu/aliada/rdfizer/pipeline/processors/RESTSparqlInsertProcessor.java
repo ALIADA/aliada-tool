@@ -20,7 +20,6 @@ import eu.aliada.shared.rdfstore.RDFStoreDAO;
  * @since 1.0
  */
 public class RESTSparqlInsertProcessor implements Processor {
-	// TODO: probably is better to have an RDFStoreDAO stateful
 	final String sparqlEndpointURI;
 	final String user; 
 	final String password;
