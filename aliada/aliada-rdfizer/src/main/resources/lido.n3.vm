@@ -124,7 +124,7 @@ $main_subject #ecrm("P70i_is_documented_in") $document_s .
 ## EVENT TYPES START
 #set($events = $xpath.many("descriptiveMetadata/eventWrap/eventSet/event", $root))
 #set($E65_Creation = "#ecrm('E65_Creation')")
-#set($P12B_was_present_at = "#ecrm('P12B_was_present_at')")
+#set($P12i_was_present_at = "#ecrm('P12i_was_present_at')")
 #foreach($event in $events)
 	#set($event_type_uri = $xpath.value("eventType[@type='URI']", $event))
 	#if($function.isNotNullAndNotEmpty($event_type_uri))
@@ -133,7 +133,7 @@ $main_subject #ecrm("P70i_is_documented_in") $document_s .
 		$event_type_uri $is_a $Concept .
 		$event_type_s $is_a $E65_Creation . 
 		$event_type_s $P2_has_type $event_type_uri . 
-		$main_subject $P12B_was_present_at $event_type_s . 
+		$main_subject $P12i_was_present_at $event_type_s . 
 	#end	
 	## EVENT ACTORS START
 	#set($actors = $xpath.many("eventActor", $event))
