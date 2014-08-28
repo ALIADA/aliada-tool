@@ -12,6 +12,7 @@ import com.opensymphony.xwork2.ActionSupport;
 
 
 /**
+ * This class is to logout ALIADA's tool.
  * @author elena
  * @version $Revision: 1.1 $, $Date: 2004/10/28 15:20:54 $
  * @since 1.0
@@ -19,8 +20,14 @@ import com.opensymphony.xwork2.ActionSupport;
 
 public class LogoutAction extends ActionSupport {
 	  
-	 // all struts logic here
-	 public String execute() {	   
+
+	private static final long serialVersionUID = 1L;
+
+	/**
+	 * @return Returns the result of the execution.
+	 */
+	 public String execute() {
+	   
 	  ServletActionContext.getRequest().getSession().invalidate();
 	  addActionMessage("You are successfully logout!");
 	  return "logout";
@@ -28,5 +35,3 @@ public class LogoutAction extends ActionSupport {
 	 }
 
 }
-
-
