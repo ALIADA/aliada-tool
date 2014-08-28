@@ -1,0 +1,31 @@
+<!DOCTYPE validators PUBLIC "-//Apache Struts//XWork Validator 1.0.3//EN"
+
+   "http://struts.apache.org/dtds/xwork-validator-1.0.3.dtd">
+
+<validators>
+   <field name="organisation_name">
+       <field-validator type="requiredstring">
+			<message key="name.required" />
+       </field-validator>
+   </field>
+   <field name="organisation_path">
+       <field-validator type="requiredstring">
+			<message key="path.required" />
+       </field-validator>
+   </field>
+   <field name="organisation_uri_domain">
+       <field-validator type="requiredstring">
+			<message key="domain.required" />
+       </field-validator>
+   </field>
+   <field name="organisation_uri_resource">
+       <field-validator type="requiredstring">
+			<message key="resource.required" />
+       </field-validator>
+   </field>
+   <field name="organisation_catalog_url">
+       <field-validator type="requiredstring">
+			<message key="catalogue.required" />
+       </field-validator>
+   </field>
+</validators>

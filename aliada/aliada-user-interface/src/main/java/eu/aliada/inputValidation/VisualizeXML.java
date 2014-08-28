@@ -30,10 +30,11 @@ public class VisualizeXML {
      *            the name of style sheet
      * @param outputFile
      *            the name of log file
+     * @return boolean
      * @see
      * @since 1.0
      */
-    public void toStyledDocument(final String xmlName,
+    public boolean toStyledDocument(final String xmlName,
             final String stylesheetName, final String outputFile) {
         TransformerFactory  factory = TransformerFactory .newInstance();
         StreamSource xslStream = new StreamSource(stylesheetName);
@@ -45,8 +46,9 @@ public class VisualizeXML {
             transformer.transform(in, out);
         } catch (TransformerException e) {
             e.printStackTrace();
+            return false;
         }
-        log.info("The generated HTML file is:" + outputFile.toString());
+        return true;
     }
     
 }

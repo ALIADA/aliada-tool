@@ -22,9 +22,15 @@ public class VisualizeXMLTest extends TestCase {
 	 */
 	public void testVisualizeXML() {
 		VisualizeXML vx = new VisualizeXML();
-		vx.toStyledDocument("src/test/resources/marc/marc_bib_more.xml",
-				"src/main/webapp/WEB-INF/xmlVisualize/marc_bib.xsl",
-				"src/main/webapp/logs/marc_bib.log");
+		boolean result = vx.toStyledDocument(
+				"src/test/resources/marc/marc_bib.xml",
+				"src/main/resources/xmlVisualize/marc_bib.xsl",
+				"src/test/resources/logs/marc_bib.html");
+		if (result) {
+			log.info("BIEN");
+		} else {
+			log.info("MAL");
+		}
 	}
 
 }

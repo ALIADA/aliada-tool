@@ -18,15 +18,16 @@ import eu.aliada.shared.log.Log;
 
 /**
  * DDBB connection manager. It contains all the related functions with the DDBB:
- * open, close connection, execute SQL-s.
+ * open, close connection.
  * 
- * @author Elean
+ * @author Elena
  * @since 1.0
  */
 public class DBConnectionManager {
 	private final Log logger = new Log(DBConnectionManager.class);
 
 	private Connection conn = null;
+	
 	@Resource(name = "jdbc/aliada")
 	private DataSource ds;
 

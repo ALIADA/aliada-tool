@@ -1,0 +1,23 @@
+<!DOCTYPE validators PUBLIC "-//Apache Struts//XWork Validator 1.0.3//EN"
+
+   "http://struts.apache.org/dtds/xwork-validator-1.0.3.dtd">
+
+<validators>
+   <field name="passwordForm">
+       <field-validator type="requiredstring">
+			<message key="userPassword.required" />
+       </field-validator>
+       <!-- <field-validator type="regex">  
+        <param name="expression">/^[a-zA-Z]{6,}$/</param>  
+        <message key="password.format"/>  
+       </field-validator> -->
+   </field>
+   <field name="emailForm">
+   	   <field-validator type="requiredstring">
+			<message key="email.required" />
+       </field-validator>
+       <field-validator type="email">
+			<message key="email.notvalid" />
+       </field-validator>
+   </field>
+</validators>

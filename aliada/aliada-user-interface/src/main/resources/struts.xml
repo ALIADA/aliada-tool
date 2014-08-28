@@ -5,44 +5,154 @@
 
 <struts>
 	<constant name="struts.enable.DynamicMethodInvocation" value="false" />
-		<constant name="struts.devMode" value="false" />
-		<constant name="struts.custom.i18n.resources" value="ApplicationResources" />
-		<constant name="struts.ui.theme" value="simple" />
+	<constant name="struts.devMode" value="false" />
+	<constant name="struts.custom.i18n.resources" value="ApplicationResources" />
+	<constant name="struts.ui.theme" value="simple" />
 	<package name="default" extends="struts-default" namespace="/*">
 		<result-types>
 			<result-type name="tiles"
 				class="org.apache.struts2.views.tiles.TilesResult" />
 		</result-types>
+		
+		<interceptors>
+			<interceptor class="eu.aliada.gui.interceptors.LogonInterceptor" name="logonInterceptor"/>
+		   	<interceptor-stack name="logonStack">
+				<interceptor-ref name="logonInterceptor"/>
+				<interceptor-ref name="defaultStack"/>
+		    </interceptor-stack>
+		    <interceptor-stack name="storeStack">
+			    <interceptor-ref name="store">
+			      <param name="operationMode">STORE</param>
+			    </interceptor-ref>
+			    <interceptor-ref name="defaultStack" />
+		    </interceptor-stack>
+		    <interceptor-stack name="retrieveStack">
+			    <interceptor-ref name="store">
+			       <param name="operationMode">RETRIEVE</param>
+			    </interceptor-ref>
+		    </interceptor-stack>
+		    <interceptor-stack name="filexmlStack">
+			    <interceptor-ref name="fileUpload">
+	                <param name="allowedTypes">text/xml</param>
+	            </interceptor-ref>
+		    </interceptor-stack>
+		    <interceptor-stack name="fileImageStack">
+			    <interceptor-ref name="fileUpload">
+        			<param name="maximumSize">1073741824</param>
+	                <param name="allowedTypes">image/jpeg,image/png</param>
+	            </interceptor-ref>
+				<interceptor-ref name="defaultStack"/>
+		    </interceptor-stack>
+		</interceptors> 
+  		<!-- <default-interceptor-ref name="logonStack"/> -->
+		<global-results> 
+   			<result name="logon" type="tiles">/logon.tiles</result>
+  		</global-results>
+  		
 		<action name="logon" class="eu.aliada.gui.action.LogonAction">
-			<result name="success" type="tiles">/logon.tiles</result>
+			<interceptor-ref name="logonStack"/>
+			<result name="success" type="tiles">/welcome.tiles</result>
 			<result name="error" type="tiles">/logon.tiles</result>
-			<result name="config" type="tiles">/welcome.tiles</result>
 			<result name="input" type="tiles">/logon.tiles</result>
 		</action>
-		<action name="validateLogon" class="eu.aliada.gui.action.LogonAction">
-			<result name="success" type="tiles">/welcome.tiles</result>
-	   </action>
 		
-		
+		<action name="logout" class="eu.aliada.gui.action.LogoutAction">
+   			<result name="logout" type="tiles">/logon.tiles</result>
+  		</action>
+				
 		<action name="importXML" method="importXML" class="eu.aliada.gui.action.ManagingAction">
-			<result name="success" type="tiles">/manage.tiles</result>
+			<interceptor-ref name="filexmlStack"/>
+			<interceptor-ref name="storeStack"/>
+            <result name="input" type="redirectAction">
+         		<param name="actionName">manage</param>
+         	</result>
+            <result name="success" type="tiles">/manage.tiles</result>
 			<result name="error" type="tiles">/manage.tiles</result>
-			<result name="input" type="tiles">/manage.tiles</result>
-			<interceptor-ref name="defaultStack">
-                <param name="fileUpload.allowedTypes">text/xml</param>
-            </interceptor-ref>
 		</action>
-
 		
-
+		<action name="conversion" class="eu.aliada.gui.action.ConversionAction">
+            <result name="success" type="tiles">/conversion.tiles</result>
+			<result name="error" type="tiles">/conversion.tiles</result>
+		</action>
+		
+		<action name="conversionRDF" method="executeRDFized" class="eu.aliada.gui.action.ConversionAction">
+            <result name="success" type="tiles">/conversion.tiles</result>
+			<result name="error" type="tiles">/conversion.tiles</result>
+		</action>
+		
+		<action name="RDFize" method="rdfize" class="eu.aliada.gui.action.ConversionAction">
+            <result name="success" type="tiles">/conversion.tiles</result>
+			<result name="error" type="tiles">/conversion.tiles</result>
+		</action>
+		
+		<action name="checkRDFizer" class="eu.aliada.gui.action.CheckRDFizerAction">
+            <result name="success" type="tiles">/checkRDF.tiles</result>
+			<result name="error" type="tiles">/checkRDF.tiles</result>
+		</action>
+		
+		<action name="showTemplates" method="getTemplatesDb"
+			class="eu.aliada.gui.action.ConversionAction">
+			<result name="success" type="tiles">/templates.tiles</result>
+			<result name="input" type="tiles">/templates.tiles</result>
+		</action>
+		
+		<action name="showAddTemplateForm" method="showAddTemplate"
+			class="eu.aliada.gui.action.ConversionAction">
+			<interceptor-ref name="retrieveStack"/>
+			<result name="success" type="tiles">/templates.tiles</result>
+			<result name="error" type="tiles">/templates.tiles</result>
+		</action>
+		
+		<action name="addTemplate" method="addTemplate"
+			class="eu.aliada.gui.action.ConversionAction">
+			<interceptor-ref name="storeStack"/>
+			<result name="success" type="redirectAction">
+         		<param name="actionName">showTemplates</param>
+         	</result>
+			<result name="error"  type="redirectAction">
+         		<param name="actionName">showAddTemplateForm</param>
+         	</result>
+         	<result name="input"  type="redirectAction">
+         		<param name="actionName">showAddTemplateForm</param>
+         	</result>
+		</action>
+		
+		<action name="deleteTemplate" method="deleteTemplate"
+			class="eu.aliada.gui.action.ConversionAction">
+			<result name="success" type="redirectAction">
+         		<param name="actionName">showTemplates</param>
+         	</result>
+			<result name="error"  type="redirectAction">
+         		<param name="actionName">showTemplates</param>
+         	</result>
+		</action>		
+		
+		<action name="showEditTemplateForm" method="showEditTemplate"
+			class="eu.aliada.gui.action.ConversionAction">
+			<result name="success" type="tiles">/templates.tiles</result>
+			<result name="error" type="tiles">/templates.tiles</result>
+		</action>
+		
+		<action name="editTemplate" method="editTemplate"
+			class="eu.aliada.gui.action.ConversionAction">
+			<result name="success" type="redirectAction">
+         		<param name="actionName">showTemplates</param>
+         	</result>
+			<result name="error"  type="redirectAction">
+         		<param name="actionName">showTemplates</param>
+         	</result>
+		</action>
+		
 		<action name="configure" method="execute"
 			class="eu.aliada.gui.action.InstitutionConfigurationAction">
 			<result name="success" type="tiles">/configuration.tiles</result>
-    			<param name="inputName">str</param>
+    		<result name="error" type="tiles">/welcome.tiles</result>
+			<result name="input" type="tiles">/configuration.tiles</result>
 		</action>
 
 		<action name="manage" method="showProfiles"
 			class="eu.aliada.gui.action.ManagingAction">
+			<!-- <interceptor-ref name="retrieveStack"/> -->
 			<result name="success" type="tiles">/manage.tiles</result>
 		</action>
 		
@@ -50,6 +160,11 @@
 			<result name="success" type="tiles">/errorLog.tiles</result>
 		</action>
 		
+		<action name="backToManage"  method="showProfiles"
+			class="eu.aliada.gui.action.ManagingAction">
+			<result name="success" type="tiles">/manage.tiles</result>
+		</action>
+				
 		<action name="showProfiles" method="showProfiles"
 			class="eu.aliada.gui.action.ManagingAction">
 			<result name="success" type="tiles">/profiles.tiles</result>
@@ -57,13 +172,22 @@
 		
 		<action name="showAddProfileForm" method="showAddProfile"
 			class="eu.aliada.gui.action.ManagingAction">
+			<interceptor-ref name="retrieveStack"/>
 			<result name="success" type="tiles">/profiles.tiles</result>
 		</action>
 		
 		<action name="addProfile" method="addProfile"
 			class="eu.aliada.gui.action.ManagingAction">
-			<result name="success" type="tiles">/profiles.tiles</result>
-			<result name="error" type="tiles">/profiles.tiles</result>
+			<interceptor-ref name="storeStack"/>
+			<result name="success" type="redirectAction">
+         		<param name="actionName">showProfiles</param>
+         	</result>
+			<result name="error"  type="redirectAction">
+         		<param name="actionName">showAddProfileForm</param>
+         	</result>
+         	<result name="input"  type="redirectAction">
+         		<param name="actionName">showAddProfileForm</param>
+         	</result>
 		</action>
 		
 		<action name="showEditProfileForm" method="showEditProfile"
@@ -74,19 +198,48 @@
 		
 		<action name="editProfile" method="editProfile"
 			class="eu.aliada.gui.action.ManagingAction">
-			<result name="success" type="tiles">/profiles.tiles</result>
-			<result name="error" type="tiles">/profiles.tiles</result>
+			<result name="success" type="redirectAction">
+         		<param name="actionName">showProfiles</param>
+         	</result>
+			<result name="error"  type="redirectAction">
+         		<param name="actionName">showProfiles</param>
+         	</result>
+         	<result name="input"  type="redirectAction">
+         		<param name="actionName">showEditProfileForm</param>
+         	</result>
+		</action>
+		
+		<action name="deleteProfile" method="deleteProfile"
+			class="eu.aliada.gui.action.ManagingAction">
+			<result name="success" type="redirectAction">
+         		<param name="actionName">showProfiles</param>
+         	</result>
+			<result name="error"  type="redirectAction">
+         		<param name="actionName">showProfiles</param>
+         	</result>
 		</action>
 
 		<action name="linking" class="eu.aliada.gui.action.LinkingAction">
 			<result name="success" type="tiles">/linking.tiles</result>
 			<result name="error" type="tiles">/configuration.tiles</result>
 		</action>
+		
+		<action name="lds" method="startLDS" class="eu.aliada.gui.action.LinkingAction">
+			<result name="success" type="tiles">/linking.tiles</result>
+			<result name="error" type="tiles">/configuration.tiles</result>
+		</action>
 
 		<action name="addInstitution" method="addInstitution"
-			class="eu.aliada.gui.action.InstitutionConfigurationAction">
+			class="eu.aliada.gui.action.InstitutionConfigurationAction"> 
+			<interceptor-ref name="fileImageStack"/>
 			<result name="success" type="tiles">/configuration.tiles</result>
 			<result name="error" type="tiles">/configuration.tiles</result>
+			<result name="input" type="tiles">/configuration.tiles</result>
+		</action>
+		
+		<action name="startLinking" method="startLinking" class="eu.aliada.gui.action.LinkingAction">
+			<result name="success" type="tiles">/linking.tiles</result>
+			<result name="error" type="tiles">/linking.tiles</result>
 		</action>
 
 		<action name="linkingInfo" class="eu.aliada.gui.action.LinkingInfoAction">
@@ -102,32 +255,58 @@
 
 		<action name="showAddForm" method="showAddForm"
 			class="eu.aliada.gui.action.UsersAction">
+			<interceptor-ref name="retrieveStack"/>
 			<result name="success" type="tiles">/users.tiles</result>
+			<result name="error" type="tiles">/users.tiles</result>
 		</action>
 
-		<action name="showEditForm" method="prepareToUpdate"
+		<action name="showEditForm" method="showEdit"
 			class="eu.aliada.gui.action.UsersAction">
+			<!-- <interceptor-ref name="retrieveStack"/> -->
 			<result name="success" type="tiles">/users.tiles</result>
 			<result name="error" type="tiles">/users.tiles</result>
 		</action>
 
 		<action name="addUser" method="addUser"
 			class="eu.aliada.gui.action.UsersAction">
-			<result name="success" type="tiles">/users.tiles</result>
-			<result name="error" type="tiles">/users.tiles</result>
+			<interceptor-ref name="storeStack"/>
+			<result name="success" type="redirectAction">
+         		<param name="actionName">showUsers</param>
+         	</result>
+			<result name="error"  type="redirectAction">
+         		<param name="actionName">showAddForm</param>
+         	</result>
+         	<result name="input"  type="redirectAction">
+         		<param name="actionName">showAddForm</param>
+         	</result>
 		</action>
 
 		<action name="editUser" method="editUser"
 			class="eu.aliada.gui.action.UsersAction">
-			<result name="success" type="tiles">/users.tiles</result>
-			<result name="error" type="tiles">/users.tiles</result>
+			<interceptor-ref name="storeStack"/>
+			<result name="success" type="redirectAction">
+         		<param name="actionName">showUsers</param>
+         	</result>
+			<result name="error"  type="redirectAction">
+         		<param name="actionName">showEditForm</param>
+         	</result>
+         	<result name="input"  type="redirectAction">
+         		<param name="actionName">showEditForm</param>
+         	</result>
 		</action>
 
 		<action name="deleteUser" method="deleteUser"
 			class="eu.aliada.gui.action.UsersAction">
-			<result name="success" type="tiles">/users.tiles</result>
-			<result name="error" type="tiles">/users.tiles</result>
+			<result name="success" type="redirectAction">
+         		<param name="actionName">showUsers</param>
+         	</result>
+			<result name="error"  type="redirectAction">
+         		<param name="actionName">showUsers</param>
+         	</result>
 		</action>
-
+		
+		<action name="locale" class="eu.aliada.gui.action.LocaleAction">
+			<result name="success" type="tiles">/logon.tiles</result>
+	   </action>
 	</package>
 </struts>

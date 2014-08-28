@@ -31,7 +31,7 @@
 		<put-attribute name="body" value="/content/institutionSettings.jsp" />
 	</definition>
 	
-	<definition name="/errorLog.tiles" extends="baseLayout">
+	<definition name="/errorLog.tiles" extends="userLayout">
 		<put-attribute name="body" value="/content/errorLog.jsp" />
 	</definition>
 	
@@ -39,7 +39,19 @@
 		<put-attribute name="body" value="/content/manage.jsp" />
 	</definition>
 	
-	<definition name="/profiles.tiles" extends="baseLayout">
+	<definition name="/conversion.tiles" extends="baseLayout">
+		<put-attribute name="body" value="/content/conversion.jsp" />
+	</definition>
+	
+	<definition name="/checkRDF.tiles" extends="baseLayout">
+		<put-attribute name="body" value="/content/checkRDF.jsp" />
+	</definition>
+	
+	<definition name="/templates.tiles" extends="userLayout">
+		<put-attribute name="body" value="/content/templates.jsp" />
+	</definition>
+	
+	<definition name="/profiles.tiles" extends="userLayout">
 		<put-attribute name="body" value="/content/profiles.jsp" />
 	</definition>
 	

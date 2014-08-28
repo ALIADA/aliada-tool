@@ -31,11 +31,20 @@ body{
 .displayNo{
 	display: none;
 }
+.displayInline{
+	display: inline;
+}
 .display{
 	display: block;
 }
 .bold{
 	font-weight: bold;
+}
+.errorMessage {
+  color: red;
+}
+.red {
+  color: red;
 }
 .fields {
 border-radius: 10px 10px 10px 10px;
@@ -83,6 +92,10 @@ padding: 10px 7px 10px 10px;
 }
 .bigLabel{
 	text-align: center;
+	font-size: 18px;
+	font-weight: bold;
+}
+.mediumLabel{
 	font-size: 18px;
 	font-weight: bold;
 }
