@@ -46,6 +46,7 @@ CREATE TABLE IF NOT EXISTS `aliada`.`organisation` (
 
 CREATE TABLE `aliada`.`organisation_data_server_configuration` (
 `organisation_name` varchar(32) NOT NULL,
+`aliada_ontology`  VARCHAR( 245 ) default NULL,
 `linking_config_file`  VARCHAR( 245 ) default NULL, 
 `tmp_dir`  VARCHAR( 245 ) default NULL,
 `linking_client_app_bin_dir`  VARCHAR( 245 ) default NULL, 
