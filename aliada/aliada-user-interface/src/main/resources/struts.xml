@@ -156,10 +156,15 @@
 			<result name="success" type="tiles">/manage.tiles</result>
 		</action>
 		
-		<action name="errorLog" method="showErrors" class="eu.aliada.gui.action.ManagingAction">
+		<action name="errorLog" class="eu.aliada.gui.action.ManagingAction">
 			<result name="success" type="tiles">/errorLog.tiles</result>
 		</action>
 		
+		<action name="backToManage"  method="showProfiles"
+			class="eu.aliada.gui.action.ManagingAction">
+			<result name="success" type="tiles">/manage.tiles</result>
+		</action>
+				
 		<action name="showProfiles" method="showProfiles"
 			class="eu.aliada.gui.action.ManagingAction">
 			<result name="success" type="tiles">/profiles.tiles</result>

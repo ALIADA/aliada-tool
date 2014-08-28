@@ -30,6 +30,7 @@ public class VisualizeXML {
      *            the name of style sheet
      * @param outputFile
      *            the name of log file
+     * @return boolean
      * @see
      * @since 1.0
      */
@@ -47,7 +48,6 @@ public class VisualizeXML {
             e.printStackTrace();
             return false;
         }
-        log.info("The generated HTML file is:" + outputFile.toString());
         return true;
     }
     
