@@ -25,15 +25,15 @@ import org.apache.commons.io.FileUtils;
 import org.apache.struts2.ServletActionContext;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
-import org.w3c.tidy.Tidy;
 
 import com.opensymphony.xwork2.ActionSupport;
 
 import eu.aliada.gui.parser.XmlParser;
 import eu.aliada.gui.rdbms.DBConnectionManager;
+import eu.aliada.inputValidation.CheckImportError;
 import eu.aliada.inputValidation.VisualizeXML;
-import eu.aliada.inputValidation.XMLValidation;
 import eu.aliada.inputValidation.WellFormed;
+import eu.aliada.inputValidation.XMLValidation;
 import eu.aliada.shared.log.Log;
 
 /**
@@ -58,17 +58,20 @@ public class ManagingAction extends ActionSupport {
     private boolean showAddProfileForm;
     private boolean showEditProfileForm;
     private boolean showNextButton;
+    private boolean enableErrorLogButton;
     private boolean areProfiles;
     private File importFile;
     private String importFileFileName;
     private String profilesSelect;
     private List<String> errorLog;
     
-    private final static String HTMLLOGPATH = "target/classes/log.html";
-    private final static String XMLLOGPATH = "target/classes/log.xml";
+    private final static String VISUALIZE_PATH = "src/main/resources/xmlVisualize/";
+    private final static String VALIDATOR_PATH = "src/main/resources/xmlValidators/";
+    private final static String ERROR_CONTENT_PATH = "src/main/webapp/content/errorContent.jsp";
     private final Log logger = new Log(ManagingAction.class);
 
     public String importXML() {
+    	CheckImportError.inicialize();
         setShowNextButton(false); 
         String message;
         List<String> errorLog = new ArrayList<String>();
@@ -113,13 +116,14 @@ public class ManagingAction extends ActionSupport {
                 String visualizeTypePath = rs.getString(1);
                 XMLValidation xmlVal = new XMLValidation();
                 if (xmlVal.isValidatedXMLFile(importFile.getPath(),
-                        "target/classes/xmlValidators/" + validatorPath)) {
+                        VALIDATOR_PATH + validatorPath)) {
                     message = SUCCESS;
                     VisualizeXML vx = new VisualizeXML();
                     if(vx.toStyledDocument(importFile.getPath(),
-                            "target/classes/xmlVisualize/" + visualizeTypePath,
-                            HTMLLOGPATH)){
-                        if(analiseLog(errorLog)){
+                    		VISUALIZE_PATH + visualizeTypePath,
+                            ERROR_CONTENT_PATH)){
+                    	//if(analiseLog(errorLog)){
+                 	   if(CheckImportError.getCount()==0){
                             addActionError(getText("correct.file"));
                             String filePath = session.getServletContext().getRealPath("/importedFiles");
                             File fileCreated = new File(filePath, this.importFileFileName);
@@ -130,12 +134,14 @@ public class ManagingAction extends ActionSupport {
                             session.setAttribute("profile", this.profilesSelect);
                             showProfiles();
                             setShowNextButton(true); 
+                            setEnableErrorLogButton(false);
                         }
                         else{
                             addActionError(getText("err.not.validated"));
                             errorLog.add(getText("err.not.validated"));
                             session.setAttribute("errorLog", errorLog);
                             showProfiles();
+                            setEnableErrorLogButton(true);
                         }
                     }
                     else{
@@ -167,7 +173,7 @@ public class ManagingAction extends ActionSupport {
         }
         return message;
     }
-    private boolean analiseLog(List <String> errorLog){
+ /*   private boolean analiseLog(List <String> errorLog){
         htmlToXml();
         File file = new File(XMLLOGPATH);
         boolean correct = true;
@@ -221,7 +227,7 @@ public class ManagingAction extends ActionSupport {
         errorLog = new ArrayList <String>();
         errorLog = (List<String>) ServletActionContext.getRequest().getSession().getAttribute("errorLog");
         return SUCCESS;
-    }
+    }*/
 
     public String showAddProfile() {
         showProfiles();
@@ -889,5 +895,23 @@ public class ManagingAction extends ActionSupport {
     public void setAreProfiles(boolean areProfiles) {
         this.areProfiles = areProfiles;
     }
+	/**
+	 * @return Returns the enableErrorLogButton.
+	 * @exception
+	 * @since 1.0
+	 */
+	
+	public boolean isEnableErrorLogButton() {
+		return enableErrorLogButton;
+	}
+	/**
+	 * @param enableErrorLogButton The enableErrorLogButton to set.
+	 * @exception
+	 * @since 1.0
+	 */
+	
+	public void setEnableErrorLogButton(boolean enableErrorLogButton) {
+		this.enableErrorLogButton = enableErrorLogButton;
+	}
 
 }
