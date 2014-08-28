@@ -31,7 +31,7 @@
 		<put-attribute name="body" value="/content/institutionSettings.jsp" />
 	</definition>
 	
-	<definition name="/errorLog.tiles" extends="baseLayout">
+	<definition name="/errorLog.tiles" extends="userLayout">
 		<put-attribute name="body" value="/content/errorLog.jsp" />
 	</definition>
 	

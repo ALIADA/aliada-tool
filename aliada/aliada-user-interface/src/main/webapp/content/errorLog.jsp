@@ -5,7 +5,9 @@
 <html:form id="managing">
 	<h2 class="pageTitle"><html:text name="message.error"/></h2>
 	<%@ include file="errorContent.jsp" %>
-	<html:submit action="backToManage" cssClass="submitButton button" key="back" />
+	<div id="errorLogButtons" class="buttons row">
+		<html:submit action="backToManage" cssClass="submitButton button" key="back" />
+	</div>
 </html:form>
 
 
