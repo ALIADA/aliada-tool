@@ -17,10 +17,15 @@
 	<html:actionerror/>
 	<div id="managingButtons" class="buttons row">
 		<html:form id="managingButtonsForm">
-			<html:submit action="errorLog" cssClass="submitButton button"
-				key="errorLog" />
 			<html:submit action="importXML" cssClass="submitButton button"
 				key="import" />
+			<div <html:if test="enableErrorLogButton">class="displayInline"</html:if>
+				<html:else>
+				    class="displayNo"
+				</html:else>>
+				<html:submit action="errorLog" cssClass="submitButton button"
+					key="errorLog" />
+			</div>		
 			<div <html:if test="showNextButton">class="displayInline"</html:if>
 				<html:else>
 				    class="displayNo"
