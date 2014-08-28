@@ -28,6 +28,7 @@ import com.opensymphony.xwork2.ActionSupport;
 
 import eu.aliada.gui.rdbms.DBConnectionManager;
 import eu.aliada.shared.log.Log;
+import eu.aliada.shared.rdfstore.RDFStoreDAO;
 
 /**
  * @author iosa
@@ -75,50 +76,65 @@ public class ConversionAction extends ActionSupport {
         HttpSession session = ServletActionContext.getRequest().getSession();
         String format = null;
         logger.debug("Asked to RDF-ize");
-        String namespace = "http://www.artium.org/";
-        String aliada_ontology = "http://aliada-project.eu/2014/aliada-ontology/";
         try {
             format = getFormat();
             Connection connection = null;
             connection = new DBConnectionManager().getConnection();
-            PreparedStatement preparedStatement = connection
-                    .prepareStatement(
-                            "INSERT INTO aliada.rdfizer_job_instances (datafile,format,namespace,aliada_ontology) VALUES(?,?,?,?)",
-                            PreparedStatement.RETURN_GENERATED_KEYS);
-            preparedStatement.setString(1, importFile.getAbsolutePath());
-            preparedStatement.setString(2, format);
-            preparedStatement.setString(3, namespace);
-            preparedStatement.setString(4, aliada_ontology);
-            logger.debug("format" + format + importFile.getAbsolutePath());
-            preparedStatement.executeUpdate();
-            ResultSet rs = preparedStatement.getGeneratedKeys();
-            int addedId = 0;
+            Statement statement = connection.createStatement();
+            ResultSet rs = statement
+                    .executeQuery("select aliada_ontology,sparql_endpoint_uri,sparql_endpoint_login,sparql_endpoint_password,graph_uri from organisation_data_server_configuration");
             if (rs.next()) {
-                addedId = (int) rs.getInt(1);
-                logger.debug("Added job id: " + addedId);
-            }
-            try {
-                enableRdfizer();
-                createJob(addedId);
-            } catch (IOException e) {
-                getTemplatesDb();
-                rs.close();
-                preparedStatement.close();
-                connection.close();
-                return ERROR;
-            }
-            rs.close();
-            preparedStatement.close();
-            connection.close();
-            setImportFile((File) session.getAttribute("importFile"));
-            session.setAttribute("rdfizerJobId", addedId);
-            setShowCheckButton(true);
-            return getTemplatesDb();
+                RDFStoreDAO store = new RDFStoreDAO();
+//                if(store.clearGraphBySparql(rs.getString("sparql_endpoint_uri"), rs.getString("sparql_endpoint_login"), rs.getString("sparql_endpoint_password"), rs.getString("graph_uri"))){
+                    PreparedStatement preparedStatement = connection
+                            .prepareStatement(
+                                    "INSERT INTO aliada.rdfizer_job_instances (datafile,format,namespace,aliada_ontology) VALUES(?,?,?,?)",
+                                    PreparedStatement.RETURN_GENERATED_KEYS);
+                    preparedStatement.setString(1, importFile.getAbsolutePath());
+                    preparedStatement.setString(2, format);
+                    preparedStatement.setString(3, rs.getString("graph_uri"));
+                    preparedStatement.setString(4, rs.getString("aliada_ontology"));
+                    preparedStatement.executeUpdate();
+                    ResultSet rs2 = preparedStatement.getGeneratedKeys();
+                    int addedId = 0;
+                    if (rs2.next()) {
+                        addedId = (int) rs2.getInt(1);
+                        logger.debug("Added job id: " + addedId);
+                    }
+                    try {
+                        enableRdfizer();
+                        createJob(addedId);
+                    } catch (IOException e) {
+                        getTemplatesDb();
+                        rs2.close();
+                        preparedStatement.close();
+                        connection.close();
+                        return ERROR;
+                    }
+                    rs2.close();
+                    preparedStatement.close();
+                    rs.close();
+                    statement.close();
+                    connection.close();
+                    setImportFile((File) session.getAttribute("importFile"));
+                    session.setAttribute("rdfizerJobId", addedId);
+                    setShowCheckButton(true);
+                    return getTemplatesDb();                
+                }
+//            } else {
+//                logger.debug("Configuration file not found");
+//                rs.close();
+//                statement.close();
+//                connection.close();
+//                getTemplatesDb();
+//                return ERROR;
+//            }
         } catch (SQLException e) {
             logger.debug("SQL error: " + e);
             getTemplatesDb();
             return ERROR;
         }
+        return getTemplatesDb(); 
     }
 
     private String getFormat() throws SQLException {
