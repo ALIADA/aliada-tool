@@ -143,7 +143,7 @@ public class JobResource implements Job {
 	@XmlElement(name = "completed")
 	@Override
 	public boolean isCompleted() {
-		return totalRecordsCount == totalProcessedRecordsCount.get();
+		return totalRecordsCount <= totalProcessedRecordsCount.get();
 	}
 
 	@XmlElement(name = "triples-throughput")
