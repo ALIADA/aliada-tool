@@ -149,6 +149,7 @@ public class SynchXmlDocumentTranslator implements Processor, ApplicationContext
 			triples = sw.toString();
 						
 			in.setBody(triples);
+			in.setHeader(Constants.GRAPH_ATTRIBUTE_NAME, configuration.getNamespace());
 		} catch (final ResourceNotFoundException exception) {
 			log.error(MessageCatalog._00040_TEMPLATE_NOT_FOUND, exception, format);
 		} finally {
