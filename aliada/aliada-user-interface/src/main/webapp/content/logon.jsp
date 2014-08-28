@@ -1,7 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="/struts-tags" prefix="html"%>
-<html:actionerror/>
 <html:form action="/logon.action" method="post" >
 <html:hidden name="loginAttempt" value="%{'1'}" />
 	<div class="row">
@@ -18,6 +17,7 @@
 			<html:password name="inputPassword" theme="xhtml" id="inputPassword" cssClass="input" size="15" />
 		</div>
 	</div>
+	<html:actionerror/>
 	<div class="row">
 		<div id="changeLocale">
 			<%-- <html:select

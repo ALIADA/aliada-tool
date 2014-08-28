@@ -75,6 +75,5 @@ public class XMLValidation {
             e.printStackTrace();
             return false;
         }
-
     }
 }

@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<marc:collection xmlns:marc="http://www.loc.gov/MARC21/slim" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.loc.gov/MARC21/slim http://www.loc.gov/standards/marcxml/schema/MARC21slim.xsd">
+	<marc:record>
+		<marc:leader>02848cz  a2200541n  4500</marc:leader>
+		<marc:controlfield tag="001">486845</marc:controlfield>
+		<marc:controlfield tag="005">20130402080622.0</marc:controlfield>
+		<marc:controlfield tag="008">781117n| azannaabn           b aaa      </marc:controlfield>
+		<marc:datafield tag="010" ind1=" " ind2=" ">
+			<marc:subfield code="a">n  78086005 </marc:subfield>
+			<marc:subfield code="z">sh 85101935 </marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="035" ind1=" " ind2=" ">
+			<marc:subfield code="a">(OCoLC)oca00221220</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="040" ind1=" " ind2=" ">
+			<marc:subfield code="a">DLC</marc:subfield>
+			<marc:subfield code="b">eng</marc:subfield>
+			<marc:subfield code="e">rda</marc:subfield>
+			<marc:subfield code="c">DLC</marc:subfield>
+			<marc:subfield code="d">MdU</marc:subfield>
+			<marc:subfield code="d">DLC-R</marc:subfield>
+			<marc:subfield code="d">DLC</marc:subfield>
+			<marc:subfield code="d">OCoLC</marc:subfield>
+			<marc:subfield code="d">DLC</marc:subfield>
+			<marc:subfield code="d">WU</marc:subfield>
+			<marc:subfield code="d">OCoLC</marc:subfield>
+			<marc:subfield code="d">DLC</marc:subfield>
+			<marc:subfield code="d">DLC</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="046" ind1=" " ind2=" ">
+			<marc:subfield code="f">18811025</marc:subfield>
+			<marc:subfield code="g">19730408</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="053" ind1=" " ind2="0">
+			<marc:subfield code="a">PQ2631.I37</marc:subfield>
+			<marc:subfield code="c">French</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="053" ind1=" " ind2="0">
+			<marc:subfield code="a">PQ6629.I23</marc:subfield>
+			<marc:subfield code="c">Spanish</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="100" ind1="1" ind2=" ">
+			<marc:subfield code="a">Picasso, Pablo,</marc:subfield>
+			<marc:subfield code="d">1881-1973</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="370" ind1=" " ind2=" ">
+			<marc:subfield code="a">Málaga, Spain</marc:subfield>
+			<marc:subfield code="b">Mougins, France</marc:subfield>
+			<marc:subfield code="c">Spain</marc:subfield>
+			<marc:subfield code="c">France</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="372" ind1=" " ind2=" ">
+			<marc:subfield code="a">Cubism</marc:subfield>
+			<marc:subfield code="2">lcsh</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="374" ind1=" " ind2=" ">
+			<marc:subfield code="a">Artist</marc:subfield>
+			<marc:subfield code="a">Painter</marc:subfield>
+			<marc:subfield code="a">Sculptor</marc:subfield>
+			<marc:subfield code="a">Printmaker</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="375" ind1=" " ind2=" ">
+			<marc:subfield code="a">male</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="400" ind1="1" ind2=" ">
+			<marc:subfield code="a">Bīkāsū, Bāblū,</marc:subfield>
+			<marc:subfield code="d">1881-1973</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="400" ind1="1" ind2=" ">
+			<marc:subfield code="a">Luyisi Bikasuo, Babuluo,</marc:subfield>
+			<marc:subfield code="d">1881-1973</marc:subfield></marc:datafield>
+		<marc:datafield tag="400" ind1="1" ind2=" ">
+			<marc:subfield code="a">Luzi Bikasuo, Babuluo,</marc:subfield>
+			<marc:subfield code="d">1881-1973</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="400" ind1="1" ind2=" ">
+			<marc:subfield code="a">Pikaso, Pablo,</marc:subfield>
+			<marc:subfield code="d">1881-1973</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="400" ind1="1" ind2=" ">
+			<marc:subfield code="a">Pikaso, Paburo,</marc:subfield>
+			<marc:subfield code="d">1881-1973</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="400" ind1="1" ind2=" ">
+			<marc:subfield code="a">Pikasso, Pablo,</marc:subfield>
+			<marc:subfield code="d">1881-1973</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="400" ind1="1" ind2=" ">
+			<marc:subfield code="a">Ruiz, Pablo,</marc:subfield>
+			<marc:subfield code="d">1881-1973</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="400" ind1="1" ind2=" ">
+			<marc:subfield code="a">Ruiz Picasso, Pablo,</marc:subfield>
+			<marc:subfield code="d">1881-1973</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="400" ind1="1" ind2=" ">
+			<marc:subfield code="a">Ruiz y Picasso, Pablo,</marc:subfield>
+			<marc:subfield code="d">1881-1973</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="400" ind1="1" ind2=" ">
+			<marc:subfield code="a">Ruys, Pablo,</marc:subfield>
+			<marc:subfield code="d">1881-1973</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="400" ind1="1" ind2=" ">
+			<marc:subfield code="a">Ruys Picasso, Pablo,</marc:subfield>
+			<marc:subfield code="d">1881-1973</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="400" ind1="1" ind2=" ">
+			<marc:subfield code="a">פיקאסו</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="400" ind1="1" ind2=" ">
+			<marc:subfield code="a">פיקאסו, פאבלו,</marc:subfield>
+			<marc:subfield code="d">1881־1973</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="400" ind1="1" ind2=" ">
+			<marc:subfield code="a">פיקאסו, פבלו</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="400" ind1="1" ind2=" ">
+			<marc:subfield code="a">ピカソパブロ,</marc:subfield>
+			<marc:subfield code="d">1881-1973</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="400" ind1="0" ind2=" ">
+			<marc:subfield code="a">Bijiasuo,</marc:subfield>
+			<marc:subfield code="d">1881-1973</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="667" ind1=" " ind2=" ">
+			<marc:subfield code="a">Machine-derived non-Latin script reference project.</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="667" ind1=" " ind2=" ">
+			<marc:subfield code="a">Non-Latin script references not evaluated.</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="670" ind1=" " ind2=" ">
+			<marc:subfield code="a">Picasso, von Maurice Raynal ... 1921.</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="670" ind1=" " ind2=" ">
+			<marc:subfield code="a">Pikaso reijishū, 1988:</marc:subfield>
+			<marc:subfield code="b">p. 272 (Paburo Pikaso)</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="670" ind1=" " ind2=" ">
+			<marc:subfield code="a">Bijiasuo hua feng, 1990:</marc:subfield>
+			<marc:subfield code="b">t.p. (Bijiasuo)</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="670" ind1=" " ind2=" ">
+			<marc:subfield code="a">Da Puvis de Chavannes a Matisse e Picasso, c2002:</marc:subfield>
+			<marc:subfield code="b">t.p. (Picasso) p. 523 (Pablo Picasso, b. 1881 in Malaga [Spain]; d. 1973 in Mougins [France])</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="670" ind1=" " ind2=" ">
+			<marc:subfield code="a">Birželio naktys, 1973:</marc:subfield>
+			<marc:subfield code="b">verso t.p. (Pablo Pikaso)</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="670" ind1=" " ind2=" ">
+			<marc:subfield code="a">Picasso black and white, 2012</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="670" ind1=" " ind2=" ">
+			<marc:subfield code="a">Hui hua wan tong, 2010:</marc:subfield>
+			<marc:subfield code="b">p. 2 (Pablo Picasso; Babuluo Luyisi Bikasuo)</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="670" ind1=" " ind2=" ">
+			<marc:subfield code="a">Wikipedia, Feb. 26, 2013</marc:subfield>
+			<marc:subfield code="b">(Pablo Ruiz y Picasso, known as Pablo Picasso; born 25 October 1881 in Málaga, Spain; died 8 April 1973 in Mougins, France; Spanish painter, sculptor, printmaker, ceramicist, and stage designer who spent most of his adult life in France. As one of the greatest and most influential artists of the 20th century, he is widely known for co-founding the Cubist movement, the invention of constructed sculpture, the co-invention of collage, and for the wide variety of styles that he helped develop and explore. Among his most famous works are the proto-Cubist Les Demoiselles d'Avignon (1907), and Guernica (1937), a portrayal of the German bombing of Guernica during the Spanish Civil War)</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="670" ind1=" " ind2=" ">
+			<marc:subfield code="a">Yu wang Bikasuo, 2012:</marc:subfield>
+			<marc:subfield code="b">p. 15 (Pablo Ruiz Picasso; Babuluo Luzi Bikasuo)</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="952" ind1=" " ind2=" ">
+			<marc:subfield code="a">RETRO</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="953" ind1=" " ind2=" ">
+			<marc:subfield code="a">xx00</marc:subfield>
+			<marc:subfield code="b">rc15</marc:subfield>
+		</marc:datafield>
+	</marc:record>
+</marc:collection>

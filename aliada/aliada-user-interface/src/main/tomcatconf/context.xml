@@ -3,7 +3,7 @@
 		name="jdbc/aliada"
 		auth="Container"
 		type="javax.sql.DataSource"
-		username="aliada" password="aliada"
+		username="root" password="aliada2014"
 		driverClassName="com.mysql.jdbc.Driver"
 		url="jdbc:mysql://localhost:3306/aliada"
 		maxActive="2"

@@ -18,5 +18,6 @@ public interface MessageCatalog {
 	String _00001_DATA_ACCESS_FAILURE = LT + MODULE_NAME + "-00001> : Data access failure has been detected. See below for further details.";
 	String _00010_LOGON_FAILURE = LT + MODULE_NAME + "-00010> : The logon access is invalid.";
 	String _00011_SQL_EXCEPTION_LOGON = LT + MODULE_NAME + "-00011> : SQL exception. See below for further details.";
+    String _00012_FILE_NOT_FOUND_EXCEPTION = LT + MODULE_NAME + "-00011> : File not found exception. See below for further details.";
 
 }
