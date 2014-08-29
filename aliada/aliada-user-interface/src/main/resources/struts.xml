@@ -27,6 +27,7 @@
 			    <interceptor-ref name="defaultStack" />
 		    </interceptor-stack>
 		    <interceptor-stack name="retrieveStack">
+			    <interceptor-ref name="defaultStack" />
 			    <interceptor-ref name="store">
 			       <param name="operationMode">RETRIEVE</param>
 			    </interceptor-ref>
@@ -152,7 +153,7 @@
 
 		<action name="manage" method="showProfiles"
 			class="eu.aliada.gui.action.ManagingAction">
-			<!-- <interceptor-ref name="retrieveStack"/> -->
+			<interceptor-ref name="retrieveStack"/>
 			<result name="success" type="tiles">/manage.tiles</result>
 		</action>
 		
@@ -262,7 +263,7 @@
 
 		<action name="showEditForm" method="showEdit"
 			class="eu.aliada.gui.action.UsersAction">
-			<!-- <interceptor-ref name="retrieveStack"/> -->
+			<interceptor-ref name="retrieveStack"/>
 			<result name="success" type="tiles">/users.tiles</result>
 			<result name="error" type="tiles">/users.tiles</result>
 		</action>
