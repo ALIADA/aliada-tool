@@ -44,9 +44,9 @@ public class DBConnectionManager {
 			ds = (DataSource) ic.lookup("java:comp/env/jdbc/aliada");
 			conn = ds.getConnection();
 		} catch (NamingException exception) {
-			logger.error(MessageCatalog._00001_DATA_ACCESS_FAILURE, exception);
+			logger.error(MessageCatalog._00005_DATA_ACCESS_FAILURE, exception);
 		} catch (SQLException exception) {
-			logger.error(MessageCatalog._00001_DATA_ACCESS_FAILURE, exception);
+			logger.error(MessageCatalog._00005_DATA_ACCESS_FAILURE, exception);
 		}
 	}
 
@@ -59,7 +59,7 @@ public class DBConnectionManager {
 		try {
 			conn.close();
 		} catch (SQLException exception) {
-			logger.error(MessageCatalog._00001_DATA_ACCESS_FAILURE, exception);
+			logger.error(MessageCatalog._00005_DATA_ACCESS_FAILURE, exception);
 		}
 	}
 

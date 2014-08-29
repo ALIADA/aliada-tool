@@ -18,6 +18,8 @@ import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionInvocation;
 import com.opensymphony.xwork2.interceptor.AbstractInterceptor;
 
+import eu.aliada.gui.log.MessageCatalog;
+
 /**
  * This class is to intercept the LogonAction.
  * 
@@ -38,14 +40,16 @@ public class LogonInterceptor extends AbstractInterceptor implements
 	 * @see com.opensymphony.xwork2.interceptor.AbstractInterceptor#init()
 	 */
 	public void init() {
-		logger.info("Intializing LogonInterceptor");
+		logger.info(MessageCatalog._00001_STARTING);
+		logger.info(MessageCatalog._00003_STARTING_LOGON_INTERCEPTOR);
 	}
 
 	/**
 	 * @see com.opensymphony.xwork2.interceptor.AbstractInterceptor#destroy()
 	 */
 	public void destroy() {
-		logger.info("Destroying LogonInterceptor");
+		logger.info(MessageCatalog._00002_STOPPED);
+		logger.info(MessageCatalog._00004_STOPPED_LOGON_INTERCEPTOR);
 	}
 
 	/**
