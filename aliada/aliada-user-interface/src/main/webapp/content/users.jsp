@@ -61,7 +61,7 @@
 			<tr>
 				<td><html:textfield key="usernameForm"
 						cssClass="inputForm fright input" size="30" required="true" /></td>
-				<td><html:textfield key="passwordForm"
+				<td><html:password key="passwordForm" showPassword="true"
 						cssClass="inputForm fright input" size="20" required="true" /></td>
 				<td><html:textfield key="emailForm"
 						cssClass="inputForm fright input" size="30" /></td>
@@ -103,7 +103,7 @@
 			<tr>
 				<td><html:textfield key="usernameForm"
 						cssClass="inputForm fright input" size="30" required="true" readonly="true" /></td>
-				<td><html:textfield key="passwordForm"
+				<td><html:password key="passwordForm" showPassword="true"
 						cssClass="inputForm fright input" size="20" required="true" /></td>
 				<td><html:textfield key="emailForm"
 						cssClass="inputForm fright input" size="30" /></td>
