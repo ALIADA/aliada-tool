@@ -10,6 +10,9 @@ import org.apache.struts2.ServletActionContext;
 
 import com.opensymphony.xwork2.ActionSupport;
 
+import eu.aliada.gui.log.MessageCatalog;
+import eu.aliada.shared.log.Log;
+
 
 /**
  * This class is to logout ALIADA's tool.
@@ -21,6 +24,7 @@ import com.opensymphony.xwork2.ActionSupport;
 public class LogoutAction extends ActionSupport {
 	  
 
+	private final Log logger = new Log(LogoutAction.class);
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -30,6 +34,7 @@ public class LogoutAction extends ActionSupport {
 	   
 	  ServletActionContext.getRequest().getSession().invalidate();
 	  addActionMessage("You are successfully logout!");
+	  logger.info(MessageCatalog._00002_STOPPED);
 	  return "logout";
 	 
 	 }

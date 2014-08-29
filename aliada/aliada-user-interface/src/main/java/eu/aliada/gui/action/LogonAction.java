@@ -80,7 +80,6 @@ public class LogonAction extends ActionSupport {
 	 */
 
 	public String execute() {
-
 		ServletActionContext.getRequest().getSession()
 				.setAttribute("loggedInUser", getInputUser());
 		Connection conn = null;
@@ -88,13 +87,16 @@ public class LogonAction extends ActionSupport {
 		ResultSet rs = null;
 		try {
 			conn = new DBConnectionManager().getConnection();
+			if (conn == null) {
+				logger.debug(MessageCatalog._00006_BBDD_CONFIGURATION_INVALID);
+				addActionError(getText("error.databaseConfiguration"));
+				return ERROR;
+			}
 			st = conn.createStatement();
 			rs = st.executeQuery("select * from aliada.user where user_name = '"
 					+ getInputUser()
 					+ "' and user_password = '"
 					+ getInputPassword() + "'");
-			logger.debug("He ejecutado ");
-
 			if (rs.next()) {
 				rs.close();
 				st.close();
