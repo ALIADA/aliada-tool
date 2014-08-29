@@ -10,7 +10,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -23,12 +22,9 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.struts2.ServletActionContext;
-import org.w3c.dom.Document;
-import org.w3c.dom.NodeList;
 
 import com.opensymphony.xwork2.ActionSupport;
 
-import eu.aliada.gui.parser.XmlParser;
 import eu.aliada.gui.rdbms.DBConnectionManager;
 import eu.aliada.inputValidation.CheckImportError;
 import eu.aliada.inputValidation.VisualizeXML;
