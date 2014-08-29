@@ -26,52 +26,31 @@ SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 --
 
 CREATE TABLE IF NOT EXISTS `aliada`.`organisation` (
-  `organisation_name` varchar(32) NOT NULL,
-  `organisation_path` varchar(128) NOT NULL,
-  `organisation_uri_domain` varchar(128) NOT NULL,
-  `organisation_uri_resource` varchar(128) NOT NULL,
-  `organisation_logo` BLOB NOT NULL,
-  `organisation_catalog_url` varchar(128) NOT NULL,
-  PRIMARY KEY  (`organisation_name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Volcar la base de datos para la tabla `organisation`
---
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `organisation_data_server_configuration`
---
-
-CREATE TABLE `aliada`.`organisation_data_server_configuration` (
-`organisation_name` varchar(32) NOT NULL,
-`aliada_ontology`  VARCHAR( 245 ) default NULL,
-`linking_config_file`  VARCHAR( 245 ) default NULL, 
-`tmp_dir`  VARCHAR( 245 ) default NULL,
-`linking_client_app_bin_dir`  VARCHAR( 245 ) default NULL, 
-`sparql_endpoint_uri`  VARCHAR( 245 ) default NULL, 
-`sparql_endpoint_login`  VARCHAR( 32 ) default NULL, 
-`sparql_endpoint _password`  VARCHAR( 32 ) default NULL, 
-`graph_uri`  VARCHAR( 245 ) default NULL, 
-`rdf_sink_folder`  VARCHAR( 245 ) default NULL, 
-`rdf_sink_login`  VARCHAR( 32 ) default NULL, 
-`rdf_sink_password`  VARCHAR( 32 ) default NULL, 
-`store_ip`  VARCHAR( 245 ) default NULL, 
-`store_sql_port`  INT default 1111, 
-`sql_login`  VARCHAR( 32 ) default NULL, 
-`sql_password`  VARCHAR( 32 ) default NULL, 
-`dataset_base`  VARCHAR( 245 ) default NULL, 
-`isql_command_path`  VARCHAR( 245 ) default NULL, 
-`isql_commands_file`  VARCHAR( 245 ) default NULL, 
-`isql_commands_file_default`  VARCHAR( 245 ) default NULL, 
+  	`organisation_name` varchar(32) NOT NULL,
+  	`organisation_path` varchar(128) NOT NULL,
+  	`organisation_logo` BLOB NOT NULL,
+	`organisation_catalog_url` varchar(128) NOT NULL,
+	`aliada_ontology`  VARCHAR( 245 ) default NULL,
+	`linking_config_file`  VARCHAR( 245 ) default NULL, 
+	`tmp_dir`  VARCHAR( 245 ) default NULL,
+	`linking_client_app_bin_dir`  VARCHAR( 245 ) default NULL, 
+	`sparql_endpoint_uri`  VARCHAR( 245 ) default NULL, 
+	`sparql_endpoint_login`  VARCHAR( 32 ) default NULL, 
+	`sparql_endpoint _password`  VARCHAR( 32 ) default NULL, 
+	`graph_uri`  VARCHAR( 245 ) default NULL, 
+	`rdf_sink_folder`  VARCHAR( 245 ) default NULL, 
+	`rdf_sink_login`  VARCHAR( 32 ) default NULL, 
+	`rdf_sink_password`  VARCHAR( 32 ) default NULL, 
+	`store_ip`  VARCHAR( 245 ) default NULL, 
+	`store_sql_port`  INT default 1111, 
+	`sql_login`  VARCHAR( 32 ) default NULL, 
+	`sql_password`  VARCHAR( 32 ) default NULL, 
+	`dataset_base`  VARCHAR( 245 ) default NULL, 
+	`isql_command_path`  VARCHAR( 245 ) default NULL, 
+	`isql_commands_file`  VARCHAR( 245 ) default NULL, 
+	`isql_commands_file_default`  VARCHAR( 245 ) default NULL, 
 PRIMARY KEY ( `organisation_name` )
 ) ENGINE = InnoDB  DEFAULT CHARSET=utf8;
-
---
--- Volcar la base de datos para la tabla `organisation_data_server_configuration`
---
-
 
 -- --------------------------------------------------------
 
