@@ -27,7 +27,7 @@ import eu.aliada.shared.log.Log;
  * @since 1.0
  */
 public class MarcXmlRecordToMarcRecordTranslator implements Processor {
-	protected final Log log = new Log(MarcXmlRecordToMarcRecordTranslator.class);
+	protected final Log log = new Log(MarcXmlRecordToMarcRecordTranslatorTest.class);
 	
 	@Override
 	public void process(final Exchange exchange) throws Exception {
