@@ -5,35 +5,36 @@
 // Responsible: ALIADA Consortium
 package eu.aliada.shared.rdfstore;
 
-import java.io.FileInputStream;
+import static eu.aliada.shared.Strings.isNotNullAndNotEmpty;
+
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
- 
 import java.net.HttpURLConnection;
 import java.net.URL;
-
-import com.hp.hpl.jena.update.UpdateFactory;
-import com.hp.hpl.jena.update.UpdateRequest;
-import com.hp.hpl.jena.update.UpdateExecutionFactory;
-import com.hp.hpl.jena.update. UpdateProcessor;
-import com.hp.hpl.jena.sparql.modify.UpdateProcessRemoteForm;
-
-import org.apache.http.protocol.HttpContext;
-import org.apache.http.protocol.BasicHttpContext;
-import org.apache.http.client.CredentialsProvider;
-import org.apache.http.impl.client.BasicCredentialsProvider;
-import org.apache.http.auth.AuthScope;
-import org.apache.http.auth.UsernamePasswordCredentials;
-
-import org.apache.http.client.protocol.HttpClientContext;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.commons.codec.binary.Base64;
+import org.apache.http.auth.AuthScope;
+import org.apache.http.auth.UsernamePasswordCredentials;
+import org.apache.http.client.CredentialsProvider;
+import org.apache.http.client.protocol.HttpClientContext;
+import org.apache.http.impl.client.BasicCredentialsProvider;
+import org.apache.http.protocol.BasicHttpContext;
+import org.apache.http.protocol.HttpContext;
+import org.apache.jena.atlas.web.auth.HttpAuthenticator;
+import org.apache.jena.atlas.web.auth.SimpleAuthenticator;
 
-import eu.aliada.shared.log.MessageCatalog;
+import com.hp.hpl.jena.sparql.modify.UpdateProcessRemoteForm;
+import com.hp.hpl.jena.update.UpdateExecutionFactory;
+import com.hp.hpl.jena.update.UpdateFactory;
+import com.hp.hpl.jena.update.UpdateProcessor;
+import com.hp.hpl.jena.update.UpdateRequest;
+
 import eu.aliada.shared.log.Log;
-
-import static eu.aliada.shared.Strings.*;
+import eu.aliada.shared.log.MessageCatalog;
 
 /**
  * RDF Store common operations. 
@@ -43,7 +44,9 @@ import static eu.aliada.shared.Strings.*;
  */
 public class RDFStoreDAO {
 	private final Log logger = new Log(RDFStoreDAO.class);
-
+	
+	private final Map<String, HttpAuthenticator> authCache = new HashMap<String, HttpAuthenticator>();
+	
 	/**
 	 * It clears the graph in the RDF store using ISQL.
 	 *
@@ -170,34 +173,19 @@ public class RDFStoreDAO {
 	 * @param user					the user name for the SPARQl endpoint.
 	 * @param password				the password for the SPARQl endpoint.
 	 * @param triples				the triples that will be added.
-	 * @return true if the SPARQL has been executed. False otherwise.
-	 * @since 1.0
+	 * throws Exception in case the INSERT goes wrong.
 	 */
-	public boolean executeInsert(
+	public void executeInsert(
 			final String sparqlEndpointURI, 
 			final String graphName, 
 			final String user, 
 			final String password, 
-			final String triples) {
-		boolean done = false;
-		final String query = buildInsertQuery(graphName, triples);
-		try {
-			HttpContext httpContext = new BasicHttpContext();
-			CredentialsProvider provider = new BasicCredentialsProvider();
-			provider.setCredentials(new AuthScope(AuthScope.ANY_HOST,
-					AuthScope.ANY_PORT), new UsernamePasswordCredentials(user, password));
-			httpContext.setAttribute(HttpClientContext.CREDS_PROVIDER, provider);
-		
-			UpdateRequest update = UpdateFactory.create(query);
-		
-			UpdateProcessor processor = UpdateExecutionFactory.createRemote(update, sparqlEndpointURI);
-			((UpdateProcessRemoteForm)processor).setHttpContext(httpContext);
-			processor.execute();
-			done = true;
-		} catch (Exception exception) {
-			logger.error(MessageCatalog._00035_SPARQL_FAILED, exception, query);
-		}
-		return done;
+			final String triples) throws Exception {
+		UpdateExecutionFactory.createRemote(
+				UpdateFactory.create(buildInsertQuery(graphName, triples)), 
+				sparqlEndpointURI, 
+				auth(sparqlEndpointURI, user, password))
+			.execute();
 	}	
 
 	/**
@@ -243,5 +231,23 @@ public class RDFStoreDAO {
 			builder.append("}");
 		}
 		return builder.toString();
+	}
+	
+	/**
+	 * Returns the authenticator associated with a given endpoint.
+	 * If no authentication can be found, then a new one is created and cached for further reuse.
+	 * 
+	 * @param endpointAddress the endpoint address.
+	 * @param username the username.
+	 * @param password the password.
+	 * @return the authenticator associated with a given endpoint.
+	 */
+	HttpAuthenticator auth(final String endpointAddress, final String username, final String password) {
+		HttpAuthenticator auth = authCache.get(endpointAddress);
+		if (auth == null) {
+			auth = new SimpleAuthenticator(username, password.toCharArray());
+			authCache.put(endpointAddress, auth);
+		}
+		return auth;
 	}
 }

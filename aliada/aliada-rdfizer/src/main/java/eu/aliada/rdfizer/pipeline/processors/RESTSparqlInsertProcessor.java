@@ -11,6 +11,8 @@ import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 
 import eu.aliada.rdfizer.Constants;
+import eu.aliada.rdfizer.log.MessageCatalog;
+import eu.aliada.shared.log.Log;
 import eu.aliada.shared.rdfstore.RDFStoreDAO;
 
 /**
@@ -20,6 +22,8 @@ import eu.aliada.shared.rdfstore.RDFStoreDAO;
  * @since 1.0
  */
 public class RESTSparqlInsertProcessor implements Processor {
+	private final Log logger = new Log(RESTSparqlInsertProcessor.class);
+	
 	final String sparqlEndpointURI;
 	final String user; 
 	final String password;
@@ -47,11 +51,17 @@ public class RESTSparqlInsertProcessor implements Processor {
 
 	@Override
 	public void process(final Exchange exchange) throws Exception {
-		
 		final String triples = exchange.getIn().getBody(String.class);
+		
+		logger.debug(MessageCatalog._00049_DEBUG_TRIPLES, triples);
+	
 		final String graphName = exchange.getIn().getHeader(Constants.GRAPH_ATTRIBUTE_NAME, String.class);
 		if (isNotNullAndNotEmpty(triples)) {
-			rdfStore.executeInsert(sparqlEndpointURI, graphName, user, password, triples);
+			try {
+				rdfStore.executeInsert(sparqlEndpointURI, graphName, user, password, triples);
+			} catch (final Exception exception) {
+				logger.error(MessageCatalog._00050_RDFSTORE_FAILURE, exception);
+			}
 		}
 	}
 }
