@@ -146,19 +146,11 @@ public class RDFStoreDAO {
 	public boolean executeUpdateQuerySparqlEndpoint(String sparqlEndpointURI, String user, String password, String query) {
 		boolean done = false;
 		try {
-			//Authentication 
-			HttpContext httpContext = new BasicHttpContext();
-			CredentialsProvider provider = new BasicCredentialsProvider();
-			provider.setCredentials(new AuthScope(AuthScope.ANY_HOST,
-					AuthScope.ANY_PORT), new UsernamePasswordCredentials(user, password));
-			httpContext.setAttribute(HttpClientContext.CREDS_PROVIDER, provider);
-		
-			// Execute the query 
-			UpdateRequest update = UpdateFactory.create(query);
-		
-			UpdateProcessor processor = UpdateExecutionFactory.createRemoteForm(update, sparqlEndpointURI);
-			((UpdateProcessRemoteForm)processor).setHttpContext(httpContext);
-			processor.execute();
+			UpdateExecutionFactory.createRemote(
+					UpdateFactory.create(query), 
+					sparqlEndpointURI, 
+					auth(sparqlEndpointURI, user, password))
+				.execute();
 			done = true;
 		} catch (Exception exception) {
 			logger.error(MessageCatalog._00035_SPARQL_FAILED, exception, query);
