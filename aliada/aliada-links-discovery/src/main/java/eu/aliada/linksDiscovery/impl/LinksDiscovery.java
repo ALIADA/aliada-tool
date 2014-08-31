@@ -154,7 +154,7 @@ public class LinksDiscovery {
 			FileWriter fstream = new FileWriter(crontabFilename);
 			BufferedWriter out = new BufferedWriter(fstream);
 			// Execute system command "crontab -l"
-	    	String command = "crontab -l";
+/*	    	String command = "crontab -l";
 	    	try {
 		    	String s = null;
 	  	    	Process crontabList = Runtime.getRuntime().exec(command);
@@ -166,7 +166,7 @@ public class LinksDiscovery {
 	    	} catch (IOException exception) {
 		    	crontabFilename = null;
 		    	logger.error(MessageCatalog._00033_EXTERNAL_PROCESS_START_FAILURE, exception, command);
-		    }
+		    }*/
 	    	out.close();
 		} catch (IOException exception) {
 			logger.error(MessageCatalog._00034_FILE_CREATION_FAILURE, exception, crontabFilename);
@@ -212,12 +212,13 @@ public class LinksDiscovery {
 	 * 						creating the new one.
 	 * @param ds			the name of the input dataset description to be
 	 * 						included in the XML file.
+	 * @param subjobName	the subjob name which will be used to create the names of the output files.
 	 * @param jobConf		a {@link eu.aliada.linksDiscovery.model.JobConfiguration}
 	 * 						containing information to be included in the XML file.
 	 * @return the name of the newly created XML configuration file.
 	 * @since 1.0
 	 */
-	private String createLinkingXMLConfigFile(String linkingFile, String ds, JobConfiguration jobConf){
+	private String createLinkingXMLConfigFile(String linkingFile, String ds, String subjobName, JobConfiguration jobConf){
 		// Read XML file and create a new one with SPARQL enpoints referring information (input & output)
 		File inputXMLFile = new File(linkingFile);
 		String inputFileName = inputXMLFile.getName();
@@ -296,7 +297,12 @@ public class LinksDiscovery {
 					outputsElem.appendChild(outputElem);
 
 					//Create new <Output> element for a File
-					String triplesGeneratedFilename = fileNameWithPathNoExt + System.currentTimeMillis() + "output.n3";
+					//Get InterLink id to generate output file name
+					Node interLinkNode = nNode.getParentNode();
+					Element interLinkElem = (Element) interLinkNode;
+					String interLinkId = interLinkElem.getAttribute("id");
+					//String triplesGeneratedFilename = fileNameWithPathNoExt + System.currentTimeMillis() + "output.n3";
+					String triplesGeneratedFilename = subjobName + "_" + interLinkId + "_" + System.currentTimeMillis() + "_output.n3";
 					outputElem = doc.createElement("Output"); 
 					//set attributes to Output element
 					attrType = doc.createAttribute("type"); 
@@ -455,7 +461,7 @@ public class LinksDiscovery {
 				int subjobId = i + 1 ;
 				//Generate XML config file for SILK
 				logger.info(MessageCatalog._00037_CREATE_lINKING_XML_CONFIG_FILE, subjobId);
-				String linkingXMLConfigFilename = createLinkingXMLConfigFile(subjobConf[i].getLinkingXMLConfigFilename(), subjobConf[i].getDs(), jobConf);
+				String linkingXMLConfigFilename = createLinkingXMLConfigFile(subjobConf[i].getLinkingXMLConfigFilename(), subjobConf[i].getDs(), subjobConf[i].getName(), jobConf);
 				if(linkingXMLConfigFilename != null){
 					//Generate properties file to be used by scheduled subjob
 					logger.info(MessageCatalog._00038_CREATE_lINKING_PROP_FILE, subjobId);
