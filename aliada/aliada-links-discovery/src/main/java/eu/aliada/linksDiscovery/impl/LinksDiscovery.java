@@ -284,7 +284,7 @@ public class LinksDiscovery {
 					Element outputElem; 
 					Attr attrType; 
 
-					/*
+					/* Not needed for now
 					//Create new <Output> element for SPARUL
 					outputElem = doc.createElement("Output"); 
 					//set attributes to Output element
