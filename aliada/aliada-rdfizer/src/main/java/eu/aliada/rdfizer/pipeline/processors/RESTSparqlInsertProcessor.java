@@ -50,16 +50,16 @@ public class RESTSparqlInsertProcessor implements Processor {
 		final String triples = exchange.getIn().getBody(String.class);
 		
 		logger.debug(MessageCatalog._00049_DEBUG_TRIPLES, triples);
-	
-		final Integer jobId = exchange.getIn().getHeader(Constants.JOB_ID_ATTRIBUTE_NAME, Integer.class);
-		final JobInstance configuration = cache.getJobInstance(jobId);
-		if (configuration == null) {
-			logger.error(MessageCatalog._00038_UNKNOWN_JOB_ID, jobId);
-			throw new IllegalArgumentException(String.valueOf(jobId));
-		}
-		
+			
 		final String graphName = exchange.getIn().getHeader(Constants.GRAPH_ATTRIBUTE_NAME, String.class);
 		if (isNotNullAndNotEmpty(triples)) {
+			final Integer jobId = exchange.getIn().getHeader(Constants.JOB_ID_ATTRIBUTE_NAME, Integer.class);
+			final JobInstance configuration = cache.getJobInstance(jobId);
+			if (configuration == null) {
+				logger.error(MessageCatalog._00038_UNKNOWN_JOB_ID, jobId);
+				throw new IllegalArgumentException(String.valueOf(jobId));
+			}
+
 			try {
 				rdfStore.executeInsert(
 						configuration.getSparqlEndpointUrl(), 
