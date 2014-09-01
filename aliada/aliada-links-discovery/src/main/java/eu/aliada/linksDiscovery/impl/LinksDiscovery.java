@@ -154,7 +154,7 @@ public class LinksDiscovery {
 			FileWriter fstream = new FileWriter(crontabFilename);
 			BufferedWriter out = new BufferedWriter(fstream);
 			// Execute system command "crontab -l"
-/*	    	String command = "crontab -l";
+	    	String command = "crontab -l";
 	    	try {
 		    	String s = null;
 	  	    	Process crontabList = Runtime.getRuntime().exec(command);
@@ -166,7 +166,7 @@ public class LinksDiscovery {
 	    	} catch (IOException exception) {
 		    	crontabFilename = null;
 		    	logger.error(MessageCatalog._00033_EXTERNAL_PROCESS_START_FAILURE, exception, command);
-		    }*/
+		    }
 	    	out.close();
 		} catch (IOException exception) {
 			logger.error(MessageCatalog._00034_FILE_CREATION_FAILURE, exception, crontabFilename);
@@ -281,11 +281,14 @@ public class LinksDiscovery {
 				Node nNode = nList.item(temp);
 				if (nNode.getNodeType() == Node.ELEMENT_NODE) {
 					Element outputsElem = (Element) nNode;
+					Element outputElem; 
+					Attr attrType; 
 
+					/*
 					//Create new <Output> element for SPARUL
-					Element outputElem = doc.createElement("Output"); 
+					outputElem = doc.createElement("Output"); 
 					//set attributes to Output element
-					Attr attrType = doc.createAttribute("type"); 
+					attrType = doc.createAttribute("type"); 
 					attrType.setValue("sparul");
 					outputElem.setAttributeNode(attrType);
 					//Add child elements to Output element
@@ -295,6 +298,7 @@ public class LinksDiscovery {
 					appendChildParam(doc, outputElem, "password", jobConf.getOutputPassword());
 					//Add new <Output> element to <Outputs>  
 					outputsElem.appendChild(outputElem);
+					*/
 
 					//Create new <Output> element for a File
 					//Get InterLink id to generate output file name
