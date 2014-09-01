@@ -25,7 +25,7 @@ public class VisualizeXMLTest extends TestCase {
 		boolean result = vx.toStyledDocument(
 				"src/test/resources/marc/marc_bib.xml",
 				"src/main/resources/xmlVisualize/marc_bib.xsl",
-				"src/test/resources/logs/marc_bib.html");
+				"src/main/webapp/content/errorContent.jsp");
 		if (result) {
 			log.info("BIEN");
 		} else {
