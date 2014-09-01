@@ -46,6 +46,15 @@ public class JobInstance {
     @Column(name = "end_date", nullable = true)
     private Timestamp endDate;
 
+    @Column(name = "sparql_endpoint_uri", nullable = false)
+    private String sparqlEndpointUrl;
+
+    @Column(name = "sparql_endpoint_login", nullable = false)
+    private String sparqlUsername;
+    
+    @Column(name = "sparql_endpoint_password", nullable = false)
+    private String sparqlPassword;
+    
     /**
      * Returns the identifier of this job configuration.
      * 
@@ -188,7 +197,59 @@ public class JobInstance {
 	 */
 	public void setGraphName(final String graphName) {
 		this.graphName = graphName;
+	}
+
+	/**
+	 * Returns the name of the graph that will be associated with this job.
+	 * 
+	 * @return the SPARQL endpoint URI that will be associated with this job.
+	 */
+	public String getSparqlEndpointUrl() {
+		return sparqlEndpointUrl;
+	}
+
+	/**
+	 * Sets the SPARQL endpoint URI that will be associated with this job.
+	 * 
+	 * @param uri the SPARQL endpoint URI that will be associated with this job.
+	 */
+	public void setSparqlEndpointUrl(final String uri) {
+		this.sparqlEndpointUrl = uri;
+	}
+
+	/**
+	 * Returns the username of the SPARQL endpoint that will be associated with this job.
+	 * 
+	 * @return the username of the SPARQL endpoint that will be associated with this job.
+	 */
+	public String getSparqlUsername() {
+		return sparqlUsername;
+	}
+
+	/**
+	 * Sets the username of the SPARQL endpoint URI that will be associated with this job.
+	 * 
+	 * @param username the username of the SPARQL endpoint URI that will be associated with this job.
+	 */
+	public void setSparqlUsername(final String username) {
+		this.sparqlUsername = username;
+	}
+
+	/**
+	 * Returns the password of the SPARQL endpoint that will be associated with this job.
+	 * 
+	 * @return the password of the SPARQL endpoint that will be associated with this job.
+	 */
+	public String getSparqlPassword() {
+		return sparqlPassword;
+	}
+
+	/**
+	 * Sets the password of the SPARQL endpoint URI that will be associated with this job.
+	 * 
+	 * @param password the password of the SPARQL endpoint URI that will be associated with this job.
+	 */
+	public void setSparqlPassword(final String password) {
+		this.sparqlPassword = password;
 	}		
-	
-	
 }
