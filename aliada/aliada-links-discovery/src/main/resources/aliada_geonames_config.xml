@@ -5,11 +5,17 @@
     <Prefix id="owl" namespace="http://www.w3.org/2002/07/owl#"/>
     <Prefix id="rdfs" namespace="http://www.w3.org/2000/01/rdf-schema#"/>
     <Prefix id="ecrm" namespace="http://erlangen-crm.org/current/"/>
+    <Prefix id="efrbroo" namespace="http://erlangen-crm.org/efrbroo/"/>
     <Prefix id="geo" namespace="http://www.geonames.org/ontology#"/>
     <Prefix id="wgs84" namespace="http://www.w3.org/2003/01/geo/wgs84_pos#"/>
   </Prefixes>
 
   <DataSources>
+	<DataSource id="ALIADA_ds" type="file">
+	  <Param name="file" value="D:\\Proyectos\\023779_ALIADA\\Development\\record_samples\\LIDO\\MFAB\\lidoMFAB-CIDOC-CRM.rdf"/>
+	  <Param name="format" value="RDF/XML"/>
+	  <Param name="graph" value=""/>
+	</DataSource>
 
 	<DataSource id="Geonames" type="sparqlEndpoint">
 		<Param name="pageSize" value="1000"/>
@@ -25,12 +31,14 @@
 		<Param name="password" value=""/>
 	</DataSource>
   </DataSources>
-  
+ 
+  <Blocking/>
+ 
   <Interlinks>
-    <Interlink id="lido_geonames_place">
+	<Interlink id="aliada_geonames_place">
 	  <LinkType>owl:sameAs</LinkType>
-	  <SourceDataset dataSource="LIDO_ds" var="place">
-		<RestrictTo> ?place rdf:type ecrm:E53_Place . </RestrictTo>
+	  <SourceDataset dataSource="ALIADA_ds" var="place">
+		<RestrictTo> {?place rdf:type ecrm:E53_Place} UNION {?place rdf:type efrbroo:F9_Place} </RestrictTo>
 	  </SourceDataset>
 	  <TargetDataset dataSource="Geonames" var="b">
 		<RestrictTo> ?b rdf:type geo:Feature . </RestrictTo>
@@ -63,8 +71,13 @@
 	  <Filter/>
 
 	  <Outputs>
+		 <Output type="file">
+		  <Param name="file" value="aliada_geonames_place_output.nt"/>
+		  <Param name="format" value="ntriples"/>
+		</Output>
       </Outputs>
-    </Interlink>
+	</Interlink>
+
 
   </Interlinks>  
 
