@@ -7,6 +7,9 @@ CREATE TABLE `aliada`.`rdfizer_job_instances` (
 `aliada_ontology`  VARCHAR( 245 ) NOT NULL,
 `start_date` TIMESTAMP default NULL,
 `end_date` TIMESTAMP default NULL ,
+`sparql_endpoint_uri`  VARCHAR( 245 ) NOT NULL, 
+`sparql_endpoint_login`  VARCHAR( 32 ) NOT NULL, 
+`sparql_endpoint _password`  VARCHAR( 32 ) NOT NULL,
 PRIMARY KEY ( `job_id` )
 ) ENGINE = InnoDB ;
 

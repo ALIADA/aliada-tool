@@ -9,8 +9,11 @@ import static eu.aliada.shared.Strings.isNotNullAndNotEmpty;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import eu.aliada.rdfizer.Constants;
+import eu.aliada.rdfizer.datasource.Cache;
+import eu.aliada.rdfizer.datasource.rdbms.JobInstance;
 import eu.aliada.rdfizer.log.MessageCatalog;
 import eu.aliada.shared.log.Log;
 import eu.aliada.shared.rdfstore.RDFStoreDAO;
@@ -24,10 +27,10 @@ import eu.aliada.shared.rdfstore.RDFStoreDAO;
 public class RESTSparqlInsertProcessor implements Processor {
 	private final Log logger = new Log(RESTSparqlInsertProcessor.class);
 	
-	final String sparqlEndpointURI;
-	final String user; 
-	final String password;
 	final RDFStoreDAO rdfStore;
+	
+	@Autowired
+	protected Cache cache;
 	
 	/**
 	 * Builds a new connector using the given targets.
@@ -38,14 +41,7 @@ public class RESTSparqlInsertProcessor implements Processor {
 	 * @param batchSize how many statements will be grouped in a single request.
 	 * @param cleanUpPeriod the sleep interval of the buffer cleanup worker.
 	 */
-	public RESTSparqlInsertProcessor(
-			final String sparqlEndpointURI, 
-			final String user, 
-			final String password) {
-
-		this.sparqlEndpointURI = sparqlEndpointURI;
-		this.user = user;
-		this.password = password;
+	public RESTSparqlInsertProcessor() {
 		this.rdfStore = new RDFStoreDAO();
 	}
 
@@ -55,10 +51,22 @@ public class RESTSparqlInsertProcessor implements Processor {
 		
 		logger.debug(MessageCatalog._00049_DEBUG_TRIPLES, triples);
 	
+		final Integer jobId = exchange.getIn().getHeader(Constants.JOB_ID_ATTRIBUTE_NAME, Integer.class);
+		final JobInstance configuration = cache.getJobInstance(jobId);
+		if (configuration == null) {
+			logger.error(MessageCatalog._00038_UNKNOWN_JOB_ID, jobId);
+			throw new IllegalArgumentException(String.valueOf(jobId));
+		}
+		
 		final String graphName = exchange.getIn().getHeader(Constants.GRAPH_ATTRIBUTE_NAME, String.class);
 		if (isNotNullAndNotEmpty(triples)) {
 			try {
-				rdfStore.executeInsert(sparqlEndpointURI, graphName, user, password, triples);
+				rdfStore.executeInsert(
+						configuration.getSparqlEndpointUrl(), 
+						graphName, 
+						configuration.getSparqlUsername(), 
+						configuration.getSparqlPassword(), 
+						triples);
 			} catch (final Exception exception) {
 				logger.error(MessageCatalog._00050_RDFSTORE_FAILURE, exception);
 			}
