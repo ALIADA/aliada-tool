@@ -82,7 +82,7 @@ public class ConversionAction extends ActionSupport {
             connection = new DBConnectionManager().getConnection();
             Statement statement = connection.createStatement();
             ResultSet rs = statement
-                    .executeQuery("select aliada_ontology,sparql_endpoint_uri,sparql_endpoint_login,sparql_endpoint_password,graph_uri from organisation_data_server_configuration");
+                    .executeQuery("select aliada_ontology,sparql_endpoint_uri,sparql_endpoint_login,sparql_endpoint_password,graph_uri from organisation");
             if (rs.next()) {
                 RDFStoreDAO store = new RDFStoreDAO();
 //                if(store.clearGraphBySparql(rs.getString("sparql_endpoint_uri"), rs.getString("sparql_endpoint_login"), rs.getString("sparql_endpoint_password"), rs.getString("graph_uri"))){
@@ -99,7 +99,6 @@ public class ConversionAction extends ActionSupport {
                     int addedId = 0;
                     if (rs2.next()) {
                         addedId = (int) rs2.getInt(1);
-                        logger.debug("Added job id: " + addedId);
                     }
                     try {
                         enableRdfizer();
