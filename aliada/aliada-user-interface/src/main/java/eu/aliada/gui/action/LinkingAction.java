@@ -142,7 +142,7 @@ public class LinkingAction extends ActionSupport {
         try {
             statement = connection.createStatement();
             ResultSet rs = statement
-                    .executeQuery("select sparql_endpoint_uri, sparql_endpoint_login, sparql_endpoint_password, graph_uri, linking_config_file, tmp_dir, linking_client_app_bin_dir from organisation_data_server_configuration");
+                    .executeQuery("select sparql_endpoint_uri, sparql_endpoint_login, sparql_endpoint_password, graph_uri, linking_config_file, tmp_dir, linking_client_app_bin_dir from organisation");
             if (rs.next()) {
                 PreparedStatement preparedStatement;
                 preparedStatement = connection
@@ -239,7 +239,7 @@ public class LinkingAction extends ActionSupport {
         try {
             statement = connection.createStatement();
             ResultSet rs = statement
-                    .executeQuery("select store_ip,store_sql_port,sql_login, sql_password, graph_uri, dataset_base, isql_command_path, isql_commands_file, isql_commands_file_default from organisation_data_server_configuration");
+                    .executeQuery("select store_ip,store_sql_port,sql_login, sql_password, graph_uri, dataset_base, isql_command_path, isql_commands_file, isql_commands_file_default from organisation");
             if (rs.next()) {
                 PreparedStatement preparedStatement = connection
                         .prepareStatement(
