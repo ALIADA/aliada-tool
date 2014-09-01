@@ -30,7 +30,7 @@ public class RESTSparqlInsertProcessorTest {
 	
 	@Before
 	public void setUp() {
-		cut = new RESTSparqlInsertProcessor(randomString(), randomString(), randomString());
+		cut = new RESTSparqlInsertProcessor();
 		dao = mock(RDFStoreDAO.class);
 		message = mock(Message.class);
 		exchange = mock(Exchange.class);
