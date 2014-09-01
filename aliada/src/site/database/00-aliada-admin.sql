@@ -36,7 +36,7 @@ CREATE TABLE IF NOT EXISTS `aliada`.`organisation` (
 	`linking_client_app_bin_dir`  VARCHAR( 245 ) default NULL, 
 	`sparql_endpoint_uri`  VARCHAR( 245 ) default NULL, 
 	`sparql_endpoint_login`  VARCHAR( 32 ) default NULL, 
-	`sparql_endpoint _password`  VARCHAR( 32 ) default NULL, 
+	`sparql_endpoint_password`  VARCHAR( 32 ) default NULL, 
 	`graph_uri`  VARCHAR( 245 ) default NULL, 
 	`rdf_sink_folder`  VARCHAR( 245 ) default NULL, 
 	`rdf_sink_login`  VARCHAR( 32 ) default NULL, 
