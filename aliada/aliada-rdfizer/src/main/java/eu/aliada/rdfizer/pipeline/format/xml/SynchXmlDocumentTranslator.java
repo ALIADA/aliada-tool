@@ -5,6 +5,8 @@
 // Responsible: ALIADA Consortiums
 package eu.aliada.rdfizer.pipeline.format.xml;
 
+import static eu.aliada.shared.Strings.isNotNullAndNotEmpty;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -149,7 +151,7 @@ public class SynchXmlDocumentTranslator implements Processor, ApplicationContext
 			triples = sw.toString();
 						
 			in.setBody(triples);
-			in.setHeader(Constants.GRAPH_ATTRIBUTE_NAME, configuration.getNamespace());
+			in.setHeader(Constants.GRAPH_ATTRIBUTE_NAME, graphName(configuration));
 		} catch (final ResourceNotFoundException exception) {
 			log.error(MessageCatalog._00040_TEMPLATE_NOT_FOUND, exception, format);
 		} finally {
@@ -316,4 +318,14 @@ public class SynchXmlDocumentTranslator implements Processor, ApplicationContext
 			}
 		}
 	}	
+	
+	/**
+	 * Returns the graph name that will be associated with the current job.
+	 *  
+	 * @param instance the job instance.
+	 * @return the graph name that will be associated with the current job.
+	 */
+	String graphName(final JobInstance instance) {
+		return isNotNullAndNotEmpty(instance.getGraphName()) ? instance.getGraphName() : instance.getNamespace();
+	}
 }

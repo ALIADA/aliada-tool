@@ -34,6 +34,9 @@ public class JobInstance {
     @Column(name = "namespace", nullable = false)
     private String namespace;
         
+    @Column(name = "graph_name")
+    private String graphName;
+    
     @Column(name = "aliada_ontology", nullable = false)
     private String aliadaOntologyNamespace;
     
@@ -167,5 +170,25 @@ public class JobInstance {
 	 */
 	public void setEndDate(final Timestamp endDate) {
 		this.endDate = endDate;
+	}
+
+	/**
+	 * Returns the name of the graph that will be associated with this job.
+	 * 
+	 * @return the name of the graph that will be associated with this job.
+	 */
+	public String getGraphName() {
+		return graphName;
+	}
+
+	/**
+	 * Sets the name of the graph that will be associated with this job.
+	 * 
+	 * @param graphName the name of the graph that will be associated with this job.
+	 */
+	public void setGraphName(final String graphName) {
+		this.graphName = graphName;
 	}		
+	
+	
 }
