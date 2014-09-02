@@ -29,8 +29,8 @@
 			<html:url id="localeES" namespace="/" action="locale" >
 			   <html:param name="request_locale" >es</html:param>
 			</html:url>			 
-			<html:a href="%{localeEN}" >English</html:a>
-			<html:a href="%{localeES}" >Spanish</html:a>
+			<html:a href="%{localeEN}" ><html:text name="english"/></html:a>
+			<html:a href="%{localeES}" ><html:text name="spanish"/></html:a>
 			<html:submit property="enterButton" cssClass="loginButton button" key="submit" />
 		</div>
 	</div>
