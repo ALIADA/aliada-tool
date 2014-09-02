@@ -16,8 +16,6 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 
-import eu.aliada.shared.log.Log;
-
 /**
  * Java program to check if XML is well formed.
  * 
@@ -25,7 +23,7 @@ import eu.aliada.shared.log.Log;
  * @since 1.0
  */
 public class WellFormed {
-    private final Log log = new Log(WellFormed.class);
+    //private final Log log = new Log(WellFormed.class);
     
     /**
      * @param xmlName
