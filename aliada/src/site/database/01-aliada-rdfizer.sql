@@ -5,7 +5,7 @@ CREATE TABLE `aliada`.`rdfizer_job_instances` (
 `namespace`  VARCHAR( 245 ) NOT NULL,
 `graph_name`  VARCHAR( 245 ) default NULL,
 `aliada_ontology`  VARCHAR( 245 ) NOT NULL,
-`start_date` TIMESTAMP default NULL,
+`start_date` TIMESTAMP NOT NULL,
 `end_date` TIMESTAMP default NULL ,
 `sparql_endpoint_uri`  VARCHAR( 245 ) NOT NULL, 
 `sparql_endpoint_login`  VARCHAR( 32 ) NOT NULL, 
