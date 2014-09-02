@@ -7,8 +7,6 @@
 package eu.aliada.gui.action;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -25,6 +23,7 @@ import org.apache.struts2.ServletActionContext;
 
 import com.opensymphony.xwork2.ActionSupport;
 
+import eu.aliada.gui.log.MessageCatalog;
 import eu.aliada.gui.rdbms.DBConnectionManager;
 import eu.aliada.inputValidation.CheckImportError;
 import eu.aliada.inputValidation.VisualizeXML;
@@ -110,6 +109,8 @@ public class ManagingAction extends ActionSupport {
                                 + fileType + "'");
                 rs.next();
                 String visualizeTypePath = rs.getString(1);
+                rs.close();
+                statement.close();
                 XMLValidation xmlVal = new XMLValidation();
                 if (xmlVal.isValidatedXMLFile(importFile.getPath(),
                         VALIDATOR_PATH + validatorPath)) {
@@ -120,14 +121,20 @@ public class ManagingAction extends ActionSupport {
                             ERROR_CONTENT_PATH)){
                     	//if(analiseLog(errorLog)){
                  	   if(CheckImportError.getCount()==0){
-                            addActionError(getText("correct.file"));
-                            String filePath = session.getServletContext().getRealPath("/importedFiles");
+                 	        statement = connection.createStatement();
+                            rs = statement
+                                  .executeQuery("select organisation_path FROM organisation");
+                            rs.next();
+                            String filePath = rs.getString(1);
+                            rs.close();
+                            statement.close();
                             File fileCreated = new File(filePath, this.importFileFileName);
                             FileUtils.copyFile(this.importFile, fileCreated);
                             session.setAttribute("importFile", fileCreated);
                             errorLog.add(getText("correct.file"));
                             session.setAttribute("errorLog", errorLog);
-                            session.setAttribute("profile", this.profilesSelect);
+                            session.setAttribute("profile", this.profilesSelect);                            
+                            addActionError(getText("correct.file"));
                             showProfiles();
                             setShowNextButton(true); 
                             setEnableErrorLogButton(false);
@@ -154,11 +161,10 @@ public class ManagingAction extends ActionSupport {
                     message = ERROR;
                     showProfiles();
                 }
-                rs.close();
-                statement.close();
                 connection.close();
             } catch (SQLException e) {
-                logger.debug("SQL error: "+e);
+                logger.debug(MessageCatalog._00011_SQL_EXCEPTION_LOGON);
+                e.printStackTrace();
                 showProfiles();
                 message = ERROR;
             } catch (IOException e) {
@@ -228,7 +234,7 @@ public class ManagingAction extends ActionSupport {
     public String showAddProfile() {
         showProfiles();
         setShowAddProfileForm(true);
-        return "success";
+        return SUCCESS;
     }
 
     public String showEditProfile() {
@@ -236,12 +242,10 @@ public class ManagingAction extends ActionSupport {
         try {
             connection = new DBConnectionManager().getConnection(); 
             Statement statement = connection.createStatement();
-            logger.debug("Profile selected to update: " + this.selectedProfile);
             ResultSet rs = statement
                     .executeQuery("select * from aliada.profile where profile_name='"
                             + this.selectedProfile + "'");
             if (rs.next()) {
-                logger.debug("Accesed to: " + rs.getString("profile_name"));
                 this.nameForm = rs.getString("profile_name");
                 this.profileTypeForm = rs.getInt("profile_type_code");
                 this.descriptionForm = rs.getString("profile_description");
@@ -264,6 +268,7 @@ public class ManagingAction extends ActionSupport {
                 return ERROR;
             }
         } catch (SQLException e) {
+            logger.debug(MessageCatalog._00011_SQL_EXCEPTION_LOGON);
             e.printStackTrace();
             showProfiles();
             return ERROR;
@@ -285,9 +290,9 @@ public class ManagingAction extends ActionSupport {
                     + this.nameForm + "'");
             statement.close();
             connection.close();
-            logger.debug("updated profile: " + this.nameForm);
         }catch (SQLException e) {
-            logger.error("SQL error: "+e);
+            logger.debug(MessageCatalog._00011_SQL_EXCEPTION_LOGON);
+            e.printStackTrace();
             return ERROR;
         }
         return SUCCESS;
@@ -302,11 +307,11 @@ public class ManagingAction extends ActionSupport {
             statement.close();
             connection.close();
             if(correct==0){
-                logger.debug("Not profile selected for delete");
                 addActionError(getText("profile.not.selected"));
             }
         } catch (SQLException e) {
-            logger.error("SQL error deleting profile"+e);
+            logger.debug(MessageCatalog._00011_SQL_EXCEPTION_LOGON);
+            e.printStackTrace();
             return ERROR;
         }
         return SUCCESS;            
@@ -323,12 +328,12 @@ public class ManagingAction extends ActionSupport {
                     + this.schemeForm + "', '" + this.fileTypeForm + "', '"
                     + this.fileFormatForm + "', '" + this.characterSetForm
                     + "')");
-            logger.debug("Added profile :");
             statement.close();
             connection.close();
             return SUCCESS;
         } catch (SQLException e ) {
-            logger.error("SQL error: "+e);
+            logger.debug(MessageCatalog._00011_SQL_EXCEPTION_LOGON);
+            e.printStackTrace();
             return ERROR;
         }
     }
@@ -355,7 +360,8 @@ public class ManagingAction extends ActionSupport {
             statement.close();
             connection.close();
         } catch (SQLException e) {
-            logger.error("SQL error: "+e);
+            logger.debug(MessageCatalog._00011_SQL_EXCEPTION_LOGON);
+            e.printStackTrace();
             return ERROR;
         }
         getSchemesDb();
@@ -388,10 +394,11 @@ public class ManagingAction extends ActionSupport {
             statement.close();
             connection.close();
         }catch (SQLException e) {
-            logger.error("SQL error: "+e);
-            return "error";
+            logger.debug(MessageCatalog._00011_SQL_EXCEPTION_LOGON);
+            e.printStackTrace();
+            return ERROR;
         }
-        return "success";
+        return SUCCESS;
     }
 
     public String getProfileTypesDb() {
@@ -410,10 +417,11 @@ public class ManagingAction extends ActionSupport {
             statement.close();
             connection.close();
         }catch (SQLException e) {
-            logger.error("SQL error: "+e);
-            return "error";
+            logger.debug(MessageCatalog._00011_SQL_EXCEPTION_LOGON);
+            e.printStackTrace();
+            return ERROR;
         }
-        return "success";
+        return SUCCESS;
     }
 
     public String getTypesDb() {
@@ -432,10 +440,11 @@ public class ManagingAction extends ActionSupport {
             statement.close();
             connection.close();
         }  catch (SQLException e) {
-            logger.error("SQL error: "+e);
-            return "error";
+            logger.debug(MessageCatalog._00011_SQL_EXCEPTION_LOGON);
+            e.printStackTrace();
+            return ERROR;
         }
-        return "success";
+        return SUCCESS;
     }
 
     public String getFormatsDb() {
@@ -454,10 +463,11 @@ public class ManagingAction extends ActionSupport {
             statement.close();
             connection.close();
         } catch (SQLException e) {
-            logger.error("SQL error: "+e);
-            return "error";
+            logger.debug(MessageCatalog._00011_SQL_EXCEPTION_LOGON);
+            e.printStackTrace();
+            return ERROR;
         }
-        return "success";
+        return SUCCESS;
     }
     
     public String getCharacterSetsDb() {
@@ -476,10 +486,11 @@ public class ManagingAction extends ActionSupport {
             statement.close();
             connection.close();
         } catch (SQLException e) {
-            logger.error("SQL error: "+e);
-            return "error";
+            logger.debug(MessageCatalog._00011_SQL_EXCEPTION_LOGON);
+            e.printStackTrace();
+            return ERROR;
         }
-        return "success";
+        return SUCCESS;
     }
 
     /**
