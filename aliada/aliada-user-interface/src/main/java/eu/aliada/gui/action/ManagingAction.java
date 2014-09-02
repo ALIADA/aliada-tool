@@ -312,8 +312,10 @@ public class ManagingAction extends ActionSupport {
         } catch (SQLException e) {
             logger.debug(MessageCatalog._00011_SQL_EXCEPTION_LOGON);
             e.printStackTrace();
+            showProfiles();
             return ERROR;
         }
+        showProfiles();
         return SUCCESS;            
     }
 

@@ -120,12 +120,8 @@
 		
 		<action name="deleteTemplate" method="deleteTemplate"
 			class="eu.aliada.gui.action.ConversionAction">
-			<result name="success" type="redirectAction">
-         		<param name="actionName">showTemplates</param>
-         	</result>
-			<result name="error"  type="redirectAction">
-         		<param name="actionName">showTemplates</param>
-         	</result>
+			<result name="success" type="tiles">/templates.tiles</result>
+			<result name="error" type="tiles">/templates.tiles</result>
 		</action>		
 		
 		<action name="showEditTemplateForm" method="showEditTemplate"
@@ -212,12 +208,8 @@
 		
 		<action name="deleteProfile" method="deleteProfile"
 			class="eu.aliada.gui.action.ManagingAction">
-			<result name="success" type="redirectAction">
-         		<param name="actionName">showProfiles</param>
-         	</result>
-			<result name="error"  type="redirectAction">
-         		<param name="actionName">showProfiles</param>
-         	</result>
+			<result name="success" type="tiles">/profiles.tiles</result>
+			<result name="error" type="tiles">/profiles.tiles</result>
 		</action>
 
 		<action name="linking" class="eu.aliada.gui.action.LinkingAction">
@@ -298,12 +290,8 @@
 
 		<action name="deleteUser" method="deleteUser"
 			class="eu.aliada.gui.action.UsersAction">
-			<result name="success" type="redirectAction">
-         		<param name="actionName">showUsers</param>
-         	</result>
-			<result name="error"  type="redirectAction">
-         		<param name="actionName">showUsers</param>
-         	</result>
+			<result name="success" type="tiles">/users.tiles</result>
+			<result name="error" type="tiles">/users.tiles</result>
 		</action>
 		
 		<action name="locale" class="eu.aliada.gui.action.LocaleAction">
