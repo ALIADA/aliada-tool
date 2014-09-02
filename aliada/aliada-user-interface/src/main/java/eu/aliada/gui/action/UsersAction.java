@@ -66,9 +66,10 @@ public class UsersAction extends ActionSupport{
         } catch (SQLException e) {
             logger.debug(MessageCatalog._00011_SQL_EXCEPTION_LOGON);
             e.printStackTrace();
+            getUsersDb();
             return ERROR;
         }
-        return SUCCESS;            
+        return getUsersDb();           
     }
     
     public String showEdit(){

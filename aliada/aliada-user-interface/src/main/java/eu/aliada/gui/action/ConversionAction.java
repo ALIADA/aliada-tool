@@ -264,7 +264,7 @@ public class ConversionAction extends ActionSupport {
         try {
             connection = new DBConnectionManager().getConnection();
             Statement statement = connection.createStatement();
-            statement
+            int correct = statement
                     .executeUpdate("DELETE tags.* FROM template_xml_tag tags INNER JOIN template temp ON tags.template_id=temp.template_id  WHERE temp.template_name='"
                             + getSelectedTemplate() + "'");
             statement.close();
@@ -274,11 +274,16 @@ public class ConversionAction extends ActionSupport {
                             + getSelectedTemplate() + "'");
             statement.close();
             connection.close();
+            if(correct==0){
+                addActionError(getText("template.not.selected"));                
+            }
         } catch (SQLException e) {
+            getTemplatesDb();
             logger.debug(MessageCatalog._00011_SQL_EXCEPTION_LOGON);
             e.printStackTrace();
             return ERROR;
         }
+        getTemplatesDb();
         return SUCCESS;
     }
 
