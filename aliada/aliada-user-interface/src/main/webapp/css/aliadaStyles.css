@@ -43,6 +43,12 @@ body{
 .errorMessage {
   color: red;
 }
+.actionMessage{
+  color:green;
+}
+.actionError{
+  color:red;
+}
 .red {
   color: red;
 }

@@ -134,7 +134,7 @@ public class ManagingAction extends ActionSupport {
                             errorLog.add(getText("correct.file"));
                             session.setAttribute("errorLog", errorLog);
                             session.setAttribute("profile", this.profilesSelect);                            
-                            addActionError(getText("correct.file"));
+                            addActionMessage(getText("correct.file"));
                             showProfiles();
                             setShowNextButton(true); 
                             setEnableErrorLogButton(false);
