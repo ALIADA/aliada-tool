@@ -20,6 +20,7 @@
 				</html:iterator>
 			</div>
 			<html:actionerror/>
+			<html:actionmessage/>
 			<html:submit action="showAddTemplateForm"
 				cssClass="submitButton button" key="add" />
 			<div <html:if test="areTemplates">class="displayInline"</html:if>

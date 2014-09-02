@@ -256,7 +256,8 @@ public class ManagingAction extends ActionSupport {
 					+ this.nameForm + "'");
 			statement.close();
 			connection.close();
-			addActionMessage(getText("profile.save.ok"));
+			addActionMessage(getText("profile.edit.ok"));
+            showProfiles();
 		} catch (SQLException e) {
 			logger.debug(MessageCatalog._00011_SQL_EXCEPTION);
 			e.printStackTrace();
@@ -285,7 +286,9 @@ public class ManagingAction extends ActionSupport {
 			if (correct == 0) {
 				addActionError(getText("profile.not.selected"));
 			}
-			addActionMessage(getText("profile.delete.ok"));
+			else{
+	            addActionMessage(getText("profile.delete.ok"));			    
+			}
 		} catch (SQLException e) {
 			logger.debug(MessageCatalog._00011_SQL_EXCEPTION);
 			e.printStackTrace();
@@ -316,6 +319,7 @@ public class ManagingAction extends ActionSupport {
 			statement.close();
 			connection.close();
 			addActionMessage(getText("profile.save.ok"));
+			showProfiles();
 			return SUCCESS;
 		} catch (SQLException e) {
 			logger.debug(MessageCatalog._00011_SQL_EXCEPTION);

@@ -22,6 +22,7 @@
 			</tr>
 		</html:iterator>
 	</table>
+	<html:actionmessage />
 	<html:actionerror/>
 
 	<div <html:if test="showAddForm || showEditForm">class="displayNo"</html:if>

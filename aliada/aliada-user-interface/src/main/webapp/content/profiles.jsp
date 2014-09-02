@@ -4,7 +4,6 @@
 
 <h2 class="pageTitle"><html:text name="profiles.title"/></h2>
 <div class="content">
-<html:actionmessage />
 <html:form id="profiles">
 	<div <html:if test="showAddProfileForm || showEditProfileForm">class="displayNo"</html:if>
 		<html:else>
@@ -15,6 +14,7 @@
 				<html:radio key="selectedProfile" cssClass="label" list="{value}"/><br>
 			</html:iterator>
 		</div>
+		<html:actionmessage />
 		<html:actionerror/>
 		<html:submit action="showAddProfileForm" cssClass="submitButton button"
 			key="add" />

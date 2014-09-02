@@ -107,9 +107,7 @@
 		<action name="addTemplate" method="addTemplate"
 			class="eu.aliada.gui.action.ConversionAction">
 			<interceptor-ref name="storeStack"/>
-			<result name="success" type="redirectAction">
-         		<param name="actionName">showTemplates</param>
-         	</result>
+			<result name="success" type="tiles">/templates.tiles</result>
 			<result name="error"  type="redirectAction">
          		<param name="actionName">showAddTemplateForm</param>
          	</result>
@@ -132,9 +130,7 @@
 		
 		<action name="editTemplate" method="editTemplate"
 			class="eu.aliada.gui.action.ConversionAction">
-			<result name="success" type="redirectAction">
-         		<param name="actionName">showTemplates</param>
-         	</result>
+			<result name="success" type="tiles">/templates.tiles</result>
 			<result name="error"  type="redirectAction">
          		<param name="actionName">showTemplates</param>
          	</result>
@@ -149,7 +145,6 @@
 
 		<action name="manage" method="showProfiles"
 			class="eu.aliada.gui.action.ManagingAction">
-			<interceptor-ref name="retrieveStack"/>
 			<result name="success" type="tiles">/manage.tiles</result>
 		</action>
 		
@@ -176,9 +171,7 @@
 		<action name="addProfile" method="addProfile"
 			class="eu.aliada.gui.action.ManagingAction">
 			<interceptor-ref name="storeStack"/>
-			<result name="success" type="redirectAction">
-         		<param name="actionName">showProfiles</param>
-         	</result>
+			<result name="success" type="tiles">/profiles.tiles</result>
 			<result name="error"  type="redirectAction">
          		<param name="actionName">showAddProfileForm</param>
          	</result>
@@ -195,9 +188,7 @@
 		
 		<action name="editProfile" method="editProfile"
 			class="eu.aliada.gui.action.ManagingAction">
-			<result name="success" type="redirectAction">
-         		<param name="actionName">showProfiles</param>
-         	</result>
+			<result name="success" type="tiles">/profiles.tiles</result>
 			<result name="error"  type="redirectAction">
          		<param name="actionName">showProfiles</param>
          	</result>
@@ -263,9 +254,7 @@
 		<action name="addUser" method="addUser"
 			class="eu.aliada.gui.action.UsersAction">
 			<interceptor-ref name="storeStack"/>
-			<result name="success" type="redirectAction">
-         		<param name="actionName">showUsers</param>
-         	</result>
+			<result name="success" type="tiles">/users.tiles</result>
 			<result name="error"  type="redirectAction">
          		<param name="actionName">showAddForm</param>
          	</result>
@@ -277,9 +266,7 @@
 		<action name="editUser" method="editUser"
 			class="eu.aliada.gui.action.UsersAction">
 			<interceptor-ref name="storeStack"/>
-			<result name="success" type="redirectAction">
-         		<param name="actionName">showUsers</param>
-         	</result>
+			<result name="success" type="tiles">/users.tiles</result>
 			<result name="error"  type="redirectAction">
          		<param name="actionName">showEditForm</param>
          	</result>

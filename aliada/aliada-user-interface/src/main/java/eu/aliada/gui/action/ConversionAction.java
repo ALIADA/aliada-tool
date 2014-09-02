@@ -132,7 +132,7 @@ public class ConversionAction extends ActionSupport {
 //                return ERROR;
 //            }
         } catch (SQLException e) {
-            logger.debug(MessageCatalog._00011_SQL_EXCEPTION_LOGON);
+            logger.debug(MessageCatalog._00011_SQL_EXCEPTION);
             e.printStackTrace();
             getTemplatesDb();
             return ERROR;
@@ -170,7 +170,6 @@ public class ConversionAction extends ActionSupport {
             throw new RuntimeException("Failed : HTTP error code : "
                     + conn.getResponseCode());
         }
-        logger.debug("Rdfizer enabled");
         conn.disconnect();
     }
 
@@ -209,7 +208,7 @@ public class ConversionAction extends ActionSupport {
                 setAreTemplates(true);
             }
         } catch (SQLException e) {
-            logger.debug(MessageCatalog._00011_SQL_EXCEPTION_LOGON);
+            logger.debug(MessageCatalog._00011_SQL_EXCEPTION);
             e.printStackTrace();
             return ERROR;
         }
@@ -250,9 +249,11 @@ public class ConversionAction extends ActionSupport {
             }
             connection.close();
             setShowAddTemplateForm(false);
+            addActionMessage(getText("template.save.ok"));
+            getTemplatesDb();
             return SUCCESS;
         } catch (SQLException e) {
-            logger.debug(MessageCatalog._00011_SQL_EXCEPTION_LOGON);
+            logger.debug(MessageCatalog._00011_SQL_EXCEPTION);
             e.printStackTrace();
             getTemplatesDb();
             return ERROR;
@@ -264,12 +265,12 @@ public class ConversionAction extends ActionSupport {
         try {
             connection = new DBConnectionManager().getConnection();
             Statement statement = connection.createStatement();
-            int correct = statement
+            statement
                     .executeUpdate("DELETE tags.* FROM template_xml_tag tags INNER JOIN template temp ON tags.template_id=temp.template_id  WHERE temp.template_name='"
                             + getSelectedTemplate() + "'");
             statement.close();
             statement = connection.createStatement();
-            statement
+            int correct = statement
                     .executeUpdate("DELETE FROM aliada.template WHERE template_name='"
                             + getSelectedTemplate() + "'");
             statement.close();
@@ -277,9 +278,12 @@ public class ConversionAction extends ActionSupport {
             if(correct==0){
                 addActionError(getText("template.not.selected"));                
             }
+            else{
+                addActionMessage(getText("template.delete.ok"));
+            }
         } catch (SQLException e) {
             getTemplatesDb();
-            logger.debug(MessageCatalog._00011_SQL_EXCEPTION_LOGON);
+            logger.debug(MessageCatalog._00011_SQL_EXCEPTION);
             e.printStackTrace();
             return ERROR;
         }
@@ -318,7 +322,7 @@ public class ConversionAction extends ActionSupport {
                 return ERROR;
             }
         } catch (SQLException e) {
-            logger.debug(MessageCatalog._00011_SQL_EXCEPTION_LOGON);
+            logger.debug(MessageCatalog._00011_SQL_EXCEPTION);
             e.printStackTrace();
             getTemplatesDb();
             getTagsDb(NOTEMPLATESELECTED);
@@ -354,13 +358,14 @@ public class ConversionAction extends ActionSupport {
             ServletActionContext.getRequest().getSession()
                     .removeAttribute("selectedTemplateId");
             connection.close();
+            addActionMessage(getText("template.save.ok"));
+            getTemplatesDb();
         } catch (SQLException e) {
-            logger.debug(MessageCatalog._00011_SQL_EXCEPTION_LOGON);
+            logger.debug(MessageCatalog._00011_SQL_EXCEPTION);
             e.printStackTrace();
             setShowEditTemplateForm(false);
             return ERROR;
         }
-        logger.debug("Updated template");
         setShowEditTemplateForm(false);
         return SUCCESS;
     }
@@ -406,7 +411,7 @@ public class ConversionAction extends ActionSupport {
             statement.close();
             connection.close();
         } catch (SQLException e) {
-            logger.debug(MessageCatalog._00011_SQL_EXCEPTION_LOGON);
+            logger.debug(MessageCatalog._00011_SQL_EXCEPTION);
             e.printStackTrace();
         }
     }
