@@ -11,38 +11,79 @@ import java.util.ResourceBundle;
 
 import org.apache.struts2.ServletActionContext;
 
-import eu.aliada.shared.log.Log;
-
 /**
- * @author elenaS
+ * This class is to validate the mandatory tags in the imported xml file.
+ * 
+ * @author elena
  * @version $Revision: 1.1 $, $Date: 2004/10/28 15:20:54 $
  * @since 1.0
  */
 
-public class CheckImportError {
-	 private final static Log logger = new Log(CheckImportError.class);
-	static int count = 0;
+public final class CheckImportError {
 
+	// private static final Log logger = new Log(CheckImportError.class);
+	static int count;
+
+	/**
+	 * Class constructor.
+	 * 
+	 * @see
+	 * @since 1.0
+	 */
+
+	private CheckImportError() {
+		super();
+		count = 0;
+	}
+
+	/**
+	 * The method to increase the number of errors in the mandatory tags
+	 * validation.
+	 * 
+	 * @return String
+	 * @see
+	 * @since 1.0
+	 */
 	public static String increase() {
 		count++;
 		return null;
 	}
 
-	public static int getCount(){
+	/**
+	 * The method to get the number of errors.
+	 * 
+	 * @return int
+	 * @see
+	 * @since 1.0
+	 */
+	public static int getCount() {
 		return count;
 	}
-	
-	public static void inicialize(){
-		count =0;
+
+	/**
+	 * The method to initialize the count of errors.
+	 * 
+	 * @see
+	 * @since 1.0
+	 */
+	public static void initialize() {
+		count = 0;
 	}
-	
-	public static String getLocaleText(String key){
-		//Locale locale = (Locale) ServletActionContext.getRequest().getSession().get("WW_TRANS_I18N_LOCALE");
-				//session.getAttribute(WW_TRANS_I18N_LOCALE));
-		Locale locale=new Locale("es");
-		logger.debug("Locale es **** " + locale);
-		 ResourceBundle defaults = ResourceBundle.getBundle(
-	                "ApplicationResources",  locale);
-	        return defaults.getString(key);		
+
+	/**
+	 * The method to get the content in the different ALIADA's languages.
+	 * 
+	 * @param key
+	 *            The key to translate.
+	 * @return String
+	 * @see
+	 * @since 1.0
+	 */
+	public static String getLocaleText(final String key) {
+		Locale locale = (Locale) ServletActionContext.getRequest().getSession()
+				.getAttribute("WW_TRANS_I18N_LOCALE");
+		ResourceBundle defaults = ResourceBundle.getBundle(
+				"ApplicationResources", locale);
+		return defaults.getString(key);
 	}
 }
