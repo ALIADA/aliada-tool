@@ -14,11 +14,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
 
 import org.apache.struts2.ServletActionContext;
 
 import com.opensymphony.xwork2.ActionSupport;
 
+import eu.aliada.gui.log.MessageCatalog;
 import eu.aliada.gui.model.User;
 import eu.aliada.gui.rdbms.DBConnectionManager;
 import eu.aliada.shared.log.Log;
@@ -61,23 +63,33 @@ public class UsersAction extends ActionSupport{
             statement.close();
             connection.close();
             if(correct==0){
+                clearErrorsAndMessages();
                 addActionError(getText("err.not.selected.user"));                
             }
+            else{
+                clearErrorsAndMessages();
+                addActionMessage(getText("user.delete.ok"));
+            }
         } catch (SQLException e) {
-            logger.error("SQL error deleting user"+e);
+            logger.debug(MessageCatalog._00011_SQL_EXCEPTION);
+            e.printStackTrace();
+            getUsersDb();
             return ERROR;
         }
-        return SUCCESS;            
+        return getUsersDb();           
     }
     
     public String showEdit(){
         Connection connection = null;
+        HttpSession session = ServletActionContext.getRequest().getSession();
         try {
             connection = new DBConnectionManager().getConnection();
             Statement statement = connection.createStatement();
+            if(session.getAttribute("userToUpdate")!=null){
+                setSelectedUser((String) ServletActionContext.getRequest().getSession().getAttribute("userToUpdate"));
+            }
             ResultSet rs = statement.executeQuery("select * from aliada.user where user_name='"+getSelectedUser()+"'");
             if(rs.next()){
-                ServletActionContext.getRequest().getSession().setAttribute("userToUpdate", getSelectedUser());
                 this.usernameForm=getSelectedUser();
                 this.passwordForm = rs.getString("user_password");
                 this.emailForm = rs.getString("user_email");
@@ -86,25 +98,28 @@ public class UsersAction extends ActionSupport{
                 statement.close();
                 connection.close();
                 getUsersDb();
+                session.setAttribute("userToUpdate", getSelectedUser());
                 this.showEditForm=true;
                 return SUCCESS;
             }
             else{
+                clearErrorsAndMessages();
                 addActionError(getText("err.not.selected.user"));
                 statement.close();
                 connection.close();
-                logger.error("Error getting user for update");
                 getUsersDb();
                 return ERROR;
             }
         } catch (SQLException e) {
-            logger.error("SQL error getting user for update"+e);
+            logger.debug(MessageCatalog._00011_SQL_EXCEPTION);
+            e.printStackTrace();
             getUsersDb();
             return ERROR;
         }        
     }
     
     public String getUsersDb(){
+        ServletActionContext.getRequest().getSession().removeAttribute("userToUpdate");    
         getRolesDb();
         getTypesDb();
         Connection connection = null;
@@ -121,7 +136,6 @@ public class UsersAction extends ActionSupport{
                 user.setEmail(rs.getString("user_email"));
                 user.setType(getUserType(rs.getInt("user_type_code")));
                 user.setRole(getRoleCode(rs.getInt("user_role_code")));
-                logger.debug(user.getRole());
                 this.users.add(user);
             }
             statement.close();
@@ -133,7 +147,8 @@ public class UsersAction extends ActionSupport{
                 setAreUsers(true);
             }
         } catch (SQLException e) {
-            logger.error("SQL error getting users"+e);
+            logger.debug(MessageCatalog._00011_SQL_EXCEPTION);
+            e.printStackTrace();
             return ERROR;
         }
         this.showAddForm=false;
@@ -152,17 +167,20 @@ public class UsersAction extends ActionSupport{
                 statement = connection.createStatement();
                 statement.executeUpdate("INSERT INTO user VALUES ('"+this.usernameForm+"', '"
                   +this.passwordForm+"', '"+this.emailForm+"', '"+this.roleForm+"', '"+this.typeForm+"')");
-                logger.debug("Added user :"+usernameForm);
+                addActionMessage(getText("user.save.ok"));
+                connection.close(); 
+                getUsersDb();
             }else{
                 rs.close();
                 statement.close();
                 connection.close();
+                clearErrorsAndMessages();
                 addActionError(getText("err.duplicate.user"));    
                 return ERROR;
-            } 
-            connection.close();         	
+            }         	
         } catch (SQLException e) {
-            logger.error("SQL error adding user"+e);
+            logger.debug(MessageCatalog._00011_SQL_EXCEPTION);
+            e.printStackTrace();
             return ERROR;
         }
         return SUCCESS;        
@@ -173,14 +191,17 @@ public class UsersAction extends ActionSupport{
             connection = new DBConnectionManager().getConnection();
         	Statement statement = connection.createStatement();
             statement.executeUpdate("UPDATE user set user_password='"+this.passwordForm+"',user_email='"+this.emailForm+"',user_role_code='"+this.roleForm+"',user_type_code='"+this.typeForm+"' where user_name='"+this.usernameForm+"'");
-            logger.debug("Updated user :"+usernameForm);
+            clearErrorsAndMessages();
+            addActionMessage(getText("user.edit.ok"));
             statement.close(); 
             connection.close();
+            getUsersDb();
         } catch (SQLException e) {
-            logger.error("SQL error editing user"+e);
+            logger.debug(MessageCatalog._00011_SQL_EXCEPTION);
+            e.printStackTrace();
+            getUsersDb();
             return ERROR;
         }
-        ServletActionContext.getRequest().getSession().removeAttribute("userToUpdate");
         return SUCCESS;        
     }
     private String getRoleCode(int code) {
@@ -196,7 +217,9 @@ public class UsersAction extends ActionSupport{
                 return userRole;
             }
         } catch (SQLException e) {
-            logger.error("SQL error obtaining roles"+e);
+            logger.debug(MessageCatalog._00011_SQL_EXCEPTION);
+            e.printStackTrace();
+            return ERROR;
         }
         return null;
     }
@@ -213,7 +236,8 @@ public class UsersAction extends ActionSupport{
                 return userType;
             }
         } catch (SQLException e) {
-            logger.error("SQL error obtaining user types"+e);
+            logger.debug(MessageCatalog._00011_SQL_EXCEPTION);
+            e.printStackTrace();
             return ERROR;
         }
         return null;
@@ -234,7 +258,8 @@ public class UsersAction extends ActionSupport{
             statement.close();
             connection.close();
         } catch (SQLException e) {
-            logger.error("Error obtaining roles from db"+e);
+            logger.debug(MessageCatalog._00011_SQL_EXCEPTION);
+            e.printStackTrace();
             return ERROR;
         }
         return SUCCESS;   
@@ -249,14 +274,14 @@ public class UsersAction extends ActionSupport{
             while (rs.next()) {
                 int code = rs.getInt("user_type_code");
                 String name = rs.getString("user_type");
-                logger.debug(" type:"+name);
                 types.put(code, name);
             }
             rs.close();
             statement.close();
             connection.close();
         } catch (SQLException e) {
-            logger.error("Error obtaining user types from db"+e);
+            logger.debug(MessageCatalog._00011_SQL_EXCEPTION);
+            e.printStackTrace();
         }
         return SUCCESS;   
     }

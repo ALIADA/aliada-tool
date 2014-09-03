@@ -12,8 +12,6 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
-import eu.aliada.shared.log.Log;
-
 /**
  * Java program to visualize the XML mandatory tags.
  * @author elena
@@ -21,7 +19,7 @@ import eu.aliada.shared.log.Log;
  */
 public class VisualizeXML {
 
-    private final Log log = new Log(VisualizeXML.class);
+    //private final Log log = new Log(VisualizeXML.class);
 
     /**
      * @param xmlName

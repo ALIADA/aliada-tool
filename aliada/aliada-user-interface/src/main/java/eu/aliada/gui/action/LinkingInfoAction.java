@@ -94,7 +94,7 @@ public class LinkingInfoAction extends ActionSupport {
             readNode = doc.getElementsByTagName("subjobs");
             if (readNode != null && readNode.getLength() > 0) {
                 for (int i = 0; i < readNode.getLength(); i++) {
-                    HashMap<String, String> datasets = new HashMap();
+                    HashMap<String, String> datasets = new HashMap<String,String>();
                     Node node = readNode.item(i);
                     if (node.getNodeType() == Node.ELEMENT_NODE) {
                         Element e = (Element) node;

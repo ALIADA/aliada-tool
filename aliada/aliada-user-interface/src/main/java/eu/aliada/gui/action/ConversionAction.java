@@ -26,6 +26,7 @@ import org.apache.struts2.ServletActionContext;
 
 import com.opensymphony.xwork2.ActionSupport;
 
+import eu.aliada.gui.log.MessageCatalog;
 import eu.aliada.gui.rdbms.DBConnectionManager;
 import eu.aliada.shared.log.Log;
 import eu.aliada.shared.rdfstore.RDFStoreDAO;
@@ -75,7 +76,6 @@ public class ConversionAction extends ActionSupport {
     public String rdfize() {
         HttpSession session = ServletActionContext.getRequest().getSession();
         String format = null;
-        logger.debug("Asked to RDF-ize");
         try {
             format = getFormat();
             Connection connection = null;
@@ -88,12 +88,15 @@ public class ConversionAction extends ActionSupport {
 //                if(store.clearGraphBySparql(rs.getString("sparql_endpoint_uri"), rs.getString("sparql_endpoint_login"), rs.getString("sparql_endpoint_password"), rs.getString("graph_uri"))){
                     PreparedStatement preparedStatement = connection
                             .prepareStatement(
-                                    "INSERT INTO aliada.rdfizer_job_instances (datafile,format,namespace,aliada_ontology) VALUES(?,?,?,?)",
+                                    "INSERT INTO aliada.rdfizer_job_instances (datafile,format,namespace,aliada_ontology,sparql_endpoint_uri,sparql_endpoint_login,sparql_endpoint_password) VALUES(?,?,?,?,?,?,?)",
                                     PreparedStatement.RETURN_GENERATED_KEYS);
                     preparedStatement.setString(1, importFile.getAbsolutePath());
                     preparedStatement.setString(2, format);
                     preparedStatement.setString(3, rs.getString("graph_uri"));
                     preparedStatement.setString(4, rs.getString("aliada_ontology"));
+                    preparedStatement.setString(5, rs.getString("sparql_endpoint_uri"));
+                    preparedStatement.setString(6, rs.getString("sparql_endpoint_login"));
+                    preparedStatement.setString(7, rs.getString("sparql_endpoint_password"));
                     preparedStatement.executeUpdate();
                     ResultSet rs2 = preparedStatement.getGeneratedKeys();
                     int addedId = 0;
@@ -129,7 +132,8 @@ public class ConversionAction extends ActionSupport {
 //                return ERROR;
 //            }
         } catch (SQLException e) {
-            logger.debug("SQL error: " + e);
+            logger.debug(MessageCatalog._00011_SQL_EXCEPTION);
+            e.printStackTrace();
             getTemplatesDb();
             return ERROR;
         }
@@ -166,7 +170,6 @@ public class ConversionAction extends ActionSupport {
             throw new RuntimeException("Failed : HTTP error code : "
                     + conn.getResponseCode());
         }
-        logger.debug("Rdfizer enabled");
         conn.disconnect();
     }
 
@@ -179,7 +182,6 @@ public class ConversionAction extends ActionSupport {
             throw new RuntimeException("Failed : HTTP error code : "
                     + conn.getResponseCode());
         }
-        logger.debug("Rdfizer job created");
         setShowRdfizerButton(false);
         conn.disconnect();
     }
@@ -206,6 +208,7 @@ public class ConversionAction extends ActionSupport {
                 setAreTemplates(true);
             }
         } catch (SQLException e) {
+            logger.debug(MessageCatalog._00011_SQL_EXCEPTION);
             e.printStackTrace();
             return ERROR;
         }
@@ -216,7 +219,6 @@ public class ConversionAction extends ActionSupport {
         getTemplatesDb();
         getTagsDb(NOTEMPLATESELECTED);
         setShowAddTemplateForm(true);
-        logger.debug("SHOWADD: "+isShowAddTemplateForm());
         return SUCCESS;
     }
 
@@ -246,11 +248,13 @@ public class ConversionAction extends ActionSupport {
                 statement.close();
             }
             connection.close();
-            logger.debug("HERE IM");
             setShowAddTemplateForm(false);
+            addActionMessage(getText("template.save.ok"));
+            getTemplatesDb();
             return SUCCESS;
         } catch (SQLException e) {
-            logger.debug("SQL error: " + e);
+            logger.debug(MessageCatalog._00011_SQL_EXCEPTION);
+            e.printStackTrace();
             getTemplatesDb();
             return ERROR;
         }
@@ -266,16 +270,24 @@ public class ConversionAction extends ActionSupport {
                             + getSelectedTemplate() + "'");
             statement.close();
             statement = connection.createStatement();
-            statement
+            int correct = statement
                     .executeUpdate("DELETE FROM aliada.template WHERE template_name='"
                             + getSelectedTemplate() + "'");
             statement.close();
             connection.close();
+            if(correct==0){
+                addActionError(getText("template.not.selected"));                
+            }
+            else{
+                addActionMessage(getText("template.delete.ok"));
+            }
         } catch (SQLException e) {
-            logger.error("SQL error deleting template");
+            getTemplatesDb();
+            logger.debug(MessageCatalog._00011_SQL_EXCEPTION);
             e.printStackTrace();
             return ERROR;
         }
+        getTemplatesDb();
         return SUCCESS;
     }
 
@@ -310,7 +322,8 @@ public class ConversionAction extends ActionSupport {
                 return ERROR;
             }
         } catch (SQLException e) {
-            logger.debug("SQL error: " + e);
+            logger.debug(MessageCatalog._00011_SQL_EXCEPTION);
+            e.printStackTrace();
             getTemplatesDb();
             getTagsDb(NOTEMPLATESELECTED);
             return ERROR;
@@ -345,13 +358,14 @@ public class ConversionAction extends ActionSupport {
             ServletActionContext.getRequest().getSession()
                     .removeAttribute("selectedTemplateId");
             connection.close();
+            addActionMessage(getText("template.save.ok"));
+            getTemplatesDb();
         } catch (SQLException e) {
-            logger.error("SQL error editing user" + e);
+            logger.debug(MessageCatalog._00011_SQL_EXCEPTION);
             e.printStackTrace();
             setShowEditTemplateForm(false);
             return ERROR;
         }
-        logger.debug("Updated template");
         setShowEditTemplateForm(false);
         return SUCCESS;
     }
@@ -397,7 +411,8 @@ public class ConversionAction extends ActionSupport {
             statement.close();
             connection.close();
         } catch (SQLException e) {
-            logger.debug("SQL Error: " + e);
+            logger.debug(MessageCatalog._00011_SQL_EXCEPTION);
+            e.printStackTrace();
         }
     }
 

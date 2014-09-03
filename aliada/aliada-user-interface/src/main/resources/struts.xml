@@ -107,9 +107,7 @@
 		<action name="addTemplate" method="addTemplate"
 			class="eu.aliada.gui.action.ConversionAction">
 			<interceptor-ref name="storeStack"/>
-			<result name="success" type="redirectAction">
-         		<param name="actionName">showTemplates</param>
-         	</result>
+			<result name="success" type="tiles">/templates.tiles</result>
 			<result name="error"  type="redirectAction">
          		<param name="actionName">showAddTemplateForm</param>
          	</result>
@@ -120,12 +118,8 @@
 		
 		<action name="deleteTemplate" method="deleteTemplate"
 			class="eu.aliada.gui.action.ConversionAction">
-			<result name="success" type="redirectAction">
-         		<param name="actionName">showTemplates</param>
-         	</result>
-			<result name="error"  type="redirectAction">
-         		<param name="actionName">showTemplates</param>
-         	</result>
+			<result name="success" type="tiles">/templates.tiles</result>
+			<result name="error" type="tiles">/templates.tiles</result>
 		</action>		
 		
 		<action name="showEditTemplateForm" method="showEditTemplate"
@@ -136,9 +130,7 @@
 		
 		<action name="editTemplate" method="editTemplate"
 			class="eu.aliada.gui.action.ConversionAction">
-			<result name="success" type="redirectAction">
-         		<param name="actionName">showTemplates</param>
-         	</result>
+			<result name="success" type="tiles">/templates.tiles</result>
 			<result name="error"  type="redirectAction">
          		<param name="actionName">showTemplates</param>
          	</result>
@@ -153,7 +145,6 @@
 
 		<action name="manage" method="showProfiles"
 			class="eu.aliada.gui.action.ManagingAction">
-			<interceptor-ref name="retrieveStack"/>
 			<result name="success" type="tiles">/manage.tiles</result>
 		</action>
 		
@@ -180,9 +171,7 @@
 		<action name="addProfile" method="addProfile"
 			class="eu.aliada.gui.action.ManagingAction">
 			<interceptor-ref name="storeStack"/>
-			<result name="success" type="redirectAction">
-         		<param name="actionName">showProfiles</param>
-         	</result>
+			<result name="success" type="tiles">/profiles.tiles</result>
 			<result name="error"  type="redirectAction">
          		<param name="actionName">showAddProfileForm</param>
          	</result>
@@ -199,9 +188,7 @@
 		
 		<action name="editProfile" method="editProfile"
 			class="eu.aliada.gui.action.ManagingAction">
-			<result name="success" type="redirectAction">
-         		<param name="actionName">showProfiles</param>
-         	</result>
+			<result name="success" type="tiles">/profiles.tiles</result>
 			<result name="error"  type="redirectAction">
          		<param name="actionName">showProfiles</param>
          	</result>
@@ -212,12 +199,8 @@
 		
 		<action name="deleteProfile" method="deleteProfile"
 			class="eu.aliada.gui.action.ManagingAction">
-			<result name="success" type="redirectAction">
-         		<param name="actionName">showProfiles</param>
-         	</result>
-			<result name="error"  type="redirectAction">
-         		<param name="actionName">showProfiles</param>
-         	</result>
+			<result name="success" type="tiles">/profiles.tiles</result>
+			<result name="error" type="tiles">/profiles.tiles</result>
 		</action>
 
 		<action name="linking" class="eu.aliada.gui.action.LinkingAction">
@@ -256,12 +239,24 @@
 
 		<action name="showAddForm" method="showAddForm"
 			class="eu.aliada.gui.action.UsersAction">
+			<result name="success" type="tiles">/users.tiles</result>
+			<result name="error" type="tiles">/users.tiles</result>
+		</action>
+		
+		<action name="showAddFormStack" method="showAddForm"
+			class="eu.aliada.gui.action.UsersAction">
 			<interceptor-ref name="retrieveStack"/>
 			<result name="success" type="tiles">/users.tiles</result>
 			<result name="error" type="tiles">/users.tiles</result>
 		</action>
 
 		<action name="showEditForm" method="showEdit"
+			class="eu.aliada.gui.action.UsersAction">
+			<result name="success" type="tiles">/users.tiles</result>
+			<result name="error" type="tiles">/users.tiles</result>
+		</action>
+		
+		<action name="showEditFormStack" method="showEdit"
 			class="eu.aliada.gui.action.UsersAction">
 			<interceptor-ref name="retrieveStack"/>
 			<result name="success" type="tiles">/users.tiles</result>
@@ -271,39 +266,31 @@
 		<action name="addUser" method="addUser"
 			class="eu.aliada.gui.action.UsersAction">
 			<interceptor-ref name="storeStack"/>
-			<result name="success" type="redirectAction">
-         		<param name="actionName">showUsers</param>
-         	</result>
+			<result name="success" type="tiles">/users.tiles</result>
 			<result name="error"  type="redirectAction">
-         		<param name="actionName">showAddForm</param>
+         		<param name="actionName">showAddFormStack</param>
          	</result>
          	<result name="input"  type="redirectAction">
-         		<param name="actionName">showAddForm</param>
+         		<param name="actionName">showAddFormStack</param>
          	</result>
 		</action>
 
 		<action name="editUser" method="editUser"
 			class="eu.aliada.gui.action.UsersAction">
 			<interceptor-ref name="storeStack"/>
-			<result name="success" type="redirectAction">
-         		<param name="actionName">showUsers</param>
-         	</result>
+			<result name="success" type="tiles">/users.tiles</result>
 			<result name="error"  type="redirectAction">
-         		<param name="actionName">showEditForm</param>
+         		<param name="actionName">showEditFormStack</param>
          	</result>
          	<result name="input"  type="redirectAction">
-         		<param name="actionName">showEditForm</param>
+         		<param name="actionName">showEditFormStack</param>
          	</result>
 		</action>
 
 		<action name="deleteUser" method="deleteUser"
 			class="eu.aliada.gui.action.UsersAction">
-			<result name="success" type="redirectAction">
-         		<param name="actionName">showUsers</param>
-         	</result>
-			<result name="error"  type="redirectAction">
-         		<param name="actionName">showUsers</param>
-         	</result>
+			<result name="success" type="tiles">/users.tiles</result>
+			<result name="error" type="tiles">/users.tiles</result>
 		</action>
 		
 		<action name="locale" class="eu.aliada.gui.action.LocaleAction">

@@ -48,7 +48,10 @@ public abstract class Strings {
 		   return value == null ? null
 			        : Normalizer.normalize(value, Form.NFD)
 			            .replaceAll("\\p{InCombiningDiacriticalMarks}+", "")
+			            .replaceAll(" ", "")
 			            .replaceAll("©", "")
-			            .replaceAll(" ", "_");
+			            .replaceAll("\\p{Punct}", "")
+			            .replaceAll("\\uFFFD", "")
+			            .trim();
 	}
 }

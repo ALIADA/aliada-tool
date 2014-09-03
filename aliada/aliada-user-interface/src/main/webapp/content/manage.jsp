@@ -15,6 +15,7 @@
 			cssClass="submitButton button" key="profilesSubmit" />
 	</div>
 	<html:actionerror/>
+	<html:actionmessage />
 	<div id="managingButtons" class="buttons row">
 		<html:form id="managingButtonsForm">
 			<html:submit action="importXML" cssClass="submitButton button"

@@ -22,6 +22,7 @@
 			</tr>
 		</html:iterator>
 	</table>
+	<html:actionmessage />
 	<html:actionerror/>
 
 	<div <html:if test="showAddForm || showEditForm">class="displayNo"</html:if>
@@ -75,8 +76,7 @@
 				<td><html:fielderror fieldName="passwordForm"/> </td>
 				<td><html:fielderror fieldName="emailForm"/></td>
 			</tr>
-		</table>
-		<span><html:actionerror/></span>		
+		</table>	
 		<div class="buttons row">
 			<html:submit action="addUser" cssClass="submitButton button"
 				key="save" />

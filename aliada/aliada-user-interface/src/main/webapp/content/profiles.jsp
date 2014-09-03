@@ -14,6 +14,7 @@
 				<html:radio key="selectedProfile" cssClass="label" list="{value}"/><br>
 			</html:iterator>
 		</div>
+		<html:actionmessage />
 		<html:actionerror/>
 		<html:submit action="showAddProfileForm" cssClass="submitButton button"
 			key="add" />
