@@ -11,6 +11,8 @@ import java.util.ResourceBundle;
 
 import org.apache.struts2.ServletActionContext;
 
+import eu.aliada.shared.log.Log;
+
 /**
  * This class is to validate the mandatory tags in the imported xml file.
  * 
@@ -21,7 +23,7 @@ import org.apache.struts2.ServletActionContext;
 
 public final class CheckImportError {
 
-	// private static final Log logger = new Log(CheckImportError.class);
+	private static final Log logger = new Log(CheckImportError.class);
 	static int count;
 
 	/**
@@ -82,6 +84,9 @@ public final class CheckImportError {
 	public static String getLocaleText(final String key) {
 		Locale locale = (Locale) ServletActionContext.getRequest().getSession()
 				.getAttribute("WW_TRANS_I18N_LOCALE");
+		if (locale == null) {
+			locale = Locale.ROOT;
+		}
 		ResourceBundle defaults = ResourceBundle.getBundle(
 				"ApplicationResources", locale);
 		return defaults.getString(key);
