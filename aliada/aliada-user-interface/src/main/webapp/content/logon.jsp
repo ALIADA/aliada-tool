@@ -20,18 +20,18 @@
 	<html:actionerror/>
 	<div class="row">
 		<div id="changeLocale">
-			<%-- <html:select
-				list="#{'en':'English', 'es':'Spanish','ita':'Italian','hun':'Hungarian'}"
-				value="locale" /> --%>
-			<html:url id="localeEN" namespace="/" action="locale" >
-			   <html:param name="request_locale" >en</html:param>
-			</html:url>
-			<html:url id="localeES" namespace="/" action="locale" >
-			   <html:param name="request_locale" >es</html:param>
-			</html:url>			 
-			<html:a href="%{localeEN}" ><html:text name="english"/></html:a>
-			<html:a href="%{localeES}" ><html:text name="spanish"/></html:a>
 			<html:submit property="enterButton" cssClass="loginButton button" key="submit" />
 		</div>
 	</div>
+	<%-- <html:select
+		list="#{'en':'English', 'es':'Spanish','ita':'Italian','hun':'Hungarian'}"
+		value="locale" /> --%>
+	<html:url id="localeEN" namespace="/" action="locale" >
+	   <html:param name="request_locale" >en</html:param>
+	</html:url>
+	<html:url id="localeES" namespace="/" action="locale" >
+	   <html:param name="request_locale" >es</html:param>
+	</html:url>			 
+	<html:a href="%{localeEN}" ><html:text name="english"/></html:a>
+	<html:a href="%{localeES}" ><html:text name="spanish"/></html:a>
 </html:form>
