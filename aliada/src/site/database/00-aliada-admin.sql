@@ -313,6 +313,8 @@ CREATE TABLE IF NOT EXISTS `aliada`.`user` (
 -- Volcar la base de datos para la tabla `user`
 --
 
+INSERT INTO `aliada`.`user` (`user_name`, `user_password`, `user_email`, `user_type_code`, `user_role_code`) VALUES
+('admin','admin','admin@aliada.eu',0,0);
 
 -- --------------------------------------------------------
 
