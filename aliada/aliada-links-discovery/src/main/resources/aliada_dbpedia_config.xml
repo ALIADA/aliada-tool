@@ -11,7 +11,6 @@
   </Prefixes>
 
   <DataSources>
-
 	<DataSource id="DBpedia" type="sparqlEndpoint">
 		<Param name="pageSize" value="1000"/>
 		<Param name="pauseTime" value="0"/>
