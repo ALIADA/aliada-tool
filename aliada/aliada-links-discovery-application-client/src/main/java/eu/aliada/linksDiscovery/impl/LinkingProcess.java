@@ -6,6 +6,7 @@
 package eu.aliada.linksDiscovery.impl;
 
 import eu.aliada.linksDiscovery.log.MessageCatalog;
+import eu.aliada.shared.rdfstore.RDFStoreDAO;
 import eu.aliada.shared.log.Log;
 import de.fuberlin.wiwiss.silk.Silk;
 
@@ -39,10 +40,6 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-
-
-//??????
-import eu.aliada.shared.rdfstore.RDFStoreDAO;
 
 /**
  * Links discovery process which uses SILK library for discovering links. 

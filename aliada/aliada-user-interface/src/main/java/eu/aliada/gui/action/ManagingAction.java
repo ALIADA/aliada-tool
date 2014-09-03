@@ -77,7 +77,7 @@ public class ManagingAction extends ActionSupport {
 	 * @since 1.0
 	 */
 	public String importXML() {
-		CheckImportError.inicialize();
+		CheckImportError.initialize();
 		setShowNextButton(false);
 		String message;
 		HttpSession session = ServletActionContext.getRequest().getSession();
@@ -285,8 +285,7 @@ public class ManagingAction extends ActionSupport {
 			connection.close();
 			if (correct == 0) {
 				addActionError(getText("profile.not.selected"));
-			}
-			else{
+			} else {
 	            addActionMessage(getText("profile.delete.ok"));			    
 			}
 		} catch (SQLException e) {

@@ -22,6 +22,7 @@ public interface MessageCatalog {
 	
 	String _00005_DATA_ACCESS_FAILURE = LT + MODULE_NAME + "-00005> : Data access failure has been detected. See below for further details.";
 	String _00006_BBDD_CONFIGURATION_INVALID = LT + MODULE_NAME + "-00006> : The database configuration is invalid.";
+	String _00007_CHANGE_LOCALE = LT + MODULE_NAME + "-00007> : The locale is changed to: ";
 	String _00010_LOGON_FAILURE = LT + MODULE_NAME + "-00010> : The logon access is invalid.";
 	String _00011_SQL_EXCEPTION = LT + MODULE_NAME + "-00011> : SQL exception. See below for further details.";
 	String _00012_IO_EXCEPTION = LT + MODULE_NAME + "-00012> : IO exception. See below for further details.";
