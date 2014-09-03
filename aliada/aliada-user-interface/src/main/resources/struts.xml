@@ -239,12 +239,24 @@
 
 		<action name="showAddForm" method="showAddForm"
 			class="eu.aliada.gui.action.UsersAction">
+			<result name="success" type="tiles">/users.tiles</result>
+			<result name="error" type="tiles">/users.tiles</result>
+		</action>
+		
+		<action name="showAddFormStack" method="showAddForm"
+			class="eu.aliada.gui.action.UsersAction">
 			<interceptor-ref name="retrieveStack"/>
 			<result name="success" type="tiles">/users.tiles</result>
 			<result name="error" type="tiles">/users.tiles</result>
 		</action>
 
 		<action name="showEditForm" method="showEdit"
+			class="eu.aliada.gui.action.UsersAction">
+			<result name="success" type="tiles">/users.tiles</result>
+			<result name="error" type="tiles">/users.tiles</result>
+		</action>
+		
+		<action name="showEditFormStack" method="showEdit"
 			class="eu.aliada.gui.action.UsersAction">
 			<interceptor-ref name="retrieveStack"/>
 			<result name="success" type="tiles">/users.tiles</result>
@@ -256,10 +268,10 @@
 			<interceptor-ref name="storeStack"/>
 			<result name="success" type="tiles">/users.tiles</result>
 			<result name="error"  type="redirectAction">
-         		<param name="actionName">showAddForm</param>
+         		<param name="actionName">showAddFormStack</param>
          	</result>
          	<result name="input"  type="redirectAction">
-         		<param name="actionName">showAddForm</param>
+         		<param name="actionName">showAddFormStack</param>
          	</result>
 		</action>
 
@@ -268,10 +280,10 @@
 			<interceptor-ref name="storeStack"/>
 			<result name="success" type="tiles">/users.tiles</result>
 			<result name="error"  type="redirectAction">
-         		<param name="actionName">showEditForm</param>
+         		<param name="actionName">showEditFormStack</param>
          	</result>
          	<result name="input"  type="redirectAction">
-         		<param name="actionName">showEditForm</param>
+         		<param name="actionName">showEditFormStack</param>
          	</result>
 		</action>
 

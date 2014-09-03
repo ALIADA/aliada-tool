@@ -63,9 +63,11 @@ public class UsersAction extends ActionSupport{
             statement.close();
             connection.close();
             if(correct==0){
+                clearErrorsAndMessages();
                 addActionError(getText("err.not.selected.user"));                
             }
             else{
+                clearErrorsAndMessages();
                 addActionMessage(getText("user.delete.ok"));
             }
         } catch (SQLException e) {
@@ -101,6 +103,7 @@ public class UsersAction extends ActionSupport{
                 return SUCCESS;
             }
             else{
+                clearErrorsAndMessages();
                 addActionError(getText("err.not.selected.user"));
                 statement.close();
                 connection.close();
@@ -171,6 +174,7 @@ public class UsersAction extends ActionSupport{
                 rs.close();
                 statement.close();
                 connection.close();
+                clearErrorsAndMessages();
                 addActionError(getText("err.duplicate.user"));    
                 return ERROR;
             }         	
@@ -187,6 +191,7 @@ public class UsersAction extends ActionSupport{
             connection = new DBConnectionManager().getConnection();
         	Statement statement = connection.createStatement();
             statement.executeUpdate("UPDATE user set user_password='"+this.passwordForm+"',user_email='"+this.emailForm+"',user_role_code='"+this.roleForm+"',user_type_code='"+this.typeForm+"' where user_name='"+this.usernameForm+"'");
+            clearErrorsAndMessages();
             addActionMessage(getText("user.edit.ok"));
             statement.close(); 
             connection.close();
@@ -194,6 +199,7 @@ public class UsersAction extends ActionSupport{
         } catch (SQLException e) {
             logger.debug(MessageCatalog._00011_SQL_EXCEPTION);
             e.printStackTrace();
+            getUsersDb();
             return ERROR;
         }
         return SUCCESS;        
