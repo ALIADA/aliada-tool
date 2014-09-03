@@ -81,7 +81,7 @@
 		</route>
 		<route>
 			<from uri="seda:triples-channel?size=250&amp;blockWhenFull=true" />
-			<process ref="add-2-rdf-store"/>
+			<process ref="debugger"/>
 		</route>
 	</camelContext>
 	
