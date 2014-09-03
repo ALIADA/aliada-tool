@@ -82,51 +82,37 @@
       </Outputs>
 	</Interlink>
 
-	<Interlink id="aliada_dbpedia_object">
+	<Interlink id="aliada_dbpedia_object_book">
 	  <LinkType>owl:sameAs</LinkType>
 	  <SourceDataset dataSource="ALIADA_ds" var="object">
-		<RestrictTo> ?object rdf:type ecrm:E22_Man-Made_Object . </RestrictTo>
+		<RestrictTo> {?object rdf:type ecrm:E22_Man-Made_Object} UNION {?object rdf:type efrbroo:F3_Manifestation_Product_Type} </RestrictTo>
 	  </SourceDataset>
 	  <TargetDataset dataSource="DBpedia" var="b">
 		<RestrictTo> ?b rdf:type dbpediaont:Work . </RestrictTo>
 	  </TargetDataset>
 	  <LinkageRule>
-		<Compare id="unnamed_16" metric="levenshteinDistance" threshold="1">
-			<TransformInput id="unnamed_17" function="lowerCase">
-				<Input id="unnamed_18" path="?object/ecrm:P1_is_identified_by[&lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#type&gt; = &lt;http://erlangen-crm.org/current/E41_Appellation&gt;]/ecrm:P3_has_note"/>
-			</TransformInput>
-			<TransformInput id="unnamed_19" function="lowerCase">
-				<Input id="unnamed_20" path="?b/dbpediaprop:title"/>
-			</TransformInput>
-			<Param name="minChar" value="0"/>
-			<Param name="maxChar" value="z"/>
-		</Compare>
-	  </LinkageRule>
-	  <Filter/>
-
-	  <Outputs>
-      </Outputs>
-	</Interlink>
-
-	<Interlink id="aliada_dbpedia_book">
-	  <LinkType>owl:sameAs</LinkType>
-	  <SourceDataset dataSource="ALIADA_ds" var="book">
-		<RestrictTo> ?book rdf:type efrbroo:F3_Manifestation_Product_Type . </RestrictTo>
-	  </SourceDataset>
-	  <TargetDataset dataSource="DBpedia" var="b">
-		<RestrictTo> ?b rdf:type dbpediaont:Work . </RestrictTo>
-	  </TargetDataset>
-	  <LinkageRule>
-		<Compare id="unnamed_21" metric="levenshteinDistance" threshold="1">
-			<TransformInput id="unnamed_22" function="lowerCase">
-				<Input id="unnamed_23" path="?book/ecrm:P102_has_title[&lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#type&gt; = &lt;http://erlangen-crm.org/current/E35_Title&gt;]/ecrm:P3_has_note"/>
-			</TransformInput>
-			<TransformInput id="unnamed_24" function="lowerCase">
-				<Input id="unnamed_25" path="?b/dbpediaprop:title"/>
-			</TransformInput>
-			<Param name="minChar" value="0"/>
-			<Param name="maxChar" value="z"/>
-		</Compare>
+		<Aggregate type="max">
+			<Compare id="unnamed_16" metric="levenshteinDistance" threshold="1">
+				<TransformInput id="unnamed_17" function="lowerCase">
+					<Input id="unnamed_18" path="?object/ecrm:P1_is_identified_by[&lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#type&gt; = &lt;http://erlangen-crm.org/current/E41_Appellation&gt;]/ecrm:P3_has_note"/>
+				</TransformInput>
+				<TransformInput id="unnamed_19" function="lowerCase">
+					<Input id="unnamed_20" path="?b/dbpediaprop:title"/>
+				</TransformInput>
+				<Param name="minChar" value="0"/>
+				<Param name="maxChar" value="z"/>
+			</Compare>
+			<Compare id="unnamed_21" metric="levenshteinDistance" threshold="1">
+				<TransformInput id="unnamed_22" function="lowerCase">
+					<Input id="unnamed_23" path="?object/ecrm:P102_has_title[&lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#type&gt; = &lt;http://erlangen-crm.org/current/E35_Title&gt;]/ecrm:P3_has_note"/>
+				</TransformInput>
+				<TransformInput id="unnamed_24" function="lowerCase">
+					<Input id="unnamed_25" path="?b/dbpediaprop:title"/>
+				</TransformInput>
+				<Param name="minChar" value="0"/>
+				<Param name="maxChar" value="z"/>
+			</Compare>
+		</Aggregate>              
 	  </LinkageRule>
 	  <Filter/>
 
