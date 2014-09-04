@@ -78,6 +78,12 @@
 #macro(simplest_mapping_with_repeatable_tag $s $tag $subfield $record $type $kind $predicate) 
 	#set($tagValues = $xpath.dfs($tag,$subfield,$record))
 	#foreach($tagValue in $tagValues) 
-		#simplest_mapping_with_no_repeatable_tag $s $tag $subfield $record $type $kind $predicate)
+		#if($tagValue) 
+    		#set($text = $tagValue.textContent)
+        	#set($s1 = "#uri_with_strong_normalization(${type} ${text})")
+        	$s1 $is_a $kind . 
+        	$s1 $P3_has_note "$text" . 
+        	$s $predicate $s1 . 
+		#end	
 	#end	
-#end	
+#end

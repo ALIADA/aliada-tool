@@ -99,4 +99,7 @@ $expression_s #efrbroo('R4_carriers_provided_by') $manifestation_s .
 #simplest_mapping_with_no_repeatable_tag ($manifestation_s "340" "b" $root "E54_Dimension" "#ecrm('E54_Dimension')" "#ecrm('CLP43_should_have_dimension')")
 ## 505
 #simplest_mapping_with_no_repeatable_tag ($manifestation_s "505" "u" $root "E54_Dimension" "#efrbroo('F13_Identifier')" "#ecrm('CLP43_should_have_dimension')")
+## EXPRESSION
+#simplest_mapping_with_no_repeatable_tag ($expression_s "254" "a" $root "E55_Type" $E55_Type $P2_has_type)
+#simplest_mapping_with_no_repeatable_tag ($expression_s "256" "a" $root "E55_Type" $E55_Type $P2_has_type)
 
