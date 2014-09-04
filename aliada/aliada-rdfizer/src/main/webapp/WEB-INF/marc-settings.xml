@@ -733,7 +733,7 @@
 			</list>
 		</constructor-arg>
 	</bean>
-	
+
 <!-- E  N  D   R U L E S   F O R   F A M I L Y   E N T I T Y  -->	
 
 <!-- S T A R T   R U L E S   F O R   C O R P O R A T E   B O D Y   E N T I T Y  -->
@@ -744,12 +744,20 @@
 			<list>
 				<bean
 					class="eu.aliada.rdfizer.pipeline.format.marc.selector.xml.MultipleVariableFieldExpression">
-					<constructor-arg value="100(3)a-c-d-g" />
+					<constructor-arg value="110()a-c-d-g" />
 				</bean>
 			  	<bean
 					class="eu.aliada.rdfizer.pipeline.format.marc.selector.xml.MultipleVariableFieldExpression">
-					<constructor-arg value="700(3)a-c-d-g" />
-				</bean> 
+					<constructor-arg value="710()a-c-d-g" />
+				</bean>
+				<bean
+					class="eu.aliada.rdfizer.pipeline.format.marc.selector.xml.MultipleVariableFieldExpression">
+					<constructor-arg value="111()a-c-d-g" />
+				</bean>
+			  	<bean
+					class="eu.aliada.rdfizer.pipeline.format.marc.selector.xml.MultipleVariableFieldExpression">
+					<constructor-arg value="711()a-c-d-g" />
+				</bean>  
 			</list>
 		</constructor-arg>
 	</bean>
@@ -812,7 +820,7 @@
 	  <bean id="family-detector" class="eu.aliada.rdfizer.pipeline.format.marc.frbr.FamilyDetector">
 		<constructor-arg>
 	      	<list>
-	      		<ref bean="family-identifier"/>
+	      <!-- <ref bean="family-identifier"/> -->
 	      	</list>
 		</constructor-arg>
 	</bean>
