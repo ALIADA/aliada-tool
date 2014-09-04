@@ -126,7 +126,15 @@ public class ManagingAction extends ActionSupport {
 					if (vx.toStyledDocument(importFile.getPath(),
 							VISUALIZE_PATH + visualizeTypePath,
 							ERROR_CONTENT_PATH)) {
-						if (CheckImportError.getCount() == 0) {
+						logger.debug("EL FICHERO ES "
+								+ CheckImportError.isFileCorrect());
+
+						if (!CheckImportError.isFileCorrect()) {
+							addActionError(getText("err.not.validated"));
+							logger.debug(MessageCatalog._00022_MANAGE_NOT_VALIDATED_BY_VISUALIZE_FILE_TYPE);
+							showProfiles();
+							setEnableErrorLogButton(true);
+						} else if (CheckImportError.getCount() == 0) {
 							statement = connection.createStatement();
 							rs = statement
 									.executeQuery("select organisation_path FROM organisation");
@@ -145,19 +153,19 @@ public class ManagingAction extends ActionSupport {
 							setEnableErrorLogButton(false);
 						} else {
 							addActionError(getText("err.not.validated"));
-							logger.debug(MessageCatalog._00022_MANAGE_NOT_VALIDATED_BY_VISUALIZE_MANDATORY);
+							logger.debug(MessageCatalog._00023_MANAGE_NOT_VALIDATED_BY_VISUALIZE_MANDATORY);
 							showProfiles();
 							setEnableErrorLogButton(true);
 						}
 					} else {
 						addActionError(getText("err.not.validated"));
-						logger.debug(MessageCatalog._00023_MANAGE_NOT_VALIDATED_BY_VISUALIZE);
+						logger.debug(MessageCatalog._00024_MANAGE_NOT_VALIDATED_BY_VISUALIZE);
 						message = ERROR;
 						showProfiles();
 					}
 				} else {
 					addActionError(getText("err.wrong.file"));
-					logger.debug(MessageCatalog._00024_MANAGE_NOT_VALIDATED_BY_VALIDATION);
+					logger.debug(MessageCatalog._00025_MANAGE_NOT_VALIDATED_BY_VALIDATION);
 					message = ERROR;
 					showProfiles();
 				}
@@ -257,7 +265,7 @@ public class ManagingAction extends ActionSupport {
 			statement.close();
 			connection.close();
 			addActionMessage(getText("profile.edit.ok"));
-            showProfiles();
+			showProfiles();
 		} catch (SQLException e) {
 			logger.debug(MessageCatalog._00011_SQL_EXCEPTION);
 			e.printStackTrace();
@@ -286,7 +294,7 @@ public class ManagingAction extends ActionSupport {
 			if (correct == 0) {
 				addActionError(getText("profile.not.selected"));
 			} else {
-	            addActionMessage(getText("profile.delete.ok"));			    
+				addActionMessage(getText("profile.delete.ok"));
 			}
 		} catch (SQLException e) {
 			logger.debug(MessageCatalog._00011_SQL_EXCEPTION);
