@@ -32,6 +32,6 @@
 	<html:url id="localeES" namespace="/" action="locale" >
 	   <html:param name="request_locale" >es</html:param>
 	</html:url>			 
-	<html:a href="%{localeEN}" ><html:text name="english"/></html:a>
-	<html:a href="%{localeES}" ><html:text name="spanish"/></html:a>
+	<html:a href="%{localeEN}" ><img src="images/gbFlag.png"/></html:a>
+	<html:a href="%{localeES}" ><img src="images/spFlag.png"/></html:a>
 </html:form>
