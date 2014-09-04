@@ -15,6 +15,7 @@ import eu.aliada.rdfizer.Constants;
 import eu.aliada.rdfizer.datasource.Cache;
 import eu.aliada.rdfizer.datasource.rdbms.JobInstance;
 import eu.aliada.rdfizer.log.MessageCatalog;
+import eu.aliada.rdfizer.pipeline.format.xml.NullObject;
 import eu.aliada.shared.log.Log;
 import eu.aliada.shared.rdfstore.RDFStoreDAO;
 
@@ -47,6 +48,10 @@ public class RESTSparqlInsertProcessor implements Processor {
 
 	@Override
 	public void process(final Exchange exchange) throws Exception {
+		if (exchange.getIn().getBody() instanceof NullObject) {
+			return;
+		}
+		
 		final String triples = exchange.getIn().getBody(String.class);
 		
 		logger.debug(MessageCatalog._00049_DEBUG_TRIPLES, triples);
