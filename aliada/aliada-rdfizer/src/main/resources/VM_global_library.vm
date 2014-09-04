@@ -41,7 +41,7 @@
             $conceptual_appellation_s $P3_has_note "$weblink.textContent" .
             $information_object_s $is_a #ecrm("E73_Information_Object") .
             $information_object_s $P2_has_type $web_resource_s . 
-            $information_object_s #ecrn("P149_is_identified_by") $conceptual_appellation_s . 
+            $information_object_s #ecrm("P149_is_identified_by") $conceptual_appellation_s . 
         #end			
         ## LEGAL BODY WEBLINK END
         ## LEGAL BODY NAME BEGIN
