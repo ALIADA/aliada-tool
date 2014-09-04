@@ -11,8 +11,6 @@ import java.util.ResourceBundle;
 
 import org.apache.struts2.ServletActionContext;
 
-import eu.aliada.shared.log.Log;
-
 /**
  * This class is to validate the mandatory tags in the imported xml file.
  * 
@@ -23,8 +21,10 @@ import eu.aliada.shared.log.Log;
 
 public final class CheckImportError {
 
-	private static final Log logger = new Log(CheckImportError.class);
+	// private static final Log logger = new Log(CheckImportError.class);
 	static int count;
+	static boolean fileCorrect;
+	static boolean bibliographicType;
 
 	/**
 	 * Class constructor.
@@ -36,6 +36,8 @@ public final class CheckImportError {
 	private CheckImportError() {
 		super();
 		count = 0;
+		fileCorrect = true;
+		bibliographicType = true;
 	}
 
 	/**
@@ -52,6 +54,68 @@ public final class CheckImportError {
 	}
 
 	/**
+	 * The method is used by identify a bibliographic file.
+	 * 
+	 * @see
+	 * @since 1.0
+	 */
+	public static void putBibliographicType() {
+		setBibliographicType(true);
+	}
+
+	/**
+	 * The method is used by identify an authority file.
+	 * 
+	 * @see
+	 * @since 1.0
+	 */
+	public static void putAuthorityType() {
+		setBibliographicType(false);
+	}
+
+	/**
+	 * The method is used by control if the file is bibliographic or authority
+	 * type and if the leader tags are correct.
+	 * 
+	 * @param fileType
+	 *            The type of record indicated by leader tag
+	 * @return String
+	 * @see
+	 * @since 1.0
+	 */
+	public static String getFileType(final String fileType) {
+		if (isFileCorrect()
+				&& (((isBibliographicType()) && (fileType.charAt(0) != 'z')) || (!isBibliographicType())
+						&& (fileType.charAt(0) == 'z'))) {
+			setFileCorrect(true);
+		} else {
+			setFileCorrect(false);
+		}
+		return null;
+	}
+
+	/**
+	 * @return Returns the bibliographicType.
+	 * @exception
+	 * @since 1.0
+	 */
+
+	public static boolean isBibliographicType() {
+		return bibliographicType;
+	}
+
+	/**
+	 * @param bibliographicType
+	 *            The bibliographicType to set.
+	 * @exception
+	 * @since 1.0
+	 */
+
+	public static void setBibliographicType(final boolean bibliographicType) {
+		CheckImportError.bibliographicType = bibliographicType;
+	}
+
+	/**
 	 * The method to get the number of errors.
 	 * 
 	 * @return int
@@ -63,6 +127,27 @@ public final class CheckImportError {
 	}
 
 	/**
+	 * @return Returns the fileCorrect.
+	 * @exception
+	 * @since 1.0
+	 */
+
+	public static boolean isFileCorrect() {
+		return fileCorrect;
+	}
+
+	/**
+	 * @param fileCorrect
+	 *            The fileCorrect to set.
+	 * @exception
+	 * @since 1.0
+	 */
+
+	public static void setFileCorrect(final boolean fileCorrect) {
+		CheckImportError.fileCorrect = fileCorrect;
+	}
+
+	/**
 	 * The method to initialize the count of errors.
 	 * 
 	 * @see
@@ -70,6 +155,8 @@ public final class CheckImportError {
 	 */
 	public static void initialize() {
 		count = 0;
+		fileCorrect = true;
+		bibliographicType = true;
 	}
 
 	/**

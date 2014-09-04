@@ -32,13 +32,14 @@
 			</div>
 			<div class="row">
 				<html:form>
-					<html:submit key="createURIs" action="lds" cssClass="centeredButton button"/>
-				</html:form>
+					<html:submit action="linkingInfo" cssClass="submitButton button" key="check"/>
+					<html:submit action="lds" cssClass="centeredButton button" key="createURIs" />
 				<html:if test="status.equals('finished')">
 					<script>
 				    	document.getElementById("createURIs").style.visibility = "visible";
 				    </script>
-				</html:if>		
+				</html:if>
+				</html:form>		
 			</div>
 		</div>	
 	</div>

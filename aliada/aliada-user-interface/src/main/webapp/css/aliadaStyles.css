@@ -134,6 +134,9 @@ padding: 10px 7px 10px 10px;
 	font-weight: bold;
 	color: white;
 }
+.leftMargin{
+	margin-left:40px;
+}
 
 .pageButton {
 	font-size: 12px;
