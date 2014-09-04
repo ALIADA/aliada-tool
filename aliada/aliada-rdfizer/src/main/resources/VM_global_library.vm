@@ -87,3 +87,27 @@
 		#end	
 	#end	
 #end
+
+#macro(no_repeatable_language $s $tag $subfield $record) 
+	#set($tagValue = $xpath.df($tag,$subfield,$record))
+	#if($tagValue)
+		#set($text = $tagValue.textContent)
+		#set($lang_s = "#uri('E56_language' $text)")
+		$lang_s $is_a #ecrm('E56_language') . 
+		$lang_s $P3_has_note "$text" . 
+		$s #ecrm('P72_has_language') .
+	#end	
+#end	
+
+#macro(repeatable_language $s $tag $subfield $record) 
+	#set($tagValues = $xpath.dfs($tag,$subfield,$record))
+	#foreach($tagValue in $tagValues) 
+    	#if($tagValue)
+    		#set($text = $tagValue.textContent)
+    		#set($lang_s = "#uri('E56_language' $text)")
+    		$lang_s $is_a #ecrm('E56_language') . 
+    		$lang_s $P3_has_note "$text" . 
+    		$s #ecrm('P72_has_language') .
+    	#end	
+	#end	
+#end
