@@ -46,6 +46,9 @@ public abstract class TestUtils {
 		final JobInstance configuration = new JobInstance();
 		configuration.setId(randomIdentifier());		
 		configuration.setFormat(randomString());
+		configuration.setNamespace("http://example.org");
+		configuration.setGraphName("http://example.org");
+		configuration.setAliadaOntologyNamespace("http://example.org");
 		return configuration;
 	}
 	

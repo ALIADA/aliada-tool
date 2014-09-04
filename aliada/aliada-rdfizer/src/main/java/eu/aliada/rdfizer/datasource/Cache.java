@@ -92,6 +92,10 @@ public class Cache {
 		JobInstance instance = activeJobConfigurations.get(id);
 		if (instance == null) {
 			instance = jobInstanceRepository.findOne(id);
+			if (instance != null) {
+				adjustPrefixes(instance);
+				activeJobConfigurations.put(id, instance);
+			}
 		}
 		return instance;
 	}
@@ -103,5 +107,24 @@ public class Cache {
 	 */
 	public void removeJobInstance(final Integer jobId) {
 		activeJobConfigurations.remove(jobId);
+	}
+	
+	private void adjustPrefixes(final JobInstance instance) {
+		String prefix = instance.getNamespace();
+		if (!prefix.endsWith("/")) {
+			instance.setNamespace(prefix + "/");
+		}
+		
+		prefix = instance.getGraphName();
+		if (prefix.endsWith("/")) {
+			instance.setGraphName(prefix.substring(0, (prefix.length() - 1) ));
+		}
+		
+		prefix = instance.getAliadaOntologyNamespace();
+		if (!prefix.endsWith("/")) {
+			instance.setAliadaOntologyNamespace(prefix + "/");
+		}
+		
+		jobInstanceRepository.save(instance);
 	}
 }

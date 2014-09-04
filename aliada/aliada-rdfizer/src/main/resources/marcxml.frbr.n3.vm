@@ -12,6 +12,7 @@
 #set($P102_has_title = "#ecrm('P102_has_title')")
 $work_s $is_a #efrbroo('F1_Work') . 
 $expression_s $is_a #efrbroo('F24_Publication_Expression') . 
+$expression_s $is_a #ecrm('E33_Linguistic_Object') . 
 $manifestation_s $is_a #efrbroo('F3_Manifestation_Product_Type') . 
 $work_s #efrbroo('R40_has_representative_expression') $expression_s . 
 $expression_s #efrbroo('R4_carriers_provided_by') $manifestation_s . 
@@ -99,4 +100,30 @@ $expression_s #efrbroo('R4_carriers_provided_by') $manifestation_s .
 #simplest_mapping_with_no_repeatable_tag ($manifestation_s "340" "b" $root "E54_Dimension" "#ecrm('E54_Dimension')" "#ecrm('CLP43_should_have_dimension')")
 ## 505
 #simplest_mapping_with_no_repeatable_tag ($manifestation_s "505" "u" $root "E54_Dimension" "#efrbroo('F13_Identifier')" "#ecrm('CLP43_should_have_dimension')")
-
+## EXPRESSION
+#simplest_mapping_with_no_repeatable_tag ($expression_s "254" "a" $root "E55_Type" $E55_Type $P2_has_type)
+#simplest_mapping_with_no_repeatable_tag ($expression_s "256" "a" $root "E54_Dimension" "#ecrm('E54_Dimension')" "#ecrm('P43_has_dimension')")
+#simplest_mapping_with_no_repeatable_tag ($expression_s "306" "a" $root "E54_Dimension" "#ecrm('E54_Dimension')" "#ecrm('P43_has_dimension')")
+#simplest_mapping_with_no_repeatable_tag ($expression_s "600" "a" $root "E55_Type" $E55_Type $P2_has_type)
+## Languages
+#no_repeatable_language($expression_s "100" "l" $root)
+#no_repeatable_language($expression_s "110" "l" $root)
+#no_repeatable_language($expression_s "111" "l" $root)
+#no_repeatable_language($expression_s "130" "l" $root)
+#no_repeatable_language($expression_s "100" "l" $root)
+#no_repeatable_language($expression_s "240" "l" $root)
+#no_repeatable_language($expression_s "243" "l" $root)
+#no_repeatable_language($expression_s "600" "l" $root)
+## Person
+#if ($frbr.personID && !$frbr.personID.isEmpty())
+	#set($uris = $frbr.personID.get("100"))
+	#if ($uris && !$uris.isEmpty())
+		#set($person_s = "#uri('E21_Person' $uris.get(0))")
+		$person_s $is_a #ecrm('E21_Person') . 
+		#simplest_mapping_with_no_repeatable_tag ($person_s "100" "a" $root "E82_Actor_Appellation" "#ecrm('E82_Actor_Appellation')" "#ecrm('P131_is_identified_by')")
+		#simplest_mapping_with_no_repeatable_tag ($person_s "100" "q" $root "E82_Actor_Appellation" "#ecrm('E82_Actor_Appellation')" "#ecrm('P131_is_identified_by')")
+		#simplest_mapping_with_no_repeatable_tag ($person_s "100" "u" $root "E82_Actor_Appellation" "#ecrm('E74_Group')" "#ecrm('P107i_is_current_or_former_member_of')")
+		#simplest_mapping_with_repeatable_tag ($person_s "100" "j" $root "E82_Actor_Appellation" "#ecrm('E82_Actor_Appellation')" "#ecrm('P131_is_identified_by')")
+		#simplest_mapping_with_no_repeatable_tag ($person_s "100" "c" $root "E55_Type" $E55_Type $P2_has_type)
+	#end	
+#end	
