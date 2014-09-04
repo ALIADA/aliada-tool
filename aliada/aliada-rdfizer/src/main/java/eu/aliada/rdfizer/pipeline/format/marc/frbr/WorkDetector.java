@@ -8,7 +8,6 @@ package eu.aliada.rdfizer.pipeline.format.marc.frbr;
 import static eu.aliada.shared.Strings.isNullOrEmpty;
 
 import java.util.List;
-import java.util.Map;
 
 import org.w3c.dom.Document;
 
@@ -26,7 +25,9 @@ public class WorkDetector extends AbstractEntityDetector<String> {
 
 	private final FirstMatch<Document> uniformTitleDetectionRule;
 
-	private final List<Expression<Map<String, String>, Document>> expressions;
+	//private final List<Expression<Map<String, String>, Document>> expressions;
+	
+	private final List<Expression<String, Document>> expressions;
 	
 	/**
 	 * Builds a new detector with the following rules.
@@ -36,7 +37,7 @@ public class WorkDetector extends AbstractEntityDetector<String> {
 	 */
 	public WorkDetector(
 			final FirstMatch<Document> uniformTitleDetectionRule,
-			final List<Expression<Map<String, String>, Document>> expressions) {
+			final List<Expression<String, Document>> expressions) {
 		this.uniformTitleDetectionRule = uniformTitleDetectionRule;
 		this.expressions = expressions;
 	}
@@ -58,7 +59,7 @@ public class WorkDetector extends AbstractEntityDetector<String> {
 		
 		append(buffer, uniformTitle);
 		
-		for (final Expression<Map<String, String>, Document> expression : expressions) {
+		for (final Expression<String, Document> expression : expressions) {
 			append(buffer, expression.evaluate(target));
 		}
 		return buffer.toString();
