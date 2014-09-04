@@ -1,6 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@ taglib uri="/struts-tags" prefix="html" %>
-
 <h2 class="pageTitle"><html:text name="manage.title"/></h2>
 <html:form id="managing" method="post" enctype="multipart/form-data">
 	<div class="content">
@@ -19,7 +18,8 @@
 	<div id="managingButtons" class="buttons row">
 		<html:form id="managingButtonsForm">
 			<html:submit action="importXML" cssClass="submitButton button"
-				key="import" />
+				key="import" onClick="$('#loader').show();" />
+			<img id=loader style="display:none;" src="images/loader.gif" alt="" />
 			<div <html:if test="enableErrorLogButton">class="displayInline"</html:if>
 				<html:else>
 				    class="displayNo"

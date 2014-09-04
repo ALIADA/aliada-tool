@@ -88,7 +88,12 @@
 		    <artifactId>commons-io</artifactId>
 		    <version>1.0</version>
 		</dependency>
-
+		
+		<dependency>
+			<groupId>com.jgeppert.struts2.jquery</groupId>
+			<artifactId>struts2-jquery-plugin</artifactId>
+			<version>3.6.1</version>
+		</dependency>		
 
 	</dependencies>
 </project>
