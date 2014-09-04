@@ -180,7 +180,7 @@ $main_subject #ecrm("P70i_is_documented_in") $document_s .
     		#foreach($nationality in $actor_nationalities)
     			#set($value = $nationality.textContent)
     			#set($nationality_s = "#uri('E82_Actor_Appellation' $value)")
-    			#set($group_s = "#uri('E74_Group' $value)") . 
+    			#set($group_s = "#uri('E74_Group' $value)")
     			$nationality_s $is_a #ecrm('E82_Actor_Appellation') . 
     			$nationality_s $P3_has_note "$value" .
     			$group_s $is_a #ecrm('E74_Group') . 
