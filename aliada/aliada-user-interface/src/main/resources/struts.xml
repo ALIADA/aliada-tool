@@ -65,7 +65,7 @@
 			<interceptor-ref name="filexmlStack"/>
 			<interceptor-ref name="storeStack"/>
             <result name="input" type="redirectAction">
-         		<param name="actionName">manage</param>
+         		<param name="actionName">manageStack</param>
          	</result>
             <result name="success" type="tiles">/manage.tiles</result>
 			<result name="error" type="tiles">/manage.tiles</result>
@@ -148,6 +148,12 @@
 			<result name="success" type="tiles">/manage.tiles</result>
 		</action>
 		
+		<action name="manageStack" method="showProfiles"
+			class="eu.aliada.gui.action.ManagingAction">
+			<interceptor-ref name="retrieveStack"/>
+			<result name="success" type="tiles">/manage.tiles</result>
+		</action>
+		
 		<action name="errorLog" class="eu.aliada.gui.action.ManagingAction">
 			<result name="success" type="tiles">/errorLog.tiles</result>
 		</action>
@@ -208,9 +214,16 @@
 			<result name="error" type="tiles">/configuration.tiles</result>
 		</action>
 		
-		<action name="lds" method="startLDS" class="eu.aliada.gui.action.LinkingAction">
-			<result name="success" type="tiles">/linking.tiles</result>
-			<result name="error" type="tiles">/configuration.tiles</result>
+		<action name="lds" method="startLDS" class="eu.aliada.gui.action.LdsAction">
+			<result name="success" type="tiles">/ldsInfo.tiles</result>
+			<result name="error"  type="redirectAction">
+         		<param name="actionName">linking</param>
+         	</result>
+		</action>
+		
+		<action name="ldsInfo" method="getInfoLDS" class="eu.aliada.gui.action.LdsAction">
+			<result name="success" type="tiles">/ldsInfo.tiles</result>
+			<result name="error" type="tiles">/ldsInfo.tiles</result>
 		</action>
 
 		<action name="addInstitution" method="addInstitution"
