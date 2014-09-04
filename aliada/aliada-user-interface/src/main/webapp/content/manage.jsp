@@ -17,9 +17,10 @@
 	<html:actionmessage />
 	<div id="managingButtons" class="buttons row">
 		<html:form id="managingButtonsForm">
+			<img id=loader class="displayNo leftMargin" src="images/loader.gif" alt="" />
 			<html:submit action="importXML" cssClass="submitButton button"
-				key="import" onClick="$('#loader').show();" />
-			<img id=loader style="display:none;" src="images/loader.gif" alt="" />
+				key="import" onClick="$('#loader').show();
+										$('#managingButtonsForm_import').hide();" />
 			<div <html:if test="enableErrorLogButton">class="displayInline"</html:if>
 				<html:else>
 				    class="displayNo"
