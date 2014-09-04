@@ -5,6 +5,8 @@
 // Responsible: ALIADA Consortiums
 package eu.aliada.rdfizer.datasource;
 
+import static eu.aliada.shared.Strings.*;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentMap;
@@ -116,7 +118,7 @@ public class Cache {
 		}
 		
 		prefix = instance.getGraphName();
-		if (prefix.endsWith("/")) {
+		if (isNotNullAndNotEmpty(prefix) && prefix.endsWith("/")) {
 			instance.setGraphName(prefix.substring(0, (prefix.length() - 1) ));
 		}
 		
