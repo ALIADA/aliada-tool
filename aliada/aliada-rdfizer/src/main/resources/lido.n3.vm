@@ -172,7 +172,7 @@ $main_subject #ecrm("P70i_is_documented_in") $document_s .
     		#foreach($actor_name in $actor_names)
     			#set($value = $actor_name.textContent)
     			#set($actor_name_s = "#uri('E82_Actor_Appellation' $value)")
-    			$actor_name_s $is_a #ecrm("E82_Actor_Appellation")
+    			$actor_name_s $is_a #ecrm("E82_Actor_Appellation") . 
     			$actor_name_s $P3_has_note "$value" .
 				$author_s #ecrm('P131_is_identified_by') $actor_name_s . 
     		#end 	
