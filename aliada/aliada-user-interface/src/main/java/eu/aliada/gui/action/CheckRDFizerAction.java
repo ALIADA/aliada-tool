@@ -21,11 +21,14 @@ import org.w3c.dom.NodeList;
 
 import com.opensymphony.xwork2.ActionSupport;
 
+import eu.aliada.gui.log.MessageCatalog;
 import eu.aliada.gui.parser.XmlParser;
 import eu.aliada.shared.log.Log;
 
 /**
+ * Gets the information of the RDFize process
  * @author iosa
+ * @version $Revision: 1.1 $
  * @since 1.0
  */
 public class CheckRDFizerAction extends ActionSupport {
@@ -65,7 +68,7 @@ public class CheckRDFizerAction extends ActionSupport {
         conn.setRequestMethod("GET");
         conn.setRequestProperty("Accept", "application/xml");
         if (conn.getResponseCode() != 200) {
-            logger.debug("Failed : HTTP error code : "
+            logger.debug(MessageCatalog._00015_HTTP_ERROR_CODE
                     + conn.getResponseCode());
         }
         try {
@@ -103,11 +106,11 @@ public class CheckRDFizerAction extends ActionSupport {
                      session.setAttribute("filesToLink", filesToLink);
                  }
             }            
-          } catch (Exception e) {
-            e.printStackTrace();
-            logger.debug("Failed reading xml");
-            conn.disconnect();
-        }
+      } catch (Exception e) {
+          logger.debug(MessageCatalog._00016_ERROR_READING_XML);
+          e.printStackTrace();
+          conn.disconnect();
+      }
         conn.disconnect();
     }
 

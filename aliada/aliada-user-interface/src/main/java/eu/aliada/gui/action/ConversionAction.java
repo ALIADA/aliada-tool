@@ -32,7 +32,9 @@ import eu.aliada.shared.log.Log;
 import eu.aliada.shared.rdfstore.RDFStoreDAO;
 
 /**
+ * This class help in the process of the xml files importation.
  * @author iosa
+ * @version $Revision: 1.1 $
  * @since 1.0
  */
 public class ConversionAction extends ActionSupport {
@@ -51,7 +53,7 @@ public class ConversionAction extends ActionSupport {
     private boolean areTemplates;
     
     private final Log logger = new Log(ConversionAction.class);
-
+    
     public String execute() {
         HttpSession session = ServletActionContext.getRequest().getSession();
         File newFile = (File) session.getAttribute("importFile");
@@ -72,7 +74,12 @@ public class ConversionAction extends ActionSupport {
         }
         return getTemplatesDb();
     }
-
+    /**
+     * Calls to the rdfizer process
+     * @return
+     * @see
+     * @since 1.0
+     */
     public String rdfize() {
         HttpSession session = ServletActionContext.getRequest().getSession();
         String format = null;
@@ -140,6 +147,13 @@ public class ConversionAction extends ActionSupport {
         return getTemplatesDb(); 
     }
 
+    /**
+     * Gets the format of the file
+     * @return
+     * @throws SQLException
+     * @see
+     * @since 1.0
+     */
     private String getFormat() throws SQLException {
         Connection connection = null;
         String format = null;
@@ -161,6 +175,12 @@ public class ConversionAction extends ActionSupport {
         return format;
     }
 
+    /**
+     * Enables the RDFizer
+     * @throws IOException
+     * @see
+     * @since 1.0
+     */
     private void enableRdfizer() throws IOException {
         URL url = new URL("http://localhost:8891/rdfizer/enable/");
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -173,6 +193,13 @@ public class ConversionAction extends ActionSupport {
         conn.disconnect();
     }
 
+    /**
+     * Creates a job for the RDFizer
+     * @param addedId
+     * @throws IOException
+     * @see
+     * @since 1.0
+     */
     private void createJob(int addedId) throws IOException {
         URL url = new URL("http://localhost:8891/rdfizer/jobs/" + addedId);
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -186,6 +213,12 @@ public class ConversionAction extends ActionSupport {
         conn.disconnect();
     }
 
+    /**
+     * Gets the available templates from the DB
+     * @return
+     * @see
+     * @since 1.0
+     */
     public String getTemplatesDb() {
         Connection connection = null;
         try {
@@ -215,6 +248,12 @@ public class ConversionAction extends ActionSupport {
         return SUCCESS;
     }
 
+    /**
+     * Displays the template adding form
+     * @return
+     * @see
+     * @since 1.0
+     */
     public String showAddTemplate() {
         getTemplatesDb();
         getTagsDb(NOTEMPLATESELECTED);
@@ -222,6 +261,12 @@ public class ConversionAction extends ActionSupport {
         return SUCCESS;
     }
 
+    /**
+     * Adds a new template to the DB
+     * @return
+     * @see
+     * @since 1.0
+     */
     public String addTemplate() {
         Connection connection = null;
         int id;
@@ -260,6 +305,12 @@ public class ConversionAction extends ActionSupport {
         }
     }
 
+    /**
+     * Deletes a template from the DB
+     * @return
+     * @see
+     * @since 1.0
+     */
     public String deleteTemplate() {
         Connection connection = null;
         try {
@@ -291,6 +342,12 @@ public class ConversionAction extends ActionSupport {
         return SUCCESS;
     }
 
+    /**
+     * Displays the form to edit the template
+     * @return
+     * @see
+     * @since 1.0
+     */
     public String showEditTemplate() {
         Connection connection = null;
         try {
@@ -330,6 +387,12 @@ public class ConversionAction extends ActionSupport {
         }
     }
 
+    /**
+     * Updates a existing template
+     * @return
+     * @see
+     * @since 1.0
+     */
     public String editTemplate() {
         Connection connection = null;
         int idTemplate = (int) ServletActionContext.getRequest().getSession()
@@ -370,6 +433,12 @@ public class ConversionAction extends ActionSupport {
         return SUCCESS;
     }
 
+    /**
+     * Gets teh available tags from the DB
+     * @param templateId
+     * @see
+     * @since 1.0
+     */
     private void getTagsDb(int templateId) {
         Connection connection = null;
         try {

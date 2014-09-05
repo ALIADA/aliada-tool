@@ -6,21 +6,11 @@
 
 package eu.aliada.gui.action;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.apache.struts2.ServletActionContext;
 import org.w3c.dom.Document;
@@ -31,10 +21,13 @@ import org.w3c.dom.NodeList;
 import com.opensymphony.xwork2.ActionSupport;
 
 import eu.aliada.shared.log.Log;
+import eu.aliada.gui.log.MessageCatalog;
 import eu.aliada.gui.parser.XmlParser;
 
 /**
+ * This class provides information of the link discovery
  * @author iosa
+ * @version $Revision: 1.1 $
  * @since 1.0
  */
 public class LinkingInfoAction extends ActionSupport {
@@ -54,7 +47,8 @@ public class LinkingInfoAction extends ActionSupport {
         try {
             getInfo();
         } catch (IOException e) {
-            logger.error("Error getting linking info"+e);
+            logger.error(MessageCatalog._00012_IO_EXCEPTION);
+            e.printStackTrace();
             return ERROR;
         } 
         return SUCCESS;
@@ -73,7 +67,7 @@ public class LinkingInfoAction extends ActionSupport {
         conn.setRequestMethod("GET");
         conn.setRequestProperty("Accept", "application/xml");
         if (conn.getResponseCode() != 202) {
-            logger.debug("Failed : HTTP error code : "
+            logger.debug(MessageCatalog._00015_HTTP_ERROR_CODE
                     + conn.getResponseCode());
         }
         try {
@@ -106,11 +100,10 @@ public class LinkingInfoAction extends ActionSupport {
                     }
                 }
                 this.setDatasets(datasets);
-            } else {
-                logger.debug("Not subjobs created");
-            }            
+            }           
           } catch (Exception e) {
-            logger.debug("Failed reading xml"+e);
+            logger.debug(MessageCatalog._00016_ERROR_READING_XML);
+            e.printStackTrace();
             conn.disconnect();
         }
         conn.disconnect();

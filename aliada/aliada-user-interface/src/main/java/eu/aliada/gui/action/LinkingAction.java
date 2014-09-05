@@ -16,20 +16,15 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
 import org.apache.struts2.ServletActionContext;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 
 import com.opensymphony.xwork2.ActionSupport;
 
-import eu.aliada.gui.parser.XmlParser;
+import eu.aliada.gui.log.MessageCatalog;
 import eu.aliada.gui.rdbms.DBConnectionManager;
 import eu.aliada.shared.log.Log;
 
@@ -62,7 +57,14 @@ public class LinkingAction extends ActionSupport {
         setShowCheckButton(false);
         return getDatasetsDb();
     }
-
+    
+    /**
+     * Get rdfized files
+     * @param rdfizerJobs
+     * @return
+     * @see
+     * @since 1.0
+     */
     private HashMap<Integer, String> getFiles(List<Integer> rdfizerJobs) {
         Iterator<Integer> iterator = rdfizerJobs.iterator();
         filesToLink = new HashMap<Integer, String>();
@@ -84,11 +86,18 @@ public class LinkingAction extends ActionSupport {
             }
             con.close();
         } catch (SQLException e) {
-            logger.debug("SQL error" + e);
+            logger.debug(MessageCatalog._00011_SQL_EXCEPTION);
+            e.printStackTrace();
         }
         return filesToLink;
     }
 
+    /**
+     * Loads the datasets from the database
+     * @return
+     * @see
+     * @since 1.0
+     */
     private String getDatasetsDb() {
         datasets = new HashMap();
         Connection con;
@@ -106,16 +115,21 @@ public class LinkingAction extends ActionSupport {
             st.close();
             con.close();
         } catch (SQLException e) {
-            logger.debug("SQL error" + e);
+            logger.debug(MessageCatalog._00011_SQL_EXCEPTION);
+            e.printStackTrace();
             return ERROR;
         }
         return SUCCESS;
     }
 
+    /**
+     * Calls to the link-discovery process
+     * @return
+     * @see
+     * @since 1.0
+     */
     public String startLinking() {
-        logger.debug("Started linking");
         if (fileToLink != null) {
-            logger.debug("file selected to link: " + fileToLink);
             createJobLinking(fileToLink);
             setShowCheckButton(true);
             setLinkingStarted(true);
@@ -134,6 +148,12 @@ public class LinkingAction extends ActionSupport {
         }
     }
 
+    /**
+     * Creates the job that does the link-discovery
+     * @param fileToLink
+     * @see
+     * @since 1.0
+     */
     private void createJobLinking(String fileToLink) {
         int addedId = 0;
         Connection connection = null;
@@ -173,7 +193,6 @@ public class LinkingAction extends ActionSupport {
                 ResultSet rs2 = preparedStatement.getGeneratedKeys();
                 if (rs2.next()) {
                     addedId = (int) rs2.getInt(1);
-                    logger.debug("Added job id: " + addedId);
                 }
                 rs2.close();
                 preparedStatement.close();
@@ -206,13 +225,16 @@ public class LinkingAction extends ActionSupport {
                     }
                     conn.disconnect();
                 } catch (MalformedURLException e) {
+                    logger.debug(MessageCatalog._00014_MALFORMED_URL_EXCEPTION);
                     e.printStackTrace();
                 } catch (IOException e) {
+                    logger.debug(MessageCatalog._00012_IO_EXCEPTION);
                     e.printStackTrace();
                 }
             }
         } catch (SQLException e) {
-            logger.debug("SQL error" + e);
+            logger.debug(MessageCatalog._00011_SQL_EXCEPTION);
+            e.printStackTrace();
         }
 
     }
