@@ -24,12 +24,15 @@ import org.w3c.dom.NodeList;
 
 import com.opensymphony.xwork2.ActionSupport;
 
+import eu.aliada.gui.log.MessageCatalog;
 import eu.aliada.gui.parser.XmlParser;
 import eu.aliada.gui.rdbms.DBConnectionManager;
 import eu.aliada.shared.log.Log;
 
 /**
+ * This class contains methods related to the creation of URIs
  * @author iosa
+ * @version $Revision: 1.1 $
  * @since 1.0
  */
 public class LdsAction extends ActionSupport {
@@ -40,6 +43,12 @@ public class LdsAction extends ActionSupport {
     private String endDate;
     private final Log logger = new Log(LdsAction.class);
     
+    /**
+     * Does the call to the linked data server service
+     * @return String
+     * @see
+     * @since 1.0
+     */
     public String startLDS() {
         importFile = (String) ServletActionContext.getRequest().getSession()
                 .getAttribute("fileToLink");
@@ -48,7 +57,7 @@ public class LdsAction extends ActionSupport {
             try {
                 return getInfoLDS();
             } catch (IOException e) {
-                // TODO Auto-generated catch block
+                logger.debug(MessageCatalog._00012_IO_EXCEPTION);
                 e.printStackTrace();
                 return ERROR;
             }
@@ -56,7 +65,13 @@ public class LdsAction extends ActionSupport {
             return ERROR;
         }
     }
-
+    
+    /**
+     * Creates a job for the linked data server
+     * @param fileToLink the path of file from where is going to create the URIs
+     * @see
+     * @since 1.0
+     */
     private void createJobLDS(String fileToLink) {
         logger.debug("Creating link server job");
         int addedId = 0;
@@ -116,8 +131,10 @@ public class LdsAction extends ActionSupport {
                     conn.disconnect();
                     getInfoLDS();
                 } catch (MalformedURLException e) {
+                    logger.debug(MessageCatalog._00014_MALFORMED_URL_EXCEPTION);                    
                     e.printStackTrace();
                 } catch (IOException e) {
+                    logger.debug(MessageCatalog._00012_IO_EXCEPTION);
                     e.printStackTrace();
                 }
             }
@@ -129,6 +146,13 @@ public class LdsAction extends ActionSupport {
         }
     }
 
+    /**
+     * Gets the information of the linked data server process
+     * @return String
+     * @throws IOException
+     * @see
+     * @since 1.0
+     */
     public String getInfoLDS() throws IOException {
         importFile = (String) ServletActionContext.getRequest().getSession()
                 .getAttribute("fileToLink");
@@ -139,7 +163,7 @@ public class LdsAction extends ActionSupport {
         conn.setRequestMethod("GET");
         conn.setRequestProperty("Accept", "application/xml");
         if (conn.getResponseCode() != 202) {
-            logger.debug("Failed : HTTP error code : " + conn.getResponseCode());
+            logger.debug(MessageCatalog._00015_HTTP_ERROR_CODE + conn.getResponseCode());
         }
         try {
             XmlParser parser = new XmlParser();
@@ -161,7 +185,8 @@ public class LdsAction extends ActionSupport {
             conn.disconnect();
             return SUCCESS;
         } catch (Exception e) {
-            logger.error("Failed reading xml" + e);
+            logger.error(MessageCatalog._00016_ERROR_READING_XML);
+            e.printStackTrace();
             conn.disconnect();
             return ERROR;
         }

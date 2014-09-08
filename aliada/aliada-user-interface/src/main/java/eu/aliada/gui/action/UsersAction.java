@@ -26,7 +26,9 @@ import eu.aliada.gui.rdbms.DBConnectionManager;
 import eu.aliada.shared.log.Log;
 
 /**
+ * 
  * @author iosa
+ * @version $Revision: 1.1 $
  * @since 1.0
  */
 public class UsersAction extends ActionSupport{
@@ -47,13 +49,23 @@ public class UsersAction extends ActionSupport{
 
     private final Log logger = new Log(UsersAction.class);
     
-    
+    /**
+     * Displays the form to add the user
+     * @return
+     * @see
+     * @since 1.0
+     */
     public String showAddForm(){
         getUsersDb();
         this.showAddForm = true;
         return SUCCESS;
     }
-    
+    /**
+     * Delete an user from the DB
+     * @return
+     * @see
+     * @since 1.0
+     */
     public String deleteUser() {
         Connection connection = null;
         try {
@@ -78,7 +90,12 @@ public class UsersAction extends ActionSupport{
         }
         return getUsersDb();           
     }
-    
+    /**
+     * Displays the form to the edit the user
+     * @return
+     * @see
+     * @since 1.0
+     */
     public String showEdit(){
         Connection connection = null;
         HttpSession session = ServletActionContext.getRequest().getSession();
@@ -118,6 +135,12 @@ public class UsersAction extends ActionSupport{
         }        
     }
     
+    /**
+     * Gets the users from the DB
+     * @return
+     * @see
+     * @since 1.0
+     */
     public String getUsersDb(){
         ServletActionContext.getRequest().getSession().removeAttribute("userToUpdate");    
         getRolesDb();
@@ -155,6 +178,12 @@ public class UsersAction extends ActionSupport{
         this.showEditForm=false;
         return SUCCESS;
     }
+    /**
+     * Add an user to the DB
+     * @return
+     * @see
+     * @since 1.0
+     */
     public String addUser(){
         Connection connection = null;
         try {
@@ -185,6 +214,12 @@ public class UsersAction extends ActionSupport{
         }
         return SUCCESS;        
     }
+    /**
+     * Updates an user in the DB
+     * @return
+     * @see
+     * @since 1.0
+     */
     public String editUser(){
         Connection connection = null;
         try {
@@ -204,6 +239,13 @@ public class UsersAction extends ActionSupport{
         }
         return SUCCESS;        
     }
+    /**
+     * Gets the user role name for a given user role code
+     * @param code
+     * @return
+     * @see
+     * @since 1.0
+     */
     private String getRoleCode(int code) {
         Connection connection = null;
         try {
@@ -223,6 +265,13 @@ public class UsersAction extends ActionSupport{
         }
         return null;
     }
+    /**
+     * Gets the user type name for a given user type code
+     * @param code
+     * @return
+     * @see
+     * @since 1.0
+     */
     private String getUserType(int code) {
         Connection connection = null;
         try {
@@ -242,6 +291,12 @@ public class UsersAction extends ActionSupport{
         }
         return null;
     }
+    /**
+     * Get the user roles from DB
+     * @return
+     * @see
+     * @since 1.0
+     */
     private String getRolesDb(){
         Connection connection;
         this.roles = new HashMap();
@@ -264,6 +319,12 @@ public class UsersAction extends ActionSupport{
         }
         return SUCCESS;   
     }
+    /**
+     * Gets the user types from DB
+     * @return
+     * @see
+     * @since 1.0
+     */
     private String getTypesDb(){
         Connection connection;
         this.types = new HashMap();

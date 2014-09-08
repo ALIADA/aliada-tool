@@ -20,6 +20,9 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 
+import eu.aliada.gui.log.MessageCatalog;
+import eu.aliada.shared.log.Log;
+
 /**
  * Java program to check if XML file is correct.
  * 
@@ -27,7 +30,7 @@ import org.xml.sax.XMLReader;
  * @since 1.0
  */
 public class XMLValidation {
-	//private final Log log = new Log(XMLValidation.class);
+	private final Log logger = new Log(XMLValidation.class);
 
 	/**
 	 * @param xmlName
@@ -60,15 +63,19 @@ public class XMLValidation {
 
 			return ((SimpleErrorHandler) reader.getErrorHandler()).getMyError() == null;
 		} catch (ParserConfigurationException e) {
+			logger.debug(MessageCatalog._00102_PARSER_CONFIGURATION_EXCEPTION);
 			e.printStackTrace();
 			return false;
 		} catch (SAXException e) {
+			logger.debug(MessageCatalog._00103_SAX_EXCEPTION);
 			e.printStackTrace();
 			return false;
 		} catch (IOException e) {
+			logger.debug(MessageCatalog._00012_IO_EXCEPTION);
 			e.printStackTrace();
 			return false;
 		} catch (Exception e) {
+			logger.debug(MessageCatalog._00100_EXCEPTION);
 			e.printStackTrace();
 			return false;
 		}
