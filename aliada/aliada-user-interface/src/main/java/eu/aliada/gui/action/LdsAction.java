@@ -17,6 +17,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
+import java.util.Locale;
+
+import javax.servlet.http.HttpSession;
 
 import org.apache.struts2.ServletActionContext;
 import org.w3c.dom.Document;
@@ -73,7 +76,7 @@ public class LdsAction extends ActionSupport {
      * @since 1.0
      */
     private void createJobLDS(String fileToLink) {
-        logger.debug("Creating link server job");
+        HttpSession session = ServletActionContext.getRequest().getSession();
         int addedId = 0;
         Connection connection = null;
         connection = new DBConnectionManager().getConnection();
@@ -100,7 +103,6 @@ public class LdsAction extends ActionSupport {
                 ResultSet rs2 = preparedStatement.getGeneratedKeys();
                 if (rs2.next()) {
                     addedId = (int) rs2.getInt(1);
-                    logger.debug("Added linked server job id: " + addedId);
                 }
                 rs2.close();
                 preparedStatement.close();          
@@ -123,12 +125,11 @@ public class LdsAction extends ActionSupport {
                         throw new RuntimeException("Failed : HTTP error code : "
                                 + conn.getResponseCode());
                     } else {
-                        ServletActionContext.getRequest().getSession()
-                                .setAttribute("fileToLink", fileToLink);
-                        ServletActionContext.getRequest().getSession()
-                                .setAttribute("fileToLinkId", addedId);
+                        session.setAttribute("fileToLink", fileToLink);
+                        session.setAttribute("fileToLinkId", addedId);
                     }
                     conn.disconnect();
+                    session.setAttribute("ldsStarted", true);
                     getInfoLDS();
                 } catch (MalformedURLException e) {
                     logger.debug(MessageCatalog._00014_MALFORMED_URL_EXCEPTION);                    
@@ -142,7 +143,8 @@ public class LdsAction extends ActionSupport {
             statement.close();
             connection.close();  
             } catch (SQLException e) {
-            logger.debug("SQL error" + e);
+                logger.debug(MessageCatalog._00011_SQL_EXCEPTION);
+                e.printStackTrace();
         }
     }
 
@@ -154,10 +156,10 @@ public class LdsAction extends ActionSupport {
      * @since 1.0
      */
     public String getInfoLDS() throws IOException {
-        importFile = (String) ServletActionContext.getRequest().getSession()
-                .getAttribute("fileToLink");
-        int fileToLinkId = (int) ServletActionContext.getRequest().getSession()
-                .getAttribute("fileToLinkId");
+        HttpSession session = ServletActionContext.getRequest().getSession();
+        if(session.getAttribute("ldsStarted") != null){
+        importFile = (String) session.getAttribute("fileToLink");
+        int fileToLinkId = (int) session.getAttribute("fileToLinkId");
         URL url = new URL("http://localhost:8889/lds/jobs/" + fileToLinkId);
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod("GET");
@@ -170,10 +172,14 @@ public class LdsAction extends ActionSupport {
             Document doc = parser.parseXML(conn.getInputStream());
             NodeList readNode = doc.getElementsByTagName("startDate");
             String startDate = readNode.item(0).getTextContent();
+            Locale locale = (Locale) session.getAttribute("WW_TRANS_I18N_LOCALE");
+            if (locale == null) {
+                locale = Locale.ROOT;
+            }
             SimpleDateFormat dateFormatIn = new SimpleDateFormat(
                     "YYYY-MM-dd'T'HH:mm:ss");
             SimpleDateFormat dateFormatOut = new SimpleDateFormat(
-                    "d MMMM yyyy',' HH:mm:ss");
+                    "d MMMM yyyy',' HH:mm:ss",locale);
             setStartDate(dateFormatOut.format(dateFormatIn
                     .parse(startDate)));
             readNode = doc.getElementsByTagName("startDate");
@@ -181,7 +187,12 @@ public class LdsAction extends ActionSupport {
             setEndDate(dateFormatOut.format(dateFormatIn
                     .parse(endDate)));
             readNode = doc.getElementsByTagName("status");
-            setStatus(readNode.item(0).getTextContent());
+            if(readNode.item(0).getTextContent().equals("running")){
+                setStatus(getText("linkingInfo.running"));
+            }
+            else if(readNode.item(0).getTextContent().equals("finished")){
+                setStatus(getText("linkingInfo.completed"));
+            }
             conn.disconnect();
             return SUCCESS;
         } catch (Exception e) {
@@ -190,6 +201,11 @@ public class LdsAction extends ActionSupport {
             conn.disconnect();
             return ERROR;
         }
+        }
+        else{
+            setStatus(getText("ldsInfo.not.started"));
+            return SUCCESS;
+        }       
     }
 
     /**

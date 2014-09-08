@@ -11,6 +11,9 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
+import java.util.Locale;
+
+import javax.servlet.http.HttpSession;
 
 import org.apache.struts2.ServletActionContext;
 import org.w3c.dom.Document;
@@ -35,6 +38,7 @@ public class LinkingInfoAction extends ActionSupport {
     private String importFile;
     private String status;
     private String startDate;
+    private String endDate;
     private String numLinks;
     private HashMap<String, String> datasets;
 
@@ -60,8 +64,8 @@ public class LinkingInfoAction extends ActionSupport {
      * @since 1.0
      */
     private void getInfo() throws IOException {
-        int fileToLinkId = (int) ServletActionContext.getRequest().getSession()
-                .getAttribute("fileToLinkId");
+        HttpSession session = ServletActionContext.getRequest().getSession();
+        int fileToLinkId = (int) session.getAttribute("fileToLinkId");
         URL url = new URL("http://localhost:8890/links-discovery/jobs/"+fileToLinkId);
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod("GET");
@@ -77,14 +81,27 @@ public class LinkingInfoAction extends ActionSupport {
             setNumLinks(readNode.item(0).getTextContent());
             readNode = doc.getElementsByTagName("startDate");
             String startDate = readNode.item(0).getTextContent();
+            Locale locale = (Locale) session.getAttribute("WW_TRANS_I18N_LOCALE");
+            if (locale == null) {
+                locale = Locale.ROOT;
+            }
             SimpleDateFormat dateFormatIn = new SimpleDateFormat(
                     "YYYY-MM-dd'T'HH:mm:ss");
             SimpleDateFormat dateFormatOut = new SimpleDateFormat(
-                    "d MMMM yyyy',' HH:mm:ss");
+                    "d MMMM yyyy',' HH:mm:ss",locale);
             this.setStartDate(dateFormatOut.format(dateFormatIn
-                    .parse(startDate)));          
+                    .parse(startDate)));  
+            readNode = doc.getElementsByTagName("startDate");
+            String endDate = readNode.item(0).getTextContent();
+            this.setEndDate(dateFormatOut.format(dateFormatIn
+                    .parse(endDate))); 
             readNode = doc.getElementsByTagName("status");
-            setStatus(readNode.item(0).getTextContent());  
+            if(readNode.item(0).getTextContent().equals("running")){
+                setStatus(getText("linkingInfo.running"));
+            }
+            else if(readNode.item(0).getTextContent().equals("completed")){
+                setStatus(getText("linkingInfo.completed"));
+            }
             readNode = doc.getElementsByTagName("subjobs");
             if (readNode != null && readNode.getLength() > 0) {
                 for (int i = 0; i < readNode.getLength(); i++) {
@@ -200,6 +217,22 @@ public class LinkingInfoAction extends ActionSupport {
      */
     public void setImportFile(String importFile) {
         this.importFile = importFile;
+    }
+    /**
+     * @return Returns the endDate.
+     * @exception
+     * @since 1.0
+     */
+    public String getEndDate() {
+        return endDate;
+    }
+    /**
+     * @param endDate The endDate to set.
+     * @exception
+     * @since 1.0
+     */
+    public void setEndDate(String endDate) {
+        this.endDate = endDate;
     }
 
 }

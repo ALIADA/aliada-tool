@@ -7,12 +7,11 @@
 	enctype="multipart/form-data">
 	<div id="form">
 		<div class="content">
-		<html:actionerror/>
 			<table>
 				<tr>
 					<td colspan="2"><html:textfield theme="xhtml"
 							key="organisation_name"
-							cssClass="inputPage" size="15" /></td>
+							cssClass="inputPage" size="15" readonly="true"/></td>
 				</tr>
 				<tr>
 					<td colspan="2"><html:textfield theme="xhtml"

@@ -60,58 +60,60 @@ public class CheckRDFizerAction extends ActionSupport {
      * @see
      * @since 1.0
      */
-    private void getInfo() throws IOException {
+    public void getInfo() throws IOException {
         HttpSession session = ServletActionContext.getRequest().getSession();
-        int rdfizerJobId = (int) session.getAttribute("rdfizerJobId");
-        URL url = new URL("http://localhost:8891/rdfizer/jobs/"+rdfizerJobId);
-        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-        conn.setRequestMethod("GET");
-        conn.setRequestProperty("Accept", "application/xml");
-        if (conn.getResponseCode() != 200) {
-            logger.debug(MessageCatalog._00015_HTTP_ERROR_CODE
-                    + conn.getResponseCode());
-        }
-        try {
-            XmlParser parser = new XmlParser();
-            Document doc = parser.parseXML(conn.getInputStream());
-            NodeList readNode = doc.getElementsByTagName("format");
-            setFormat(readNode.item(0).getTextContent());
-            readNode = doc.getElementsByTagName("output-statements-count");
-            setStatementsNum(readNode.item(0).getTextContent());
-            readNode = doc.getElementsByTagName("processed-records-count");
-            setProcessedNum(readNode.item(0).getTextContent());
-            readNode = doc.getElementsByTagName("total-records-count");
-            setRecordNum(readNode.item(0).getTextContent());
-            readNode = doc.getElementsByTagName("records-throughput");
-            setProcessingThroughput(readNode.item(0).getTextContent());
-            readNode = doc.getElementsByTagName("triples-throughput");
-            setTriplesThroughput(readNode.item(0).getTextContent());
-            readNode = doc.getElementsByTagName("running");
-            if(readNode.item(0).getTextContent().equals("true")){
-                setStatus("Running");
+        if(session.getAttribute("rdfizerJobId") != null){
+            Integer rdfizerJobId = (int) session.getAttribute("rdfizerJobId");
+            URL url = new URL("http://localhost:8891/rdfizer/jobs/"+rdfizerJobId);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+            conn.setRequestProperty("Accept", "application/xml");
+            if (conn.getResponseCode() != 200) {
+                logger.debug(MessageCatalog._00015_HTTP_ERROR_CODE
+                        + conn.getResponseCode());
             }
-            readNode = doc.getElementsByTagName("running");//Now is set running to do testing
-            if(readNode.item(0).getTextContent().equals("true")){
-                setStatus("Completed");
-                List<Integer> filesToLink = (List<Integer>)session.getAttribute("filesToLink");
-                 if(filesToLink == null){
-                     filesToLink = new ArrayList<Integer>();
-                     filesToLink.add(rdfizerJobId);
-                     session.setAttribute("filesToLink", filesToLink);
-                 }
-                 else{
-                     if(!filesToLink.contains(rdfizerJobId)){
-                         filesToLink.add(rdfizerJobId);                         
+            try {
+                XmlParser parser = new XmlParser();
+                Document doc = parser.parseXML(conn.getInputStream());
+                NodeList readNode = doc.getElementsByTagName("format");
+                setFormat(readNode.item(0).getTextContent());
+                readNode = doc.getElementsByTagName("output-statements-count");
+                setStatementsNum(readNode.item(0).getTextContent());
+                readNode = doc.getElementsByTagName("processed-records-count");
+                setProcessedNum(readNode.item(0).getTextContent());
+                readNode = doc.getElementsByTagName("total-records-count");
+                setRecordNum(readNode.item(0).getTextContent());
+                readNode = doc.getElementsByTagName("records-throughput");
+                setProcessingThroughput(readNode.item(0).getTextContent());
+                readNode = doc.getElementsByTagName("triples-throughput");
+                setTriplesThroughput(readNode.item(0).getTextContent());
+                readNode = doc.getElementsByTagName("running");
+                if(readNode.item(0).getTextContent().equals("true")){
+                    setStatus(getText("checkRDF.running"));
+                }
+                readNode = doc.getElementsByTagName("completed");
+                if(readNode.item(0).getTextContent().equals("true")){
+                    setStatus(getText("checkRDF.completed"));
+                    List<Integer> filesToLink = (List<Integer>)session.getAttribute("filesToLink");
+                     if(filesToLink == null){
+                         filesToLink = new ArrayList<Integer>();
+                         filesToLink.add(rdfizerJobId);
+                         session.setAttribute("filesToLink", filesToLink);
                      }
-                     session.setAttribute("filesToLink", filesToLink);
-                 }
-            }            
-      } catch (Exception e) {
-          logger.debug(MessageCatalog._00016_ERROR_READING_XML);
-          e.printStackTrace();
-          conn.disconnect();
-      }
-        conn.disconnect();
+                     else{
+                         if(!filesToLink.contains(rdfizerJobId)){
+                             filesToLink.add(rdfizerJobId);                         
+                         }
+                         session.setAttribute("filesToLink", filesToLink);
+                     }
+                }            
+          } catch (Exception e) {
+              logger.debug(MessageCatalog._00016_ERROR_READING_XML);
+              e.printStackTrace();
+              conn.disconnect();
+          }
+            conn.disconnect();
+        }
     }
 
     /**

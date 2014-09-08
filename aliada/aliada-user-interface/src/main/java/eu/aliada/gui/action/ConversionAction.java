@@ -57,7 +57,11 @@ public class ConversionAction extends ActionSupport {
     public String execute() {
         HttpSession session = ServletActionContext.getRequest().getSession();
         File newFile = (File) session.getAttribute("importFile");
-        if(!newFile.equals(session.getAttribute("oldImportFile"))){
+        if(newFile==null){
+            setShowCheckButton(false);
+            setShowRdfizerButton(false); 
+        }
+        else if(!newFile.equals(session.getAttribute("oldImportFile"))){
             session.setAttribute("oldImportFile", newFile);
             setImportFile(newFile);
             setShowCheckButton(false);
