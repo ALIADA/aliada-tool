@@ -1,0 +1,138 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Silk>
+  <Prefixes>
+    <Prefix id="rdf" namespace="http://www.w3.org/1999/02/22-rdf-syntax-ns#"/>
+    <Prefix id="owl" namespace="http://www.w3.org/2002/07/owl#"/>
+    <Prefix id="rdfs" namespace="http://www.w3.org/2000/01/rdf-schema#"/>
+    <Prefix id="ecrm" namespace="http://erlangen-crm.org/current/"/>
+    <Prefix id="efrbroo" namespace="http://erlangen-crm.org/efrbroo/"/>
+    <Prefix id="madsrdf" namespace="http://www.loc.gov/mads/rdf/v1#"/>
+   </Prefixes>
+
+  <DataSources>
+
+
+	<DataSource id="MARC_languages" type="sparqlEndpoint">
+		<Param name="pageSize" value="1000"/>
+		<Param name="pauseTime" value="0"/>
+		<Param name="retryCount" value="3"/>
+		<Param name="endpointURI" value="http://localhost:8890/sparql"/>
+		<Param name="retryPause" value="1000"/>
+		<Param name="graph" value="http://id.loc.gov/vocabulary/languages"/>
+		<Param name="queryParameters" value=""/>
+		<Param name="login" value=""/>
+		<Param name="entityList" value=""/>
+		<Param name="parallel" value="true"/>
+		<Param name="password" value=""/>
+	</DataSource>
+	<DataSource id="MARC_countries" type="sparqlEndpoint">
+		<Param name="pageSize" value="1000"/>
+		<Param name="pauseTime" value="0"/>
+		<Param name="retryCount" value="3"/>
+		<Param name="endpointURI" value="http://localhost:8890/sparql"/>
+		<Param name="retryPause" value="1000"/>
+		<Param name="graph" value="http://id.loc.gov/vocabulary/countries"/>
+		<Param name="queryParameters" value=""/>
+		<Param name="login" value=""/>
+		<Param name="entityList" value=""/>
+		<Param name="parallel" value="true"/>
+		<Param name="password" value=""/>
+	</DataSource>
+	<DataSource id="MARC_geoAreas" type="sparqlEndpoint">
+		<Param name="pageSize" value="1000"/>
+		<Param name="pauseTime" value="0"/>
+		<Param name="retryCount" value="3"/>
+		<Param name="endpointURI" value="http://localhost:8890/sparql"/>
+		<Param name="retryPause" value="1000"/>
+		<Param name="graph" value="http://id.loc.gov/vocabulary/geographicAreas"/>
+		<Param name="queryParameters" value=""/>
+		<Param name="login" value=""/>
+		<Param name="entityList" value=""/>
+		<Param name="parallel" value="true"/>
+		<Param name="password" value=""/>
+	</DataSource>
+  </DataSources>
+
+  <Blocking/>
+ 
+  <Interlinks>
+	<Interlink id="aliada_marc_language">
+	  <LinkType>owl:sameAs</LinkType>
+	  <SourceDataset dataSource="ALIADA_ds" var="lang">
+		<RestrictTo> ?lang rdf:type ecrm:E56_Language . </RestrictTo>
+	  </SourceDataset>
+	  <TargetDataset dataSource="MARC_languages" var="b">
+		<RestrictTo> {?b rdf:type madsrdf:Authority} . {?b rdf:type madsrdf:Language} . {?b rdf:type &lt;http://id.loc.gov/vocabulary/languages/MARC_Language&gt;} </RestrictTo>
+	  </TargetDataset>
+	  <LinkageRule>
+		<Compare id="unnamed_6" metric="levenshteinDistance" threshold="1">
+			<TransformInput id="unnamed_7" function="lowerCase">
+				<Input id="unnamed_8" path="?lang/ecrm:P3_has_note"/>
+			</TransformInput>
+			<TransformInput id="unnamed_9" function="lowerCase">
+				<Input id="unnamed_10" path="?b/madsrdf:authoritativeLabel"/>
+			</TransformInput>
+			<Param name="minChar" value="0"/>
+			<Param name="maxChar" value="z"/>
+		</Compare>
+	  </LinkageRule>
+	  <Filter/>
+
+	  <Outputs>
+      </Outputs>
+	</Interlink>
+
+	<Interlink id="aliada_marc_country">
+	  <LinkType>owl:sameAs</LinkType>
+	  <SourceDataset dataSource="ALIADA_ds" var="place">
+		<RestrictTo> {?place rdf:type ecrm:E53_Place} UNION {?place rdf:type efrbroo:F9_Place} </RestrictTo>
+	  </SourceDataset>
+	  <TargetDataset dataSource="MARC_countries" var="b">
+		<RestrictTo> {?b rdf:type madsrdf:Authority} . {?b rdf:type madsrdf:Geographic} . {?b rdf:type &lt;http://id.loc.gov/vocabulary/countries/MARC_Country&gt;} </RestrictTo>
+	  </TargetDataset>
+	  <LinkageRule>
+		<Compare id="unnamed_11" metric="levenshteinDistance" threshold="0.0">
+			<TransformInput id="unnamed_12" function="lowerCase">
+				<Input id="unnamed_13" path="?place/ecrm:P87_is_identified_by[&lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#type&gt; = &lt;http://erlangen-crm.org/current/E44_Place_Appellation&gt;]/ecrm:P3_has_note"/>
+			</TransformInput>
+			<TransformInput id="unnamed_14" function="lowerCase">
+				<Input id="unnamed_15" path="?b/madsrdf:authoritativeLabel"/>
+			</TransformInput>
+			<Param name="minChar" value="0"/>
+			<Param name="maxChar" value="z"/>
+		</Compare>
+	  </LinkageRule>
+	  <Filter/>
+
+	  <Outputs>
+      </Outputs>
+	</Interlink>
+
+	<Interlink id="aliada_marc_geoArea">
+	  <LinkType>owl:sameAs</LinkType>
+	  <SourceDataset dataSource="ALIADA_ds" var="place">
+		<RestrictTo> {?place rdf:type ecrm:E53_Place} UNION {?place rdf:type efrbroo:F9_Place} </RestrictTo>
+	  </SourceDataset>
+	  <TargetDataset dataSource="MARC_geoAreas" var="b">
+		<RestrictTo> {?b rdf:type madsrdf:Authority} . {?b rdf:type madsrdf:Geographic} . {?b rdf:type &lt;http://id.loc.gov/vocabulary/geographicAreas/MARC_GeographicArea&gt;} </RestrictTo>
+	  </TargetDataset>
+	  <LinkageRule>
+		<Compare id="unnamed_16" metric="levenshteinDistance" threshold="0.0">
+			<TransformInput id="unnamed_17" function="lowerCase">
+				<Input id="unnamed_18" path="?place/ecrm:P87_is_identified_by[&lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#type&gt; = &lt;http://erlangen-crm.org/current/E44_Place_Appellation&gt;]/ecrm:P3_has_note"/>
+			</TransformInput>
+			<TransformInput id="unnamed_19" function="lowerCase">
+				<Input id="unnamed_20" path="?b/madsrdf:authoritativeLabel"/>
+			</TransformInput>
+			<Param name="minChar" value="0"/>
+			<Param name="maxChar" value="z"/>
+		</Compare>
+	  </LinkageRule>
+	  <Filter/>
+
+	  <Outputs>
+      </Outputs>
+	</Interlink>
+  </Interlinks>  
+
+</Silk>
