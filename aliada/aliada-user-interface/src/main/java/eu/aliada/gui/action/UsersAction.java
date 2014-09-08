@@ -303,7 +303,7 @@ public class UsersAction extends ActionSupport{
         try {
             connection = new DBConnectionManager().getConnection();
         	Statement statement = connection.createStatement();
-            ResultSet rs = statement.executeQuery("select * from ALIADA.t_user_role");
+            ResultSet rs = statement.executeQuery("select * from aliada.t_user_role");
             while (rs.next()) {
                 int code = rs.getInt("user_role_code");
                 String name = rs.getString("user_role");
@@ -331,7 +331,7 @@ public class UsersAction extends ActionSupport{
         try {
             connection = new DBConnectionManager().getConnection();
         	Statement statement = connection.createStatement();
-            ResultSet rs = statement.executeQuery("select * from ALIADA.t_user_type");
+            ResultSet rs = statement.executeQuery("select * from aliada.t_user_type");
             while (rs.next()) {
                 int code = rs.getInt("user_type_code");
                 String name = rs.getString("user_type");
