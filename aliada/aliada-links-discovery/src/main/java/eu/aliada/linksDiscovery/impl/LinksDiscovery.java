@@ -154,7 +154,7 @@ public class LinksDiscovery {
 			FileWriter fstream = new FileWriter(crontabFilename);
 			BufferedWriter out = new BufferedWriter(fstream);
 			// Execute system command "crontab -l"
-/*	    	String command = "crontab -l";
+	    	String command = "crontab -l";
 	    	try {
 		    	String s = null;
 	  	    	Process crontabList = Runtime.getRuntime().exec(command);
@@ -166,7 +166,7 @@ public class LinksDiscovery {
 	    	} catch (IOException exception) {
 		    	crontabFilename = null;
 		    	logger.error(MessageCatalog._00033_EXTERNAL_PROCESS_START_FAILURE, exception, command);
-		    }*/
+		    }
 	    	out.close();
 		} catch (IOException exception) {
 			logger.error(MessageCatalog._00034_FILE_CREATION_FAILURE, exception, crontabFilename);
