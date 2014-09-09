@@ -67,7 +67,6 @@ public class InstitutionConfigurationAction extends ActionSupport {
                 setOrganisation_catalog_url(rs
                         .getString("organisation_catalog_url"));
             }
-            logger.debug("Organisation selected: " + getOrganisation_name());
             statement.close();
             connection.close();
             return SUCCESS;
@@ -107,6 +106,7 @@ public class InstitutionConfigurationAction extends ActionSupport {
             }
             preparedStatement.setString(6, this.organisation_catalog_url);
             preparedStatement.executeUpdate();
+            addActionMessage(getText("institution.added"));
             preparedStatement.close();
 //            }
 //            else{

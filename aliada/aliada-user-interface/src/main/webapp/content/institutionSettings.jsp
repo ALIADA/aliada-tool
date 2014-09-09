@@ -37,6 +37,7 @@
 				</tr>
 			</table>
 		</div>
+		<html:actionmessage/>
 	</div>
 	<div id="submitButtons" class="buttons row">
 		<html:form id="submitButtonsForm">
