@@ -45,6 +45,14 @@ public class LinkingAction extends ActionSupport {
     private final Log logger = new Log(LinkingAction.class);
 
     public String execute() {
+        CheckRDFizerAction checkRDF = new CheckRDFizerAction();
+        try {
+            checkRDF.getInfo();
+        } catch (IOException e) {
+            logger.debug(MessageCatalog._00012_IO_EXCEPTION);
+            e.printStackTrace();
+            return ERROR;
+        }
         rdfizerJobs = (List<Integer>) ServletActionContext.getRequest()
                 .getSession().getAttribute("filesToLink");
         if (rdfizerJobs == null) {
@@ -105,7 +113,7 @@ public class LinkingAction extends ActionSupport {
             con = new DBConnectionManager().getConnection();
             Statement st = con.createStatement();
             ResultSet rs = st
-                    .executeQuery("select * from ALIADA.t_external_dataset");
+                    .executeQuery("select * from aliada.t_external_dataset");
             while (rs.next()) {
                 int code = rs.getInt("external_dataset_code");
                 String name = rs.getString("external_dataset_name");

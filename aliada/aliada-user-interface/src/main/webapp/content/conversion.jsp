@@ -12,7 +12,20 @@
 				<th><label class="bold"><html:text name="conversion.template"/></label></th>
 			</tr>
 			<tr>
-				<td><html:property value="importFile.getName()" /></td>
+				<td>
+					<div <html:if test="!showRdfizerButton && !showCheckButton">class="displayInline"</html:if>
+						<html:else>
+						    class="displayNo"
+						</html:else>>
+						<html:text name="conversion.not.file"/>
+					</div>
+					<div <html:if test="!showRdfizerButton && !showCheckButton">class="displayNo"</html:if>
+						<html:else>
+						    class="displayInline"
+						</html:else>>
+						<html:property value="importFile.getName()" />
+					</div>
+				</td>
 				<td><html:select name="templatesSelect"
 						cssClass="inputForm" list="templates" /></td>
 			</tr>

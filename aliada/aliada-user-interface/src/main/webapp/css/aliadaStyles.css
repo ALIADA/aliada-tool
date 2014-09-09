@@ -152,7 +152,7 @@ padding: 10px 7px 10px 10px;
 }
 .submitButton {
 	font-size: 18px;
-	width: 110px;
+	width: 120px;
 	height: 25px;
 }
 .menuButton {
@@ -202,7 +202,6 @@ text-align: right;
 }
 #menu{
 	float:right;
-	margin-right: 50px;
 	margin-top: 70px;
 	
 }

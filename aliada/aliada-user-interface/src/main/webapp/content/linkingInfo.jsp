@@ -15,6 +15,10 @@
 				<html:property value="startDate"/>			
 			</div>
 			<div class="row">
+				<label class="label"><html:text name="linkingInfo.eDate"/></label>
+				<html:property value="endDate"/>			
+			</div>
+			<div class="row">
 				<label class="label"><html:text name="linkingInfo.status"/></label>
 				<html:property value="status"/>			
 			</div>
@@ -33,10 +37,10 @@
 			<div class="row">
 				<html:form>
 					<html:submit action="linkingInfo" cssClass="submitButton button" key="check"/>
-					<html:submit action="lds" cssClass="centeredButton button" key="createURIs" />
-				<html:if test="status.equals('finished')">
+					<html:submit action="lds" cssClass="submitButton button" key="createURIs" />
+				<html:if test="status.equals(getText('linkingInfo.running'))">
 					<script>
-				    	document.getElementById("createURIs").style.visibility = "visible";
+				    	$("#linkingInfo_createURIs").hide();
 				    </script>
 				</html:if>
 				</html:form>		

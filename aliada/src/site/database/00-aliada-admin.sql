@@ -28,7 +28,7 @@ SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 CREATE TABLE IF NOT EXISTS `aliada`.`organisation` (
   	`organisation_name` varchar(32) NOT NULL,
   	`organisation_path` varchar(128) NOT NULL,
-  	`organisation_logo` BLOB NOT NULL,
+  	`organisation_logo` BLOB,
 	`organisation_catalog_url` varchar(128) NOT NULL,
 	`aliada_ontology`  VARCHAR( 245 ) default NULL,
 	`linking_config_file`  VARCHAR( 245 ) default NULL, 
@@ -201,8 +201,8 @@ CREATE TABLE IF NOT EXISTS `aliada`.`t_metadata_scheme` (
 --
 
 INSERT INTO `aliada`.`t_metadata_scheme` (`metadata_code`, `metadata_name`, `metadata_description`, `metadata_conversion_file`) VALUES
-(0, 'MARC21', NULL, 'MARC21slim.xsd'),
-(1, 'LIDO', NULL, 'lido-v1.0.xsd'),
+(0, 'marcxml', NULL, 'MARC21slim.xsd'),
+(1, 'lido', NULL, 'lido-v1.0.xsd'),
 (2, 'Dublin Core', NULL, 'xsd');
 
 -- --------------------------------------------------------
@@ -335,11 +335,153 @@ CREATE TABLE IF NOT EXISTS `aliada`.`xml_tag` (
 -- Volcar la base de datos para la tabla `xml_tag`
 --
 
-INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES
-('001', 0, '', 0),
-('040', 0, '', 0),
-('100', 0, '', 0),
-('245', 1, '', 0);
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('100a', '0', '100a', '0');
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('100t', '0', '100t', '0');   
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('110t', '0', '110t', '0');   
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('111t', '0', '111t', '0');   
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('100k', '0', '100k', '0');   
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('700k', '0', '700k', '0');   
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('100n', '0', '100n', '0');   
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('700n', '0', '700n', '0');   
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('100p', '0', '100p', '0');   
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('700p', '0', '700p', '0');   
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('700t', '0', '700t', '0');   
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('110k', '0', '110k', '0');   
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('710k', '0', '710k', '0');   
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('110n', '0', '110n', '0');   
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('710n', '0', '710n', '0');   
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('110p', '0', '110p', '0');   
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('710p', '0', '710p', '0');   
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('710t', '0', '710t', '0');   
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('111k', '0', '111k', '0');   
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('711k', '0', '711k', '0');   
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('111n', '0', '111n', '0');   
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('711n', '0', '711n', '0');   
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('111p', '0', '111p', '0');   
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('711p', '0', '711p', '0');   
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('711t', '0', '711t', '0');   
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('130a', '0', '130a', '0');   
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('730a', '0', '730a', '0');   
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('830a', '0', '830a', '0');   
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('130k', '0', '130k', '0');   
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('730k', '0', '730k', '0');   
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('830k', '0', '830k', '0');   
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('130v', '0', '130v', '0');   
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('730n', '0', '730n', '0');   
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('830n', '0', '830n', '0');   
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('130p', '0', '130p', '0');   
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('730p', '0', '730p', '0');   
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('830p', '0', '830p', '0');   
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('240a', '0', '240a', '0');   
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('240n', '0', '240n', '0');   
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('240p', '0', '240p', '0');   
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('243a', '0', '243a', '0');   
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('243k', '0', '243k', '0');   
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('243n', '0', '243n', '0');   
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('243p', '0', '243p', '0');   
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('800k', '0', '800k', '0');   
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('810k', '0', '810k', '0');   
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('811k', '0', '811k', '0');   
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('800n', '0', '800n', '0');   
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('810n', '0', '810n', '0');   
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('811n', '0', '811n', '0');   
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('800p', '0', '800p', '0');   
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('810p', '0', '810p', '0');   
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('811p', '0', '811p', '0');   
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('800t', '0', '800t', '0');   
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('810t', '0', '810t', '0');   
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('811t', '0', '811t', '0');    
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('110d', '0', '110d', '0');   
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('710d', '0', '710d', '0');   
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('111d', '0', '111d', '0');   
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('711d', '0', '711d', '0');   
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('130d', '0', '130d', '0');   
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('730d', '0', '730d', '0');   
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('830d', '0', '830d', '0');   
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('240d', '0', '240d', '0');   
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('243d', '0', '243d', '0');   
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('648a', '0', '648a', '0');   
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('810d', '0', '810d', '0');   
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('811d', '0', '811d', '0');   
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('024a', '0', '024a', '0');   
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('024d', '0', '024d', '0');   
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('024z', '0', '024z', '0');   
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('130h', '0', '130h', '0');   
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('240h', '0', '240h', '0');   
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('243h', '0', '243h', '0');   
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('336a', '0', '336a', '0');   
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('336b', '0', '336b', '0');   
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('700h', '0', '700h', '0');   
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('710h', '0', '710h', '0');   
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('711h', '0', '711h', '0');   
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('730h', '0', '730h', '0');   
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('800h', '0', '800h', '0');   
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('811h', '0', '811h', '0');   
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('830h', '0', '830h', '0');   
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('045a', '0', '045a', '0');   
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('045b', '0', '045b', '0');   
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('045c', '0', '045c', '0');   
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('046k', '0', '046k', '0');   
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('046l', '0', '046l', '0');   
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('046o', '0', '046o', '0');   
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('046p', '0', '046p', '0');   
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('100f', '0', '100f', '0');   
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('110f', '0', '110f', '0');   
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('111f', '0', '111f', '0');   
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('130f', '0', '130f', '0');   
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('240f', '0', '240f', '0');   
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('700f', '0', '700f', '0');   
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('710f', '0', '710f', '0');   
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('711f', '0', '711f', '0');   
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('730f', '0', '730f', '0');   
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('800f', '0', '800f', '0');   
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('810f', '0', '810f', '0');   
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('811f', '0', '811f', '0');   
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('830f', '0', '830f', '0');   
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('008[35-38]', '0', '008[35-38]', '0');   
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('100l', '0', '100l', '0');   
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('110l', '0', '110l', '0');   
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('111l', '0', '111l', '0');   
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('130l', '0', '130l', '0');   
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('240l', '0', '240l', '0');   
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('243l', '0', '243l', '0');   
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('377a', '0', '377a', '0');   
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('377l', '0', '377l', '0');   
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('546a', '0', '546a', '0');   
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('700l', '0', '700l', '0');   
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('710l', '0', '710l', '0');   
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('711l', '0', '711l', '0');   
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('730l', '0', '730l', '0');   
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('800l', '0', '800l', '0');   
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('810l', '0', '810l', '0');   
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('830l', '0', '830l', '0');   
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('130o', '0', '130o', '0');   
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('130s', '0', '130s', '0');   
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('240o', '0', '240o', '0');   
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('240s', '0', '240s', '0');   
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('243o', '0', '243o', '0');   
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('243s', '0', '243s', '0');   
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('381a', '0', '381a', '0');   
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('700o', '0', '700o', '0');   
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('700s', '0', '700s', '0');   
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('710o', '0', '710o', '0');   
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('710s', '0', '710s', '0');   
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('711s', '0', '711s', '0');   
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('730o', '0', '730o', '0');   
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('730s', '0', '730s', '0');   
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('800o', '0', '800o', '0');   
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('800s', '0', '800s', '0');   
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('810o', '0', '810o', '0');   
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('810s', '0', '810s', '0');   
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('811s', '0', '811s', '0');   
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('830o', '0', '830o', '0');   
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('830s', '0', '830s', '0');   
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('001', '1', '001', '0');   
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('100(0-1)a-b-c-d-q-u', '0', '100(0-1)a-b-c-d-q-u', '0');   
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('700(0-1)a-b-c-d-q-u', '0', '700(0-1)a-b-c-d-q-u', '0');   
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('100(3)a-c-d-g', '0', '100(3)a-c-d-g', '0');   
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('700(3)a-c-d-g', '0', '700(3)a-c-d-g', '0');   
+INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('852()a', '0', '852()a', '0');   
 
 
 CREATE TABLE IF NOT EXISTS `aliada`.`t_external_dataset` (
