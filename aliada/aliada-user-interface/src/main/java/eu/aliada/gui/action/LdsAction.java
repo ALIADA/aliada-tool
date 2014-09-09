@@ -109,7 +109,7 @@ public class LdsAction extends ActionSupport {
                 URL url;
                 HttpURLConnection conn = null;
                 try {
-                    url = new URL("http://localhost:8889/lds/jobs/");
+                    url = new URL("http://aliada:8080/aliada-linked-data-server-1.0/jobs/");
                     conn = (HttpURLConnection) url.openConnection();
                     conn.setDoOutput(true);
                     conn.setRequestMethod("POST");
@@ -160,7 +160,7 @@ public class LdsAction extends ActionSupport {
         if(session.getAttribute("ldsStarted") != null){
         importFile = (String) session.getAttribute("fileToLink");
         int fileToLinkId = (int) session.getAttribute("fileToLinkId");
-        URL url = new URL("http://localhost:8889/lds/jobs/" + fileToLinkId);
+        URL url = new URL("http://aliada:8080/aliada-linked-data-server-1.0/jobs/" + fileToLinkId);
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod("GET");
         conn.setRequestProperty("Accept", "application/xml");

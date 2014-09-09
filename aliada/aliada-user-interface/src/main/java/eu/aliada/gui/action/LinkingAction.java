@@ -208,7 +208,7 @@ public class LinkingAction extends ActionSupport {
                 URL url;
                 HttpURLConnection conn = null;
                 try {
-                    url = new URL("http://localhost:8890/links-discovery/jobs/");
+                    url = new URL("http://aliada:8080/aliada-links-discovery-1.0/jobs/");
                     conn = (HttpURLConnection) url.openConnection();
                     conn.setDoOutput(true);
                     conn.setRequestMethod("POST");

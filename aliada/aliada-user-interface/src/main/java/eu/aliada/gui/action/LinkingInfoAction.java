@@ -66,7 +66,7 @@ public class LinkingInfoAction extends ActionSupport {
     private void getInfo() throws IOException {
         HttpSession session = ServletActionContext.getRequest().getSession();
         int fileToLinkId = (int) session.getAttribute("fileToLinkId");
-        URL url = new URL("http://localhost:8890/links-discovery/jobs/"+fileToLinkId);
+        URL url = new URL("http://aliada:8080/aliada-links-discovery-1.0/jobs/"+fileToLinkId);
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod("GET");
         conn.setRequestProperty("Accept", "application/xml");

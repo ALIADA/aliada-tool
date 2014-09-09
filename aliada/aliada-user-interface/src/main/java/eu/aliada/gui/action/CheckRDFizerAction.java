@@ -64,7 +64,7 @@ public class CheckRDFizerAction extends ActionSupport {
         HttpSession session = ServletActionContext.getRequest().getSession();
         if(session.getAttribute("rdfizerJobId") != null){
             Integer rdfizerJobId = (int) session.getAttribute("rdfizerJobId");
-            URL url = new URL("http://localhost:8891/rdfizer/jobs/"+rdfizerJobId);
+            URL url = new URL("http://aliada:8080/aliada-rdfizer-1.0/jobs/"+rdfizerJobId);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Accept", "application/xml");
