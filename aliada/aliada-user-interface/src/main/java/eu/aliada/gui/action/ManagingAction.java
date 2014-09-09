@@ -63,10 +63,10 @@ public class ManagingAction extends ActionSupport {
 	private String importFileFileName;
 	private String profilesSelect;
 
-	private static final String VISUALIZE_PATH = "src/main/resources/xmlVisualize/";
-	private static final String VALIDATOR_PATH = "src/main/resources/xmlValidators/";
-	private static final String ERROR_CONTENT_PATH = "src/main/webapp/content/errorContent.jsp";
-	private final Log logger = new Log(ManagingAction.class);
+	private static final String VISUALIZE_PATH = "classes/xmlVisualize/";
+    private static final String VALIDATOR_PATH = "classes/xmlValidators/";
+    private static final String ERROR_CONTENT_PATH = "content/errorContent.jsp";
+    private final Log logger = new Log(ManagingAction.class);
 
 	/**
 	 * The method is to import the file in the institution path and do the input
