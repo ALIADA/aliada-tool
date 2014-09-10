@@ -61,7 +61,7 @@ public class LdsAction extends ActionSupport {
                 logger.debug(MessageCatalog._00040_LDS_STARTED);
                 return getInfoLDS();
             } catch (IOException e) {
-                logger.debug(MessageCatalog._00012_IO_EXCEPTION,e);
+                logger.error(MessageCatalog._00012_IO_EXCEPTION,e);
                 return ERROR;
             }
         } else {
@@ -132,16 +132,16 @@ public class LdsAction extends ActionSupport {
                     session.setAttribute("ldsStarted", true);
                     getInfoLDS();
                 } catch (MalformedURLException e) {
-                    logger.debug(MessageCatalog._00014_MALFORMED_URL_EXCEPTION,e);
+                    logger.error(MessageCatalog._00014_MALFORMED_URL_EXCEPTION,e);
                 } catch (IOException e) {
-                    logger.debug(MessageCatalog._00012_IO_EXCEPTION,e);
+                    logger.error(MessageCatalog._00012_IO_EXCEPTION,e);
                 }
             }
             rs.close();
             statement.close();
             connection.close();  
             } catch (SQLException e) {
-                logger.debug(MessageCatalog._00011_SQL_EXCEPTION,e);
+                logger.error(MessageCatalog._00011_SQL_EXCEPTION,e);
         }
     }
 
@@ -162,7 +162,7 @@ public class LdsAction extends ActionSupport {
         conn.setRequestMethod("GET");
         conn.setRequestProperty("Accept", "application/xml");
         if (conn.getResponseCode() != 202) {
-            logger.debug(MessageCatalog._00015_HTTP_ERROR_CODE + conn.getResponseCode());
+            logger.error(MessageCatalog._00015_HTTP_ERROR_CODE + conn.getResponseCode());
         }
         try {
             XmlParser parser = new XmlParser();

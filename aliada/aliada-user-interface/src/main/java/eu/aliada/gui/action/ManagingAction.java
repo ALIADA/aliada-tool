@@ -170,11 +170,11 @@ public class ManagingAction extends ActionSupport {
 				}
 				connection.close();
 			} catch (SQLException e) {
-				logger.debug(MessageCatalog._00011_SQL_EXCEPTION,e);
+				logger.error(MessageCatalog._00011_SQL_EXCEPTION,e);
 				showProfiles();
 				message = ERROR;
 			} catch (IOException e) {
-			    logger.debug(MessageCatalog._00012_IO_EXCEPTION,e);
+			    logger.error(MessageCatalog._00012_IO_EXCEPTION,e);
 				showProfiles();
 				message = ERROR;
 			}
@@ -233,7 +233,7 @@ public class ManagingAction extends ActionSupport {
 				return ERROR;
 			}
 		} catch (SQLException e) {
-			logger.debug(MessageCatalog._00011_SQL_EXCEPTION,e);
+			logger.error(MessageCatalog._00011_SQL_EXCEPTION,e);
 			showProfiles();
 			return ERROR;
 		}
@@ -264,7 +264,7 @@ public class ManagingAction extends ActionSupport {
 			addActionMessage(getText("profile.edit.ok"));
 			showProfiles();
 		} catch (SQLException e) {
-			logger.debug(MessageCatalog._00011_SQL_EXCEPTION,e);
+			logger.error(MessageCatalog._00011_SQL_EXCEPTION,e);
 			return ERROR;
 		}
 		return SUCCESS;
@@ -293,7 +293,7 @@ public class ManagingAction extends ActionSupport {
 				addActionMessage(getText("profile.delete.ok"));
 			}
 		} catch (SQLException e) {
-			logger.debug(MessageCatalog._00011_SQL_EXCEPTION,e);
+			logger.error(MessageCatalog._00011_SQL_EXCEPTION,e);
 			showProfiles();
 			return ERROR;
 		}
@@ -324,7 +324,7 @@ public class ManagingAction extends ActionSupport {
 			showProfiles();
 			return SUCCESS;
 		} catch (SQLException e) {
-			logger.debug(MessageCatalog._00011_SQL_EXCEPTION,e);
+			logger.error(MessageCatalog._00011_SQL_EXCEPTION,e);
 			return ERROR;
 		}
 	}
@@ -357,7 +357,7 @@ public class ManagingAction extends ActionSupport {
 			statement.close();
 			connection.close();
 		} catch (SQLException e) {
-			logger.debug(MessageCatalog._00011_SQL_EXCEPTION,e);
+			logger.error(MessageCatalog._00011_SQL_EXCEPTION,e);
 			return ERROR;
 		}
 		getSchemesDb();
@@ -398,7 +398,7 @@ public class ManagingAction extends ActionSupport {
 			statement.close();
 			connection.close();
 		} catch (SQLException e) {
-			logger.debug(MessageCatalog._00011_SQL_EXCEPTION,e);
+			logger.error(MessageCatalog._00011_SQL_EXCEPTION,e);
 			return ERROR;
 		}
 		return SUCCESS;
@@ -427,7 +427,7 @@ public class ManagingAction extends ActionSupport {
 			statement.close();
 			connection.close();
 		} catch (SQLException e) {
-			logger.debug(MessageCatalog._00011_SQL_EXCEPTION,e);
+			logger.error(MessageCatalog._00011_SQL_EXCEPTION,e);
 			return ERROR;
 		}
 		return SUCCESS;
@@ -456,7 +456,7 @@ public class ManagingAction extends ActionSupport {
 			statement.close();
 			connection.close();
 		} catch (SQLException e) {
-			logger.debug(MessageCatalog._00011_SQL_EXCEPTION,e);
+			logger.error(MessageCatalog._00011_SQL_EXCEPTION,e);
 			return ERROR;
 		}
 		return SUCCESS;
@@ -485,7 +485,7 @@ public class ManagingAction extends ActionSupport {
 			statement.close();
 			connection.close();
 		} catch (SQLException e) {
-			logger.debug(MessageCatalog._00011_SQL_EXCEPTION,e);
+			logger.error(MessageCatalog._00011_SQL_EXCEPTION,e);
 			return ERROR;
 		}
 		return SUCCESS;
@@ -514,7 +514,7 @@ public class ManagingAction extends ActionSupport {
 			statement.close();
 			connection.close();
 		} catch (SQLException e) {
-			logger.debug(MessageCatalog._00011_SQL_EXCEPTION,e);
+			logger.error(MessageCatalog._00011_SQL_EXCEPTION,e);
 			return ERROR;
 		}
 		return SUCCESS;

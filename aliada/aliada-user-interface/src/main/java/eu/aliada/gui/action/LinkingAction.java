@@ -49,7 +49,7 @@ public class LinkingAction extends ActionSupport {
         try {
             checkRDF.getInfo();
         } catch (IOException e) {
-            logger.debug(MessageCatalog._00012_IO_EXCEPTION,e);
+            logger.error(MessageCatalog._00012_IO_EXCEPTION,e);
             return ERROR;
         }
         rdfizerJobs = (List<Integer>) ServletActionContext.getRequest()
@@ -93,7 +93,7 @@ public class LinkingAction extends ActionSupport {
             }
             con.close();
         } catch (SQLException e) {
-            logger.debug(MessageCatalog._00011_SQL_EXCEPTION,e);
+            logger.error(MessageCatalog._00011_SQL_EXCEPTION,e);
         }
         return filesToLink;
     }
@@ -121,7 +121,7 @@ public class LinkingAction extends ActionSupport {
             st.close();
             con.close();
         } catch (SQLException e) {
-            logger.debug(MessageCatalog._00011_SQL_EXCEPTION,e);
+            logger.error(MessageCatalog._00011_SQL_EXCEPTION,e);
             return ERROR;
         }
         return SUCCESS;
@@ -231,13 +231,13 @@ public class LinkingAction extends ActionSupport {
                     }
                     conn.disconnect();
                 } catch (MalformedURLException e) {
-                    logger.debug(MessageCatalog._00014_MALFORMED_URL_EXCEPTION,e);
+                    logger.error(MessageCatalog._00014_MALFORMED_URL_EXCEPTION,e);
                 } catch (IOException e) {
-                    logger.debug(MessageCatalog._00012_IO_EXCEPTION,e);
+                    logger.error(MessageCatalog._00012_IO_EXCEPTION,e);
                 }
             }
         } catch (SQLException e) {
-            logger.debug(MessageCatalog._00011_SQL_EXCEPTION,e);
+            logger.error(MessageCatalog._00011_SQL_EXCEPTION,e);
         }
 
     }

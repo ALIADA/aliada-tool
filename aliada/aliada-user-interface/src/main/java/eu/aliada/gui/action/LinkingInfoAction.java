@@ -70,7 +70,7 @@ public class LinkingInfoAction extends ActionSupport {
         conn.setRequestMethod("GET");
         conn.setRequestProperty("Accept", "application/xml");
         if (conn.getResponseCode() != 202) {
-            logger.debug(MessageCatalog._00015_HTTP_ERROR_CODE
+            logger.error(MessageCatalog._00015_HTTP_ERROR_CODE
                     + conn.getResponseCode());
         }
         try {
@@ -118,7 +118,7 @@ public class LinkingInfoAction extends ActionSupport {
                 this.setDatasets(datasets);
             }           
           } catch (Exception e) {
-            logger.debug(MessageCatalog._00016_ERROR_READING_XML,e);
+            logger.error(MessageCatalog._00016_ERROR_READING_XML,e);
             conn.disconnect();
         }
         conn.disconnect();

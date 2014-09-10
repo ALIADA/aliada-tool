@@ -48,7 +48,7 @@ public class CheckRDFizerAction extends ActionSupport {
         try {
             getInfo();
         } catch (IOException ex) {
-            logger.debug(MessageCatalog._00012_IO_EXCEPTION,ex);
+            logger.error(MessageCatalog._00012_IO_EXCEPTION,ex);
             return ERROR;
         }
         return SUCCESS;
@@ -69,7 +69,7 @@ public class CheckRDFizerAction extends ActionSupport {
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Accept", "application/xml");
             if (conn.getResponseCode() != 200) {
-                logger.debug(MessageCatalog._00015_HTTP_ERROR_CODE
+                logger.error(MessageCatalog._00015_HTTP_ERROR_CODE
                         + conn.getResponseCode());
             }
             try {
@@ -108,7 +108,7 @@ public class CheckRDFizerAction extends ActionSupport {
                      }
                 }            
           } catch (Exception e) {
-              logger.debug(MessageCatalog._00016_ERROR_READING_XML,e);
+              logger.error(MessageCatalog._00016_ERROR_READING_XML,e);
               conn.disconnect();
           }
             conn.disconnect();
