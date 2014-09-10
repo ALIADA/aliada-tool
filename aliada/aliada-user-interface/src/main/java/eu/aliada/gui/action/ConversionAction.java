@@ -93,7 +93,7 @@ public class ConversionAction extends ActionSupport {
             connection = new DBConnectionManager().getConnection();
             Statement statement = connection.createStatement();
             ResultSet rs = statement
-                    .executeQuery("select aliada_ontology,sparql_endpoint_uri,sparql_endpoint_login,sparql_endpoint_password,graph_uri from organisation");
+                    .executeQuery("select aliada_ontology,sparql_endpoint_uri,sparql_endpoint_login,sparql_endpoint_password,graph_uri,dataset_base from organisation");
             if (rs.next()) {
                 RDFStoreDAO store = new RDFStoreDAO();
 //                if(store.clearGraphBySparql(rs.getString("sparql_endpoint_uri"), rs.getString("sparql_endpoint_login"), rs.getString("sparql_endpoint_password"), rs.getString("graph_uri"))){
