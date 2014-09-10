@@ -99,15 +99,16 @@ public class ConversionAction extends ActionSupport {
 //                if(store.clearGraphBySparql(rs.getString("sparql_endpoint_uri"), rs.getString("sparql_endpoint_login"), rs.getString("sparql_endpoint_password"), rs.getString("graph_uri"))){
                     PreparedStatement preparedStatement = connection
                             .prepareStatement(
-                                    "INSERT INTO aliada.rdfizer_job_instances (datafile,format,namespace,aliada_ontology,sparql_endpoint_uri,sparql_endpoint_login,sparql_endpoint_password) VALUES(?,?,?,?,?,?,?)",
+                                    "INSERT INTO aliada.rdfizer_job_instances (datafile,format,namespace,graph_name,aliada_ontology,sparql_endpoint_uri,sparql_endpoint_login,sparql_endpoint_password) VALUES(?,?,?,?,?,?,?,?)",
                                     PreparedStatement.RETURN_GENERATED_KEYS);
                     preparedStatement.setString(1, importFile.getAbsolutePath());
                     preparedStatement.setString(2, format);
-                    preparedStatement.setString(3, rs.getString("graph_uri"));
-                    preparedStatement.setString(4, rs.getString("aliada_ontology"));
-                    preparedStatement.setString(5, rs.getString("sparql_endpoint_uri"));
-                    preparedStatement.setString(6, rs.getString("sparql_endpoint_login"));
-                    preparedStatement.setString(7, rs.getString("sparql_endpoint_password"));
+                    preparedStatement.setString(3, rs.getString("dataset_base"));
+                    preparedStatement.setString(4, rs.getString("graph_uri"));
+                    preparedStatement.setString(5, rs.getString("aliada_ontology"));
+                    preparedStatement.setString(6, rs.getString("sparql_endpoint_uri"));
+                    preparedStatement.setString(7, rs.getString("sparql_endpoint_login"));
+                    preparedStatement.setString(8, rs.getString("sparql_endpoint_password"));
                     preparedStatement.executeUpdate();
                     ResultSet rs2 = preparedStatement.getGeneratedKeys();
                     int addedId = 0;
