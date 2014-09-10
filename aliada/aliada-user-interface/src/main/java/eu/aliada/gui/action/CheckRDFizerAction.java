@@ -48,7 +48,7 @@ public class CheckRDFizerAction extends ActionSupport {
         try {
             getInfo();
         } catch (IOException ex) {
-            ex.printStackTrace();
+            logger.debug(MessageCatalog._00012_IO_EXCEPTION,ex);
             return ERROR;
         }
         return SUCCESS;
@@ -108,8 +108,7 @@ public class CheckRDFizerAction extends ActionSupport {
                      }
                 }            
           } catch (Exception e) {
-              logger.debug(MessageCatalog._00016_ERROR_READING_XML);
-              e.printStackTrace();
+              logger.debug(MessageCatalog._00016_ERROR_READING_XML,e);
               conn.disconnect();
           }
             conn.disconnect();

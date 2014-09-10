@@ -83,8 +83,7 @@ public class UsersAction extends ActionSupport{
                 addActionMessage(getText("user.delete.ok"));
             }
         } catch (SQLException e) {
-            logger.debug(MessageCatalog._00011_SQL_EXCEPTION);
-            e.printStackTrace();
+            logger.debug(MessageCatalog._00011_SQL_EXCEPTION,e);
             getUsersDb();
             return ERROR;
         }
@@ -128,8 +127,7 @@ public class UsersAction extends ActionSupport{
                 return ERROR;
             }
         } catch (SQLException e) {
-            logger.debug(MessageCatalog._00011_SQL_EXCEPTION);
-            e.printStackTrace();
+            logger.debug(MessageCatalog._00011_SQL_EXCEPTION,e);
             getUsersDb();
             return ERROR;
         }        
@@ -170,8 +168,7 @@ public class UsersAction extends ActionSupport{
                 setAreUsers(true);
             }
         } catch (SQLException e) {
-            logger.debug(MessageCatalog._00011_SQL_EXCEPTION);
-            e.printStackTrace();
+            logger.debug(MessageCatalog._00011_SQL_EXCEPTION,e);
             return ERROR;
         }
         this.showAddForm=false;
@@ -208,8 +205,7 @@ public class UsersAction extends ActionSupport{
                 return ERROR;
             }         	
         } catch (SQLException e) {
-            logger.debug(MessageCatalog._00011_SQL_EXCEPTION);
-            e.printStackTrace();
+            logger.debug(MessageCatalog._00011_SQL_EXCEPTION,e);
             return ERROR;
         }
         return SUCCESS;        
@@ -232,8 +228,7 @@ public class UsersAction extends ActionSupport{
             connection.close();
             getUsersDb();
         } catch (SQLException e) {
-            logger.debug(MessageCatalog._00011_SQL_EXCEPTION);
-            e.printStackTrace();
+            logger.debug(MessageCatalog._00011_SQL_EXCEPTION,e);
             getUsersDb();
             return ERROR;
         }
@@ -259,8 +254,7 @@ public class UsersAction extends ActionSupport{
                 return userRole;
             }
         } catch (SQLException e) {
-            logger.debug(MessageCatalog._00011_SQL_EXCEPTION);
-            e.printStackTrace();
+            logger.debug(MessageCatalog._00011_SQL_EXCEPTION,e);
             return ERROR;
         }
         return null;
@@ -285,8 +279,7 @@ public class UsersAction extends ActionSupport{
                 return userType;
             }
         } catch (SQLException e) {
-            logger.debug(MessageCatalog._00011_SQL_EXCEPTION);
-            e.printStackTrace();
+            logger.debug(MessageCatalog._00011_SQL_EXCEPTION,e);
             return ERROR;
         }
         return null;
@@ -313,8 +306,7 @@ public class UsersAction extends ActionSupport{
             statement.close();
             connection.close();
         } catch (SQLException e) {
-            logger.debug(MessageCatalog._00011_SQL_EXCEPTION);
-            e.printStackTrace();
+            logger.debug(MessageCatalog._00011_SQL_EXCEPTION,e);
             return ERROR;
         }
         return SUCCESS;   
@@ -341,8 +333,7 @@ public class UsersAction extends ActionSupport{
             statement.close();
             connection.close();
         } catch (SQLException e) {
-            logger.debug(MessageCatalog._00011_SQL_EXCEPTION);
-            e.printStackTrace();
+            logger.debug(MessageCatalog._00011_SQL_EXCEPTION,e);
         }
         return SUCCESS;   
     }

@@ -71,8 +71,7 @@ public class InstitutionConfigurationAction extends ActionSupport {
             connection.close();
             return SUCCESS;
         } catch (SQLException e) {
-            logger.debug(MessageCatalog._00011_SQL_EXCEPTION);
-            e.printStackTrace();
+            logger.debug(MessageCatalog._00011_SQL_EXCEPTION,e);
             return ERROR;
         }
     }
@@ -117,12 +116,10 @@ public class InstitutionConfigurationAction extends ActionSupport {
             connection.close();
             return SUCCESS;
         } catch (SQLException e) {
-            logger.debug(MessageCatalog._00011_SQL_EXCEPTION);
-            e.printStackTrace();
+            logger.debug(MessageCatalog._00011_SQL_EXCEPTION,e);
             return ERROR;
         } catch (FileNotFoundException e) {
-            logger.error(MessageCatalog._00013_FILE_NOT_FOUND_EXCEPTION);
-            e.printStackTrace();
+            logger.error(MessageCatalog._00013_FILE_NOT_FOUND_EXCEPTION,e);
             return ERROR;
         }
     }
@@ -139,8 +136,7 @@ public class InstitutionConfigurationAction extends ActionSupport {
             response.getOutputStream().write(buffer, 0, len);
             response.getOutputStream().flush();
         } catch (SQLException | IOException e) {
-            logger.debug(MessageCatalog._00011_SQL_EXCEPTION);
-            e.printStackTrace();
+            logger.debug(MessageCatalog._00011_SQL_EXCEPTION,e);
         }
     }
 

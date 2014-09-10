@@ -58,10 +58,10 @@ public class LdsAction extends ActionSupport {
         if (importFile != null) {
             createJobLDS(importFile);
             try {
+                logger.debug(MessageCatalog._00040_LDS_STARTED);
                 return getInfoLDS();
             } catch (IOException e) {
-                logger.debug(MessageCatalog._00012_IO_EXCEPTION);
-                e.printStackTrace();
+                logger.debug(MessageCatalog._00012_IO_EXCEPTION,e);
                 return ERROR;
             }
         } else {
@@ -132,19 +132,16 @@ public class LdsAction extends ActionSupport {
                     session.setAttribute("ldsStarted", true);
                     getInfoLDS();
                 } catch (MalformedURLException e) {
-                    logger.debug(MessageCatalog._00014_MALFORMED_URL_EXCEPTION);                    
-                    e.printStackTrace();
+                    logger.debug(MessageCatalog._00014_MALFORMED_URL_EXCEPTION,e);
                 } catch (IOException e) {
-                    logger.debug(MessageCatalog._00012_IO_EXCEPTION);
-                    e.printStackTrace();
+                    logger.debug(MessageCatalog._00012_IO_EXCEPTION,e);
                 }
             }
             rs.close();
             statement.close();
             connection.close();  
             } catch (SQLException e) {
-                logger.debug(MessageCatalog._00011_SQL_EXCEPTION);
-                e.printStackTrace();
+                logger.debug(MessageCatalog._00011_SQL_EXCEPTION,e);
         }
     }
 
@@ -196,8 +193,7 @@ public class LdsAction extends ActionSupport {
             conn.disconnect();
             return SUCCESS;
         } catch (Exception e) {
-            logger.error(MessageCatalog._00016_ERROR_READING_XML);
-            e.printStackTrace();
+            logger.error(MessageCatalog._00016_ERROR_READING_XML,e);
             conn.disconnect();
             return ERROR;
         }

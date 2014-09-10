@@ -51,8 +51,7 @@ public class LinkingInfoAction extends ActionSupport {
         try {
             getInfo();
         } catch (IOException e) {
-            logger.error(MessageCatalog._00012_IO_EXCEPTION);
-            e.printStackTrace();
+            logger.error(MessageCatalog._00012_IO_EXCEPTION,e);
             return ERROR;
         } 
         return SUCCESS;
@@ -119,8 +118,7 @@ public class LinkingInfoAction extends ActionSupport {
                 this.setDatasets(datasets);
             }           
           } catch (Exception e) {
-            logger.debug(MessageCatalog._00016_ERROR_READING_XML);
-            e.printStackTrace();
+            logger.debug(MessageCatalog._00016_ERROR_READING_XML,e);
             conn.disconnect();
         }
         conn.disconnect();

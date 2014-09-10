@@ -40,6 +40,10 @@ public interface MessageCatalog {
     
     String _00030_CONVERSION_RDFIZE_ENABLE = LT + MODULE_NAME + "-00030> : RDFizer enabled";
     String _00031_CONVERSION_RDFIZE_JOB = LT + MODULE_NAME + "-00031> : RDFizer job created";
+    
+    String _00040_LDS_STARTED = LT + MODULE_NAME + "-00040> : LDS started";
+    
+    String _00050_LINKING_JOB= LT + MODULE_NAME + "-00040> : Link discovery started";
 
     
     String _00100_EXCEPTION = LT + MODULE_NAME + "-00100> : Exception. See below for further details.";

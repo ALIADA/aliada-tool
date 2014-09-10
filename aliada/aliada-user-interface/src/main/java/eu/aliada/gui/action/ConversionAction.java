@@ -119,8 +119,7 @@ public class ConversionAction extends ActionSupport {
                         enableRdfizer();
                         createJob(addedId);
                     } catch (IOException e) {
-                        logger.debug(MessageCatalog._00012_IO_EXCEPTION);
-                        e.printStackTrace();
+                        logger.debug(MessageCatalog._00012_IO_EXCEPTION,e);
                         getTemplatesDb();
                         rs2.close();
                         preparedStatement.close();
@@ -146,8 +145,7 @@ public class ConversionAction extends ActionSupport {
 //                return ERROR;
 //            }
         } catch (SQLException e) {
-            logger.debug(MessageCatalog._00011_SQL_EXCEPTION);
-            e.printStackTrace();
+            logger.debug(MessageCatalog._00011_SQL_EXCEPTION,e);
             getTemplatesDb();
             return ERROR;
         }
@@ -250,8 +248,7 @@ public class ConversionAction extends ActionSupport {
                 setAreTemplates(true);
             }
         } catch (SQLException e) {
-            logger.debug(MessageCatalog._00011_SQL_EXCEPTION);
-            e.printStackTrace();
+            logger.debug(MessageCatalog._00011_SQL_EXCEPTION,e);
             return ERROR;
         }
         return SUCCESS;
@@ -307,8 +304,7 @@ public class ConversionAction extends ActionSupport {
             getTemplatesDb();
             return SUCCESS;
         } catch (SQLException e) {
-            logger.debug(MessageCatalog._00011_SQL_EXCEPTION);
-            e.printStackTrace();
+            logger.debug(MessageCatalog._00011_SQL_EXCEPTION,e);
             getTemplatesDb();
             return ERROR;
         }
@@ -343,8 +339,7 @@ public class ConversionAction extends ActionSupport {
             }
         } catch (SQLException e) {
             getTemplatesDb();
-            logger.debug(MessageCatalog._00011_SQL_EXCEPTION);
-            e.printStackTrace();
+            logger.debug(MessageCatalog._00011_SQL_EXCEPTION,e);
             return ERROR;
         }
         getTemplatesDb();
@@ -388,8 +383,7 @@ public class ConversionAction extends ActionSupport {
                 return ERROR;
             }
         } catch (SQLException e) {
-            logger.debug(MessageCatalog._00011_SQL_EXCEPTION);
-            e.printStackTrace();
+            logger.debug(MessageCatalog._00011_SQL_EXCEPTION,e);
             getTemplatesDb();
             getTagsDb(NOTEMPLATESELECTED);
             return ERROR;
@@ -433,8 +427,7 @@ public class ConversionAction extends ActionSupport {
             addActionMessage(getText("template.save.ok"));
             getTemplatesDb();
         } catch (SQLException e) {
-            logger.debug(MessageCatalog._00011_SQL_EXCEPTION);
-            e.printStackTrace();
+            logger.debug(MessageCatalog._00011_SQL_EXCEPTION,e);
             setShowEditTemplateForm(false);
             return ERROR;
         }
@@ -489,8 +482,7 @@ public class ConversionAction extends ActionSupport {
             statement.close();
             connection.close();
         } catch (SQLException e) {
-            logger.debug(MessageCatalog._00011_SQL_EXCEPTION);
-            e.printStackTrace();
+            logger.debug(MessageCatalog._00011_SQL_EXCEPTION,e);
         }
     }
 
