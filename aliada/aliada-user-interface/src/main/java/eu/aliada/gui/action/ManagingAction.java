@@ -126,8 +126,6 @@ public class ManagingAction extends ActionSupport {
 					if (vx.toStyledDocument(importFile.getPath(),
 							VISUALIZE_PATH + visualizeTypePath,
 							ERROR_CONTENT_PATH)) {
-						logger.debug("EL FICHERO ES "
-								+ CheckImportError.isFileCorrect());
 
 						if (!CheckImportError.isFileCorrect()) {
 							addActionError(getText("err.not.validated"));
@@ -147,6 +145,7 @@ public class ManagingAction extends ActionSupport {
 							FileUtils.copyFile(this.importFile, fileCreated);
 							session.setAttribute("importFile", fileCreated);
 							session.setAttribute("profile", this.profilesSelect);
+							logger.debug(MessageCatalog._00026_MANAGE_VALIDATED);
 							addActionMessage(getText("correct.file"));
 							showProfiles();
 							setShowNextButton(true);
