@@ -118,6 +118,8 @@ public class ConversionAction extends ActionSupport {
                         enableRdfizer();
                         createJob(addedId);
                     } catch (IOException e) {
+                        logger.debug(MessageCatalog._00012_IO_EXCEPTION);
+                        e.printStackTrace();
                         getTemplatesDb();
                         rs2.close();
                         preparedStatement.close();
@@ -194,6 +196,7 @@ public class ConversionAction extends ActionSupport {
             throw new RuntimeException("Failed : HTTP error code : "
                     + conn.getResponseCode());
         }
+        logger.debug(MessageCatalog._00030_CONVERSION_RDFIZE_ENABLE);
         conn.disconnect();
     }
 
@@ -213,6 +216,7 @@ public class ConversionAction extends ActionSupport {
             throw new RuntimeException("Failed : HTTP error code : "
                     + conn.getResponseCode());
         }
+        logger.debug(MessageCatalog._00031_CONVERSION_RDFIZE_JOB);
         setShowRdfizerButton(false);
         conn.disconnect();
     }
