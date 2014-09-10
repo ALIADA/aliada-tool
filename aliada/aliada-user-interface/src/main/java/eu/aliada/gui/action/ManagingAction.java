@@ -63,8 +63,8 @@ public class ManagingAction extends ActionSupport {
 	private String importFileFileName;
 	private String profilesSelect;
 
-	private static final String VISUALIZE_PATH = "classes/xmlVisualize/";
-    private static final String VALIDATOR_PATH = "classes/xmlValidators/";
+	private static final String VISUALIZE_PATH = "WEB-INF/classes/xmlVisualize/";
+    private static final String VALIDATOR_PATH = "WEB-INF/classes/xmlValidators/";
     private static final String ERROR_CONTENT_PATH = "content/errorContent.jsp";
     private final Log logger = new Log(ManagingAction.class);
 
