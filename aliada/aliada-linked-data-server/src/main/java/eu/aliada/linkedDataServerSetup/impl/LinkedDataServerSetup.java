@@ -104,15 +104,15 @@ public class LinkedDataServerSetup {
 	 * @since 1.0
 	 */
 	public Job setup(JobConfiguration jobConf, DBConnectionManager db) {
-		logger.info(MessageCatalog._00030_STARTING);
+		logger.debug(MessageCatalog._00030_STARTING);
 		//Update job start-date in DDBB
 		db.updateJobStartDate(jobConf.getId());
 		//Get ISQL commands file for rewriting rules in Virtuoso
-		logger.info(MessageCatalog._00036_GET_ISQL_COMMANDS_FILE);
+		logger.debug(MessageCatalog._00036_GET_ISQL_COMMANDS_FILE);
 		String isqlCommandsFilename = getIsqlCommandsFile(jobConf);
 		if (isqlCommandsFilename != null){
 			//URLEncode and prepare some command parameters for Virtuoso Rewrite Rules
-			logger.info(MessageCatalog._00037_ENCODE_PARAMS);
+			logger.debug(MessageCatalog._00037_ENCODE_PARAMS);
 			boolean encoded = encodeParams(jobConf);
 			if(encoded) {
 				//Compose ISQL command execution statement
@@ -124,7 +124,7 @@ public class LinkedDataServerSetup {
 						datasetBase_encoded, graph_encoded);
 				//Execute ISQL command
 				try {
-					logger.info(MessageCatalog._00040_EXECUTING_ISQL);
+					logger.debug(MessageCatalog._00040_EXECUTING_ISQL);
 					Process commandProcess = Runtime.getRuntime().exec(isqlCommand);
 					BufferedReader stdInput = new BufferedReader(new InputStreamReader(commandProcess.getInputStream()));
 					String s = "";
@@ -138,10 +138,10 @@ public class LinkedDataServerSetup {
 		}
 		
 		//Update job end_date of DDBB
-		logger.info(MessageCatalog._00057_UPDATING_JOB_DDBB, jobConf.getId());
+		logger.debug(MessageCatalog._00057_UPDATING_JOB_DDBB, jobConf.getId());
 		db.updateJobEndDate(jobConf.getId());
 		Job job = db.getJob(jobConf.getId());
-		logger.info(MessageCatalog._00041_STOPPED);
+		logger.debug(MessageCatalog._00041_STOPPED);
 		return job;
 	}
 
