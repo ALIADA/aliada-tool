@@ -41,6 +41,7 @@ public interface MessageCatalog {
     
     String _00030_CONVERSION_RDFIZE_ENABLE = LT + MODULE_NAME + "-00030> : RDFizer enabled";
     String _00031_CONVERSION_RDFIZE_JOB = LT + MODULE_NAME + "-00031> : RDFizer job created";
+    String _00032_CONVERSION_ERROR_CLEARING_GRAPH = LT + MODULE_NAME + "-00032> : Error clearing graph";
     
     String _00040_LDS_STARTED = LT + MODULE_NAME + "-00040> : LDS started";
     

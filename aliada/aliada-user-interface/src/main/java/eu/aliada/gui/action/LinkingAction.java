@@ -174,26 +174,20 @@ public class LinkingAction extends ActionSupport {
                         .prepareStatement(
                                 "INSERT INTO linksdiscovery_job_instances (input_uri, input_login, input_password, input_graph, output_uri, output_login, output_password, output_graph, config_file, rdf_sink_folder, rdf_sink_login, rdf_sink_password, tmp_dir, client_app_bin_dir) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
                                 PreparedStatement.RETURN_GENERATED_KEYS);
-                preparedStatement.setString(1,
-                        rs.getString("sparql_endpoint_uri"));
+                preparedStatement.setString(1,rs.getString("sparql_endpoint_uri"));
                 preparedStatement.setString(2, null);
                 preparedStatement.setString(3, null);
                 preparedStatement.setString(4, rs.getString("graph_uri"));
-                preparedStatement.setString(5,
-                        rs.getString("sparql_endpoint_uri"));
-                preparedStatement.setString(6,
-                        rs.getString("sparql_endpoint_login"));
-                preparedStatement.setString(7,
-                        rs.getString("sparql_endpoint_password"));
+                preparedStatement.setString(5, rs.getString("sparql_endpoint_uri"));
+                preparedStatement.setString(6, rs.getString("sparql_endpoint_login"));
+                preparedStatement.setString(7, rs.getString("sparql_endpoint_password"));
                 preparedStatement.setString(8, rs.getString("graph_uri"));
-                preparedStatement.setString(9,
-                        rs.getString("linking_config_file"));
+                preparedStatement.setString(9, rs.getString("linking_config_file"));
                 preparedStatement.setString(10, null);
                 preparedStatement.setString(11, null);
                 preparedStatement.setString(12, null);
                 preparedStatement.setString(13, rs.getString("tmp_dir"));
-                preparedStatement.setString(14,
-                        rs.getString("linking_client_app_bin_dir"));
+                preparedStatement.setString(14, rs.getString("linking_client_app_bin_dir"));
                 preparedStatement.executeUpdate();
                 ResultSet rs2 = preparedStatement.getGeneratedKeys();
                 if (rs2.next()) {

@@ -96,7 +96,7 @@ public class ConversionAction extends ActionSupport {
                     .executeQuery("select aliada_ontology,sparql_endpoint_uri,sparql_endpoint_login,sparql_endpoint_password,graph_uri,dataset_base from organisation");
             if (rs.next()) {
                 RDFStoreDAO store = new RDFStoreDAO();
-//                if(store.clearGraphBySparql(rs.getString("sparql_endpoint_uri"), rs.getString("sparql_endpoint_login"), rs.getString("sparql_endpoint_password"), rs.getString("graph_uri"))){
+                if(store.clearGraphBySparql(rs.getString("sparql_endpoint_uri"), rs.getString("sparql_endpoint_login"), rs.getString("sparql_endpoint_password"), rs.getString("graph_uri"))){
                     PreparedStatement preparedStatement = connection
                             .prepareStatement(
                                     "INSERT INTO aliada.rdfizer_job_instances (datafile,format,namespace,graph_name,aliada_ontology,sparql_endpoint_uri,sparql_endpoint_login,sparql_endpoint_password) VALUES(?,?,?,?,?,?,?,?)",
@@ -136,14 +136,14 @@ public class ConversionAction extends ActionSupport {
                     setShowCheckButton(true);
                     return getTemplatesDb();                
                 }
-//            } else {
-//                logger.debug("Configuration file not found");
-//                rs.close();
-//                statement.close();
-//                connection.close();
-//                getTemplatesDb();
-//                return ERROR;
-//            }
+            } else {
+                logger.error(MessageCatalog._00032_CONVERSION_ERROR_CLEARING_GRAPH);
+                rs.close();
+                statement.close();
+                connection.close();
+                getTemplatesDb();
+                return ERROR;
+            }
         } catch (SQLException e) {
             logger.error(MessageCatalog._00011_SQL_EXCEPTION,e);
             getTemplatesDb();
