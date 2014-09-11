@@ -11,12 +11,6 @@
   </Prefixes>
 
   <DataSources>
-	<DataSource id="ALIADA_ds" type="file">
-	  <Param name="file" value="D:\\Proyectos\\023779_ALIADA\\Development\\SILK\\pruebas\\MARCinRDF_freebase.rdf"/>
-	  <Param name="format" value="RDF/XML"/>
-	  <Param name="graph" value=""/>
-	</DataSource>
-
 	<DataSource id="Freebase" type="sparqlEndpoint">
 		<Param name="pageSize" value="1000"/>
 		<Param name="pauseTime" value="0"/>
@@ -58,10 +52,6 @@
 	  <Filter/>
 
 	  <Outputs>
-		 <Output type="file">
-		  <Param name="file" value="aliada_freebase_actor_output.nt"/>
-		  <Param name="format" value="ntriples"/>
-		</Output>
       </Outputs>
 	</Interlink>
 
@@ -88,10 +78,6 @@
 	  <Filter/>
 
 	  <Outputs>
-		 <Output type="file">
-		  <Param name="file" value="aliada_freebase_object_output.nt"/>
-		  <Param name="format" value="ntriples"/>
-		</Output>
       </Outputs>
 	</Interlink>
 
@@ -118,10 +104,6 @@
 	  <Filter/>
 
 	  <Outputs>
-		 <Output type="file">
-		  <Param name="file" value="aliada_freebase_book_output.nt"/>
-		  <Param name="format" value="ntriples"/>
-		</Output>
       </Outputs>
 	</Interlink>
 

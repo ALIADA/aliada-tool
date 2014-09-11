@@ -49,8 +49,7 @@ public class LinkingAction extends ActionSupport {
         try {
             checkRDF.getInfo();
         } catch (IOException e) {
-            logger.debug(MessageCatalog._00012_IO_EXCEPTION);
-            e.printStackTrace();
+            logger.error(MessageCatalog._00012_IO_EXCEPTION,e);
             return ERROR;
         }
         rdfizerJobs = (List<Integer>) ServletActionContext.getRequest()
@@ -94,8 +93,7 @@ public class LinkingAction extends ActionSupport {
             }
             con.close();
         } catch (SQLException e) {
-            logger.debug(MessageCatalog._00011_SQL_EXCEPTION);
-            e.printStackTrace();
+            logger.error(MessageCatalog._00011_SQL_EXCEPTION,e);
         }
         return filesToLink;
     }
@@ -123,8 +121,7 @@ public class LinkingAction extends ActionSupport {
             st.close();
             con.close();
         } catch (SQLException e) {
-            logger.debug(MessageCatalog._00011_SQL_EXCEPTION);
-            e.printStackTrace();
+            logger.error(MessageCatalog._00011_SQL_EXCEPTION,e);
             return ERROR;
         }
         return SUCCESS;
@@ -208,7 +205,7 @@ public class LinkingAction extends ActionSupport {
                 URL url;
                 HttpURLConnection conn = null;
                 try {
-                    url = new URL("http://localhost:8890/links-discovery/jobs/");
+                    url = new URL("http://aliada:8080/aliada-links-discovery-1.0/jobs/");
                     conn = (HttpURLConnection) url.openConnection();
                     conn.setDoOutput(true);
                     conn.setRequestMethod("POST");
@@ -226,6 +223,7 @@ public class LinkingAction extends ActionSupport {
                                 "Failed : HTTP error code : "
                                         + conn.getResponseCode());
                     } else {
+                        logger.debug(MessageCatalog._00050_LINKING_JOB);
                         ServletActionContext.getRequest().getSession()
                                 .setAttribute("fileToLink", fileToLink);
                         ServletActionContext.getRequest().getSession()
@@ -233,16 +231,13 @@ public class LinkingAction extends ActionSupport {
                     }
                     conn.disconnect();
                 } catch (MalformedURLException e) {
-                    logger.debug(MessageCatalog._00014_MALFORMED_URL_EXCEPTION);
-                    e.printStackTrace();
+                    logger.error(MessageCatalog._00014_MALFORMED_URL_EXCEPTION,e);
                 } catch (IOException e) {
-                    logger.debug(MessageCatalog._00012_IO_EXCEPTION);
-                    e.printStackTrace();
+                    logger.error(MessageCatalog._00012_IO_EXCEPTION,e);
                 }
             }
         } catch (SQLException e) {
-            logger.debug(MessageCatalog._00011_SQL_EXCEPTION);
-            e.printStackTrace();
+            logger.error(MessageCatalog._00011_SQL_EXCEPTION,e);
         }
 
     }

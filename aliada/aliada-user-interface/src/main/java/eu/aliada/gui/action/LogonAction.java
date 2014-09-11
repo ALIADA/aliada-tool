@@ -111,8 +111,7 @@ public class LogonAction extends ActionSupport {
 				return ERROR;
 			}
 		} catch (SQLException e) {
-			logger.debug(MessageCatalog._00011_SQL_EXCEPTION);
-			e.printStackTrace();
+			logger.error(MessageCatalog._00011_SQL_EXCEPTION,e);
 		}
 
 		return SUCCESS;

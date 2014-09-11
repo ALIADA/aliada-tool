@@ -51,8 +51,7 @@ public class LinkingInfoAction extends ActionSupport {
         try {
             getInfo();
         } catch (IOException e) {
-            logger.error(MessageCatalog._00012_IO_EXCEPTION);
-            e.printStackTrace();
+            logger.error(MessageCatalog._00012_IO_EXCEPTION,e);
             return ERROR;
         } 
         return SUCCESS;
@@ -66,12 +65,12 @@ public class LinkingInfoAction extends ActionSupport {
     private void getInfo() throws IOException {
         HttpSession session = ServletActionContext.getRequest().getSession();
         int fileToLinkId = (int) session.getAttribute("fileToLinkId");
-        URL url = new URL("http://localhost:8890/links-discovery/jobs/"+fileToLinkId);
+        URL url = new URL("http://aliada:8080/aliada-links-discovery-1.0/jobs/"+fileToLinkId);
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod("GET");
         conn.setRequestProperty("Accept", "application/xml");
         if (conn.getResponseCode() != 202) {
-            logger.debug(MessageCatalog._00015_HTTP_ERROR_CODE
+            logger.error(MessageCatalog._00015_HTTP_ERROR_CODE
                     + conn.getResponseCode());
         }
         try {
@@ -119,8 +118,7 @@ public class LinkingInfoAction extends ActionSupport {
                 this.setDatasets(datasets);
             }           
           } catch (Exception e) {
-            logger.debug(MessageCatalog._00016_ERROR_READING_XML);
-            e.printStackTrace();
+            logger.error(MessageCatalog._00016_ERROR_READING_XML,e);
             conn.disconnect();
         }
         conn.disconnect();

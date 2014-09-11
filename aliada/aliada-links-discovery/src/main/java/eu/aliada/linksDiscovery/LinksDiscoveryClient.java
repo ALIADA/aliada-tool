@@ -20,7 +20,8 @@ import javax.ws.rs.core.Response;
  * @since 1.0
  */
 public class LinksDiscoveryClient {
-	protected String ALIADA_LinksDiscoveryServiceURL = "http://localhost:8890/links-discovery/";
+//	protected String ALIADA_LinksDiscoveryServiceURL = "http://localhost:8890/links-discovery/";
+	protected String ALIADA_LinksDiscoveryServiceURL = "http://aliada.scanbit.net:8080/aliada-links-discovery-1.0/";
 
 	/**
 	 * Implementation of a Links Discovery REST service client application.

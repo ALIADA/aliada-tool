@@ -58,10 +58,10 @@ public class LdsAction extends ActionSupport {
         if (importFile != null) {
             createJobLDS(importFile);
             try {
+                logger.debug(MessageCatalog._00040_LDS_STARTED);
                 return getInfoLDS();
             } catch (IOException e) {
-                logger.debug(MessageCatalog._00012_IO_EXCEPTION);
-                e.printStackTrace();
+                logger.error(MessageCatalog._00012_IO_EXCEPTION,e);
                 return ERROR;
             }
         } else {
@@ -109,7 +109,7 @@ public class LdsAction extends ActionSupport {
                 URL url;
                 HttpURLConnection conn = null;
                 try {
-                    url = new URL("http://localhost:8889/lds/jobs/");
+                    url = new URL("http://aliada:8080/aliada-linked-data-server-1.0/jobs/");
                     conn = (HttpURLConnection) url.openConnection();
                     conn.setDoOutput(true);
                     conn.setRequestMethod("POST");
@@ -132,19 +132,16 @@ public class LdsAction extends ActionSupport {
                     session.setAttribute("ldsStarted", true);
                     getInfoLDS();
                 } catch (MalformedURLException e) {
-                    logger.debug(MessageCatalog._00014_MALFORMED_URL_EXCEPTION);                    
-                    e.printStackTrace();
+                    logger.error(MessageCatalog._00014_MALFORMED_URL_EXCEPTION,e);
                 } catch (IOException e) {
-                    logger.debug(MessageCatalog._00012_IO_EXCEPTION);
-                    e.printStackTrace();
+                    logger.error(MessageCatalog._00012_IO_EXCEPTION,e);
                 }
             }
             rs.close();
             statement.close();
             connection.close();  
             } catch (SQLException e) {
-                logger.debug(MessageCatalog._00011_SQL_EXCEPTION);
-                e.printStackTrace();
+                logger.error(MessageCatalog._00011_SQL_EXCEPTION,e);
         }
     }
 
@@ -160,12 +157,12 @@ public class LdsAction extends ActionSupport {
         if(session.getAttribute("ldsStarted") != null){
         importFile = (String) session.getAttribute("fileToLink");
         int fileToLinkId = (int) session.getAttribute("fileToLinkId");
-        URL url = new URL("http://localhost:8889/lds/jobs/" + fileToLinkId);
+        URL url = new URL("http://aliada:8080/aliada-linked-data-server-1.0/jobs/" + fileToLinkId);
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod("GET");
         conn.setRequestProperty("Accept", "application/xml");
         if (conn.getResponseCode() != 202) {
-            logger.debug(MessageCatalog._00015_HTTP_ERROR_CODE + conn.getResponseCode());
+            logger.error(MessageCatalog._00015_HTTP_ERROR_CODE + conn.getResponseCode());
         }
         try {
             XmlParser parser = new XmlParser();
@@ -196,8 +193,7 @@ public class LdsAction extends ActionSupport {
             conn.disconnect();
             return SUCCESS;
         } catch (Exception e) {
-            logger.error(MessageCatalog._00016_ERROR_READING_XML);
-            e.printStackTrace();
+            logger.error(MessageCatalog._00016_ERROR_READING_XML,e);
             conn.disconnect();
             return ERROR;
         }

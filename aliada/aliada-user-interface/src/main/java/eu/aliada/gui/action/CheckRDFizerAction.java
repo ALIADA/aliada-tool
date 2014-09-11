@@ -48,7 +48,7 @@ public class CheckRDFizerAction extends ActionSupport {
         try {
             getInfo();
         } catch (IOException ex) {
-            ex.printStackTrace();
+            logger.error(MessageCatalog._00012_IO_EXCEPTION,ex);
             return ERROR;
         }
         return SUCCESS;
@@ -64,12 +64,12 @@ public class CheckRDFizerAction extends ActionSupport {
         HttpSession session = ServletActionContext.getRequest().getSession();
         if(session.getAttribute("rdfizerJobId") != null){
             Integer rdfizerJobId = (int) session.getAttribute("rdfizerJobId");
-            URL url = new URL("http://localhost:8891/rdfizer/jobs/"+rdfizerJobId);
+            URL url = new URL("http://aliada:8080/aliada-rdfizer-1.0/jobs/"+rdfizerJobId);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Accept", "application/xml");
             if (conn.getResponseCode() != 200) {
-                logger.debug(MessageCatalog._00015_HTTP_ERROR_CODE
+                logger.error(MessageCatalog._00015_HTTP_ERROR_CODE
                         + conn.getResponseCode());
             }
             try {
@@ -108,8 +108,7 @@ public class CheckRDFizerAction extends ActionSupport {
                      }
                 }            
           } catch (Exception e) {
-              logger.debug(MessageCatalog._00016_ERROR_READING_XML);
-              e.printStackTrace();
+              logger.error(MessageCatalog._00016_ERROR_READING_XML,e);
               conn.disconnect();
           }
             conn.disconnect();

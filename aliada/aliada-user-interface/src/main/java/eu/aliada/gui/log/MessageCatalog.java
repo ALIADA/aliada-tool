@@ -37,6 +37,16 @@ public interface MessageCatalog {
     String _00023_MANAGE_NOT_VALIDATED_BY_VISUALIZE_MANDATORY = LT + MODULE_NAME + "-00023> : The file has not all mandatory tags.";
     String _00024_MANAGE_NOT_VALIDATED_BY_VISUALIZE = LT + MODULE_NAME + "-00024> : The file is invalid by visualization.";
     String _00025_MANAGE_NOT_VALIDATED_BY_VALIDATION = LT + MODULE_NAME + "-00025> : The file is invalid by validation.";
+    String _00026_MANAGE_VALIDATED = LT + MODULE_NAME + "-00026> : Validated file";
+    
+    String _00030_CONVERSION_RDFIZE_ENABLE = LT + MODULE_NAME + "-00030> : RDFizer enabled";
+    String _00031_CONVERSION_RDFIZE_JOB = LT + MODULE_NAME + "-00031> : RDFizer job created";
+    
+    String _00040_LDS_STARTED = LT + MODULE_NAME + "-00040> : LDS started";
+    
+    String _00050_LINKING_JOB= LT + MODULE_NAME + "-00040> : Link discovery started";
+    
+    String _00060_CONVERSION_TEMPLATE_ADDED= LT + MODULE_NAME + "-00060> : Added template";
 
     
     String _00100_EXCEPTION = LT + MODULE_NAME + "-00100> : Exception. See below for further details.";

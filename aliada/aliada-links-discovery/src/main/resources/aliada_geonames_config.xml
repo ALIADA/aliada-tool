@@ -11,12 +11,6 @@
   </Prefixes>
 
   <DataSources>
-	<DataSource id="ALIADA_ds" type="file">
-	  <Param name="file" value="D:\\Proyectos\\023779_ALIADA\\Development\\record_samples\\LIDO\\MFAB\\lidoMFAB-CIDOC-CRM.rdf"/>
-	  <Param name="format" value="RDF/XML"/>
-	  <Param name="graph" value=""/>
-	</DataSource>
-
 	<DataSource id="Geonames" type="sparqlEndpoint">
 		<Param name="pageSize" value="1000"/>
 		<Param name="pauseTime" value="0"/>
@@ -71,10 +65,6 @@
 	  <Filter/>
 
 	  <Outputs>
-		 <Output type="file">
-		  <Param name="file" value="aliada_geonames_place_output.nt"/>
-		  <Param name="format" value="ntriples"/>
-		</Output>
       </Outputs>
 	</Interlink>
 

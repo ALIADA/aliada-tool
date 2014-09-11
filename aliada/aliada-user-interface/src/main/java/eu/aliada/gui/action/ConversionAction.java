@@ -93,21 +93,22 @@ public class ConversionAction extends ActionSupport {
             connection = new DBConnectionManager().getConnection();
             Statement statement = connection.createStatement();
             ResultSet rs = statement
-                    .executeQuery("select aliada_ontology,sparql_endpoint_uri,sparql_endpoint_login,sparql_endpoint_password,graph_uri from organisation");
+                    .executeQuery("select aliada_ontology,sparql_endpoint_uri,sparql_endpoint_login,sparql_endpoint_password,graph_uri,dataset_base from organisation");
             if (rs.next()) {
                 RDFStoreDAO store = new RDFStoreDAO();
 //                if(store.clearGraphBySparql(rs.getString("sparql_endpoint_uri"), rs.getString("sparql_endpoint_login"), rs.getString("sparql_endpoint_password"), rs.getString("graph_uri"))){
                     PreparedStatement preparedStatement = connection
                             .prepareStatement(
-                                    "INSERT INTO aliada.rdfizer_job_instances (datafile,format,namespace,aliada_ontology,sparql_endpoint_uri,sparql_endpoint_login,sparql_endpoint_password) VALUES(?,?,?,?,?,?,?)",
+                                    "INSERT INTO aliada.rdfizer_job_instances (datafile,format,namespace,graph_name,aliada_ontology,sparql_endpoint_uri,sparql_endpoint_login,sparql_endpoint_password) VALUES(?,?,?,?,?,?,?,?)",
                                     PreparedStatement.RETURN_GENERATED_KEYS);
                     preparedStatement.setString(1, importFile.getAbsolutePath());
                     preparedStatement.setString(2, format);
-                    preparedStatement.setString(3, rs.getString("graph_uri"));
-                    preparedStatement.setString(4, rs.getString("aliada_ontology"));
-                    preparedStatement.setString(5, rs.getString("sparql_endpoint_uri"));
-                    preparedStatement.setString(6, rs.getString("sparql_endpoint_login"));
-                    preparedStatement.setString(7, rs.getString("sparql_endpoint_password"));
+                    preparedStatement.setString(3, rs.getString("dataset_base"));
+                    preparedStatement.setString(4, rs.getString("graph_uri"));
+                    preparedStatement.setString(5, rs.getString("aliada_ontology"));
+                    preparedStatement.setString(6, rs.getString("sparql_endpoint_uri"));
+                    preparedStatement.setString(7, rs.getString("sparql_endpoint_login"));
+                    preparedStatement.setString(8, rs.getString("sparql_endpoint_password"));
                     preparedStatement.executeUpdate();
                     ResultSet rs2 = preparedStatement.getGeneratedKeys();
                     int addedId = 0;
@@ -118,6 +119,7 @@ public class ConversionAction extends ActionSupport {
                         enableRdfizer();
                         createJob(addedId);
                     } catch (IOException e) {
+                        logger.error(MessageCatalog._00012_IO_EXCEPTION,e);
                         getTemplatesDb();
                         rs2.close();
                         preparedStatement.close();
@@ -143,8 +145,7 @@ public class ConversionAction extends ActionSupport {
 //                return ERROR;
 //            }
         } catch (SQLException e) {
-            logger.debug(MessageCatalog._00011_SQL_EXCEPTION);
-            e.printStackTrace();
+            logger.error(MessageCatalog._00011_SQL_EXCEPTION,e);
             getTemplatesDb();
             return ERROR;
         }
@@ -186,7 +187,7 @@ public class ConversionAction extends ActionSupport {
      * @since 1.0
      */
     private void enableRdfizer() throws IOException {
-        URL url = new URL("http://localhost:8891/rdfizer/enable/");
+        URL url = new URL("http://aliada:8080/aliada-rdfizer-1.0/enable");
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setDoOutput(true);
         conn.setRequestMethod("PUT");
@@ -194,6 +195,7 @@ public class ConversionAction extends ActionSupport {
             throw new RuntimeException("Failed : HTTP error code : "
                     + conn.getResponseCode());
         }
+        logger.debug(MessageCatalog._00030_CONVERSION_RDFIZE_ENABLE);
         conn.disconnect();
     }
 
@@ -205,7 +207,7 @@ public class ConversionAction extends ActionSupport {
      * @since 1.0
      */
     private void createJob(int addedId) throws IOException {
-        URL url = new URL("http://localhost:8891/rdfizer/jobs/" + addedId);
+        URL url = new URL("http://aliada:8080/aliada-rdfizer-1.0/jobs/" + addedId);
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setDoOutput(true);
         conn.setRequestMethod("PUT");
@@ -213,6 +215,7 @@ public class ConversionAction extends ActionSupport {
             throw new RuntimeException("Failed : HTTP error code : "
                     + conn.getResponseCode());
         }
+        logger.debug(MessageCatalog._00031_CONVERSION_RDFIZE_JOB);
         setShowRdfizerButton(false);
         conn.disconnect();
     }
@@ -245,8 +248,7 @@ public class ConversionAction extends ActionSupport {
                 setAreTemplates(true);
             }
         } catch (SQLException e) {
-            logger.debug(MessageCatalog._00011_SQL_EXCEPTION);
-            e.printStackTrace();
+            logger.error(MessageCatalog._00011_SQL_EXCEPTION,e);
             return ERROR;
         }
         return SUCCESS;
@@ -299,11 +301,11 @@ public class ConversionAction extends ActionSupport {
             connection.close();
             setShowAddTemplateForm(false);
             addActionMessage(getText("template.save.ok"));
+            logger.debug(MessageCatalog._00060_CONVERSION_TEMPLATE_ADDED);
             getTemplatesDb();
             return SUCCESS;
         } catch (SQLException e) {
-            logger.debug(MessageCatalog._00011_SQL_EXCEPTION);
-            e.printStackTrace();
+            logger.error(MessageCatalog._00011_SQL_EXCEPTION,e);
             getTemplatesDb();
             return ERROR;
         }
@@ -338,8 +340,7 @@ public class ConversionAction extends ActionSupport {
             }
         } catch (SQLException e) {
             getTemplatesDb();
-            logger.debug(MessageCatalog._00011_SQL_EXCEPTION);
-            e.printStackTrace();
+            logger.error(MessageCatalog._00011_SQL_EXCEPTION,e);
             return ERROR;
         }
         getTemplatesDb();
@@ -383,8 +384,7 @@ public class ConversionAction extends ActionSupport {
                 return ERROR;
             }
         } catch (SQLException e) {
-            logger.debug(MessageCatalog._00011_SQL_EXCEPTION);
-            e.printStackTrace();
+            logger.error(MessageCatalog._00011_SQL_EXCEPTION,e);
             getTemplatesDb();
             getTagsDb(NOTEMPLATESELECTED);
             return ERROR;
@@ -428,8 +428,7 @@ public class ConversionAction extends ActionSupport {
             addActionMessage(getText("template.save.ok"));
             getTemplatesDb();
         } catch (SQLException e) {
-            logger.debug(MessageCatalog._00011_SQL_EXCEPTION);
-            e.printStackTrace();
+            logger.error(MessageCatalog._00011_SQL_EXCEPTION,e);
             setShowEditTemplateForm(false);
             return ERROR;
         }
@@ -484,8 +483,7 @@ public class ConversionAction extends ActionSupport {
             statement.close();
             connection.close();
         } catch (SQLException e) {
-            logger.debug(MessageCatalog._00011_SQL_EXCEPTION);
-            e.printStackTrace();
+            logger.error(MessageCatalog._00011_SQL_EXCEPTION,e);
         }
     }
 

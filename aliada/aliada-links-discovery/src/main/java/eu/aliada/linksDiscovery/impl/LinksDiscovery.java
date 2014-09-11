@@ -229,10 +229,10 @@ public class LinksDiscovery {
 			inputFileNameNoExt = inputFileName.substring(0, index);
 		else
 			inputFileNameNoExt = inputFileName;
-		String fileNameWithPathNoExt = jobConf.getTmpDir() + File.separator + inputFileNameNoExt;
+		String filePath = jobConf.getTmpDir() + File.separator;
 		//Replace Windows file separator by "/" Java file separator
-		fileNameWithPathNoExt = fileNameWithPathNoExt.replace("\\", "/");
-		String linkingXMLConfigFilename = fileNameWithPathNoExt + System.currentTimeMillis() + ".xml";
+		filePath = filePath.replace("\\", "/");
+		String linkingXMLConfigFilename = filePath + inputFileNameNoExt + System.currentTimeMillis() + ".xml";
 
 		try {
 			//Read XML file
@@ -305,8 +305,8 @@ public class LinksDiscovery {
 					Node interLinkNode = nNode.getParentNode();
 					Element interLinkElem = (Element) interLinkNode;
 					String interLinkId = interLinkElem.getAttribute("id");
-					//String triplesGeneratedFilename = fileNameWithPathNoExt + System.currentTimeMillis() + "output.n3";
-					String triplesGeneratedFilename = subjobName + "_" + interLinkId + "_" + System.currentTimeMillis() + "_output.n3";
+					//String triplesGeneratedFilename = filePath + inputFileNameNoExt + System.currentTimeMillis() + "output.n3";
+					String triplesGeneratedFilename = filePath + subjobName + "_" + interLinkId + "_" + System.currentTimeMillis() + "_output.n3";
 					outputElem = doc.createElement("Output"); 
 					//set attributes to Output element
 					attrType = doc.createAttribute("type"); 

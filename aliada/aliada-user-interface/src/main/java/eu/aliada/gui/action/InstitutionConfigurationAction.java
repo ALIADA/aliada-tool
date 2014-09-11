@@ -67,13 +67,11 @@ public class InstitutionConfigurationAction extends ActionSupport {
                 setOrganisation_catalog_url(rs
                         .getString("organisation_catalog_url"));
             }
-            logger.debug("Organisation selected: " + getOrganisation_name());
             statement.close();
             connection.close();
             return SUCCESS;
         } catch (SQLException e) {
-            logger.debug(MessageCatalog._00011_SQL_EXCEPTION);
-            e.printStackTrace();
+            logger.error(MessageCatalog._00011_SQL_EXCEPTION,e);
             return ERROR;
         }
     }
@@ -107,6 +105,7 @@ public class InstitutionConfigurationAction extends ActionSupport {
             }
             preparedStatement.setString(6, this.organisation_catalog_url);
             preparedStatement.executeUpdate();
+            addActionMessage(getText("institution.added"));
             preparedStatement.close();
 //            }
 //            else{
@@ -117,12 +116,10 @@ public class InstitutionConfigurationAction extends ActionSupport {
             connection.close();
             return SUCCESS;
         } catch (SQLException e) {
-            logger.debug(MessageCatalog._00011_SQL_EXCEPTION);
-            e.printStackTrace();
+            logger.error(MessageCatalog._00011_SQL_EXCEPTION,e);
             return ERROR;
         } catch (FileNotFoundException e) {
-            logger.error(MessageCatalog._00013_FILE_NOT_FOUND_EXCEPTION);
-            e.printStackTrace();
+            logger.error(MessageCatalog._00013_FILE_NOT_FOUND_EXCEPTION,e);
             return ERROR;
         }
     }
@@ -139,8 +136,7 @@ public class InstitutionConfigurationAction extends ActionSupport {
             response.getOutputStream().write(buffer, 0, len);
             response.getOutputStream().flush();
         } catch (SQLException | IOException e) {
-            logger.debug(MessageCatalog._00011_SQL_EXCEPTION);
-            e.printStackTrace();
+            logger.error(MessageCatalog._00011_SQL_EXCEPTION,e);
         }
     }
 

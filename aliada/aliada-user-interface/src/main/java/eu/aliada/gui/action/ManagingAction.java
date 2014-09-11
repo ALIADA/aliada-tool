@@ -63,10 +63,10 @@ public class ManagingAction extends ActionSupport {
 	private String importFileFileName;
 	private String profilesSelect;
 
-	private static final String VISUALIZE_PATH = "src/main/resources/xmlVisualize/";
-	private static final String VALIDATOR_PATH = "src/main/resources/xmlValidators/";
-	private static final String ERROR_CONTENT_PATH = "src/main/webapp/content/errorContent.jsp";
-	private final Log logger = new Log(ManagingAction.class);
+	private static final String VISUALIZE_PATH = "/usr/share/tomcat/webapps/aliada-user-interface-1.0/WEB-INF/classes/xmlVisualize/";
+    private static final String VALIDATOR_PATH = "/usr/share/tomcat/webapps/aliada-user-interface-1.0/WEB-INF/classes/xmlValidators/";
+    private static final String ERROR_CONTENT_PATH = "/usr/share/tomcat/webapps/aliada-user-interface-1.0/content/errorContent.jsp";
+    private final Log logger = new Log(ManagingAction.class);
 
 	/**
 	 * The method is to import the file in the institution path and do the input
@@ -126,8 +126,6 @@ public class ManagingAction extends ActionSupport {
 					if (vx.toStyledDocument(importFile.getPath(),
 							VISUALIZE_PATH + visualizeTypePath,
 							ERROR_CONTENT_PATH)) {
-						logger.debug("EL FICHERO ES "
-								+ CheckImportError.isFileCorrect());
 
 						if (!CheckImportError.isFileCorrect()) {
 							addActionError(getText("err.not.validated"));
@@ -147,6 +145,7 @@ public class ManagingAction extends ActionSupport {
 							FileUtils.copyFile(this.importFile, fileCreated);
 							session.setAttribute("importFile", fileCreated);
 							session.setAttribute("profile", this.profilesSelect);
+							logger.debug(MessageCatalog._00026_MANAGE_VALIDATED);
 							addActionMessage(getText("correct.file"));
 							showProfiles();
 							setShowNextButton(true);
@@ -171,12 +170,11 @@ public class ManagingAction extends ActionSupport {
 				}
 				connection.close();
 			} catch (SQLException e) {
-				logger.debug(MessageCatalog._00011_SQL_EXCEPTION);
-				e.printStackTrace();
+				logger.error(MessageCatalog._00011_SQL_EXCEPTION,e);
 				showProfiles();
 				message = ERROR;
 			} catch (IOException e) {
-				e.printStackTrace();
+			    logger.error(MessageCatalog._00012_IO_EXCEPTION,e);
 				showProfiles();
 				message = ERROR;
 			}
@@ -235,8 +233,7 @@ public class ManagingAction extends ActionSupport {
 				return ERROR;
 			}
 		} catch (SQLException e) {
-			logger.debug(MessageCatalog._00011_SQL_EXCEPTION);
-			e.printStackTrace();
+			logger.error(MessageCatalog._00011_SQL_EXCEPTION,e);
 			showProfiles();
 			return ERROR;
 		}
@@ -267,8 +264,7 @@ public class ManagingAction extends ActionSupport {
 			addActionMessage(getText("profile.edit.ok"));
 			showProfiles();
 		} catch (SQLException e) {
-			logger.debug(MessageCatalog._00011_SQL_EXCEPTION);
-			e.printStackTrace();
+			logger.error(MessageCatalog._00011_SQL_EXCEPTION,e);
 			return ERROR;
 		}
 		return SUCCESS;
@@ -297,8 +293,7 @@ public class ManagingAction extends ActionSupport {
 				addActionMessage(getText("profile.delete.ok"));
 			}
 		} catch (SQLException e) {
-			logger.debug(MessageCatalog._00011_SQL_EXCEPTION);
-			e.printStackTrace();
+			logger.error(MessageCatalog._00011_SQL_EXCEPTION,e);
 			showProfiles();
 			return ERROR;
 		}
@@ -329,8 +324,7 @@ public class ManagingAction extends ActionSupport {
 			showProfiles();
 			return SUCCESS;
 		} catch (SQLException e) {
-			logger.debug(MessageCatalog._00011_SQL_EXCEPTION);
-			e.printStackTrace();
+			logger.error(MessageCatalog._00011_SQL_EXCEPTION,e);
 			return ERROR;
 		}
 	}
@@ -363,8 +357,7 @@ public class ManagingAction extends ActionSupport {
 			statement.close();
 			connection.close();
 		} catch (SQLException e) {
-			logger.debug(MessageCatalog._00011_SQL_EXCEPTION);
-			e.printStackTrace();
+			logger.error(MessageCatalog._00011_SQL_EXCEPTION,e);
 			return ERROR;
 		}
 		getSchemesDb();
@@ -405,8 +398,7 @@ public class ManagingAction extends ActionSupport {
 			statement.close();
 			connection.close();
 		} catch (SQLException e) {
-			logger.debug(MessageCatalog._00011_SQL_EXCEPTION);
-			e.printStackTrace();
+			logger.error(MessageCatalog._00011_SQL_EXCEPTION,e);
 			return ERROR;
 		}
 		return SUCCESS;
@@ -435,8 +427,7 @@ public class ManagingAction extends ActionSupport {
 			statement.close();
 			connection.close();
 		} catch (SQLException e) {
-			logger.debug(MessageCatalog._00011_SQL_EXCEPTION);
-			e.printStackTrace();
+			logger.error(MessageCatalog._00011_SQL_EXCEPTION,e);
 			return ERROR;
 		}
 		return SUCCESS;
@@ -465,8 +456,7 @@ public class ManagingAction extends ActionSupport {
 			statement.close();
 			connection.close();
 		} catch (SQLException e) {
-			logger.debug(MessageCatalog._00011_SQL_EXCEPTION);
-			e.printStackTrace();
+			logger.error(MessageCatalog._00011_SQL_EXCEPTION,e);
 			return ERROR;
 		}
 		return SUCCESS;
@@ -495,8 +485,7 @@ public class ManagingAction extends ActionSupport {
 			statement.close();
 			connection.close();
 		} catch (SQLException e) {
-			logger.debug(MessageCatalog._00011_SQL_EXCEPTION);
-			e.printStackTrace();
+			logger.error(MessageCatalog._00011_SQL_EXCEPTION,e);
 			return ERROR;
 		}
 		return SUCCESS;
@@ -525,8 +514,7 @@ public class ManagingAction extends ActionSupport {
 			statement.close();
 			connection.close();
 		} catch (SQLException e) {
-			logger.debug(MessageCatalog._00011_SQL_EXCEPTION);
-			e.printStackTrace();
+			logger.error(MessageCatalog._00011_SQL_EXCEPTION,e);
 			return ERROR;
 		}
 		return SUCCESS;
