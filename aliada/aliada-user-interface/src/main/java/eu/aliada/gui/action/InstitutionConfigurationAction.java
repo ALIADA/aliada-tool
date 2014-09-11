@@ -44,6 +44,9 @@ public class InstitutionConfigurationAction extends ActionSupport {
     private String organisation_uri_resource;
     private File organisation_logo;
     private String organisation_catalog_url;
+    
+    private static final String DEFAULTLOGOPATH = "/usr/share/tomcat/webapps/aliada-user-interface-1.0/images";
+
 
     private final Log logger = new Log(InstitutionConfigurationAction.class);
 
@@ -98,7 +101,7 @@ public class InstitutionConfigurationAction extends ActionSupport {
                 preparedStatement.setBinaryStream(5, fis,
                         (int) this.organisation_logo.length());
             } else {
-                File defaultImg = new File("src/main/webapp/images/aliada.png");
+                File defaultImg = new File(DEFAULTLOGOPATH);
                 fis = new FileInputStream(defaultImg);
                 preparedStatement.setBinaryStream(5, fis,
                         (int) defaultImg.length());
