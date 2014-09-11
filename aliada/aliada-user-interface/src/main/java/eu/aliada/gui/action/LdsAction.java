@@ -184,6 +184,9 @@ public class LdsAction extends ActionSupport {
             setEndDate(dateFormatOut.format(dateFormatIn
                     .parse(endDate)));
             readNode = doc.getElementsByTagName("status");
+            if(readNode.item(0).getTextContent().equals("idle")){
+                setStatus(getText("linkingInfo.idle"));
+            }
             if(readNode.item(0).getTextContent().equals("running")){
                 setStatus(getText("linkingInfo.running"));
             }
