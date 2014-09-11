@@ -432,7 +432,7 @@ public class LinkingProcess {
 		// Execute system command "crontab contrabfilename"
 		String command = "crontab " + crontabFilename;
 		try {
-			logger.info(MessageCatalog._00040_EXECUTING_CRONTAB);
+			logger.debug(MessageCatalog._00040_EXECUTING_CRONTAB);
 			Runtime.getRuntime().exec(command);
 			removed = true;
 		} catch (IOException exception) {
@@ -486,28 +486,28 @@ public class LinkingProcess {
 			int job = new Integer(args[0]); 
 			int subjob = new Integer(args[1]);
 			String propertiesFileName = args[2];
-			lProcess.logger.info(MessageCatalog._00057_SUBJOB_PARAMETERS, job, subjob, propertiesFileName);
+			lProcess.logger.debug(MessageCatalog._00057_SUBJOB_PARAMETERS, job, subjob, propertiesFileName);
 			//Read configuration file to start threads execution
-			lProcess.logger.info(MessageCatalog._00051_GET_CONFIG_FILE_PROPERTIES, propertiesFileName);
+			lProcess.logger.debug(MessageCatalog._00051_GET_CONFIG_FILE_PROPERTIES, propertiesFileName);
 			if (!lProcess.getConfigProperties(propertiesFileName)){
 				lProcess.logger.info(MessageCatalog._00059_STOPPING);
 				System.exit(2);
 			}
 			//Connect to DDBB
-			lProcess.logger.info(MessageCatalog._00052_CONNECT_DDBB);
+			lProcess.logger.debug(MessageCatalog._00052_CONNECT_DDBB);
 			if(!lProcess.connectToDDBB()){
 				lProcess.logger.info(MessageCatalog._00059_STOPPING);
 				System.exit(2);
 			}
 			//Get subjob properties from DDBB
-			lProcess.logger.info(MessageCatalog._00064_GET_PROPERTIES_FROM_DDBB, job, subjob);
+			lProcess.logger.debug(MessageCatalog._00064_GET_PROPERTIES_FROM_DDBB, job, subjob);
 			if(!lProcess.getSubjobConfiguration(job, subjob)){
 				lProcess.closeDDBBConnection();
 				lProcess.logger.info(MessageCatalog._00059_STOPPING);
 				System.exit(2);
 			}
 			//Update subjob start_date in DDBB
-			lProcess.logger.info(MessageCatalog._00056_UPDATING_SUBJOB_DDBB, job, subjob);
+			lProcess.logger.debug(MessageCatalog._00056_UPDATING_SUBJOB_DDBB, job, subjob);
 			if(!lProcess.updateSubjobStartDate(job, subjob)){
 				lProcess.closeDDBBConnection();
 				lProcess.logger.info(MessageCatalog._00059_STOPPING);
@@ -522,27 +522,27 @@ public class LinkingProcess {
 			}
 			lProcess.logger.info(MessageCatalog._00055_SILK_FINISHED, lProcess.linkingXMLConfigFile, lProcess.linkingNumThreads, lProcess.linkingReload);
 			//Check the number of generated links
-			lProcess.logger.info(MessageCatalog._00060_VALIDATING_NUM_GENERATED_LINKS, lProcess.linkingXMLConfigFile, lProcess.linkingNumThreads, lProcess.linkingReload);
+			lProcess.logger.debug(MessageCatalog._00060_VALIDATING_NUM_GENERATED_LINKS, lProcess.linkingXMLConfigFile, lProcess.linkingNumThreads, lProcess.linkingReload);
 			int numLinks = lProcess.getNumLinks();
 			//Upload generated links to RDF store
 			RDFStoreDAO rdfstoreDAO = new RDFStoreDAO();
-			lProcess.logger.info(MessageCatalog._00068_UPLOADING_GENERATED_LINKS);
+			lProcess.logger.debug(MessageCatalog._00068_UPLOADING_GENERATED_LINKS);
 			for (Iterator<String> iter = lProcess.triplesFilenames.iterator(); iter.hasNext();  ) {
 				String triplesFilename = iter.next();
 				if(!rdfstoreDAO.loadDataIntoGraph(triplesFilename, lProcess.rdfSinkFolder, lProcess.rdfSinkLogin, lProcess.rdfSinkPassword))
 					lProcess.logger.error(MessageCatalog._00069_TRIPLES_FILE_UPLOAD_ERROR, triplesFilename);
 			}
 			//Update subjob end_date, num_links of DDBB
-			lProcess.logger.info(MessageCatalog._00056_UPDATING_SUBJOB_DDBB, job, subjob);
+			lProcess.logger.debug(MessageCatalog._00056_UPDATING_SUBJOB_DDBB, job, subjob);
 			lProcess.updateSubjobEndDate(job, subjob, numLinks);
 			//Remove from crontab the programmed process (subjob)
-			lProcess.logger.info(MessageCatalog._00063_REMOVING_SUBJOB_FROM_CRONTAB, job, subjob);
+			lProcess.logger.debug(MessageCatalog._00063_REMOVING_SUBJOB_FROM_CRONTAB, job, subjob);
 			lProcess.removeSubjobFromCrontab(job, subjob, propertiesFileName);
 			//Remove config files
-			lProcess.logger.info(MessageCatalog._00065_REMOVING_CONFIG_FILES);
+			lProcess.logger.debug(MessageCatalog._00065_REMOVING_CONFIG_FILES);
 			lProcess.removeConfigFiles(propertiesFileName, lProcess.linkingXMLConfigFilename);
 			//Update job end_date of DDBB, if needed
-			lProcess.logger.info(MessageCatalog._00057_UPDATING_JOB_DDBB, job);
+			lProcess.logger.debug(MessageCatalog._00057_UPDATING_JOB_DDBB, job);
 			lProcess.updateJobEndDate(job);
 			lProcess.logger.info(MessageCatalog._00059_STOPPING);
 		}
