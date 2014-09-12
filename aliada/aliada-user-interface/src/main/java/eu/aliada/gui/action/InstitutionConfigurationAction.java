@@ -40,8 +40,6 @@ public class InstitutionConfigurationAction extends ActionSupport {
     private List<Organisation> organisations;
     private String organisation_name;
     private String organisation_path;
-    private String organisation_uri_domain;
-    private String organisation_uri_resource;
     private File organisation_logo;
     private String organisation_catalog_url;
     
@@ -62,10 +60,6 @@ public class InstitutionConfigurationAction extends ActionSupport {
             if (rs.next() && rs.getString("organisation_name") != null) {
                 setOrganisation_name(rs.getString("organisation_name"));
                 setOrganisation_path(rs.getString("organisation_path"));
-                setOrganisation_uri_domain(rs
-                        .getString("dataset_base"));
-                setOrganisation_uri_resource(rs
-                        .getString("graph_uri"));
                 // readFile(rs);
                 setOrganisation_catalog_url(rs
                         .getString("organisation_catalog_url"));
@@ -91,22 +85,20 @@ public class InstitutionConfigurationAction extends ActionSupport {
 //            ResultSet rs = statement.executeQuery("SELECT * FROM organisation WHERE organisation_name='"+getOrganisation_name()+"'");
 //            if(!rs.next()){
             PreparedStatement preparedStatement = connection
-                    .prepareStatement("INSERT INTO organisation (organisation_name, organisation_path, dataset_base, graph_uri, organisation_logo, organisation_catalog_url) VALUES (?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE organisation_path=VALUES(organisation_path), dataset_base=VALUES(dataset_base), graph_uri=VALUES(graph_uri), organisation_logo=VALUES(organisation_logo),organisation_catalog_url=VALUES(organisation_catalog_url)");
+                    .prepareStatement("INSERT INTO organisation (organisation_name, organisation_path, organisation_logo, organisation_catalog_url) VALUES (?, ?, ?, ?) ON DUPLICATE KEY UPDATE organisation_path=VALUES(organisation_path), organisation_logo=VALUES(organisation_logo),organisation_catalog_url=VALUES(organisation_catalog_url)");
             preparedStatement.setString(1, this.organisation_name);
             preparedStatement.setString(2, this.organisation_path);
-            preparedStatement.setString(3, this.organisation_uri_domain);
-            preparedStatement.setString(4, this.organisation_uri_resource);
             if (this.organisation_logo != null) {
                 fis = new FileInputStream(this.organisation_logo);
-                preparedStatement.setBinaryStream(5, fis,
+                preparedStatement.setBinaryStream(3, fis,
                         (int) this.organisation_logo.length());
             } else {
                 File defaultImg = new File(DEFAULTLOGOPATH);
                 fis = new FileInputStream(defaultImg);
-                preparedStatement.setBinaryStream(5, fis,
+                preparedStatement.setBinaryStream(3, fis,
                         (int) defaultImg.length());
             }
-            preparedStatement.setString(6, this.organisation_catalog_url);
+            preparedStatement.setString(4, this.organisation_catalog_url);
             preparedStatement.executeUpdate();
             addActionMessage(getText("institution.added"));
             preparedStatement.close();
@@ -179,44 +171,6 @@ public class InstitutionConfigurationAction extends ActionSupport {
      */
     public void setOrganisation_path(String organisation_path) {
         this.organisation_path = organisation_path;
-    }
-
-    /**
-     * @return Returns the organisation_uri_domain.
-     * @exception
-     * @since 1.0
-     */
-    public String getOrganisation_uri_domain() {
-        return organisation_uri_domain;
-    }
-
-    /**
-     * @param organisation_uri_domain
-     *            The organisation_uri_domain to set.
-     * @exception
-     * @since 1.0
-     */
-    public void setOrganisation_uri_domain(String organisation_uri_domain) {
-        this.organisation_uri_domain = organisation_uri_domain;
-    }
-
-    /**
-     * @return Returns the organisation_uri_resource.
-     * @exception
-     * @since 1.0
-     */
-    public String getOrganisation_uri_resource() {
-        return organisation_uri_resource;
-    }
-
-    /**
-     * @param organisation_uri_resource
-     *            The organisation_uri_resource to set.
-     * @exception
-     * @since 1.0
-     */
-    public void setOrganisation_uri_resource(String organisation_uri_resource) {
-        this.organisation_uri_resource = organisation_uri_resource;
     }
 
     /**

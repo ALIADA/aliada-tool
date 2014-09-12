@@ -17,15 +17,6 @@
 					<td colspan="2"><html:textfield theme="xhtml"
 							key="organisation_path"
 							cssClass="inputPage" size="15" /></td>
-				<tr>
-					<td colspan="2"><html:textfield theme="xhtml"
-							key="organisation_uri_domain"
-							cssClass="inputPage" size="15" /></td>
-				</tr>
-				<tr>
-					<td colspan="2"><html:textfield theme="xhtml"
-							key="organisation_uri_resource"
-							cssClass="inputPage" size="15" /></td>
 				</tr>
 				<tr>
 					<td><html:file theme="xhtml" key="organisation_logo" /></td>

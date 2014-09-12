@@ -13,16 +13,6 @@
 			<message key="path.required" />
        </field-validator>
    </field>
-   <field name="organisation_uri_domain">
-       <field-validator type="requiredstring">
-			<message key="domain.required" />
-       </field-validator>
-   </field>
-   <field name="organisation_uri_resource">
-       <field-validator type="requiredstring">
-			<message key="resource.required" />
-       </field-validator>
-   </field>
    <field name="organisation_catalog_url">
        <field-validator type="requiredstring">
 			<message key="catalogue.required" />
