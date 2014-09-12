@@ -94,32 +94,35 @@ public class LinkingInfoAction extends ActionSupport {
             String endDate = readNode.item(0).getTextContent();
             this.setEndDate(dateFormatOut.format(dateFormatIn
                     .parse(endDate))); 
-            readNode = doc.getElementsByTagName("status");
-            if(readNode.item(0).getTextContent().equals("idle")){
-                setStatus(getText("linkingInfo.idle"));
-            }
-            if(readNode.item(0).getTextContent().equals("running")){
-                setStatus(getText("linkingInfo.running"));
-            }
-            else if(readNode.item(0).getTextContent().equals("completed")){
-                setStatus(getText("linkingInfo.completed"));
-            }
             readNode = doc.getElementsByTagName("subjobs");
-            if (readNode != null && readNode.getLength() > 0) {
+            while (readNode != null && readNode.getLength() > 0) {
                 for (int i = 0; i < readNode.getLength(); i++) {
                     HashMap<String, String> datasets = new HashMap<String,String>();
                     Node node = readNode.item(i);
                     if (node.getNodeType() == Node.ELEMENT_NODE) {
                         Element e = (Element) node;
-                        NodeList nodeList = e.getElementsByTagName("name");
-                        String name = nodeList.item(0).getTextContent();
-                        nodeList = e.getElementsByTagName("numLinks");
-                        String numLinksDataset = nodeList.item(0).getTextContent();
+                        String name = e.getElementsByTagName("name").item(0).getChildNodes().item(0).getNodeValue();
+//                        NodeList nodeList = e.getElementsByTagName("name");
+//                        String name = nodeList.item(0).getTextContent();
+                        String numLinksDataset = e.getElementsByTagName("numLinks").item(0).getChildNodes().item(0).getNodeValue();
+//                        nodeList = e.getElementsByTagName("numLinks");
+//                        String numLinksDataset = nodeList.item(0).getTextContent();
                         datasets.put(name, numLinksDataset);
                     }
                 }
                 this.setDatasets(datasets);
-            }           
+                readNode = doc.getElementsByTagName("subjobs");
+            }      
+            readNode = doc.getElementsByTagName("status");
+            if(readNode.item(0).getTextContent().equals("idle")){
+                setStatus(getText("linkingInfo.idle"));
+            }
+            else if(readNode.item(0).getTextContent().equals("running")){
+                setStatus(getText("linkingInfo.running"));
+            }
+            else if(readNode.item(0).getTextContent().equals("completed")){
+                setStatus(getText("linkingInfo.completed"));
+            }
           } catch (Exception e) {
             logger.error(MessageCatalog._00016_ERROR_READING_XML,e);
             conn.disconnect();
