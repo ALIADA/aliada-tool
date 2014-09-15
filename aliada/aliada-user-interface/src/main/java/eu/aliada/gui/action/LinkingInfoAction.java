@@ -6,26 +6,27 @@
 
 package eu.aliada.gui.action;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Locale;
 
 import javax.servlet.http.HttpSession;
 
 import org.apache.struts2.ServletActionContext;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 
 import com.opensymphony.xwork2.ActionSupport;
 
 import eu.aliada.shared.log.Log;
 import eu.aliada.gui.log.MessageCatalog;
-import eu.aliada.gui.parser.XmlParser;
 
 /**
  * This class provides information of the link discovery
@@ -64,63 +65,59 @@ public class LinkingInfoAction extends ActionSupport {
      */
     private void getInfo() throws IOException {
         HttpSession session = ServletActionContext.getRequest().getSession();
+        Locale locale = (Locale) session.getAttribute("WW_TRANS_I18N_LOCALE");
+        if (locale == null) {
+            locale = Locale.ROOT;
+        }
+        SimpleDateFormat dateFormatIn = new SimpleDateFormat(
+                "YYYY-MM-dd'T'HH:mm:ss");
+        SimpleDateFormat dateFormatOut = new SimpleDateFormat(
+                "d MMMM yyyy',' HH:mm:ss",locale);
         int fileToLinkId = (int) session.getAttribute("fileToLinkId");
         URL url = new URL("http://aliada:8080/aliada-links-discovery-1.0/jobs/"+fileToLinkId);
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod("GET");
-        conn.setRequestProperty("Accept", "application/xml");
+        conn.setRequestProperty("Accept", "application/json");
         if (conn.getResponseCode() != 202) {
             logger.error(MessageCatalog._00015_HTTP_ERROR_CODE
                     + conn.getResponseCode());
         }
         try {
-            XmlParser parser = new XmlParser();
-            Document doc = parser.parseXML(conn.getInputStream());
-            NodeList readNode = doc.getElementsByTagName("numLinks");
-            setNumLinks(readNode.item(0).getTextContent());
-            readNode = doc.getElementsByTagName("startDate");
-            String startDate = readNode.item(0).getTextContent();
-            Locale locale = (Locale) session.getAttribute("WW_TRANS_I18N_LOCALE");
-            if (locale == null) {
-                locale = Locale.ROOT;
+            BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            JSONParser parser = new JSONParser();
+            JSONObject jsonObject = (JSONObject) parser.parse(reader);
+            JSONArray subjobs = (JSONArray) jsonObject.get("subjobs");
+            Iterator i = subjobs.iterator();
+            HashMap<String, String> datasets = new HashMap<String,String>();
+            while (i.hasNext()) {
+                JSONObject innerObj = (JSONObject) i.next();
+                String name = (String) innerObj.get("name");
+                Long numLinksDataset = (Long) innerObj.get("numLinks");
+                datasets.put(name, numLinksDataset.toString());
             }
-            SimpleDateFormat dateFormatIn = new SimpleDateFormat(
-                    "YYYY-MM-dd'T'HH:mm:ss");
-            SimpleDateFormat dateFormatOut = new SimpleDateFormat(
-                    "d MMMM yyyy',' HH:mm:ss",locale);
-            this.setStartDate(dateFormatOut.format(dateFormatIn
-                    .parse(startDate)));  
-            readNode = doc.getElementsByTagName("startDate");
-            String endDate = readNode.item(0).getTextContent();
-            this.setEndDate(dateFormatOut.format(dateFormatIn
-                    .parse(endDate))); 
-            readNode = doc.getElementsByTagName("subjobs");
-            while (readNode != null && readNode.getLength() > 0) {
-                for (int i = 0; i < readNode.getLength(); i++) {
-                    HashMap<String, String> datasets = new HashMap<String,String>();
-                    Node node = readNode.item(i);
-                    if (node.getNodeType() == Node.ELEMENT_NODE) {
-                        Element e = (Element) node;
-                        String name = e.getElementsByTagName("name").item(0).getChildNodes().item(0).getNodeValue();
-//                        NodeList nodeList = e.getElementsByTagName("name");
-//                        String name = nodeList.item(0).getTextContent();
-                        String numLinksDataset = e.getElementsByTagName("numLinks").item(0).getChildNodes().item(0).getNodeValue();
-//                        nodeList = e.getElementsByTagName("numLinks");
-//                        String numLinksDataset = nodeList.item(0).getTextContent();
-                        datasets.put(name, numLinksDataset);
-                    }
-                }
-                this.setDatasets(datasets);
-                readNode = doc.getElementsByTagName("subjobs");
-            }      
-            readNode = doc.getElementsByTagName("status");
-            if(readNode.item(0).getTextContent().equals("idle")){
+            this.setDatasets(datasets);
+            Long numLinks = (Long) jsonObject.get("numLinks");
+            setNumLinks(numLinks.toString());
+            String startDate = (String) jsonObject.get("startDate");
+            if(startDate!=null){
+                startDate =(dateFormatOut.format(dateFormatIn.parse(startDate))); 
+                this.setStartDate(dateFormatOut.format(dateFormatIn.parse(startDate)));  
+            }
+            String endDate = (String) jsonObject.get("endDate");
+            if(endDate!=null){
+                endDate =(dateFormatOut.format(dateFormatIn
+                        .parse(endDate))); 
+                this.setEndDate(dateFormatOut.format(dateFormatIn
+                        .parse(endDate))); 
+            }
+            String status = (String) jsonObject.get("status");
+            if(status.equals("idle")){
                 setStatus(getText("linkingInfo.idle"));
             }
-            else if(readNode.item(0).getTextContent().equals("running")){
+            else if(status.equals("running")){
                 setStatus(getText("linkingInfo.running"));
             }
-            else if(readNode.item(0).getTextContent().equals("completed")){
+            else if(status.equals("completed")){
                 setStatus(getText("linkingInfo.completed"));
             }
           } catch (Exception e) {
