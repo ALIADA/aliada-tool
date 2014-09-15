@@ -5,7 +5,7 @@
 	<div id="form">	
 		<div class="content">	
 			<html:form>	
-			<div <html:if test="notFiles||linkingStarted">class="displayNo"</html:if>
+			<div <html:if test="notFiles">class="displayNo"</html:if>
 				<html:else>
 				    class="display"
 				</html:else>>
@@ -17,13 +17,6 @@
 				    class="displayNo"
 				</html:else>>
 				<h3 class="bigLabel"><html:text name="linking.notFiles"/></h3>
-			</div>
-			<div <html:if test="linkingStarted">class="display"</html:if>
-				<html:else>
-				    class="displayNo"
-				</html:else>>
-				<h3 class="bigLabel"><html:text name="linking.selectedFile"/></h3>
-				<html:property value="fileToLink" />	
 			</div>
 			<h3 class="mediumLabel"><html:text name="linking.datasets"/></h3>		
 			<html:iterator value="datasets" var="data">
@@ -38,6 +31,11 @@
 					</html:else>>
 					<html:submit action="linkingInfo" cssClass="submitButton button" key="check"/>
 				</div>
+				<html:if test="linkingStarted">
+					<script>
+				    	$("#linking_linkSubmit").hide();
+				    </script>
+				</html:if>
 			</div>
 			</html:form>
 		</div>	

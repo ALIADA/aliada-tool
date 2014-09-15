@@ -20,6 +20,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.apache.struts2.ServletActionContext;
 
 import com.opensymphony.xwork2.ActionSupport;
@@ -44,6 +46,7 @@ public class LinkingAction extends ActionSupport {
     private final Log logger = new Log(LinkingAction.class);
 
     public String execute() {
+        HttpSession session = ServletActionContext.getRequest().getSession();
         CheckRDFizerAction checkRDF = new CheckRDFizerAction();
         try {
             checkRDF.getInfo();
@@ -51,16 +54,21 @@ public class LinkingAction extends ActionSupport {
             logger.error(MessageCatalog._00012_IO_EXCEPTION,e);
             return ERROR;
         }
-        rdfizerJob = (Integer) ServletActionContext.getRequest()
-                .getSession().getAttribute("fileToLink");
+        rdfizerJob = (Integer) session.getAttribute("fileToLink");
         if (rdfizerJob == null) {
             setNotFiles(true);
         } else {
             setNotFiles(false);
             getFile(rdfizerJob);
         }
-        setLinkingStarted(false);
-        setShowCheckButton(false);
+        if(session.getAttribute("linkingFile")!=null){
+            setLinkingStarted(true);
+            setShowCheckButton(true);
+        }
+        else{
+            setLinkingStarted(false);
+            setShowCheckButton(false);            
+        }
         return getDatasetsDb();
     }
     
