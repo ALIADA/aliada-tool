@@ -100,13 +100,10 @@ public class LinkingInfoAction extends ActionSupport {
             setNumLinks(numLinks.toString());
             String startDate = (String) jsonObject.get("startDate");
             if(startDate!=null){
-                startDate =(dateFormatOut.format(dateFormatIn.parse(startDate))); 
                 this.setStartDate(dateFormatOut.format(dateFormatIn.parse(startDate)));  
             }
             String endDate = (String) jsonObject.get("endDate");
             if(endDate!=null){
-                endDate =(dateFormatOut.format(dateFormatIn
-                        .parse(endDate))); 
                 this.setEndDate(dateFormatOut.format(dateFormatIn
                         .parse(endDate))); 
             }
