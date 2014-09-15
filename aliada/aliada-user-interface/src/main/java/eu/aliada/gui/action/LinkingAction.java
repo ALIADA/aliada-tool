@@ -127,13 +127,17 @@ public class LinkingAction extends ActionSupport {
      * @since 1.0
      */
     public String startLinking() {
-        if (fileToLink != null) {
+        rdfizerJob = (Integer) ServletActionContext.getRequest()
+                .getSession().getAttribute("fileToLink");
+        if (rdfizerJob == null) {
+            setNotFiles(true);
+            return getDatasetsDb();
+        } else {
+            setNotFiles(false);
+            getFile(rdfizerJob);
             createJobLinking(fileToLink);
             setShowCheckButton(true);
             setLinkingStarted(true);
-            return getDatasetsDb();
-        } else {
-            setNotFiles(true);
             return getDatasetsDb();
         }
     }
