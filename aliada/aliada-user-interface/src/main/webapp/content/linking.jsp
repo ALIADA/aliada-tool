@@ -9,10 +9,8 @@
 				<html:else>
 				    class="display"
 				</html:else>>
-				<h3 class="bigLabel"><html:text name="linking.importedFiles"/></h3>
-				<html:iterator value="filesToLink">
-					<html:radio name="fileToLink" list="{value}"/><br/>
-				</html:iterator>
+				<h3 class="bigLabel"><html:text name="linking.importedFile"/></h3>
+				<html:property value="fileToLink"/>	
 			</div>
 			<div <html:if test="notFiles">class="display"</html:if>
 				<html:else>

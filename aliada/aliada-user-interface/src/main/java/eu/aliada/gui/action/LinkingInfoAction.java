@@ -36,7 +36,7 @@ import eu.aliada.gui.log.MessageCatalog;
  */
 public class LinkingInfoAction extends ActionSupport {
 
-    private String importFile;
+    private String linkingFile;
     private String status;
     private String startDate;
     private String endDate;
@@ -47,8 +47,8 @@ public class LinkingInfoAction extends ActionSupport {
 
     
     public String execute() {
-        setImportFile((String) ServletActionContext.getRequest().getSession()
-                .getAttribute("fileToLink"));
+        setLinkingFile((String) ServletActionContext.getRequest().getSession()
+                .getAttribute("linkingFile"));
         try {
             getInfo();
         } catch (IOException e) {
@@ -73,8 +73,8 @@ public class LinkingInfoAction extends ActionSupport {
                 "YYYY-MM-dd'T'HH:mm:ss");
         SimpleDateFormat dateFormatOut = new SimpleDateFormat(
                 "d MMMM yyyy',' HH:mm:ss",locale);
-        int fileToLinkId = (int) session.getAttribute("fileToLinkId");
-        URL url = new URL("http://aliada:8080/aliada-links-discovery-1.0/jobs/"+fileToLinkId);
+        int linkingJobId = (int) session.getAttribute("linkingJobId");
+        URL url = new URL("http://aliada:8080/aliada-links-discovery-1.0/jobs/"+linkingJobId);
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod("GET");
         conn.setRequestProperty("Accept", "application/json");
@@ -200,21 +200,21 @@ public class LinkingInfoAction extends ActionSupport {
     }
 
     /**
-     * @return Returns the importFile.
+     * @return Returns the linkingFile.
      * @exception
      * @since 1.0
      */
-    public String getImportFile() {
-        return importFile;
+    public String getLinkingFile() {
+        return linkingFile;
     }
 
     /**
-     * @param importFile The importFile to set.
+     * @param linkingFile The linkingFile to set.
      * @exception
      * @since 1.0
      */
-    public void setImportFile(String importFile) {
-        this.importFile = importFile;
+    public void setLinkingFile(String linkingFile) {
+        this.linkingFile = linkingFile;
     }
     /**
      * @return Returns the endDate.

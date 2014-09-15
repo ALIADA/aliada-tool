@@ -8,7 +8,7 @@
 			<h3 class="bigLabel"><html:text name="linkingInfo.info"/></h3>
 			<div class="row">
 				<label class="label"><html:text name="linkingInfo.nameFile"/></label><br/>
-				<html:property value="importFile" />		
+				<html:property value="linkingFile" />		
 			</div>
 			<div class="row">
 				<label class="label"><html:text name="linkingInfo.sDate"/></label>

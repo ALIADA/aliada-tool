@@ -94,18 +94,7 @@ public class CheckRDFizerAction extends ActionSupport {
                 readNode = doc.getElementsByTagName("completed");
                 if(readNode.item(0).getTextContent().equals("true")){
                     setStatus(getText("checkRDF.completed"));
-                    List<Integer> filesToLink = (List<Integer>)session.getAttribute("filesToLink");
-                     if(filesToLink == null){
-                         filesToLink = new ArrayList<Integer>();
-                         filesToLink.add(rdfizerJobId);
-                         session.setAttribute("filesToLink", filesToLink);
-                     }
-                     else{
-                         if(!filesToLink.contains(rdfizerJobId)){
-                             filesToLink.add(rdfizerJobId);                         
-                         }
-                         session.setAttribute("filesToLink", filesToLink);
-                     }
+                    session.setAttribute("fileToLink", rdfizerJobId);
                 }            
           } catch (Exception e) {
               logger.error(MessageCatalog._00016_ERROR_READING_XML,e);

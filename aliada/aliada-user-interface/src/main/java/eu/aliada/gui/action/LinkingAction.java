@@ -38,9 +38,8 @@ public class LinkingAction extends ActionSupport {
     private boolean linkingStarted;
     private boolean notFiles;
     private HashMap<Integer, String> datasets;
-    private HashMap<Integer, String> filesToLink;
     private String fileToLink;
-    private List<Integer> rdfizerJobs;
+    private Integer rdfizerJob;
 
     private final Log logger = new Log(LinkingAction.class);
 
@@ -52,13 +51,13 @@ public class LinkingAction extends ActionSupport {
             logger.error(MessageCatalog._00012_IO_EXCEPTION,e);
             return ERROR;
         }
-        rdfizerJobs = (List<Integer>) ServletActionContext.getRequest()
-                .getSession().getAttribute("filesToLink");
-        if (rdfizerJobs == null) {
+        rdfizerJob = (Integer) ServletActionContext.getRequest()
+                .getSession().getAttribute("fileToLink");
+        if (rdfizerJob == null) {
             setNotFiles(true);
         } else {
             setNotFiles(false);
-            setFilesToLink(getFiles(rdfizerJobs));
+            getFile(rdfizerJob);
         }
         setLinkingStarted(false);
         setShowCheckButton(false);
@@ -72,30 +71,24 @@ public class LinkingAction extends ActionSupport {
      * @see
      * @since 1.0
      */
-    private HashMap<Integer, String> getFiles(List<Integer> rdfizerJobs) {
-        Iterator<Integer> iterator = rdfizerJobs.iterator();
-        filesToLink = new HashMap<Integer, String>();
+    private void getFile(int rdfizerJob) {
         Connection con;
         try {
             con = new DBConnectionManager().getConnection();
-            while (iterator.hasNext()) {
-                Statement st;
-                st = con.createStatement();
-                int id = iterator.next();
-                ResultSet rs = st
-                        .executeQuery("select datafile from aliada.rdfizer_job_instances WHERE job_id="
-                                + id);
-                if (rs.next()) {
-                    filesToLink.put(id, rs.getString(1));
-                }
-                rs.close();
-                st.close();
+            Statement st;
+            st = con.createStatement();
+            ResultSet rs = st
+                    .executeQuery("select datafile from aliada.rdfizer_job_instances WHERE job_id="
+                            + rdfizerJob);
+            if (rs.next()) {
+                setFileToLink(rs.getString(1));
             }
+            rs.close();
+            st.close();
             con.close();
         } catch (SQLException e) {
             logger.error(MessageCatalog._00011_SQL_EXCEPTION,e);
         }
-        return filesToLink;
     }
 
     /**
@@ -140,15 +133,7 @@ public class LinkingAction extends ActionSupport {
             setLinkingStarted(true);
             return getDatasetsDb();
         } else {
-            rdfizerJobs = (List<Integer>) ServletActionContext.getRequest()
-                    .getSession().getAttribute("filesToLink");
-            if (rdfizerJobs == null) {
-                setNotFiles(true);
-            } else {
-                setNotFiles(false);
-                setFilesToLink(getFiles(rdfizerJobs));
-            }
-            addActionError(getText("linking.file.not.selected"));
+            setNotFiles(true);
             return getDatasetsDb();
         }
     }
@@ -219,9 +204,9 @@ public class LinkingAction extends ActionSupport {
                     } else {
                         logger.debug(MessageCatalog._00050_LINKING_JOB);
                         ServletActionContext.getRequest().getSession()
-                                .setAttribute("fileToLink", fileToLink);
+                                .setAttribute("linkingFile", fileToLink);
                         ServletActionContext.getRequest().getSession()
-                                .setAttribute("fileToLinkId", addedId);
+                                .setAttribute("linkingJobId", addedId);
                     }
                     conn.disconnect();
                 } catch (MalformedURLException e) {
@@ -272,25 +257,6 @@ public class LinkingAction extends ActionSupport {
      */
     public void setShowCheckButton(boolean showCheckButton) {
         this.showCheckButton = showCheckButton;
-    }
-
-    /**
-     * @return Returns the filesToLink.
-     * @exception
-     * @since 1.0
-     */
-    public HashMap<Integer, String> getFilesToLink() {
-        return filesToLink;
-    }
-
-    /**
-     * @param filesToLink
-     *            The filesToLink to set.
-     * @exception
-     * @since 1.0
-     */
-    public void setFilesToLink(HashMap<Integer, String> filesToLink) {
-        this.filesToLink = filesToLink;
     }
 
     /**
