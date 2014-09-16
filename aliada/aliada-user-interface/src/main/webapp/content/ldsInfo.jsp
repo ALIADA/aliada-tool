@@ -23,16 +23,16 @@
 			</div>
 			<div class="row">
 				<html:form>				
-					<html:submit action="lds" cssClass="submitButton button" key="createURIs" />
-					<html:submit key="check" action="ldsInfo" cssClass="submitButton button"/>
+					<html:submit action="lds" cssClass="ldsButton submitButton button" key="createURIs" />
+					<html:submit key="check" action="ldsInfo" cssClass="ldsCheck submitButton button"/>
 					<html:if test="ldsStarted">
 						<script>
-					    	$("#lds_createURIs").hide();
+					    	$(".ldsButton").hide();
 					    </script>
 					</html:if>
 					<html:else>
 						<script>
-				    		$("#lds_check").hide();
+				    		$(".ldsCheck").hide();
 						</script>
 					</html:else>
 				</html:form>	
