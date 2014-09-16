@@ -59,9 +59,10 @@ public class LdsAction extends ActionSupport {
      */
     public String startLDS() {
         HttpSession session = ServletActionContext.getRequest().getSession();
-        importFile = (String) session.getAttribute("fileToLink");
-        if (importFile != null) {
-            createJobLDS(importFile);
+        Integer rdfizerJob = (Integer) session.getAttribute("fileToLink");
+        if(rdfizerJob!=null) {
+            getFile(rdfizerJob);
+            createJobLDS();
             try {
                 logger.debug(MessageCatalog._00040_LDS_STARTED);
                 return getInfoLDS();
@@ -76,11 +77,10 @@ public class LdsAction extends ActionSupport {
     
     /**
      * Creates a job for the linked data server
-     * @param fileToLink the path of file from where is going to create the URIs
      * @see
      * @since 1.0
      */
-    private void createJobLDS(String fileToLink) {
+    private void createJobLDS() {
         HttpSession session = ServletActionContext.getRequest().getSession();
         int addedId = 0;
         Connection connection = null;
@@ -160,7 +160,8 @@ public class LdsAction extends ActionSupport {
     public String getInfoLDS() throws IOException {
         HttpSession session = ServletActionContext.getRequest().getSession();
         if(session.getAttribute("ldsStarted") != null){
-            importFile = (String) session.getAttribute("fileToLink");
+            int rdfizerJob = (Integer) session.getAttribute("fileToLink");
+            getFile(rdfizerJob);
             int ldsJobId = (int) session.getAttribute("ldsJobId");
             URL url = new URL("http://aliada:8080/aliada-linked-data-server-1.0/jobs/" + ldsJobId);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -213,6 +214,26 @@ public class LdsAction extends ActionSupport {
             setStatus(getText("ldsInfo.not.started"));
             return SUCCESS;
         }       
+    }
+    
+    private void getFile(int rdfizerJob) {
+        Connection con;
+        try {
+            con = new DBConnectionManager().getConnection();
+            Statement st;
+            st = con.createStatement();
+            ResultSet rs = st
+                    .executeQuery("select datafile from aliada.rdfizer_job_instances WHERE job_id="
+                            + rdfizerJob);
+            if (rs.next()) {
+                setImportFile(rs.getString(1));
+            }
+            rs.close();
+            st.close();
+            con.close();
+        } catch (SQLException e) {
+            logger.error(MessageCatalog._00011_SQL_EXCEPTION,e);
+        }
     }
 
     /**
