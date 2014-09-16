@@ -33,7 +33,7 @@
 	<div id="submitButtons" class="buttons row">
 		<html:form id="submitButtonsForm">
 			<html:submit action="addInstitution" property="saveButton"
-				cssClass="submitButton button" key="edit" />
+				cssClass="submitButton buttonGreen" key="edit" />
 			<html:submit action="showUsers" property="usersButton"
 				cssClass="submitButton button" key="users" />
 			<html:submit action="manage" cssClass="submitButton button"

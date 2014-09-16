@@ -23,7 +23,7 @@
 			</div>
 			<div class="row">
 				<html:form>				
-					<html:submit id="ldsButton" action="lds" cssClass="submitButton button" key="createURIs" />
+					<html:submit id="ldsButton" action="lds" cssClass="submitButton buttonGreen" key="createURIs" />
 					<html:submit id="ldsCheck" key="check" action="ldsInfo" cssClass="submitButton button"/>
 					<html:if test="ldsStarted">
 						<script>

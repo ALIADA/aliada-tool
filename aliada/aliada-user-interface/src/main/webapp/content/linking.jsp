@@ -24,7 +24,7 @@
 	       </html:iterator> 
 			<html:actionerror/>
 			<div class="row">
-				<html:submit action="startLinking" cssClass="submitButton button" key="linkSubmit"/>
+				<html:submit action="startLinking" cssClass="submitButton buttonGreen" key="linkSubmit"/>
 				<div <html:if test="showCheckButton">class="displayInline"</html:if>
 					<html:else>
 					    class="displayNo"

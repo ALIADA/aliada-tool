@@ -34,7 +34,7 @@
 			<html:else>
 			    class="displayNo"
 			</html:else>>
-			<html:submit action="RDFize" cssClass="submitButton button"
+			<html:submit action="RDFize" cssClass="submitButton buttonGreen"
 				key="RDF-ize" />
 		</div>
 	</div>

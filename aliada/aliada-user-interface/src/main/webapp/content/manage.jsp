@@ -18,7 +18,7 @@
 	<div id="managingButtons" class="buttons row">
 		<html:form id="managingButtonsForm">
 			<img id=loader class="displayNo leftMargin" src="images/loader.gif" alt="" />
-			<html:submit action="importXML" cssClass="submitButton button"
+			<html:submit action="importXML" cssClass="submitButton buttonGreen"
 				key="import" onClick="$('#loader').show();
 										$('#managingButtonsForm_import').hide();" />
 			<div <html:if test="enableErrorLogButton">class="displayInline"</html:if>

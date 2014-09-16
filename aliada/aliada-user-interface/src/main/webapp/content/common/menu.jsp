@@ -7,7 +7,7 @@
 		<html:submit id="conversionMenu" action="conversion" cssClass="button menuButton" key="menu.conversion" disabled="true"/>
 		<html:submit id="linkingMenu" action="linking" cssClass="menuButton button" key="menu.discovery" disabled="true"/>
 		<html:submit id="ldsMenu" action="ldsInfo" cssClass="menuButton button" key="menu.lds" disabled="true"/>
-		<html:submit  action="logout" cssClass="menuButton button" key="logOut"/>
+		<html:submit  action="logout" cssClass="menuButton buttonGreen" key="logOut"/>
 		<html:if test="state>=1">
 			<script>
 		    	$("#conversionMenu").prop( "disabled", false);

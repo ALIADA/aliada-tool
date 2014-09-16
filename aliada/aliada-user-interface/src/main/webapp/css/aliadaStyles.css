@@ -122,7 +122,27 @@ padding: 10px 7px 10px 10px;
 .fright{
 	float:right;
 }
-
+.buttonGreen:hover {
+	background: -linear-gradient(top, #1BBC9B, #5BD5B8);
+	background: -webkit-linear-gradient(top, #1BBC9B, #5BD5B8);
+	background: -moz-linear-gradient(top, #1BBC9B, #5BD5B8);
+}
+.buttonGreen{
+	font-size: 18px;
+	border: 1px solid #0C3458;
+	width: 108px;
+	height: 30px;
+	-moz-border-radius: 7px;
+	-webkit-border-radius: 7px;
+	border-radius: 7px 7px 7px 7px;
+	box-shadow: 2px 2px 5px #999;
+	-webkit-box-shadow: 2px 2px 5px #999;
+	-moz-box-shadow: 2px 2px 5px #999;
+	filter: shadow(color=#999999, direction=135, strength=2);
+	background-color: #0C3458;
+	font-weight: bold;
+	color: white;
+}
 .button:hover {
 	background: -linear-gradient(top, #0C3458, #1D5589);
 	background: -webkit-linear-gradient(top, #0C3458, #1D5589);
