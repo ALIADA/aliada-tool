@@ -52,7 +52,7 @@
 				<html:else>
 				    class="displayNo"
 				</html:else>>
-				<html:submit action="linking" cssClass="displayNo submitButton button"
+				<html:submit action="linking" cssClass="submitButton button"
 					key="next" />
 			</div>
 	</div>	
