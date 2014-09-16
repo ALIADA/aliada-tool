@@ -116,6 +116,7 @@ public class ConversionAction extends ActionSupport {
                         addedId = (int) rs2.getInt(1);
                     }
                     try {
+                        session.removeAttribute("linkingFile");
                         enableRdfizer();
                         createJob(addedId);
                     } catch (IOException e) {
