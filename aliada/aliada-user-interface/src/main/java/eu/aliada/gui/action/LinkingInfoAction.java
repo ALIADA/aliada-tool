@@ -42,6 +42,8 @@ public class LinkingInfoAction extends ActionSupport {
     private String endDate;
     private String numLinks;
     private HashMap<String, String> datasets;
+    
+    private int state;
 
     private final Log logger = new Log(LinkingInfoAction.class);
 
@@ -49,6 +51,7 @@ public class LinkingInfoAction extends ActionSupport {
     public String execute() {
         setLinkingFile((String) ServletActionContext.getRequest().getSession()
                 .getAttribute("linkingFile"));
+        setState((int) ServletActionContext.getRequest().getSession().getAttribute("state"));
         try {
             getInfo();
         } catch (IOException e) {
@@ -65,6 +68,7 @@ public class LinkingInfoAction extends ActionSupport {
      */
     private void getInfo() throws IOException {
         HttpSession session = ServletActionContext.getRequest().getSession();
+        setState((int) session.getAttribute("state"));
         Locale locale = (Locale) session.getAttribute("WW_TRANS_I18N_LOCALE");
         if (locale == null) {
             locale = Locale.ROOT;
@@ -231,6 +235,22 @@ public class LinkingInfoAction extends ActionSupport {
      */
     public void setEndDate(String endDate) {
         this.endDate = endDate;
+    }
+    /**
+     * @return Returns the state.
+     * @exception
+     * @since 1.0
+     */
+    public int getState() {
+        return state;
+    }
+    /**
+     * @param state The state to set.
+     * @exception
+     * @since 1.0
+     */
+    public void setState(int state) {
+        this.state = state;
     }
 
 }

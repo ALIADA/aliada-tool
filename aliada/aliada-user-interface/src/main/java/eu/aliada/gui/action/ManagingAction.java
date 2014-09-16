@@ -62,6 +62,8 @@ public class ManagingAction extends ActionSupport {
 	private File importFile;
 	private String importFileFileName;
 	private String profilesSelect;
+	
+	private int state;
 
 	private static final String VISUALIZE_PATH = "/usr/share/tomcat/webapps/aliada-user-interface-1.0/WEB-INF/classes/xmlVisualize/";
     private static final String VALIDATOR_PATH = "/usr/share/tomcat/webapps/aliada-user-interface-1.0/WEB-INF/classes/xmlValidators/";
@@ -150,6 +152,8 @@ public class ManagingAction extends ActionSupport {
 							showProfiles();
 							setShowNextButton(true);
 							setEnableErrorLogButton(false);
+                            session.setAttribute("state", 1);
+                            setState(1);
 						} else {
 							addActionError(getText("err.not.validated"));
 							logger.debug(MessageCatalog._00023_MANAGE_NOT_VALIDATED_BY_VISUALIZE_MANDATORY);
@@ -338,6 +342,7 @@ public class ManagingAction extends ActionSupport {
 	 */
 	public String showProfiles() {
 		Connection connection = null;
+        setState((int) ServletActionContext.getRequest().getSession().getAttribute("state"));   
 		try {
 			connection = new DBConnectionManager().getConnection();
 			Statement statement = connection.createStatement();
@@ -939,5 +944,23 @@ public class ManagingAction extends ActionSupport {
 	public void setEnableErrorLogButton(final boolean enableErrorLogButton) {
 		this.enableErrorLogButton = enableErrorLogButton;
 	}
+
+    /**
+     * @return Returns the state.
+     * @exception
+     * @since 1.0
+     */
+    public int getState() {
+        return state;
+    }
+
+    /**
+     * @param state The state to set.
+     * @exception
+     * @since 1.0
+     */
+    public void setState(int state) {
+        this.state = state;
+    }
 
 }

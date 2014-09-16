@@ -10,8 +10,6 @@ package eu.aliada.gui.action;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
@@ -41,6 +39,8 @@ public class CheckRDFizerAction extends ActionSupport {
     private String statementsNum;
     private String processingThroughput;
     private String triplesThroughput;
+    
+    private int state;
 
     private final Log logger = new Log(CheckRDFizerAction.class);
 
@@ -93,6 +93,7 @@ public class CheckRDFizerAction extends ActionSupport {
                 }
                 readNode = doc.getElementsByTagName("completed");
                 if(readNode.item(0).getTextContent().equals("true")){
+                    session.setAttribute("state", 2);
                     setStatus(getText("checkRDF.completed"));
                     session.setAttribute("fileToLink", rdfizerJobId);
                 }            
@@ -100,6 +101,7 @@ public class CheckRDFizerAction extends ActionSupport {
               logger.error(MessageCatalog._00016_ERROR_READING_XML,e);
               conn.disconnect();
           }
+            setState((int) ServletActionContext.getRequest().getSession().getAttribute("state"));
             conn.disconnect();
         }
     }
@@ -246,6 +248,24 @@ public class CheckRDFizerAction extends ActionSupport {
      */
     public void setTriplesThroughput(String triplesThroughput) {
         this.triplesThroughput = triplesThroughput;
+    }
+
+    /**
+     * @return Returns the state.
+     * @exception
+     * @since 1.0
+     */
+    public int getState() {
+        return state;
+    }
+
+    /**
+     * @param state The state to set.
+     * @exception
+     * @since 1.0
+     */
+    public void setState(int state) {
+        this.state = state;
     }
 
 //    private void readJson() throws IOException, ParseException, SQLException {

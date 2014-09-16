@@ -46,6 +46,9 @@ public class LdsAction extends ActionSupport {
     private String startDate;
     private String endDate;
     private boolean ldsStarted;
+    
+    private int state;
+    
     private final Log logger = new Log(LdsAction.class);
     
     /**
@@ -57,6 +60,7 @@ public class LdsAction extends ActionSupport {
     public String startLDS() {
         HttpSession session = ServletActionContext.getRequest().getSession();
         Integer rdfizerJob = (Integer) session.getAttribute("fileToLink");
+        setState((int) session.getAttribute("state"));
         if(rdfizerJob!=null) {
             getFile(rdfizerJob);
             createJobLDS();
@@ -79,6 +83,7 @@ public class LdsAction extends ActionSupport {
      */
     private void createJobLDS() {
         HttpSession session = ServletActionContext.getRequest().getSession();
+        setState((int) session.getAttribute("state"));
         int addedId = 0;
         Connection connection = null;
         connection = new DBConnectionManager().getConnection();
@@ -324,6 +329,24 @@ public class LdsAction extends ActionSupport {
      */
     public void setLdsStarted(boolean ldsStarted) {
         this.ldsStarted = ldsStarted;
+    }
+
+    /**
+     * @return Returns the state.
+     * @exception
+     * @since 1.0
+     */
+    public int getState() {
+        return state;
+    }
+
+    /**
+     * @param state The state to set.
+     * @exception
+     * @since 1.0
+     */
+    public void setState(int state) {
+        this.state = state;
     }
 
 }

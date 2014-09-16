@@ -43,6 +43,8 @@ public class InstitutionConfigurationAction extends ActionSupport {
     private File organisation_logo;
     private String organisation_catalog_url;
     
+    private int state;
+    
     private static final String DEFAULTLOGOPATH = "/usr/share/tomcat/webapps/aliada-user-interface-1.0/images/aliada.png";
 
 
@@ -53,6 +55,7 @@ public class InstitutionConfigurationAction extends ActionSupport {
      */
     public String execute() {
         Connection connection;
+        setState((int) ServletActionContext.getRequest().getSession().getAttribute("state"));
         try {
             connection = new DBConnectionManager().getConnection();
             Statement statement = connection.createStatement();
@@ -78,6 +81,7 @@ public class InstitutionConfigurationAction extends ActionSupport {
      */
     public String addInstitution() {
         Connection connection = null;
+        setState((int) ServletActionContext.getRequest().getSession().getAttribute("state"));
         FileInputStream fis = null;
         try {
             connection = new DBConnectionManager().getConnection();
@@ -209,5 +213,23 @@ public class InstitutionConfigurationAction extends ActionSupport {
      */
     public void setOrganisation_catalog_url(String organisation_catalog_url) {
         this.organisation_catalog_url = organisation_catalog_url;
+    }
+
+    /**
+     * @return Returns the state.
+     * @exception
+     * @since 1.0
+     */
+    public int getState() {
+        return state;
+    }
+
+    /**
+     * @param state The state to set.
+     * @exception
+     * @since 1.0
+     */
+    public void setState(int state) {
+        this.state = state;
     }
 }

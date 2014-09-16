@@ -76,11 +76,6 @@
 			<result name="error" type="tiles">/conversion.tiles</result>
 		</action>
 		
-		<action name="conversionRDF" method="executeRDFized" class="eu.aliada.gui.action.ConversionAction">
-            <result name="success" type="tiles">/conversion.tiles</result>
-			<result name="error" type="tiles">/conversion.tiles</result>
-		</action>
-		
 		<action name="RDFize" method="rdfize" class="eu.aliada.gui.action.ConversionAction">
             <result name="success" type="tiles">/conversion.tiles</result>
 			<result name="error" type="tiles">/conversion.tiles</result>

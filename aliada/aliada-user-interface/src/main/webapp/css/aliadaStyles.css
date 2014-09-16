@@ -5,6 +5,16 @@ body{
 }
 
 /*GLOBALES*/
+input:disabled{
+	background: -linear-gradient(top, #A4A4A4, #BDBDBD);
+	background: -webkit-linear-gradient(top, #A4A4A4, #BDBDBD);
+	background: -moz-linear-gradient(top, #A4A4A4, #BDBDBD);
+}
+.button:hover:disabled {
+	background: -linear-gradient(top, #A4A4A4, #BDBDBD);
+	background: -webkit-linear-gradient(top, #A4A4A4, #BDBDBD);
+	background: -moz-linear-gradient(top, #A4A4A4, #BDBDBD);
+}
 .input {
 	font-size: 14px;
 	padding:8px;

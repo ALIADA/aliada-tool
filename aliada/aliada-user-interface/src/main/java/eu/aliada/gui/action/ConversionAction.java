@@ -52,6 +52,8 @@ public class ConversionAction extends ActionSupport {
     private boolean showRdfizerButton;
     private boolean areTemplates;
     
+    private int state;
+    
     private final Log logger = new Log(ConversionAction.class);
     
     public String execute() {
@@ -230,6 +232,7 @@ public class ConversionAction extends ActionSupport {
      */
     public String getTemplatesDb() {
         Connection connection = null;
+        setState((int) ServletActionContext.getRequest().getSession().getAttribute("state"));
         try {
             connection = new DBConnectionManager().getConnection();
             Statement statement = connection.createStatement();
@@ -713,6 +716,22 @@ public class ConversionAction extends ActionSupport {
      */
     public void setAreTemplates(boolean areTemplates) {
         this.areTemplates = areTemplates;
+    }
+    /**
+     * @return Returns the state.
+     * @exception
+     * @since 1.0
+     */
+    public int getState() {
+        return state;
+    }
+    /**
+     * @param state The state to set.
+     * @exception
+     * @since 1.0
+     */
+    public void setState(int state) {
+        this.state = state;
     }
 
 }
