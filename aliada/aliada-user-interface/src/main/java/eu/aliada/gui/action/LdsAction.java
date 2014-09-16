@@ -26,13 +26,10 @@ import javax.servlet.http.HttpSession;
 import org.apache.struts2.ServletActionContext;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
-import org.w3c.dom.Document;
-import org.w3c.dom.NodeList;
 
 import com.opensymphony.xwork2.ActionSupport;
 
 import eu.aliada.gui.log.MessageCatalog;
-import eu.aliada.gui.parser.XmlParser;
 import eu.aliada.gui.rdbms.DBConnectionManager;
 import eu.aliada.shared.log.Log;
 
@@ -164,6 +161,7 @@ public class LdsAction extends ActionSupport {
             getFile(rdfizerJob);
         }
         if(session.getAttribute("ldsStarted") != null){
+            setLdsStarted(true);
             int ldsJobId = (int) session.getAttribute("ldsJobId");
             URL url = new URL("http://aliada:8080/aliada-linked-data-server-1.0/jobs/" + ldsJobId);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
