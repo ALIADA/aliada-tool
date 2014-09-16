@@ -129,7 +129,7 @@ padding: 10px 7px 10px 10px;
 }
 .buttonGreen{
 	font-size: 18px;
-	border: 1px solid #0C3458;
+	border: 1px solid #1BBC9B;
 	width: 108px;
 	height: 30px;
 	-moz-border-radius: 7px;
@@ -139,7 +139,7 @@ padding: 10px 7px 10px 10px;
 	-webkit-box-shadow: 2px 2px 5px #999;
 	-moz-box-shadow: 2px 2px 5px #999;
 	filter: shadow(color=#999999, direction=135, strength=2);
-	background-color: #0C3458;
+	background-color: #1BBC9B;
 	font-weight: bold;
 	color: white;
 }
