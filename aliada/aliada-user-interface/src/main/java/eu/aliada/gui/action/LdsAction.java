@@ -83,7 +83,6 @@ public class LdsAction extends ActionSupport {
      */
     private void createJobLDS() {
         HttpSession session = ServletActionContext.getRequest().getSession();
-        setState((int) session.getAttribute("state"));
         int addedId = 0;
         Connection connection = null;
         connection = new DBConnectionManager().getConnection();
@@ -161,6 +160,7 @@ public class LdsAction extends ActionSupport {
      */
     public String getInfoLDS() throws IOException {
         HttpSession session = ServletActionContext.getRequest().getSession();
+        setState((int) session.getAttribute("state"));
         Integer rdfizerJob = (Integer) session.getAttribute("fileToLink");
         if(rdfizerJob!=null) {
             getFile(rdfizerJob);
