@@ -159,9 +159,11 @@ public class LdsAction extends ActionSupport {
      */
     public String getInfoLDS() throws IOException {
         HttpSession session = ServletActionContext.getRequest().getSession();
-        if(session.getAttribute("ldsStarted") != null){
-            int rdfizerJob = (Integer) session.getAttribute("fileToLink");
+        Integer rdfizerJob = (Integer) session.getAttribute("fileToLink");
+        if(rdfizerJob!=null) {
             getFile(rdfizerJob);
+        }
+        if(session.getAttribute("ldsStarted") != null){
             int ldsJobId = (int) session.getAttribute("ldsJobId");
             URL url = new URL("http://aliada:8080/aliada-linked-data-server-1.0/jobs/" + ldsJobId);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
