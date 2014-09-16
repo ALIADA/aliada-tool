@@ -48,13 +48,13 @@
 				<html:submit action="checkRDFizer" cssClass="submitButton button"
 					key="check" />
 			</div>
-			<html:submit id="linkingButton" action="linking" cssClass="displayNo submitButton button"
-			key="next" />
-			<html:if test="state>1">
-			<script>
-		    	$("#linkingButton").switchClass("displayNo","displayInline");
-		    </script>
-		</html:if>
+			<div <html:if test="state>1">class="displayInline"</html:if>
+				<html:else>
+				    class="displayNo"
+				</html:else>>
+				<html:submit action="linking" cssClass="displayNo submitButton button"
+					key="next" />
+			</div>
 	</div>	
 </html:form>
 

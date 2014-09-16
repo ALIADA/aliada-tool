@@ -43,8 +43,15 @@
 				key="back" />
 			<html:submit action="checkRDFizer" cssClass="submitButton button"
 				key="check" />
-			<html:submit action="linking" cssClass="submitButton button"
+			<html:submit id="checkRDFTolink" action="linking" cssClass="displayNo submitButton button"
 				key="next" />
+			<div <html:if test="state>1">class="displayInline"</html:if>
+				<html:else>
+				    class="displayNo"
+				</html:else>>
+				<html:submit action="linking" cssClass="submitButton button"
+				key="next" />
+			</div>
 		</html:form>
 	</div>	
 </html:form>
