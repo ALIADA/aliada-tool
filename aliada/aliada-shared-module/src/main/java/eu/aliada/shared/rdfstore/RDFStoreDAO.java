@@ -83,7 +83,7 @@ public class RDFStoreDAO {
 		File triplesFile = new File(triplesFilename);
 		String triplesFilenameNoPath = triplesFile.getName();
 		//Append the file name to the rdfSinkFolder 
-		if (!rdfSinkFolder.endsWith("/"))
+		if ((rdfSinkFolder != null) && (!rdfSinkFolder.endsWith("/")))
 			rdfSinkFolder = rdfSinkFolder + "/";
 		rdfSinkFolder = rdfSinkFolder + triplesFilenameNoPath;
 		//HTTP Authentication
