@@ -37,12 +37,6 @@
 			<div class="row">
 				<html:form>
 					<html:submit action="linkingInfo" cssClass="submitButton button" key="check"/>
-					<html:submit action="lds" cssClass="submitButton button" key="createURIs" />
-				<html:if test="status.equals(getText('linkingInfo.running'))">
-					<script>
-				    	$("#linkingInfo_createURIs").hide();
-				    </script>
-				</html:if>
 				</html:form>		
 			</div>
 		</div>	

@@ -6,8 +6,10 @@
 
 package eu.aliada.gui.action;
 
+import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -22,6 +24,8 @@ import java.util.Locale;
 import javax.servlet.http.HttpSession;
 
 import org.apache.struts2.ServletActionContext;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 
@@ -44,6 +48,7 @@ public class LdsAction extends ActionSupport {
     private String status;
     private String startDate;
     private String endDate;
+    private boolean ldsStarted;
     private final Log logger = new Log(LdsAction.class);
     
     /**
@@ -53,8 +58,8 @@ public class LdsAction extends ActionSupport {
      * @since 1.0
      */
     public String startLDS() {
-        importFile = (String) ServletActionContext.getRequest().getSession()
-                .getAttribute("fileToLink");
+        HttpSession session = ServletActionContext.getRequest().getSession();
+        importFile = (String) session.getAttribute("fileToLink");
         if (importFile != null) {
             createJobLDS(importFile);
             try {
@@ -125,11 +130,11 @@ public class LdsAction extends ActionSupport {
                         throw new RuntimeException("Failed : HTTP error code : "
                                 + conn.getResponseCode());
                     } else {
-                        session.setAttribute("fileToLink", fileToLink);
-                        session.setAttribute("fileToLinkId", addedId);
+                        session.setAttribute("ldsJobId", addedId);
                     }
                     conn.disconnect();
                     session.setAttribute("ldsStarted", true);
+                    setLdsStarted(true);
                     getInfoLDS();
                 } catch (MalformedURLException e) {
                     logger.error(MessageCatalog._00014_MALFORMED_URL_EXCEPTION,e);
@@ -155,53 +160,56 @@ public class LdsAction extends ActionSupport {
     public String getInfoLDS() throws IOException {
         HttpSession session = ServletActionContext.getRequest().getSession();
         if(session.getAttribute("ldsStarted") != null){
-        importFile = (String) session.getAttribute("fileToLink");
-        int fileToLinkId = (int) session.getAttribute("fileToLinkId");
-        URL url = new URL("http://aliada:8080/aliada-linked-data-server-1.0/jobs/" + fileToLinkId);
-        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-        conn.setRequestMethod("GET");
-        conn.setRequestProperty("Accept", "application/xml");
-        if (conn.getResponseCode() != 202) {
-            logger.error(MessageCatalog._00015_HTTP_ERROR_CODE + conn.getResponseCode());
-        }
-        try {
-            XmlParser parser = new XmlParser();
-            Document doc = parser.parseXML(conn.getInputStream());
-            NodeList readNode = doc.getElementsByTagName("startDate");
-            String startDate = readNode.item(0).getTextContent();
-            Locale locale = (Locale) session.getAttribute("WW_TRANS_I18N_LOCALE");
-            if (locale == null) {
-                locale = Locale.ROOT;
+            importFile = (String) session.getAttribute("fileToLink");
+            int ldsJobId = (int) session.getAttribute("ldsJobId");
+            URL url = new URL("http://aliada:8080/aliada-linked-data-server-1.0/jobs/" + ldsJobId);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+            conn.setRequestProperty("Accept", "application/json");
+            if (conn.getResponseCode() != 202) {
+                logger.error(MessageCatalog._00015_HTTP_ERROR_CODE + conn.getResponseCode());
             }
-            SimpleDateFormat dateFormatIn = new SimpleDateFormat(
-                    "YYYY-MM-dd'T'HH:mm:ss");
-            SimpleDateFormat dateFormatOut = new SimpleDateFormat(
-                    "d MMMM yyyy',' HH:mm:ss",locale);
-            setStartDate(dateFormatOut.format(dateFormatIn
-                    .parse(startDate)));
-            readNode = doc.getElementsByTagName("startDate");
-            String endDate = readNode.item(0).getTextContent();
-            setEndDate(dateFormatOut.format(dateFormatIn
-                    .parse(endDate)));
-            readNode = doc.getElementsByTagName("status");
-            if(readNode.item(0).getTextContent().equals("idle")){
-                setStatus(getText("linkingInfo.idle"));
+            try {
+                Locale locale = (Locale) session.getAttribute("WW_TRANS_I18N_LOCALE");
+                if (locale == null) {
+                    locale = Locale.ROOT;
+                }
+                SimpleDateFormat dateFormatIn = new SimpleDateFormat(
+                        "YYYY-MM-dd'T'HH:mm:ss");
+                SimpleDateFormat dateFormatOut = new SimpleDateFormat(
+                        "d MMMM yyyy',' HH:mm:ss",locale);
+                BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                JSONParser parser = new JSONParser();
+                JSONObject jsonObject = (JSONObject) parser.parse(reader);
+                String startDate = (String) jsonObject.get("startDate");
+                if(startDate!=null){
+                    setStartDate(dateFormatOut.format(dateFormatIn.parse(startDate)));  
+                }
+                String endDate = (String) jsonObject.get("endDate");
+                if(endDate!=null){
+                    setEndDate(dateFormatOut.format(dateFormatIn
+                            .parse(endDate))); 
+                }
+                String status = (String) jsonObject.get("status");
+                if(status.equals("idle")){
+                    setStatus(getText("linkingInfo.idle"));
+                }
+                else if(status.equals("running")){
+                    setStatus(getText("linkingInfo.running"));
+                }
+                else if(status.equals("finished")){
+                    setStatus(getText("linkingInfo.completed"));
+                }
+                conn.disconnect();
+                return SUCCESS;
+            } catch (Exception e) {
+                logger.error(MessageCatalog._00016_ERROR_READING_XML,e);
+                conn.disconnect();
+                return ERROR;
             }
-            if(readNode.item(0).getTextContent().equals("running")){
-                setStatus(getText("linkingInfo.running"));
-            }
-            else if(readNode.item(0).getTextContent().equals("finished")){
-                setStatus(getText("linkingInfo.completed"));
-            }
-            conn.disconnect();
-            return SUCCESS;
-        } catch (Exception e) {
-            logger.error(MessageCatalog._00016_ERROR_READING_XML,e);
-            conn.disconnect();
-            return ERROR;
-        }
         }
         else{
+            setLdsStarted(false);
             setStatus(getText("ldsInfo.not.started"));
             return SUCCESS;
         }       
@@ -277,6 +285,24 @@ public class LdsAction extends ActionSupport {
      */
     public void setEndDate(String endDate) {
         this.endDate = endDate;
+    }
+
+    /**
+     * @return Returns the ldsStarted.
+     * @exception
+     * @since 1.0
+     */
+    public boolean isLdsStarted() {
+        return ldsStarted;
+    }
+
+    /**
+     * @param ldsStarted The ldsStarted to set.
+     * @exception
+     * @since 1.0
+     */
+    public void setLdsStarted(boolean ldsStarted) {
+        this.ldsStarted = ldsStarted;
     }
 
 }

@@ -22,8 +22,19 @@
 				<html:property value="status"/>			
 			</div>
 			<div class="row">
-				<html:form>
+				<html:form>				
+					<html:submit action="lds" cssClass="submitButton button" key="createURIs" />
 					<html:submit key="check" action="ldsInfo" cssClass="centeredButton button"/>
+					<html:if test="ldsStarted">
+						<script>
+					    	$("#ldsInfo_createURIs").hide();
+					    </script>
+					</html:if>
+					<html:else>
+						<script>
+				    		$("#ldsInfo_check").hide();
+						</script>
+					</html:else>
 				</html:form>	
 			</div>
 		</div>	

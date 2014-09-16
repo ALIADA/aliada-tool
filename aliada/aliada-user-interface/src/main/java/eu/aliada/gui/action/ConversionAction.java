@@ -117,6 +117,7 @@ public class ConversionAction extends ActionSupport {
                     }
                     try {
                         session.removeAttribute("linkingFile");
+                        session.removeAttribute("ldsStarted");
                         enableRdfizer();
                         createJob(addedId);
                     } catch (IOException e) {

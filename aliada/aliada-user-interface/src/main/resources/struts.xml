@@ -216,9 +216,7 @@
 		
 		<action name="lds" method="startLDS" class="eu.aliada.gui.action.LdsAction">
 			<result name="success" type="tiles">/ldsInfo.tiles</result>
-			<result name="error"  type="redirectAction">
-         		<param name="actionName">linking</param>
-         	</result>
+			<result name="error"  type="tiles">/ldsInfo.tiles</result>
 		</action>
 		
 		<action name="ldsInfo" method="getInfoLDS" class="eu.aliada.gui.action.LdsAction">
