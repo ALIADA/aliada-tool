@@ -47,6 +47,7 @@ public class LinkingAction extends ActionSupport {
 
     public String execute() {
         HttpSession session = ServletActionContext.getRequest().getSession();
+        setState((int) ServletActionContext.getRequest().getSession().getAttribute("state"));
         CheckRDFizerAction checkRDF = new CheckRDFizerAction();
         try {
             checkRDF.getInfo();
