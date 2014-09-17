@@ -49,7 +49,7 @@
 				<html:submit id="checkRDFButton" action="checkRDFizer" cssClass="submitButton button"
 					key="check" />
 			</div>
-			<html:submit id="nextButton" action="linking" cssClass="submitButton buttonGreen"
+			<html:submit id="nextButton" action="linking" cssClass="displayNo submitButton buttonGreen"
 				key="next" />
 			<html:if test="state>1">
 				<script>

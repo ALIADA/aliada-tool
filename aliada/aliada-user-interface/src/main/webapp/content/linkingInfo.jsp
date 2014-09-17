@@ -36,7 +36,7 @@
 			</div>
 			<div class="row">
 				<html:form>
-					<html:submit action="linkingInfo" cssClass="submitButton button" key="check"/>
+					<html:submit action="linkingInfo" cssClass="submitButton buttonGreen" key="check"/>
 				</html:form>		
 			</div>
 		</div>	
