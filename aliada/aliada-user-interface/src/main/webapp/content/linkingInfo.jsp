@@ -36,9 +36,14 @@
 			</div>
 			<div class="row">
 				<html:form>
-					<html:submit action="linkingInfo" cssClass="submitButton buttonGreen" key="check"/>
+					<html:submit id="checkButton" action="linkingInfo" cssClass="submitButton buttonGreen" key="check"/>
 				</html:form>		
 			</div>
+			<html:if test="status==3 || status==5">
+				<script>
+			    	$("#checkButton").hide();
+			    </script>
+			</html:if>
 		</div>	
 	</div>
 		

@@ -35,6 +35,11 @@
 				    		$("#ldsCheck").hide();
 						</script>
 					</html:else>
+					<html:if test="status==4 || status==5">
+						<script>
+					    	$("#ldsCheck").hide();
+					    </script>
+					</html:if>
 				</html:form>	
 			</div>
 		</div>	
