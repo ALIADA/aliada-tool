@@ -181,7 +181,7 @@ public class LdsAction extends ActionSupport {
                     locale = Locale.ROOT;
                 }
                 SimpleDateFormat dateFormatIn = new SimpleDateFormat(
-                        "YYYY-MM-dd'T'HH:mm:ss");
+                        "yyyy-MM-dd'T'HH:mm:ss");
                 SimpleDateFormat dateFormatOut = new SimpleDateFormat(
                         "d MMMM yyyy',' HH:mm:ss",locale);
                 BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
