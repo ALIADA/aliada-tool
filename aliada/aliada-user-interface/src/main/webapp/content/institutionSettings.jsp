@@ -27,10 +27,10 @@
 							cssClass="inputPage" size="15" /></td>
 				</tr>
 			</table>
-		</div>
-		<html:actionmessage/>
-		<html:submit action="addInstitution" property="saveButton"
+			<html:actionmessage/>
+			<html:submit action="addInstitution" property="saveButton"
 				cssClass="submitButton buttonGreen" key="edit" />
+		</div>		
 	</div>
 	<div id="submitButtons" class="buttons row">
 		<html:form id="submitButtonsForm">
