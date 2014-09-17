@@ -24,7 +24,7 @@
 	       </html:iterator> 
 			<html:actionerror/>
 			<div class="row">
-				<html:submit action="startLinking" cssClass="submitButton buttonGreen" key="linkSubmit"/>
+				<html:submit id="startLinkingButton" action="startLinking" cssClass="submitButton buttonGreen" key="linkSubmit"/>
 				<div <html:if test="showCheckButton">class="displayInline"</html:if>
 					<html:else>
 					    class="displayNo"
@@ -33,7 +33,7 @@
 				</div>
 				<html:if test="linkingStarted">
 					<script>
-				    	$("#linking_linkSubmit").hide();
+				    	$("#startLinkingButton").hide();
 				    </script>
 				</html:if>
 			</div>
