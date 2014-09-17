@@ -3,7 +3,7 @@
 <div id="menu">
 	<html:form id="welcomePages" cssClass="welcomeLinks bold">
 		<html:submit action="configure" cssClass="button menuButton" key="menu.configure"/>
-		<html:submit action="manage" cssClass="button menuButton" key="menu.import"/>
+		<html:submit id="importMenu" action="manage" cssClass="button menuButton" key="menu.import"/>
 		<html:submit id="conversionMenu" action="conversion" cssClass="button menuButton" key="menu.conversion" disabled="true"/>
 		<html:submit id="linkingMenu" action="linking" cssClass="menuButton button" key="menu.discovery" disabled="true"/>
 		<html:submit id="ldsMenu" action="ldsInfo" cssClass="menuButton button" key="menu.lds" disabled="true"/>
@@ -12,12 +12,44 @@
 			<script>
 		    	$("#conversionMenu").prop( "disabled", false);
 		    </script>
-		</html:if>
+		</html:if>	
 		<html:if test="state>1">
 			<script>
 		    	$("#linkingMenu").prop( "disabled", false);
 		    	$("#ldsMenu").prop( "disabled", false);
 		    </script>
 		</html:if>
+		<html:if test="state==0">
+			<script>
+		    	$("#importMenu").removeClass("button");
+		    	$("#importMenu").addClass("buttonGreen");
+		    </script>
+		</html:if>	
+		<html:if test="state==1">
+			<script>
+		    	$("#conversionMenu").removeClass("button");
+		    	$("#conversionMenu").addClass("buttonGreen");
+		    </script>
+		</html:if>	
+		<html:if test="state==2">
+			<script>
+		    	$("#linkingMenu").removeClass("button");
+		    	$("#linkingMenu").addClass("buttonGreen");
+		    	$("#ldsMenu").removeClass("button");
+		    	$("#ldsMenu").addClass("buttonGreen");
+		    </script>
+		</html:if>	
+		<html:if test="state==3">
+			<script>
+		    	$("#ldsMenu").removeClass("button");
+		    	$("#ldsMenu").addClass("buttonGreen");
+		    </script>
+		</html:if>			
+		<html:if test="state==4">
+			<script>
+		    	$("#linkingMenu").removeClass("button");
+		    	$("#linkingMenu").addClass("buttonGreen");
+		    </script>
+		</html:if>	
 	</html:form>
 </div>

@@ -119,7 +119,15 @@ public class LinkingInfoAction extends ActionSupport {
                 setStatus(getText("linkingInfo.running"));
             }
             else if(status.equals("finished")){
+                setState((int) session.getAttribute("state"));
+                if(state==4){
+                    session.setAttribute("state", 5);                        
+                }
+                else{
+                    session.setAttribute("state", 3);                        
+                }
                 setStatus(getText("linkingInfo.completed"));
+                setState((int) session.getAttribute("state"));
             }
           } catch (Exception e) {
             logger.error(MessageCatalog._00016_ERROR_READING_XML,e);

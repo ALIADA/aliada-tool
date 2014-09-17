@@ -150,7 +150,7 @@ padding: 10px 7px 10px 10px;
 }
 .buttonWhite{
 	font-size: 18px;
-	border: 1px solid #1BBC9B;
+	border: 1px solid #0C3458;
 	width: 108px;
 	height: 30px;
 	-moz-border-radius: 7px;
@@ -162,7 +162,7 @@ padding: 10px 7px 10px 10px;
 	filter: shadow(color=#999999, direction=135, strength=2);
 	background-color: white;
 	font-weight: bold;
-	color: #1BBC9B;
+	color: #0C3458;
 }
 .button:hover {
 	background: -linear-gradient(top, #0C3458, #1D5589);

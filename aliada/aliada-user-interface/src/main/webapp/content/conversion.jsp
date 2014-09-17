@@ -35,8 +35,7 @@
 			    class="displayNo"
 			</html:else>>
 			<html:submit action="RDFize" cssClass="submitButton buttonGreen"
-				key="RDF-ize" onClick="$('#checkRDFButton').removeClass('button');
-			    						$('#checkRDFButton').addClass('buttonGreen');"/>
+				key="RDF-ize"/>
 		</div>
 	</div>
 	<div id="conversionButtons" class="buttons row">
@@ -46,10 +45,10 @@
 				<html:else>
 				    class="displayNo"
 				</html:else>>
-				<html:submit id="checkRDFButton" action="checkRDFizer" cssClass="submitButton button"
+				<html:submit id="checkRDFButton" action="checkRDFizer" cssClass="submitButton buttonGreen"
 					key="check" />
 			</div>
-			<html:submit id="nextButton" action="linking" cssClass="submitButton buttonGreen"
+			<html:submit id="nextButton" action="linking" cssClass="displayNo submitButton buttonGreen"
 				key="next" />
 			<html:if test="state>1">
 				<script>

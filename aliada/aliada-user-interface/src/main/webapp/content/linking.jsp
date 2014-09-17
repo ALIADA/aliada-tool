@@ -29,7 +29,7 @@
 					<html:else>
 					    class="displayNo"
 					</html:else>>
-					<html:submit action="linkingInfo" cssClass="submitButton button" key="check"/>
+					<html:submit action="linkingInfo" cssClass="submitButton buttonGreen" key="check"/>
 				</div>
 				<html:if test="linkingStarted">
 					<script>
