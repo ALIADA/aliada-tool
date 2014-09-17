@@ -204,7 +204,7 @@
 			<result name="error" type="tiles">/profiles.tiles</result>
 		</action>
 
-		<action name="linking" class="eu.aliada.gui.action.LinkingAction">
+		<action name="linking" method="execute" class="eu.aliada.gui.action.LinkingAction">
 			<result name="success" type="tiles">/linking.tiles</result>
 			<result name="error" type="tiles">/configuration.tiles</result>
 		</action>

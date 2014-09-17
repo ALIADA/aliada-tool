@@ -68,6 +68,7 @@ public class LinkingInfoAction extends ActionSupport {
      */
     private void getInfo() throws IOException {
         HttpSession session = ServletActionContext.getRequest().getSession();
+        setState((int) session.getAttribute("state"));
         Locale locale = (Locale) session.getAttribute("WW_TRANS_I18N_LOCALE");
         if (locale == null) {
             locale = Locale.ROOT;
@@ -126,12 +127,12 @@ public class LinkingInfoAction extends ActionSupport {
                     session.setAttribute("state", 3);                        
                 }
                 setStatus(getText("linkingInfo.completed"));
+                setState((int) session.getAttribute("state"));
             }
           } catch (Exception e) {
             logger.error(MessageCatalog._00016_ERROR_READING_XML,e);
             conn.disconnect();
         }
-        setState((int) session.getAttribute("state"));
         conn.disconnect();
     }
     /**
