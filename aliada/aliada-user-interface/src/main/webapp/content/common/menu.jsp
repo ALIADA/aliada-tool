@@ -12,12 +12,38 @@
 			<script>
 		    	$("#conversionMenu").prop( "disabled", false);
 		    </script>
-		</html:if>
+		</html:if>	
 		<html:if test="state>1">
 			<script>
 		    	$("#linkingMenu").prop( "disabled", false);
 		    	$("#ldsMenu").prop( "disabled", false);
 		    </script>
 		</html:if>
+		<html:if test="state==1">
+			<script>
+		    	$("#conversionMenu").removeClass("button");
+		    	$("#conversionMenu").addClass("buttonGreen");
+		    </script>
+		</html:if>	
+		<html:if test="state==2">
+			<script>
+		    	$("#linkingMenu").removeClass("button");
+		    	$("#linkingMenu").addClass("buttonGreen");
+		    	$("#ldsMenu").removeClass("button");
+		    	$("#ldsMenu").addClass("buttonGreen");
+		    </script>
+		</html:if>	
+		<html:if test="state==3">
+			<script>
+		    	$("#ldsMenu").removeClass("button");
+		    	$("#ldsMenu").addClass("buttonGreen");
+		    </script>
+		</html:if>			
+		<html:if test="state==4">
+			<script>
+		    	$("#linkingMenu").removeClass("button");
+		    	$("#linkingMenu").addClass("buttonGreen");
+		    </script>
+		</html:if>	
 	</html:form>
 </div>

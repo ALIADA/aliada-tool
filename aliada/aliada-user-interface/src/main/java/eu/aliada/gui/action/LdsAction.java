@@ -160,8 +160,8 @@ public class LdsAction extends ActionSupport {
      */
     public String getInfoLDS() throws IOException {
         HttpSession session = ServletActionContext.getRequest().getSession();
-        setState((int) session.getAttribute("state"));
         Integer rdfizerJob = (Integer) session.getAttribute("fileToLink");
+        setState((int) session.getAttribute("state"));
         if(rdfizerJob!=null) {
             getFile(rdfizerJob);
         }
@@ -204,9 +204,16 @@ public class LdsAction extends ActionSupport {
                     setStatus(getText("linkingInfo.running"));
                 }
                 else if(status.equals("finished")){
+                    if(state==3){
+                        session.setAttribute("state", 5);                        
+                    }
+                    else{
+                        session.setAttribute("state", 4);                        
+                    }
                     setStatus(getText("linkingInfo.completed"));
                 }
                 conn.disconnect();
+                setState((int) session.getAttribute("state"));
                 return SUCCESS;
             } catch (Exception e) {
                 logger.error(MessageCatalog._00016_ERROR_READING_XML,e);
