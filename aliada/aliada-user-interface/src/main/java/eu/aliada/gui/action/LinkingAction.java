@@ -47,7 +47,6 @@ public class LinkingAction extends ActionSupport {
 
     public String execute() {
         HttpSession session = ServletActionContext.getRequest().getSession();
-        setState((int) ServletActionContext.getRequest().getSession().getAttribute("state"));
         CheckRDFizerAction checkRDF = new CheckRDFizerAction();
         try {
             checkRDF.getInfo();
@@ -110,6 +109,7 @@ public class LinkingAction extends ActionSupport {
     private String getDatasetsDb() {
         datasets = new HashMap();
         setState((int) ServletActionContext.getRequest().getSession().getAttribute("state"));
+        logger.debug("State"+state);
         Connection con;
         try {
             con = new DBConnectionManager().getConnection();
