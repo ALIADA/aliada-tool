@@ -89,11 +89,13 @@ public class ManagingAction extends ActionSupport {
 			addActionError(getText("err.not.file"));
 			logger.debug(MessageCatalog._00020_MANAGE_FILE_NOT_FOUND);
 			message = ERROR;
+            session.setAttribute("state", 0);
 			showProfiles();
 		} else if (!wf.isWellFormedXML(importFile.getPath())) {
 			addActionError(getText("err.xml.wrong"));
 			logger.debug(MessageCatalog._00021_MANAGE_NOT_VALIDATED_BY_WELL_FORMED);
 			message = ERROR;
+            session.setAttribute("state", 0);
 			showProfiles();
 		} else {
 			Connection connection = null;
@@ -132,6 +134,7 @@ public class ManagingAction extends ActionSupport {
 						if (!CheckImportError.isFileCorrect()) {
 							addActionError(getText("err.not.validated"));
 							logger.debug(MessageCatalog._00022_MANAGE_NOT_VALIDATED_BY_VISUALIZE_FILE_TYPE);
+                            session.setAttribute("state", 0);
 							showProfiles();
 							setEnableErrorLogButton(true);
 						} else if (CheckImportError.getCount() == 0) {
@@ -149,14 +152,14 @@ public class ManagingAction extends ActionSupport {
 							session.setAttribute("profile", this.profilesSelect);
 							logger.debug(MessageCatalog._00026_MANAGE_VALIDATED);
 							addActionMessage(getText("correct.file"));
+                            session.setAttribute("state", 1);
 							showProfiles();
 							setShowNextButton(true);
 							setEnableErrorLogButton(false);
-                            session.setAttribute("state", 1);
-                            setState(1);
 						} else {
 							addActionError(getText("err.not.validated"));
 							logger.debug(MessageCatalog._00023_MANAGE_NOT_VALIDATED_BY_VISUALIZE_MANDATORY);
+                            session.setAttribute("state", 0);
 							showProfiles();
 							setEnableErrorLogButton(true);
 						}
@@ -164,12 +167,14 @@ public class ManagingAction extends ActionSupport {
 						addActionError(getText("err.not.validated"));
 						logger.debug(MessageCatalog._00024_MANAGE_NOT_VALIDATED_BY_VISUALIZE);
 						message = ERROR;
+                        session.setAttribute("state", 0);
 						showProfiles();
 					}
 				} else {
 					addActionError(getText("err.wrong.file"));
 					logger.debug(MessageCatalog._00025_MANAGE_NOT_VALIDATED_BY_VALIDATION);
 					message = ERROR;
+                    session.setAttribute("state", 0);
 					showProfiles();
 				}
 				connection.close();
