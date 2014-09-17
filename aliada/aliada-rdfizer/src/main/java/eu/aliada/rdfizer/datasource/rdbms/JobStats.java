@@ -182,7 +182,7 @@ public class JobStats {
 	 */
 	@XmlElement(name = "running")
 	public boolean isRunning() {
-		return true;
+		return false ;
 	}	
 	
 	/**
