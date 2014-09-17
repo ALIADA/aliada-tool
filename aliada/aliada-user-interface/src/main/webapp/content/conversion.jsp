@@ -35,7 +35,8 @@
 			    class="displayNo"
 			</html:else>>
 			<html:submit action="RDFize" cssClass="submitButton buttonGreen"
-				key="RDF-ize" />
+				key="RDF-ize" onClick="$('#checkRDFButton').removeClass('button');
+			    						$('#checkRDFButton').addClass('buttonGreen');"/>
 		</div>
 	</div>
 	<div id="conversionButtons" class="buttons row">
@@ -45,16 +46,17 @@
 				<html:else>
 				    class="displayNo"
 				</html:else>>
-				<html:submit action="checkRDFizer" cssClass="submitButton button"
+				<html:submit id="checkRDFButton" action="checkRDFizer" cssClass="submitButton button"
 					key="check" />
 			</div>
-			<div <html:if test="state>1">class="displayInline"</html:if>
-				<html:else>
-				    class="displayNo"
-				</html:else>>
-				<html:submit action="linking" cssClass="submitButton button"
-					key="next" />
-			</div>
+			<html:submit id="nextButton" action="linking" cssClass="submitButton buttonGreen"
+				key="next" />
+			<html:if test="state>1">
+				<script>
+					$('#checkRDFButton').hide();
+			    	$("#nextButton").show("slow");
+			    </script>				
+			</html:if>
 	</div>	
 </html:form>
 

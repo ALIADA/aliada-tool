@@ -41,17 +41,16 @@
 		<html:form id="checkRDFButtonsForm">
 			<html:submit action="conversion" cssClass="submitButton button"
 				key="back" />
-			<html:submit action="checkRDFizer" cssClass="submitButton button"
+			<html:submit id="checkRDFButton" action="checkRDFizer" cssClass="submitButton buttonGreen"
 				key="check" />
-			<html:submit id="checkRDFTolink" action="linking" cssClass="displayNo submitButton button"
+			<html:submit id="nextButton" action="linking" cssClass="displayNo submitButton buttonGreen"
 				key="next" />
-			<div <html:if test="state>1">class="displayInline"</html:if>
-				<html:else>
-				    class="displayNo"
-				</html:else>>
-				<html:submit action="linking" cssClass="submitButton button"
-				key="next" />
-			</div>
+			<html:if test="state>1">
+				<script>
+			    	$("#nextButton").show("slow");
+			    	$("#checkRDFButton").hide();
+			    </script>	
+			</html:if>
 		</html:form>
 	</div>	
 </html:form>

@@ -118,7 +118,7 @@ public class LinkingInfoAction extends ActionSupport {
             else if(status.equals("running")){
                 setStatus(getText("linkingInfo.running"));
             }
-            else if(status.equals("completed")){
+            else if(status.equals("finished")){
                 setStatus(getText("linkingInfo.completed"));
             }
           } catch (Exception e) {
