@@ -163,6 +163,7 @@ public class RDFStoreDAO {
 			final String user, 
 			final String password, 
 			final String triples) throws Exception {
+		logger.debug(MessageCatalog._00037_SPARQL_ENDPOINT_INFO, sparqlEndpointURI, user, password);
 		UpdateExecutionFactory.createRemote(
 				UpdateFactory.create(buildInsertQuery(graphName, triples)), 
 				sparqlEndpointURI, 
@@ -212,6 +213,7 @@ public class RDFStoreDAO {
 		if (isNotNullAndNotEmpty(graphName)) {
 			builder.append("}");
 		}
+		logger.debug(MessageCatalog._00036_QUERY_INFO, builder.toString());
 		return builder.toString();
 	}
 	
