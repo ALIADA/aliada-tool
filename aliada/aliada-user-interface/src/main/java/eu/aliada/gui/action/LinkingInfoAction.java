@@ -69,7 +69,6 @@ public class LinkingInfoAction extends ActionSupport {
     private void getInfo() throws IOException {
         HttpSession session = ServletActionContext.getRequest().getSession();
         Locale locale = (Locale) session.getAttribute("WW_TRANS_I18N_LOCALE");
-        setState((int) session.getAttribute("state"));
         if (locale == null) {
             locale = Locale.ROOT;
         }
@@ -119,6 +118,7 @@ public class LinkingInfoAction extends ActionSupport {
                 setStatus(getText("linkingInfo.running"));
             }
             else if(status.equals("finished")){
+                setState((int) session.getAttribute("state"));
                 if(state==4){
                     session.setAttribute("state", 5);                        
                 }

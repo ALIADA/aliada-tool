@@ -52,6 +52,7 @@ public class LinkingAction extends ActionSupport {
             checkRDF.getInfo();
         } catch (IOException e) {
             logger.error(MessageCatalog._00012_IO_EXCEPTION,e);
+            getDatasetsDb();
             return ERROR;
         }
         rdfizerJob = (Integer) session.getAttribute("fileToLink");
