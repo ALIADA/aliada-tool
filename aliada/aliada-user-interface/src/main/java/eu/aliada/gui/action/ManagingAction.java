@@ -56,7 +56,6 @@ public class ManagingAction extends ActionSupport {
 	private HashMap<Integer, String> characterSets;
 	private boolean showAddProfileForm;
 	private boolean showEditProfileForm;
-	private boolean showNextButton;
 	private boolean enableErrorLogButton;
 	private boolean areProfiles;
 	private File importFile;
@@ -80,7 +79,6 @@ public class ManagingAction extends ActionSupport {
 	 */
 	public String importXML() {
 		CheckImportError.initialize();
-		setShowNextButton(false);
 		String message;
 		HttpSession session = ServletActionContext.getRequest().getSession();
 		session.removeAttribute("importFile");
@@ -154,7 +152,6 @@ public class ManagingAction extends ActionSupport {
 							addActionMessage(getText("correct.file"));
                             session.setAttribute("state", 1);
 							showProfiles();
-							setShowNextButton(true);
 							setEnableErrorLogButton(false);
 						} else {
 							addActionError(getText("err.not.validated"));
@@ -377,11 +374,6 @@ public class ManagingAction extends ActionSupport {
 		getTypesDb();
 		setShowAddProfileForm(false);
 		setShowEditProfileForm(false);
-		setShowNextButton(false);
-		if (ServletActionContext.getRequest().getSession()
-				.getAttribute("importFile") != null) {
-			setShowNextButton(true);
-		}
 		return SUCCESS;
 	}
 
@@ -871,26 +863,6 @@ public class ManagingAction extends ActionSupport {
 	public void setImportFile(final File importFile) {
 		this.importFile = importFile;
 	}
-
-	/**
-	 * @return Returns the showNextButton.
-	 * @exception
-	 * @since 1.0
-	 */
-	public boolean isShowNextButton() {
-		return showNextButton;
-	}
-
-	/**
-	 * @param showNextButton
-	 *            The showNextButton to set.
-	 * @exception
-	 * @since 1.0
-	 */
-	public void setShowNextButton(final boolean showNextButton) {
-		this.showNextButton = showNextButton;
-	}
-
 	/**
 	 * @return Returns the importFileFileName.
 	 * @exception

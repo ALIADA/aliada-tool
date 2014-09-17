@@ -143,6 +143,27 @@ padding: 10px 7px 10px 10px;
 	font-weight: bold;
 	color: white;
 }
+.buttonWhite:hover {
+	background: -linear-gradient(top, #D8E0DF, #FFFFFF);
+	background: -webkit-linear-gradient(top, #D8E0DF, #FFFFFF);
+	background: -moz-linear-gradient(top, #D8E0DF, #FFFFFF);
+}
+.buttonWhite{
+	font-size: 18px;
+	border: 1px solid #1BBC9B;
+	width: 108px;
+	height: 30px;
+	-moz-border-radius: 7px;
+	-webkit-border-radius: 7px;
+	border-radius: 7px 7px 7px 7px;
+	box-shadow: 2px 2px 5px #999;
+	-webkit-box-shadow: 2px 2px 5px #999;
+	-moz-box-shadow: 2px 2px 5px #999;
+	filter: shadow(color=#999999, direction=135, strength=2);
+	background-color: white;
+	font-weight: bold;
+	color: #1BBC9B;
+}
 .button:hover {
 	background: -linear-gradient(top, #0C3458, #1D5589);
 	background: -webkit-linear-gradient(top, #0C3458, #1D5589);
