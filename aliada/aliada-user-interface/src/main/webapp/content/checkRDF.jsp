@@ -8,8 +8,9 @@
 		<label class="row label"><html:text name="rdf.fileTo"/></label>		
 		<html:property value="importFile"/>
 		<div class="row">
-			<label class="label"><html:text name="rdf.status"/></label>
-			<html:property value="status"/>			
+			<label class="mediumLabel"><html:text name="rdf.status"/>
+				<html:property value="status"/>
+			</label>
 		</div>
 		<div class="row">
 			<label class="label"><html:text name="rdf.format"/></label>

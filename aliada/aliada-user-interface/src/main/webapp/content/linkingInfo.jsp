@@ -19,8 +19,9 @@
 				<html:property value="endDate"/>			
 			</div>
 			<div class="row">
-				<label class="label"><html:text name="linkingInfo.status"/></label>
-				<html:property value="status"/>			
+				<label class="mediumLabel"><html:text name="linkingInfo.status"/>
+					<html:property value="status"/>	
+				</label>		
 			</div>
 			<div class="row">	
 				<label class="label"><html:text name="linkingInfo.linksDataset"/></label>
