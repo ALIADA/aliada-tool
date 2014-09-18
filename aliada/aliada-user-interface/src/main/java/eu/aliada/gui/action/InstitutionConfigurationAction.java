@@ -45,7 +45,7 @@ public class InstitutionConfigurationAction extends ActionSupport {
     
     private int state;
     
-    private static final String DEFAULTLOGOPATH = "/usr/share/tomcat/webapps/aliada-user-interface-1.0/images/aliada.png";
+    private static final String DEFAULTLOGOPATH = "webapps/aliada-user-interface-1.0/images/aliada.png";
 
 
     private final Log logger = new Log(InstitutionConfigurationAction.class);
