@@ -49,6 +49,7 @@ CREATE TABLE IF NOT EXISTS `aliada`.`organisation` (
 	`isql_command_path`  VARCHAR( 245 ) default NULL, 
 	`isql_commands_file`  VARCHAR( 245 ) default NULL, 
 	`isql_commands_file_default`  VARCHAR( 245 ) default NULL, 
+	`public_sparql_endpoint_uri` VARCHAR(45) default NULL,
 PRIMARY KEY ( `organisation_name` )
 ) ENGINE = InnoDB  DEFAULT CHARSET=utf8;
 
