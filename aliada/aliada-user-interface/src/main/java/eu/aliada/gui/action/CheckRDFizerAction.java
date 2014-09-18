@@ -120,10 +120,11 @@ public class CheckRDFizerAction extends ActionSupport {
                   .executeQuery("select datafile from aliada.rdfizer_job_instances where job_id="
                           + rdfizerJobId);
           if (rs.next()) {
+              String filename = rs.getString("datafile");
               rs.close();
               statement.close();
               connection.close();
-              return rs.getString("datafile");
+              return filename;
           }
           rs.close();
           statement.close();
