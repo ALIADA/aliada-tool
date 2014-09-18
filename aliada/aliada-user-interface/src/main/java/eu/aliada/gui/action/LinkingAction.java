@@ -47,14 +47,6 @@ public class LinkingAction extends ActionSupport {
 
     public String execute() {
         HttpSession session = ServletActionContext.getRequest().getSession();
-        CheckRDFizerAction checkRDF = new CheckRDFizerAction();
-        try {
-            checkRDF.getInfo();
-        } catch (IOException e) {
-            logger.error(MessageCatalog._00012_IO_EXCEPTION,e);
-            getDatasetsDb();
-            return ERROR;
-        }
         rdfizerJob = (Integer) session.getAttribute("fileToLink");
         if (rdfizerJob == null) {
             setNotFiles(true);
@@ -109,7 +101,8 @@ public class LinkingAction extends ActionSupport {
     private String getDatasetsDb() {
         datasets = new HashMap();
         setState((int) ServletActionContext.getRequest().getSession().getAttribute("state"));
-        logger.debug("State"+state);
+        logger.debug("Working Directory = " +
+                System.getProperty("user.dir"));
         Connection con;
         try {
             con = new DBConnectionManager().getConnection();

@@ -214,7 +214,6 @@ public class LdsAction extends ActionSupport {
                 }
                 conn.disconnect();
                 setState((int) session.getAttribute("state"));
-                logger.debug("ldsState"+state);
                 return SUCCESS;
             } catch (Exception e) {
                 logger.error(MessageCatalog._00016_ERROR_READING_XML,e);
