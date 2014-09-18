@@ -29,11 +29,16 @@
 					<html:else>
 					    class="displayNo"
 					</html:else>>
-					<html:submit action="linkingInfo" cssClass="submitButton buttonGreen" key="check"/>
+					<html:submit id="checkButton" action="linkingInfo" cssClass="submitButton buttonGreen" key="check"/>
 				</div>
 				<html:if test="linkingStarted">
 					<script>
 				    	$("#startLinkingButton").hide();
+				    </script>
+				</html:if>
+				<html:if test="state==3 || state==5">
+					<script>
+				    	$("#checkButton").hide();
 				    </script>
 				</html:if>
 			</div>

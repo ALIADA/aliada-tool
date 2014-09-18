@@ -36,7 +36,7 @@
 				    		$("#ldsCheck").hide();
 						</script>
 					</html:else>
-					<html:if test="status==4 || status==5">
+					<html:if test="%{state==4 || state==5}">
 						<script>
 					    	$("#ldsCheck").hide();
 					    </script>

@@ -40,7 +40,7 @@
 					<html:submit id="checkButton" action="linkingInfo" cssClass="submitButton buttonGreen" key="check"/>
 				</html:form>		
 			</div>
-			<html:if test="status==3 || status==5">
+			<html:if test="state==3 || state==5">
 				<script>
 			    	$("#checkButton").hide();
 			    </script>
