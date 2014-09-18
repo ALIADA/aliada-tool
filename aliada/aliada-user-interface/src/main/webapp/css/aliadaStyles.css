@@ -62,6 +62,9 @@ input:disabled{
 .red {
   color: red;
 }
+.green {
+  color: #1BBC9B;
+}
 .fields {
 border-radius: 10px 10px 10px 10px;
 box-shadow: rgba(200,200,200,0.7) 0 4px 10px -1px;

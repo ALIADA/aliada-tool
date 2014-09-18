@@ -19,7 +19,7 @@
 				<html:property value="endDate"/>			
 			</div>
 			<div class="row">
-				<label class="mediumLabel"><html:text name="linkingInfo.status"/>
+				<label class="label green"><html:text name="linkingInfo.status"/>
 					<html:property value="status"/>	
 				</label>		
 			</div>

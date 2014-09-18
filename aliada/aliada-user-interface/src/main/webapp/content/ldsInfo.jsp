@@ -18,7 +18,7 @@
 				<html:property value="endDate"/>			
 			</div>
 			<div class="row">
-				<label class="mediumLabel"><html:text name="ldsInfo.status"/>
+				<label class="label green"><html:text name="ldsInfo.status"/>
 					<html:property value="status"/>					
 				</label>		
 			</div>
