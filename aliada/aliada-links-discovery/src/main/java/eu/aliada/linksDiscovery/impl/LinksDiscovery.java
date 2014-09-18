@@ -412,8 +412,8 @@ public class LinksDiscovery {
 			BufferedWriter out = new BufferedWriter(fstream);
 			Calendar calendar = Calendar.getInstance();
 			if(subjobId <= 1) {
-				//If it is the first subjob, add 5 minutes for starting the programmed process
-				calendar.add(Calendar.MINUTE, 5);
+				//If it is the first subjob, add 1 minute for starting the programmed process
+				calendar.add(Calendar.MINUTE, 1);
 			} else {
 				//We add an hour to start the programmed processes for every other subjob
 				calendar.add(Calendar.HOUR_OF_DAY, subjobId - 1);

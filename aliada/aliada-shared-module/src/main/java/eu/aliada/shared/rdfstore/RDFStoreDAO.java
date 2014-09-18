@@ -19,6 +19,9 @@ import java.util.Map;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.jena.atlas.web.auth.HttpAuthenticator;
 import org.apache.jena.atlas.web.auth.SimpleAuthenticator;
+import com.hp.hpl.jena.sparql.modify.UpdateProcessRemoteForm;
+import com.hp.hpl.jena.update.UpdateProcessor;
+import com.hp.hpl.jena.update.UpdateRequest;
 
 import com.hp.hpl.jena.update.UpdateExecutionFactory;
 import com.hp.hpl.jena.update.UpdateFactory;
@@ -136,7 +139,12 @@ public class RDFStoreDAO {
 	public boolean executeUpdateQuerySparqlEndpoint(String sparqlEndpointURI, String user, String password, String query) {
 		boolean done = false;
 		try {
-			UpdateExecutionFactory.createRemote(
+/*			UpdateExecutionFactory.createRemote(
+					UpdateFactory.create(query), 
+					sparqlEndpointURI, 
+					auth(sparqlEndpointURI, user, password))
+				.execute();*/
+			UpdateExecutionFactory.createRemoteForm(
 					UpdateFactory.create(query), 
 					sparqlEndpointURI, 
 					auth(sparqlEndpointURI, user, password))
@@ -165,7 +173,12 @@ public class RDFStoreDAO {
 			final String triples) throws Exception {
 		logger.debug(MessageCatalog._00037_SPARQL_ENDPOINT_INFO, sparqlEndpointURI, user, password);
 		
-		UpdateExecutionFactory.createRemote(
+/*		UpdateExecutionFactory.createRemote(
+				UpdateFactory.create(buildInsertQuery(graphName, triples)), 
+				sparqlEndpointURI, 
+				auth(sparqlEndpointURI, user, password))
+			.execute();*/
+		UpdateExecutionFactory.createRemoteForm(
 				UpdateFactory.create(buildInsertQuery(graphName, triples)), 
 				sparqlEndpointURI, 
 				auth(sparqlEndpointURI, user, password))
