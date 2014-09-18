@@ -204,7 +204,6 @@ public class LdsAction extends ActionSupport {
                     setStatus(getText("linkingInfo.running"));
                 }
                 else if(status.equals("finished")){
-                    setState((int) session.getAttribute("state"));
                     if(state==3){
                         session.setAttribute("state", 5);                        
                     }
@@ -215,6 +214,7 @@ public class LdsAction extends ActionSupport {
                 }
                 conn.disconnect();
                 setState((int) session.getAttribute("state"));
+                logger.debug("ldsState"+state);
                 return SUCCESS;
             } catch (Exception e) {
                 logger.error(MessageCatalog._00016_ERROR_READING_XML,e);

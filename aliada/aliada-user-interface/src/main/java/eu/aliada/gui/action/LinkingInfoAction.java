@@ -119,7 +119,6 @@ public class LinkingInfoAction extends ActionSupport {
                 setStatus(getText("linkingInfo.running"));
             }
             else if(status.equals("finished")){
-                setState((int) session.getAttribute("state"));
                 if(state==4){
                     session.setAttribute("state", 5);                        
                 }
