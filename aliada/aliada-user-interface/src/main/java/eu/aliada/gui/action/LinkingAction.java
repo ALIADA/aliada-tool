@@ -101,8 +101,6 @@ public class LinkingAction extends ActionSupport {
     private String getDatasetsDb() {
         datasets = new HashMap();
         setState((int) ServletActionContext.getRequest().getSession().getAttribute("state"));
-        logger.debug("Working Directory = " +
-                System.getProperty("user.dir"));
         Connection con;
         try {
             con = new DBConnectionManager().getConnection();

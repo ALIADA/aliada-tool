@@ -10,6 +10,10 @@ package eu.aliada.gui.action;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 import javax.servlet.http.HttpSession;
 
@@ -21,6 +25,7 @@ import com.opensymphony.xwork2.ActionSupport;
 
 import eu.aliada.gui.log.MessageCatalog;
 import eu.aliada.gui.parser.XmlParser;
+import eu.aliada.gui.rdbms.DBConnectionManager;
 import eu.aliada.shared.log.Log;
 
 /**
@@ -62,8 +67,9 @@ public class CheckRDFizerAction extends ActionSupport {
      */
     public void getInfo() throws IOException {
         HttpSession session = ServletActionContext.getRequest().getSession();
-        if(session.getAttribute("rdfizerJobId") != null){
-            Integer rdfizerJobId = (int) session.getAttribute("rdfizerJobId");
+        Integer rdfizerJobId = (int) session.getAttribute("rdfizerJobId");
+        if(rdfizerJobId!= null){
+            setImportFile(getImportFileDb(rdfizerJobId));
             URL url = new URL("http://aliada:8080/aliada-rdfizer-1.0/jobs/"+rdfizerJobId);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
@@ -104,6 +110,29 @@ public class CheckRDFizerAction extends ActionSupport {
             setState((int) ServletActionContext.getRequest().getSession().getAttribute("state"));
             conn.disconnect();
         }
+    }
+    
+    private String getImportFileDb(int rdfizerJobId){
+      Connection connection = new DBConnectionManager().getConnection();
+      try{
+          Statement statement = connection.createStatement();
+          ResultSet rs = statement
+                  .executeQuery("select datafile from aliada.rdfizer_job_instances where job_id="
+                          + rdfizerJobId);
+          if (rs.next()) {
+              rs.close();
+              statement.close();
+              connection.close();
+              return rs.getString("datafile");
+          }
+          rs.close();
+          statement.close();
+          connection.close();
+      }catch (SQLException e) {
+          logger.error(MessageCatalog._00011_SQL_EXCEPTION,e);
+          return getText("err.not.file");
+      }
+      return getText("err.not.file");
     }
 
     /**
