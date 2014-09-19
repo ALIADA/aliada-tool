@@ -162,6 +162,7 @@ public class LdsAction extends ActionSupport {
         HttpSession session = ServletActionContext.getRequest().getSession();
         Integer rdfizerJob = (Integer) session.getAttribute("fileToLink");
         setState((int) session.getAttribute("state"));
+        logger.debug("getState"+state);
         if(rdfizerJob!=null) {
             getFile(rdfizerJob);
         }
