@@ -94,15 +94,17 @@ public class CheckRDFizerAction extends ActionSupport {
                 readNode = doc.getElementsByTagName("triples-throughput");
                 setTriplesThroughput(readNode.item(0).getTextContent());
                 readNode = doc.getElementsByTagName("running");
-                if(readNode.item(0).getTextContent().equals("true")){
-                    setStatus(getText("checkRDF.running"));
-                }
+                String running = readNode.item(0).getTextContent();
                 readNode = doc.getElementsByTagName("completed");
-                if(readNode.item(0).getTextContent().equals("true")){
+                String completed = readNode.item(0).getTextContent();
+                if(running.equals("false") && completed.equals("true")){
                     session.setAttribute("state", 2);
                     setStatus(getText("checkRDF.completed"));
                     session.setAttribute("fileToLink", rdfizerJobId);
-                }            
+                }
+                else{
+                    setStatus(getText("checkRDF.running"));                    
+                }    
           } catch (Exception e) {
               logger.error(MessageCatalog._00016_ERROR_READING_XML,e);
               conn.disconnect();
