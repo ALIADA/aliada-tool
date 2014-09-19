@@ -204,12 +204,14 @@ public class LdsAction extends ActionSupport {
                     setStatus(getText("linkingInfo.running"));
                 }
                 else if(status.equals("finished")){
+                    logger.debug("LDSSTates"+state);
                     if(state==3){
                         session.setAttribute("state", 5);                        
                     }
                     else{
                         session.setAttribute("state", 4);                        
                     }
+                    logger.debug("LDSSTatee"+state);
                     setStatus(getText("linkingInfo.completed"));
                 }
                 conn.disconnect();
