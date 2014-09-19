@@ -136,7 +136,6 @@ public class LdsAction extends ActionSupport {
                     conn.disconnect();
                     session.setAttribute("ldsStarted", true);
                     setLdsStarted(true);
-                    getInfoLDS();
                 } catch (MalformedURLException e) {
                     logger.error(MessageCatalog._00014_MALFORMED_URL_EXCEPTION,e);
                 } catch (IOException e) {
@@ -162,7 +161,6 @@ public class LdsAction extends ActionSupport {
         HttpSession session = ServletActionContext.getRequest().getSession();
         Integer rdfizerJob = (Integer) session.getAttribute("fileToLink");
         setState((int) session.getAttribute("state"));
-        logger.debug("getState"+state);
         if(rdfizerJob!=null) {
             getFile(rdfizerJob);
         }
@@ -205,14 +203,12 @@ public class LdsAction extends ActionSupport {
                     setStatus(getText("linkingInfo.running"));
                 }
                 else if(status.equals("finished")){
-                    logger.debug("LDSSTates"+state);
                     if(state==3){
                         session.setAttribute("state", 5);                        
                     }
-                    else{
+                    else if(state!=5){
                         session.setAttribute("state", 4);                        
                     }
-                    logger.debug("LDSSTatee"+state);
                     setStatus(getText("linkingInfo.completed"));
                 }
                 conn.disconnect();

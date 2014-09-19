@@ -122,7 +122,7 @@ public class LinkingInfoAction extends ActionSupport {
                 if(state==4){
                     session.setAttribute("state", 5);                        
                 }
-                else{
+                else if(state!=5){
                     session.setAttribute("state", 3);                        
                 }
                 setStatus(getText("linkingInfo.completed"));
