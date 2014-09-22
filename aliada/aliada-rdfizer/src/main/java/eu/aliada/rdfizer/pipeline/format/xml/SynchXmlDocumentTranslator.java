@@ -112,11 +112,7 @@ public class SynchXmlDocumentTranslator implements Processor, ApplicationContext
 		
 		final Message in = exchange.getIn();
 		
-		// Sanity check: if previous processor didn't put a valid data object in the body
-		// the conversion chain for this record must stop here
-		if (in.getBody() instanceof NullObject) {
-			return;
-		}
+
 		
 		final String format = in.getHeader(Constants.FORMAT_ATTRIBUTE_NAME, String.class);
 		final Integer jobId = in.getHeader(Constants.JOB_ID_ATTRIBUTE_NAME, Integer.class);
@@ -126,6 +122,13 @@ public class SynchXmlDocumentTranslator implements Processor, ApplicationContext
 			throw new IllegalArgumentException(String.valueOf(jobId));
 		}
 
+		// Sanity check: if previous processor didn't put a valid data object in the body
+		// the conversion chain for this record must stop here
+		if (in.getBody() instanceof NullObject) {
+			incrementJobStatsAndElapsed(jobId, null, 0);
+			return;
+		}
+		
 		VelocityContext velocityContext = null;
 		String triples = null;
 		long elapsed = 0;
