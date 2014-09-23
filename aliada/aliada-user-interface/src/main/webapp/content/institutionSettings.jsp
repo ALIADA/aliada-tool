@@ -11,7 +11,7 @@
 				<tr>
 					<td colspan="2"><html:textfield theme="xhtml"
 							key="organisation_name"
-							cssClass="inputPage" size="15" readonly="true"/></td>
+							cssClass="inputPage disabled" size="15" readonly="true"/></td>
 				</tr>
 				<tr>
 					<td colspan="2"><html:textfield theme="xhtml"
