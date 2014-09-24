@@ -217,6 +217,8 @@ padding: 10px 7px 10px 10px;
 	height: 25px;
 }
 .menuButton {
+	text-decoration : none;
+	text-align : center;
 	font-size: 18px;
 	width: 300px;
 	height: 25px;

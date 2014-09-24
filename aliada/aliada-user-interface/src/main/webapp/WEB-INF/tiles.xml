@@ -16,6 +16,10 @@
 		<put-attribute name="body" value="" />
 		<put-attribute name="footer" value="/content/common/footer.jsp" />
 	</definition>	
+	
+	<definition name="/rdfValidation.tiles" template="/content//rdfValidation.jsp">
+		<put-attribute name="footer" value="/content/common/footer.jsp" />
+	</definition>	
 
 	<definition name="/logon.tiles" template="/content/common/layout-logon.jsp">
 		<put-attribute name="body" value="/content/logon.jsp" />

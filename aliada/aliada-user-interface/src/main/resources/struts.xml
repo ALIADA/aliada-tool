@@ -299,6 +299,10 @@
 			<result name="error" type="tiles">/users.tiles</result>
 		</action>
 		
+		<action name="rdfVal" class="eu.aliada.gui.action.RDFValidationAction">
+			<result name="success" type="tiles">/rdfValidation.tiles</result>
+		</action>
+		
 		<action name="locale" class="eu.aliada.gui.action.LocaleAction">
 			<result name="success" type="tiles">/logon.tiles</result>
 	   </action>
