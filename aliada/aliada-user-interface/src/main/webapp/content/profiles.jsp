@@ -110,7 +110,7 @@
 		</div>
 		<div class="buttons row">
 			<html:submit action="editProfile" cssClass="submitButton button"
-				key="edit" />
+				key="save" />
 			<html:submit action="showProfiles" cssClass="submitButton button"
 				key="cancel" />
 		</div>

@@ -128,7 +128,7 @@
 			</div>
 			<div class="buttons row">
 				<html:submit action="editTemplate" cssClass="submitButton button"
-					key="edit" />
+					key="save" />
 				<html:submit action="showTemplates" cssClass="submitButton button"
 					key="cancel" />
 			</div>

@@ -120,7 +120,7 @@
 		</table>
 		<div class="buttons row">
 			<html:submit action="editUser" cssClass="submitButton button"
-				key="edit" />
+				key="save" />
 			<html:submit action="showUsers" cssClass="submitButton button"
 				key="cancel" />
 		</div>
