@@ -5,13 +5,6 @@ body{
 }
 
 /*GLOBALES*/
-.disabled:hover{
-	background-color:lightgray;
-	color:black;
-}
-.disabled{
-	background-color: lightgray;
-}
 input:disabled{
 	background: -linear-gradient(top, #A4A4A4, #BDBDBD);
 	background: -webkit-linear-gradient(top, #A4A4A4, #BDBDBD);
