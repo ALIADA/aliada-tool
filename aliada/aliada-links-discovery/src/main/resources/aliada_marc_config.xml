@@ -65,7 +65,7 @@
 		<RestrictTo> {?b rdf:type madsrdf:Authority} . {?b rdf:type madsrdf:Language} . {?b rdf:type &lt;http://id.loc.gov/vocabulary/languages/MARC_Language&gt;} </RestrictTo>
 	  </TargetDataset>
 	  <LinkageRule>
-		<Compare id="unnamed_6" metric="levenshteinDistance" threshold="1">
+		<Compare id="unnamed_6" metric="levenshteinDistance" threshold="2">
 			<TransformInput id="unnamed_7" function="lowerCase">
 				<Input id="unnamed_8" path="?lang/ecrm:P3_has_note"/>
 			</TransformInput>
@@ -91,7 +91,7 @@
 		<RestrictTo> {?b rdf:type madsrdf:Authority} . {?b rdf:type madsrdf:Geographic} . {?b rdf:type &lt;http://id.loc.gov/vocabulary/countries/MARC_Country&gt;} </RestrictTo>
 	  </TargetDataset>
 	  <LinkageRule>
-		<Compare id="unnamed_11" metric="levenshteinDistance" threshold="0.0">
+		<Compare id="unnamed_11" metric="levenshteinDistance" threshold="2">
 			<TransformInput id="unnamed_12" function="lowerCase">
 				<Input id="unnamed_13" path="?place/ecrm:P87_is_identified_by[&lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#type&gt; = &lt;http://erlangen-crm.org/current/E44_Place_Appellation&gt;]/ecrm:P3_has_note"/>
 			</TransformInput>
@@ -117,7 +117,7 @@
 		<RestrictTo> {?b rdf:type madsrdf:Authority} . {?b rdf:type madsrdf:Geographic} . {?b rdf:type &lt;http://id.loc.gov/vocabulary/geographicAreas/MARC_GeographicArea&gt;} </RestrictTo>
 	  </TargetDataset>
 	  <LinkageRule>
-		<Compare id="unnamed_16" metric="levenshteinDistance" threshold="0.0">
+		<Compare id="unnamed_16" metric="levenshteinDistance" threshold="2">
 			<TransformInput id="unnamed_17" function="lowerCase">
 				<Input id="unnamed_18" path="?place/ecrm:P87_is_identified_by[&lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#type&gt; = &lt;http://erlangen-crm.org/current/E44_Place_Appellation&gt;]/ecrm:P3_has_note"/>
 			</TransformInput>
