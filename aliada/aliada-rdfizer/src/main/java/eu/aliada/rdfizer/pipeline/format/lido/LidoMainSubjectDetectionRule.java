@@ -43,7 +43,7 @@ public class LidoMainSubjectDetectionRule implements MainSubjectDetectionRule<El
 			if (isNullOrEmpty(lidoRecId)) {
 				throw new UnableToProceedWithConversionException("Unable to find a record ID.");
 			}
-			final StringBuilder builder = new StringBuilder(configuration.getNamespace());
+			final StringBuilder builder = new StringBuilder(configuration.getNamespace()).append("id/resource/");
 			String clazzURI = null;
 			List<Node> categories = xpath.many("category/conceptID", input);
 			if (!categories.isEmpty()) {
