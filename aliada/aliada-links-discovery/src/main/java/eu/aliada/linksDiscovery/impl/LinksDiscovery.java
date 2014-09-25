@@ -59,13 +59,13 @@ public class LinksDiscovery {
 	private final static String LINKING_PROCESS_NAME = "links-discovery-task-runner.sh";
 	/* Parameters for configuring the input datasource of ALIADA from where
 	to link */ 
-	private final static String pageSize = "1000"; 
-	private final static String pauseTime = "0"; 
-	private final static String retryCount = "3"; 
-	private final static String retryPause = "1000"; 
-	private final static String queryParameters = ""; 
-	private final static String entityList = ""; 
-	private final static String parallel = ""; 
+	private final static String PAGESIZE = "1000"; 
+	private final static String PAUSETIME = "0"; 
+	private final static String RETRYCOUNT = "3"; 
+	private final static String RETRYPAUSE = "1000"; 
+	private final static String QUERYPARAMETERS = ""; 
+	private final static String ENTITYLIST = ""; 
+	private final static String PARALLEL = ""; 
 
 	/**
 	 * Gets the subjobs configuration from a properties file.
@@ -258,16 +258,16 @@ public class LinksDiscovery {
 					attrType.setValue("sparqlEndpoint");
 					datasourceElem.setAttributeNode(attrType);
 					//Add child elements to datasource element
-					appendChildParam(doc, datasourceElem, "pageSize", pageSize);
-					appendChildParam(doc, datasourceElem, "pauseTime", pauseTime);
-					appendChildParam(doc, datasourceElem, "retryCount", retryCount);
+					appendChildParam(doc, datasourceElem, "pageSize", PAGESIZE);
+					appendChildParam(doc, datasourceElem, "pauseTime", PAUSETIME);
+					appendChildParam(doc, datasourceElem, "retryCount", RETRYCOUNT);
 					appendChildParam(doc, datasourceElem, "endpointURI", jobConf.getInputURI());
-					appendChildParam(doc, datasourceElem, "retryPause", retryPause);
+					appendChildParam(doc, datasourceElem, "retryPause", RETRYPAUSE);
 					appendChildParam(doc, datasourceElem, "graph", jobConf.getInputGraph());
-					appendChildParam(doc, datasourceElem, "queryParameters", queryParameters);
+					appendChildParam(doc, datasourceElem, "queryParameters", QUERYPARAMETERS);
 					appendChildParam(doc, datasourceElem, "login", jobConf.getInputLogin());
-					appendChildParam(doc, datasourceElem, "entityList", entityList);
-					appendChildParam(doc, datasourceElem, "parallel", parallel);
+					appendChildParam(doc, datasourceElem, "entityList", ENTITYLIST);
+					appendChildParam(doc, datasourceElem, "parallel", PARALLEL);
 					appendChildParam(doc, datasourceElem, "password", jobConf.getInputPassword());
 					//Add new <Datasource> element with new Input datasource to <DataSources>  
 					datasourcesElem.appendChild(datasourceElem);
