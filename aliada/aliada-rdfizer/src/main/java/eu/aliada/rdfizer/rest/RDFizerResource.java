@@ -217,7 +217,7 @@ public class RDFizerResource implements RDFizer {
 			runningJobCount.incrementAndGet();
 			return Response.created(uriInfo.getAbsolutePathBuilder().build()).build();
 		} catch (final IOException exception) {
-			LOGGER.error(MessageCatalog._00030_NEW_JOB_REQUEST_DEBUG, id, path);
+			LOGGER.error(MessageCatalog._00051_IO_FAILURE, exception);
 			return Response.serverError().build();						
 		} catch (final DataAccessException exception)  {
 			LOGGER.error(MessageCatalog._00031_DATA_ACCESS_FAILURE, exception);

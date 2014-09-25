@@ -6,55 +6,56 @@
 
 package eu.aliada.gui.action;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
+import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
+import java.util.Locale;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
+import javax.servlet.http.HttpSession;
 
 import org.apache.struts2.ServletActionContext;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 
 import com.opensymphony.xwork2.ActionSupport;
 
 import eu.aliada.shared.log.Log;
-import eu.aliada.gui.parser.XmlParser;
+import eu.aliada.gui.log.MessageCatalog;
 
 /**
+ * This class provides information of the link discovery
  * @author iosa
+ * @version $Revision: 1.1 $
  * @since 1.0
  */
 public class LinkingInfoAction extends ActionSupport {
 
-    private String importFile;
+    private String linkingFile;
     private String status;
     private String startDate;
+    private String endDate;
     private String numLinks;
     private HashMap<String, String> datasets;
+    
+    private int state;
 
     private final Log logger = new Log(LinkingInfoAction.class);
 
     
     public String execute() {
-        setImportFile((String) ServletActionContext.getRequest().getSession()
-                .getAttribute("fileToLink"));
+        setLinkingFile((String) ServletActionContext.getRequest().getSession()
+                .getAttribute("linkingFile"));
+        setState((int) ServletActionContext.getRequest().getSession().getAttribute("state"));
         try {
             getInfo();
         } catch (IOException e) {
-            logger.error("Error getting linking info"+e);
+            logger.error(MessageCatalog._00012_IO_EXCEPTION,e);
             return ERROR;
         } 
         return SUCCESS;
@@ -66,51 +67,69 @@ public class LinkingInfoAction extends ActionSupport {
      * @since 1.0
      */
     private void getInfo() throws IOException {
-        int fileToLinkId = (int) ServletActionContext.getRequest().getSession()
-                .getAttribute("fileToLinkId");
-        URL url = new URL("http://localhost:8890/links-discovery/jobs/"+fileToLinkId);
+        HttpSession session = ServletActionContext.getRequest().getSession();
+        setState((int) session.getAttribute("state"));
+        Locale locale = (Locale) session.getAttribute("WW_TRANS_I18N_LOCALE");
+        if (locale == null) {
+            locale = Locale.ROOT;
+        }
+        SimpleDateFormat dateFormatIn = new SimpleDateFormat(
+                "yyyy-MM-dd'T'HH:mm:ss");
+        SimpleDateFormat dateFormatOut = new SimpleDateFormat(
+                "d MMMM yyyy',' HH:mm:ss",locale);
+        int linkingJobId = (int) session.getAttribute("linkingJobId");
+        URL url = new URL("http://aliada:8080/aliada-links-discovery-1.0/jobs/"+linkingJobId);
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod("GET");
-        conn.setRequestProperty("Accept", "application/xml");
+        conn.setRequestProperty("Accept", "application/json");
         if (conn.getResponseCode() != 202) {
-            logger.debug("Failed : HTTP error code : "
+            logger.error(MessageCatalog._00015_HTTP_ERROR_CODE
                     + conn.getResponseCode());
         }
         try {
-            XmlParser parser = new XmlParser();
-            Document doc = parser.parseXML(conn.getInputStream());
-            NodeList readNode = doc.getElementsByTagName("numLinks");
-            setNumLinks(readNode.item(0).getTextContent());
-            readNode = doc.getElementsByTagName("startDate");
-            String startDate = readNode.item(0).getTextContent();
-            SimpleDateFormat dateFormatIn = new SimpleDateFormat(
-                    "YYYY-MM-dd'T'HH:mm:ss");
-            SimpleDateFormat dateFormatOut = new SimpleDateFormat(
-                    "d MMMM yyyy',' HH:mm:ss");
-            this.setStartDate(dateFormatOut.format(dateFormatIn
-                    .parse(startDate)));          
-            readNode = doc.getElementsByTagName("status");
-            setStatus(readNode.item(0).getTextContent());  
-            readNode = doc.getElementsByTagName("subjobs");
-            if (readNode != null && readNode.getLength() > 0) {
-                for (int i = 0; i < readNode.getLength(); i++) {
-                    HashMap<String, String> datasets = new HashMap<String,String>();
-                    Node node = readNode.item(i);
-                    if (node.getNodeType() == Node.ELEMENT_NODE) {
-                        Element e = (Element) node;
-                        NodeList nodeList = e.getElementsByTagName("name");
-                        String name = nodeList.item(0).getTextContent();
-                        nodeList = e.getElementsByTagName("numLinks");
-                        String numLinksDataset = nodeList.item(0).getTextContent();
-                        datasets.put(name, numLinksDataset);
-                    }
+            BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            JSONParser parser = new JSONParser();
+            JSONObject jsonObject = (JSONObject) parser.parse(reader);
+            JSONArray subjobs = (JSONArray) jsonObject.get("subjobs");
+            Iterator i = subjobs.iterator();
+            HashMap<String, String> datasets = new HashMap<String,String>();
+            while (i.hasNext()) {
+                JSONObject innerObj = (JSONObject) i.next();
+                String name = (String) innerObj.get("name");
+                Long numLinksDataset = (Long) innerObj.get("numLinks");
+                datasets.put(name, numLinksDataset.toString());
+            }
+            this.setDatasets(datasets);
+            Long numLinks = (Long) jsonObject.get("numLinks");
+            setNumLinks(numLinks.toString());
+            String startDate = (String) jsonObject.get("startDate");
+            if(startDate!=null){
+                this.setStartDate(dateFormatOut.format(dateFormatIn.parse(startDate)));  
+            }
+            String endDate = (String) jsonObject.get("endDate");
+            if(endDate!=null){
+                this.setEndDate(dateFormatOut.format(dateFormatIn
+                        .parse(endDate))); 
+            }
+            String status = (String) jsonObject.get("status");
+            if(status.equals("idle")){
+                setStatus(getText("linkingInfo.idle"));
+            }
+            else if(status.equals("running")){
+                setStatus(getText("linkingInfo.running"));
+            }
+            else if(status.equals("finished")){
+                if(state==4){
+                    session.setAttribute("state", 5);                        
                 }
-                this.setDatasets(datasets);
-            } else {
-                logger.debug("Not subjobs created");
-            }            
+                else if(state!=5){
+                    session.setAttribute("state", 3);                        
+                }
+                setStatus(getText("linkingInfo.completed"));
+                setState((int) session.getAttribute("state"));
+            }
           } catch (Exception e) {
-            logger.debug("Failed reading xml"+e);
+            logger.error(MessageCatalog._00016_ERROR_READING_XML,e);
             conn.disconnect();
         }
         conn.disconnect();
@@ -192,21 +211,53 @@ public class LinkingInfoAction extends ActionSupport {
     }
 
     /**
-     * @return Returns the importFile.
+     * @return Returns the linkingFile.
      * @exception
      * @since 1.0
      */
-    public String getImportFile() {
-        return importFile;
+    public String getLinkingFile() {
+        return linkingFile;
     }
 
     /**
-     * @param importFile The importFile to set.
+     * @param linkingFile The linkingFile to set.
      * @exception
      * @since 1.0
      */
-    public void setImportFile(String importFile) {
-        this.importFile = importFile;
+    public void setLinkingFile(String linkingFile) {
+        this.linkingFile = linkingFile;
+    }
+    /**
+     * @return Returns the endDate.
+     * @exception
+     * @since 1.0
+     */
+    public String getEndDate() {
+        return endDate;
+    }
+    /**
+     * @param endDate The endDate to set.
+     * @exception
+     * @since 1.0
+     */
+    public void setEndDate(String endDate) {
+        this.endDate = endDate;
+    }
+    /**
+     * @return Returns the state.
+     * @exception
+     * @since 1.0
+     */
+    public int getState() {
+        return state;
+    }
+    /**
+     * @param state The state to set.
+     * @exception
+     * @since 1.0
+     */
+    public void setState(int state) {
+        this.state = state;
     }
 
 }

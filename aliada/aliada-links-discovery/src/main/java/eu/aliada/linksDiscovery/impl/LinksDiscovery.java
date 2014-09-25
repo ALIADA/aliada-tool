@@ -229,10 +229,10 @@ public class LinksDiscovery {
 			inputFileNameNoExt = inputFileName.substring(0, index);
 		else
 			inputFileNameNoExt = inputFileName;
-		String fileNameWithPathNoExt = jobConf.getTmpDir() + File.separator + inputFileNameNoExt;
+		String filePath = jobConf.getTmpDir() + File.separator;
 		//Replace Windows file separator by "/" Java file separator
-		fileNameWithPathNoExt = fileNameWithPathNoExt.replace("\\", "/");
-		String linkingXMLConfigFilename = fileNameWithPathNoExt + System.currentTimeMillis() + ".xml";
+		filePath = filePath.replace("\\", "/");
+		String linkingXMLConfigFilename = filePath + inputFileNameNoExt + System.currentTimeMillis() + ".xml";
 
 		try {
 			//Read XML file
@@ -305,8 +305,8 @@ public class LinksDiscovery {
 					Node interLinkNode = nNode.getParentNode();
 					Element interLinkElem = (Element) interLinkNode;
 					String interLinkId = interLinkElem.getAttribute("id");
-					//String triplesGeneratedFilename = fileNameWithPathNoExt + System.currentTimeMillis() + "output.n3";
-					String triplesGeneratedFilename = subjobName + "_" + interLinkId + "_" + System.currentTimeMillis() + "_output.n3";
+					//String triplesGeneratedFilename = filePath + inputFileNameNoExt + System.currentTimeMillis() + "output.n3";
+					String triplesGeneratedFilename = filePath + subjobName + "_" + interLinkId + "_" + System.currentTimeMillis() + "_output.n3";
 					outputElem = doc.createElement("Output"); 
 					//set attributes to Output element
 					attrType = doc.createAttribute("type"); 
@@ -412,8 +412,8 @@ public class LinksDiscovery {
 			BufferedWriter out = new BufferedWriter(fstream);
 			Calendar calendar = Calendar.getInstance();
 			if(subjobId <= 1) {
-				//If it is the first subjob, add 5 minutes for starting the programmed process
-				calendar.add(Calendar.MINUTE, 5);
+				//If it is the first subjob, add 1 minute for starting the programmed process
+				calendar.add(Calendar.MINUTE, 1);
 			} else {
 				//We add an hour to start the programmed processes for every other subjob
 				calendar.add(Calendar.HOUR_OF_DAY, subjobId - 1);
@@ -450,31 +450,31 @@ public class LinksDiscovery {
 	 * @since 1.0
 	 */
 	public Job programLinkingProcesses(JobConfiguration jobConf, DBConnectionManager db, DDBBParams ddbbParams) {
-		logger.info(MessageCatalog._00030_STARTING);
+		logger.debug(MessageCatalog._00030_STARTING);
 		//Update job start-date in DDBB
 		db.updateJobStartDate(jobConf.getId());
 		//Get files and other parameters to generate linking processes (subjobs)
-		logger.info(MessageCatalog._00035_GET_lINKING_CONFIG_FILES);
+		logger.debug(MessageCatalog._00035_GET_lINKING_CONFIG_FILES);
 		SubjobConfiguration[] subjobConf = getLinkingConfigFiles(jobConf.getConfigFile());
 		//Generate initial crontab file with previous scheduled jobs
-		logger.info(MessageCatalog._00036_CREATE_CRONTAB_FILE);
+		logger.debug(MessageCatalog._00036_CREATE_CRONTAB_FILE);
 		String crontabFilename  = createCrontabFile(jobConf.getTmpDir());
 		if (crontabFilename != null){
 			//For each linking process to schedule with crontab
 			for (int i=0; i<subjobConf.length;i++){
 				int subjobId = i + 1 ;
 				//Generate XML config file for SILK
-				logger.info(MessageCatalog._00037_CREATE_lINKING_XML_CONFIG_FILE, subjobId);
+				logger.debug(MessageCatalog._00037_CREATE_lINKING_XML_CONFIG_FILE, subjobId);
 				String linkingXMLConfigFilename = createLinkingXMLConfigFile(subjobConf[i].getLinkingXMLConfigFilename(), subjobConf[i].getDs(), subjobConf[i].getName(), jobConf);
 				if(linkingXMLConfigFilename != null){
 					//Generate properties file to be used by scheduled subjob
-					logger.info(MessageCatalog._00038_CREATE_lINKING_PROP_FILE, subjobId);
+					logger.debug(MessageCatalog._00038_CREATE_lINKING_PROP_FILE, subjobId);
 					String linkingPropConfigFilename = createLinkingPropConfigFile(jobConf.getTmpDir(), ddbbParams);
 					if (linkingPropConfigFilename != null){
-						logger.info(MessageCatalog._00039_INSERT_lINKING_CRONTAB_FILE, subjobId);
+						logger.debug(MessageCatalog._00039_INSERT_lINKING_CRONTAB_FILE, subjobId);
 						if(insertLinkingProcessInCrontabFile(crontabFilename, jobConf.getClientAppBinDir(), jobConf.getId(), subjobId, linkingPropConfigFilename)){
 							//Insert job-subjob in DDBB
-							logger.info(MessageCatalog._00042_INSERT_SUBJOB_DDBB, jobConf.getId(), subjobId);
+							logger.debug(MessageCatalog._00042_INSERT_SUBJOB_DDBB, jobConf.getId(), subjobId);
 							db.insertSubjobToDDBB(jobConf.getId(), subjobId, subjobConf[i], linkingXMLConfigFilename,jobConf);
 						}
 					}
@@ -483,14 +483,14 @@ public class LinksDiscovery {
 			// Execute system command "crontab contrabfilename"
 			String command = "crontab " + crontabFilename;
 			try {
-				logger.info(MessageCatalog._00040_EXECUTING_CRONTAB);
+				logger.debug(MessageCatalog._00040_EXECUTING_CRONTAB);
 				Runtime.getRuntime().exec(command);
 			} catch (IOException exception) {
 				logger.error(MessageCatalog._00033_EXTERNAL_PROCESS_START_FAILURE, exception, command);
 			}
 		}
 		Job job = db.getJob(jobConf.getId());
-		logger.info(MessageCatalog._00041_STOPPED);
+		logger.debug(MessageCatalog._00041_STOPPED);
 		return job;
 	}
 

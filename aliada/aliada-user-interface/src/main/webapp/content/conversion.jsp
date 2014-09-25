@@ -12,7 +12,20 @@
 				<th><label class="bold"><html:text name="conversion.template"/></label></th>
 			</tr>
 			<tr>
-				<td><html:property value="importFile.getName()" /></td>
+				<td>
+					<div <html:if test="!showRdfizerButton && !showCheckButton">class="displayInline"</html:if>
+						<html:else>
+						    class="displayNo"
+						</html:else>>
+						<html:text name="conversion.not.file"/>
+					</div>
+					<div <html:if test="!showRdfizerButton && !showCheckButton">class="displayNo"</html:if>
+						<html:else>
+						    class="displayInline"
+						</html:else>>
+						<html:property value="importFile.getName()" />
+					</div>
+				</td>
 				<td><html:select name="templatesSelect"
 						cssClass="inputForm" list="templates" /></td>
 			</tr>
@@ -21,8 +34,8 @@
 			<html:else>
 			    class="displayNo"
 			</html:else>>
-			<html:submit action="RDFize" cssClass="submitButton button"
-				key="RDF-ize" />
+			<html:submit action="RDFize" cssClass="submitButton buttonGreen"
+				key="RDF-ize"/>
 		</div>
 	</div>
 	<div id="conversionButtons" class="buttons row">
@@ -32,11 +45,17 @@
 				<html:else>
 				    class="displayNo"
 				</html:else>>
-				<html:submit action="checkRDFizer" cssClass="submitButton button"
+				<html:submit id="checkRDFButton" action="checkRDFizer" cssClass="submitButton buttonGreen"
 					key="check" />
 			</div>
-			<html:submit action="linking" cssClass="submitButton button"
-			key="next" />
+			<html:submit id="nextButton" action="linking" cssClass="displayNo submitButton buttonGreen"
+				key="next" />
+			<html:if test="state>1">
+				<script>
+					$('#checkRDFButton').hide();
+			    	$("#nextButton").show("slow");
+			    </script>				
+			</html:if>
 	</div>	
 </html:form>
 

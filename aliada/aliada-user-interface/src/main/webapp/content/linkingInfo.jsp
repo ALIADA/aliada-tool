@@ -8,15 +8,20 @@
 			<h3 class="bigLabel"><html:text name="linkingInfo.info"/></h3>
 			<div class="row">
 				<label class="label"><html:text name="linkingInfo.nameFile"/></label><br/>
-				<html:property value="importFile" />		
+				<html:property value="linkingFile" />		
 			</div>
 			<div class="row">
 				<label class="label"><html:text name="linkingInfo.sDate"/></label>
 				<html:property value="startDate"/>			
 			</div>
 			<div class="row">
-				<label class="label"><html:text name="linkingInfo.status"/></label>
-				<html:property value="status"/>			
+				<label class="label"><html:text name="linkingInfo.eDate"/></label>
+				<html:property value="endDate"/>			
+			</div>
+			<div class="row">
+				<label class="label green"><html:text name="linkingInfo.status"/>
+					<html:property value="status"/>	
+				</label>		
 			</div>
 			<div class="row">	
 				<label class="label"><html:text name="linkingInfo.linksDataset"/></label>
@@ -32,15 +37,14 @@
 			</div>
 			<div class="row">
 				<html:form>
-					<html:submit action="linkingInfo" cssClass="submitButton button" key="check"/>
-					<html:submit action="lds" cssClass="centeredButton button" key="createURIs" />
-				<html:if test="status.equals('finished')">
-					<script>
-				    	document.getElementById("createURIs").style.visibility = "visible";
-				    </script>
-				</html:if>
+					<html:submit id="checkButton" action="linkingInfo" cssClass="submitButton buttonGreen" key="check"/>
 				</html:form>		
 			</div>
+			<html:if test="state==3 || state==5">
+				<script>
+			    	$("#checkButton").hide();
+			    </script>
+			</html:if>
 		</div>	
 	</div>
 		

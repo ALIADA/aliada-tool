@@ -26,7 +26,9 @@ import eu.aliada.gui.rdbms.DBConnectionManager;
 import eu.aliada.shared.log.Log;
 
 /**
+ * 
  * @author iosa
+ * @version $Revision: 1.1 $
  * @since 1.0
  */
 public class UsersAction extends ActionSupport{
@@ -47,13 +49,23 @@ public class UsersAction extends ActionSupport{
 
     private final Log logger = new Log(UsersAction.class);
     
-    
+    /**
+     * Displays the form to add the user
+     * @return
+     * @see
+     * @since 1.0
+     */
     public String showAddForm(){
         getUsersDb();
         this.showAddForm = true;
         return SUCCESS;
     }
-    
+    /**
+     * Delete an user from the DB
+     * @return
+     * @see
+     * @since 1.0
+     */
     public String deleteUser() {
         Connection connection = null;
         try {
@@ -71,14 +83,18 @@ public class UsersAction extends ActionSupport{
                 addActionMessage(getText("user.delete.ok"));
             }
         } catch (SQLException e) {
-            logger.debug(MessageCatalog._00011_SQL_EXCEPTION);
-            e.printStackTrace();
+            logger.error(MessageCatalog._00011_SQL_EXCEPTION,e);
             getUsersDb();
             return ERROR;
         }
         return getUsersDb();           
     }
-    
+    /**
+     * Displays the form to the edit the user
+     * @return
+     * @see
+     * @since 1.0
+     */
     public String showEdit(){
         Connection connection = null;
         HttpSession session = ServletActionContext.getRequest().getSession();
@@ -111,13 +127,18 @@ public class UsersAction extends ActionSupport{
                 return ERROR;
             }
         } catch (SQLException e) {
-            logger.debug(MessageCatalog._00011_SQL_EXCEPTION);
-            e.printStackTrace();
+            logger.error(MessageCatalog._00011_SQL_EXCEPTION,e);
             getUsersDb();
             return ERROR;
         }        
     }
     
+    /**
+     * Gets the users from the DB
+     * @return
+     * @see
+     * @since 1.0
+     */
     public String getUsersDb(){
         ServletActionContext.getRequest().getSession().removeAttribute("userToUpdate");    
         getRolesDb();
@@ -147,14 +168,19 @@ public class UsersAction extends ActionSupport{
                 setAreUsers(true);
             }
         } catch (SQLException e) {
-            logger.debug(MessageCatalog._00011_SQL_EXCEPTION);
-            e.printStackTrace();
+            logger.error(MessageCatalog._00011_SQL_EXCEPTION,e);
             return ERROR;
         }
         this.showAddForm=false;
         this.showEditForm=false;
         return SUCCESS;
     }
+    /**
+     * Add an user to the DB
+     * @return
+     * @see
+     * @since 1.0
+     */
     public String addUser(){
         Connection connection = null;
         try {
@@ -179,12 +205,17 @@ public class UsersAction extends ActionSupport{
                 return ERROR;
             }         	
         } catch (SQLException e) {
-            logger.debug(MessageCatalog._00011_SQL_EXCEPTION);
-            e.printStackTrace();
+            logger.error(MessageCatalog._00011_SQL_EXCEPTION,e);
             return ERROR;
         }
         return SUCCESS;        
     }
+    /**
+     * Updates an user in the DB
+     * @return
+     * @see
+     * @since 1.0
+     */
     public String editUser(){
         Connection connection = null;
         try {
@@ -197,13 +228,19 @@ public class UsersAction extends ActionSupport{
             connection.close();
             getUsersDb();
         } catch (SQLException e) {
-            logger.debug(MessageCatalog._00011_SQL_EXCEPTION);
-            e.printStackTrace();
+            logger.error(MessageCatalog._00011_SQL_EXCEPTION,e);
             getUsersDb();
             return ERROR;
         }
         return SUCCESS;        
     }
+    /**
+     * Gets the user role name for a given user role code
+     * @param code
+     * @return
+     * @see
+     * @since 1.0
+     */
     private String getRoleCode(int code) {
         Connection connection = null;
         try {
@@ -217,12 +254,18 @@ public class UsersAction extends ActionSupport{
                 return userRole;
             }
         } catch (SQLException e) {
-            logger.debug(MessageCatalog._00011_SQL_EXCEPTION);
-            e.printStackTrace();
+            logger.error(MessageCatalog._00011_SQL_EXCEPTION,e);
             return ERROR;
         }
         return null;
     }
+    /**
+     * Gets the user type name for a given user type code
+     * @param code
+     * @return
+     * @see
+     * @since 1.0
+     */
     private String getUserType(int code) {
         Connection connection = null;
         try {
@@ -236,19 +279,24 @@ public class UsersAction extends ActionSupport{
                 return userType;
             }
         } catch (SQLException e) {
-            logger.debug(MessageCatalog._00011_SQL_EXCEPTION);
-            e.printStackTrace();
+            logger.error(MessageCatalog._00011_SQL_EXCEPTION,e);
             return ERROR;
         }
         return null;
     }
+    /**
+     * Get the user roles from DB
+     * @return
+     * @see
+     * @since 1.0
+     */
     private String getRolesDb(){
         Connection connection;
         this.roles = new HashMap();
         try {
             connection = new DBConnectionManager().getConnection();
         	Statement statement = connection.createStatement();
-            ResultSet rs = statement.executeQuery("select * from ALIADA.t_user_role");
+            ResultSet rs = statement.executeQuery("select * from aliada.t_user_role");
             while (rs.next()) {
                 int code = rs.getInt("user_role_code");
                 String name = rs.getString("user_role");
@@ -258,19 +306,24 @@ public class UsersAction extends ActionSupport{
             statement.close();
             connection.close();
         } catch (SQLException e) {
-            logger.debug(MessageCatalog._00011_SQL_EXCEPTION);
-            e.printStackTrace();
+            logger.error(MessageCatalog._00011_SQL_EXCEPTION,e);
             return ERROR;
         }
         return SUCCESS;   
     }
+    /**
+     * Gets the user types from DB
+     * @return
+     * @see
+     * @since 1.0
+     */
     private String getTypesDb(){
         Connection connection;
         this.types = new HashMap();
         try {
             connection = new DBConnectionManager().getConnection();
         	Statement statement = connection.createStatement();
-            ResultSet rs = statement.executeQuery("select * from ALIADA.t_user_type");
+            ResultSet rs = statement.executeQuery("select * from aliada.t_user_type");
             while (rs.next()) {
                 int code = rs.getInt("user_type_code");
                 String name = rs.getString("user_type");
@@ -280,8 +333,7 @@ public class UsersAction extends ActionSupport{
             statement.close();
             connection.close();
         } catch (SQLException e) {
-            logger.debug(MessageCatalog._00011_SQL_EXCEPTION);
-            e.printStackTrace();
+            logger.error(MessageCatalog._00011_SQL_EXCEPTION,e);
         }
         return SUCCESS;   
     }

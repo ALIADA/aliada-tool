@@ -6,8 +6,10 @@
 
 package eu.aliada.gui.action;
 
+import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -17,19 +19,24 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
+import java.util.Locale;
+
+import javax.servlet.http.HttpSession;
 
 import org.apache.struts2.ServletActionContext;
-import org.w3c.dom.Document;
-import org.w3c.dom.NodeList;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 
 import com.opensymphony.xwork2.ActionSupport;
 
-import eu.aliada.gui.parser.XmlParser;
+import eu.aliada.gui.log.MessageCatalog;
 import eu.aliada.gui.rdbms.DBConnectionManager;
 import eu.aliada.shared.log.Log;
 
 /**
+ * This class contains methods related to the creation of URIs
  * @author iosa
+ * @version $Revision: 1.1 $
  * @since 1.0
  */
 public class LdsAction extends ActionSupport {
@@ -38,27 +45,44 @@ public class LdsAction extends ActionSupport {
     private String status;
     private String startDate;
     private String endDate;
+    private boolean ldsStarted;
+    
+    private int state;
+    
     private final Log logger = new Log(LdsAction.class);
     
+    /**
+     * Does the call to the linked data server service
+     * @return String
+     * @see
+     * @since 1.0
+     */
     public String startLDS() {
-        importFile = (String) ServletActionContext.getRequest().getSession()
-                .getAttribute("fileToLink");
-        if (importFile != null) {
-            createJobLDS(importFile);
+        HttpSession session = ServletActionContext.getRequest().getSession();
+        Integer rdfizerJob = (Integer) session.getAttribute("fileToLink");
+        setState((int) session.getAttribute("state"));
+        if(rdfizerJob!=null) {
+            getFile(rdfizerJob);
+            createJobLDS();
             try {
+                logger.debug(MessageCatalog._00040_LDS_STARTED);
                 return getInfoLDS();
             } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+                logger.error(MessageCatalog._00012_IO_EXCEPTION,e);
                 return ERROR;
             }
         } else {
             return ERROR;
         }
     }
-
-    private void createJobLDS(String fileToLink) {
-        logger.debug("Creating link server job");
+    
+    /**
+     * Creates a job for the linked data server
+     * @see
+     * @since 1.0
+     */
+    private void createJobLDS() {
+        HttpSession session = ServletActionContext.getRequest().getSession();
         int addedId = 0;
         Connection connection = null;
         connection = new DBConnectionManager().getConnection();
@@ -85,14 +109,13 @@ public class LdsAction extends ActionSupport {
                 ResultSet rs2 = preparedStatement.getGeneratedKeys();
                 if (rs2.next()) {
                     addedId = (int) rs2.getInt(1);
-                    logger.debug("Added linked server job id: " + addedId);
                 }
                 rs2.close();
                 preparedStatement.close();          
                 URL url;
                 HttpURLConnection conn = null;
                 try {
-                    url = new URL("http://localhost:8889/lds/jobs/");
+                    url = new URL("http://aliada:8080/aliada-linked-data-server-1.0/jobs/");
                     conn = (HttpURLConnection) url.openConnection();
                     conn.setDoOutput(true);
                     conn.setRequestMethod("POST");
@@ -108,62 +131,119 @@ public class LdsAction extends ActionSupport {
                         throw new RuntimeException("Failed : HTTP error code : "
                                 + conn.getResponseCode());
                     } else {
-                        ServletActionContext.getRequest().getSession()
-                                .setAttribute("fileToLink", fileToLink);
-                        ServletActionContext.getRequest().getSession()
-                                .setAttribute("fileToLinkId", addedId);
+                        session.setAttribute("ldsJobId", addedId);
                     }
                     conn.disconnect();
-                    getInfoLDS();
+                    session.setAttribute("ldsStarted", true);
+                    setLdsStarted(true);
                 } catch (MalformedURLException e) {
-                    e.printStackTrace();
+                    logger.error(MessageCatalog._00014_MALFORMED_URL_EXCEPTION,e);
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    logger.error(MessageCatalog._00012_IO_EXCEPTION,e);
                 }
             }
             rs.close();
             statement.close();
             connection.close();  
             } catch (SQLException e) {
-            logger.debug("SQL error" + e);
+                logger.error(MessageCatalog._00011_SQL_EXCEPTION,e);
         }
     }
 
+    /**
+     * Gets the information of the linked data server process
+     * @return String
+     * @throws IOException
+     * @see
+     * @since 1.0
+     */
     public String getInfoLDS() throws IOException {
-        importFile = (String) ServletActionContext.getRequest().getSession()
-                .getAttribute("fileToLink");
-        int fileToLinkId = (int) ServletActionContext.getRequest().getSession()
-                .getAttribute("fileToLinkId");
-        URL url = new URL("http://localhost:8889/lds/jobs/" + fileToLinkId);
-        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-        conn.setRequestMethod("GET");
-        conn.setRequestProperty("Accept", "application/xml");
-        if (conn.getResponseCode() != 202) {
-            logger.debug("Failed : HTTP error code : " + conn.getResponseCode());
+        HttpSession session = ServletActionContext.getRequest().getSession();
+        Integer rdfizerJob = (Integer) session.getAttribute("fileToLink");
+        setState((int) session.getAttribute("state"));
+        if(rdfizerJob!=null) {
+            getFile(rdfizerJob);
         }
-        try {
-            XmlParser parser = new XmlParser();
-            Document doc = parser.parseXML(conn.getInputStream());
-            NodeList readNode = doc.getElementsByTagName("startDate");
-            String startDate = readNode.item(0).getTextContent();
-            SimpleDateFormat dateFormatIn = new SimpleDateFormat(
-                    "YYYY-MM-dd'T'HH:mm:ss");
-            SimpleDateFormat dateFormatOut = new SimpleDateFormat(
-                    "d MMMM yyyy',' HH:mm:ss");
-            setStartDate(dateFormatOut.format(dateFormatIn
-                    .parse(startDate)));
-            readNode = doc.getElementsByTagName("startDate");
-            String endDate = readNode.item(0).getTextContent();
-            setEndDate(dateFormatOut.format(dateFormatIn
-                    .parse(endDate)));
-            readNode = doc.getElementsByTagName("status");
-            setStatus(readNode.item(0).getTextContent());
-            conn.disconnect();
+        if(session.getAttribute("ldsStarted") != null){
+            setLdsStarted(true);
+            int ldsJobId = (int) session.getAttribute("ldsJobId");
+            URL url = new URL("http://aliada:8080/aliada-linked-data-server-1.0/jobs/" + ldsJobId);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+            conn.setRequestProperty("Accept", "application/json");
+            if (conn.getResponseCode() != 202) {
+                logger.error(MessageCatalog._00015_HTTP_ERROR_CODE + conn.getResponseCode());
+            }
+            try {
+                Locale locale = (Locale) session.getAttribute("WW_TRANS_I18N_LOCALE");
+                if (locale == null) {
+                    locale = Locale.ROOT;
+                }
+                SimpleDateFormat dateFormatIn = new SimpleDateFormat(
+                        "yyyy-MM-dd'T'HH:mm:ss");
+                SimpleDateFormat dateFormatOut = new SimpleDateFormat(
+                        "d MMMM yyyy',' HH:mm:ss",locale);
+                BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                JSONParser parser = new JSONParser();
+                JSONObject jsonObject = (JSONObject) parser.parse(reader);
+                String startDate = (String) jsonObject.get("startDate");
+                if(startDate!=null){
+                    setStartDate(dateFormatOut.format(dateFormatIn.parse(startDate)));  
+                }
+                String endDate = (String) jsonObject.get("endDate");
+                if(endDate!=null){
+                    setEndDate(dateFormatOut.format(dateFormatIn
+                            .parse(endDate))); 
+                }
+                String status = (String) jsonObject.get("status");
+                if(status.equals("idle")){
+                    setStatus(getText("linkingInfo.idle"));
+                }
+                else if(status.equals("running")){
+                    setStatus(getText("linkingInfo.running"));
+                }
+                else if(status.equals("finished")){
+                    if(state==3){
+                        session.setAttribute("state", 5);                        
+                    }
+                    else if(state!=5){
+                        session.setAttribute("state", 4);                        
+                    }
+                    setStatus(getText("linkingInfo.completed"));
+                }
+                conn.disconnect();
+                setState((int) session.getAttribute("state"));
+                return SUCCESS;
+            } catch (Exception e) {
+                logger.error(MessageCatalog._00016_ERROR_READING_XML,e);
+                conn.disconnect();
+                return ERROR;
+            }
+        }
+        else{
+            setLdsStarted(false);
+            setStatus(getText("ldsInfo.not.started"));
             return SUCCESS;
-        } catch (Exception e) {
-            logger.error("Failed reading xml" + e);
-            conn.disconnect();
-            return ERROR;
+        }       
+    }
+    
+    private void getFile(int rdfizerJob) {
+        Connection con;
+        try {
+            con = new DBConnectionManager().getConnection();
+            Statement st;
+            st = con.createStatement();
+            ResultSet rs = st
+                    .executeQuery("select datafile from aliada.rdfizer_job_instances WHERE job_id="
+                            + rdfizerJob);
+            if (rs.next()) {
+                setImportFile(rs.getString(1));
+            }
+            rs.close();
+            st.close();
+            con.close();
+        } catch (SQLException e) {
+            logger.error(MessageCatalog._00011_SQL_EXCEPTION,e);
         }
     }
 
@@ -237,6 +317,42 @@ public class LdsAction extends ActionSupport {
      */
     public void setEndDate(String endDate) {
         this.endDate = endDate;
+    }
+
+    /**
+     * @return Returns the ldsStarted.
+     * @exception
+     * @since 1.0
+     */
+    public boolean isLdsStarted() {
+        return ldsStarted;
+    }
+
+    /**
+     * @param ldsStarted The ldsStarted to set.
+     * @exception
+     * @since 1.0
+     */
+    public void setLdsStarted(boolean ldsStarted) {
+        this.ldsStarted = ldsStarted;
+    }
+
+    /**
+     * @return Returns the state.
+     * @exception
+     * @since 1.0
+     */
+    public int getState() {
+        return state;
+    }
+
+    /**
+     * @param state The state to set.
+     * @exception
+     * @since 1.0
+     */
+    public void setState(int state) {
+        this.state = state;
     }
 
 }

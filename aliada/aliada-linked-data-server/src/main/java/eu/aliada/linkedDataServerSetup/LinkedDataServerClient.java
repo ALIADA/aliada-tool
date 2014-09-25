@@ -20,7 +20,8 @@ import javax.ws.rs.core.Response;
  * @since 1.0
  */
 public class LinkedDataServerClient {
-	protected String ALIADA_LinkedDataServerURL = "http://localhost:8889/lds/";
+	//protected String ALIADA_LinkedDataServerURL = "http://localhost:8889/lds/";
+	protected String ALIADA_LinkedDataServerURL = "http://aliada.scanbit.net:8080/aliada-linked-data-server-1.0/";
 
 	/**
 	 * Implementation of a Linked Data Server REST service client application.

@@ -101,6 +101,7 @@ public class LogonAction extends ActionSupport {
 				rs.close();
 				st.close();
 				conn.close();
+				ServletActionContext.getRequest().getSession().setAttribute("state",0);
 				return SUCCESS;
 			} else {
 				logger.debug(MessageCatalog._00010_LOGON_FAILURE);
@@ -111,8 +112,7 @@ public class LogonAction extends ActionSupport {
 				return ERROR;
 			}
 		} catch (SQLException e) {
-			logger.debug(MessageCatalog._00011_SQL_EXCEPTION);
-			e.printStackTrace();
+			logger.error(MessageCatalog._00011_SQL_EXCEPTION,e);
 		}
 
 		return SUCCESS;

@@ -56,17 +56,18 @@ public class ManagingAction extends ActionSupport {
 	private HashMap<Integer, String> characterSets;
 	private boolean showAddProfileForm;
 	private boolean showEditProfileForm;
-	private boolean showNextButton;
 	private boolean enableErrorLogButton;
 	private boolean areProfiles;
 	private File importFile;
 	private String importFileFileName;
 	private String profilesSelect;
+	
+	private int state;
 
-	private static final String VISUALIZE_PATH = "src/main/resources/xmlVisualize/";
-	private static final String VALIDATOR_PATH = "src/main/resources/xmlValidators/";
-	private static final String ERROR_CONTENT_PATH = "src/main/webapp/content/errorContent.jsp";
-	private final Log logger = new Log(ManagingAction.class);
+	private static final String VISUALIZE_PATH = "webapps/aliada-user-interface-1.0/WEB-INF/classes/xmlVisualize/";
+    private static final String VALIDATOR_PATH = "webapps/aliada-user-interface-1.0/WEB-INF/classes/xmlValidators/";
+    private static final String ERROR_CONTENT_PATH = "webapps/aliada-user-interface-1.0/content/errorContent.jsp";
+    private final Log logger = new Log(ManagingAction.class);
 
 	/**
 	 * The method is to import the file in the institution path and do the input
@@ -78,7 +79,6 @@ public class ManagingAction extends ActionSupport {
 	 */
 	public String importXML() {
 		CheckImportError.initialize();
-		setShowNextButton(false);
 		String message;
 		HttpSession session = ServletActionContext.getRequest().getSession();
 		session.removeAttribute("importFile");
@@ -87,11 +87,13 @@ public class ManagingAction extends ActionSupport {
 			addActionError(getText("err.not.file"));
 			logger.debug(MessageCatalog._00020_MANAGE_FILE_NOT_FOUND);
 			message = ERROR;
+            session.setAttribute("state", 0);
 			showProfiles();
 		} else if (!wf.isWellFormedXML(importFile.getPath())) {
 			addActionError(getText("err.xml.wrong"));
 			logger.debug(MessageCatalog._00021_MANAGE_NOT_VALIDATED_BY_WELL_FORMED);
 			message = ERROR;
+            session.setAttribute("state", 0);
 			showProfiles();
 		} else {
 			Connection connection = null;
@@ -126,12 +128,11 @@ public class ManagingAction extends ActionSupport {
 					if (vx.toStyledDocument(importFile.getPath(),
 							VISUALIZE_PATH + visualizeTypePath,
 							ERROR_CONTENT_PATH)) {
-						logger.debug("EL FICHERO ES "
-								+ CheckImportError.isFileCorrect());
 
 						if (!CheckImportError.isFileCorrect()) {
 							addActionError(getText("err.not.validated"));
 							logger.debug(MessageCatalog._00022_MANAGE_NOT_VALIDATED_BY_VISUALIZE_FILE_TYPE);
+                            session.setAttribute("state", 0);
 							showProfiles();
 							setEnableErrorLogButton(true);
 						} else if (CheckImportError.getCount() == 0) {
@@ -147,13 +148,15 @@ public class ManagingAction extends ActionSupport {
 							FileUtils.copyFile(this.importFile, fileCreated);
 							session.setAttribute("importFile", fileCreated);
 							session.setAttribute("profile", this.profilesSelect);
+							logger.debug(MessageCatalog._00026_MANAGE_VALIDATED);
 							addActionMessage(getText("correct.file"));
+                            session.setAttribute("state", 1);
 							showProfiles();
-							setShowNextButton(true);
 							setEnableErrorLogButton(false);
 						} else {
 							addActionError(getText("err.not.validated"));
 							logger.debug(MessageCatalog._00023_MANAGE_NOT_VALIDATED_BY_VISUALIZE_MANDATORY);
+                            session.setAttribute("state", 0);
 							showProfiles();
 							setEnableErrorLogButton(true);
 						}
@@ -161,22 +164,23 @@ public class ManagingAction extends ActionSupport {
 						addActionError(getText("err.not.validated"));
 						logger.debug(MessageCatalog._00024_MANAGE_NOT_VALIDATED_BY_VISUALIZE);
 						message = ERROR;
+                        session.setAttribute("state", 0);
 						showProfiles();
 					}
 				} else {
 					addActionError(getText("err.wrong.file"));
 					logger.debug(MessageCatalog._00025_MANAGE_NOT_VALIDATED_BY_VALIDATION);
 					message = ERROR;
+                    session.setAttribute("state", 0);
 					showProfiles();
 				}
 				connection.close();
 			} catch (SQLException e) {
-				logger.debug(MessageCatalog._00011_SQL_EXCEPTION);
-				e.printStackTrace();
+				logger.error(MessageCatalog._00011_SQL_EXCEPTION,e);
 				showProfiles();
 				message = ERROR;
 			} catch (IOException e) {
-				e.printStackTrace();
+			    logger.error(MessageCatalog._00012_IO_EXCEPTION,e);
 				showProfiles();
 				message = ERROR;
 			}
@@ -235,8 +239,7 @@ public class ManagingAction extends ActionSupport {
 				return ERROR;
 			}
 		} catch (SQLException e) {
-			logger.debug(MessageCatalog._00011_SQL_EXCEPTION);
-			e.printStackTrace();
+			logger.error(MessageCatalog._00011_SQL_EXCEPTION,e);
 			showProfiles();
 			return ERROR;
 		}
@@ -267,8 +270,7 @@ public class ManagingAction extends ActionSupport {
 			addActionMessage(getText("profile.edit.ok"));
 			showProfiles();
 		} catch (SQLException e) {
-			logger.debug(MessageCatalog._00011_SQL_EXCEPTION);
-			e.printStackTrace();
+			logger.error(MessageCatalog._00011_SQL_EXCEPTION,e);
 			return ERROR;
 		}
 		return SUCCESS;
@@ -297,8 +299,7 @@ public class ManagingAction extends ActionSupport {
 				addActionMessage(getText("profile.delete.ok"));
 			}
 		} catch (SQLException e) {
-			logger.debug(MessageCatalog._00011_SQL_EXCEPTION);
-			e.printStackTrace();
+			logger.error(MessageCatalog._00011_SQL_EXCEPTION,e);
 			showProfiles();
 			return ERROR;
 		}
@@ -329,8 +330,7 @@ public class ManagingAction extends ActionSupport {
 			showProfiles();
 			return SUCCESS;
 		} catch (SQLException e) {
-			logger.debug(MessageCatalog._00011_SQL_EXCEPTION);
-			e.printStackTrace();
+			logger.error(MessageCatalog._00011_SQL_EXCEPTION,e);
 			return ERROR;
 		}
 	}
@@ -344,6 +344,7 @@ public class ManagingAction extends ActionSupport {
 	 */
 	public String showProfiles() {
 		Connection connection = null;
+        setState((int) ServletActionContext.getRequest().getSession().getAttribute("state"));   
 		try {
 			connection = new DBConnectionManager().getConnection();
 			Statement statement = connection.createStatement();
@@ -363,8 +364,7 @@ public class ManagingAction extends ActionSupport {
 			statement.close();
 			connection.close();
 		} catch (SQLException e) {
-			logger.debug(MessageCatalog._00011_SQL_EXCEPTION);
-			e.printStackTrace();
+			logger.error(MessageCatalog._00011_SQL_EXCEPTION,e);
 			return ERROR;
 		}
 		getSchemesDb();
@@ -374,11 +374,6 @@ public class ManagingAction extends ActionSupport {
 		getTypesDb();
 		setShowAddProfileForm(false);
 		setShowEditProfileForm(false);
-		setShowNextButton(false);
-		if (ServletActionContext.getRequest().getSession()
-				.getAttribute("importFile") != null) {
-			setShowNextButton(true);
-		}
 		return SUCCESS;
 	}
 
@@ -405,8 +400,7 @@ public class ManagingAction extends ActionSupport {
 			statement.close();
 			connection.close();
 		} catch (SQLException e) {
-			logger.debug(MessageCatalog._00011_SQL_EXCEPTION);
-			e.printStackTrace();
+			logger.error(MessageCatalog._00011_SQL_EXCEPTION,e);
 			return ERROR;
 		}
 		return SUCCESS;
@@ -435,8 +429,7 @@ public class ManagingAction extends ActionSupport {
 			statement.close();
 			connection.close();
 		} catch (SQLException e) {
-			logger.debug(MessageCatalog._00011_SQL_EXCEPTION);
-			e.printStackTrace();
+			logger.error(MessageCatalog._00011_SQL_EXCEPTION,e);
 			return ERROR;
 		}
 		return SUCCESS;
@@ -465,8 +458,7 @@ public class ManagingAction extends ActionSupport {
 			statement.close();
 			connection.close();
 		} catch (SQLException e) {
-			logger.debug(MessageCatalog._00011_SQL_EXCEPTION);
-			e.printStackTrace();
+			logger.error(MessageCatalog._00011_SQL_EXCEPTION,e);
 			return ERROR;
 		}
 		return SUCCESS;
@@ -495,8 +487,7 @@ public class ManagingAction extends ActionSupport {
 			statement.close();
 			connection.close();
 		} catch (SQLException e) {
-			logger.debug(MessageCatalog._00011_SQL_EXCEPTION);
-			e.printStackTrace();
+			logger.error(MessageCatalog._00011_SQL_EXCEPTION,e);
 			return ERROR;
 		}
 		return SUCCESS;
@@ -525,8 +516,7 @@ public class ManagingAction extends ActionSupport {
 			statement.close();
 			connection.close();
 		} catch (SQLException e) {
-			logger.debug(MessageCatalog._00011_SQL_EXCEPTION);
-			e.printStackTrace();
+			logger.error(MessageCatalog._00011_SQL_EXCEPTION,e);
 			return ERROR;
 		}
 		return SUCCESS;
@@ -873,26 +863,6 @@ public class ManagingAction extends ActionSupport {
 	public void setImportFile(final File importFile) {
 		this.importFile = importFile;
 	}
-
-	/**
-	 * @return Returns the showNextButton.
-	 * @exception
-	 * @since 1.0
-	 */
-	public boolean isShowNextButton() {
-		return showNextButton;
-	}
-
-	/**
-	 * @param showNextButton
-	 *            The showNextButton to set.
-	 * @exception
-	 * @since 1.0
-	 */
-	public void setShowNextButton(final boolean showNextButton) {
-		this.showNextButton = showNextButton;
-	}
-
 	/**
 	 * @return Returns the importFileFileName.
 	 * @exception
@@ -951,5 +921,23 @@ public class ManagingAction extends ActionSupport {
 	public void setEnableErrorLogButton(final boolean enableErrorLogButton) {
 		this.enableErrorLogButton = enableErrorLogButton;
 	}
+
+    /**
+     * @return Returns the state.
+     * @exception
+     * @since 1.0
+     */
+    public int getState() {
+        return state;
+    }
+
+    /**
+     * @param state The state to set.
+     * @exception
+     * @since 1.0
+     */
+    public void setState(int state) {
+        this.state = state;
+    }
 
 }

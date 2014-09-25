@@ -707,6 +707,10 @@
 					class="eu.aliada.rdfizer.pipeline.format.marc.selector.xml.MultipleVariableFieldExpression">
 					<constructor-arg value="100(0-1)a-b-c-d-q-u" />
 				</bean>
+				<bean
+					class="eu.aliada.rdfizer.pipeline.format.marc.selector.xml.MultipleVariableFieldExpression">
+					<constructor-arg value="600(0-1)a-b-c-d-q-u" />
+				</bean>				
 			  	<bean
 					class="eu.aliada.rdfizer.pipeline.format.marc.selector.xml.MultipleVariableFieldExpression">
 					<constructor-arg value="700(0-1)a-b-c-d-q-u" />

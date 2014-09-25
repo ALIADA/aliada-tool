@@ -20,6 +20,7 @@
 
 ## NAMESPACES SHORTCUTS
 #macro (aliada $literal)<${configuration.aliadaOntologyNamespace}id/resource/$function.normalizeWithoutLowercase($literal)>#end
+#macro (aliadaconcept $suffix)<${configuration.aliadaOntologyNamespace}id/resource/$suffix>#end
 #macro (owl $v)<http://www.w3.org/2002/07/owl#$v>#end
 #macro (rdf $v)<http://www.w3.org/1999/02/22-rdf-syntax-ns#$v>#end
 #macro (rdfs $v)<http://www.w3.org/2000/01/rdf-schema#$v>#end
@@ -64,50 +65,32 @@
     #end	
 #end	
 
-#macro(simplest_mapping_with_no_repeatable_tag $s $tag $subfield $record $type $kind $predicate) 
+#macro(simplest_mapping_with_no_repeatable_tag $s $tag $subfield $record $type $kind $predicate $concept) 
 	#set($tagValue = $xpath.df($tag,$subfield,$record))
 	#if($tagValue) 
 		#set($text = $tagValue.textContent)
     	#set($s1 = "#uri_with_strong_normalization(${type} ${text})")
-    	$s1 $is_a $kind . 
+			$s1 $is_a $kind . 
+    	#if($concept) 
+			$s1 $P2_has_type $concept .
+		#end
     	$s1 $P3_has_note "$text" . 
     	$s $predicate $s1 . 
 	#end	
 #end	
 
-#macro(simplest_mapping_with_repeatable_tag $s $tag $subfield $record $type $kind $predicate) 
+#macro(simplest_mapping_with_repeatable_tag $s $tag $subfield $record $type $kind $predicate $concept) 
 	#set($tagValues = $xpath.dfs($tag,$subfield,$record))
 	#foreach($tagValue in $tagValues) 
 		#if($tagValue) 
     		#set($text = $tagValue.textContent)
         	#set($s1 = "#uri_with_strong_normalization(${type} ${text})")
         	$s1 $is_a $kind . 
+        	#if($concept) 
+    			$s1 $P2_has_type $concept .
+    		#end			
         	$s1 $P3_has_note "$text" . 
         	$s $predicate $s1 . 
 		#end	
 	#end	
-#end
-
-#macro(no_repeatable_language $s $tag $subfield $record) 
-	#set($tagValue = $xpath.df($tag,$subfield,$record))
-	#if($tagValue)
-		#set($text = $tagValue.textContent)
-		#set($lang_s = "#uri('E56_language' $text)")
-		$lang_s $is_a #ecrm('E56_language') . 
-		$lang_s $P3_has_note "$text" . 
-		$s #ecrm('P72_has_language') .
-	#end	
 #end	
-
-#macro(repeatable_language $s $tag $subfield $record) 
-	#set($tagValues = $xpath.dfs($tag,$subfield,$record))
-	#foreach($tagValue in $tagValues) 
-    	#if($tagValue)
-    		#set($text = $tagValue.textContent)
-    		#set($lang_s = "#uri('E56_language' $text)")
-    		$lang_s $is_a #ecrm('E56_language') . 
-    		$lang_s $P3_has_note "$text" . 
-    		$s #ecrm('P72_has_language') .
-    	#end	
-	#end	
-#end

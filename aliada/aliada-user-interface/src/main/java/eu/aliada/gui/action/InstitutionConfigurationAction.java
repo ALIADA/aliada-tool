@@ -40,10 +40,13 @@ public class InstitutionConfigurationAction extends ActionSupport {
     private List<Organisation> organisations;
     private String organisation_name;
     private String organisation_path;
-    private String organisation_uri_domain;
-    private String organisation_uri_resource;
     private File organisation_logo;
     private String organisation_catalog_url;
+    
+    private int state;
+    
+    private static final String DEFAULTLOGOPATH = "webapps/aliada-user-interface-1.0/images/aliada.png";
+
 
     private final Log logger = new Log(InstitutionConfigurationAction.class);
 
@@ -52,6 +55,7 @@ public class InstitutionConfigurationAction extends ActionSupport {
      */
     public String execute() {
         Connection connection;
+        setState((int) ServletActionContext.getRequest().getSession().getAttribute("state"));
         try {
             connection = new DBConnectionManager().getConnection();
             Statement statement = connection.createStatement();
@@ -59,21 +63,15 @@ public class InstitutionConfigurationAction extends ActionSupport {
             if (rs.next() && rs.getString("organisation_name") != null) {
                 setOrganisation_name(rs.getString("organisation_name"));
                 setOrganisation_path(rs.getString("organisation_path"));
-                setOrganisation_uri_domain(rs
-                        .getString("dataset_base"));
-                setOrganisation_uri_resource(rs
-                        .getString("graph_uri"));
                 // readFile(rs);
                 setOrganisation_catalog_url(rs
                         .getString("organisation_catalog_url"));
             }
-            logger.debug("Organisation selected: " + getOrganisation_name());
             statement.close();
             connection.close();
             return SUCCESS;
         } catch (SQLException e) {
-            logger.debug(MessageCatalog._00011_SQL_EXCEPTION);
-            e.printStackTrace();
+            logger.error(MessageCatalog._00011_SQL_EXCEPTION,e);
             return ERROR;
         }
     }
@@ -83,6 +81,7 @@ public class InstitutionConfigurationAction extends ActionSupport {
      */
     public String addInstitution() {
         Connection connection = null;
+        setState((int) ServletActionContext.getRequest().getSession().getAttribute("state"));
         FileInputStream fis = null;
         try {
             connection = new DBConnectionManager().getConnection();
@@ -90,23 +89,22 @@ public class InstitutionConfigurationAction extends ActionSupport {
 //            ResultSet rs = statement.executeQuery("SELECT * FROM organisation WHERE organisation_name='"+getOrganisation_name()+"'");
 //            if(!rs.next()){
             PreparedStatement preparedStatement = connection
-                    .prepareStatement("INSERT INTO organisation (organisation_name, organisation_path, dataset_base, graph_uri, organisation_logo, organisation_catalog_url) VALUES (?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE organisation_path=VALUES(organisation_path), dataset_base=VALUES(dataset_base), graph_uri=VALUES(graph_uri), organisation_logo=VALUES(organisation_logo),organisation_catalog_url=VALUES(organisation_catalog_url)");
+                    .prepareStatement("INSERT INTO organisation (organisation_name, organisation_path, organisation_logo, organisation_catalog_url) VALUES (?, ?, ?, ?) ON DUPLICATE KEY UPDATE organisation_path=VALUES(organisation_path), organisation_logo=VALUES(organisation_logo),organisation_catalog_url=VALUES(organisation_catalog_url)");
             preparedStatement.setString(1, this.organisation_name);
             preparedStatement.setString(2, this.organisation_path);
-            preparedStatement.setString(3, this.organisation_uri_domain);
-            preparedStatement.setString(4, this.organisation_uri_resource);
             if (this.organisation_logo != null) {
                 fis = new FileInputStream(this.organisation_logo);
-                preparedStatement.setBinaryStream(5, fis,
+                preparedStatement.setBinaryStream(3, fis,
                         (int) this.organisation_logo.length());
             } else {
-                File defaultImg = new File("src/main/webapp/images/aliada.png");
+                File defaultImg = new File(DEFAULTLOGOPATH);
                 fis = new FileInputStream(defaultImg);
-                preparedStatement.setBinaryStream(5, fis,
+                preparedStatement.setBinaryStream(3, fis,
                         (int) defaultImg.length());
             }
-            preparedStatement.setString(6, this.organisation_catalog_url);
+            preparedStatement.setString(4, this.organisation_catalog_url);
             preparedStatement.executeUpdate();
+            addActionMessage(getText("institution.added"));
             preparedStatement.close();
 //            }
 //            else{
@@ -117,12 +115,10 @@ public class InstitutionConfigurationAction extends ActionSupport {
             connection.close();
             return SUCCESS;
         } catch (SQLException e) {
-            logger.debug(MessageCatalog._00011_SQL_EXCEPTION);
-            e.printStackTrace();
+            logger.error(MessageCatalog._00011_SQL_EXCEPTION,e);
             return ERROR;
         } catch (FileNotFoundException e) {
-            logger.error(MessageCatalog._00013_FILE_NOT_FOUND_EXCEPTION);
-            e.printStackTrace();
+            logger.error(MessageCatalog._00013_FILE_NOT_FOUND_EXCEPTION,e);
             return ERROR;
         }
     }
@@ -139,8 +135,7 @@ public class InstitutionConfigurationAction extends ActionSupport {
             response.getOutputStream().write(buffer, 0, len);
             response.getOutputStream().flush();
         } catch (SQLException | IOException e) {
-            logger.debug(MessageCatalog._00011_SQL_EXCEPTION);
-            e.printStackTrace();
+            logger.error(MessageCatalog._00011_SQL_EXCEPTION,e);
         }
     }
 
@@ -183,44 +178,6 @@ public class InstitutionConfigurationAction extends ActionSupport {
     }
 
     /**
-     * @return Returns the organisation_uri_domain.
-     * @exception
-     * @since 1.0
-     */
-    public String getOrganisation_uri_domain() {
-        return organisation_uri_domain;
-    }
-
-    /**
-     * @param organisation_uri_domain
-     *            The organisation_uri_domain to set.
-     * @exception
-     * @since 1.0
-     */
-    public void setOrganisation_uri_domain(String organisation_uri_domain) {
-        this.organisation_uri_domain = organisation_uri_domain;
-    }
-
-    /**
-     * @return Returns the organisation_uri_resource.
-     * @exception
-     * @since 1.0
-     */
-    public String getOrganisation_uri_resource() {
-        return organisation_uri_resource;
-    }
-
-    /**
-     * @param organisation_uri_resource
-     *            The organisation_uri_resource to set.
-     * @exception
-     * @since 1.0
-     */
-    public void setOrganisation_uri_resource(String organisation_uri_resource) {
-        this.organisation_uri_resource = organisation_uri_resource;
-    }
-
-    /**
      * @return Returns the organisation_logo.
      * @exception
      * @since 1.0
@@ -256,5 +213,23 @@ public class InstitutionConfigurationAction extends ActionSupport {
      */
     public void setOrganisation_catalog_url(String organisation_catalog_url) {
         this.organisation_catalog_url = organisation_catalog_url;
+    }
+
+    /**
+     * @return Returns the state.
+     * @exception
+     * @since 1.0
+     */
+    public int getState() {
+        return state;
+    }
+
+    /**
+     * @param state The state to set.
+     * @exception
+     * @since 1.0
+     */
+    public void setState(int state) {
+        this.state = state;
     }
 }

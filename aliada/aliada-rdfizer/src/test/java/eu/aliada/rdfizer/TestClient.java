@@ -10,7 +10,7 @@ import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
-    
+     
 /**
  * To be removed, this is used just for running some sample job.
  * 
@@ -18,7 +18,7 @@ import javax.ws.rs.core.Response;
  * @since 1.0
  */
 public abstract class TestClient {
-	/**  
+	/**   
 	 * To be removed, this is used just for running some sample job.
 	 * 
 	 * @param args the command line arguments.

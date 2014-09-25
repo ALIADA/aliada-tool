@@ -5,6 +5,8 @@ import java.util.Collection;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 
+import eu.aliada.rdfizer.pipeline.format.xml.NullObject;
+
 /**
  * A simple debug processor.
  * 
@@ -16,7 +18,11 @@ public class JustDebug implements Processor {
 	@SuppressWarnings("rawtypes")
 	@Override
 	public void process(final Exchange exchange) throws Exception {
-		Object o = exchange.getIn().getBody();
+		final Object o = exchange.getIn().getBody();
+		if (o instanceof NullObject) {
+			return;
+		}
+		
 		if (o != null && o instanceof Collection) {
 			Collection c = (Collection) o;
 			

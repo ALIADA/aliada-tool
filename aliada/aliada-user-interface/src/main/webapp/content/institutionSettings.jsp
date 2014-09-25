@@ -7,25 +7,15 @@
 	enctype="multipart/form-data">
 	<div id="form">
 		<div class="content">
-		<html:actionerror/>
 			<table>
 				<tr>
 					<td colspan="2"><html:textfield theme="xhtml"
 							key="organisation_name"
-							cssClass="inputPage" size="15" /></td>
+							cssClass="inputPage" disabled="true" size="15" readonly="true"/></td>
 				</tr>
 				<tr>
 					<td colspan="2"><html:textfield theme="xhtml"
 							key="organisation_path"
-							cssClass="inputPage" size="15" /></td>
-				<tr>
-					<td colspan="2"><html:textfield theme="xhtml"
-							key="organisation_uri_domain"
-							cssClass="inputPage" size="15" /></td>
-				</tr>
-				<tr>
-					<td colspan="2"><html:textfield theme="xhtml"
-							key="organisation_uri_resource"
 							cssClass="inputPage" size="15" /></td>
 				</tr>
 				<tr>
@@ -37,14 +27,17 @@
 							cssClass="inputPage" size="15" /></td>
 				</tr>
 			</table>
-		</div>
+			<html:actionmessage/>
+			<html:submit action="addInstitution" property="saveButton"
+				cssClass="submitButton buttonGreen" key="edit" />
+		</div>		
 	</div>
 	<div id="submitButtons" class="buttons row">
 		<html:form id="submitButtonsForm">
-			<html:submit action="addInstitution" property="saveButton"
-				cssClass="submitButton button" key="save" />
 			<html:submit action="showUsers" property="usersButton"
 				cssClass="submitButton button" key="users" />
+			<html:submit action="manage" cssClass="submitButton button"
+				key="next" />
 		</html:form>
 	</div>
 </html:form>

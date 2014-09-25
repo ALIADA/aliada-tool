@@ -10,8 +10,10 @@ package eu.aliada.gui.action;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 import javax.servlet.http.HttpSession;
 
@@ -21,11 +23,15 @@ import org.w3c.dom.NodeList;
 
 import com.opensymphony.xwork2.ActionSupport;
 
+import eu.aliada.gui.log.MessageCatalog;
 import eu.aliada.gui.parser.XmlParser;
+import eu.aliada.gui.rdbms.DBConnectionManager;
 import eu.aliada.shared.log.Log;
 
 /**
+ * Gets the information of the RDFize process
  * @author iosa
+ * @version $Revision: 1.1 $
  * @since 1.0
  */
 public class CheckRDFizerAction extends ActionSupport {
@@ -38,6 +44,8 @@ public class CheckRDFizerAction extends ActionSupport {
     private String statementsNum;
     private String processingThroughput;
     private String triplesThroughput;
+    
+    private int state;
 
     private final Log logger = new Log(CheckRDFizerAction.class);
 
@@ -45,7 +53,7 @@ public class CheckRDFizerAction extends ActionSupport {
         try {
             getInfo();
         } catch (IOException ex) {
-            ex.printStackTrace();
+            logger.error(MessageCatalog._00012_IO_EXCEPTION,ex);
             return ERROR;
         }
         return SUCCESS;
@@ -57,58 +65,77 @@ public class CheckRDFizerAction extends ActionSupport {
      * @see
      * @since 1.0
      */
-    private void getInfo() throws IOException {
+    public void getInfo() throws IOException {
         HttpSession session = ServletActionContext.getRequest().getSession();
-        int rdfizerJobId = (int) session.getAttribute("rdfizerJobId");
-        URL url = new URL("http://localhost:8891/rdfizer/jobs/"+rdfizerJobId);
-        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-        conn.setRequestMethod("GET");
-        conn.setRequestProperty("Accept", "application/xml");
-        if (conn.getResponseCode() != 200) {
-            logger.debug("Failed : HTTP error code : "
-                    + conn.getResponseCode());
-        }
-        try {
-            XmlParser parser = new XmlParser();
-            Document doc = parser.parseXML(conn.getInputStream());
-            NodeList readNode = doc.getElementsByTagName("format");
-            setFormat(readNode.item(0).getTextContent());
-            readNode = doc.getElementsByTagName("output-statements-count");
-            setStatementsNum(readNode.item(0).getTextContent());
-            readNode = doc.getElementsByTagName("processed-records-count");
-            setProcessedNum(readNode.item(0).getTextContent());
-            readNode = doc.getElementsByTagName("total-records-count");
-            setRecordNum(readNode.item(0).getTextContent());
-            readNode = doc.getElementsByTagName("records-throughput");
-            setProcessingThroughput(readNode.item(0).getTextContent());
-            readNode = doc.getElementsByTagName("triples-throughput");
-            setTriplesThroughput(readNode.item(0).getTextContent());
-            readNode = doc.getElementsByTagName("running");
-            if(readNode.item(0).getTextContent().equals("true")){
-                setStatus("Running");
+        Integer rdfizerJobId = (int) session.getAttribute("rdfizerJobId");
+        if(rdfizerJobId!= null){
+            setImportFile(getImportFileDb(rdfizerJobId));
+            URL url = new URL("http://aliada:8080/aliada-rdfizer-1.0/jobs/"+rdfizerJobId);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+            conn.setRequestProperty("Accept", "application/xml");
+            if (conn.getResponseCode() != 200) {
+                logger.error(MessageCatalog._00015_HTTP_ERROR_CODE
+                        + conn.getResponseCode());
             }
-            readNode = doc.getElementsByTagName("running");//Now is set running to do testing
-            if(readNode.item(0).getTextContent().equals("true")){
-                setStatus("Completed");
-                List<Integer> filesToLink = (List<Integer>)session.getAttribute("filesToLink");
-                 if(filesToLink == null){
-                     filesToLink = new ArrayList<Integer>();
-                     filesToLink.add(rdfizerJobId);
-                     session.setAttribute("filesToLink", filesToLink);
-                 }
-                 else{
-                     if(!filesToLink.contains(rdfizerJobId)){
-                         filesToLink.add(rdfizerJobId);                         
-                     }
-                     session.setAttribute("filesToLink", filesToLink);
-                 }
-            }            
+            try {
+                XmlParser parser = new XmlParser();
+                Document doc = parser.parseXML(conn.getInputStream());
+                NodeList readNode = doc.getElementsByTagName("format");
+                setFormat(readNode.item(0).getTextContent());
+                readNode = doc.getElementsByTagName("output-statements-count");
+                setStatementsNum(readNode.item(0).getTextContent());
+                readNode = doc.getElementsByTagName("processed-records-count");
+                setProcessedNum(readNode.item(0).getTextContent());
+                readNode = doc.getElementsByTagName("total-records-count");
+                setRecordNum(readNode.item(0).getTextContent());
+                readNode = doc.getElementsByTagName("records-throughput");
+                setProcessingThroughput(readNode.item(0).getTextContent());
+                readNode = doc.getElementsByTagName("triples-throughput");
+                setTriplesThroughput(readNode.item(0).getTextContent());
+                readNode = doc.getElementsByTagName("running");
+                String running = readNode.item(0).getTextContent();
+                readNode = doc.getElementsByTagName("completed");
+                String completed = readNode.item(0).getTextContent();
+                if(running.equals("false") && completed.equals("true")){
+                    session.setAttribute("state", 2);
+                    setStatus(getText("checkRDF.completed"));
+                    session.setAttribute("fileToLink", rdfizerJobId);
+                }
+                else{
+                    setStatus(getText("checkRDF.running"));                    
+                }    
           } catch (Exception e) {
-            e.printStackTrace();
-            logger.debug("Failed reading xml");
+              logger.error(MessageCatalog._00016_ERROR_READING_XML,e);
+              conn.disconnect();
+          }
+            setState((int) ServletActionContext.getRequest().getSession().getAttribute("state"));
             conn.disconnect();
         }
-        conn.disconnect();
+    }
+    
+    private String getImportFileDb(int rdfizerJobId){
+      Connection connection = new DBConnectionManager().getConnection();
+      try{
+          Statement statement = connection.createStatement();
+          ResultSet rs = statement
+                  .executeQuery("select datafile from aliada.rdfizer_job_instances where job_id="
+                          + rdfizerJobId);
+          if (rs.next()) {
+              String filename = rs.getString("datafile");
+              rs.close();
+              statement.close();
+              connection.close();
+              return filename;
+          }
+          rs.close();
+          statement.close();
+          connection.close();
+      }catch (SQLException e) {
+          logger.error(MessageCatalog._00011_SQL_EXCEPTION,e);
+          return getText("err.not.file");
+      }
+      return getText("err.not.file");
     }
 
     /**
@@ -253,6 +280,24 @@ public class CheckRDFizerAction extends ActionSupport {
      */
     public void setTriplesThroughput(String triplesThroughput) {
         this.triplesThroughput = triplesThroughput;
+    }
+
+    /**
+     * @return Returns the state.
+     * @exception
+     * @since 1.0
+     */
+    public int getState() {
+        return state;
+    }
+
+    /**
+     * @param state The state to set.
+     * @exception
+     * @since 1.0
+     */
+    public void setState(int state) {
+        this.state = state;
     }
 
 //    private void readJson() throws IOException, ParseException, SQLException {

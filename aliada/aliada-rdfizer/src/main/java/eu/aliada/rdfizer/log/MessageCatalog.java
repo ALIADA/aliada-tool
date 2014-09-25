@@ -54,5 +54,6 @@ public interface MessageCatalog {
 	String _00047_EMPTY_INCOMING_RECORD_STREAM = LT + MODULE_NAME + "-00047> : Incoming string stream doesn't contain a valid record.";
 	String _00048_JOB_COMPLETED = LT + MODULE_NAME + "-00048> : Job %s marked as completed.";
 	String _00049_DEBUG_TRIPLES = LT + MODULE_NAME + "-00049> : *** TRIPLES ***\n%s";
-	String _00050_RDFSTORE_FAILURE = LT + MODULE_NAME + "-00050> : RDF Store failure has been detected. See below for further details.";		
+	String _00050_RDFSTORE_FAILURE = LT + MODULE_NAME + "-00050> : RDF Store failure has been detected. See below for further details.";
+	String _00051_IO_FAILURE = LT + MODULE_NAME + "-00051> : I/O failure has been detected. See below for further details.";
 }

@@ -8,8 +8,9 @@
 		<label class="row label"><html:text name="rdf.fileTo"/></label>		
 		<html:property value="importFile"/>
 		<div class="row">
-			<label class="label"><html:text name="rdf.status"/></label>
-			<html:property value="status"/>			
+			<label class="label green"><html:text name="rdf.status"/>
+				<html:property value="status"/>
+			</label>
 		</div>
 		<div class="row">
 			<label class="label"><html:text name="rdf.format"/></label>
@@ -41,10 +42,16 @@
 		<html:form id="checkRDFButtonsForm">
 			<html:submit action="conversion" cssClass="submitButton button"
 				key="back" />
-			<html:submit action="checkRDFizer" cssClass="submitButton button"
+			<html:submit id="checkRDFButton" action="checkRDFizer" cssClass="submitButton buttonGreen"
 				key="check" />
-			<html:submit action="linking" cssClass="submitButton button"
+			<html:submit id="nextButton" action="linking" cssClass="displayNo submitButton buttonGreen"
 				key="next" />
+			<html:if test="state>1">
+				<script>
+			    	$("#nextButton").show("slow");
+			    	$("#checkRDFButton").hide();
+			    </script>	
+			</html:if>
 		</html:form>
 	</div>	
 </html:form>

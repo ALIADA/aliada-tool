@@ -18,23 +18,27 @@
 	<div id="managingButtons" class="buttons row">
 		<html:form id="managingButtonsForm">
 			<img id=loader class="displayNo leftMargin" src="images/loader.gif" alt="" />
-			<html:submit action="importXML" cssClass="submitButton button"
+			<html:submit id="importFileButton" action="importXML" cssClass="submitButton buttonGreen"
 				key="import" onClick="$('#loader').show();
-										$('#managingButtonsForm_import').hide();" />
+										$('#importFileButton').hide();" />
 			<div <html:if test="enableErrorLogButton">class="displayInline"</html:if>
 				<html:else>
 				    class="displayNo"
 				</html:else>>
 				<html:submit action="errorLog" cssClass="submitButton button"
 					key="errorLog" />
-			</div>		
-			<div <html:if test="showNextButton">class="displayInline"</html:if>
-				<html:else>
-				    class="displayNo"
-				</html:else>>
-				<html:submit action="conversion" cssClass="submitButton button"
-					key="next" />
-			</div>
+			</div>	
+			<html:submit id="nextButton" action="conversion" cssClass="displayNo submitButton button"
+				key="next" />
+			<html:if test="state>=1">
+				<script>
+			    	$("#importFileButton").removeClass("buttonGreen");
+			    	$("#importFileButton").addClass("button");
+			    	$("#nextButton").removeClass("button");
+			    	$("#nextButton").addClass("buttonGreen");
+			    	$("#nextButton").show("slow");
+			    </script>
+			</html:if>
 		</html:form>
 	</div>
 </html:form>

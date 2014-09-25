@@ -32,7 +32,9 @@ import eu.aliada.shared.log.Log;
 import eu.aliada.shared.rdfstore.RDFStoreDAO;
 
 /**
+ * This class help in the process of the xml files importation.
  * @author iosa
+ * @version $Revision: 1.1 $
  * @since 1.0
  */
 public class ConversionAction extends ActionSupport {
@@ -50,12 +52,18 @@ public class ConversionAction extends ActionSupport {
     private boolean showRdfizerButton;
     private boolean areTemplates;
     
+    private int state;
+    
     private final Log logger = new Log(ConversionAction.class);
-
+    
     public String execute() {
         HttpSession session = ServletActionContext.getRequest().getSession();
         File newFile = (File) session.getAttribute("importFile");
-        if(!newFile.equals(session.getAttribute("oldImportFile"))){
+        if(newFile==null){
+            setShowCheckButton(false);
+            setShowRdfizerButton(false); 
+        }
+        else if(!newFile.equals(session.getAttribute("oldImportFile"))){
             session.setAttribute("oldImportFile", newFile);
             setImportFile(newFile);
             setShowCheckButton(false);
@@ -72,7 +80,12 @@ public class ConversionAction extends ActionSupport {
         }
         return getTemplatesDb();
     }
-
+    /**
+     * Calls to the rdfizer process
+     * @return
+     * @see
+     * @since 1.0
+     */
     public String rdfize() {
         HttpSession session = ServletActionContext.getRequest().getSession();
         String format = null;
@@ -82,21 +95,22 @@ public class ConversionAction extends ActionSupport {
             connection = new DBConnectionManager().getConnection();
             Statement statement = connection.createStatement();
             ResultSet rs = statement
-                    .executeQuery("select aliada_ontology,sparql_endpoint_uri,sparql_endpoint_login,sparql_endpoint_password,graph_uri from organisation");
+                    .executeQuery("select aliada_ontology,sparql_endpoint_uri,sparql_endpoint_login,sparql_endpoint_password,graph_uri,dataset_base from organisation");
             if (rs.next()) {
                 RDFStoreDAO store = new RDFStoreDAO();
-//                if(store.clearGraphBySparql(rs.getString("sparql_endpoint_uri"), rs.getString("sparql_endpoint_login"), rs.getString("sparql_endpoint_password"), rs.getString("graph_uri"))){
+                if(store.clearGraphBySparql(rs.getString("sparql_endpoint_uri"), rs.getString("sparql_endpoint_login"), rs.getString("sparql_endpoint_password"), rs.getString("graph_uri"))){
                     PreparedStatement preparedStatement = connection
                             .prepareStatement(
-                                    "INSERT INTO aliada.rdfizer_job_instances (datafile,format,namespace,aliada_ontology,sparql_endpoint_uri,sparql_endpoint_login,sparql_endpoint_password) VALUES(?,?,?,?,?,?,?)",
+                                    "INSERT INTO aliada.rdfizer_job_instances (datafile,format,namespace,graph_name,aliada_ontology,sparql_endpoint_uri,sparql_endpoint_login,sparql_endpoint_password) VALUES(?,?,?,?,?,?,?,?)",
                                     PreparedStatement.RETURN_GENERATED_KEYS);
                     preparedStatement.setString(1, importFile.getAbsolutePath());
                     preparedStatement.setString(2, format);
-                    preparedStatement.setString(3, rs.getString("graph_uri"));
-                    preparedStatement.setString(4, rs.getString("aliada_ontology"));
-                    preparedStatement.setString(5, rs.getString("sparql_endpoint_uri"));
-                    preparedStatement.setString(6, rs.getString("sparql_endpoint_login"));
-                    preparedStatement.setString(7, rs.getString("sparql_endpoint_password"));
+                    preparedStatement.setString(3, rs.getString("dataset_base"));
+                    preparedStatement.setString(4, rs.getString("graph_uri"));
+                    preparedStatement.setString(5, rs.getString("aliada_ontology"));
+                    preparedStatement.setString(6, rs.getString("sparql_endpoint_uri"));
+                    preparedStatement.setString(7, rs.getString("sparql_endpoint_login"));
+                    preparedStatement.setString(8, rs.getString("sparql_endpoint_password"));
                     preparedStatement.executeUpdate();
                     ResultSet rs2 = preparedStatement.getGeneratedKeys();
                     int addedId = 0;
@@ -104,9 +118,12 @@ public class ConversionAction extends ActionSupport {
                         addedId = (int) rs2.getInt(1);
                     }
                     try {
+                        session.removeAttribute("linkingFile");
+                        session.removeAttribute("ldsStarted");
                         enableRdfizer();
                         createJob(addedId);
                     } catch (IOException e) {
+                        logger.error(MessageCatalog._00012_IO_EXCEPTION,e);
                         getTemplatesDb();
                         rs2.close();
                         preparedStatement.close();
@@ -123,23 +140,29 @@ public class ConversionAction extends ActionSupport {
                     setShowCheckButton(true);
                     return getTemplatesDb();                
                 }
-//            } else {
-//                logger.debug("Configuration file not found");
-//                rs.close();
-//                statement.close();
-//                connection.close();
-//                getTemplatesDb();
-//                return ERROR;
-//            }
+            } else {
+                logger.error(MessageCatalog._00032_CONVERSION_ERROR_CLEARING_GRAPH);
+                rs.close();
+                statement.close();
+                connection.close();
+                getTemplatesDb();
+                return ERROR;
+            }
         } catch (SQLException e) {
-            logger.debug(MessageCatalog._00011_SQL_EXCEPTION);
-            e.printStackTrace();
+            logger.error(MessageCatalog._00011_SQL_EXCEPTION,e);
             getTemplatesDb();
             return ERROR;
         }
         return getTemplatesDb(); 
     }
 
+    /**
+     * Gets the format of the file
+     * @return
+     * @throws SQLException
+     * @see
+     * @since 1.0
+     */
     private String getFormat() throws SQLException {
         Connection connection = null;
         String format = null;
@@ -161,8 +184,14 @@ public class ConversionAction extends ActionSupport {
         return format;
     }
 
+    /**
+     * Enables the RDFizer
+     * @throws IOException
+     * @see
+     * @since 1.0
+     */
     private void enableRdfizer() throws IOException {
-        URL url = new URL("http://localhost:8891/rdfizer/enable/");
+        URL url = new URL("http://aliada:8080/aliada-rdfizer-1.0/enable");
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setDoOutput(true);
         conn.setRequestMethod("PUT");
@@ -170,11 +199,19 @@ public class ConversionAction extends ActionSupport {
             throw new RuntimeException("Failed : HTTP error code : "
                     + conn.getResponseCode());
         }
+        logger.debug(MessageCatalog._00030_CONVERSION_RDFIZE_ENABLE);
         conn.disconnect();
     }
 
+    /**
+     * Creates a job for the RDFizer
+     * @param addedId
+     * @throws IOException
+     * @see
+     * @since 1.0
+     */
     private void createJob(int addedId) throws IOException {
-        URL url = new URL("http://localhost:8891/rdfizer/jobs/" + addedId);
+        URL url = new URL("http://aliada:8080/aliada-rdfizer-1.0/jobs/" + addedId);
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setDoOutput(true);
         conn.setRequestMethod("PUT");
@@ -182,12 +219,20 @@ public class ConversionAction extends ActionSupport {
             throw new RuntimeException("Failed : HTTP error code : "
                     + conn.getResponseCode());
         }
+        logger.debug(MessageCatalog._00031_CONVERSION_RDFIZE_JOB);
         setShowRdfizerButton(false);
         conn.disconnect();
     }
 
+    /**
+     * Gets the available templates from the DB
+     * @return
+     * @see
+     * @since 1.0
+     */
     public String getTemplatesDb() {
         Connection connection = null;
+        setState((int) ServletActionContext.getRequest().getSession().getAttribute("state"));
         try {
             connection = new DBConnectionManager().getConnection();
             Statement statement = connection.createStatement();
@@ -208,13 +253,18 @@ public class ConversionAction extends ActionSupport {
                 setAreTemplates(true);
             }
         } catch (SQLException e) {
-            logger.debug(MessageCatalog._00011_SQL_EXCEPTION);
-            e.printStackTrace();
+            logger.error(MessageCatalog._00011_SQL_EXCEPTION,e);
             return ERROR;
         }
         return SUCCESS;
     }
 
+    /**
+     * Displays the template adding form
+     * @return
+     * @see
+     * @since 1.0
+     */
     public String showAddTemplate() {
         getTemplatesDb();
         getTagsDb(NOTEMPLATESELECTED);
@@ -222,6 +272,12 @@ public class ConversionAction extends ActionSupport {
         return SUCCESS;
     }
 
+    /**
+     * Adds a new template to the DB
+     * @return
+     * @see
+     * @since 1.0
+     */
     public String addTemplate() {
         Connection connection = null;
         int id;
@@ -250,16 +306,22 @@ public class ConversionAction extends ActionSupport {
             connection.close();
             setShowAddTemplateForm(false);
             addActionMessage(getText("template.save.ok"));
+            logger.debug(MessageCatalog._00060_CONVERSION_TEMPLATE_ADDED);
             getTemplatesDb();
             return SUCCESS;
         } catch (SQLException e) {
-            logger.debug(MessageCatalog._00011_SQL_EXCEPTION);
-            e.printStackTrace();
+            logger.error(MessageCatalog._00011_SQL_EXCEPTION,e);
             getTemplatesDb();
             return ERROR;
         }
     }
 
+    /**
+     * Deletes a template from the DB
+     * @return
+     * @see
+     * @since 1.0
+     */
     public String deleteTemplate() {
         Connection connection = null;
         try {
@@ -283,14 +345,19 @@ public class ConversionAction extends ActionSupport {
             }
         } catch (SQLException e) {
             getTemplatesDb();
-            logger.debug(MessageCatalog._00011_SQL_EXCEPTION);
-            e.printStackTrace();
+            logger.error(MessageCatalog._00011_SQL_EXCEPTION,e);
             return ERROR;
         }
         getTemplatesDb();
         return SUCCESS;
     }
 
+    /**
+     * Displays the form to edit the template
+     * @return
+     * @see
+     * @since 1.0
+     */
     public String showEditTemplate() {
         Connection connection = null;
         try {
@@ -322,14 +389,19 @@ public class ConversionAction extends ActionSupport {
                 return ERROR;
             }
         } catch (SQLException e) {
-            logger.debug(MessageCatalog._00011_SQL_EXCEPTION);
-            e.printStackTrace();
+            logger.error(MessageCatalog._00011_SQL_EXCEPTION,e);
             getTemplatesDb();
             getTagsDb(NOTEMPLATESELECTED);
             return ERROR;
         }
     }
 
+    /**
+     * Updates a existing template
+     * @return
+     * @see
+     * @since 1.0
+     */
     public String editTemplate() {
         Connection connection = null;
         int idTemplate = (int) ServletActionContext.getRequest().getSession()
@@ -361,8 +433,7 @@ public class ConversionAction extends ActionSupport {
             addActionMessage(getText("template.save.ok"));
             getTemplatesDb();
         } catch (SQLException e) {
-            logger.debug(MessageCatalog._00011_SQL_EXCEPTION);
-            e.printStackTrace();
+            logger.error(MessageCatalog._00011_SQL_EXCEPTION,e);
             setShowEditTemplateForm(false);
             return ERROR;
         }
@@ -370,6 +441,12 @@ public class ConversionAction extends ActionSupport {
         return SUCCESS;
     }
 
+    /**
+     * Gets teh available tags from the DB
+     * @param templateId
+     * @see
+     * @since 1.0
+     */
     private void getTagsDb(int templateId) {
         Connection connection = null;
         try {
@@ -411,8 +488,7 @@ public class ConversionAction extends ActionSupport {
             statement.close();
             connection.close();
         } catch (SQLException e) {
-            logger.debug(MessageCatalog._00011_SQL_EXCEPTION);
-            e.printStackTrace();
+            logger.error(MessageCatalog._00011_SQL_EXCEPTION,e);
         }
     }
 
@@ -640,6 +716,22 @@ public class ConversionAction extends ActionSupport {
      */
     public void setAreTemplates(boolean areTemplates) {
         this.areTemplates = areTemplates;
+    }
+    /**
+     * @return Returns the state.
+     * @exception
+     * @since 1.0
+     */
+    public int getState() {
+        return state;
+    }
+    /**
+     * @param state The state to set.
+     * @exception
+     * @since 1.0
+     */
+    public void setState(int state) {
+        this.state = state;
     }
 
 }

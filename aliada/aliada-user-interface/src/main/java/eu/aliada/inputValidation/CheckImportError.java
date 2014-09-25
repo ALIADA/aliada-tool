@@ -24,7 +24,11 @@ public final class CheckImportError {
 	// private static final Log logger = new Log(CheckImportError.class);
 	static int count;
 	static boolean fileCorrect;
-	static boolean bibliographicType;
+	static int fileType;
+
+	private static final int TYPE_BIBLIOGRAPHIC = 0;
+	private static final int TYPE_AUTHORITY = 1;
+	private static final int TYPE_LIDO = 2;
 
 	/**
 	 * Class constructor.
@@ -37,7 +41,7 @@ public final class CheckImportError {
 		super();
 		count = 0;
 		fileCorrect = true;
-		bibliographicType = true;
+		fileType = TYPE_BIBLIOGRAPHIC;
 	}
 
 	/**
@@ -60,7 +64,7 @@ public final class CheckImportError {
 	 * @since 1.0
 	 */
 	public static void putBibliographicType() {
-		setBibliographicType(true);
+		setFileType(TYPE_BIBLIOGRAPHIC);
 	}
 
 	/**
@@ -70,7 +74,17 @@ public final class CheckImportError {
 	 * @since 1.0
 	 */
 	public static void putAuthorityType() {
-		setBibliographicType(false);
+		setFileType(TYPE_AUTHORITY);
+	}
+
+	/**
+	 * The method is used by identify a lido file.
+	 * 
+	 * @see
+	 * @since 1.0
+	 */
+	public static void putLidoType() {
+		setFileType(TYPE_LIDO);
 	}
 
 	/**
@@ -85,7 +99,8 @@ public final class CheckImportError {
 	 */
 	public static String getFileType(final String fileType) {
 		if (isFileCorrect()
-				&& (((isBibliographicType()) && (fileType.charAt(0) != 'z')) || (!isBibliographicType())
+				&& (((getFileType() == TYPE_BIBLIOGRAPHIC) && (fileType
+						.charAt(0) != 'z')) || (getFileType() == TYPE_AUTHORITY)
 						&& (fileType.charAt(0) == 'z'))) {
 			setFileCorrect(true);
 		} else {
@@ -95,24 +110,24 @@ public final class CheckImportError {
 	}
 
 	/**
-	 * @return Returns the bibliographicType.
+	 * @return Returns the fileType.
 	 * @exception
 	 * @since 1.0
 	 */
 
-	public static boolean isBibliographicType() {
-		return bibliographicType;
+	public static int getFileType() {
+		return fileType;
 	}
 
 	/**
-	 * @param bibliographicType
-	 *            The bibliographicType to set.
+	 * @param fileType
+	 *            The fileType to set.
 	 * @exception
 	 * @since 1.0
 	 */
 
-	public static void setBibliographicType(final boolean bibliographicType) {
-		CheckImportError.bibliographicType = bibliographicType;
+	public static void setFileType(final int fileType) {
+		CheckImportError.fileType = fileType;
 	}
 
 	/**
@@ -156,7 +171,7 @@ public final class CheckImportError {
 	public static void initialize() {
 		count = 0;
 		fileCorrect = true;
-		bibliographicType = true;
+		fileType = TYPE_BIBLIOGRAPHIC;
 	}
 
 	/**

@@ -102,7 +102,7 @@
 			</tr>
 			<tr>
 				<td><html:textfield key="usernameForm"
-						cssClass="inputForm fright input" size="30" required="true" readonly="true" /></td>
+						cssClass="inputForm fright input" disabled="true" size="30" required="true" readonly="true" /></td>
 				<td><html:password key="passwordForm" showPassword="true"
 						cssClass="inputForm fright input" size="20" required="true" /></td>
 				<td><html:textfield key="emailForm"
@@ -120,7 +120,7 @@
 		</table>
 		<div class="buttons row">
 			<html:submit action="editUser" cssClass="submitButton button"
-				key="edit" />
+				key="save" />
 			<html:submit action="showUsers" cssClass="submitButton button"
 				key="cancel" />
 		</div>
