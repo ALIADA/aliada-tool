@@ -32,7 +32,7 @@
 				dataType: 'html', 
 			    success:function(data, textStatus, jqXHR) 
 		        {
-					console.log(data); 
+					$("#results").empty();
 					$("#results").append(data);
 		        },
 		        error: function(jqXHR, textStatus, errorThrown) 
