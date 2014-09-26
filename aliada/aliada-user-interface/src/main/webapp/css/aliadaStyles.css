@@ -11,6 +11,12 @@ input:disabled{
 	background: -moz-linear-gradient(top, #A4A4A4, #BDBDBD);
 	color : white;	
 }
+a:disabled{
+	background: -linear-gradient(top, #A4A4A4, #BDBDBD);
+	background: -webkit-linear-gradient(top, #A4A4A4, #BDBDBD);
+	background: -moz-linear-gradient(top, #A4A4A4, #BDBDBD);
+	color : white;	
+}
 .button:hover:disabled {
 	background: -linear-gradient(top, #A4A4A4, #BDBDBD);
 	background: -webkit-linear-gradient(top, #A4A4A4, #BDBDBD);
