@@ -7,6 +7,7 @@ package eu.aliada.rdfizer;
 
 import java.text.Normalizer;
 import java.text.Normalizer.Form;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -57,6 +58,10 @@ public class Function {
 	public String normalizeWithoutLowercase(final String value) {
 		return Strings.toURILocalName(value);
 	}	
+	
+	public String uuid(final String value) {
+		return UUID.nameUUIDFromBytes(value.getBytes()).toString();
+	}
 	
 	/**
 	 * Normalizes a given string as {@link Function#normalize} but also removing all spaces and punctuation.

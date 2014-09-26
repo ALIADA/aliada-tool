@@ -13,7 +13,7 @@
 #macro (uri_with_strong_normalization $kind $literal)<#prefix/$kind/$function.normalizeStrong(${literal})>#end
 
 ## Creates a URI with an ending fragment (the literal argument). Makes no normalization on that value. 
-#macro (uri_with_fragment $kind $literal)<#prefix/$kind#$literal>#end
+#macro (uri_with_fragment $kind $literal)<#prefix/$kind/$function.uuid($literal)>#end
 
 ## Creates a new (monotonically incremented) id
 #macro (newId)$function.id#end

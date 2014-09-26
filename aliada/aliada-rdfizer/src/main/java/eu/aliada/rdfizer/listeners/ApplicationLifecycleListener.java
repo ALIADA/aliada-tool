@@ -5,10 +5,14 @@
 // Responsible: ALIADA Consortium
 package eu.aliada.rdfizer.listeners;
 
+import java.lang.management.ManagementFactory;
+
+import javax.management.MBeanServer;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
 import eu.aliada.rdfizer.log.MessageCatalog;
+import eu.aliada.rdfizer.mx.ManagementRegistrar;
 import eu.aliada.shared.log.Log;
 
 /**
@@ -31,6 +35,13 @@ public class ApplicationLifecycleListener implements ServletContextListener {
 	public void contextDestroyed(final ServletContextEvent event) {
 		logger.info(MessageCatalog._00011_STOPPING);
 		
+		final MBeanServer mxServer = ManagementFactory.getPlatformMBeanServer();
+		try {
+			mxServer.unregisterMBean(ManagementRegistrar.RDFIZER_OBJECT_NAME);
+		} catch (final Exception exception) {
+			logger.error(MessageCatalog._00042_MX_SUBSYSTEM_FAILURE, exception);
+		}
+
 		logger.info(MessageCatalog._00012_STOPPED);	
 	}
 }
