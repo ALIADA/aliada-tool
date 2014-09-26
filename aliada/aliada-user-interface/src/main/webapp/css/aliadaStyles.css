@@ -28,6 +28,9 @@ input:disabled{
 	-webkit-border-radius: 10px;
 	border-radius: 7px 7px 7px 7px;
 }
+.input.disabled:hover{
+	color:black;
+}
 .inputForm{
 	font-size: 14px;
 	border: 1px solid #02207C;
