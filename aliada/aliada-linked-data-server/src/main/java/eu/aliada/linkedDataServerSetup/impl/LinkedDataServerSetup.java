@@ -27,8 +27,8 @@ import java.net.URLEncoder;
 public class LinkedDataServerSetup {
 	private final Log logger = new Log(LinkedDataServerSetup.class);
 	/* Input parameters for URL rewrite rules */
-	private String datasetBase_encoded = ""; 
-	private String graph_encoded = ""; 
+	private String datasetBaseEncoded = ""; 
+	private String graphEncoded = ""; 
 
 	/**
 	 * Get the appropiate ISQL commands file.
@@ -83,10 +83,10 @@ public class LinkedDataServerSetup {
 	private boolean encodeParams(JobConfiguration jobConf){
 		boolean encoded = false;
 		try{
-			datasetBase_encoded = URLEncoder.encode(jobConf.getDatasetBase(),"UTF-8"); 
-			graph_encoded = URLEncoder.encode(jobConf.getGraph(),"UTF-8"); 
-			datasetBase_encoded = datasetBase_encoded.replace("%", "%%");
-			graph_encoded = graph_encoded.replace("%", "%%");
+			datasetBaseEncoded = URLEncoder.encode(jobConf.getDatasetBase(),"UTF-8"); 
+			graphEncoded = URLEncoder.encode(jobConf.getGraph(),"UTF-8"); 
+			datasetBaseEncoded = datasetBaseEncoded.replace("%", "%%");
+			graphEncoded = graphEncoded.replace("%", "%%");
 			encoded = true;
 		} catch (Exception exception){
 			logger.error(MessageCatalog._00038_ENCODING_ERROR, exception);
@@ -121,7 +121,7 @@ public class LinkedDataServerSetup {
 						jobConf.getIsqlCommandPath(), jobConf.getStoreIp(),
 						jobConf.getStoreSqlPort(), jobConf.getSqlLogin(),
 						jobConf.getSqlPassword(), isqlCommandsFilename,
-						datasetBase_encoded, graph_encoded);
+						datasetBaseEncoded, graphEncoded);
 				//Execute ISQL command
 				try {
 					logger.debug(MessageCatalog._00040_EXECUTING_ISQL);

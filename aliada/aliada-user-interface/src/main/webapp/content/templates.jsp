@@ -94,7 +94,7 @@
 		</html:else>>
 			<div class="row label">
 				<html:text name="templateName" />
-				<html:textfield key="templateName" cssClass="inputForm frigth input" disabled="true"
+				<html:textfield key="templateName" cssClass="inputForm frigth input disabled" 
 					size="30" readonly="true" />
 			</div>
 			<div class="row label">
