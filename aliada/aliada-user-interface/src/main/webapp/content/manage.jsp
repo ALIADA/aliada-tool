@@ -35,6 +35,7 @@
 			    	$("#importFileButton").addClass("button");
 			    	$("#nextButton").removeClass("button");
 			    	$("#nextButton").addClass("buttonGreen");
+		    		$("#nextButton").prop( "disabled", false);	
 		    		$("#rdfValMenu").prop( "disabled", false);	
 			    	$("#nextButton").show("slow");
 			    </script>
