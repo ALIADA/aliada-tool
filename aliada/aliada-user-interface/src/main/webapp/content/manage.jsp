@@ -28,7 +28,7 @@
 				<html:submit action="errorLog" cssClass="submitButton button"
 					key="errorLog" />
 			</div>	
-			<html:submit id="nextButton" action="conversion" cssClass="displayNo submitButton button"
+			<html:submit id="nextButton" action="conversion" disabled="true" cssClass="submitButton button"
 				key="next" />
 			<html:if test="state>=1">
 				<script>
@@ -36,6 +36,7 @@
 			    	$("#importFileButton").addClass("button");
 			    	$("#nextButton").removeClass("button");
 			    	$("#nextButton").addClass("buttonGreen");
+		    		$("#rdfValMenu").prop( "disabled", false);	
 			    	$("#nextButton").show("slow");
 			    </script>
 			</html:if>
