@@ -51,7 +51,9 @@ public class LinkingInfoAction extends ActionSupport {
     public String execute() {
         setLinkingFile((String) ServletActionContext.getRequest().getSession()
                 .getAttribute("linkingFile"));
-        setState((int) ServletActionContext.getRequest().getSession().getAttribute("state"));
+        if(ServletActionContext.getRequest().getSession().getAttribute("state") != null){            
+            setState((int) ServletActionContext.getRequest().getSession().getAttribute("state"));
+        }
         try {
             getInfo();
         } catch (IOException e) {

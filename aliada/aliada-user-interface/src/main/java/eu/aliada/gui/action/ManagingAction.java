@@ -344,8 +344,10 @@ public class ManagingAction extends ActionSupport {
 	 */
 	public String showProfiles() {
 		Connection connection = null;
-        setState((int) ServletActionContext.getRequest().getSession().getAttribute("state"));   
-		try {
+		if(ServletActionContext.getRequest().getSession().getAttribute("state") != null){
+		    setState((int) ServletActionContext.getRequest().getSession().getAttribute("state"));   
+		}
+        try {
 			connection = new DBConnectionManager().getConnection();
 			Statement statement = connection.createStatement();
 			ResultSet rs = statement

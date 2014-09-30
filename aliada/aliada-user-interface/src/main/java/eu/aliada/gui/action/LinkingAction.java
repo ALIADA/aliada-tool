@@ -100,7 +100,9 @@ public class LinkingAction extends ActionSupport {
      */
     private String getDatasetsDb() {
         datasets = new HashMap();
-        setState((int) ServletActionContext.getRequest().getSession().getAttribute("state"));
+        if(ServletActionContext.getRequest().getSession().getAttribute("state") != null){
+            setState((int) ServletActionContext.getRequest().getSession().getAttribute("state"));        
+        }
         Connection con;
         try {
             con = new DBConnectionManager().getConnection();

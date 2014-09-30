@@ -240,7 +240,9 @@ public class ConversionAction extends ActionSupport {
      */
     public String getTemplatesDb() {
         Connection connection = null;
-        setState((int) ServletActionContext.getRequest().getSession().getAttribute("state"));
+        if(ServletActionContext.getRequest().getSession().getAttribute("state") != null){
+            setState((int) ServletActionContext.getRequest().getSession().getAttribute("state"));            
+        }
         try {
             connection = new DBConnectionManager().getConnection();
             Statement statement = connection.createStatement();

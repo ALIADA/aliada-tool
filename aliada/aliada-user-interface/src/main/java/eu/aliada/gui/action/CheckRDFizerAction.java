@@ -67,8 +67,8 @@ public class CheckRDFizerAction extends ActionSupport {
      */
     public void getInfo() throws IOException {
         HttpSession session = ServletActionContext.getRequest().getSession();
-        Integer rdfizerJobId = (int) session.getAttribute("rdfizerJobId");
-        if(rdfizerJobId!= null){
+        if(session.getAttribute("rdfizerJobId")!=null){
+            Integer rdfizerJobId = (int) session.getAttribute("rdfizerJobId");
             setImportFile(getImportFileDb(rdfizerJobId));
             URL url = new URL("http://aliada:8080/aliada-rdfizer-1.0/jobs/"+rdfizerJobId);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -109,7 +109,9 @@ public class CheckRDFizerAction extends ActionSupport {
               logger.error(MessageCatalog._00016_ERROR_READING_XML,e);
               conn.disconnect();
           }
-            setState((int) ServletActionContext.getRequest().getSession().getAttribute("state"));
+            if(session.getAttribute("state") != null){
+                setState((int) session.getAttribute("state"));                
+            }
             conn.disconnect();
         }
     }
