@@ -1,7 +1,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="/struts-tags" prefix="html"%>
-
+<ul class="breadcrumb">
+	<li><html:a action="configure" cssClass="breadcrumb activeGreen"><html:text name="organisation.title"/></html:a></li>
+</ul>
 <h2 class="pageTitle"><html:text name="organisation.title"/></h2>
 <html:form id="institutionConfiguration" action="/addInstitution.action"
 	enctype="multipart/form-data">

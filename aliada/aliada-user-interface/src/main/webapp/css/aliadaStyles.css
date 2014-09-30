@@ -251,7 +251,30 @@ padding: 10px 7px 10px 10px;
 	background: -webkit-linear-gradient(top, #A4A4A4, #BDBDBD);
 	background: -moz-linear-gradient(top, #A4A4A4, #BDBDBD);	
 }
+/*BREADCRUMB*/
+.breadcrumb{
+	text-decoration:none;
+	color: #7C7C7C;
+}
+ul.breadcrumb {
+    list-style: none;
+    padding:0;
+    margin:0;
+}
 
+.breadcrumb li{ 
+    text-indent: -.7em;
+    display:inline;
+}
+
+.breadcrumb li:before {
+    content: " > ";
+    color: #1BBC9B;
+}
+.activeGreen{
+	color:#1BBC9B;
+	font-weight: bold;
+}
 
 /* LAYOUT */
 #aliadaHeader {

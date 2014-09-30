@@ -1,7 +1,11 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="/struts-tags" prefix="html"%>
-
+<ul class="breadcrumb">
+	<li><html:a action="configure" cssClass="breadcrumb"><html:text name="organisation.title"/></html:a></li>
+	<li><html:a action="manage" cssClass="breadcrumb"><html:text name="manage.title"/></html:a></li>
+	<li><html:a action="conversion" cssClass="breadcrumb activeGreen"><html:text name="conversion.title"/></html:a></li>
+</ul>
 <h2 class="pageTitle"><html:text name="conversion.title"/></h2>
 <html:form id="conversion">
 	<div class="content">
@@ -27,33 +31,44 @@
 					</div>
 				</td>
 				<td><html:select name="templatesSelect"
-						cssClass="inputForm" list="templates" /></td>
-			</tr>
+						cssClass="inputForm" list="templates" />					
+				</td>
+				<td><html:submit action="showTemplates" cssClass="submitButton button"
+						key="templates" />
+				</td>
+			</tr>			
 		</table>
-		<div <html:if test="showRdfizerButton">class="displayInline"</html:if>
-			<html:else>
-			    class="displayNo"
-			</html:else>>
-			<html:submit action="RDFize" cssClass="submitButton buttonGreen"
-				key="RDF-ize"/>
-		</div>
+		<html:submit id="rdfizeButton" action="RDFize" disabled="true" cssClass="submitButton button"
+			key="RDF-ize"/>
 	</div>
 	<div id="conversionButtons" class="buttons row">
-			<html:submit action="showTemplates" cssClass="submitButton button"
-				key="templates" />
-			<div <html:if test="showCheckButton">class="displayInline"</html:if>
-				<html:else>
-				    class="displayNo"
-				</html:else>>
-				<html:submit id="checkRDFButton" action="checkRDFizer" cssClass="submitButton buttonGreen"
-					key="check" />
-			</div>
-			<html:submit id="nextButton" action="linking" cssClass="displayNo submitButton buttonGreen"
+			<html:submit id="checkRDFButton" disabled="true" action="checkRDFizer" cssClass="submitButton button"
+				key="check" />
+			<html:submit id="nextButton" disabled="true" action="linking" cssClass="submitButton button"
 				key="next" />
 			<html:if test="state>1">
 				<script>
-					$('#checkRDFButton').hide();
+					$('#checkRDFButton').prop("disabled",true);
+			    	$("#nextButton").removeClass("button");
+			    	$("#nextButton").addClass("buttonGreen")
+					$('#nextButton').prop("disabled",false);
 			    	$("#nextButton").show("slow");
+			    </script>				
+			</html:if>
+			<html:if test="showRdfizerButton">
+				<script>
+			    	$("#rdfizeButton").removeClass("button");
+			    	$("#rdfizeButton").addClass("buttonGreen");
+					$('#rdfizeButton').prop("disabled",false);
+			    	$("#rdfizeButton").show("slow");
+			    </script>				
+			</html:if>
+			<html:if test="showCheckButton">
+				<script>
+			    	$("#checkRDFButton").removeClass("button");
+			    	$("#checkRDFButton").addClass("buttonGreen");
+					$('#checkRDFButton').prop("disabled",false);
+			    	$("#checkRDFButton").show("slow");
 			    </script>				
 			</html:if>
 	</div>	

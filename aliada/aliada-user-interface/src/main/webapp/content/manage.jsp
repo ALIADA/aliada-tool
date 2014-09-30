@@ -1,5 +1,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@ taglib uri="/struts-tags" prefix="html" %>
+<ul class="breadcrumb">
+	<li><html:a action="configure" cssClass="breadcrumb"><html:text name="organisation.title"/></html:a></li>
+	<li><html:a action="manage" cssClass="breadcrumb activeGreen"><html:text name="manage.title"/></html:a></li>
+</ul>
 <h2 class="pageTitle"><html:text name="manage.title"/></h2>
 <html:form id="managing" method="post" enctype="multipart/form-data">
 	<div class="content">
@@ -21,13 +25,8 @@
 			<html:submit id="importFileButton" action="importXML" cssClass="submitButton buttonGreen"
 				key="import" onClick="$('#loader').show();
 										$('#importFileButton').hide();" />
-			<div <html:if test="enableErrorLogButton">class="displayInline"</html:if>
-				<html:else>
-				    class="displayNo"
-				</html:else>>
-				<html:submit action="errorLog" cssClass="submitButton button"
-					key="errorLog" />
-			</div>	
+			<html:submit id="errorLog" action="errorLog" disabled="true" cssClass="submitButton button"
+				key="errorLog" />
 			<html:submit id="nextButton" action="conversion" disabled="true" cssClass="submitButton button"
 				key="next" />
 			<html:if test="state>=1">
@@ -38,6 +37,16 @@
 			    	$("#nextButton").addClass("buttonGreen");
 		    		$("#rdfValMenu").prop( "disabled", false);	
 			    	$("#nextButton").show("slow");
+			    </script>
+			</html:if>
+			<html:if test="enableErrorLogButton">
+				<script>
+			    	$("#importFileButton").removeClass("buttonGreen");
+			    	$("#importFileButton").addClass("button");
+			    	$("#errorLog").removeClass("button");
+			    	$("#errorLog").addClass("buttonGreen");
+		    		$("#errorLog").prop( "disabled", false);	
+			    	$("#errorLog").show("slow");
 			    </script>
 			</html:if>
 		</html:form>
