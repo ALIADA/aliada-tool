@@ -98,7 +98,15 @@ public class ConversionAction extends ActionSupport {
                     .executeQuery("select aliada_ontology,sparql_endpoint_uri,sparql_endpoint_login,sparql_endpoint_password,graph_uri,dataset_base from organisation");
             if (rs.next()) {
                 RDFStoreDAO store = new RDFStoreDAO();
-                if(store.clearGraphBySparql(rs.getString("sparql_endpoint_uri"), rs.getString("sparql_endpoint_login"), rs.getString("sparql_endpoint_password"), rs.getString("graph_uri"))){
+                if(importFile==null){
+                    logger.error(MessageCatalog._00033_CONVERSION_ERROR_NO_FILE_IMPORTED);
+                    rs.close();
+                    statement.close();
+                    connection.close();
+                    getTemplatesDb();
+                    return ERROR;                    
+                }
+                else if(store.clearGraphBySparql(rs.getString("sparql_endpoint_uri"), rs.getString("sparql_endpoint_login"), rs.getString("sparql_endpoint_password"), rs.getString("graph_uri"))){
                     PreparedStatement preparedStatement = connection
                             .prepareStatement(
                                     "INSERT INTO aliada.rdfizer_job_instances (datafile,format,namespace,graph_name,aliada_ontology,sparql_endpoint_uri,sparql_endpoint_login,sparql_endpoint_password) VALUES(?,?,?,?,?,?,?,?)",
