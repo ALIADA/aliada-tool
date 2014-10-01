@@ -140,7 +140,7 @@
 	<div id="conversionButtons" class="buttons row">
 			<img id="progressBar" class="displayNo" src="images/progressBar.gif" alt="" />
 			<html:submit id="checkRDFButton" disabled="true" cssClass="submitButton button"
-				key="check" />
+				key="check" onClick="return false;"/>
 			<html:submit id="nextButton" disabled="true" action="linking" cssClass="submitButton button"
 				key="next" />
 			<html:if test="showRdfizerButton">
