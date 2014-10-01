@@ -12,27 +12,27 @@
 	      url: urlPath,
 	      dataType : 'xml',
 	      success: function(xml) {
-               var completed = $(xml).attr("completed");
+               var completed = $(xml).find("completed").text();
                if(completed=="true"){
-            	   $("#status").append("Completed");
+            	   $("#status").replaceWith("Completed");
 		   		   console.log("interval stopped");
 		   		   clearInterval(interval);
                }
                else{
             	   $("#status").append("Running");            	   
                }
-               var format = $(xml).attr("format");
-               $("#format").append(format);
-               var recordNum = $(xml).attr("total-records-count");
-               $("#recordNum").append(recordNum);
-               var processedNum = $(xml).attr("processed-records-count");
-               $("#processedNum").append(processedNum);
-               var statementsNum = $(xml).attr("output-statements-count");
-               $("#statementsNum").append(statementsNum);
-               var processingThroughput = $(xml).attr("records-throughput");
-               $("#processingThroughput").append(processingThroughput);
-               var triplesThroughput = $(xml).attr("triples-throughput");
-               $("#triplesThroughput").append(triplesThroughput);
+               var format = $(xml).find("format").text();
+               $("#format").replaceWith(format);
+               var recordNum = $(xml).find("total-records-count").text();
+               $("#recordNum").replaceWith(recordNum);
+               var processedNum = $(xml).find("processed-records-count").text();
+               $("#processedNum").replaceWith(processedNum);
+               var statementsNum = $(xml).find("output-statements-count").text();
+               $("#statementsNum").replaceWith(statementsNum);
+               var processingThroughput = $(xml).find("records-throughput").text();
+               $("#processingThroughput").replaceWith(processingThroughput);
+               var triplesThroughput = $(xml).find("triples-throughput").text();
+               $("#triplesThroughput").replaceWith(triplesThroughput);
                console.log(completed);
 	    	  console.log(xml);
 	      },
@@ -96,28 +96,34 @@
 	<div id="checkInfo" class="displayNo content fright">
 		<label class="row label"><html:text name="rdf.fileTo"/></label>		
 		<html:property value="importFile"/>
-		<div class="row">
-			<label id="status" class="label green"><html:text name="rdf.status"/>
-			</label>
+		<div class="row label green">
+			<html:text name="rdf.status"/>
+			<label id="status"></label>
 		</div>
-		<div class="row">
-			<label id="format" class="label"><html:text name="rdf.format"/></label>		
+		<div class="row label">
+			<html:text name="rdf.format"/>
+			<label id="format"></label>	
 		</div>
-		<div class="row">
-			<label id="recordNum" class="label"><html:text name="rdf.records"/></label>		
+		<div class="row label">
+			<html:text name="rdf.records"/>	
+			<label id="recordNum"></label>	
 		</div>
-		<div class="row">
-			<label id="processedNum" class="label"><html:text name="rdf.processed"/></label>		
+		<div class="row label">
+			<html:text name="rdf.processed"/>
+			<label id="processedNum"></label>		
 		</div>
-		<div class="row">
-			<label id="statementsNum" class="label"><html:text name="rdf.emitted"/></label>		
+		<div class="row label">
+			<html:text name="rdf.emitted"/>
+			<label id="statementsNum"></label>	
 		</div>
-		<div class="row">
-			<label id="processingThroughput" class="label"><html:text name="rdf.recordThroughput"/></label>
+		<div class="row label">
+			<html:text name="rdf.recordThroughput"/>
+			<label id="processingThroughput"></label>
 			<html:text name="rdf.recordsSec"/>			
 		</div>
-		<div class="row">
-			<label id="triplesThroughput" class="label"><html:text name="rdf.triplesThroughput"/></label>
+		<div class="row label">
+			<html:text name="rdf.triplesThroughput"/>
+			<label id="triplesThroughput"></label>
 			<html:text name="rdf.triplesSec"/>		
 		</div>
 	</div>
