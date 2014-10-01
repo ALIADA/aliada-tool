@@ -1,6 +1,37 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="/struts-tags" prefix="html"%>
+<script>
+ $(function(){
+	var checkRDF = function(){
+		console.log("checking RDF");
+		var rdfizerJobId = $("#rdfizerJobId").val();
+		var urlPath = "http://aliada.scanbit.net:8080/aliada-rdfizer-1.0/jobs/"+rdfizerJobId;
+	    $.ajax({
+	      type: "GET",
+	      url: urlPath,
+	      dataType : 'xml',
+	      success: function(xml) {
+	    	  $(xml).find('job').each(function(){
+	               var completed = $(this).find("completed").text();
+	               console.log(completed);
+	           });
+	    	  console.log(xml);
+	      },
+	      error : function(jqXHR, status, error) {
+	          console.log("Error");
+	      },
+	      complete : function(jqXHR, status) {
+	          console.log("Completed");
+	      }
+    	});   
+	};
+	$("#checkRDFButton").on("click",function(){
+		var interval = setInterval( checkRDF, 1000 );		
+	});
+}); 
+</script>
+<html:hidden id="rdfizerJobId" name="rdfizerJobId" value="%{#session['rdfizerJobId']}" />
 <ul class="breadcrumb">
 	<li><html:a action="configure" cssClass="breadcrumb"><html:text name="organisation.title"/></html:a></li>
 	<li><html:a action="manage" cssClass="breadcrumb"><html:text name="manage.title"/></html:a></li>
@@ -42,7 +73,7 @@
 			key="RDF-ize"/>
 	</div>
 	<div id="conversionButtons" class="buttons row">
-			<html:submit id="checkRDFButton" disabled="true" action="checkRDFizer" cssClass="submitButton button"
+			<html:submit id="checkRDFButton" disabled="true" cssClass="submitButton button"
 				key="check" />
 			<html:submit id="nextButton" disabled="true" action="linking" cssClass="submitButton button"
 				key="next" />
