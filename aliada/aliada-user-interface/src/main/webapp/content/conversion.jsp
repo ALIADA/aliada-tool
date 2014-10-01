@@ -3,52 +3,54 @@
 <%@ taglib uri="/struts-tags" prefix="html"%>
 <script>
  $(function(){
-	var checkRDF = function(){
-		console.log("checking RDF");
-		var rdfizerJobId = $("#rdfizerJobId").val();
-		var urlPath = "http://aliada.scanbit.net:8080/aliada-rdfizer-1.0/jobs/"+rdfizerJobId;
-	    $.ajax({
-	      type: "GET",
-	      url: urlPath,
-	      dataType : 'xml',
-	      success: function(xml) {
-               var completed = $(xml).find("completed").text();
-               if(completed=="true"){
-            	   $("#status").replaceWith("Completed");
-		   		   console.log("interval stopped");
-		   		   clearInterval(interval);
-               }
-               else{
-            	   $("#status").append("Running");            	   
-               }
-               var format = $(xml).find("format").text();
-               $("#format").replaceWith(format);
-               var recordNum = $(xml).find("total-records-count").text();
-               $("#recordNum").replaceWith(recordNum);
-               var processedNum = $(xml).find("processed-records-count").text();
-               $("#processedNum").replaceWith(processedNum);
-               var statementsNum = $(xml).find("output-statements-count").text();
-               $("#statementsNum").replaceWith(statementsNum);
-               var processingThroughput = $(xml).find("records-throughput").text();
-               $("#processingThroughput").replaceWith(processingThroughput);
-               var triplesThroughput = $(xml).find("triples-throughput").text();
-               $("#triplesThroughput").replaceWith(triplesThroughput);
-               console.log(completed);
-	    	  console.log(xml);
-	      },
-	      error : function(jqXHR, status, error) {
-	          console.log("Error");
-	      },
-	      complete : function(jqXHR, status) {
-	          console.log("Completed");
-	      }
-    	});   
-	};
+	 var interval;
+	 var checkRDF = function(){
+			console.log("checking RDF");
+			var rdfizerJobId = $("#rdfizerJobId").val();
+			var urlPath = "http://aliada.scanbit.net:8080/aliada-rdfizer-1.0/jobs/"+rdfizerJobId;
+		    $.ajax({
+		      type: "GET",
+		      url: urlPath,
+		      dataType : 'xml',
+		      success: function(xml) {
+	               var format = $(xml).find("format").text();
+	               $("#format").replaceWith(format);
+	               var recordNum = $(xml).find("total-records-count").text();
+	               $("#recordNum").replaceWith(recordNum);
+	               var processedNum = $(xml).find("processed-records-count").text();
+	               $("#processedNum").replaceWith(processedNum);
+	               var statementsNum = $(xml).find("output-statements-count").text();
+	               $("#statementsNum").replaceWith(statementsNum);
+	               var processingThroughput = $(xml).find("records-throughput").text();
+	               $("#processingThroughput").replaceWith(processingThroughput);
+	               var triplesThroughput = $(xml).find("triples-throughput").text();
+	               $("#triplesThroughput").replaceWith(triplesThroughput);
+	               console.log(completed);
+		    	   console.log(xml);
+		    	   var completed = $(xml).find("completed").text();
+	               if(completed=="true"){
+	            	   $("#status").replaceWith("Completed");
+			   		   console.log("interval stopped");
+			   		   clearInterval(interval);
+	               }
+	               else{
+	            	   $("#status").append("Running");            	   
+	               }
+		      },
+		      error : function(jqXHR, status, error) {
+		          console.log("Error");
+		      },
+		      complete : function(jqXHR, status) {
+		          console.log("Completed");
+		      }
+	    	});   
+		};
+	
 	$("#checkRDFButton").on("click",function(){
 		$("#checkInfo").show("slow");
 		$('#checkRDFButton').prop("disabled",true);
 		console.log("Checking");
-		var interval = setInterval( checkRDF, 1000 );		
+		interval = setInterval( checkRDF, 1000 );		
 	});
 }); 
 </script>
