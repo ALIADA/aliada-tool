@@ -32,6 +32,11 @@
 	            	   $("#status").replaceWith("Completed");
 			   		   console.log("interval stopped");
 			   		   clearInterval(interval);
+			   		   $("#checkRDFButton").prop("disabled",true);
+				       $("#nextButton").removeClass("button");
+				       $("#nextButton").addClass("buttonGreen")
+				       $("#nextButton").prop("disabled",false);
+				       $("#nextButton").show("slow");
 	               }
 	               else{
 	            	   $("#status").append("Running");            	   
@@ -47,6 +52,7 @@
 		};
 	
 	$("#checkRDFButton").on("click",function(){
+		$("#rdfizePanel").hide();
 		$("#checkInfo").show("slow");
 		$('#checkRDFButton').prop("disabled",true);
 		console.log("Checking");
@@ -62,7 +68,7 @@
 </ul>
 <h2 class="pageTitle"><html:text name="conversion.title"/></h2>
 <html:form id="conversion">
-	<div class="content">
+	<div id="rdfizePanel" class="content">
 		<label class="row label"><html:text name="conversion.filesTo"/></label>
 		<table class="table">
 			<tr class="backgroundGreen center">
@@ -134,15 +140,6 @@
 				key="check" />
 			<html:submit id="nextButton" disabled="true" action="linking" cssClass="submitButton button"
 				key="next" />
-			<html:if test="state>1">
-				<script>
-					$('#checkRDFButton').prop("disabled",true);
-			    	$("#nextButton").removeClass("button");
-			    	$("#nextButton").addClass("buttonGreen")
-					$('#nextButton').prop("disabled",false);
-			    	$("#nextButton").show("slow");
-			    </script>				
-			</html:if>
 			<html:if test="showRdfizerButton">
 				<script>
 			    	$("#rdfizeButton").removeClass("button");
