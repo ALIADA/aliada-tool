@@ -111,9 +111,7 @@ public class SynchXmlDocumentTranslator implements Processor, ApplicationContext
 		final long begin = System.currentTimeMillis();
 		
 		final Message in = exchange.getIn();
-		
 
-		
 		final String format = in.getHeader(Constants.FORMAT_ATTRIBUTE_NAME, String.class);
 		final Integer jobId = in.getHeader(Constants.JOB_ID_ATTRIBUTE_NAME, Integer.class);
 		final JobInstance configuration = cache.getJobInstance(jobId);
@@ -126,6 +124,7 @@ public class SynchXmlDocumentTranslator implements Processor, ApplicationContext
 		// the conversion chain for this record must stop here
 		if (in.getBody() instanceof NullObject) {
 			incrementJobStatsAndElapsed(jobId, null, 0);
+			checkForCompleteness(jobId);
 			return;
 		}
 		

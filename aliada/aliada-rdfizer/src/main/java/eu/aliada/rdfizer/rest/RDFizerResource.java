@@ -8,7 +8,9 @@ package eu.aliada.rdfizer.rest;
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.lang.management.ManagementFactory;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -21,6 +23,7 @@ import javax.inject.Singleton;
 import javax.management.JMException;
 import javax.management.MBeanServer;
 import javax.management.ObjectName;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -33,6 +36,10 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
+import org.marc4j.MarcReader;
+import org.marc4j.MarcStreamReader;
+import org.marc4j.MarcWriter;
+import org.marc4j.MarcXmlWriter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataAccessException;
@@ -88,6 +95,18 @@ public class RDFizerResource implements RDFizer {
 	protected boolean enabled = true;
 	
 	protected AtomicInteger runningJobCount = new AtomicInteger();
+	
+	/**
+	 * A simple ping / I'm alive service.
+	 * 
+	 * @return a string containing information about the module itself.
+	 */
+	@GET
+	@Path("/ping")
+	@Produces(MediaType.TEXT_PLAIN)
+    public String ping() {
+        return "ALIADA Project -- RDFizer V1.0";
+    }
 	
 	@PUT
 	@Path("/enable")
@@ -152,6 +171,56 @@ public class RDFizerResource implements RDFizer {
 			}
 			stats.setInstance(instance);
 			return Response.ok().entity(stats).build();
+		}
+	}
+	
+	@POST
+	@Path("/newJob")
+	@Consumes("application/octet-stream")
+	public Response newJobFromStream(final InputStream stream) {
+		final File file = new File("/tmp/data-"+System.currentTimeMillis());
+		
+		MarcReader reader = null;
+		MarcWriter writer = null;
+		try {
+			reader = new MarcStreamReader(stream, "UTF-8");
+			writer = new MarcXmlWriter(new FileOutputStream(file));
+			int count = 0;
+			if (reader.hasNext()) {
+				writer.write(reader.next());
+				count++;
+			}
+			
+			if (writer != null) {
+				try { writer.close();} catch (Exception ex) {}
+			}
+			
+			if (count == 0) {
+				return Response.status(Status.NO_CONTENT).build();	
+			}
+			
+			final JobInstance configuration = cache.getJobInstance(4321);
+			if (configuration == null) {
+				final JobInstance instance = new JobInstance();
+				instance.setId(4321);
+				instance.setDatafile(file.getAbsolutePath());
+				instance.setFormat("marcxml");
+				instance.setNamespace("http://wecat.atcult.it/");
+				instance.setAliadaOntologyNamespace("http://aliada-project.eu/2014/aliada-ontology/");
+				instance.setSparqlEndpointUrl("http://rdfstore:8080/openrdf-workbench");
+				instance.setSparqlPassword(" ");
+				instance.setSparqlUsername(" ");
+				jobInstanceRepository.save(instance);
+			}
+			
+			return newJob(4321);
+		} catch (final Exception exception) {
+			LOGGER.error(MessageCatalog._00051_IO_FAILURE, exception);
+			return Response.serverError().build();	
+		} finally {
+			if (writer != null) {
+				try { writer.close();} catch (Exception ex) {}
+			}
 		}
 	}
 	
