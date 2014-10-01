@@ -5,30 +5,31 @@
 var checkLinking = function(){
 	console.log("checkLinking");
 	var linkingJobId = $("#linkingJobId").val();
-     $.ajax({
-       type: "GET",
-       url: "http://aliada.scanbit.net:8080/aliada-links-discovery-1.0/jobs/"+linkingJobId,
-       dataType : 'json',
-       success: function(json) {
-    	   console.log(json);
-    	   var status = json.status;
-    	   console.log(status);
-    	   if(status=="finished"){
-    		   console.log("interval stopped");
-    		   clearInterval(interval);
-    	   }
-       },
-       error : function(jqXHR, status, error) {
-           console.log("Error");
-       },
-       complete : function(jqXHR, status) {
-           console.log("Completed");
-       }
+	var urlPath = "http://aliada.scanbit.net:8080/aliada-links-discovery-1.0/jobs/"+linkingJobId;
+    $.ajax({
+      type: "GET",
+      url: urlPath,
+      dataType : 'json',
+      success: function(json) {
+   	   console.log(json);
+   	   var status = json.status;
+   	   console.log(status);
+   	   if(status=="finished"){
+   		   console.log("interval stopped");
+   		   clearInterval(interval);
+   	   }
+      },
+      error : function(jqXHR, status, error) {
+          console.log("Error");
+      },
+      complete : function(jqXHR, status) {
+          console.log("Completed");
+      }
     });   
 }
 	var interval = setInterval( "checkLinking()", 1000 );
 </script>
-<html:hidden id="linkingJobId" name="linkingJobId" value="#session['linkingJobId']" />
+<html:hidden id="linkingJobId" name="linkingJobId" value="%{#session['linkingJobId']}" />
 <h2 class="pageTitle"><html:text name="linkingInfo.title"/></h2>
 	<div id="form" >
 		<div class="content" >
