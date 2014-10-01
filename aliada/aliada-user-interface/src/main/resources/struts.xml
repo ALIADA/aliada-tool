@@ -52,7 +52,7 @@
   		
 		<action name="logon" class="eu.aliada.gui.action.LogonAction">
 			<interceptor-ref name="logonStack"/>
-			<result name="success" type="tiles">/welcome.tiles</result>
+			<result name="success" type="tiles">/configuration.tiles</result>
 			<result name="error" type="tiles">/logon.tiles</result>
 			<result name="input" type="tiles">/logon.tiles</result>
 		</action>
