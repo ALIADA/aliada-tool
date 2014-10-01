@@ -1,7 +1,32 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@ taglib uri="/struts-tags" prefix="html" %>
 
-
+<script>
+var checkLinking = function(){
+	console.log("checkLinking");
+	var rdfizerJobId = $("#rdfizerJobId").val();
+     $.ajax({
+       type: "GET",
+       url: "http://aliada.scanbit.net:8080/aliada-links-discovery-1.0/jobs/"+linkingJobId,
+       dataType : 'json',
+       success: function(json) {
+    	   console.log(json);
+    	   var status = json.status;
+    	   console.log(status);
+       },
+       error : function(jqXHR, status, error) {
+           console.log("Error");
+       },
+       complete : function(jqXHR, status) {
+           console.log("Completed");
+       }
+    });   
+}
+$(function() {
+	setInterval( "checkLinking()", 1000 );
+});	
+</script>
+<html:hidden id="linkingJobId" name="linkingJobId" value="#session['linkingJobId']" />
 <h2 class="pageTitle"><html:text name="linkingInfo.title"/></h2>
 	<div id="form" >
 		<div class="content" >
