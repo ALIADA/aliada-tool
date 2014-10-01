@@ -37,6 +37,7 @@
 				       $("#nextButton").addClass("buttonGreen")
 				       $("#nextButton").prop("disabled",false);
 				       $("#nextButton").show("slow");
+				       $('#progressBar').hide();
 	               }
 	               else{
 	            	   $("#status").append("Running");            	   
@@ -52,8 +53,9 @@
 		};
 	
 	$("#checkRDFButton").on("click",function(){
-		$("#rdfizePanel").hide();
+		$("#rdfizePanel").hide();		
 		$("#checkInfo").show("slow");
+		$('#progressBar').show();
 		$('#checkRDFButton').prop("disabled",true);
 		console.log("Checking");
 		interval = setInterval( checkRDF, 1000 );		
@@ -136,8 +138,7 @@
 		</div>
 	</div>
 	<div id="conversionButtons" class="buttons row">
-			<html:submit id="checkRDFButton" disabled="true" cssClass="submitButton button"
-				key="check" />
+			<img id="progressBar" class="displayNo" src="images/progressBar.gif" alt="" />
 			<html:submit id="nextButton" disabled="true" action="linking" cssClass="submitButton button"
 				key="next" />
 			<html:if test="showRdfizerButton">
@@ -146,14 +147,6 @@
 			    	$("#rdfizeButton").addClass("buttonGreen");
 					$('#rdfizeButton').prop("disabled",false);
 			    	$("#rdfizeButton").show("slow");
-			    </script>				
-			</html:if>
-			<html:if test="showCheckButton">
-				<script>
-			    	$("#checkRDFButton").removeClass("button");
-			    	$("#checkRDFButton").addClass("buttonGreen");
-					$('#checkRDFButton').prop("disabled",false);
-			    	$("#checkRDFButton").show("slow");
 			    </script>				
 			</html:if>
 	</div>	
