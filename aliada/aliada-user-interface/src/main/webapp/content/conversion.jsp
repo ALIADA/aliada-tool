@@ -12,10 +12,28 @@
 	      url: urlPath,
 	      dataType : 'xml',
 	      success: function(xml) {
-	    	  $(xml).find('job').each(function(){
-	               var completed = $(this).find("completed").text();
-	               console.log(completed);
-	           });
+               var completed = $(xml).attr("completed");
+               if(completed=="true"){
+            	   $("#status").append("Completed");
+		   		   console.log("interval stopped");
+		   		   clearInterval(interval);
+               }
+               else{
+            	   $("#status").append("Running");            	   
+               }
+               var format = $(xml).attr("format");
+               $("#format").append(format);
+               var recordNum = $(xml).attr("total-records-count");
+               $("#recordNum").append(recordNum);
+               var processedNum = $(xml).attr("processed-records-count");
+               $("#processedNum").append(processedNum);
+               var statementsNum = $(xml).attr("output-statements-count");
+               $("#statementsNum").append(statementsNum);
+               var processingThroughput = $(xml).attr("records-throughput");
+               $("#processingThroughput").append(processingThroughput);
+               var triplesThroughput = $(xml).attr("triples-throughput");
+               $("#triplesThroughput").append(triplesThroughput);
+               console.log(completed);
 	    	  console.log(xml);
 	      },
 	      error : function(jqXHR, status, error) {
@@ -79,33 +97,28 @@
 		<label class="row label"><html:text name="rdf.fileTo"/></label>		
 		<html:property value="importFile"/>
 		<div class="row">
-			<label class="label green"><html:text name="rdf.status"/>
-				<html:property value="status"/>
+			<label id="status" class="label green"><html:text name="rdf.status"/>
 			</label>
 		</div>
 		<div class="row">
-			<label class="label"><html:text name="rdf.format"/></label>
-			<html:property value="format"/>			
+			<label id="format" class="label"><html:text name="rdf.format"/></label>		
 		</div>
 		<div class="row">
-			<label class="label"><html:text name="rdf.records"/></label>
-			<html:property value="recordNum"/>			
+			<label id="recordNum" class="label"><html:text name="rdf.records"/></label>		
 		</div>
 		<div class="row">
-			<label class="label"><html:text name="rdf.processed"/></label>
-			<html:property value="processedNum"/>			
+			<label id="processedNum" class="label"><html:text name="rdf.processed"/></label>		
 		</div>
 		<div class="row">
-			<label class="label"><html:text name="rdf.emitted"/></label>
-			<html:property value="statementsNum"/>			
+			<label id="statementsNum" class="label"><html:text name="rdf.emitted"/></label>		
 		</div>
 		<div class="row">
-			<label class="label"><html:text name="rdf.recordThroughput"/></label>
-			<html:property value="processingThroughput"/> <html:text name="rdf.recordsSec"/>			
+			<label id="processingThroughput" class="label"><html:text name="rdf.recordThroughput"/></label>
+			<html:text name="rdf.recordsSec"/>			
 		</div>
 		<div class="row">
-			<label class="label"><html:text name="rdf.triplesThroughput"/></label>
-			<html:property value="triplesThroughput"/> <html:text name="rdf.triplesSec"/>		
+			<label id="triplesThroughput" class="label"><html:text name="rdf.triplesThroughput"/></label>
+			<html:text name="rdf.triplesSec"/>		
 		</div>
 	</div>
 	<div id="conversionButtons" class="buttons row">
