@@ -4,7 +4,7 @@
 <script>
 var checkLinking = function(){
 	console.log("checkLinking");
-	var rdfizerJobId = $("#rdfizerJobId").val();
+	var linkingJobId = $("#linkingJobId").val();
      $.ajax({
        type: "GET",
        url: "http://aliada.scanbit.net:8080/aliada-links-discovery-1.0/jobs/"+linkingJobId,
@@ -13,6 +13,10 @@ var checkLinking = function(){
     	   console.log(json);
     	   var status = json.status;
     	   console.log(status);
+    	   if(status=="finished"){
+    		   console.log("interval stopped");
+    		   clearInterval(interval);
+    	   }
        },
        error : function(jqXHR, status, error) {
            console.log("Error");
@@ -22,9 +26,7 @@ var checkLinking = function(){
        }
     });   
 }
-$(function() {
-	setInterval( "checkLinking()", 1000 );
-});	
+	var interval = setInterval( "checkLinking()", 1000 );
 </script>
 <html:hidden id="linkingJobId" name="linkingJobId" value="#session['linkingJobId']" />
 <h2 class="pageTitle"><html:text name="linkingInfo.title"/></h2>
