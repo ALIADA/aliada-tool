@@ -43,7 +43,7 @@ public class LinkedDataServerSetup {
 	 * @return the name of the newly created commands file.
 	 * @since 1.0
 	 */
-	private String getIsqlCommandsFile(JobConfiguration jobConf){
+	public String getIsqlCommandsFile(JobConfiguration jobConf){
 		String isqlCommandsFilename;
 		isqlCommandsFilename = jobConf.getIsqlCommandsFilename();
 		//Check if isqlCommandsFilename exists
@@ -80,7 +80,7 @@ public class LinkedDataServerSetup {
 	 * @return the name of the newly created commands file.
 	 * @since 1.0
 	 */
-	private boolean encodeParams(JobConfiguration jobConf){
+	public boolean encodeParams(JobConfiguration jobConf){
 		boolean encoded = false;
 		try{
 			datasetBaseEncoded = URLEncoder.encode(jobConf.getDatasetBase(),"UTF-8"); 

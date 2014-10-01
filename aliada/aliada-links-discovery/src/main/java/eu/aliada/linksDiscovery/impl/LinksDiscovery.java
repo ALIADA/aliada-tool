@@ -75,7 +75,7 @@ public class LinksDiscovery {
 	 *			which contain the configuration of each subjob.
 	 * @since 1.0
 	 */
-	private SubjobConfiguration[] getLinkingConfigFiles(String propertiesFileName) {
+	public SubjobConfiguration[] getLinkingConfigFiles(String propertiesFileName) {
 		Vector<SubjobConfiguration> v = new Vector<SubjobConfiguration>();
 		String nameProp = "linking.name.";
 		String fileProp = "linking.file.";
@@ -141,7 +141,7 @@ public class LinksDiscovery {
 	 * @return the name of the newly created crontab file.
 	 * @since 1.0
 	 */
-	private String createCrontabFile(String tmpDir){
+	public String createCrontabFile(String tmpDir){
 		String crontabFilename = tmpDir + File.separator + CRONTAB_FILENAME;
 		//Replace Windows file separator by "/" Java file separator
 		crontabFilename = crontabFilename.replace("\\", "/");
@@ -186,7 +186,7 @@ public class LinksDiscovery {
 	 * @param paramValue	the value of the "value" attribute.
 	 * @since 1.0
 	 */
-	private void appendChildParam(Document doc, Element parentElem, String paramName, String paramValue){
+	public void appendChildParam(Document doc, Element parentElem, String paramName, String paramValue){
 		//Create new <Param> element
 		Element paramElem = doc.createElement("Param"); 
 		//set attributes to Param element
@@ -218,7 +218,7 @@ public class LinksDiscovery {
 	 * @return the name of the newly created XML configuration file.
 	 * @since 1.0
 	 */
-	private String createLinkingXMLConfigFile(String linkingFile, String ds, String subjobName, JobConfiguration jobConf){
+	public String createLinkingXMLConfigFile(String linkingFile, String ds, String subjobName, JobConfiguration jobConf){
 		// Read XML file and create a new one with SPARQL enpoints referring information (input & output)
 		File inputXMLFile = new File(linkingFile);
 		String inputFileName = inputXMLFile.getName();
@@ -357,7 +357,7 @@ public class LinksDiscovery {
 	 * @return the name of the newly created properties file.
 	 * @since 1.0
 	 */
-	private String createLinkingPropConfigFile(String tmpDir, DDBBParams ddbbParams){
+	public String createLinkingPropConfigFile(String tmpDir, DDBBParams ddbbParams){
 		// Create properties file for linking process/subjob to be scheduled with crontab
 		//Compose new file name
 		String linkingConfigFilename = tmpDir + File.separator + PROPFILE_FILENAME + System.currentTimeMillis() + ".properties";
@@ -402,7 +402,7 @@ public class LinksDiscovery {
 	 * @return true if the process has been inserted in the file. False otherwise.
 	 * @since 1.0
 	 */
-	private boolean insertLinkingProcessInCrontabFile(String crontabFilename, String clientAppBinDir, int jobId, int subjobId, String linkingPropConfigFilename)
+	public boolean insertLinkingProcessInCrontabFile(String crontabFilename, String clientAppBinDir, int jobId, int subjobId, String linkingPropConfigFilename)
 	{
 		if(linkingPropConfigFilename == null)
 			return false;
