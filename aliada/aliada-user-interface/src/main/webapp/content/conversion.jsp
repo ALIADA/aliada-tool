@@ -30,14 +30,14 @@
 		    	   var completed = $(xml).find("completed").text();
 	               if(completed=="true"){
 	            	   $("#status").replaceWith("Completed");
-			   		   console.log("interval stopped");
-			   		   clearInterval(interval);
 			   		   $("#checkRDFButton").prop("disabled",true);
 				       $("#nextButton").removeClass("button");
-				       $("#nextButton").addClass("buttonGreen")
+				       $("#nextButton").addClass("buttonGreen");
 				       $("#nextButton").prop("disabled",false);
 				       $("#nextButton").show("slow");
-				       $('#progressBar').hide();
+				       $("#progressBar").hide();
+			   		   console.log("interval stopped");
+			   		   clearInterval(interval);
 	               }
 	               else{
 	            	   $("#status").append("Running");            	   
