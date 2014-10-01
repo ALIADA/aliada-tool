@@ -27,6 +27,9 @@
     	});   
 	};
 	$("#checkRDFButton").on("click",function(){
+		$("#checkInfo").show("slow");
+		$('#checkRDFButton').prop("disabled",true);
+		console.log("Checking");
 		var interval = setInterval( checkRDF, 1000 );		
 	});
 }); 
@@ -71,6 +74,39 @@
 		</table>
 		<html:submit id="rdfizeButton" action="RDFize" disabled="true" cssClass="submitButton button"
 			key="RDF-ize"/>
+	</div>
+	<div id="checkInfo" class="displayNo content fright">
+		<label class="row label"><html:text name="rdf.fileTo"/></label>		
+		<html:property value="importFile"/>
+		<div class="row">
+			<label class="label green"><html:text name="rdf.status"/>
+				<html:property value="status"/>
+			</label>
+		</div>
+		<div class="row">
+			<label class="label"><html:text name="rdf.format"/></label>
+			<html:property value="format"/>			
+		</div>
+		<div class="row">
+			<label class="label"><html:text name="rdf.records"/></label>
+			<html:property value="recordNum"/>			
+		</div>
+		<div class="row">
+			<label class="label"><html:text name="rdf.processed"/></label>
+			<html:property value="processedNum"/>			
+		</div>
+		<div class="row">
+			<label class="label"><html:text name="rdf.emitted"/></label>
+			<html:property value="statementsNum"/>			
+		</div>
+		<div class="row">
+			<label class="label"><html:text name="rdf.recordThroughput"/></label>
+			<html:property value="processingThroughput"/> <html:text name="rdf.recordsSec"/>			
+		</div>
+		<div class="row">
+			<label class="label"><html:text name="rdf.triplesThroughput"/></label>
+			<html:property value="triplesThroughput"/> <html:text name="rdf.triplesSec"/>		
+		</div>
 	</div>
 	<div id="conversionButtons" class="buttons row">
 			<html:submit id="checkRDFButton" disabled="true" cssClass="submitButton button"

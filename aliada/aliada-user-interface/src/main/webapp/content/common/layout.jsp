@@ -22,7 +22,6 @@
 		</div>	
 		<div class="headerContentGreenBorder"></div>
 		<div class="content" >
-				<tiles:insertAttribute name="menu" />
 				<tiles:insertAttribute name="body" />
 		</div>
 		<div id="collapseCloud"></div>
