@@ -101,7 +101,7 @@
 		<html:submit id="rdfizeButton" action="RDFize" disabled="true" cssClass="submitButton button"
 			key="RDF-ize"/>
 	</div>
-	<div id="checkInfo" class="displayNo content fright">
+	<div id="checkInfo" class="displayNo content">
 		<label class="row label"><html:text name="rdf.fileTo"/></label>		
 		<html:property value="importFile"/>
 		<div class="row label green">
