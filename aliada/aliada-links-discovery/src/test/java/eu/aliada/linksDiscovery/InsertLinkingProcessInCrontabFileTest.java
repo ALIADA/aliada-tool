@@ -27,7 +27,7 @@ public class InsertLinkingProcessInCrontabFileTest extends TestCase {
      */
     public void testInsertLinkingProcessInCrontabFile() {
 		LinksDiscovery linksDisc = new LinksDiscovery();
-		String crontabFilename = "D:\\Proyectos\\023779_ALIADA\\Development\\aliada-links-discovery\\tmp\\aliada_links_discovery.cron";
+		String crontabFilename = "src/test/resources/aliada_links_discovery.cron";
 		String clientAppBinDir = randomString();
 		int jobId = randomIdentifier();
 		int subjobId = randomIdentifier();

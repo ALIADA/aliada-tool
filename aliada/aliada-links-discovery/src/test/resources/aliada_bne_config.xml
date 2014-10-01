@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Silk>
+  <Prefixes>
+    <Prefix id="rdf" namespace="http://www.w3.org/1999/02/22-rdf-syntax-ns#"/>
+    <Prefix id="owl" namespace="http://www.w3.org/2002/07/owl#"/>
+    <Prefix id="rdfs" namespace="http://www.w3.org/2000/01/rdf-schema#"/>
+    <Prefix id="ecrm" namespace="http://erlangen-crm.org/current/"/>
+    <Prefix id="efrbroo" namespace="http://erlangen-crm.org/efrbroo/"/>
+    <Prefix id="ifla-frbr" namespace="http://iflastandards.info/ns/fr/frbr/frbrer/"/>
+    <Prefix id="ifla-frad" namespace="http://iflastandards.info/ns/fr/frad/"/>
+  </Prefixes>
+
+  <DataSources>
+
+	<DataSource id="BNE" type="sparqlEndpoint">
+		<Param name="pageSize" value="1000"/>
+		<Param name="pauseTime" value="0"/>
+		<Param name="retryCount" value="3"/>
+		<Param name="endpointURI" value="http://datos.bne.es/sparql"/>
+		<Param name="retryPause" value="1000"/>
+		<Param name="graph" value=""/>
+		<Param name="queryParameters" value=""/>
+		<Param name="login" value=""/>
+		<Param name="entityList" value=""/>
+		<Param name="parallel" value="true"/>
+		<Param name="password" value=""/>
+	</DataSource>
+  </DataSources>
+
+  <Blocking/>
+ 
+  <Interlinks>
+	<Interlink id="aliada_bne_actor">
+	  <LinkType>owl:sameAs</LinkType>
+	  <SourceDataset dataSource="ALIADA_ds" var="actor">
+		<RestrictTo> {?actor rdf:type ecrm:E39_Actor} UNION {?actor rdf:type ecrm:E21_Person} UNION {?actor rdf:type efrbroo:F10_Person} </RestrictTo>
+	  </SourceDataset>
+	  <TargetDataset dataSource="BNE" var="b">
+		<RestrictTo> ?b rdf:type ifla-frbr:C1005 . </RestrictTo>
+	  </TargetDataset>
+	  <LinkageRule>
+		<Aggregate type="max">
+			<Compare id="unnamed_1" metric="levenshteinDistance" threshold="1">
+				<TransformInput id="unnamed_2" function="lowerCase">
+					<Input id="unnamed_3" path="?actor/ecrm:P131_is_identified_by[&lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#type&gt; = &lt;http://erlangen-crm.org/current/E82_Actor_Appellation&gt;]/ecrm:P3_has_note"/>
+				</TransformInput>
+				<TransformInput id="unnamed_4" function="lowerCase">
+					<Input id="unnamed_5" path="?b/ifla-frbr:P3039"/>
+				</TransformInput>
+				<Param name="minChar" value="0"/>
+				<Param name="maxChar" value="z"/>
+			</Compare>
+			<Compare id="unnamed_6" metric="levenshteinDistance" threshold="1">
+				<TransformInput id="unnamed_7" function="lowerCase">
+					<Input id="unnamed_8" path="?actor/ecrm:P131_is_identified_by[&lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#type&gt; = &lt;http://erlangen-crm.org/current/E82_Actor_Appellation&gt;]/ecrm:P3_has_note"/>
+				</TransformInput>
+				<TransformInput id="unnamed_9" function="lowerCase">
+					<Input id="unnamed_10" path="?b/ifla-frad:P4031"/>
+				</TransformInput>
+				<Param name="minChar" value="0"/>
+				<Param name="maxChar" value="z"/>
+			</Compare>
+		</Aggregate>              
+	  </LinkageRule>
+	  <Filter/>
+
+	  <Outputs>
+      </Outputs>
+	</Interlink>
+
+	<Interlink id="aliada_bne_book">
+	  <LinkType>owl:sameAs</LinkType>
+	  <SourceDataset dataSource="ALIADA_ds" var="book">
+		<RestrictTo> ?book rdf:type efrbroo:F3_Manifestation_Product_Type . </RestrictTo>
+	  </SourceDataset>
+	  <TargetDataset dataSource="BNE" var="b">
+		<RestrictTo> ?b rdf:type ifla-frbr:C1001 . </RestrictTo>
+	  </TargetDataset>
+	  <LinkageRule>
+		<Aggregate type="max">
+			<Compare id="unnamed_11" metric="levenshteinDistance" threshold="1">
+				<TransformInput id="unnamed_12" function="lowerCase">
+					<Input id="unnamed_13" path="?book/ecrm:P102_has_title[&lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#type&gt; = &lt;http://erlangen-crm.org/current/E35_Title&gt;]/ecrm:P3_has_note"/>
+				</TransformInput>
+				<TransformInput id="unnamed_14" function="lowerCase">
+					<Input id="unnamed_15" path="?b/ifla-frbr:P3001"/>
+				</TransformInput>
+				<Param name="minChar" value="0"/>
+				<Param name="maxChar" value="z"/>
+			</Compare>
+			<Compare id="unnamed_16" metric="levenshteinDistance" threshold="1">
+				<TransformInput id="unnamed_17" function="lowerCase">
+					<Input id="unnamed_18" path="?book/ecrm:P102_has_title[&lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#type&gt; = &lt;http://erlangen-crm.org/current/E35_Title&gt;]/ecrm:P3_has_note"/>
+				</TransformInput>
+				<TransformInput id="unnamed_19" function="lowerCase">
+					<Input id="unnamed_20" path="?b/ifla-frad:P4033"/>
+				</TransformInput>
+				<Param name="minChar" value="0"/>
+				<Param name="maxChar" value="z"/>
+			</Compare>
+		</Aggregate>              
+	  </LinkageRule>
+	  <Filter/>
+
+	  <Outputs>
+      </Outputs>
+	</Interlink>
+
+  </Interlinks>  
+
+</Silk>

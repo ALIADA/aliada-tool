@@ -25,7 +25,7 @@ public class GetLinkingConfigFilesTest extends TestCase {
      */
     public void testGetLinkingConfigFiles() {
 		LinksDiscovery linksDisc = new LinksDiscovery();
-		String propertiesFileName = "D:\\Proyectos\\023779_ALIADA\\Development\\aliada-links-discovery\\linksdiscovery.properties";
+		String propertiesFileName = "src/test/resources/linksdiscovery.properties";
 		SubjobConfiguration[] result = linksDisc.getLinkingConfigFiles(propertiesFileName);
         if (result.length > 0) {
             log.info("OK");

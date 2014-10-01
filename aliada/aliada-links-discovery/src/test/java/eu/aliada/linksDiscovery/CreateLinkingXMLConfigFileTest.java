@@ -27,7 +27,7 @@ public class CreateLinkingXMLConfigFileTest extends TestCase {
      */
     public void testCreateLinkingXMLConfigFile() {
 		LinksDiscovery linksDisc = new LinksDiscovery();
-		String linkingFile = "D:/Proyectos/023779_ALIADA/Development/SILK/config_files/para_links_discovery/aliada_dbpedia_config.xml";
+		String linkingFile = "src/test/resources/aliada_dbpedia_config.xml";
 		String ds = "ALIADA_ds";
 		String subjobName = "ALIADA_DBpedia";
 		JobConfiguration jobConf = newJobConfiguration();
@@ -64,12 +64,12 @@ public class CreateLinkingXMLConfigFileTest extends TestCase {
 		job.setOutputLogin("login");
 		job.setOutputPassword("password");
 		job.setOutputGraph("http://biblioteca.artium.org");
-		job.setConfigFile("D:\\Proyectos\\023779_ALIADA\\Development\\aliada-links-discovery\\linksdiscovery.properties");
+		job.setConfigFile("src/test/resources/linksdiscovery.properties");
 		job.setRdfSinkFolder("http://aliada.scanbit.net:8890/aliada/rdf-sink");
 		job.setRdfSinkLogin("login");
 		job.setRdfSinkPassword("password");
 		job.setTmpDir("D:\\Proyectos\\023779_ALIADA\\Development\\aliada-links-discovery\\tmp");
-		job.setClientAppBinDir("D:\\Proyectos\\023779_ALIADA\\Development\\aliada-links-discovery\\tmp");
+		job.setClientAppBinDir("src/test/resources/");
 		return job;
 	}
 

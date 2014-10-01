@@ -24,7 +24,7 @@ public class CreateCronTabFileTest extends TestCase {
      */
     public void testCreateCrontabFile() {
 		LinksDiscovery linksDisc = new LinksDiscovery();
-		String tmpDir = "D:\\Proyectos\\023779_ALIADA\\Development\\aliada-links-discovery\\tmp";
+		String tmpDir = "src/test/resources/";
 		String result = linksDisc.createCrontabFile(tmpDir);
         if (result != null) {
             log.info("OK");

@@ -24,7 +24,7 @@ public class GetConfigPropertiesTest extends TestCase {
      */
     public void testGetConfigProperties() {
 		LinkingProcess lProcess = new LinkingProcess();
-		String propertiesFileName = "D:\\Proyectos\\023779_ALIADA\\Development\\aliada-links-discovery\\tmp\\linking1410253798499.properties";
+		String propertiesFileName = "src/test/resources/linking.properties";
 		boolean result = lProcess.getConfigProperties(propertiesFileName);
         if (result) {
             log.info("OK");

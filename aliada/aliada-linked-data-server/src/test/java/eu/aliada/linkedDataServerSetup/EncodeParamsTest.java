@@ -61,7 +61,7 @@ public class EncodeParamsTest extends TestCase {
 		job.setDatasetBase("http://aliada.scanbit.net:8890");
 		job.setIsqlCommandPath("isql");
 		job.setIsqlCommandsFilename("isql_id_rewrite_rules_html_artium.sql");
-		job.setIsqlCommandsFilenameDefault("D:\\Proyectos\\023779_ALIADA\\Development\\aliada-linked-data-server\\isql_id_rewrite_rules_html_default.sql");
+		job.setIsqlCommandsFilenameDefault("src/test/resources/isql_id_rewrite_rules_html_default.sql");
 		return job;
 	}
 
