@@ -336,6 +336,13 @@ text-align: right;
 	margin-left: 45px;
 	margin-top: 10px;
 }
+.form {
+	display: inline-block;
+	margin-bottom: -0.4em;
+	padding: 10px 0px 10px 10px;
+	margin-left: 45px;
+	margin-top: 10px;
+}
 
 .inputPageFile{
 	font-size: 14px;

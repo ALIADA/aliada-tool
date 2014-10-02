@@ -14,15 +14,11 @@
 		      success: function(json) {
 		    	  console.log(json);
 			   	   var sDate = json.startDate;
-			   	   console.log(sDate);
 			   	   var eDate = json.endDate;
-			   	   console.log(eDate);
 			   	   var numLinks = json.numLinks;
-			   	   console.log(numLinks);
 			   	   var status = json.status;
-			   	   console.log(status);
 			   	   if(status=="finished"){
-			   		   console.log("interval stopped");
+			   		   console.log("interval linking stopped");
 			   		   clearInterval(intervalLinking);
 				       $("#progressBarLinking").hide();
 			   	   }
@@ -37,92 +33,141 @@
 		      }
 	    	});   
 		};
+		var checkLDS = function(){
+			console.log("checking lds");
+			var ldsJobId = $("#ldsJobId").val();
+			var urlPath = "http://aliada:8080/aliada-linked-data-server-1.0/jobs/"+ldsJobId;
+		    $.ajax({
+		      type: "GET",
+		      url: urlPath,
+		      dataType : 'json',
+		      success: function(json) {
+		    	  console.log(json);
+			   	   var sDate = json.startDate;
+			   	   var eDate = json.endDate;
+			   	   var status = json.status;
+			   	   if(status=="finished"){
+			   		   console.log("interval LDS stopped");
+			   		   clearInterval(intervalLDS);
+				       $("#progressBarLDS").hide();
+			   	   }
+	               $("#startDateLDS").text(sDate);
+	               $("#endDateLDS").text(eDate);
+	               $("#statusLDS").text(status);
+		      },
+		      error : function(jqXHR, status, error) {
+		      },
+		      complete : function(jqXHR, status) {
+		      }
+	    	});   
+		};
 	
 	$("#checkLinkingButton").on("click",function(){
-		$("#linkingPanel").hide();		
-		$("#linkingInfoPanel").show("slow");
-		$('#progressBarLinking').show();
-		$('#checkLinkingButton').hide();
 		console.log("Checking");
-		intervalLinking = setInterval( checkLinking, 1000 );		
+		$("#linkingPanel").hide();		
+		$("#checkInfo").show("slow");
+		$('#checkLinkingButton').hide();
+		$('#progressBarLinking').show();
+		intervalLinking = setInterval( checkLinking, 1000 );	
+		$('#progressBarLDS').show();
+		intervalLDS = setInterval( checkLDS, 1000 );
 	});
 }); 
 </script>
 <html:hidden id="linkingJobId" name="linkingJobId" value="%{#session['linkingJobId']}" />
+<html:hidden id="ldsJobId" name="ldsJobId" value="%{#session['ldsJobId']}" />
 <ul class="breadcrumb">
 	<li><html:a action="configure" cssClass="breadcrumb"><html:text name="organisation.title"/></html:a></li>
 	<li><html:a action="manage" cssClass="breadcrumb"><html:text name="manage.title"/></html:a></li>
 	<li><html:a action="conversion" cssClass="breadcrumb"><html:text name="conversion.title"/></html:a></li>
 	<li><html:a action="linking" cssClass="breadcrumb activeGreen"><html:text name="linking.title"/></html:a></li>
 </ul>
-<h2 class="pageTitle"><html:text name="linking.title"/></h2>
-	<div id="form">	
-		<div id="linkingPanel" class="content">	
-			<html:form>	
-			<div <html:if test="notFiles">class="displayNo"</html:if>
-				<html:else>
-				    class="display"
-				</html:else>>
-				<h3 class="bigLabel"><html:text name="linking.importedFile"/></h3>
-				<html:property value="fileToLink"/>	
-			</div>
-			<div <html:if test="notFiles">class="display"</html:if>
-				<html:else>
-				    class="displayNo"
-				</html:else>>
-				<h3 class="bigLabel"><html:text name="linking.notFiles"/></h3>
-			</div>
-			<h3 class="mediumLabel"><html:text name="linking.datasets"/></h3>		
-			<html:iterator value="datasets" var="data">
-	          <li><html:property value="value"/></li>
-	       </html:iterator> 
-			<html:actionerror/>
-			<div class="row">
-				<html:submit id="startLinkingButton" action="startLinking" cssClass="submitButton buttonGreen" key="linkSubmit"/>
-				<html:submit id="checkLinkingButton" disabled="true" onClick="return false;" cssClass="submitButton button" key="check"/>
-				<html:if test="linkingStarted">
-					<script>
-						$("#startLinkingButton").removeClass("buttonGreen");
-				    	$("#startLinkingButton").addClass("button");
-				    	$("#checkLinkingButton").removeClass("button");
-				    	$("#checkLinkingButton").addClass("buttonGreen");
-						$('#checkLinkingButton').prop("disabled",false);
-						$('#startLinkingButton').prop("disabled",true);
-				    </script>
-				</html:if>
-			</div>
-			</html:form>
-		</div>
-		<div id="linkingInfoPanel" class="displayNo content" >
-			<h3 class="bigLabel"><html:text name="linkingInfo.info"/></h3>
-			<div class="row">
-				<label class="label"><html:text name="linkingInfo.nameFile"/></label><br/>
-				<html:property value="fileToLink"/>		
-			</div>
-			<div class="row label">
-				<html:text name="linkingInfo.sDate"/>
-				<div id="startDate" class="displayInline"></div>	
-			</div>
-			<div class="row label">
-				<html:text name="linkingInfo.eDate"/>
-				<div id="endDate" class="displayInline"></div>	
-			</div>
-			<%-- <div class="row">	
-				<label class="label"><html:text name="linkingInfo.linksDataset"/></label>
-				<ul>
-				<html:iterator value="datasets" var="data">
-		          <li><html:property value="key"/>: <html:property value="value"/></li>
-		       </html:iterator>
-				</ul>	
-			</div> --%>
-			<div class="row label">
-				<html:text name="linkingInfo.links"/>
-				<div id="numLinks" class="displayInline"></div>	
-			</div>
-			<div class="row label green">
-				<html:text name="linkingInfo.status"/>
-				<div id="status" class="displayInline"></div>	
-			</div>
-			<img id="progressBarLinking" class="displayNo label" src="images/progressBar.gif" alt="" />
-		</div>		
+<div id="linkingPanel" class="content centered form">	
+	<html:form>	
+	<div <html:if test="notFiles">class="displayNo"</html:if>
+		<html:else>
+		    class="display"
+		</html:else>>
+		<h3 class="bigLabel"><html:text name="linking.importedFile"/></h3>
+		<html:property value="fileToLink"/>	
 	</div>
+	<div <html:if test="notFiles">class="display"</html:if>
+		<html:else>
+		    class="displayNo"
+		</html:else>>
+		<h3 class="bigLabel"><html:text name="linking.notFiles"/></h3>
+	</div>
+	<h3 class="mediumLabel"><html:text name="linking.datasets"/></h3>		
+	<html:iterator value="datasets" var="data">
+         <li><html:property value="value"/></li>
+      </html:iterator> 
+	<html:actionerror/>
+	<div class="row">
+		<html:submit id="startLinkingButton" action="startLinking" cssClass="submitButton buttonGreen" key="linkSubmit"/>
+		<html:submit id="checkLinkingButton" disabled="true" onClick="return false;" cssClass="submitButton button" key="check"/>
+		<html:if test="linkingStarted">
+			<script>
+				$("#startLinkingButton").removeClass("buttonGreen");
+		    	$("#startLinkingButton").addClass("button");
+		    	$("#checkLinkingButton").removeClass("button");
+		    	$("#checkLinkingButton").addClass("buttonGreen");
+				$('#checkLinkingButton').prop("disabled",false);
+				$('#startLinkingButton').prop("disabled",true);
+		    </script>
+		</html:if>
+	</div>
+	</html:form>
+</div>
+<div id="checkInfo" class="displayNo">
+	<div class="row centered">
+		<label class="label"><html:text name="linkingInfo.nameFile"/></label>
+		<html:property value="fileToLink"/>		
+	</div>
+	
+	<div id="linkingInfoPanel" class="content form" >
+		<h3 class="bigLabel"><html:text name="linkingInfo.info"/></h3>
+		<div class="row label">
+			<html:text name="linkingInfo.sDate"/>
+			<div id="startDate" class="displayInline"></div>	
+		</div>
+		<div class="row label">
+			<html:text name="linkingInfo.eDate"/>
+			<div id="endDate" class="displayInline"></div>	
+		</div>
+		<%-- <div class="row">	
+			<label class="label"><html:text name="linkingInfo.linksDataset"/></label>
+			<ul>
+			<html:iterator value="datasets" var="data">
+	          <li><html:property value="key"/>: <html:property value="value"/></li>
+	       </html:iterator>
+			</ul>	
+		</div> --%>
+		<div class="row label">
+			<html:text name="linkingInfo.links"/>
+			<div id="numLinks" class="displayInline"></div>	
+		</div>
+		<div class="row label green">
+			<html:text name="linkingInfo.status"/>
+			<div id="status" class="displayInline"></div>	
+		</div>
+		<img id="progressBarLinking" class="displayNo label" src="images/progressBar.gif" alt="" />
+	</div>	
+	
+	
+	<div id="ldsInfoPanel" class="content form fright" >
+		<h3 class="bigLabel"><html:text name="ldsInfo.title"/></h3>
+		<div class="row label">
+			<html:text name="ldsInfo.sDate"/>
+			<div id="startDateLDS" class="displayInline"></div>	
+		</div>
+		<div class="row label">
+			<html:text name="ldsInfo.eDate"/>
+			<div id="endDateLDS" class="displayInline"></div>		
+		</div>
+		<div class="row label green">
+			<html:text name="ldsInfo.status"/>
+			<div id="statusLDS" class="displayInline"></div>
+		</div>
+		<img id="progressBarLDS" class="displayNo label" src="images/progressBar.gif" alt="" />
+	</div>	
+</div>
