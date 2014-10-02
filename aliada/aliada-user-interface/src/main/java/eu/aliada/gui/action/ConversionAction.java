@@ -106,6 +106,7 @@ public class ConversionAction extends ActionSupport {
                     return ERROR;                    
                 }
                 else if(store.clearGraphBySparql(rs.getString("sparql_endpoint_uri"), rs.getString("sparql_endpoint_login"), rs.getString("sparql_endpoint_password"), rs.getString("graph_uri"))){
+                    logger.debug("RDFizing"+importFile);
                     PreparedStatement preparedStatement = connection
                             .prepareStatement(
                                     "INSERT INTO aliada.rdfizer_job_instances (datafile,format,namespace,graph_name,aliada_ontology,sparql_endpoint_uri,sparql_endpoint_login,sparql_endpoint_password) VALUES(?,?,?,?,?,?,?,?)",
@@ -125,8 +126,6 @@ public class ConversionAction extends ActionSupport {
                         addedId = (int) rs2.getInt(1);
                     }
                     try {
-                        session.removeAttribute("linkingFile");
-                        session.removeAttribute("ldsStarted");
                         enableRdfizer();
                         createJob(addedId);
                     } catch (IOException e) {
@@ -198,6 +197,7 @@ public class ConversionAction extends ActionSupport {
      * @since 1.0
      */
     private void enableRdfizer() throws IOException {
+        logger.debug("enabling RDFizer");
         URL url = new URL("http://aliada.scanbit.net:8080/aliada-rdfizer-1.0/enable");
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setDoOutput(true);
