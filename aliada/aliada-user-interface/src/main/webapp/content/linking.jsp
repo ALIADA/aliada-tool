@@ -71,10 +71,16 @@
 			<div class="row">
 				<html:submit id="startLinkingButton" action="startLinking" cssClass="submitButton buttonGreen" key="linkSubmit"/>
 				<html:submit id="checkLinkingButton" disabled="true" onClick="return false;" cssClass="submitButton buttonGreen" key="check"/>
+				<html:if test="linkingStarted">
+					<script>
+						$('#checkLinkingButton').prop("disabled",false);
+						$('#startLinkingButton').prop("disabled",true);
+				    </script>
+				</html:if>
 			</div>
 			</html:form>
 		</div>
-		<div id="linkingInfoPanel" class="content" >
+		<div id="linkingInfoPanel" class="displayNo content" >
 			<h3 class="bigLabel"><html:text name="linkingInfo.info"/></h3>
 			<div class="row">
 				<label class="label"><html:text name="linkingInfo.nameFile"/></label><br/>

@@ -35,7 +35,6 @@ import eu.aliada.shared.log.Log;
  */
 public class LinkingAction extends ActionSupport {
 
-    private boolean showCheckButton;
     private boolean linkingStarted;
     private boolean notFiles;
     private HashMap<Integer, String> datasets;
@@ -102,7 +101,8 @@ public class LinkingAction extends ActionSupport {
         } else {
             setNotFiles(false);
             setFileToLink(importFile.getAbsolutePath());
-            createJobLinking(fileToLink);
+            createJobLinking();
+            setLinkingStarted(true);
             return getDatasetsDb();
         }
     }
@@ -113,7 +113,7 @@ public class LinkingAction extends ActionSupport {
      * @see
      * @since 1.0
      */
-    private void createJobLinking(String fileToLink) {
+    private void createJobLinking() {
         int addedId = 0;
         Connection connection = null;
         connection = new DBConnectionManager().getConnection();
@@ -205,25 +205,6 @@ public class LinkingAction extends ActionSupport {
      */
     public void setDatasets(HashMap<Integer, String> datasets) {
         this.datasets = datasets;
-    }
-
-    /**
-     * @return Returns the showCheckButton.
-     * @exception
-     * @since 1.0
-     */
-    public boolean isShowCheckButton() {
-        return showCheckButton;
-    }
-
-    /**
-     * @param showCheckButton
-     *            The showCheckButton to set.
-     * @exception
-     * @since 1.0
-     */
-    public void setShowCheckButton(boolean showCheckButton) {
-        this.showCheckButton = showCheckButton;
     }
 
     /**
