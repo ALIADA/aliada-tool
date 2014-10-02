@@ -30,7 +30,7 @@
 				key="errorLog" />
 			<html:submit id="nextButton" action="conversion" disabled="true" cssClass="submitButton button"
 				key="next" />
-			<html:if test=fileImported">
+			<html:if test="fileImported">
 				<script>
 			    	$("#importFileButton").removeClass("buttonGreen");
 			    	$("#importFileButton").addClass("button");
