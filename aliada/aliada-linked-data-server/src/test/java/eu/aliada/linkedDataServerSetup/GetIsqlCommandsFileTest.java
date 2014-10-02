@@ -9,15 +9,15 @@ import eu.aliada.linkedDataServerSetup.impl.LinkedDataServerSetup;
 import eu.aliada.linkedDataServerSetup.model.JobConfiguration;
 import eu.aliada.shared.log.Log;
 import java.util.Random;
-import junit.framework.TestCase;
+import org.junit.Test;
 
 /**
- * Test LinkedDataServerSetup class functions
+ * Test {@link LinkedDataServerSetup} class functions
  * 
  * @author Idoia Murua
  * @since 1.0
  */
-public class GetIsqlCommandsFileTest extends TestCase {
+public class GetIsqlCommandsFileTest {
 	static final Random RANDOMIZER = new Random();
     private final Log log = new Log(GetIsqlCommandsFileTest.class);
 
@@ -25,6 +25,7 @@ public class GetIsqlCommandsFileTest extends TestCase {
      * @see
      * @since 1.0
      */
+    @Test
     public void testGetIsqlCommandsFile() {
 		LinkedDataServerSetup ldsSetup = new LinkedDataServerSetup();
 		JobConfiguration jobConf = newJobConfiguration();

@@ -9,15 +9,15 @@ import java.util.Random;
 
 import eu.aliada.linksDiscovery.impl.LinksDiscovery;
 import eu.aliada.shared.log.Log;
-import junit.framework.TestCase;
+import org.junit.Test;
 
 /**
- * Test LinksDiscovery class functions
+ * Test {@link LinksDiscovery} class functions
  * 
  * @author Idoia Murua
  * @since 1.0
  */
-public class InsertLinkingProcessInCrontabFileTest extends TestCase {
+public class InsertLinkingProcessInCrontabFileTest {
 	static final Random RANDOMIZER = new Random();
     private final Log log = new Log(InsertLinkingProcessInCrontabFileTest.class);
 
@@ -25,6 +25,7 @@ public class InsertLinkingProcessInCrontabFileTest extends TestCase {
      * @see
      * @since 1.0
      */
+    @Test
     public void testInsertLinkingProcessInCrontabFile() {
 		LinksDiscovery linksDisc = new LinksDiscovery();
 		String crontabFilename = "src/test/resources/aliada_links_discovery.cron";

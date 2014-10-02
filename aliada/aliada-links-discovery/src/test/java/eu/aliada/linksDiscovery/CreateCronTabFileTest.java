@@ -7,21 +7,22 @@ package eu.aliada.linksDiscovery;
 
 import eu.aliada.linksDiscovery.impl.LinksDiscovery;
 import eu.aliada.shared.log.Log;
-import junit.framework.TestCase;
+import org.junit.Test;
 
 /**
- * Test LinksDiscovery class functions
+ * Test {@link LinksDiscovery} class functions
  * 
  * @author Idoia Murua
  * @since 1.0
  */
-public class CreateCronTabFileTest extends TestCase {
+public class CreateCronTabFileTest {
     private final Log log = new Log(CreateCronTabFileTest.class);
 
     /**
      * @see
      * @since 1.0
      */
+    @Test
     public void testCreateCrontabFile() {
 		LinksDiscovery linksDisc = new LinksDiscovery();
 		String tmpDir = "src/test/resources/";

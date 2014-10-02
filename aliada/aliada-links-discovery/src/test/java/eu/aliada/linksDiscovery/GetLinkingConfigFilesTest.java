@@ -8,21 +8,22 @@ package eu.aliada.linksDiscovery;
 import eu.aliada.linksDiscovery.impl.LinksDiscovery;
 import eu.aliada.linksDiscovery.model.SubjobConfiguration;
 import eu.aliada.shared.log.Log;
-import junit.framework.TestCase;
+import org.junit.Test;
 
 /**
- * Test LinksDiscovery class functions
+ * Test {@link LinksDiscovery} class functions
  * 
  * @author Idoia Murua
  * @since 1.0
  */
-public class GetLinkingConfigFilesTest extends TestCase {
+public class GetLinkingConfigFilesTest {
     private final Log log = new Log(GetLinkingConfigFilesTest.class);
 
     /**
      * @see
      * @since 1.0
      */
+    @Test
     public void testGetLinkingConfigFiles() {
 		LinksDiscovery linksDisc = new LinksDiscovery();
 		String propertiesFileName = "src/test/resources/linksdiscovery.properties";

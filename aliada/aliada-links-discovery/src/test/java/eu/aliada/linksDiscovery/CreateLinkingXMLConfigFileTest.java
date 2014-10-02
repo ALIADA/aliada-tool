@@ -9,15 +9,15 @@ import eu.aliada.linksDiscovery.impl.LinksDiscovery;
 import eu.aliada.linksDiscovery.model.JobConfiguration;
 import eu.aliada.shared.log.Log;
 import java.util.Random;
-import junit.framework.TestCase;
+import org.junit.Test;
 
 /**
- * Test LinksDiscovery class functions
+ * Test {@link LinksDiscovery} class functions
  * 
  * @author Idoia Murua
  * @since 1.0
  */
-public class CreateLinkingXMLConfigFileTest extends TestCase {
+public class CreateLinkingXMLConfigFileTest {
 	static final Random RANDOMIZER = new Random();
     private final Log log = new Log(CreateLinkingXMLConfigFileTest.class);
 
@@ -25,6 +25,7 @@ public class CreateLinkingXMLConfigFileTest extends TestCase {
      * @see
      * @since 1.0
      */
+    @Test
     public void testCreateLinkingXMLConfigFile() {
 		LinksDiscovery linksDisc = new LinksDiscovery();
 		String linkingFile = "src/test/resources/aliada_dbpedia_config.xml";

@@ -8,21 +8,22 @@ package eu.aliada.linksDiscovery;
 import eu.aliada.linksDiscovery.impl.LinksDiscovery;
 import eu.aliada.linksDiscovery.model.DDBBParams;
 import eu.aliada.shared.log.Log;
-import junit.framework.TestCase;
+import org.junit.Test;
 
 /**
- * Test LinksDiscovery class functions
+ * Test {@link LinksDiscovery} class functions
  * 
  * @author Idoia Murua
  * @since 1.0
  */
-public class CreateLinkingPropConfigFileTest extends TestCase {
+public class CreateLinkingPropConfigFileTest {
     private final Log log = new Log(CreateLinkingPropConfigFileTest.class);
 
     /**
      * @see
      * @since 1.0
      */
+    @Test
     public void testCreateLinkingPropConfigFile() {
 		LinksDiscovery linksDisc = new LinksDiscovery();
 		String tmpDir = "D:\\Proyectos\\023779_ALIADA\\Development\\aliada-links-discovery\\tmp";

@@ -7,21 +7,22 @@ package eu.aliada.linksDiscovery;
 
 import eu.aliada.linksDiscovery.impl.LinkingProcess;
 import eu.aliada.shared.log.Log;
-import junit.framework.TestCase;
+import org.junit.Test;
 
 /**
- * Test LinkingProcess class functions
+ * Test {@link LinkingProcess} class functions
  * 
  * @author Idoia Murua
  * @since 1.0
  */
-public class GetConfigPropertiesTest extends TestCase {
+public class GetConfigPropertiesTest {
     private final Log log = new Log(GetConfigPropertiesTest.class);
 
     /**
      * @see
      * @since 1.0
      */
+    @Test
     public void testGetConfigProperties() {
 		LinkingProcess lProcess = new LinkingProcess();
 		String propertiesFileName = "src/test/resources/linking.properties";
