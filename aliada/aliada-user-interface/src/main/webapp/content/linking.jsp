@@ -22,14 +22,20 @@
 			   	   var status = json.status;
 			   	   console.log(status);
 			   	   if(status=="finished"){
+		               $("#startDate").replaceWith(sDate);
+		               $("#endDate").replaceWith(eDate);
+		               $("#numLinks").replaceWith(numLinks);
+		               $("#status").replaceWith(status);
 			   		   console.log("interval stopped");
 			   		   clearInterval(intervalLinking);
 				       $("#progressBarLinking").hide();
 			   	   }
-	               $("#startDate").replaceWith(sDate);
-	               $("#endDate").replaceWith(eDate);
-	               $("#numLinks").replaceWith(numLinks);
-	               $("#status").replaceWith(status);
+			   	   else{
+		               $("#startDate").replaceWith(sDate);
+		               $("#endDate").replaceWith(eDate);
+		               $("#numLinks").replaceWith(numLinks);
+		               $("#status").replaceWith(status);
+			   	   }
 		      },
 		      error : function(jqXHR, status, error) {
 		      },
@@ -113,6 +119,6 @@
 				<html:text name="linkingInfo.status"/>
 				<label id="status"></label>	
 			</div>
-			<img id="progressBarLinking" class="displayNo" src="images/progressBar.gif" alt="" />
+			<img id="progressBarLinking" class="displayNo label" src="images/progressBar.gif" alt="" />
 		</div>		
 	</div>
