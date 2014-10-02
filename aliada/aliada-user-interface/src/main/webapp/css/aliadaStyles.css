@@ -5,9 +5,6 @@ body{
 }
 
 /*GLOBALES*/
-.centered{
-	margin-left: 350px; 
-}
 input:disabled{
 	background: -linear-gradient(top, #A4A4A4, #BDBDBD);
 	background: -webkit-linear-gradient(top, #A4A4A4, #BDBDBD);
@@ -126,6 +123,7 @@ padding: 10px 7px 10px 10px;
 	text-align: center;
 	font-size: 18px;
 	font-weight: bold;
+	padding : 15px;
 }
 .mediumLabel{
 	font-size: 18px;
@@ -343,7 +341,12 @@ text-align: right;
 	margin-left: 45px;
 	margin-top: 10px;
 }
-
+.centered{
+	margin-left: 350px; 
+}
+.margin150{
+	margin-left: 150px; 
+}
 .inputPageFile{
 	font-size: 14px;
 	border: 1px solid #02207C;

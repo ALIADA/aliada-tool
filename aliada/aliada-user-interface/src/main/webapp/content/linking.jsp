@@ -3,6 +3,7 @@
 <script>
  $(function(){
 	 var intervalLinking;
+	 var finished;
 	 var checkLinking = function(){
 			console.log("checking Linking");
 			var linkingJobId = $("#linkingJobId").val();
@@ -21,6 +22,12 @@
 			   		   console.log("interval linking stopped");
 			   		   clearInterval(intervalLinking);
 				       $("#progressBarLinking").hide();
+				       if(finished==true){
+				    	   $("#publishButton").removeClass("button");
+				    	   $("#publishButton").addClass("buttonGreen");
+				    	   $("#publishButton").prop("disabled",false);
+				       }
+				       finished=true;
 			   	   }
 	               $("#startDate").text(sDate);
 	               $("#endDate").text(eDate);
@@ -36,7 +43,7 @@
 		var checkLDS = function(){
 			console.log("checking lds");
 			var ldsJobId = $("#ldsJobId").val();
-			var urlPath = "http://aliada:8080/aliada-linked-data-server-1.0/jobs/"+ldsJobId;
+			var urlPath = "http://aliada.scanbit.net:8080/aliada-linked-data-server-1.0/jobs/"+ldsJobId;
 		    $.ajax({
 		      type: "GET",
 		      url: urlPath,
@@ -50,6 +57,12 @@
 			   		   console.log("interval LDS stopped");
 			   		   clearInterval(intervalLDS);
 				       $("#progressBarLDS").hide();
+				       if(finished==true){
+				    	   $("#publishButton").removeClass("button");
+				    	   $("#publishButton").addClass("buttonGreen");
+				    	   $("#publishButton").prop("disabled",false);
+				       }
+				       finished=true;
 			   	   }
 	               $("#startDateLDS").text(sDate);
 	               $("#endDateLDS").text(eDate);
@@ -119,8 +132,8 @@
 	</html:form>
 </div>
 <div id="checkInfo" class="displayNo">
-	<div class="row centered">
-		<label class="label"><html:text name="linkingInfo.nameFile"/></label>
+	<div class="row centered bigLabel">
+		<html:text name="linkingInfo.nameFile"/>
 		<html:property value="fileToLink"/>		
 	</div>
 	
@@ -154,7 +167,7 @@
 	</div>	
 	
 	
-	<div id="ldsInfoPanel" class="content form fright" >
+	<div id="ldsInfoPanel" class="content form" >
 		<h3 class="bigLabel"><html:text name="ldsInfo.title"/></h3>
 		<div class="row label">
 			<html:text name="ldsInfo.sDate"/>
@@ -171,3 +184,6 @@
 		<img id="progressBarLDS" class="displayNo label" src="images/progressBar.gif" alt="" />
 	</div>	
 </div>
+<html:form>
+	<html:submit id="publishButton" disabled="true" onClick="return false;" cssClass="submitButton button centered" key="next"/>
+</html:form>
