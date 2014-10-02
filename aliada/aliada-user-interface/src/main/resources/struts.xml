@@ -205,16 +205,6 @@
 			<result name="success" type="tiles">/linking.tiles</result>
 			<result name="error" type="tiles">/configuration.tiles</result>
 		</action>
-		
-		<action name="lds" method="startLDS" class="eu.aliada.gui.action.LdsAction">
-			<result name="success" type="tiles">/ldsInfo.tiles</result>
-			<result name="error"  type="tiles">/ldsInfo.tiles</result>
-		</action>
-		
-		<action name="ldsInfo" method="getInfoLDS" class="eu.aliada.gui.action.LdsAction">
-			<result name="success" type="tiles">/ldsInfo.tiles</result>
-			<result name="error" type="tiles">/ldsInfo.tiles</result>
-		</action>
 
 		<action name="addInstitution" method="addInstitution"
 			class="eu.aliada.gui.action.InstitutionConfigurationAction"> 
@@ -226,11 +216,6 @@
 		
 		<action name="startLinking" method="startLinking" class="eu.aliada.gui.action.LinkingAction">
 			<result name="success" type="tiles">/linking.tiles</result>
-			<result name="error" type="tiles">/linking.tiles</result>
-		</action>
-
-		<action name="linkingInfo" class="eu.aliada.gui.action.LinkingInfoAction">
-			<result name="success" type="tiles">/linkingInfo.tiles</result>
 			<result name="error" type="tiles">/linking.tiles</result>
 		</action>
 
