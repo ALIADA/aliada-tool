@@ -218,6 +218,7 @@ public class ConversionAction extends ActionSupport {
      * @since 1.0
      */
     private void createJob(int addedId) throws IOException {
+        logger.debug("creating rdfizer job "+addedId);
         URL url = new URL("http://aliada.scanbit.net:8080/aliada-rdfizer-1.0/jobs/" + addedId);
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setDoOutput(true);
