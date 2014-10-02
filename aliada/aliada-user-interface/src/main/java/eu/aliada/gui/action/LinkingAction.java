@@ -7,6 +7,7 @@
 package eu.aliada.gui.action;
 
 import java.io.DataOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -47,49 +48,14 @@ public class LinkingAction extends ActionSupport {
 
     public String execute() {
         HttpSession session = ServletActionContext.getRequest().getSession();
-        rdfizerJob = (Integer) session.getAttribute("fileToLink");
-        if (rdfizerJob == null) {
+        File importFile = (File) session.getAttribute("importFile");
+        if (importFile == null) {
             setNotFiles(true);
         } else {
             setNotFiles(false);
-            getFile(rdfizerJob);
-        }
-        if(session.getAttribute("linkingFile")!=null){
-            setLinkingStarted(true);
-            setShowCheckButton(true);
-        }
-        else{
-            setLinkingStarted(false);
-            setShowCheckButton(false);            
+            setFileToLink(importFile.getAbsolutePath());
         }
         return getDatasetsDb();
-    }
-    
-    /**
-     * Get rdfized files
-     * @param rdfizerJobs
-     * @return
-     * @see
-     * @since 1.0
-     */
-    private void getFile(int rdfizerJob) {
-        Connection con;
-        try {
-            con = new DBConnectionManager().getConnection();
-            Statement st;
-            st = con.createStatement();
-            ResultSet rs = st
-                    .executeQuery("select datafile from aliada.rdfizer_job_instances WHERE job_id="
-                            + rdfizerJob);
-            if (rs.next()) {
-                setFileToLink(rs.getString(1));
-            }
-            rs.close();
-            st.close();
-            con.close();
-        } catch (SQLException e) {
-            logger.error(MessageCatalog._00011_SQL_EXCEPTION,e);
-        }
     }
 
     /**
@@ -100,9 +66,6 @@ public class LinkingAction extends ActionSupport {
      */
     private String getDatasetsDb() {
         datasets = new HashMap();
-        if(ServletActionContext.getRequest().getSession().getAttribute("state") != null){
-            setState((int) ServletActionContext.getRequest().getSession().getAttribute("state"));        
-        }
         Connection con;
         try {
             con = new DBConnectionManager().getConnection();
@@ -131,17 +94,15 @@ public class LinkingAction extends ActionSupport {
      * @since 1.0
      */
     public String startLinking() {
-        rdfizerJob = (Integer) ServletActionContext.getRequest()
-                .getSession().getAttribute("fileToLink");
-        if (rdfizerJob == null) {
+        File importFile = (File) ServletActionContext.getRequest()
+                .getSession().getAttribute("importFile");
+        if (importFile == null) {
             setNotFiles(true);
             return getDatasetsDb();
         } else {
             setNotFiles(false);
-            getFile(rdfizerJob);
+            setFileToLink(importFile.getAbsolutePath());
             createJobLinking(fileToLink);
-            setShowCheckButton(true);
-            setLinkingStarted(true);
             return getDatasetsDb();
         }
     }
@@ -211,8 +172,6 @@ public class LinkingAction extends ActionSupport {
                                         + conn.getResponseCode());
                     } else {
                         logger.debug(MessageCatalog._00050_LINKING_JOB);
-                        ServletActionContext.getRequest().getSession()
-                                .setAttribute("linkingFile", fileToLink);
                         ServletActionContext.getRequest().getSession()
                                 .setAttribute("linkingJobId", addedId);
                     }
