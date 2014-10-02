@@ -327,13 +327,6 @@ text-align: right;
 }
 
 /*SETTINGS*/
-#form {
-	display: inline-block;
-	margin-bottom: -0.4em;
-	padding: 10px 0px 10px 10px;
-	margin-left: 45px;
-	margin-top: 10px;
-}
 .form {
 	display: inline-block;
 	margin-bottom: -0.4em;
@@ -347,10 +340,7 @@ text-align: right;
 .margin150{
 	margin-left: 150px; 
 }
-#linkingInfoPanel, #ldsInfoPanel {
-	width: 400px;
-	height: 300px;
-}
+
 .inputPageFile{
 	font-size: 14px;
 	border: 1px solid #02207C;
@@ -431,4 +421,11 @@ padding-left: 2px;
 }
 #linkingNextButton{
 	margin-left: 850px;
+}
+#linkingInfoPanel, #ldsInfoPanel {
+	width: 400px;
+	height: 300px;
+}
+#managingPanel {
+	padding : 50px 30px 50px 30px;
 }

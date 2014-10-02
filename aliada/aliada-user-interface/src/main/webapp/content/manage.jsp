@@ -4,9 +4,10 @@
 	<li><html:a action="configure" cssClass="breadcrumb"><html:text name="organisation.title"/></html:a></li>
 	<li><html:a action="manage" cssClass="breadcrumb activeGreen"><html:text name="manage.title"/></html:a></li>
 </ul>
-<h2 class="pageTitle"><html:text name="manage.title"/></h2>
-<html:form id="managing" method="post" enctype="multipart/form-data">
-	<div class="content">
+<h2 class="pageTitle center"><html:text name="manage.title"/></h2>
+<div class="form centered">
+	<html:form id="managing" method="post" enctype="multipart/form-data">
+	<div id="managingPanel" class="content">
 		<html:text name="importFile"/>
 		<html:file key="importFile" />
 		<html:fielderror fieldName="importFile" />
@@ -52,7 +53,8 @@
 			</html:if>
 		</html:form>
 	</div>
-</html:form>
+	</html:form>
+</div>
 
 
 
