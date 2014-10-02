@@ -28,7 +28,7 @@
 			   	   if(status=="finished"){
 			   		   console.log("interval stopped");
 			   		   clearInterval(intervalLinking);
-				       $("#progressBar").hide();
+				       $("#progressBarLinking").hide();
 			   	   }
 		      },
 		      error : function(jqXHR, status, error) {
@@ -41,7 +41,7 @@
 	$("#checkLinkingButton").on("click",function(){
 		$("#linkingPanel").hide();		
 		$("#linkingInfoPanel").show("slow");
-		$('#linkingProgressBar').show();
+		$('#progressBarLinking').show();
 		$('#checkLinkingButton').hide();
 		console.log("Checking");
 		intervalLinking = setInterval( checkLinking, 1000 );		
