@@ -15,21 +15,21 @@
 		    	  console.log(json);
 			   	   var sDate = json.startDate;
 			   	   console.log(sDate);
-	               $("#startDate").replaceWith(sDate);
 			   	   var eDate = json.endDate;
 			   	   console.log(eDate);
-	               $("#endDate").replaceWith(eDate);
 			   	   var numLinks = json.numLinks;
 			   	   console.log(numLinks);
-	               $("#numLinks").replaceWith(numLinks);
 			   	   var status = json.status;
 			   	   console.log(status);
-	               $("#status").replaceWith(status);
 			   	   if(status=="finished"){
 			   		   console.log("interval stopped");
 			   		   clearInterval(intervalLinking);
 				       $("#progressBarLinking").hide();
 			   	   }
+	               $("#startDate").replaceWith(sDate);
+	               $("#endDate").replaceWith(eDate);
+	               $("#numLinks").replaceWith(numLinks);
+	               $("#status").replaceWith(status);
 		      },
 		      error : function(jqXHR, status, error) {
 		      },
