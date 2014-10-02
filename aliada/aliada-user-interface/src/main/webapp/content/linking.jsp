@@ -138,7 +138,7 @@
 			<html:property value="fileToLink"/>		
 		</div>
 		
-		<div id="linkingInfoPanel" class="content form" >
+		<div id="linkingInfoPanel" class="content margin150 form" >
 			<h3 class="bigLabel"><html:text name="linkingInfo.info"/></h3>
 			<div class="row label">
 				<html:text name="linkingInfo.sDate"/>
