@@ -83,11 +83,6 @@
 			<result name="error" type="tiles">/conversion.tiles</result>
 		</action>
 		
-		<action name="checkRDFizer" class="eu.aliada.gui.action.CheckRDFizerAction">
-            <result name="success" type="tiles">/checkRDF.tiles</result>
-			<result name="error" type="tiles">/checkRDF.tiles</result>
-		</action>
-		
 		<action name="showTemplates" method="getTemplatesDb"
 			class="eu.aliada.gui.action.ConversionAction">
 			<result name="success" type="tiles">/templates.tiles</result>
