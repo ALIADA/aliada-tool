@@ -40,8 +40,6 @@ public class LinkingAction extends ActionSupport {
     private HashMap<Integer, String> datasets;
     private String fileToLink;
     private Integer rdfizerJob;
-    
-    private int state;
 
     private final Log logger = new Log(LinkingAction.class);
 
@@ -337,22 +335,5 @@ public class LinkingAction extends ActionSupport {
         this.linkingStarted = linkingStarted;
     }
 
-    /**
-     * @return Returns the state.
-     * @exception
-     * @since 1.0
-     */
-    public int getState() {
-        return state;
-    }
-
-    /**
-     * @param state The state to set.
-     * @exception
-     * @since 1.0
-     */
-    public void setState(int state) {
-        this.state = state;
-    }
 
 }
