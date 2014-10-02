@@ -102,11 +102,11 @@ public class LinkingAction extends ActionSupport {
             setNotFiles(false);
             setFileToLink(importFile.getAbsolutePath());
             createJobLinking();
+            createJobLDS();
             setLinkingStarted(true);
             return getDatasetsDb();
         }
     }
-
     /**
      * Creates the job that does the link-discovery
      * @param fileToLink
@@ -187,6 +187,79 @@ public class LinkingAction extends ActionSupport {
         }
 
     }
+    /**
+     * Creates a job for the linked data server
+     * @see
+     * @since 1.0
+     */
+    private void createJobLDS() {
+        HttpSession session = ServletActionContext.getRequest().getSession();
+        int addedId = 0;
+        Connection connection = null;
+        connection = new DBConnectionManager().getConnection();
+        Statement statement;
+        try {
+            statement = connection.createStatement();
+            ResultSet rs = statement
+                    .executeQuery("select store_ip,store_sql_port,sql_login, sql_password, graph_uri, dataset_base, isql_command_path, isql_commands_file, isql_commands_file_default from organisation");
+            if (rs.next()) {
+                PreparedStatement preparedStatement = connection
+                        .prepareStatement(
+                                "INSERT INTO linkeddataserver_job_instances (store_ip,store_sql_port,sql_login,sql_password,graph,dataset_base,isql_command_path,isql_commands_file,isql_commands_file_default) VALUES(?,?,?,?,?,?,?,?,?)",
+                                PreparedStatement.RETURN_GENERATED_KEYS);
+                preparedStatement.setString(1, rs.getString("store_ip"));
+                preparedStatement.setInt(2, rs.getInt("store_sql_port"));
+                preparedStatement.setString(3, rs.getString("sql_login"));
+                preparedStatement.setString(4, rs.getString("sql_password"));
+                preparedStatement.setString(5, rs.getString("graph_uri"));
+                preparedStatement.setString(6, rs.getString("dataset_base"));
+                preparedStatement.setString(7, rs.getString("isql_command_path"));
+                preparedStatement.setString(8, rs.getString("isql_commands_file"));
+                preparedStatement.setString(9, rs.getString("isql_commands_file_default"));
+                preparedStatement.executeUpdate();
+                ResultSet rs2 = preparedStatement.getGeneratedKeys();
+                if (rs2.next()) {
+                    addedId = (int) rs2.getInt(1);
+                }
+                rs2.close();
+                preparedStatement.close();          
+                URL url;
+                HttpURLConnection conn = null;
+                try {
+                    url = new URL("http://aliada:8080/aliada-linked-data-server-1.0/jobs/");
+                    conn = (HttpURLConnection) url.openConnection();
+                    conn.setDoOutput(true);
+                    conn.setRequestMethod("POST");
+                    conn.setRequestProperty("Content-Type",
+                            "application/x-www-form-urlencoded");
+                    String param = "jobid=" + addedId;
+                    conn.setDoOutput(true);
+                    DataOutputStream wr = new DataOutputStream(conn.getOutputStream());
+                    wr.writeBytes(param);
+                    wr.flush();
+                    wr.close();
+                    if (conn.getResponseCode() != HttpURLConnection.HTTP_CREATED) {
+                        throw new RuntimeException("Failed : HTTP error code : "
+                                + conn.getResponseCode());
+                    } else {
+                        session.setAttribute("ldsJobId", addedId);
+                    }
+                    conn.disconnect();
+                    session.setAttribute("ldsStarted", true);
+                } catch (MalformedURLException e) {
+                    logger.error(MessageCatalog._00014_MALFORMED_URL_EXCEPTION,e);
+                } catch (IOException e) {
+                    logger.error(MessageCatalog._00012_IO_EXCEPTION,e);
+                }
+            }
+            rs.close();
+            statement.close();
+            connection.close();  
+            } catch (SQLException e) {
+                logger.error(MessageCatalog._00011_SQL_EXCEPTION,e);
+        }
+    }
+
 
     /**
      * @return Returns the datasets.
