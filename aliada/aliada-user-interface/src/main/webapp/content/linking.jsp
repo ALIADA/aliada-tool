@@ -132,57 +132,59 @@
 	</html:form>
 </div>
 <div id="checkInfo" class="displayNo">
-	<div class="row centered bigLabel">
-		<html:text name="linkingInfo.nameFile"/>
-		<html:property value="fileToLink"/>		
+	<div class="content">
+		<div class="row bigLabel">
+			<html:text name="linkingInfo.nameFile"/>
+			<html:property value="fileToLink"/>		
+		</div>
+		
+		<div id="linkingInfoPanel" class="content form" >
+			<h3 class="bigLabel"><html:text name="linkingInfo.info"/></h3>
+			<div class="row label">
+				<html:text name="linkingInfo.sDate"/>
+				<div id="startDate" class="displayInline"></div>	
+			</div>
+			<div class="row label">
+				<html:text name="linkingInfo.eDate"/>
+				<div id="endDate" class="displayInline"></div>	
+			</div>
+			<%-- <div class="row">	
+				<label class="label"><html:text name="linkingInfo.linksDataset"/></label>
+				<ul>
+				<html:iterator value="datasets" var="data">
+		          <li><html:property value="key"/>: <html:property value="value"/></li>
+		       </html:iterator>
+				</ul>	
+			</div> --%>
+			<div class="row label">
+				<html:text name="linkingInfo.links"/>
+				<div id="numLinks" class="displayInline"></div>	
+			</div>
+			<div class="row label green">
+				<html:text name="linkingInfo.status"/>
+				<div id="status" class="displayInline"></div>	
+			</div>
+			<img id="progressBarLinking" class="displayNo label" src="images/progressBar.gif" alt="" />
+		</div>	
+		
+		
+		<div id="ldsInfoPanel" class="content form" >
+			<h3 class="bigLabel"><html:text name="ldsInfo.title"/></h3>
+			<div class="row label">
+				<html:text name="ldsInfo.sDate"/>
+				<div id="startDateLDS" class="displayInline"></div>	
+			</div>
+			<div class="row label">
+				<html:text name="ldsInfo.eDate"/>
+				<div id="endDateLDS" class="displayInline"></div>		
+			</div>
+			<div class="row label green">
+				<html:text name="ldsInfo.status"/>
+				<div id="statusLDS" class="displayInline"></div>
+			</div>
+			<img id="progressBarLDS" class="displayNo label" src="images/progressBar.gif" alt="" />
+		</div>	
 	</div>
-	
-	<div id="linkingInfoPanel" class="content form" >
-		<h3 class="bigLabel"><html:text name="linkingInfo.info"/></h3>
-		<div class="row label">
-			<html:text name="linkingInfo.sDate"/>
-			<div id="startDate" class="displayInline"></div>	
-		</div>
-		<div class="row label">
-			<html:text name="linkingInfo.eDate"/>
-			<div id="endDate" class="displayInline"></div>	
-		</div>
-		<%-- <div class="row">	
-			<label class="label"><html:text name="linkingInfo.linksDataset"/></label>
-			<ul>
-			<html:iterator value="datasets" var="data">
-	          <li><html:property value="key"/>: <html:property value="value"/></li>
-	       </html:iterator>
-			</ul>	
-		</div> --%>
-		<div class="row label">
-			<html:text name="linkingInfo.links"/>
-			<div id="numLinks" class="displayInline"></div>	
-		</div>
-		<div class="row label green">
-			<html:text name="linkingInfo.status"/>
-			<div id="status" class="displayInline"></div>	
-		</div>
-		<img id="progressBarLinking" class="displayNo label" src="images/progressBar.gif" alt="" />
-	</div>	
-	
-	
-	<div id="ldsInfoPanel" class="content form" >
-		<h3 class="bigLabel"><html:text name="ldsInfo.title"/></h3>
-		<div class="row label">
-			<html:text name="ldsInfo.sDate"/>
-			<div id="startDateLDS" class="displayInline"></div>	
-		</div>
-		<div class="row label">
-			<html:text name="ldsInfo.eDate"/>
-			<div id="endDateLDS" class="displayInline"></div>		
-		</div>
-		<div class="row label green">
-			<html:text name="ldsInfo.status"/>
-			<div id="statusLDS" class="displayInline"></div>
-		</div>
-		<img id="progressBarLDS" class="displayNo label" src="images/progressBar.gif" alt="" />
-	</div>	
 </div>
 <html:form>
 	<html:submit id="publishButton" disabled="true" onClick="return false;" cssClass="submitButton button centered" key="next"/>
