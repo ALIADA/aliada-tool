@@ -22,20 +22,14 @@
 			   	   var status = json.status;
 			   	   console.log(status);
 			   	   if(status=="finished"){
-		               $("#startDate").replaceWith(sDate);
-		               $("#endDate").replaceWith(eDate);
-		               $("#numLinks").replaceWith(numLinks);
-		               $("#status").replaceWith(status);
 			   		   console.log("interval stopped");
 			   		   clearInterval(intervalLinking);
 				       $("#progressBarLinking").hide();
 			   	   }
-			   	   else{
-		               $("#startDate").replaceWith(sDate);
-		               $("#endDate").replaceWith(eDate);
-		               $("#numLinks").replaceWith(numLinks);
-		               $("#status").replaceWith(status);
-			   	   }
+	               $("#startDate").text(sDate);
+	               $("#endDate").text(eDate);
+	               $("#numLinks").text(numLinks);
+	               $("#status").text(status);
 		      },
 		      error : function(jqXHR, status, error) {
 		      },
@@ -97,11 +91,11 @@
 			</div>
 			<div class="row label">
 				<html:text name="linkingInfo.sDate"/>
-				<label id="startDate"></label>	
+				<div id="startDate" class="displayInline"></div>	
 			</div>
 			<div class="row label">
 				<html:text name="linkingInfo.eDate"/>
-				<label id="endDate"></label>	
+				<div id="endDate" class="displayInline"></div>	
 			</div>
 			<%-- <div class="row">	
 				<label class="label"><html:text name="linkingInfo.linksDataset"/></label>
@@ -113,11 +107,11 @@
 			</div> --%>
 			<div class="row label">
 				<html:text name="linkingInfo.links"/>
-				<label id="numLinks"></label>	
+				<div id="numLinks" class="displayInline"></div>	
 			</div>
 			<div class="row label green">
 				<html:text name="linkingInfo.status"/>
-				<label id="status"></label>	
+				<div id="status" class="displayInline"></div>	
 			</div>
 			<img id="progressBarLinking" class="displayNo label" src="images/progressBar.gif" alt="" />
 		</div>		
