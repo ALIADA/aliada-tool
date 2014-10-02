@@ -5,6 +5,9 @@ body{
 }
 
 /*GLOBALES*/
+.centered{
+	margin-left: 350px; 
+}
 input:disabled{
 	background: -linear-gradient(top, #A4A4A4, #BDBDBD);
 	background: -webkit-linear-gradient(top, #A4A4A4, #BDBDBD);
