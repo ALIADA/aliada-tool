@@ -49,6 +49,12 @@
 }); 
 </script>
 <html:hidden id="linkingJobId" name="linkingJobId" value="%{#session['linkingJobId']}" />
+<ul class="breadcrumb">
+	<li><html:a action="configure" cssClass="breadcrumb"><html:text name="organisation.title"/></html:a></li>
+	<li><html:a action="manage" cssClass="breadcrumb"><html:text name="manage.title"/></html:a></li>
+	<li><html:a action="conversion" cssClass="breadcrumb"><html:text name="conversion.title"/></html:a></li>
+	<li><html:a action="linking" cssClass="breadcrumb activeGreen"><html:text name="linking.title"/></html:a></li>
+</ul>
 <h2 class="pageTitle"><html:text name="linking.title"/></h2>
 	<div id="form">	
 		<div id="linkingPanel" class="content">	
