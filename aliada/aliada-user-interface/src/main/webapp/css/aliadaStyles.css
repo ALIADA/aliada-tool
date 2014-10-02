@@ -347,6 +347,10 @@ text-align: right;
 .margin150{
 	margin-left: 150px; 
 }
+#linkingInfoPanel, #ldsInfoPanel {
+	width: 400px;
+	height: 300px;
+}
 .inputPageFile{
 	font-size: 14px;
 	border: 1px solid #02207C;
@@ -424,4 +428,7 @@ padding-left: 2px;
 	background-color: #fbfbfb;
 	color: #3D406D;
 	font-weight: bold;	
+}
+#linkingNextButton{
+	margin-left: 850px;
 }

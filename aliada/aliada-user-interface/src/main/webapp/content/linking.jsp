@@ -186,6 +186,8 @@
 		</div>	
 	</div>
 </div>
-<html:form>
-	<html:submit id="publishButton" disabled="true" onClick="return false;" cssClass="submitButton button centered" key="next"/>
-</html:form>
+<div class="row">
+	<html:form>
+		<html:submit id="linkingNextButton" disabled="true" onClick="return false;" cssClass="submitButton button" key="next"/>
+	</html:form>
+</div>
