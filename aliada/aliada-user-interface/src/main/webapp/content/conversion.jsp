@@ -14,22 +14,22 @@
 		      dataType : 'xml',
 		      success: function(xml) {
 	               var format = $(xml).find("format").text();
-	               $("#format").replaceWith(format);
+	               $("#format").text(format);
 	               var recordNum = $(xml).find("total-records-count").text();
-	               $("#recordNum").replaceWith(recordNum);
+	               $("#recordNum").text(recordNum);
 	               var processedNum = $(xml).find("processed-records-count").text();
-	               $("#processedNum").replaceWith(processedNum);
+	               $("#processedNum").text(processedNum);
 	               var statementsNum = $(xml).find("output-statements-count").text();
-	               $("#statementsNum").replaceWith(statementsNum);
+	               $("#statementsNum").text(statementsNum);
 	               var processingThroughput = $(xml).find("records-throughput").text();
-	               $("#processingThroughput").replaceWith(processingThroughput);
+	               $("#processingThroughput").text(processingThroughput);
 	               var triplesThroughput = $(xml).find("triples-throughput").text();
-	               $("#triplesThroughput").replaceWith(triplesThroughput);
+	               $("#triplesThroughput").text(triplesThroughput);
 	               console.log(completed);
 		    	   console.log(xml);
 		    	   var completed = $(xml).find("completed").text();
 	               if(completed=="true"){
-	            	   $("#status").replaceWith("Completed");
+	            	   $("#status").text("Completed");
 			   		   $("#checkRDFButton").prop("disabled",true);
 				       $("#nextButton").removeClass("button");
 				       $("#nextButton").addClass("buttonGreen");
@@ -40,7 +40,7 @@
 			   		   clearInterval(interval);
 	               }
 	               else{
-	            	   $("#status").append("Running");            	   
+	            	   $("#status").text("Running");            	   
 	               }
 		      },
 		      error : function(jqXHR, status, error) {
@@ -108,32 +108,32 @@
 		<html:property value="importFile"/>
 		<div class="row label green">
 			<html:text name="rdf.status"/>
-			<label id="status"></label>
+			<div id="status" class="displayInline"></div>
 		</div>
 		<div class="row label">
 			<html:text name="rdf.format"/>
-			<label id="format"></label>	
+			<div id="format" class="displayInline"></div>	
 		</div>
 		<div class="row label">
 			<html:text name="rdf.records"/>	
-			<label id="recordNum"></label>	
+			<div id="recordNum" class="displayInline"></div>	
 		</div>
 		<div class="row label">
 			<html:text name="rdf.processed"/>
-			<label id="processedNum"></label>		
+			<div id="processedNum" class="displayInline"></div>		
 		</div>
 		<div class="row label">
 			<html:text name="rdf.emitted"/>
-			<label id="statementsNum"></label>	
+			<div id="statementsNum" class="displayInline"></div>	
 		</div>
 		<div class="row label">
 			<html:text name="rdf.recordThroughput"/>
-			<label id="processingThroughput"></label>
+			<div id="processingThroughput" class="displayInline"></div>
 			<html:text name="rdf.recordsSec"/>			
 		</div>
 		<div class="row label">
 			<html:text name="rdf.triplesThroughput"/>
-			<label id="triplesThroughput"></label>
+			<div id="triplesThroughput" class="displayInline"></div>
 			<html:text name="rdf.triplesSec"/>		
 		</div>
 	</div>
