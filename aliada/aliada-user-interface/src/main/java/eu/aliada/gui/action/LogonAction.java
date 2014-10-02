@@ -102,7 +102,8 @@ public class LogonAction extends ActionSupport {
 				st.close();
 				conn.close();
 				ServletActionContext.getRequest().getSession().setAttribute("state",0);
-				return SUCCESS;
+				ServletActionContext.getRequest().getSession().setAttribute("logedUser",getInputUser());
+                return SUCCESS;
 			} else {
 				logger.debug(MessageCatalog._00010_LOGON_FAILURE);
 				addActionError(getText("error.login"));

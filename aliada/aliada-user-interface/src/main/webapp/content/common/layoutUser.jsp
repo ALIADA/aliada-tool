@@ -16,7 +16,9 @@
 
 	<body class="whitebackground">
 		<div id="aliadaHeader">
-			<img src="images/aliada-header.png"/>	
+			<img src="images/aliada-header.png"/><br/>
+			<html:property value="%{#session['logedUser']}" />
+			<img src="images/userLogout.png"/>
 		</div>	
 		<div class="headerContentGreenBorder"></div>
 		<div class="content" >

@@ -429,3 +429,6 @@ padding-left: 2px;
 #managingPanel {
 	padding : 50px 30px 50px 30px;
 }
+.underlined{
+	text-decoration: underline;
+}
