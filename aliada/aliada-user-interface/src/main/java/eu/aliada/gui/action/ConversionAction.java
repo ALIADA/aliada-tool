@@ -126,7 +126,7 @@ public class ConversionAction extends ActionSupport {
                         addedId = (int) rs2.getInt(1);
                     }
                     try {
-                        enableRdfizer();
+                        //enableRdfizer();
                         createJob(addedId);
                     } catch (IOException e) {
                         logger.error(MessageCatalog._00012_IO_EXCEPTION,e);
