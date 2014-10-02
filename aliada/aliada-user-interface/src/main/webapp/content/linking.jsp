@@ -79,9 +79,13 @@
 			<html:actionerror/>
 			<div class="row">
 				<html:submit id="startLinkingButton" action="startLinking" cssClass="submitButton buttonGreen" key="linkSubmit"/>
-				<html:submit id="checkLinkingButton" disabled="true" onClick="return false;" cssClass="submitButton buttonGreen" key="check"/>
+				<html:submit id="checkLinkingButton" disabled="true" onClick="return false;" cssClass="submitButton button" key="check"/>
 				<html:if test="linkingStarted">
 					<script>
+						$("#startLinkingButton").removeClass("buttonGreen");
+				    	$("#startLinkingButton").addClass("button");
+				    	$("#checkLinkingButton").removeClass("button");
+				    	$("#checkLinkingButton").addClass("buttonGreen");
 						$('#checkLinkingButton').prop("disabled",false);
 						$('#startLinkingButton').prop("disabled",true);
 				    </script>
