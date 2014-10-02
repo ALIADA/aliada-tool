@@ -199,7 +199,7 @@ public class ConversionAction extends ActionSupport {
      * @since 1.0
      */
     private void enableRdfizer() throws IOException {
-        URL url = new URL("http://aliada:8080/aliada-rdfizer-1.0/enable");
+        URL url = new URL("http://aliada.scanbit.net:8080/aliada-rdfizer-1.0/enable");
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setDoOutput(true);
         conn.setRequestMethod("PUT");
@@ -219,7 +219,7 @@ public class ConversionAction extends ActionSupport {
      * @since 1.0
      */
     private void createJob(int addedId) throws IOException {
-        URL url = new URL("http://aliada:8080/aliada-rdfizer-1.0/jobs/" + addedId);
+        URL url = new URL("http://aliada.scanbit.net:8080/aliada-rdfizer-1.0/jobs/" + addedId);
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setDoOutput(true);
         conn.setRequestMethod("PUT");
