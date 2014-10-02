@@ -3,7 +3,7 @@
 <script>
  $(function(){
 	 var intervalLinking;
-	 var finished;
+	 var finished=false;
 	 var checkLinking = function(){
 			console.log("checking Linking");
 			var linkingJobId = $("#linkingJobId").val();
@@ -22,10 +22,10 @@
 			   		   console.log("interval linking stopped");
 			   		   clearInterval(intervalLinking);
 				       $("#progressBarLinking").hide();
-				       if(finished==true){
-				    	   $("#publishButton").removeClass("button");
-				    	   $("#publishButton").addClass("buttonGreen");
-				    	   $("#publishButton").prop("disabled",false);
+				       if(finished){
+				    	   $("#linkingNextButton").removeClass("button");
+				    	   $("#linkingNextButton").addClass("buttonGreen");
+				    	   $("#linkingNextButton").prop("disabled",false);
 				       }
 				       finished=true;
 			   	   }
@@ -57,10 +57,10 @@
 			   		   console.log("interval LDS stopped");
 			   		   clearInterval(intervalLDS);
 				       $("#progressBarLDS").hide();
-				       if(finished==true){
-				    	   $("#publishButton").removeClass("button");
-				    	   $("#publishButton").addClass("buttonGreen");
-				    	   $("#publishButton").prop("disabled",false);
+				       if(finished){
+				    	   $("#linkingNextButton").removeClass("button");
+				    	   $("#linkingNextButton").addClass("buttonGreen");
+				    	   $("#linkingNextButton").prop("disabled",false);
 				       }
 				       finished=true;
 			   	   }
