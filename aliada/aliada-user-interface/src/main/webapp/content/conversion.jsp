@@ -68,6 +68,7 @@
 	<li><html:a action="manage" cssClass="breadcrumb"><html:text name="manage.title"/></html:a></li>
 	<li><html:a action="conversion" cssClass="breadcrumb activeGreen"><html:text name="conversion.title"/></html:a></li>
 </ul>
+<html:a id="rdfVal" disabled="true" action="rdfVal" cssClass="menuButton button fright" key="rdfVal" target="_blank" disabled="true"><html:text name="rdfVal"/></html:a>			
 <div class="form centered">
 	<html:form id="conversion">
 		<div id="rdfizePanel" class="content">
@@ -104,7 +105,6 @@
 				key="RDF-ize"/>
 		</div>
 		<div id="checkInfo" class="displayNo content">
-			<html:submit id="rdfVal" disabled="true" action="rdfVal" cssClass="menuButton button fright" key="rdfVal" />
 			<label class="row label"><html:text name="rdf.fileTo"/></label>		
 			<html:property value="importFile"/>
 			<div class="row label green">

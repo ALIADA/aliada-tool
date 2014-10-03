@@ -8,7 +8,7 @@
 	<html:form id="institutionConfiguration" action="/addInstitution.action"
 		enctype="multipart/form-data">
 	<div class="content form">
-		<table>
+		<table class="pad10">
 			<tr>
 				<td colspan="2"><html:textfield theme="xhtml"
 						key="organisation_name"
@@ -30,7 +30,7 @@
 		</table>
 		<html:actionmessage/>
 		<html:submit action="addInstitution" property="saveButton"
-			cssClass="submitButton buttonGreen" key="edit" />
+			cssClass="leftMargin submitButton buttonGreen" key="edit" />
 	</div>	
 	<div id="submitButtons" class="buttons row">
 		<html:form id="submitButtonsForm">
