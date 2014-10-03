@@ -142,12 +142,12 @@
 		
 		<div id="linkingInfoPanel" class="content margin150 form" >
 			<h3 class="bigLabel"><html:text name="linkingInfo.info"/></h3>
-			<div class="row label">
-				<html:text name="linkingInfo.sDate"/>
+			<div class="row">
+				<label class="label"><html:text name="linkingInfo.sDate"/></label>
 				<div id="startDate" class="displayInline"></div>	
 			</div>
-			<div class="row label">
-				<html:text name="linkingInfo.eDate"/>
+			<div class="row">
+				<label class="label"><html:text name="linkingInfo.eDate"/></label>
 				<div id="endDate" class="displayInline"></div>	
 			</div>
 			<%-- <div class="row">	
@@ -158,8 +158,8 @@
 		       </html:iterator>
 				</ul>	
 			</div> --%>
-			<div class="row label">
-				<html:text name="linkingInfo.links"/>
+			<div class="row">
+				<label class="label"><html:text name="linkingInfo.links"/></label>
 				<div id="numLinks" class="displayInline"></div>	
 			</div>
 			<img id="fineLinkingImg" class="displayNo leftMargin" src="images/fine.png"/>				
@@ -169,12 +169,12 @@
 		
 		<div id="ldsInfoPanel" class="content form" >
 			<h3 class="bigLabel"><html:text name="ldsInfo.title"/></h3>
-			<div class="row label">
-				<html:text name="ldsInfo.sDate"/>
+			<div class="row">
+				<label class="label"><html:text name="ldsInfo.sDate"/></label>
 				<div id="startDateLDS" class="displayInline"></div>	
 			</div>
-			<div class="row label">
-				<html:text name="ldsInfo.eDate"/>
+			<div class="row">
+				<label class="label"><html:text name="ldsInfo.eDate"/></label>
 				<div id="endDateLDS" class="displayInline"></div>		
 			</div>
 			<img id="progressBarLDS" class="displayNo label" src="images/progressBar.gif" alt="" />

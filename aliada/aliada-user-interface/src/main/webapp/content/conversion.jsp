@@ -108,33 +108,29 @@
 		<div id="checkInfo" class="displayNo content">
 			<label class="row label"><html:text name="rdf.fileTo"/></label>		
 			<html:property value="importFile"/>
-			<div class="row label green">
-				<html:text name="rdf.status"/>
-				<div id="status" class="displayInline"></div>
-			</div>
-			<div class="row label">
-				<html:text name="rdf.format"/>
+			<div class="row">
+				<label class="label"><html:text name="rdf.format"/></label>
 				<div id="format" class="displayInline"></div>	
 			</div>
-			<div class="row label">
-				<html:text name="rdf.records"/>	
+			<div class="row">
+				<label class="label"><html:text name="rdf.records"/></label>	
 				<div id="recordNum" class="displayInline"></div>	
 			</div>
-			<div class="row label">
-				<html:text name="rdf.processed"/>
+			<div class="row">
+				<label class="label"><html:text name="rdf.processed"/></label>
 				<div id="processedNum" class="displayInline"></div>		
 			</div>
-			<div class="row label">
-				<html:text name="rdf.emitted"/>
+			<div class="row">
+				<label class="label"><html:text name="rdf.emitted"/></label>
 				<div id="statementsNum" class="displayInline"></div>	
 			</div>
-			<div class="row label">
-				<html:text name="rdf.recordThroughput"/>
+			<div class="row">
+				<label class="label"><html:text name="rdf.recordThroughput"/></label>
 				<div id="processingThroughput" class="displayInline"></div>
 				<html:text name="rdf.recordsSec"/>			
 			</div>
-			<div class="row label">
-				<html:text name="rdf.triplesThroughput"/>
+			<div class="row">
+				<label class="label"><html:text name="rdf.triplesThroughput"/></label>
 				<div id="triplesThroughput" class="displayInline"></div>
 				<html:text name="rdf.triplesSec"/>		
 			</div>
