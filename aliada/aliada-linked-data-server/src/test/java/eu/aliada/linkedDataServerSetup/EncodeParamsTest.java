@@ -18,22 +18,25 @@ import org.junit.Test;
  * @since 1.0
  */
 public class EncodeParamsTest {
+	/** For creating random variable values. */
 	static final Random RANDOMIZER = new Random();
-    private final Log log = new Log(EncodeParamsTest.class);
+	/** For logging. */
+	private static final Log LOGGER = new Log(EncodeParamsTest.class);
 
     /**
-     * @see
+     * Test the encodeParams method.
+     * 
      * @since 1.0
      */
     @Test
     public void testEncodeParams() {
-		LinkedDataServerSetup ldsSetup = new LinkedDataServerSetup();
-		JobConfiguration jobConf = newJobConfiguration();
-		boolean result = ldsSetup.encodeParams(jobConf);
+		final LinkedDataServerSetup ldsSetup = new LinkedDataServerSetup();
+		final JobConfiguration jobConf = newJobConfiguration();
+		final boolean result = ldsSetup.encodeParams(jobConf);
         if (result) {
-            log.info("OK");
+        	LOGGER.info("OK");
         } else {
-            log.info("NOK");
+        	LOGGER.info("NOK");
         }
     }
     
@@ -41,6 +44,7 @@ public class EncodeParamsTest {
 	 * Returns a random identifier (as integer).
 	 * 
 	 * @return a random identifier (as integer).
+     * @since 1.0
 	 */
 	public static Integer randomIdentifier() {
 		return RANDOMIZER.nextInt();
@@ -50,9 +54,10 @@ public class EncodeParamsTest {
 	 * Creates a dummy job configuration. 
 	 * 
 	 * @return a dummy job configuration.
+     * @since 1.0
 	 */
 	public static JobConfiguration newJobConfiguration() {
-		JobConfiguration job = new JobConfiguration();
+		final JobConfiguration job = new JobConfiguration();
 		job.setId(randomIdentifier());
 		job.setStoreIp("aliada.scanbit.net");
 		job.setStoreSqlPort(1111);

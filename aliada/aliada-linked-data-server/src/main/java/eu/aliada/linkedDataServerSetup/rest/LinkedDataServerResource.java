@@ -36,13 +36,16 @@ import eu.aliada.shared.log.Log;
  */
 @Path("/")
 public class LinkedDataServerResource {
-	private final Log logger = new Log(LinkedDataServerResource.class);
+	/** For logging. */
+	private static final Log LOGGER = new Log(LinkedDataServerResource.class);
 
+	/** Request URI information, */
 	@Context
 	private UriInfo uriInfo;
 
+	/** Web application context. */
 	@Context 
-	ServletContext context;
+	private ServletContext context;
 	
 	/**
 	 * Creates a new job on the Linked Data Server Component.
@@ -56,26 +59,26 @@ public class LinkedDataServerResource {
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	@Produces({MediaType.TEXT_XML, MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
 	public Response newJob(
-		@Context HttpServletRequest request,
-		@FormParam("jobid") Integer id) {
+		@Context final HttpServletRequest request,
+		@FormParam("jobid") final Integer jobid) {
 
-		logger.debug(MessageCatalog._00021_NEW_JOB_REQUEST);
+		LOGGER.debug(MessageCatalog._00021_NEW_JOB_REQUEST);
 		
-		if (id == null) {
-			logger.error(MessageCatalog._00022_MISSING_INPUT_PARAM, "jobid");
+		if (jobid == null) {
+			LOGGER.error(MessageCatalog._00022_MISSING_INPUT_PARAM, "jobid");
 			return Response.status(Status.BAD_REQUEST).build();			
 		}
 		
 		//Get configuration parameters
-		DBConnectionManager db = (DBConnectionManager) context.getAttribute("db");
-		JobConfiguration jobConf = db.getJobConfiguration(id);
+		final DBConnectionManager dbConn = (DBConnectionManager) context.getAttribute("db");
+		final JobConfiguration jobConf = dbConn.getJobConfiguration(jobid);
 		if (jobConf == null) {
-			logger.error(MessageCatalog._00023_JOB_CONFIGURATION_NOT_FOUND, id);
+			LOGGER.error(MessageCatalog._00023_JOB_CONFIGURATION_NOT_FOUND, jobid);
 			return Response.status(Status.BAD_REQUEST).build();								
 		}
 		//Program linking processes
-		LinkedDataServerSetup ldsSetup = new LinkedDataServerSetup();
-		Job job = ldsSetup.setup(jobConf, db);
+		final LinkedDataServerSetup ldsSetup = new LinkedDataServerSetup();
+		final Job job = ldsSetup.setup(jobConf, dbConn);
 		
 		return Response.created(uriInfo.getAbsolutePathBuilder().build()).entity(job).build();
 	}
@@ -91,17 +94,17 @@ public class LinkedDataServerResource {
 	@Path("/jobs/{jobid}")
 	@Produces({MediaType.TEXT_XML, MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
 	public Response getJob(
-		@Context HttpServletRequest request,
-		@PathParam("jobid") Integer id) {
-		logger.debug(MessageCatalog._00025_GET_JOB_REQUEST);
+		@Context final HttpServletRequest request,
+		@PathParam("jobid") final Integer jobid) {
+		LOGGER.debug(MessageCatalog._00025_GET_JOB_REQUEST);
 		
-		if (id == null) {
-			logger.error(MessageCatalog._00022_MISSING_INPUT_PARAM, "jobid");
+		if (jobid == null) {
+			LOGGER.error(MessageCatalog._00022_MISSING_INPUT_PARAM, "jobid");
 			return Response.status(Status.BAD_REQUEST).build();
 		}
 
-		DBConnectionManager db = (DBConnectionManager) context.getAttribute("db");
-		Job job = db.getJob(id);
+		final DBConnectionManager dbConn = (DBConnectionManager) context.getAttribute("db");
+		final Job job = dbConn.getJob(jobid);
 		return Response.status(Response.Status.ACCEPTED).entity(job).build();
 	}
 }

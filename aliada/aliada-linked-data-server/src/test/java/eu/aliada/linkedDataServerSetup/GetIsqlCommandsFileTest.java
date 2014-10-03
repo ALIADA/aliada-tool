@@ -18,22 +18,25 @@ import org.junit.Test;
  * @since 1.0
  */
 public class GetIsqlCommandsFileTest {
+	/** For creating random variable values. */
 	static final Random RANDOMIZER = new Random();
-    private final Log log = new Log(GetIsqlCommandsFileTest.class);
+	/** For logging. */
+	private static final Log LOGGER = new Log(GetIsqlCommandsFileTest.class);
 
     /**
-     * @see
+     * Test the getIsqlCommandsFile method.
+     * 
      * @since 1.0
      */
     @Test
     public void testGetIsqlCommandsFile() {
-		LinkedDataServerSetup ldsSetup = new LinkedDataServerSetup();
-		JobConfiguration jobConf = newJobConfiguration();
-		String result = ldsSetup.getIsqlCommandsFile(jobConf);
+		final LinkedDataServerSetup ldsSetup = new LinkedDataServerSetup();
+		final JobConfiguration jobConf = newJobConfiguration();
+		final String result = ldsSetup.getIsqlCommandsFile(jobConf);
         if (result != null) {
-            log.info("OK");
+        	LOGGER.info("OK");
         } else {
-            log.info("NOK");
+        	LOGGER.info("NOK");
         }
     }
     
@@ -41,6 +44,7 @@ public class GetIsqlCommandsFileTest {
 	 * Returns a random identifier (as integer).
 	 * 
 	 * @return a random identifier (as integer).
+     * @since 1.0
 	 */
 	public static Integer randomIdentifier() {
 		return RANDOMIZER.nextInt();
@@ -50,9 +54,10 @@ public class GetIsqlCommandsFileTest {
 	 * Creates a dummy job configuration. 
 	 * 
 	 * @return a dummy job configuration.
+     * @since 1.0
 	 */
 	public static JobConfiguration newJobConfiguration() {
-		JobConfiguration job = new JobConfiguration();
+		final JobConfiguration job = new JobConfiguration();
 		job.setId(randomIdentifier());
 		job.setStoreIp("aliada.scanbit.net");
 		job.setStoreSqlPort(1111);

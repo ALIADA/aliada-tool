@@ -454,7 +454,7 @@ public class LinksDiscovery {
 		//Update job start-date in DDBB
 		db.updateJobStartDate(jobConf.getId());
 		//Get files and other parameters to generate linking processes (subjobs)
-		logger.debug(MessageCatalog._00035_GET_lINKING_CONFIG_FILES);
+		logger.debug(MessageCatalog._00035_GET_LINKING_CONFIG_FILES);
 		SubjobConfiguration[] subjobConf = getLinkingConfigFiles(jobConf.getConfigFile());
 		//Generate initial crontab file with previous scheduled jobs
 		logger.debug(MessageCatalog._00036_CREATE_CRONTAB_FILE);
@@ -464,14 +464,14 @@ public class LinksDiscovery {
 			for (int i=0; i<subjobConf.length;i++){
 				int subjobId = i + 1 ;
 				//Generate XML config file for SILK
-				logger.debug(MessageCatalog._00037_CREATE_lINKING_XML_CONFIG_FILE, subjobId);
+				logger.debug(MessageCatalog._00037_CREATE_LINKING_XML_CONFIG_FILE, subjobId);
 				String linkingXMLConfigFilename = createLinkingXMLConfigFile(subjobConf[i].getLinkingXMLConfigFilename(), subjobConf[i].getDs(), subjobConf[i].getName(), jobConf);
 				if(linkingXMLConfigFilename != null){
 					//Generate properties file to be used by scheduled subjob
-					logger.debug(MessageCatalog._00038_CREATE_lINKING_PROP_FILE, subjobId);
+					logger.debug(MessageCatalog._00038_CREATE_LINKING_PROP_FILE, subjobId);
 					String linkingPropConfigFilename = createLinkingPropConfigFile(jobConf.getTmpDir(), ddbbParams);
 					if (linkingPropConfigFilename != null){
-						logger.debug(MessageCatalog._00039_INSERT_lINKING_CRONTAB_FILE, subjobId);
+						logger.debug(MessageCatalog._00039_INSERT_LINKING_CRONTAB_FILE, subjobId);
 						if(insertLinkingProcessInCrontabFile(crontabFilename, jobConf.getClientAppBinDir(), jobConf.getId(), subjobId, linkingPropConfigFilename)){
 							//Insert job-subjob in DDBB
 							logger.debug(MessageCatalog._00042_INSERT_SUBJOB_DDBB, jobConf.getId(), subjobId);

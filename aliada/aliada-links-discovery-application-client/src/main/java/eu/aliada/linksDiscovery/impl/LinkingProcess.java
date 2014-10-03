@@ -48,32 +48,50 @@ import org.xml.sax.SAXException;
  * @since 1.0
  */
 public class LinkingProcess {
-	private final Log logger = new Log(LinkingProcess.class);
-	private final static String CRONTAB_FILENAME = "aliada_links_discovery.cron"; 
-	/* Name of the linking process to program with crontab, that executes 
+	/** For logging. */
+	static final Log LOGGER = new Log(LinkingProcess.class);
+	/** Number of input parameters for the process. */
+	static final int PROCESS_PARAM_NUM = 3;
+	/** Crontab file name. */
+	private final static String CRONTAB_FILENAME = "aliada_links_discovery.cron";
+	/** Crontab List command. */
+	private final static String CRONTAB_LIST_COMMAND = "crontab -l";
+
+	/** Name of the linking process to program with crontab, that executes 
 	 * {@link eu.aliada.linksDiscovery.impl.LinkingProcess} (this class) java application
 	 */
 	private final static String LINKING_PROCESS_NAME = "links-discovery-task-runner.sh";
 	/* DDBB connection parameters */
+	/** DDBB connection user name. */
 	private String dbUsername;
+	/** DDBB connection password. */
 	private String dbPassword;
+	/** DDBB connection driver class namee. */
 	private String dbDriverClassName;
+	/** DDBB connection URL. */
 	private String dbURL;
-	/* DDBB connection */
-	private Connection conn = null;
-	/* XML configuration file for SILK */
+	/** DDBB connection. */
+	private Connection conn;
+	/** XML configuration file name for SILK. */
 	private String linkingXMLConfigFilename;
+	/** XML configuration file for SILK. */
 	private File linkingXMLConfigFile;
-	/* Input paramaters for SILK */
+	/** XML configuration file for SILK. */
 	private int linkingNumThreads;
+	/** XML configuration file for SILK. */
 	private boolean linkingReload;
 	/* RDF SINK parameters of the RDF Store*/
+	/** The URI of the RDF Sink Folder of the RDF store, 
+	 * where to upload the files containing the triples of 
+	 * the generated links*/
 	private String rdfSinkFolder;
+	/** The login of the RDF Sink folder. */
 	private String rdfSinkLogin;
+	/** The password of the RDF Sink folder. */
 	private String rdfSinkPassword;
-	/* Temporary folder */
+	/** Temporary folder */
 	private String tmpDir;
-	/* Names of the files containing the links */
+	/** Names of the files containing the links */
 	private ArrayList<String> triplesFilenames;
 
 	/**
@@ -83,24 +101,28 @@ public class LinkingProcess {
 	 * @return true if the properties have been obtained. False otherwise.
 	 * @since 1.0
 	 */
-	public boolean getConfigProperties (String propertiesFileName) {
+	public boolean getConfigProperties (final String propertiesFileName) {
 		try {
-			InputStream propertyStream = new FileInputStream(propertiesFileName);
-    		Properties p = new Properties();
-    		p.load( propertyStream );
-    		if (p.getProperty("database.username") != null)
-    			dbUsername = p.getProperty("database.username");
-    		if (p.getProperty("database.password") != null)
-    			dbPassword = p.getProperty("database.password");
-    		if (p.getProperty("database.driverClassName") != null)
-    			dbDriverClassName = p.getProperty("database.driverClassName");
-    		if (p.getProperty("database.url") != null)
-    			dbURL = p.getProperty("database.url");
+			final InputStream propertyStream = new FileInputStream(propertiesFileName);
+    		final Properties props = new Properties();
+    		props.load( propertyStream );
+    		if (props.getProperty("database.username") != null) {
+    			dbUsername = props.getProperty("database.username");
+    		}
+    		if (props.getProperty("database.password") != null) {
+    			dbPassword = props.getProperty("database.password");
+    		}
+    		if (props.getProperty("database.driverClassName") != null) {
+    			dbDriverClassName = props.getProperty("database.driverClassName");
+    		}
+    		if (props.getProperty("database.url") != null) {
+    			dbURL = props.getProperty("database.url");
+    		}
 		} catch(FileNotFoundException exception) {
-			logger.error(MessageCatalog._00031_FILE_NOT_FOUND, propertiesFileName);
+			LOGGER.error(MessageCatalog._00031_FILE_NOT_FOUND, propertiesFileName);
 			return false;
     	} catch(IOException exception) {
-			logger.error(MessageCatalog._00032_BAD_FILE, exception, propertiesFileName);
+			LOGGER.error(MessageCatalog._00032_BAD_FILE, exception, propertiesFileName);
 			return false;
     	}
 		return true;
@@ -119,10 +141,10 @@ public class LinkingProcess {
 			conn = DriverManager.getConnection(dbURL + "?user=" + dbUsername + "&password=" + dbPassword);
 			return true;
 		} catch (ClassNotFoundException exception) {
-			logger.error(MessageCatalog._00024_DATA_ACCESS_FAILURE, exception);
+			LOGGER.error(MessageCatalog._00024_DATA_ACCESS_FAILURE, exception);
 			return false;
 		} catch (SQLException exception) {
-			logger.error(MessageCatalog._00024_DATA_ACCESS_FAILURE, exception);
+			LOGGER.error(MessageCatalog._00024_DATA_ACCESS_FAILURE, exception);
 			return false;
 		}
 	}
@@ -136,9 +158,8 @@ public class LinkingProcess {
 		try {
 			conn.close();
 		} catch (SQLException exception) {
-			logger.error(MessageCatalog._00024_DATA_ACCESS_FAILURE, exception);
+			LOGGER.error(MessageCatalog._00024_DATA_ACCESS_FAILURE, exception);
 		}
-		return;
 	}
 
 
@@ -150,13 +171,13 @@ public class LinkingProcess {
 	 * @return true if the subjob configuration has been obtained. False otherwise.
 	 * @since 1.0
 	 */
-	public boolean getSubjobConfiguration(int jobId, int subjobId) {
+	public boolean getSubjobConfiguration(final int jobId, final int subjobId) {
 		//Get subjob properties from DDBB
 		boolean found = false;
 		try {
-			Statement sta = conn.createStatement();
-			String sql = "SELECT * FROM linksdiscovery_subjob_instances WHERE job_id=" + jobId + " AND subjob_id=" + subjobId;
-			ResultSet resultSet = sta.executeQuery(sql);
+			final Statement sta = conn.createStatement();
+			final String sql = "SELECT * FROM linksdiscovery_subjob_instances WHERE job_id=" + jobId + " AND subjob_id=" + subjobId;
+			final ResultSet resultSet = sta.executeQuery(sql);
 			while (resultSet.next()) {
 				found = true;
 	    		linkingXMLConfigFilename = resultSet.getString("config_file");
@@ -170,20 +191,26 @@ public class LinkingProcess {
 	    		try{
 	    			linkingXMLConfigFile = new File(linkingXMLConfigFilename);
 	    			if (!linkingXMLConfigFile.exists()){
-	    				logger.error(MessageCatalog._00031_FILE_NOT_FOUND, linkingXMLConfigFilename);
+	    				LOGGER.error(MessageCatalog._00031_FILE_NOT_FOUND, linkingXMLConfigFilename);
+	    				resultSet.close();
+	    				sta.close();
 	    				return false;
 	    			}
 	    		}catch (Exception exception) {
-    				logger.error(MessageCatalog._00031_FILE_NOT_FOUND, exception, linkingXMLConfigFilename);
+    				LOGGER.error(MessageCatalog._00031_FILE_NOT_FOUND, exception, linkingXMLConfigFilename);
+    				resultSet.close();
+    				sta.close();
 	    			return false;
 	    		}
 		    }
+			resultSet.close();
+			sta.close();
 		} catch (SQLException exception) {
-			logger.error(MessageCatalog._00024_DATA_ACCESS_FAILURE, exception);
+			LOGGER.error(MessageCatalog._00024_DATA_ACCESS_FAILURE, exception);
 			return false;
 		}
 		if(!found){
-			logger.error(MessageCatalog._00067_SUBJOB_CONFIGURATION_NOT_FOUND, jobId, subjobId);
+			LOGGER.error(MessageCatalog._00067_SUBJOB_CONFIGURATION_NOT_FOUND, jobId, subjobId);
 		}
 		return found;
 	}
@@ -193,23 +220,24 @@ public class LinkingProcess {
 	 *
 	 * @param jobId		the job identification.
 	 * @param subjobId	the subjob identification.
-	 * @return true if the date has been updated correctly in the DDBB. False otherwise.
+	 * @return true if the date has been updated correctly ç
+	 *         in the DDBB. False otherwise.
 	 * @since 1.0
 	 */
-	public boolean updateSubjobStartDate(int jobId, int subjobId){
+	public boolean updateSubjobStartDate(final int jobId, final int subjobId){
 		//Update start_date of subjob
 		try {
 			PreparedStatement preparedStatement = null;		
 			preparedStatement = conn.prepareStatement("UPDATE linksdiscovery_subjob_instances SET start_date = ? WHERE job_id = ? AND subjob_id = ?");
 			// parameters start with 1
-			java.util.Date today = new java.util.Date();
-			java.sql.Timestamp todaySQL = new java.sql.Timestamp(today.getTime());
+			final java.util.Date today = new java.util.Date();
+			final java.sql.Timestamp todaySQL = new java.sql.Timestamp(today.getTime());
 			preparedStatement.setTimestamp(1, todaySQL);
 			preparedStatement.setInt(2, jobId);
 			preparedStatement.setInt(3, subjobId);
 			preparedStatement.executeUpdate();
 		} catch (SQLException exception) {
-			logger.error(MessageCatalog._00024_DATA_ACCESS_FAILURE, exception);
+			LOGGER.error(MessageCatalog._00024_DATA_ACCESS_FAILURE, exception);
 			return false;
 		}
 		return true;
@@ -220,24 +248,25 @@ public class LinkingProcess {
 	 *
 	 * @param jobId		the job identification.
 	 * @param subjobId	the subjob identification.
-	 * @return true if the data have been updated correctly in the DDBB. False otherwise.
+	 * @return true if the data have been updated correctly 
+	 *         in the DDBB. False otherwise.
 	 * @since 1.0
 	 */
-	public boolean updateSubjobEndDate(int jobId, int subjobId, int numLinks){
+	public boolean updateSubjobEndDate(final int jobId, final int subjobId, final int numLinks){
 		//Update end_date, num_links of subjob
 		try {
     		PreparedStatement preparedStatement = null;		
     		preparedStatement = conn.prepareStatement("UPDATE linksdiscovery_subjob_instances SET end_date = ?, num_links = ?  WHERE job_id = ? AND subjob_id = ?");
     		// parameters start with 1
-    		java.util.Date today = new java.util.Date();
-    		java.sql.Timestamp todaySQL = new java.sql.Timestamp(today.getTime());
+    		final java.util.Date today = new java.util.Date();
+    		final java.sql.Timestamp todaySQL = new java.sql.Timestamp(today.getTime());
     		preparedStatement.setTimestamp(1, todaySQL);
     		preparedStatement.setInt(2, numLinks);
     		preparedStatement.setInt(3, jobId);
     		preparedStatement.setInt(4, subjobId);
     		preparedStatement.executeUpdate();
 		} catch (SQLException exception) {
-			logger.error(MessageCatalog._00024_DATA_ACCESS_FAILURE, exception);
+			LOGGER.error(MessageCatalog._00024_DATA_ACCESS_FAILURE, exception);
 			return false;
 		}
 		return true;
@@ -250,19 +279,24 @@ public class LinkingProcess {
 	 * @return true if all subjobs of the job have finished. False otherwise.
 	 * @since 1.0
 	 */
-	public boolean checkJobSubjobsFinished(int job){
+	public boolean checkJobSubjobsFinished(final int job){
 		//Check if all subjobs of a jof have finished
 		try {
-			Statement sta = conn.createStatement();
-			ResultSet resultSet = sta.executeQuery("SELECT * FROM linksdiscovery_subjob_instances WHERE job_id=" + job);
+			final Statement sta = conn.createStatement();
+			final ResultSet resultSet = sta.executeQuery("SELECT * FROM linksdiscovery_subjob_instances WHERE job_id=" + job);
 			while (resultSet.next()) {
-				java.sql.Date endDate = resultSet.getDate("end_date");
+				final java.sql.Date endDate = resultSet.getDate("end_date");
 				//If one of the subjobs has not finished yet, the job is not finished
-				if (endDate == null)
+				if (endDate == null) {
+					resultSet.close();
+					sta.close();
 					return false;
+				}
 			}
+			resultSet.close();
+			sta.close();
 		} catch (SQLException exception) {
-			logger.error(MessageCatalog._00024_DATA_ACCESS_FAILURE, exception);
+			LOGGER.error(MessageCatalog._00024_DATA_ACCESS_FAILURE, exception);
 			return false;
 		}
   		return true;
@@ -272,10 +306,11 @@ public class LinkingProcess {
 	 * Updates the end_date of the job.
 	 *
 	 * @param jobId	the job identification.
-	 * @return true if the date has been updated correctly in the DDBB. False otherwise.
+	 * @return true if the date has been updated correctly 
+	 *         in the DDBB. False otherwise.
 	 * @since 1.0
 	 */
-	public boolean updateJobEndDate(int jobId){
+	public boolean updateJobEndDate(final int jobId){
 		//Check if all subjobs of a jof have finished
 		//If one of the subjobs has not finished yet, the job is not finished
 		if(checkJobSubjobsFinished(jobId)){
@@ -284,13 +319,13 @@ public class LinkingProcess {
 	    		PreparedStatement preparedStatement = null;		
 	    		preparedStatement = conn.prepareStatement("UPDATE linksdiscovery_job_instances SET end_date = ? WHERE job_id = ?");
 	    		// parameters start with 1
-	    		java.util.Date today = new java.util.Date();
-	    		java.sql.Timestamp todaySQL = new java.sql.Timestamp(today.getTime());
+	    		final java.util.Date today = new java.util.Date();
+	    		final java.sql.Timestamp todaySQL = new java.sql.Timestamp(today.getTime());
 	    		preparedStatement.setTimestamp(1, todaySQL);
 	    		preparedStatement.setInt(2, jobId);
 	    		preparedStatement.executeUpdate();
 			} catch (SQLException exception) {
-				logger.error(MessageCatalog._00024_DATA_ACCESS_FAILURE, exception);
+				LOGGER.error(MessageCatalog._00024_DATA_ACCESS_FAILURE, exception);
 				return false;
 			}
 		}
@@ -310,29 +345,29 @@ public class LinkingProcess {
 		triplesFilenames = new ArrayList<String>();
 		try {
 			//Read XML file
-			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-			Document doc = dBuilder.parse(linkingXMLConfigFile);		 
+			final DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+			final DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+			final Document doc = dBuilder.parse(linkingXMLConfigFile);		 
 			doc.getDocumentElement().normalize();
 	
 			//Get <Output> nodes
-			NodeList outputList = doc.getElementsByTagName("Output");
+			final NodeList outputList = doc.getElementsByTagName("Output");
 			for (int outputInd = 0; outputInd < outputList.getLength(); outputInd++) {
-				Node outputNode = outputList.item(outputInd);
+				final Node outputNode = outputList.item(outputInd);
 				if (outputNode.getNodeType() == Node.ELEMENT_NODE) {
-					Element outputElem = (Element) outputNode;
-					String typeValue = outputElem.getAttribute("type");
+					final Element outputElem = (Element) outputNode;
+					final String typeValue = outputElem.getAttribute("type");
 					//Check if <Output type="file"> 
-					if(typeValue.equalsIgnoreCase("file")){
+					if("file".equalsIgnoreCase(typeValue)){
 						//Get <Param> nodes
-						NodeList paramList = outputElem.getElementsByTagName("Param");
+						final NodeList paramList = outputElem.getElementsByTagName("Param");
 						for (int paramInd = 0; paramInd < paramList.getLength(); paramInd++) {
-							Node paramNode = paramList.item(paramInd);
+							final Node paramNode = paramList.item(paramInd);
 							if (paramNode.getNodeType() == Node.ELEMENT_NODE) {
-								Element paramElem = (Element) paramNode;
-								String nameValue = paramElem.getAttribute("name");
+								final Element paramElem = (Element) paramNode;
+								final String nameValue = paramElem.getAttribute("name");
 								//Check if <Param name="file" ...>
-								if(nameValue.equalsIgnoreCase("file")){
+								if("file".equalsIgnoreCase(nameValue)){
 									//Get the name of the file
 									triplesFilenames.add(paramElem.getAttribute("value"));
 								}
@@ -344,11 +379,11 @@ public class LinkingProcess {
 			}
 	
 		} catch (ParserConfigurationException exception) {
-			logger.error(MessageCatalog._00062_XML_FILE_PARSING_FAILURE, exception, linkingXMLConfigFilename);
+			LOGGER.error(MessageCatalog._00062_XML_FILE_PARSING_FAILURE, exception, linkingXMLConfigFilename);
 		} catch (SAXException exception) {
-			logger.error(MessageCatalog._00062_XML_FILE_PARSING_FAILURE, exception, linkingXMLConfigFilename);
+			LOGGER.error(MessageCatalog._00062_XML_FILE_PARSING_FAILURE, exception, linkingXMLConfigFilename);
 		} catch (IOException exception) {
-			logger.error(MessageCatalog._00062_XML_FILE_PARSING_FAILURE, exception, linkingXMLConfigFilename);
+			LOGGER.error(MessageCatalog._00062_XML_FILE_PARSING_FAILURE, exception, linkingXMLConfigFilename);
 		}
 		
 		return triplesFilenames;
@@ -365,19 +400,19 @@ public class LinkingProcess {
 	public int getNumLinks(){
 		int numLinks = 0;
 		getTriplesFilenames();
-		for (Iterator<String> iter = triplesFilenames.iterator(); iter.hasNext();  ) {
-			String triplesFilename = iter.next();
+		for (final Iterator<String> iter = triplesFilenames.iterator(); iter.hasNext();  ) {
+			final String triplesFilename = iter.next();
 			try{
-				BufferedReader br = new BufferedReader(new FileReader(triplesFilename));
-				while ((br.readLine()) != null) {
+				final BufferedReader bufferReader = new BufferedReader(new FileReader(triplesFilename));
+				while (bufferReader.readLine() != null) {
 				   numLinks++;
 				}
-				logger.info(MessageCatalog._00061_NUM_GENERATED_LINKS, numLinks);
-				br.close();
+				LOGGER.info(MessageCatalog._00061_NUM_GENERATED_LINKS, numLinks);
+				bufferReader.close();
 			} catch(FileNotFoundException exception) {
-				logger.error(MessageCatalog._00031_FILE_NOT_FOUND, triplesFilename);
+				LOGGER.error(MessageCatalog._00031_FILE_NOT_FOUND, triplesFilename);
 		   	} catch(IOException exception) {
-				logger.error(MessageCatalog._00032_BAD_FILE, exception, triplesFilename);
+				LOGGER.error(MessageCatalog._00032_BAD_FILE, exception, triplesFilename);
 		    }
 		}
 		return numLinks;
@@ -388,55 +423,57 @@ public class LinkingProcess {
 	 *
 	 * @param jobId					the job identification.
 	 * @param subjobId				the subjob identification.
-	 * @param propertiesFileName	the name of the properties file of the programmed subjob.
+	 * @param propertiesFileName	the name of the properties 
+	 *                              file of the programmed subjob.
 	 * 
-	 * @return true if the subjob has been removed correctly from the crontab. False otherwise.
+	 * @return true if the subjob has been removed correctly from 
+	 *         the crontab. False otherwise.
 	 * @since 1.0
 	 */
-	public boolean removeSubjobFromCrontab(int jobId, int subjobId, String propertiesFileName){
+	public boolean removeSubjobFromCrontab(final int jobId, final int subjobId, final String propertiesFileName){
 		boolean removed = false;
 		//String to supress from crontab file
-		String crontabLineToSearch = String.format("%s %d %d %s", LINKING_PROCESS_NAME, jobId, subjobId, propertiesFileName);
+		final String crontabLineToSearch = String.format("%s %d %d %s", LINKING_PROCESS_NAME, jobId, subjobId, propertiesFileName);
 		//Create a new crontab file supressing the subjob already finished
 		String crontabFilename = tmpDir + File.separator + CRONTAB_FILENAME;
 		//Replace Windows file separator by "/" Java file separator
 		crontabFilename = crontabFilename.replace("\\", "/");
 		//Remove the crontab file if it already exists
-		File f = new File(crontabFilename);
-		if (f.exists())
-			f.delete();
+		final File cronFile = new File(crontabFilename);
+		if (cronFile.exists()) {
+			cronFile.delete();
+		}
 		//Now, create a new one
 		try {
-			FileWriter fstream = new FileWriter(crontabFilename);
-			BufferedWriter out = new BufferedWriter(fstream);
+			final FileWriter fstream = new FileWriter(crontabFilename);
+			final BufferedWriter out = new BufferedWriter(fstream);
 			// Execute system command "crontab -l"
-	    	String command = "crontab -l";
 	    	try {
-		    	String s = null;
-	  	    	Process crontabList = Runtime.getRuntime().exec(command);
-		    	BufferedReader stdInput = new BufferedReader(new InputStreamReader(crontabList.getInputStream()));
-		        while ((s = stdInput.readLine()) != null) {
-		        	if (s.indexOf(crontabLineToSearch) < 0){
+		    	String line = null;
+	  	    	final Process crontabList = Runtime.getRuntime().exec(CRONTAB_LIST_COMMAND);
+		    	final BufferedReader stdInput = new BufferedReader(new InputStreamReader(crontabList.getInputStream()));
+		        while ((line = stdInput.readLine()) != null) {
+		        	if (line.indexOf(crontabLineToSearch) < 0){
 		        		//If it is not the subjob already finished, include the line again in crontab file
-		        		out.write(s);
+		        		out.write(line);
 		        		out.newLine();
 		        	}
 		        }
 	    	} catch (IOException exception) {
-	    		logger.error(MessageCatalog._00033_EXTERNAL_PROCESS_START_FAILURE, exception, command);
+	    		LOGGER.error(MessageCatalog._00033_EXTERNAL_PROCESS_START_FAILURE, exception, CRONTAB_LIST_COMMAND);
 	    	}
 	    	out.close();
 		} catch (IOException exception) {
-			logger.error(MessageCatalog._00034_FILE_CREATION_FAILURE, exception, crontabFilename);
+			LOGGER.error(MessageCatalog._00034_FILE_CREATION_FAILURE, exception, crontabFilename);
 		}
 		// Execute system command "crontab contrabfilename"
-		String command = "crontab " + crontabFilename;
+		final String command = "crontab " + crontabFilename;
 		try {
-			logger.debug(MessageCatalog._00040_EXECUTING_CRONTAB);
+			LOGGER.debug(MessageCatalog._00040_EXECUTING_CRONTAB);
 			Runtime.getRuntime().exec(command);
 			removed = true;
 		} catch (IOException exception) {
-			logger.error(MessageCatalog._00033_EXTERNAL_PROCESS_START_FAILURE, exception, command);
+			LOGGER.error(MessageCatalog._00033_EXTERNAL_PROCESS_START_FAILURE, exception, command);
 		}
 		return removed;
 	}
@@ -450,21 +487,22 @@ public class LinkingProcess {
 	 * 									used by SILK.
 	 * @since 1.0
 	 */
-	public void removeConfigFiles(String propertiesFileName, String linkingXMLConfigFilename){
+	public void removeConfigFiles(final String propertiesFileName, final String linkingXMLConfigFilename){
 		//Remove configuration files
 		String fileName = propertiesFileName; 
 		try {
-			File f = new File(propertiesFileName);
-			if (f.exists())
-				f.delete();
+			File propFile = new File(propertiesFileName);
+			if (propFile.exists()) {
+				propFile.delete();
+			}
 			fileName = linkingXMLConfigFilename;
-			f = new File(linkingXMLConfigFilename);
-			if (f.exists())
-				f.delete();
+			propFile = new File(linkingXMLConfigFilename);
+			if (propFile.exists()) {
+				propFile.delete();
+			}
 		} catch (Exception exception) {
-			logger.error(MessageCatalog._00066_FILE_REMOVING_FAILURE, exception, fileName);
+			LOGGER.error(MessageCatalog._00066_FILE_REMOVING_FAILURE, exception, fileName);
 		}
-		return;
 	}
 
 	
@@ -479,80 +517,82 @@ public class LinkingProcess {
 	 * @param args	Application arguments. 
 	 * @since 1.0
 	 */
-	public static void main(String[] args) {
-		LinkingProcess lProcess = new LinkingProcess();
-		lProcess.logger.info(MessageCatalog._00050_STARTING);
-		if(args.length == 3) {
-			int job = new Integer(args[0]); 
-			int subjob = new Integer(args[1]);
-			String propertiesFileName = args[2];
-			lProcess.logger.debug(MessageCatalog._00057_SUBJOB_PARAMETERS, job, subjob, propertiesFileName);
+	public static void main(final String[] args) {
+		final LinkingProcess lProcess = new LinkingProcess();
+		lProcess.LOGGER.info(MessageCatalog._00050_STARTING);
+		if(args.length == PROCESS_PARAM_NUM) {
+			final int job = Integer.valueOf(args[0]); 
+			final int subjob = Integer.valueOf(args[1]);
+			final String propertiesFileName = args[2];
+			lProcess.LOGGER.debug(MessageCatalog._00057_SUBJOB_PARAMETERS, job, subjob, propertiesFileName);
 			//Read configuration file to start threads execution
-			lProcess.logger.debug(MessageCatalog._00051_GET_CONFIG_FILE_PROPERTIES, propertiesFileName);
+			lProcess.LOGGER.debug(MessageCatalog._00051_GET_CONFIG_FILE_PROPERTIES, propertiesFileName);
 			if (!lProcess.getConfigProperties(propertiesFileName)){
-				lProcess.logger.info(MessageCatalog._00059_STOPPING);
+				lProcess.LOGGER.info(MessageCatalog._00059_STOPPING);
 				System.exit(2);
 			}
 			//Connect to DDBB
-			lProcess.logger.debug(MessageCatalog._00052_CONNECT_DDBB);
+			lProcess.LOGGER.debug(MessageCatalog._00052_CONNECT_DDBB);
 			if(!lProcess.connectToDDBB()){
-				lProcess.logger.info(MessageCatalog._00059_STOPPING);
+				lProcess.LOGGER.info(MessageCatalog._00059_STOPPING);
 				System.exit(2);
 			}
 			//Get subjob properties from DDBB
-			lProcess.logger.debug(MessageCatalog._00064_GET_PROPERTIES_FROM_DDBB, job, subjob);
+			lProcess.LOGGER.debug(MessageCatalog._00064_GET_PROPERTIES_FROM_DDBB, job, subjob);
 			if(!lProcess.getSubjobConfiguration(job, subjob)){
 				lProcess.closeDDBBConnection();
-				lProcess.logger.info(MessageCatalog._00059_STOPPING);
+				lProcess.LOGGER.info(MessageCatalog._00059_STOPPING);
 				System.exit(2);
 			}
 			//Update subjob start_date in DDBB
-			lProcess.logger.debug(MessageCatalog._00056_UPDATING_SUBJOB_DDBB, job, subjob);
+			lProcess.LOGGER.debug(MessageCatalog._00056_UPDATING_SUBJOB_DDBB, job, subjob);
 			if(!lProcess.updateSubjobStartDate(job, subjob)){
 				lProcess.closeDDBBConnection();
-				lProcess.logger.info(MessageCatalog._00059_STOPPING);
+				lProcess.LOGGER.info(MessageCatalog._00059_STOPPING);
 				System.exit(2);
 			}
 			//Execute SILK
-			lProcess.logger.info(MessageCatalog._00053_SILK_STARTING, lProcess.linkingXMLConfigFile, lProcess.linkingNumThreads, lProcess.linkingReload);
+			lProcess.LOGGER.info(MessageCatalog._00053_SILK_STARTING, lProcess.linkingXMLConfigFile, lProcess.linkingNumThreads, lProcess.linkingReload);
 			try {
 				Silk.executeFile(lProcess.linkingXMLConfigFile, (String) null, lProcess.linkingNumThreads, lProcess.linkingReload);
 			} catch (Exception exception){
-				lProcess.logger.error(MessageCatalog._00054_SILK_EXCEPTION, exception);
+				lProcess.LOGGER.error(MessageCatalog._00054_SILK_EXCEPTION, exception);
 			}
-			lProcess.logger.info(MessageCatalog._00055_SILK_FINISHED, lProcess.linkingXMLConfigFile, lProcess.linkingNumThreads, lProcess.linkingReload);
+			lProcess.LOGGER.info(MessageCatalog._00055_SILK_FINISHED, lProcess.linkingXMLConfigFile, lProcess.linkingNumThreads, lProcess.linkingReload);
 			//Check the number of generated links
-			lProcess.logger.debug(MessageCatalog._00060_VALIDATING_NUM_GENERATED_LINKS, lProcess.linkingXMLConfigFile, lProcess.linkingNumThreads, lProcess.linkingReload);
-			int numLinks = lProcess.getNumLinks();
+			lProcess.LOGGER.debug(MessageCatalog._00060_VALIDATING_NUM_GENERATED_LINKS, lProcess.linkingXMLConfigFile, lProcess.linkingNumThreads, lProcess.linkingReload);
+			final int numLinks = lProcess.getNumLinks();
 			//Upload generated links to RDF store
-			RDFStoreDAO rdfstoreDAO = new RDFStoreDAO();
-			lProcess.logger.debug(MessageCatalog._00068_UPLOADING_GENERATED_LINKS);
-			for (Iterator<String> iter = lProcess.triplesFilenames.iterator(); iter.hasNext();  ) {
-				String triplesFilename = iter.next();
-				if(!rdfstoreDAO.loadDataIntoGraph(triplesFilename, lProcess.rdfSinkFolder, lProcess.rdfSinkLogin, lProcess.rdfSinkPassword))
-					lProcess.logger.error(MessageCatalog._00069_TRIPLES_FILE_UPLOAD_ERROR, triplesFilename);
+			final RDFStoreDAO rdfstoreDAO = new RDFStoreDAO();
+			lProcess.LOGGER.debug(MessageCatalog._00068_UPLOADING_GENERATED_LINKS);
+			for (final Iterator<String> iter = lProcess.triplesFilenames.iterator(); iter.hasNext();  ) {
+				final String triplesFilename = iter.next();
+				if(!rdfstoreDAO.loadDataIntoGraph(triplesFilename, lProcess.rdfSinkFolder, lProcess.rdfSinkLogin, lProcess.rdfSinkPassword)) {
+					lProcess.LOGGER.error(MessageCatalog._00069_TRIPLES_FILE_UPLOAD_ERROR, triplesFilename);
+				}
 			}
 			//Update subjob end_date, num_links of DDBB
-			lProcess.logger.debug(MessageCatalog._00056_UPDATING_SUBJOB_DDBB, job, subjob);
+			lProcess.LOGGER.debug(MessageCatalog._00056_UPDATING_SUBJOB_DDBB, job, subjob);
 			lProcess.updateSubjobEndDate(job, subjob, numLinks);
 			//Remove from crontab the programmed process (subjob)
-			lProcess.logger.debug(MessageCatalog._00063_REMOVING_SUBJOB_FROM_CRONTAB, job, subjob);
+			lProcess.LOGGER.debug(MessageCatalog._00063_REMOVING_SUBJOB_FROM_CRONTAB, job, subjob);
 			lProcess.removeSubjobFromCrontab(job, subjob, propertiesFileName);
 			//Remove config files
-			lProcess.logger.debug(MessageCatalog._00065_REMOVING_CONFIG_FILES);
+			lProcess.LOGGER.debug(MessageCatalog._00065_REMOVING_CONFIG_FILES);
 			lProcess.removeConfigFiles(propertiesFileName, lProcess.linkingXMLConfigFilename);
 			//Update job end_date of DDBB, if needed
-			lProcess.logger.debug(MessageCatalog._00057_UPDATING_JOB_DDBB, job);
+			lProcess.LOGGER.debug(MessageCatalog._00057_UPDATING_JOB_DDBB, job);
 			lProcess.updateJobEndDate(job);
-			lProcess.logger.info(MessageCatalog._00059_STOPPING);
+			lProcess.LOGGER.info(MessageCatalog._00059_STOPPING);
 		}
 		else {
 			//If the arguments are not correct, exit the program
 			String parameters = "";
-			for(int i=0;i<args.length;i++)
+			for(int i=0;i<args.length;i++){
 				parameters = parameters + " arg" + i + "=" + args[i];
-			lProcess.logger.error(MessageCatalog._00058_SUBJOB_PARAMETERS_INCORRECT, parameters);
-			lProcess.logger.info(MessageCatalog._00059_STOPPING);
+			}
+			lProcess.LOGGER.error(MessageCatalog._00058_SUBJOB_PARAMETERS_INCORRECT, parameters);
+			lProcess.LOGGER.info(MessageCatalog._00059_STOPPING);
 			System.exit(2);
 		}
 	}

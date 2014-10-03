@@ -17,11 +17,20 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @XmlRootElement
 public class Job {
+	/** Job identification number. */
 	private int id;
+	/** Job starting date. */
 	private Date startDate;
+	/** Job end date. */
 	private Date endDate;
-	private String status; /* Possible values: idle, running, finished. */
+	/** Job status. Possible values: idle, running, finished. */
+	private String status;
 
+	/**
+	 * Default constructor.
+
+	 * @since 1.0
+	 */
 	public Job() {// JAXB needs this
 	} 
 
@@ -29,6 +38,7 @@ public class Job {
 	 * Returns the identifier of this job.
 	 * 
 	 * @return The identifier of this job.
+	 * @since 1.0
 	 */
 	public Integer getId() {
 		return id;
@@ -37,8 +47,9 @@ public class Job {
 	 * Sets the identifier of this job.
 	 * 
 	 * @param id The identifier of this job.
+	 * @since 1.0
 	 */
-	public void setId(Integer id) {
+	public void setId(final Integer id) {
 		this.id = id;
 	}
 
@@ -46,6 +57,7 @@ public class Job {
 	 * Returns the start date of the job.
 	 * 
 	 * @return The start date of the job.
+	 * @since 1.0
 	 */
 	public Date getStartDate() {
 		return startDate;
@@ -54,8 +66,9 @@ public class Job {
 	 * Sets the start date of the job.
 	 * 
 	 * @param startDate The start date of the job.
+	 * @since 1.0
 	 */
-	public void setStartDate(Date startDate) {
+	public void setStartDate(final Date startDate) {
 		this.startDate = startDate;
 	}
 
@@ -63,6 +76,7 @@ public class Job {
 	 * Returns the end date of the job.
 	 * 
 	 * @return The end date of the job.
+	 * @since 1.0
 	 */
 	public Date getEndDate() {
 		return endDate;
@@ -71,8 +85,9 @@ public class Job {
 	 * Sets the end date of the job.
 	 * 
 	 * @param endDate The end date of the job.
+	 * @since 1.0
 	 */
-	public void setEndDate(Date endDate) {
+	public void setEndDate(final Date endDate) {
 		this.endDate = endDate;
 	}
 
@@ -81,6 +96,7 @@ public class Job {
 	 * Possible values: idle, running, finished.
 	 *  
 	 * @return The status of the job.
+	 * @since 1.0
 	 */
 	public String getStatus() {
 		return status;
@@ -90,8 +106,9 @@ public class Job {
 	 * Possible values: idle, running, finished.
 	 * 
 	 * @param status The status of the job.
+	 * @since 1.0
 	 */
-	public void setStatus(String status) {
+	public void setStatus(final String status) {
 		this.status = status;
 	}
 	

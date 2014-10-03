@@ -14,6 +14,7 @@ import eu.aliada.linkedDataServerSetup.rdbms.DBConnectionManager;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.io.InputStreamReader;
 import java.net.URLEncoder;
 
@@ -25,9 +26,14 @@ import java.net.URLEncoder;
  * @since 1.0
  */
 public class LinkedDataServerSetup {
-	private final Log logger = new Log(LinkedDataServerSetup.class);
+	/** For logging. */
+	private static final Log LOGGER = new Log(LinkedDataServerSetup.class);
+	/** Format for the ISQL command to execute */
+	private static final String ISQL_COMMAND_FORMAT = "%s %s:%d %s %s %s -i %s %s"; 
 	/* Input parameters for URL rewrite rules */
-	private String datasetBaseEncoded = ""; 
+	/** datasetBase encoded in UTF-8 */
+	private String datasetBaseEncoded = "";
+	/** graph name encoded in UTF-8 */
 	private String graphEncoded = ""; 
 
 	/**
@@ -43,28 +49,31 @@ public class LinkedDataServerSetup {
 	 * @return the name of the newly created commands file.
 	 * @since 1.0
 	 */
-	public String getIsqlCommandsFile(JobConfiguration jobConf){
+	public String getIsqlCommandsFile(final JobConfiguration jobConf){
 		String isqlCommandsFilename;
 		isqlCommandsFilename = jobConf.getIsqlCommandsFilename();
 		//Check if isqlCommandsFilename exists
 		boolean isqlCommandsFilenameExists = false;
 		if(isqlCommandsFilename != null){
-			File f = new File(isqlCommandsFilename);
-			if (f.exists())
+			final File isqlFile = new File(isqlCommandsFilename);
+			if (isqlFile.exists()){
 				isqlCommandsFilenameExists = true;
+			}
 		}
 		if (!isqlCommandsFilenameExists){
-			//If there is not a ISQL command file specifically for this job, use the default one
+			//If there is not a ISQL command file specifically for this job, 
+			//use the default one
 			isqlCommandsFilename = jobConf.getIsqlCommandsFilenameDefault();
 			//Check if default isqlCommandsFilename exists
 			isqlCommandsFilenameExists = false;
 			if(isqlCommandsFilename != null){
-				File f = new File(isqlCommandsFilename);
-				if (f.exists())
+				final File isqlFile = new File(isqlCommandsFilename);
+				if (isqlFile.exists()){
 					isqlCommandsFilenameExists = true;
+				}
 			}
 			if (!isqlCommandsFilenameExists){
-				logger.error(MessageCatalog._00031_FILE_NOT_FOUND, isqlCommandsFilename);
+				LOGGER.error(MessageCatalog._00031_FILE_NOT_FOUND, isqlCommandsFilename);
 				isqlCommandsFilename = null;
 			}
 		}
@@ -80,7 +89,7 @@ public class LinkedDataServerSetup {
 	 * @return the name of the newly created commands file.
 	 * @since 1.0
 	 */
-	public boolean encodeParams(JobConfiguration jobConf){
+	public boolean encodeParams(final JobConfiguration jobConf){
 		boolean encoded = false;
 		try{
 			datasetBaseEncoded = URLEncoder.encode(jobConf.getDatasetBase(),"UTF-8"); 
@@ -88,8 +97,8 @@ public class LinkedDataServerSetup {
 			datasetBaseEncoded = datasetBaseEncoded.replace("%", "%%");
 			graphEncoded = graphEncoded.replace("%", "%%");
 			encoded = true;
-		} catch (Exception exception){
-			logger.error(MessageCatalog._00038_ENCODING_ERROR, exception);
+		} catch (UnsupportedEncodingException exception){
+			LOGGER.error(MessageCatalog._00038_ENCODING_ERROR, exception);
 		}
 		return encoded;
 	}
@@ -103,45 +112,44 @@ public class LinkedDataServerSetup {
 	 * @return the {@link eu.aliada.linkedDataServerSetup.model.job} created.  					
 	 * @since 1.0
 	 */
-	public Job setup(JobConfiguration jobConf, DBConnectionManager db) {
-		logger.debug(MessageCatalog._00030_STARTING);
+	public Job setup(final JobConfiguration jobConf, final DBConnectionManager dbConn) {
+		LOGGER.debug(MessageCatalog._00030_STARTING);
 		//Update job start-date in DDBB
-		db.updateJobStartDate(jobConf.getId());
+		dbConn.updateJobStartDate(jobConf.getId());
 		//Get ISQL commands file for rewriting rules in Virtuoso
-		logger.debug(MessageCatalog._00036_GET_ISQL_COMMANDS_FILE);
-		String isqlCommandsFilename = getIsqlCommandsFile(jobConf);
+		LOGGER.debug(MessageCatalog._00036_GET_ISQL_COMMANDS_FILE);
+		final String isqlCommandsFilename = getIsqlCommandsFile(jobConf);
 		if (isqlCommandsFilename != null){
 			//URLEncode and prepare some command parameters for Virtuoso Rewrite Rules
-			logger.debug(MessageCatalog._00037_ENCODE_PARAMS);
-			boolean encoded = encodeParams(jobConf);
+			LOGGER.debug(MessageCatalog._00037_ENCODE_PARAMS);
+			final boolean encoded = encodeParams(jobConf);
 			if(encoded) {
 				//Compose ISQL command execution statement
-				String isqlCommandFormat = "%s %s:%d %s %s %s -i %s %s";
-				String isqlCommand = String.format(isqlCommandFormat,
+				final String isqlCommand = String.format(ISQL_COMMAND_FORMAT,
 						jobConf.getIsqlCommandPath(), jobConf.getStoreIp(),
 						jobConf.getStoreSqlPort(), jobConf.getSqlLogin(),
 						jobConf.getSqlPassword(), isqlCommandsFilename,
 						datasetBaseEncoded, graphEncoded);
 				//Execute ISQL command
 				try {
-					logger.debug(MessageCatalog._00040_EXECUTING_ISQL);
-					Process commandProcess = Runtime.getRuntime().exec(isqlCommand);
-					BufferedReader stdInput = new BufferedReader(new InputStreamReader(commandProcess.getInputStream()));
-					String s = "";
-					while ((s = stdInput.readLine()) != null) {
-						System.out.println(s);
+					LOGGER.debug(MessageCatalog._00040_EXECUTING_ISQL);
+					final Process commandProcess = Runtime.getRuntime().exec(isqlCommand);
+					final BufferedReader stdInput = new BufferedReader(new InputStreamReader(commandProcess.getInputStream()));
+					String comOutput = "";
+					while ((comOutput = stdInput.readLine()) != null) {
+						LOGGER.debug(comOutput);
 					}
 				} catch (IOException exception) {
-					logger.error(MessageCatalog._00033_EXTERNAL_PROCESS_START_FAILURE, exception, isqlCommand);
+					LOGGER.error(MessageCatalog._00033_EXTERNAL_PROCESS_START_FAILURE, exception, isqlCommand);
 				}
 			}
 		}
 		
 		//Update job end_date of DDBB
-		logger.debug(MessageCatalog._00057_UPDATING_JOB_DDBB, jobConf.getId());
-		db.updateJobEndDate(jobConf.getId());
-		Job job = db.getJob(jobConf.getId());
-		logger.debug(MessageCatalog._00041_STOPPED);
+		LOGGER.debug(MessageCatalog._00057_UPDATING_JOB_DDBB, jobConf.getId());
+		dbConn.updateJobEndDate(jobConf.getId());
+		final Job job = dbConn.getJob(jobConf.getId());
+		LOGGER.debug(MessageCatalog._00041_STOPPED);
 		return job;
 	}
 
