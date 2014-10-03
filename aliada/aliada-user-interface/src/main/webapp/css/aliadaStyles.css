@@ -334,7 +334,7 @@ text-align: right;
 	margin-top: 10px;
 }
 .centered{
-	margin-left: 300px; 
+	margin-left: 230px; 
 }
 .margin150{
 	margin-left: 150px; 
@@ -421,9 +421,14 @@ padding-left: 2px;
 #linkingNextButton{
 	margin-left: 850px;
 }
-#linkingInfoPanel, #ldsInfoPanel {
-	width: 400px;
-	height: 300px;
+#linkingInfoPanel{
+	width: 49%;
+	height: 100%;
+	border-right: 1px dotted #E5E5E5;
+}
+#ldsInfoPanel{
+	width: 50%;
+	height: 100%;
 }
 #managingPanel {
 	padding : 50px 30px 50px 30px;
@@ -439,4 +444,16 @@ padding-left: 2px;
 }
 .pad10{
 	padding:10px;
+}
+.clearfix:after {/*Helps to locate float element into a div */
+content: " ";
+display: block;
+height: 0;
+clear: both;
+}
+#linkingDividedPanel{
+	border: 1px dotted #E5E5E5;
+	width: 950px;
+	height: 350px;
+	margin-left: 55px;
 }
