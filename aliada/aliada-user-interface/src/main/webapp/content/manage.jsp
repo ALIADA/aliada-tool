@@ -22,7 +22,7 @@
 	<html:actionmessage />
 	<div id="managingButtons" class="buttons row">
 		<html:form id="managingButtonsForm">
-			<img id=loader class="displayNo leftMargin" src="images/loader.gif" alt="" />
+			<img id=loader class="displayNo leftMargin rMargin20" src="images/loader.gif" alt="" />
 			<html:submit id="importFileButton" action="importXML" cssClass="submitButton buttonGreen"
 				key="import" onClick="$('#loader').show();
 										$('#importFileButton').hide();" />
@@ -45,8 +45,7 @@
 			    	$("#importFileButton").addClass("button");
 			    	$("#errorLog").removeClass("button");
 			    	$("#errorLog").addClass("buttonGreen");
-		    		$("#errorLog").prop( "disabled", false);	
-			    	$("#errorLog").show("slow");
+		    		$("#errorLog").prop( "disabled", false);
 			    </script>
 			</html:if>
 		</html:form>

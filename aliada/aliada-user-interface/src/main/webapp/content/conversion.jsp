@@ -34,7 +34,6 @@
 				       $("#nextButton").removeClass("button");
 				       $("#nextButton").addClass("buttonGreen");
 				       $("#nextButton").prop("disabled",false);
-				       $("#nextButton").show("slow");
 				       $("#progressBar").hide();
 			   		   console.log("interval stopped");
 			   		   clearInterval(interval);
@@ -54,7 +53,7 @@
 	
 	$("#checkRDFButton").on("click",function(){
 		$("#rdfizePanel").hide();		
-		$("#checkInfo").show("slow");
+		$("#checkInfo").show("fast");
 		$('#progressBar').show();
 		$('#checkRDFButton').hide();
 		console.log("Checking");
@@ -149,7 +148,6 @@
 				    	$("#rdfizeButton").removeClass("button");
 				    	$("#rdfizeButton").addClass("buttonGreen");
 						$('#rdfizeButton').prop("disabled",false);
-				    	$("#rdfizeButton").show("slow");
 				    </script>				
 				</html:if>
 				<html:if test="showCheckButton">
@@ -157,7 +155,6 @@
 				    	$("#checkRDFButton").removeClass("button");
 				    	$("#checkRDFButton").addClass("buttonGreen");
 						$('#checkRDFButton').prop("disabled",false);
-				    	$("#checkRDFButton").show("slow");
 				    </script>				
 				</html:if>
 		</div>	

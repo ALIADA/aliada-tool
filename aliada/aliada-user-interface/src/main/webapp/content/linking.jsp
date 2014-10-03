@@ -2,7 +2,8 @@
 <%@ taglib uri="/struts-tags" prefix="html" %>
 <script>
  $(function(){
-	 var intervalLinking;
+	 var intervalLinking = 0;
+	 var intervalLDS = 0;
 	 var finished=false;
 	 var checkLinking = function(){
 			console.log("checking Linking");
@@ -78,7 +79,7 @@
 	$("#checkLinkingButton").on("click",function(){
 		console.log("Checking");
 		$("#linkingPanel").hide();		
-		$("#checkInfo").show("slow");
+		$("#checkInfo").show("fast");
 		$('#checkLinkingButton').hide();
 		$('#progressBarLinking').show();
 		intervalLinking = setInterval( checkLinking, 1000 );	
