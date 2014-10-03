@@ -96,6 +96,7 @@
 	<li><html:a action="conversion" cssClass="breadcrumb"><html:text name="conversion.title"/></html:a></li>
 	<li><html:a action="linking" cssClass="breadcrumb activeGreen"><html:text name="linking.title"/></html:a></li>
 </ul>
+<html:submit id="rdfVal" action="rdfVal" cssClass="menuButton button fright" key="rdfVal" />		
 <div id="linkingPanel" class="content centered form">	
 	<html:form>	
 	<div <html:if test="notFiles">class="displayNo"</html:if>
@@ -189,6 +190,6 @@
 </div>
 <div class="row">
 	<html:form>
-		<html:submit id="linkingNextButton" disabled="true" onClick="return false;" cssClass="submitButton button" key="next"/>
+		<html:submit id="linkingNextButton" disabled="true" action="manage" cssClass="submitButton button" key="next"/>
 	</html:form>
 </div>
