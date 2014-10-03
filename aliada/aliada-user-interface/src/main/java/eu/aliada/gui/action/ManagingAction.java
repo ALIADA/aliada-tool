@@ -62,8 +62,6 @@ public class ManagingAction extends ActionSupport {
 	private File importFile;
 	private String importFileFileName;
 	private String profilesSelect;
-	
-	private int state;
 
 	private static final String VISUALIZE_PATH = "webapps/aliada-user-interface-1.0/WEB-INF/classes/xmlVisualize/";
     private static final String VALIDATOR_PATH = "webapps/aliada-user-interface-1.0/WEB-INF/classes/xmlValidators/";
@@ -88,13 +86,11 @@ public class ManagingAction extends ActionSupport {
 			addActionError(getText("err.not.file"));
 			logger.debug(MessageCatalog._00020_MANAGE_FILE_NOT_FOUND);
 			message = ERROR;
-			session.setAttribute("state", 0);
 			showProfiles();
 		} else if (!wf.isWellFormedXML(importFile.getPath())) {
 			addActionError(getText("err.xml.wrong"));
 			logger.debug(MessageCatalog._00021_MANAGE_NOT_VALIDATED_BY_WELL_FORMED);
 			message = ERROR;
-            session.setAttribute("state", 0);
 			showProfiles();
 		} else {
 			Connection connection = null;
@@ -133,8 +129,7 @@ public class ManagingAction extends ActionSupport {
 						if (!CheckImportError.isFileCorrect()) {
 							addActionError(getText("err.not.validated"));
 							logger.debug(MessageCatalog._00022_MANAGE_NOT_VALIDATED_BY_VISUALIZE_FILE_TYPE);
-							session.setAttribute("state", 0);
-                            showProfiles();
+							showProfiles();
 							setEnableErrorLogButton(true);
 							setFileImported(false);
 						} else if (CheckImportError.getCount() == 0) {
@@ -152,14 +147,12 @@ public class ManagingAction extends ActionSupport {
 							session.setAttribute("profile", this.profilesSelect);
 							logger.debug(MessageCatalog._00026_MANAGE_VALIDATED);
 							addActionMessage(getText("correct.file"));
-                            session.setAttribute("state", 1);
 							showProfiles();
 							setEnableErrorLogButton(false);
 							setFileImported(true);
 						} else {
 							addActionError(getText("err.not.validated"));
 							logger.debug(MessageCatalog._00023_MANAGE_NOT_VALIDATED_BY_VISUALIZE_MANDATORY);
-							session.setAttribute("state", 0);
                             showProfiles();
 							setEnableErrorLogButton(true);
                             setFileImported(false);
@@ -168,14 +161,12 @@ public class ManagingAction extends ActionSupport {
 						addActionError(getText("err.not.validated"));
 						logger.debug(MessageCatalog._00024_MANAGE_NOT_VALIDATED_BY_VISUALIZE);
 						message = ERROR;
-                        session.setAttribute("state", 0);
 						showProfiles();
 					}
 				} else {
 					addActionError(getText("err.wrong.file"));
 					logger.debug(MessageCatalog._00025_MANAGE_NOT_VALIDATED_BY_VALIDATION);
 					message = ERROR;
-					session.setAttribute("state", 0);
 					showProfiles();
 				}
 				connection.close();
@@ -348,9 +339,6 @@ public class ManagingAction extends ActionSupport {
 	 */
 	public String showProfiles() {
 		Connection connection = null;
-		if(ServletActionContext.getRequest().getSession().getAttribute("state") != null){
-            setState((int) ServletActionContext.getRequest().getSession().getAttribute("state"));   
-        }
         try {
 			connection = new DBConnectionManager().getConnection();
 			Statement statement = connection.createStatement();
@@ -944,23 +932,6 @@ public class ManagingAction extends ActionSupport {
      */
     public void setFileImported(boolean fileImported) {
         this.fileImported = fileImported;
-    }
-    /**
-     * @return Returns the state.
-     * @exception
-     * @since 1.0
-     */
-    public int getState() {
-        return state;
-    }
-
-    /**
-     * @param state The state to set.
-     * @exception
-     * @since 1.0
-     */
-    public void setState(int state) {
-        this.state = state;
     }
 
 }
