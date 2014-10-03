@@ -36,6 +36,7 @@
 				       $("#nextButton").prop("disabled",false);
 				       $("#rdfVal").show("fast");
 				       $("#progressBar").hide();
+				       $("#fineImg").show();
 			   		   console.log("interval stopped");
 			   		   clearInterval(interval);
 	               }
@@ -140,6 +141,7 @@
 		</div>
 		<div id="conversionButtons" class="buttons row">
 				<img id="progressBar" class="displayNo" src="images/progressBar.gif" alt="" />
+				<img id="fineImg" class="displayNo leftMargin" src="images/fine.png"/>
 				<html:submit id="checkRDFButton" disabled="true" cssClass="submitButton button"
 					key="check" onClick="return false;"/>
 				<html:submit id="nextButton" disabled="true" action="linking" cssClass="submitButton button"

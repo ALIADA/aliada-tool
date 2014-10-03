@@ -23,6 +23,7 @@
 			   		   console.log("interval linking stopped");
 			   		   clearInterval(intervalLinking);
 				       $("#progressBarLinking").hide();
+				       $("#fineLinkingImg").show();
 				       if(finished){
 				    	   $("#linkingNextButton").removeClass("button");
 				    	   $("#linkingNextButton").addClass("buttonGreen");
@@ -33,7 +34,6 @@
 	               $("#startDate").text(sDate);
 	               $("#endDate").text(eDate);
 	               $("#numLinks").text(numLinks);
-	               $("#status").text(status);
 		      },
 		      error : function(jqXHR, status, error) {
 		      },
@@ -58,6 +58,7 @@
 			   		   console.log("interval LDS stopped");
 			   		   clearInterval(intervalLDS);
 				       $("#progressBarLDS").hide();
+				       $("#fineLDSimg").show();
 				       if(finished){
 				    	   $("#linkingNextButton").removeClass("button");
 				    	   $("#linkingNextButton").addClass("buttonGreen");
@@ -67,7 +68,6 @@
 			   	   }
 	               $("#startDateLDS").text(sDate);
 	               $("#endDateLDS").text(eDate);
-	               $("#statusLDS").text(status);
 		      },
 		      error : function(jqXHR, status, error) {
 		      },
@@ -162,10 +162,7 @@
 				<html:text name="linkingInfo.links"/>
 				<div id="numLinks" class="displayInline"></div>	
 			</div>
-			<div class="row label green">
-				<html:text name="linkingInfo.status"/>
-				<div id="status" class="displayInline"></div>	
-			</div>
+			<img id="fineLinkingImg" class="displayNo leftMargin" src="images/fine.png"/>				
 			<img id="progressBarLinking" class="displayNo label" src="images/progressBar.gif" alt="" />
 		</div>	
 		
@@ -180,11 +177,8 @@
 				<html:text name="ldsInfo.eDate"/>
 				<div id="endDateLDS" class="displayInline"></div>		
 			</div>
-			<div class="row label green">
-				<html:text name="ldsInfo.status"/>
-				<div id="statusLDS" class="displayInline"></div>
-			</div>
 			<img id="progressBarLDS" class="displayNo label" src="images/progressBar.gif" alt="" />
+			<img id="fineLDSImg" class="displayNo leftMargin" src="images/fine.png"/>
 		</div>	
 	</div>
 </div>
