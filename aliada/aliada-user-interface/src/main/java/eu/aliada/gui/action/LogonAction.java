@@ -101,6 +101,7 @@ public class LogonAction extends ActionSupport {
 				rs.close();
 				st.close();
 				conn.close();
+				ServletActionContext.getRequest().getSession().setAttribute("state",0);
 				ServletActionContext.getRequest().getSession().setAttribute("logedUser",getInputUser());
                 return SUCCESS;
 			} else {

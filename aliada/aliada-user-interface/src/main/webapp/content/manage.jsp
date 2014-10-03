@@ -30,13 +30,15 @@
 				key="errorLog" />
 			<html:submit id="nextButton" action="conversion" disabled="true" cssClass="submitButton button"
 				key="next" />
-			<html:if test="fileImported">
+			<html:if test="state>=1">
 				<script>
 			    	$("#importFileButton").removeClass("buttonGreen");
 			    	$("#importFileButton").addClass("button");
 			    	$("#nextButton").removeClass("button");
 			    	$("#nextButton").addClass("buttonGreen");
 		    		$("#nextButton").prop( "disabled", false);	
+		    		$("#rdfValMenu").prop( "disabled", false);	
+		    		$("#nextButton").show("slow");
 			    </script>
 			</html:if>
 			<html:if test="enableErrorLogButton">
