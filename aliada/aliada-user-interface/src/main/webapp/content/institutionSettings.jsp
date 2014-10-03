@@ -4,8 +4,9 @@
 <ul class="breadcrumb">
 	<li><html:a action="configure" cssClass="breadcrumb activeGreen"><html:text name="organisation.title"/></html:a></li>
 </ul>
-<html:form id="institutionConfiguration" action="/addInstitution.action"
-	enctype="multipart/form-data">
+<div id="institutionPage">
+	<html:form id="institutionConfiguration" action="/addInstitution.action"
+		enctype="multipart/form-data">
 	<div class="content form">
 		<table>
 			<tr>
@@ -39,5 +40,6 @@
 				key="next" />
 		</html:form>
 	</div>
-</html:form>
+	</html:form>
+</div>
 

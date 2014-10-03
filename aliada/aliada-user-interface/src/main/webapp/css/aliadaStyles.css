@@ -335,7 +335,7 @@ text-align: right;
 	margin-top: 10px;
 }
 .centered{
-	margin-left: 350px; 
+	margin-left: 300px; 
 }
 .margin150{
 	margin-left: 150px; 
@@ -434,4 +434,7 @@ padding-left: 2px;
 }
 .rMargin20{
 	margin-right: 20px;
+}
+#institutionPage{
+	margin-left: 250px;
 }
