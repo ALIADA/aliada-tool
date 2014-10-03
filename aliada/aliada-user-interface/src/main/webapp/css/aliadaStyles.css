@@ -422,12 +422,12 @@ padding-left: 2px;
 	margin-left: 850px;
 }
 #linkingInfoPanel{
-	width: 49%;
+	width: 50%;
 	height: 100%;
-	border-right: 1px dotted #E5E5E5;
+	border-right: 1px dotted #1BBC9B;
 }
 #ldsInfoPanel{
-	width: 50%;
+	width: 49%;
 	height: 100%;
 }
 #managingPanel {
@@ -452,7 +452,7 @@ height: 0;
 clear: both;
 }
 #linkingDividedPanel{
-	border: 1px dotted #E5E5E5;
+	border: 1px dotted #1BBC9B;
 	width: 950px;
 	height: 350px;
 	margin-left: 55px;
