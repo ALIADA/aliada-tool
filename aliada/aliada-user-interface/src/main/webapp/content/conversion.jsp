@@ -34,7 +34,7 @@
 				       $("#nextButton").removeClass("button");
 				       $("#nextButton").addClass("buttonGreen");
 				       $("#nextButton").prop("disabled",false);
-				       $("#rdfVal").prop("disabled",false);
+				       $("#rdfVal").show("fast");
 				       $("#progressBar").hide();
 			   		   console.log("interval stopped");
 			   		   clearInterval(interval);
@@ -68,7 +68,7 @@
 	<li><html:a action="manage" cssClass="breadcrumb"><html:text name="manage.title"/></html:a></li>
 	<li><html:a action="conversion" cssClass="breadcrumb activeGreen"><html:text name="conversion.title"/></html:a></li>
 </ul>
-<html:a id="rdfVal" disabled="true" action="rdfVal" cssClass="menuButton button fright" key="rdfVal" target="_blank" disabled="true"><html:text name="rdfVal"/></html:a>			
+<html:a id="rdfVal" disabled="true" action="rdfVal" cssClass="displayNo menuButton button fright" key="rdfVal" target="_blank"><html:text name="rdfVal"/></html:a>			
 <div class="form centered">
 	<html:form id="conversion">
 		<div id="rdfizePanel" class="content">
