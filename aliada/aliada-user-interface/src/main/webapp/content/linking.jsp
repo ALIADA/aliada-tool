@@ -58,7 +58,7 @@
 			   		   console.log("interval LDS stopped");
 			   		   clearInterval(intervalLDS);
 				       $("#progressBarLDS").hide();
-				       $("#fineLDSimg").show();
+				       $("#fineLDSImg").show();
 				       if(finished){
 				    	   $("#linkingNextButton").removeClass("button");
 				    	   $("#linkingNextButton").addClass("buttonGreen");
