@@ -19,7 +19,7 @@
 	    class="org.springframework.orm.jpa.JpaTransactionManager"
 	    p:entityManagerFactory-ref="entityManagerFactory"/>
 
-	<jee:jndi-lookup id="dataSource" jndi-name="java:comp/env/jdbc/aliada" expected-type="javax.sql.DataSource" />
+	<jee:jndi-lookup id="dataSource" jndi-name="jdbc/aliada" expected-type="javax.sql.DataSource" />
 		
     <bean id="entityManagerFactory" 
           class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean"
