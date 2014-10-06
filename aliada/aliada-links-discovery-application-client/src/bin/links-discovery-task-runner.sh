@@ -50,7 +50,7 @@ fi
 
 echo "$JAVA" $JAVA_OPTS \
          -classpath "$CLASSPATH" \
-         eu.aliada.linksDiscovery.impl.LinkingProcess "$@"
+         eu.aliada.linksdiscovery.impl.LinkingProcess "$@"
 "$JAVA" $JAVA_OPTS \
          -classpath "$CLASSPATH" \
-         eu.aliada.linksDiscovery.impl.LinkingProcess "$@"
+         eu.aliada.linksdiscovery.impl.LinkingProcess "$@"
