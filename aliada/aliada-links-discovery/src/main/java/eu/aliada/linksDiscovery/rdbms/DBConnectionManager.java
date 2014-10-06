@@ -31,13 +31,18 @@ import eu.aliada.shared.log.Log;
  * @since 1.0
  */
 public class DBConnectionManager {
-	private final Log logger = new Log(DBConnectionManager.class);
+	/** For logging. */
+	private static final Log LOGGER = new Log(DBConnectionManager.class);
 	/* Job and subjob possible states */
-	private final static String job_status_idle = "idle"; 
-	private final static String job_status_running = "running"; 
-	private final static String job_status_finished = "finished"; 
+	/** Subjob is idle */
+	private final static String JOB_STATUS_IDLE = "idle"; 
+	/** Subjob is running */
+	private final static String JOB_STATUS_RUNNING = "running"; 
+	/** Subjob has finished */
+	private final static String JOB_STATUS_FINISHED = "finished"; 
 
-	private Connection conn = null;
+	/** DDBB connection */
+	private Connection conn;
 	 
 	/**
 	 * Constructor. 
@@ -53,9 +58,9 @@ public class DBConnectionManager {
 			ds = (DataSource) ic.lookup("java:comp/env/jdbc/aliada");
 			conn = ds.getConnection();
 		} catch (NamingException exception) {
-			logger.error(MessageCatalog._00024_DATA_ACCESS_FAILURE, exception);
+			LOGGER.error(MessageCatalog._00024_DATA_ACCESS_FAILURE, exception);
 		} catch (SQLException exception) {
-			logger.error(MessageCatalog._00024_DATA_ACCESS_FAILURE, exception);
+			LOGGER.error(MessageCatalog._00024_DATA_ACCESS_FAILURE, exception);
 		}
 	}
 
@@ -68,7 +73,7 @@ public class DBConnectionManager {
 		try {
 			conn.close();
 		} catch (SQLException exception) {
-			logger.error(MessageCatalog._00024_DATA_ACCESS_FAILURE, exception);
+			LOGGER.error(MessageCatalog._00024_DATA_ACCESS_FAILURE, exception);
 		}
 	}
 	
@@ -90,12 +95,12 @@ public class DBConnectionManager {
 	 * 			which contains the configuration of the job.
 	 * @since 1.0
 	 */
-	public JobConfiguration getJobConfiguration(Integer jobId) {
+	public JobConfiguration getJobConfiguration(final Integer jobId) {
 		JobConfiguration job = null;
 		try {
-			Statement sta = conn.createStatement();
-			String sql = "SELECT * FROM linksdiscovery_job_instances WHERE job_id=" + jobId;
-			ResultSet resultSet = sta.executeQuery(sql);
+			final Statement sta = conn.createStatement();
+			final String sql = "SELECT * FROM linksdiscovery_job_instances WHERE job_id=" + jobId;
+			final ResultSet resultSet = sta.executeQuery(sql);
 			while (resultSet.next()) {
 				job = new JobConfiguration();
 				job.setId(jobId);
@@ -114,8 +119,10 @@ public class DBConnectionManager {
 				job.setTmpDir(resultSet.getString("tmp_dir"));
 				job.setClientAppBinDir(resultSet.getString("client_app_bin_dir"));
 		    }
+			resultSet.close();
+			sta.close();
 		} catch (SQLException exception) {
-			logger.error(MessageCatalog._00024_DATA_ACCESS_FAILURE, exception);
+			LOGGER.error(MessageCatalog._00024_DATA_ACCESS_FAILURE, exception);
 			return null;
 		}
 		return job;
@@ -128,20 +135,20 @@ public class DBConnectionManager {
 	 * @return true if the date has been updated correctly in the DDBB. False otherwise.
 	 * @since 1.0
 	 */
-	public boolean updateJobStartDate(int jobId){
+	public boolean updateJobStartDate(final int jobId){
 		//Update start_date of job
     	try {
     		PreparedStatement preparedStatement = null;		
     		preparedStatement = conn.prepareStatement("UPDATE linksdiscovery_job_instances SET start_date = ? WHERE job_id = ?");
     		// (job_id, start_date)
     		// parameters start with 1
-    		java.util.Date today = new java.util.Date();
-    		java.sql.Timestamp todaySQL = new java.sql.Timestamp(today.getTime());
+    		final java.util.Date today = new java.util.Date();
+    		final java.sql.Timestamp todaySQL = new java.sql.Timestamp(today.getTime());
     		preparedStatement.setTimestamp(1, todaySQL);
     		preparedStatement.setInt(2, jobId);
     		preparedStatement.executeUpdate();
 		} catch (SQLException exception) {
-			logger.error(MessageCatalog._00024_DATA_ACCESS_FAILURE, exception);
+			LOGGER.error(MessageCatalog._00024_DATA_ACCESS_FAILURE, exception);
 			return false;
 		}
   		return true;
@@ -154,20 +161,20 @@ public class DBConnectionManager {
 	 * @return true if the date has been updated correctly in the DDBB. False otherwise.
 	 * @since 1.0
 	 */
-	public boolean updateJobEndDate(int jobId){
+	public boolean updateJobEndDate(final int jobId){
 		//Update end_date of job
     	try {
     		PreparedStatement preparedStatement = null;		
     		preparedStatement = conn.prepareStatement("UPDATE linksdiscovery_job_instances SET end_date = ? WHERE job_id = ?");
     		// (job_id, end_date)
     		// parameters start with 1
-    		java.util.Date today = new java.util.Date();
-    		java.sql.Timestamp todaySQL = new java.sql.Timestamp(today.getTime());
+    		final java.util.Date today = new java.util.Date();
+    		final java.sql.Timestamp todaySQL = new java.sql.Timestamp(today.getTime());
     		preparedStatement.setTimestamp(1, todaySQL);
     		preparedStatement.setInt(2, jobId);
     		preparedStatement.executeUpdate();
 		} catch (SQLException exception) {
-			logger.error(MessageCatalog._00024_DATA_ACCESS_FAILURE, exception);
+			LOGGER.error(MessageCatalog._00024_DATA_ACCESS_FAILURE, exception);
 			return false;
 		}
     	return true;
@@ -187,7 +194,7 @@ public class DBConnectionManager {
 	 * @return true if the subjob has been inserted correctly in the DDBB. False otherwise.
 	 * @since 1.0
 	 */
-	public boolean insertSubjobToDDBB(int jobId, int subjobId, SubjobConfiguration subjobConf, String linkingXMLConfigFilename, JobConfiguration jobConf){
+	public boolean insertSubjobToDDBB(final int jobId, final int subjobId, final SubjobConfiguration subjobConf, final String linkingXMLConfigFilename, final JobConfiguration jobConf){
     	try {
     		PreparedStatement preparedStatement = null;		
     		preparedStatement = conn.prepareStatement("INSERT INTO  linksdiscovery_subjob_instances VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, default, default, default)");
@@ -197,15 +204,15 @@ public class DBConnectionManager {
     		preparedStatement.setInt(2, subjobId);
     		preparedStatement.setString(3, subjobConf.getName());
     		preparedStatement.setString(4, linkingXMLConfigFilename);
-    		preparedStatement.setInt(5, subjobConf.geLinkingNumThreads());
-    		preparedStatement.setBoolean(6, subjobConf.getLinkingReload());
+    		preparedStatement.setInt(5, subjobConf.getLinkingNumThreads());
+    		preparedStatement.setBoolean(6, subjobConf.isLinkingReload());
     		preparedStatement.setString(7, jobConf.getRdfSinkFolder());
     		preparedStatement.setString(8, jobConf.getRdfSinkLogin());
     		preparedStatement.setString(9, jobConf.getRdfSinkPassword());
     		preparedStatement.setString(10, jobConf.getTmpDir());
     		preparedStatement.executeUpdate();
 		} catch (SQLException exception) {
-			logger.error(MessageCatalog._00024_DATA_ACCESS_FAILURE, exception);
+			LOGGER.error(MessageCatalog._00024_DATA_ACCESS_FAILURE, exception);
 			return false;
 		}
     	return true;
@@ -219,23 +226,23 @@ public class DBConnectionManager {
 	 * 			which contains the job information.
 	 * @since 1.0
 	 */
-	public Job getJob(int jobId) {
+	public Job getJob(final int jobId) {
 		//Get the job information from the DDBB
-		Job job = new Job();
+		final Job job = new Job();
 		job.setId(jobId);
 		try {
-			Statement sta = conn.createStatement();
+			final Statement sta = conn.createStatement();
 			String sql = "SELECT * FROM linksdiscovery_job_instances WHERE job_id=" + jobId;
 			ResultSet resultSet = sta.executeQuery(sql);
 			while (resultSet.next()) {
 				job.setStartDate(resultSet.getTimestamp("start_date"));
 				job.setEndDate(resultSet.getTimestamp("end_date"));
 				//Determine job status
-				String status = job_status_idle;
+				String status = JOB_STATUS_IDLE;
 				if(job.getStartDate() != null){
-					status = job_status_running;
+					status = JOB_STATUS_RUNNING;
 					if(job.getEndDate() != null){
-						status = job_status_finished;
+						status = JOB_STATUS_FINISHED;
 					}
 				}
 				job.setStatus(status);
@@ -245,17 +252,17 @@ public class DBConnectionManager {
 			sql = "SELECT * FROM linksdiscovery_subjob_instances WHERE job_id=" + jobId;
 			resultSet = sta.executeQuery(sql);
 			while (resultSet.next()) {
-				Subjob subjob = new Subjob();
+				final Subjob subjob = new Subjob();
 				subjob.setId(resultSet.getInt("subjob_id"));
 				subjob.setName(resultSet.getString("name"));
 				subjob.setStartDate(resultSet.getTimestamp("start_date"));
 				subjob.setEndDate(resultSet.getTimestamp("end_date"));
 				//Determine subjob status
-				String status = job_status_idle;
+				String status = JOB_STATUS_IDLE;
 				if(subjob.getStartDate() != null){
-					status = job_status_running;
+					status = JOB_STATUS_RUNNING;
 					if(subjob.getEndDate() != null){
-						status = job_status_finished;
+						status = JOB_STATUS_FINISHED;
 					}
 				}
 				subjob.setStatus(status);
@@ -267,8 +274,10 @@ public class DBConnectionManager {
 			}
 			//Set total number of links generated
 			job.setNumLinks(totalNumLinks);
+			resultSet.close();
+			sta.close();
 		} catch (SQLException exception) {
-			logger.error(MessageCatalog._00024_DATA_ACCESS_FAILURE, exception);
+			LOGGER.error(MessageCatalog._00024_DATA_ACCESS_FAILURE, exception);
 			return null;
 		}
 		return job;

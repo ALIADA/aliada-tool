@@ -16,21 +16,22 @@ import org.junit.Test;
  * @since 1.0
  */
 public class CreateCronTabFileTest {
-    private final Log log = new Log(CreateCronTabFileTest.class);
-
+	/** For logging. */
+	private static final Log LOGGER = new Log(CreateCronTabFileTest.class);
+	/** Temporary folder path. */
+	private static final String TMP_DIR = "src/test/resources/";
     /**
      * @see
      * @since 1.0
      */
     @Test
     public void testCreateCrontabFile() {
-		LinksDiscovery linksDisc = new LinksDiscovery();
-		String tmpDir = "src/test/resources/";
-		String result = linksDisc.createCrontabFile(tmpDir);
+		final LinksDiscovery linksDisc = new LinksDiscovery();
+		final String result = linksDisc.createCrontabFile(TMP_DIR);
         if (result != null) {
-            log.info("OK");
+        	LOGGER.info("OK");
         } else {
-            log.info("NOK");
+        	LOGGER.info("NOK");
         }
     }
 }

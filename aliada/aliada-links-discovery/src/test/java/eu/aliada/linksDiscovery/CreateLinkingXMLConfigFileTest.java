@@ -18,8 +18,16 @@ import org.junit.Test;
  * @since 1.0
  */
 public class CreateLinkingXMLConfigFileTest {
+	/** For creating random variable values. */
 	static final Random RANDOMIZER = new Random();
-    private final Log log = new Log(CreateLinkingXMLConfigFileTest.class);
+	/** For logging. */
+	private static final Log LOGGER = new Log(CreateLinkingXMLConfigFileTest.class);
+	/** Linking XML file path. */
+	private static final String LINKING_FILE = "src/test/resources/aliada_dbpedia_config.xml";
+	/** Data source name. */
+	private static final String DATA_SOURCE = "ALIADA_ds";
+	/** Subjob name. */
+	private static final String SUBJOB_NAME = "ALIADA_DBpedia";
 
     /**
      * @see
@@ -27,16 +35,13 @@ public class CreateLinkingXMLConfigFileTest {
      */
     @Test
     public void testCreateLinkingXMLConfigFile() {
-		LinksDiscovery linksDisc = new LinksDiscovery();
-		String linkingFile = "src/test/resources/aliada_dbpedia_config.xml";
-		String ds = "ALIADA_ds";
-		String subjobName = "ALIADA_DBpedia";
-		JobConfiguration jobConf = newJobConfiguration();
-		String result = linksDisc.createLinkingXMLConfigFile(linkingFile, ds, subjobName, jobConf);
+		final LinksDiscovery linksDisc = new LinksDiscovery();
+		final JobConfiguration jobConf = newJobConfiguration();
+		final String result = linksDisc.createLinkingXMLConfigFile(LINKING_FILE, DATA_SOURCE, SUBJOB_NAME, jobConf);
         if (result != null) {
-            log.info("OK");
+        	LOGGER.info("OK");
         } else {
-            log.info("NOK");
+        	LOGGER.info("NOK");
         }
     }
     
@@ -55,7 +60,7 @@ public class CreateLinkingXMLConfigFileTest {
 	 * @return a dummy job configuration.
 	 */
 	public static JobConfiguration newJobConfiguration() {
-		JobConfiguration job = new JobConfiguration();
+		final JobConfiguration job = new JobConfiguration();
 		job.setId(randomIdentifier());
 		job.setInputURI("http://aliada.scanbit.net:8890/sparql-auth");
 		job.setInputLogin("login");

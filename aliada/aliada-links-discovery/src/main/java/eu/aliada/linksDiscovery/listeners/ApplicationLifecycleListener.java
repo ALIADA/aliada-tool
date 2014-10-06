@@ -21,23 +21,43 @@ import javax.servlet.ServletContext;
  * @since 1.0
  */
 public class ApplicationLifecycleListener implements ServletContextListener {
-	private Log logger = new Log(ApplicationLifecycleListener.class);
+	/** For logging. */
+	private static final Log LOGGER = new Log(ApplicationLifecycleListener.class);
 	
+	/**
+	 * Override the ServletContextListener.contextInitializedReceives method.
+	 * It is called when the web application initialization process is starting.
+	 * This function gets the DDBB connection and saves it in a 
+	 * Servlet context attribute.
+	 *
+	 * @param the ServletContextEvent containing the ServletContext  
+	 *                  that is being initialized.
+	 * @since 1.0
+	 */
 	@Override
 	public void contextInitialized(final ServletContextEvent event) {
-		logger.info(MessageCatalog._00001_STARTING);
-		ServletContext sc = event.getServletContext();
+		LOGGER.info(MessageCatalog._00001_STARTING);
+		final ServletContext servletC = event.getServletContext();
 		//Get DDBB connection
-		DBConnectionManager db = new DBConnectionManager();
+		final DBConnectionManager dbConn = new DBConnectionManager();
 		//Save DDBB connection in Servlet Context attribute
-		sc.setAttribute("db", db);
+		servletC.setAttribute("db", dbConn);
 	}
 
+	/**
+	 * Override the ServletContextListener.contextDestroyed method.
+	 * It is called when the ServletContext is about to be shut down.
+	 * This function closes the DDBB connection.
+	 *
+	 * @param the ServletContextEvent containing the ServletContext  
+	 *                  that is being destroyed.
+	 * @since 1.0
+	 */
 	@Override
 	public void contextDestroyed(final ServletContextEvent event) {
 		//Close DDBB connection
-		DBConnectionManager db = (DBConnectionManager) event.getServletContext().getAttribute("db");
-		db.closeConnection();
-		logger.info(MessageCatalog._00012_STOPPED);	
+		final DBConnectionManager dbConn = (DBConnectionManager) event.getServletContext().getAttribute("db");
+		dbConn.closeConnection();
+		LOGGER.info(MessageCatalog._00012_STOPPED);	
 	}
 }

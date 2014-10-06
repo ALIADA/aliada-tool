@@ -39,7 +39,7 @@ public class LinkedDataServerResource {
 	/** For logging. */
 	private static final Log LOGGER = new Log(LinkedDataServerResource.class);
 
-	/** Request URI information, */
+	/** Request URI information. */
 	@Context
 	private UriInfo uriInfo;
 

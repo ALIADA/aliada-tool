@@ -12,16 +12,22 @@ package eu.aliada.linksDiscovery.model;
  * @since 1.0
  */
 public class SubjobConfiguration {
+	/** Subjob name. */
 	private String name;
+	/** Name of linking XML configuration file for the SILK process. */
 	private String linkingXMLConfigFilename;
-	private String ds;
+	/** Name of ALIADA datasource in the linking XML configuration file. */
+	private String dataSource;
+	/** Number of threads for the SILK process. */
 	private int linkingNumThreads;
+	/** Reload parameter for SILK. */
 	private boolean linkingReload;
    
 	/**
 	 * Returns the name of the subjob.
 	 * 
 	 * @return The name of the subjob.
+	 * @since 1.0
 	 */
 	public String getName() {
 		return name;
@@ -30,8 +36,9 @@ public class SubjobConfiguration {
 	 * Sets the name of the subjob.
 	 * 
 	 * @param name The name of the subjob.
+	 * @since 1.0
 	 */
-	public void setName(String name) {
+	public void setName(final String name) {
 		this.name = name;
 	}
 
@@ -39,6 +46,7 @@ public class SubjobConfiguration {
 	 * Returns the name of the linking XML configuration file.
 	 * 
 	 * @return The name of the linking XML configuration file.
+	 * @since 1.0
 	 */
 	public String getLinkingXMLConfigFilename() {
 		return linkingXMLConfigFilename;
@@ -47,8 +55,9 @@ public class SubjobConfiguration {
 	 * Sets the name of the linking XML configuration file.
 	 * 
 	 * @param linkingXMLConfigFilename The name of the linking XML configuration file.
+	 * @since 1.0
 	 */
-	public void setLinkingXMLConfigFilename(String linkingXMLConfigFilename) {
+	public void setLinkingXMLConfigFilename(final String linkingXMLConfigFilename) {
 		this.linkingXMLConfigFilename = linkingXMLConfigFilename;
 	}
 
@@ -56,52 +65,60 @@ public class SubjobConfiguration {
 	 * Returns the name of ALIADA datasource in the linking XML configuration file.
 	 * 
 	 * @return The name of ALIADA datasource in the linking XML configuration file.
+	 * @since 1.0
 	 */
 	public String getDs() {
-		return ds;
+		return dataSource;
 	}
 	/**
 	 * Sets the name of ALIADA datasource in the linking XML configuration file.
 	 * 
 	 * @param ds The name of ALIADA datasource in the linking XML configuration file.
+	 * @since 1.0
 	 */
-	public void setDs(String ds) {
-		this.ds = ds;
+	public void setDs(final String dataSource) {
+		this.dataSource = dataSource;
 	}
 
 	/**
 	 * Returns the number of threads for the SILK process.
 	 * 
 	 * @return The number of threads for the SILK process.
+	 * @since 1.0
 	 */
-	public int geLinkingNumThreads() {
+	public int getLinkingNumThreads() {
 		return linkingNumThreads;
 	}
 	/**
 	 * Sets the number of threads for the SILK process.
 	 * 
 	 * @param linkingNumThreads The number of threads for the SILK process.
+	 * @since 1.0
 	 */
-	public void setLinkingNumThreads(int linkingNumThreads) {
+	public void setLinkingNumThreads(final int linkingNumThreads) {
 		this.linkingNumThreads = linkingNumThreads;
 	}
 
 	/**
 	 * Returns the reload parameter for SILK.
-	 * Specifies if the entity cache is to be reloaded before executing the matching. Default: true. 
+	 * Specifies if the entity cache is to be reloaded before 
+	 * executing the matching. Default: true. 
 	 * 
 	 * @return The reload parameter for SILK.
+	 * @since 1.0
 	 */
-	public boolean getLinkingReload() {
+	public boolean isLinkingReload() {
 		return linkingReload;
 	}
 	/**
 	 * Sets the reload parameter for SILK.
-	 * Specifies if the entity cache is to be reloaded before executing the matching. Default: true. 
+	 * Specifies if the entity cache is to be reloaded before executing 
+	 * the matching. Default: true. 
 	 * 
 	 * @param linkingReload The reload parameter for SILK.
+	 * @since 1.0
 	 */
-	public void setLinkingReload(boolean linkingReload) {
+	public void setLinkingReload(final boolean linkingReload) {
 		this.linkingReload = linkingReload;
 	}
 }

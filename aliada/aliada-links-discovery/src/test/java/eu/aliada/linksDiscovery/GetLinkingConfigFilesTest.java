@@ -17,7 +17,10 @@ import org.junit.Test;
  * @since 1.0
  */
 public class GetLinkingConfigFilesTest {
-    private final Log log = new Log(GetLinkingConfigFilesTest.class);
+	/** For logging. */
+	private static final Log LOGGER = new Log(GetLinkingConfigFilesTest.class);
+	/** Properties file path. */
+	private static final String PROPS_FILE_NAME = "src/test/resources/linksdiscovery.properties";
 
     /**
      * @see
@@ -25,13 +28,12 @@ public class GetLinkingConfigFilesTest {
      */
     @Test
     public void testGetLinkingConfigFiles() {
-		LinksDiscovery linksDisc = new LinksDiscovery();
-		String propertiesFileName = "src/test/resources/linksdiscovery.properties";
-		SubjobConfiguration[] result = linksDisc.getLinkingConfigFiles(propertiesFileName);
+		final LinksDiscovery linksDisc = new LinksDiscovery();
+		final SubjobConfiguration[] result = linksDisc.getLinkingConfigFiles(PROPS_FILE_NAME);
         if (result.length > 0) {
-            log.info("OK");
+        	LOGGER.info("OK");
         } else {
-            log.info("NOK");
+        	LOGGER.info("NOK");
         }
     }
 }

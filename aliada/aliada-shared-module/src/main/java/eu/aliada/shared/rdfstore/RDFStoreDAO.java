@@ -19,9 +19,6 @@ import java.util.Map;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.jena.atlas.web.auth.HttpAuthenticator;
 import org.apache.jena.atlas.web.auth.SimpleAuthenticator;
-import com.hp.hpl.jena.sparql.modify.UpdateProcessRemoteForm;
-import com.hp.hpl.jena.update.UpdateProcessor;
-import com.hp.hpl.jena.update.UpdateRequest;
 
 import com.hp.hpl.jena.update.UpdateExecutionFactory;
 import com.hp.hpl.jena.update.UpdateFactory;
@@ -36,8 +33,9 @@ import eu.aliada.shared.log.MessageCatalog;
  * @since 1.0
  */
 public class RDFStoreDAO {
-	private final Log logger = new Log(RDFStoreDAO.class);
-	
+	/** For logging. */
+	private static final Log LOGGER = new Log(RDFStoreDAO.class);
+	/** HTTP authentication cache. */
 	private final Map<String, HttpAuthenticator> authCache = new HashMap<String, HttpAuthenticator>();
 	
 	/**
@@ -52,12 +50,12 @@ public class RDFStoreDAO {
 	 * @return true if the graph has been cleared. False otherwise.
 	 * @since 1.0
 	 */
-	public boolean clearGraphByIsql(String isqlCommandPath, String storeIp, int storeSqlPort, String user, String password, String graphUri) {
-		boolean done = false;
-		String clearGraphSPARQL = "EXEC=SPARQL CLEAR GRAPH <" + graphUri + ">;";
+	public boolean clearGraphByIsql(final String isqlCommandPath, final String storeIp, final int storeSqlPort, final String user, final String password, final String graphUri) {
+		final boolean done = false;
+		final String clearGraphSPARQL = "EXEC=SPARQL CLEAR GRAPH <" + graphUri + ">;";
 		//Compose ISQL command calling statement
-		String isqlCommandFormat = "%s %s:%d %s %s \"%s\"";
-		String isqlCommand = String.format(isqlCommandFormat,
+		final String isqlCommandFormat = "%s %s:%d %s %s \"%s\"";
+		final String isqlCommand = String.format(isqlCommandFormat,
 				isqlCommandPath, storeIp,
 				storeSqlPort, user,
 				password, clearGraphSPARQL);
@@ -65,7 +63,7 @@ public class RDFStoreDAO {
 		try {
 			Runtime.getRuntime().exec(isqlCommand);
 		} catch (Exception exception) {
-			logger.error(MessageCatalog._00033_EXTERNAL_PROCESS_START_FAILURE, exception, isqlCommand);
+			LOGGER.error(MessageCatalog._00033_EXTERNAL_PROCESS_START_FAILURE, exception, isqlCommand);
 		}
 		return done;
 	}
@@ -80,23 +78,24 @@ public class RDFStoreDAO {
 	 * @return true if the triples have been loaded. False otherwise.
 	 * @since 1.0
 	 */
-	public boolean loadDataIntoGraph(String triplesFilename, String rdfSinkFolder, String user, String password) {
+	public boolean loadDataIntoGraph(final String triplesFilename, String rdfSinkFolder, final String user, final String password) {
 		boolean done = false;
 		//Get the triples file name
-		File triplesFile = new File(triplesFilename);
-		String triplesFilenameNoPath = triplesFile.getName();
+		final File triplesFile = new File(triplesFilename);
+		final String triplesFilenameNoPath = triplesFile.getName();
 		//Append the file name to the rdfSinkFolder 
-		if ((rdfSinkFolder != null) && (!rdfSinkFolder.endsWith("/")))
+		if (rdfSinkFolder != null && !rdfSinkFolder.endsWith("/")) {
 			rdfSinkFolder = rdfSinkFolder + "/";
+		}
 		rdfSinkFolder = rdfSinkFolder + triplesFilenameNoPath;
 		//HTTP Authentication
-		Base64 b = new Base64();
-		byte[] authenticationArray = new String(user + ":" + password).getBytes();
-		String encoding = b.encodeAsString(authenticationArray);
+		final Base64 base64 = new Base64();
+		final byte[] authenticationArray = new String(user + ":" + password).getBytes();
+		final String encoding = base64.encodeAsString(authenticationArray);
 		
 		try {
-			URL putUrl = new URL(rdfSinkFolder);
-			HttpURLConnection connection = (HttpURLConnection) putUrl.openConnection();
+			final URL putUrl = new URL(rdfSinkFolder);
+			final HttpURLConnection connection = (HttpURLConnection) putUrl.openConnection();
 	
 			connection.setDoOutput(true);
 			connection.setInstanceFollowRedirects(false);
@@ -104,16 +103,16 @@ public class RDFStoreDAO {
 			//Write Authentication
 			connection.setRequestProperty  ("Authorization", "Basic " + encoding);			
 			//Write File Data
-			OutputStream os = connection.getOutputStream();		
-			InputStream is = new FileInputStream(triplesFilename);
-			byte buf[] = new byte[1024];
+			final OutputStream outStream = connection.getOutputStream();		
+			final InputStream inStream = new FileInputStream(triplesFilename);
+			final byte buf[] = new byte[1024];
 			int len;
-			while ((len = is.read(buf)) > 0) {
-				os.write(buf, 0, len);
+			while ((len = inStream.read(buf)) > 0) {
+				outStream.write(buf, 0, len);
 			}
-			is.close();
-			int responseCode=((HttpURLConnection)connection).getResponseCode();
-			if ((responseCode>= 200) &&(responseCode<=202) ) {
+			inStream.close();
+			final int responseCode=((HttpURLConnection)connection).getResponseCode();
+			if (responseCode>= 200 && responseCode<=202) {
 				done = true;
 			} else {
 				done = false;
@@ -121,7 +120,7 @@ public class RDFStoreDAO {
 			((HttpURLConnection)connection).disconnect();
 		} catch (Exception exception) {
 			done = false;
-			logger.error(MessageCatalog._00034_HTTP_PUT_FAILED, exception, rdfSinkFolder);
+			LOGGER.error(MessageCatalog._00034_HTTP_PUT_FAILED, exception, rdfSinkFolder);
 	    }
 		return done;
 	}
@@ -136,7 +135,7 @@ public class RDFStoreDAO {
 	 * @return true if the SPARQL has been executed. False otherwise.
 	 * @since 1.0
 	 */
-	public boolean executeUpdateQuerySparqlEndpoint(String sparqlEndpointURI, String user, String password, String query) {
+	public boolean executeUpdateQuerySparqlEndpoint(final String sparqlEndpointURI, final String user, final String password, final String query) {
 		boolean done = false;
 		try {
 			UpdateExecutionFactory.createRemoteForm(
@@ -146,7 +145,7 @@ public class RDFStoreDAO {
 				.execute();
 			done = true;
 		} catch (Exception exception) {
-			logger.error(MessageCatalog._00035_SPARQL_FAILED, exception, query);
+			LOGGER.error(MessageCatalog._00035_SPARQL_FAILED, exception, query);
 		}
 		return done;
 	}
@@ -183,9 +182,9 @@ public class RDFStoreDAO {
 	 * @return true if the graph has been cleared. False otherwise.
 	 * @since 1.0
 	 */
-	public boolean clearGraphBySparql(String sparqlEndpointURI, String user, String password, String graphUri) {
+	public boolean clearGraphBySparql(final String sparqlEndpointURI, final String user, final String password, final String graphUri) {
 		boolean done = false;
-		String clearGraphSPARQL = "CLEAR GRAPH <" + graphUri + ">;";
+		final String clearGraphSPARQL = "CLEAR GRAPH <" + graphUri + ">;";
 		//Execute SPARQL
 		done = executeUpdateQuerySparqlEndpoint(sparqlEndpointURI, user, password, clearGraphSPARQL);
 		return done;
@@ -220,7 +219,8 @@ public class RDFStoreDAO {
 	
 	/**
 	 * Returns the authenticator associated with a given endpoint.
-	 * If no authentication can be found, then a new one is created and cached for further reuse.
+	 * If no authentication can be found, then a new one is created 
+	 * and cached for further reuse.
 	 * 
 	 * @param endpointAddress the endpoint address.
 	 * @param username the username.

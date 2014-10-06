@@ -17,7 +17,8 @@ import org.junit.Test;
  * @since 1.0
  */
 public class CreateLinkingPropConfigFileTest {
-    private final Log log = new Log(CreateLinkingPropConfigFileTest.class);
+	/** For Logging. */
+	private static final Log LOGGER = new Log(CreateLinkingPropConfigFileTest.class);
 
     /**
      * @see
@@ -30,9 +31,9 @@ public class CreateLinkingPropConfigFileTest {
 		DDBBParams ddbbParams = newDDBBParams();
 		String result = linksDisc.createLinkingPropConfigFile(tmpDir, ddbbParams);
         if (result != null) {
-            log.info("OK");
+            LOGGER.info("OK");
         } else {
-            log.info("NOK");
+            LOGGER.info("NOK");
         }
     }
 

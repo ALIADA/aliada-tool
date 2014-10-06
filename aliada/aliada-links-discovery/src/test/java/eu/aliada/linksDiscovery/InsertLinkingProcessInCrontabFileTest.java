@@ -18,8 +18,12 @@ import org.junit.Test;
  * @since 1.0
  */
 public class InsertLinkingProcessInCrontabFileTest {
+	/** For creating random variable values. */
 	static final Random RANDOMIZER = new Random();
-    private final Log log = new Log(InsertLinkingProcessInCrontabFileTest.class);
+	/** For logging. */
+	private static final Log LOGGER = new Log(InsertLinkingProcessInCrontabFileTest.class);
+	/** Crontab file path.*/
+	private static final String CRONTAB_FILE_NAME = "src/test/resources/aliada_links_discovery.cron";
 
     /**
      * @see
@@ -27,17 +31,16 @@ public class InsertLinkingProcessInCrontabFileTest {
      */
     @Test
     public void testInsertLinkingProcessInCrontabFile() {
-		LinksDiscovery linksDisc = new LinksDiscovery();
-		String crontabFilename = "src/test/resources/aliada_links_discovery.cron";
-		String clientAppBinDir = randomString();
-		int jobId = randomIdentifier();
-		int subjobId = randomIdentifier();
-		String linkingPropConfigFilename = randomString();
-		boolean result = linksDisc.insertLinkingProcessInCrontabFile(crontabFilename, clientAppBinDir, jobId, subjobId, linkingPropConfigFilename);
+		final LinksDiscovery linksDisc = new LinksDiscovery();
+		final String clientAppBinDir = randomString();
+		final int jobId = randomIdentifier();
+		final int subjobId = randomIdentifier();
+		final String linkingPropConfigFilename = randomString();
+		final boolean result = linksDisc.insertLinkingProcessInCrontabFile(CRONTAB_FILE_NAME, clientAppBinDir, jobId, subjobId, linkingPropConfigFilename);
         if (result) {
-            log.info("OK");
+        	LOGGER.info("OK");
         } else {
-            log.info("NOK");
+        	LOGGER.info("NOK");
         }
     }
 

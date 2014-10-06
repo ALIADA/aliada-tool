@@ -37,13 +37,16 @@ import eu.aliada.shared.log.Log;
  */
 @Path("/")
 public class LinksDiscoveryResource {
-	private final Log logger = new Log(LinksDiscoveryResource.class);
+	/** For logging. */
+	private static final Log LOGGER = new Log(LinksDiscoveryResource.class);
 
+	/** Request URI information. */
 	@Context
 	private UriInfo uriInfo;
 
+	/** Web application context. */
 	@Context 
-	ServletContext context;
+	private ServletContext context;
 	
 	/**
 	 * Creates a new job on the Links Discovery Component.
@@ -57,31 +60,31 @@ public class LinksDiscoveryResource {
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	@Produces({MediaType.TEXT_XML, MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
 	public Response newJob(
-		@Context HttpServletRequest request,
-		@FormParam("jobid") Integer id) {
+		@Context final HttpServletRequest request,
+		@FormParam("jobid")final  Integer jobid) {
 
-		logger.debug(MessageCatalog._00021_NEW_JOB_REQUEST);
+		LOGGER.debug(MessageCatalog._00021_NEW_JOB_REQUEST);
 		
-		if (id == null) {
-			logger.error(MessageCatalog._00022_MISSING_INPUT_PARAM, "jobid");
+		if (jobid == null) {
+			LOGGER.error(MessageCatalog._00022_MISSING_INPUT_PARAM, "jobid");
 			return Response.status(Status.BAD_REQUEST).build();			
 		}
 		
 		//Get configuration parameters
-		DBConnectionManager db = (DBConnectionManager) context.getAttribute("db");
-		JobConfiguration jobConf = db.getJobConfiguration(id);
+		final DBConnectionManager dbConn = (DBConnectionManager) context.getAttribute("db");
+		final JobConfiguration jobConf = dbConn.getJobConfiguration(jobid);
 		if (jobConf == null) {
-			logger.error(MessageCatalog._00023_JOB_CONFIGURATION_NOT_FOUND, id);
+			LOGGER.error(MessageCatalog._00023_JOB_CONFIGURATION_NOT_FOUND, jobid);
 			return Response.status(Status.BAD_REQUEST).build();								
 		}
-		DDBBParams ddbbParams = new DDBBParams();
+		final DDBBParams ddbbParams = new DDBBParams();
 		ddbbParams.setUsername(context.getInitParameter("ddbb.username"));
 		ddbbParams.setPassword(context.getInitParameter("ddbb.password"));
 		ddbbParams.setDriverClassName(context.getInitParameter("ddbb.driverClassName"));
 		ddbbParams.setUrl(context.getInitParameter("ddbb.url"));
 		//Program linking processes
-		LinksDiscovery linksDisc = new LinksDiscovery();
-		Job job = linksDisc.programLinkingProcesses(jobConf, db, ddbbParams);
+		final LinksDiscovery linksDisc = new LinksDiscovery();
+		final Job job = linksDisc.programLinkingProcesses(jobConf, dbConn, ddbbParams);
 		
 		return Response.created(uriInfo.getAbsolutePathBuilder().build()).entity(job).build();
 	}
@@ -97,17 +100,17 @@ public class LinksDiscoveryResource {
 	@Path("/jobs/{jobid}")
 	@Produces({MediaType.TEXT_XML, MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
 	public Response getJob(
-		@Context HttpServletRequest request,
-		@PathParam("jobid") Integer id) {
-		logger.debug(MessageCatalog._00025_GET_JOB_REQUEST);
+		@Context final HttpServletRequest request,
+		@PathParam("jobid") final Integer jobid) {
+		LOGGER.debug(MessageCatalog._00025_GET_JOB_REQUEST);
 		
-		if (id == null) {
-			logger.error(MessageCatalog._00022_MISSING_INPUT_PARAM, "jobid");
+		if (jobid == null) {
+			LOGGER.error(MessageCatalog._00022_MISSING_INPUT_PARAM, "jobid");
 			return Response.status(Status.BAD_REQUEST).build();
 		}
 
-		DBConnectionManager db = (DBConnectionManager) context.getAttribute("db");
-		Job job = db.getJob(id);
+		final DBConnectionManager dbConn = (DBConnectionManager) context.getAttribute("db");
+		final Job job = dbConn.getJob(jobid);
 		return Response.status(Response.Status.ACCEPTED).entity(job).build();
 	}
 }

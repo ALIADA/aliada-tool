@@ -19,15 +19,26 @@ import javax.xml.bind.annotation.XmlElement;
  */
 @XmlRootElement
 public class Job {
+	/** Job identification number. */
 	private int id;
+	/** Job starting date. */
 	private Date startDate;
+	/** Job end date. */
 	private Date endDate;
+	/** Job status. Possible values: idle, running, finished. */
+	private String status;
+	/** Number of links generated. */
 	private int numLinks;
-	private String status; /* Possible values: idle, running, finished. */
 
+	/** Subjobs associated. */
 	@XmlElement
 	private ArrayList<Subjob> subjobs = new ArrayList<Subjob>();
     
+	/**
+	 * Default constructor.
+
+	 * @since 1.0
+	 */
 	public Job() {// JAXB needs this
 		this.subjobs = new ArrayList<Subjob>();
 	} 
@@ -36,6 +47,7 @@ public class Job {
 	 * Returns the identifier of this job.
 	 * 
 	 * @return The identifier of this job.
+	 * @since 1.0
 	 */
 	public Integer getId() {
 		return id;
@@ -44,8 +56,9 @@ public class Job {
 	 * Sets the identifier of this job.
 	 * 
 	 * @param id The identifier of this job.
+	 * @since 1.0
 	 */
-	public void setId(Integer id) {
+	public void setId(final Integer id) {
 		this.id = id;
 	}
 
@@ -53,6 +66,7 @@ public class Job {
 	 * Returns the start date of the job.
 	 * 
 	 * @return The start date of the job.
+	 * @since 1.0
 	 */
 	public Date getStartDate() {
 		return startDate;
@@ -61,8 +75,9 @@ public class Job {
 	 * Sets the start date of the job.
 	 * 
 	 * @param startDate The start date of the job.
+	 * @since 1.0
 	 */
-	public void setStartDate(Date startDate) {
+	public void setStartDate(final Date startDate) {
 		this.startDate = startDate;
 	}
 
@@ -70,6 +85,7 @@ public class Job {
 	 * Returns the end date of the job.
 	 * 
 	 * @return The end date of the job.
+	 * @since 1.0
 	 */
 	public Date getEndDate() {
 		return endDate;
@@ -78,8 +94,9 @@ public class Job {
 	 * Sets the end date of the job.
 	 * 
 	 * @param endDate The end date of the job.
+	 * @since 1.0
 	 */
-	public void setEndDate(Date endDate) {
+	public void setEndDate(final Date endDate) {
 		this.endDate = endDate;
 	}
 
@@ -87,6 +104,7 @@ public class Job {
 	 * Returns the number of links generated.
 	 * 
 	 * @return The number of links generated.
+	 * @since 1.0
 	 */
 	public Integer getNumLinks() {
 		return numLinks;
@@ -95,8 +113,9 @@ public class Job {
 	 * Sets the number of links generated.
 	 * 
 	 * @param numLinks The number of links generated.
+	 * @since 1.0
 	 */
-	public void setNumLinks(Integer numLinks) {
+	public void setNumLinks(final Integer numLinks) {
 		this.numLinks = numLinks;
 	}
 
@@ -106,6 +125,7 @@ public class Job {
 	 * Possible values: idle, running, finished.
 	 *  
 	 * @return The status of the job.
+	 * @since 1.0
 	 */
 	public String getStatus() {
 		return status;
@@ -115,8 +135,9 @@ public class Job {
 	 * Possible values: idle, running, finished.
 	 * 
 	 * @param status The status of the job.
+	 * @since 1.0
 	 */
-	public void setStatus(String status) {
+	public void setStatus(final String status) {
 		this.status = status;
 	}
 	
@@ -124,6 +145,7 @@ public class Job {
 	 * Returns the subjobs of the job.
 	 * 
 	 * @return The subjobs of the job.
+	 * @since 1.0
 	 */
 	public Subjob[] getSubjobs() {
 		return this.subjobs.toArray(new Subjob[]{});
@@ -132,8 +154,9 @@ public class Job {
 	 * Adds a subjob to the job.
 	 * 
 	 * @param subjob The subjob to add to the job.
+	 * @since 1.0
 	 */
-	public void addSubjob(Subjob subjob) {
+	public void addSubjob(final Subjob subjob) {
 		subjobs.add(subjob);
 	}
 }
