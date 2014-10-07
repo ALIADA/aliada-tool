@@ -5,14 +5,14 @@
          version="2.5">
 	<display-name>Linked Data Server</display-name>
 	<listener>
-		<listener-class>eu.aliada.linkedDataServerSetup.listeners.ApplicationLifecycleListener</listener-class>
+		<listener-class>eu.aliada.linkeddataserversetup.listeners.ApplicationLifecycleListener</listener-class>
 	</listener>
 	<servlet>
 		<servlet-name>ALIADA Linked Data Server</servlet-name>
 		<servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>
 		<init-param>
 			<param-name>jersey.config.server.provider.packages</param-name>
-			<param-value>eu.aliada.linkedDataServerSetup.rest</param-value>
+			<param-value>eu.aliada.linkeddataserverSetup.rest</param-value>
 		</init-param>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
