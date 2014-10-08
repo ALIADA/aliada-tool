@@ -361,6 +361,10 @@ public class ManagingAction extends ActionSupport {
 			logger.error(MessageCatalog._00011_SQL_EXCEPTION,e);
 			return ERROR;
 		}
+
+        if(ServletActionContext.getRequest().getSession().getAttribute("importFile")!=null){
+            setFileImported(true);
+        }
 		getSchemesDb();
 		getCharacterSetsDb();
 		getFormatsDb();
