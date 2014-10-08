@@ -16,7 +16,7 @@
 
 	<body class="whitebackground">
 		<img class="leftText" src="images/aliada-header.png"/>
-		<span class="fright">
+		<span class="fright topPad20">
 			<label class="underlined"><html:property value="%{#session['logedUser']}" /></label>
 			<html:a action="logout"><img src="images/userLogout.png"/></html:a>
 		</span>	

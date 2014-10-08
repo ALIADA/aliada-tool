@@ -14,7 +14,7 @@
 		<html:file key="importFile" />
 		<html:fielderror fieldName="importFile" />
 		<div class="row">
-			<html:property value="%{#session['importFile']}.getName()" />
+			<html:property value="%{#session['importFileName']}" />
 		</div>
 		<label class="row label"><html:text name="manage.process"/></label>
 		<html:select name="profilesSelect" cssClass="inputForm"

@@ -144,6 +144,7 @@ public class ManagingAction extends ActionSupport {
 									this.importFileFileName);
 							FileUtils.copyFile(this.importFile, fileCreated);
 							session.setAttribute("importFile", fileCreated);
+                            session.setAttribute("importFileName", fileCreated.getName());
 							session.setAttribute("profile", this.profilesSelect);
 							logger.debug(MessageCatalog._00026_MANAGE_VALIDATED);
 							addActionMessage(getText("correct.file"));
