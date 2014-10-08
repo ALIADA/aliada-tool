@@ -220,6 +220,11 @@ padding: 10px 7px 10px 10px;
 	width: 120px;
 	height: 25px;
 }
+.mediumButton {
+	font-size: 18px;
+	width: 200px;
+	height: 25px;
+}
 .menuButton {
 	text-decoration : none;
 	text-align : center;
