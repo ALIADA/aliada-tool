@@ -77,14 +77,14 @@
 	</div>	
 	<div class="headerContentGreenBorder"></div>
 	<div class="content" >
-		<h2 class="pageTitle">Queries</h2>
+		<h2 class="pageTitle"><html:text name="rdfVal.title"/></h2>
 		
 		<ul>
-		<li><a id="queryAuthors" href="#">Get all the authors/creators</a></li>
-		<li><a id="queryObjects" href="#">Get all the objects</a></li>
-		<li><a id="queryManifestations" href="#">Get all the manifestations</a></li>
-		<li><a id="queryWorks" href="#">Get all the works, their manifestations and expressions</a></li>
-		<li><a id="querySameAs" href="#">Get generated links</a></li>
+		<li><a id="queryAuthors" href="#"><html:text name="rdfVal.authors"/></a></li>
+		<li><a id="queryObjects" href="#"><html:text name="rdfVal.objects"/></a></li>
+		<li><a id="queryManifestations" href="#"><html:text name="rdfVal.manifestations"/></a></li>
+		<li><a id="queryWorks" href="#"><html:text name="rdfVal.all"/></a></li>
+		<li><a id="querySameAs" href="#"><html:text name="rdfVal.links"/></a></li>
 		</ul>
 		<form id="formGetResults" name="formGetResults" action=<html:property value="sparql_endpoint"/> method="get" >
 				<input type="hidden" name="default-graph-uri" id="default-graph-uri" value=<html:property value="graph_uri"/>/>
