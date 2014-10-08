@@ -195,7 +195,6 @@ public class ConversionAction extends ActionSupport {
      * @since 1.0
      */
     private void enableRdfizer() throws IOException {
-        logger.debug("enabling RDFizer");
         URL url = new URL("http://aliada:8080/aliada-rdfizer-1.0/enable");
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setDoOutput(true);
