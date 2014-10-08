@@ -69,7 +69,7 @@ public class RDFStoreDAO {
 	}
 
 	/**
-	 * It loads triples in a graph in the RDF store.
+	 * It loads triples in a graph in the RDF store using HTTP PUT.
 	 *
 	 * @param triplesFilename	the path of the file containing the triples to load.  
 	 * @param rdfSinkFolder		the URI of the RDF SINK folder in the RDF Store.  
@@ -190,6 +190,43 @@ public class RDFStoreDAO {
 		return done;
 	}
 	
+	/**
+	 * It loads triples in a graph in the RDF store using SPARQL endpoint.
+	 *
+	 * @param triplesFilename	    the path of the file containing the triples to load.  
+	 * @param sparqlEndpointURI		the SPARQL endpoint URI.  
+	 * @param user					the user name for the SPARQl endpoint.
+	 * @param password				the password for the SPARQl endpoint.
+	 * @param graphUri				the URI of the graph.
+	 * @return true if the graph has been cleared. False otherwise.
+	 * @since 1.0
+	 */
+	public boolean loadDataIntoGraphBySparql(final String triplesFilename, final String sparqlEndpointURI, final String user, final String password, final String graphUri) {
+		boolean done = false;
+		final String loadDataSPARQL = "LOAD <file://" + triplesFilename + ">INTO <" + graphUri + ">;";
+		//Execute SPARQL
+		done = executeUpdateQuerySparqlEndpoint(sparqlEndpointURI, user, password, loadDataSPARQL);
+		return done;
+	}
+	
+	/**
+	 * It creates a graph in the RDF store using SPARQL endpoint.
+	 *
+	 * @param sparqlEndpointURI		the SPARQL endpoint URI.  
+	 * @param user					the user name for the SPARQl endpoint.
+	 * @param password				the password for the SPARQl endpoint.
+	 * @param graphUri				the URI of the graph.
+	 * @return true if the graph has been cleared. False otherwise.
+	 * @since 1.0
+	 */
+	public boolean createoGraphBySparql(final String sparqlEndpointURI, final String user, final String password, final String graphUri) {
+		boolean done = false;
+		final String createGraphSPARQL = "CREATE GRAPH <" + graphUri + ">;";
+		//Execute SPARQL
+		done = executeUpdateQuerySparqlEndpoint(sparqlEndpointURI, user, password, createGraphSPARQL);
+		return done;
+	}
+
 	/**
 	 * Builds a SPARQL INSERT with the given data.
 	 * 
