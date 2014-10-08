@@ -13,8 +13,9 @@
 		<html:text name="importFile"/>
 		<html:file key="importFile" />
 		<html:fielderror fieldName="importFile" />
-		<html:property value="%{#session['importFile']}.getName()" />
-		<div class="row"></div>
+		<div class="row">
+			<html:property value="%{#session['importFile']}.getName()" />
+		</div>
 		<label class="row label"><html:text name="manage.process"/></label>
 		<html:select name="profilesSelect" cssClass="inputForm"
 			list="profiles" />
@@ -30,24 +31,6 @@
 											$('#importFileButton').hide();" />
 				<html:submit id="errorLog" action="errorLog" disabled="true" cssClass="submitButton button"
 					key="errorLog" />
-				<html:if test="fileImported">
-					<script>
-				    	$("#importFileButton").removeClass("buttonGreen");
-				    	$("#importFileButton").addClass("button");
-				    	$("#nextButton").removeClass("button");
-				    	$("#nextButton").addClass("buttonGreen");
-			    		$("#nextButton").prop( "disabled", false);
-				    </script>
-				</html:if>
-				<html:if test="enableErrorLogButton">
-					<script>
-				    	$("#importFileButton").removeClass("buttonGreen");
-				    	$("#importFileButton").addClass("button");
-				    	$("#errorLog").removeClass("button");
-				    	$("#errorLog").addClass("buttonGreen");
-			    		$("#errorLog").prop( "disabled", false);
-				    </script>
-				</html:if>
 			</html:form>
 		</div>
 	</div>	
@@ -60,7 +43,24 @@
 					key="next" />
 	</html:form>
 </div>
-
+<html:if test="fileImported">
+	<script>
+    	$("#importFileButton").removeClass("buttonGreen");
+    	$("#importFileButton").addClass("button");
+    	$("#nextButton").removeClass("button");
+    	$("#nextButton").addClass("buttonGreen");
+   		$("#nextButton").prop( "disabled", false);
+    </script>
+</html:if>
+<html:if test="enableErrorLogButton">
+	<script>
+    	$("#importFileButton").removeClass("buttonGreen");
+    	$("#importFileButton").addClass("button");
+    	$("#errorLog").removeClass("button");
+    	$("#errorLog").addClass("buttonGreen");
+   		$("#errorLog").prop( "disabled", false);
+    </script>
+</html:if>
 
 
 
