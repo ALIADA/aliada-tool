@@ -19,6 +19,13 @@
 			   	   var eDate = json.endDate;
 			   	   var numLinks = json.numLinks;
 			   	   var status = json.status;
+			   	   $("#datasetsInfo").empty();
+				   $.each(json.subjobs, function(idx, obj) {
+				   		console.log(obj.name);
+				   		console.log(obj.numLinks);
+				   		console.log(obj.status);
+			            $("#datasetsInfo").html(obj.name+': '+obj.numLinks);				   		
+				   });
 			   	   if(status=="finished"){
 			   		   console.log("interval linking stopped");
 			   		   clearInterval(intervalLinking);
@@ -157,6 +164,8 @@
 					<label class="label"><html:text name="linkingInfo.eDate"/></label>
 					<div id="endDate" class="displayInline"></div>	
 				</div>
+				<label class="label"><html:text name="linkingInfo.linksDataset"/></label>
+				<div id="datasetsInfo"></div>		
 				<%-- <div class="row">	
 					<label class="label"><html:text name="linkingInfo.linksDataset"/></label>
 					<ul>
