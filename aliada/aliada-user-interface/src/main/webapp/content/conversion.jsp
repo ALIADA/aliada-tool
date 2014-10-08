@@ -110,6 +110,7 @@
 		<div id="checkInfo" class="displayNo content">
 			<label class="row label"><html:text name="rdf.fileTo"/></label>		
 			<html:property value="importFile"/>
+			<img id="fineImg" class="displayNo" src="images/fine.png"/>
 			<div class="row">
 				<label class="label"><html:text name="rdf.format"/></label>
 				<div id="format" class="displayInline"></div>	
@@ -139,24 +140,8 @@
 		</div>
 		<div id="conversionButtons" class="buttons row">
 				<img id="progressBar" class="displayNo" src="images/progressBar.gif" alt="" />
-				<img id="fineImg" class="displayNo leftMargin" src="images/fine.png"/>
 				<html:submit id="checkRDFButton" disabled="true" cssClass="submitButton button"
 					key="check" onClick="return false;"/>
-				<html:if test="showRdfizerButton">
-					<script>
-				    	$("#rdfizeButton").removeClass("button");
-				    	$("#rdfizeButton").addClass("buttonGreen");
-						$('#rdfizeButton').prop("disabled",false);
-				    </script>				
-				</html:if>
-				<html:if test="showCheckButton">
-					<script>
-				    	$("#checkRDFButton").removeClass("button");
-				    	$("#checkRDFButton").addClass("buttonGreen");
-						$('#checkRDFButton').prop("disabled",false);
-						$('#backButton').prop("disabled",true);
-				    </script>				
-				</html:if>
 		</div>	
 	</html:form>
 </div>
@@ -167,7 +152,21 @@
 			key="next" />
 	</html:form>
 </div>
-
+<html:if test="showRdfizerButton">
+<script>
+   	$("#rdfizeButton").removeClass("button");
+   	$("#rdfizeButton").addClass("buttonGreen");
+	$('#rdfizeButton').prop("disabled",false);
+   </script>				
+</html:if>
+<html:if test="showCheckButton">
+<script>
+   	$("#checkRDFButton").removeClass("button");
+   	$("#checkRDFButton").addClass("buttonGreen");
+	$('#checkRDFButton').prop("disabled",false);
+	$('#backButton').prop("disabled",true);
+   </script>				
+</html:if>
 
 
 
