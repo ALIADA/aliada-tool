@@ -62,7 +62,7 @@ public class LinkingAction extends ActionSupport {
      * @since 1.0
      */
     private String getDatasetsDb() {
-        datasets = new HashMap();
+        datasets = new HashMap<Integer, String>();
         Connection con;
         try {
             con = new DBConnectionManager().getConnection();

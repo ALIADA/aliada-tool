@@ -292,7 +292,7 @@ public class UsersAction extends ActionSupport{
      */
     private String getRolesDb(){
         Connection connection;
-        this.roles = new HashMap();
+        this.roles = new HashMap<Integer, String>();
         try {
             connection = new DBConnectionManager().getConnection();
         	Statement statement = connection.createStatement();
@@ -319,7 +319,7 @@ public class UsersAction extends ActionSupport{
      */
     private String getTypesDb(){
         Connection connection;
-        this.types = new HashMap();
+        this.types = new HashMap<Integer, String>();
         try {
             connection = new DBConnectionManager().getConnection();
         	Statement statement = connection.createStatement();

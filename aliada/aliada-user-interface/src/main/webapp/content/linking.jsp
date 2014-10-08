@@ -25,13 +25,13 @@
 				   		console.log(obj.numLinks);
 				   		console.log(obj.status);
 				   		if(obj.status=="running"){
-				            $("#datasetsInfo").html(obj.name+': '+obj.numLinks+'<img src="images/loaderMini.gif"/>');				   			
+				            $("#datasetsInfo").html(obj.name+': '+obj.numLinks+' <img src="images/loaderMini.gif"/>');				   			
 				   		}
 				   		else if(obj.status=="finished"){
-				            $("#datasetsInfo").html(obj.name+': '+obj.numLinks+'<img src="images/fine.png"/>');				   			
+				            $("#datasetsInfo").html(obj.name+': '+obj.numLinks+' <img src="images/fine.png"/>');				   			
 				   		}	
 				   		else{
-				            $("#datasetsInfo").html(obj.name+': '+obj.numLinks+'<img src="images/clock.png"/>');	
+				            $("#datasetsInfo").html(obj.name+': '+obj.numLinks+' <img src="images/clock.png"/>');	
 				   		}
 				   });
 			   	   if(status=="finished"){
