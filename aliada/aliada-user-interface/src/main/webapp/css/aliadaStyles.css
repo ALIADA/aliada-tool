@@ -277,8 +277,11 @@ ul.breadcrumb {
 }
 
 /* LAYOUT */
-#aliadaHeader {
+.rightText {
 text-align: right;
+}
+.leftText {
+text-align: left;
 }
 .content{
 	border: 1px dotted #e5e5e5;
@@ -418,7 +421,7 @@ padding-left: 2px;
 	color: #3D406D;
 	font-weight: bold;	
 }
-#linkingNextButton{
+#publishButton{
 	margin-left: 850px;
 }
 #linkingInfoPanel{

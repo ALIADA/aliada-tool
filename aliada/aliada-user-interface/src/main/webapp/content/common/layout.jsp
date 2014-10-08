@@ -17,11 +17,11 @@
 	</head>
 
 	<body class="whitebackground">
-		<div id="aliadaHeader">
-			<img src="images/aliada-header.png"/><br/>
+		<img class="leftText" src="images/aliada-header.png"/>
+		<span class="fright">
 			<label class="underlined"><html:property value="%{#session['logedUser']}" /></label>
 			<html:a action="logout"><img src="images/userLogout.png"/></html:a>
-		</div>	
+		</span>	
 		<div class="headerContentGreenBorder"></div>
 		<div class="content" >
 				<tiles:insertAttribute name="body" />
