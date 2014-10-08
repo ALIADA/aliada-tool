@@ -65,9 +65,11 @@
 </script>
 <html:hidden id="rdfizerJobId" name="rdfizerJobId" value="%{#session['rdfizerJobId']}" />
 <ul class="breadcrumb">
-	<li><html:a action="configure" cssClass="breadcrumb"><html:text name="organisation.title"/></html:a></li>
-	<li><html:a action="manage" cssClass="breadcrumb"><html:text name="manage.title"/></html:a></li>
-	<li><html:a action="conversion" cssClass="breadcrumb activeGreen"><html:text name="conversion.title"/></html:a></li>
+	<span class="breadCrumb"><html:text name="home"/></span>
+	<li><span class="breadcrumb"><html:text name="organisation.title"/></span></li>
+	<li><span class="breadcrumb"><html:text name="manage.title"/></span></li>
+	<li><span class="breadcrumb activeGreen"><html:text name="conversion.title"/></span></li>
+	<li><span class="breadcrumb"><html:text name="linking.title"/></span></li>
 </ul>
 <html:a id="rdfVal" disabled="true" action="rdfVal" cssClass="displayNo menuButton button fright" key="rdfVal" target="_blank"><html:text name="rdfVal"/></html:a>			
 <div class="form centered">
@@ -140,8 +142,6 @@
 				<img id="fineImg" class="displayNo leftMargin" src="images/fine.png"/>
 				<html:submit id="checkRDFButton" disabled="true" cssClass="submitButton button"
 					key="check" onClick="return false;"/>
-				<html:submit id="nextButton" disabled="true" action="linking" cssClass="submitButton button"
-					key="next" />
 				<html:if test="showRdfizerButton">
 					<script>
 				    	$("#rdfizeButton").removeClass("button");
@@ -154,9 +154,17 @@
 				    	$("#checkRDFButton").removeClass("button");
 				    	$("#checkRDFButton").addClass("buttonGreen");
 						$('#checkRDFButton').prop("disabled",false);
+						$('#backButton').prop("disabled",true);
 				    </script>				
 				</html:if>
 		</div>	
+	</html:form>
+</div>
+<div id="submitButtons" class="buttons row">
+	<html:form id="submitButtonsForm">
+		<html:submit id="backButton" action="manage" cssClass="fleft submitButton button" key="back" />	
+		<html:submit id="nextButton" disabled="true" action="linking" cssClass="fright submitButton button"
+			key="next" />
 	</html:form>
 </div>
 

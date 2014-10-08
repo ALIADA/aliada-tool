@@ -2,7 +2,11 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="/struts-tags" prefix="html"%>
 <ul class="breadcrumb">
-	<li><html:a action="configure" cssClass="breadcrumb activeGreen"><html:text name="organisation.title"/></html:a></li>
+	<span class="breadCrumb"><html:text name="home"/></span>
+	<li><span class="breadcrumb activeGreen"><html:text name="organisation.title"/></span></li>
+	<li><span class="breadcrumb"><html:text name="manage.title"/></span></li>
+	<li><span class="breadcrumb"><html:text name="conversion.title"/></span></li>
+	<li><span class="breadcrumb"><html:text name="linking.title"/></span></li>
 </ul>
 <div id="institutionPage">
 	<html:form id="institutionConfiguration" action="/addInstitution.action"
@@ -36,7 +40,7 @@
 		<html:form id="submitButtonsForm">
 			<html:submit action="showUsers" property="usersButton"
 				cssClass="submitButton button" key="users" />
-			<html:submit action="manage" cssClass="submitButton button"
+			<html:submit action="manage" cssClass="fright submitButton button"
 				key="next" />
 		</html:form>
 	</div>

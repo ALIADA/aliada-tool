@@ -25,6 +25,9 @@
 				       $("#progressBarLinking").hide();
 				       $("#fineLinkingImg").show();
 				       if(finished){
+				    	   $("#publishButton").removeClass("button");
+				    	   $("#publishButton").addClass("buttonGreen");
+				    	   $("#publishButton").prop("disabled",false);
 				    	   $("#linkingNextButton").removeClass("button");
 				    	   $("#linkingNextButton").addClass("buttonGreen");
 				    	   $("#linkingNextButton").prop("disabled",false);
@@ -60,6 +63,9 @@
 				       $("#progressBarLDS").hide();
 				       $("#fineLDSImg").show();
 				       if(finished){
+				    	   $("#publishButton").removeClass("button");
+				    	   $("#publishButton").addClass("buttonGreen");
+				    	   $("#publishButton").prop("disabled",false);
 				    	   $("#linkingNextButton").removeClass("button");
 				    	   $("#linkingNextButton").addClass("buttonGreen");
 				    	   $("#linkingNextButton").prop("disabled",false);
@@ -91,10 +97,11 @@
 <html:hidden id="linkingJobId" name="linkingJobId" value="%{#session['linkingJobId']}" />
 <html:hidden id="ldsJobId" name="ldsJobId" value="%{#session['ldsJobId']}" />
 <ul class="breadcrumb">
-	<li><html:a action="configure" cssClass="breadcrumb"><html:text name="organisation.title"/></html:a></li>
-	<li><html:a action="manage" cssClass="breadcrumb"><html:text name="manage.title"/></html:a></li>
-	<li><html:a action="conversion" cssClass="breadcrumb"><html:text name="conversion.title"/></html:a></li>
-	<li><html:a action="linking" cssClass="breadcrumb activeGreen"><html:text name="linking.title"/></html:a></li>
+	<span class="breadCrumb"><html:text name="home"/></span>
+	<li><span class="breadcrumb"><html:text name="organisation.title"/></span></li>
+	<li><span class="breadcrumb"><html:text name="manage.title"/></span></li>
+	<li><span class="breadcrumb"><html:text name="conversion.title"/></span></li>
+	<li><span class="breadcrumb activeGreen"><html:text name="linking.title"/></span></li>
 </ul>
 <html:a id="rdfVal" action="rdfVal" cssClass="menuButton button fright" key="rdfVal" target="_blank"><html:text name="rdfVal"/></html:a>	
 <div id="linkingPanel" class="content centered form">	
@@ -181,9 +188,11 @@
 			</div>	
 		</div>
 	</div>
+	<div class="row">
+		<html:form>
+			<html:submit id="linkingNextButton" disabled="true" action="manage" cssClass="fleft submitButton button" key="linking.addNew"/>
+			<html:submit id="publishButton" disabled="true" onClick="return false;" cssClass="fright submitButton button" key="publish"/>
+		</html:form>
+	</div>
 </div>
-<div class="row">
-	<html:form>
-		<html:submit id="linkingNextButton" disabled="true" action="manage" cssClass="submitButton button" key="next"/>
-	</html:form>
-</div>
+
