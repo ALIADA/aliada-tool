@@ -78,7 +78,7 @@ public class RDFStoreDAO {
 	 * @return true if the triples have been loaded. False otherwise.
 	 * @since 1.0
 	 */
-	public boolean loadDataIntoGraph(final String triplesFilename, String rdfSinkFolder, final String user, final String password) {
+	public boolean loadDataIntoGraphByHTTP(final String triplesFilename, String rdfSinkFolder, final String user, final String password) {
 		boolean done = false;
 		//Get the triples file name
 		final File triplesFile = new File(triplesFilename);
@@ -203,7 +203,7 @@ public class RDFStoreDAO {
 	 */
 	public boolean loadDataIntoGraphBySparql(final String triplesFilename, final String sparqlEndpointURI, final String user, final String password, final String graphUri) {
 		boolean done = false;
-		final String loadDataSPARQL = "LOAD <file://" + triplesFilename + ">INTO <" + graphUri + ">;";
+		final String loadDataSPARQL = "LOAD <file://" + triplesFilename + "> INTO GRAPH <" + graphUri + ">;";
 		//Execute SPARQL
 		done = executeUpdateQuerySparqlEndpoint(sparqlEndpointURI, user, password, loadDataSPARQL);
 		return done;
@@ -216,14 +216,32 @@ public class RDFStoreDAO {
 	 * @param user					the user name for the SPARQl endpoint.
 	 * @param password				the password for the SPARQl endpoint.
 	 * @param graphUri				the URI of the graph.
-	 * @return true if the graph has been cleared. False otherwise.
+	 * @return true if the graph has been created. False otherwise.
 	 * @since 1.0
 	 */
-	public boolean createoGraphBySparql(final String sparqlEndpointURI, final String user, final String password, final String graphUri) {
+	public boolean createGraphBySparql(final String sparqlEndpointURI, final String user, final String password, final String graphUri) {
 		boolean done = false;
 		final String createGraphSPARQL = "CREATE GRAPH <" + graphUri + ">;";
 		//Execute SPARQL
 		done = executeUpdateQuerySparqlEndpoint(sparqlEndpointURI, user, password, createGraphSPARQL);
+		return done;
+	}
+
+	/**
+	 * It removes a graph in the RDF store using SPARQL endpoint.
+	 *
+	 * @param sparqlEndpointURI		the SPARQL endpoint URI.  
+	 * @param user					the user name for the SPARQl endpoint.
+	 * @param password				the password for the SPARQl endpoint.
+	 * @param graphUri				the URI of the graph.
+	 * @return true if the graph has been removed. False otherwise.
+	 * @since 1.0
+	 */
+	public boolean removeGraphBySparql(final String sparqlEndpointURI, final String user, final String password, final String graphUri) {
+		boolean done = false;
+		final String removeGraphSPARQL = "DROP GRAPH <" + graphUri + ">;";
+		//Execute SPARQL
+		done = executeUpdateQuerySparqlEndpoint(sparqlEndpointURI, user, password, removeGraphSPARQL);
 		return done;
 	}
 

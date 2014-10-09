@@ -14,6 +14,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import eu.aliada.shared.log.Log;
+import eu.aliada.shared.rdfstore.RDFStoreDAO;
+
      
 /**
  * Implementation of an example of a Links Discovery REST 

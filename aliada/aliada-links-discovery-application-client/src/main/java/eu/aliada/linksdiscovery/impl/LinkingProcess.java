@@ -80,15 +80,17 @@ public class LinkingProcess {
 	private int linkingNumThreads;
 	/** XML configuration file for SILK. */
 	private boolean linkingReload;
-	/* RDF SINK parameters of the RDF Store*/
-	/** The URI of the RDF Sink Folder of the RDF store, 
-	 * where to upload the files containing the triples of 
-	 * the generated links*/
-	private String rdfSinkFolder;
-	/** The login of the RDF Sink folder. */
-	private String rdfSinkLogin;
-	/** The password of the RDF Sink folder. */
-	private String rdfSinkPassword;
+	/* SPARQL endpoint parameters of the RDF Store*/
+	/** The URI of the SPARQL endpoint where to upload 
+	 * the files containing the triples of the generated links*/
+	private String outputURI;
+	/** The login of the SPARQL endpoint. */
+	private String outputLogin;
+	/** The password of the SPARQL endpoint. */
+	private String outputPassword;
+	/** The URI of the dataset graph to be accessed through 
+	 * the SPARQL endpoint. */
+	private String outputGraph;
 	/** Temporary folder */
 	private String tmpDir;
 	/** Names of the files containing the links */
@@ -184,9 +186,10 @@ public class LinkingProcess {
 	    		linkingNumThreads = resultSet.getInt("num_threads");
 	    		linkingReload = resultSet.getBoolean("reload");
 	    		tmpDir = resultSet.getString("tmp_dir");
-				rdfSinkFolder = resultSet.getString("rdf_sink_folder");
-				rdfSinkLogin = resultSet.getString("rdf_sink_login");
-				rdfSinkPassword = resultSet.getString("rdf_sink_password");
+	    		outputURI = resultSet.getString("output_uri");
+	    		outputLogin = resultSet.getString("output_login");
+	    		outputPassword = resultSet.getString("output_password");
+	    		outputGraph = resultSet.getString("output_graph");
 	    		//Verify that the XML configuration file for SILK really exists
 	    		try{
 	    			linkingXMLConfigFile = new File(linkingXMLConfigFilename);
@@ -567,7 +570,7 @@ public class LinkingProcess {
 			lProcess.LOGGER.debug(MessageCatalog._00068_UPLOADING_GENERATED_LINKS);
 			for (final Iterator<String> iter = lProcess.triplesFilenames.iterator(); iter.hasNext();  ) {
 				final String triplesFilename = iter.next();
-				if(!rdfstoreDAO.loadDataIntoGraph(triplesFilename, lProcess.rdfSinkFolder, lProcess.rdfSinkLogin, lProcess.rdfSinkPassword)) {
+				if(!rdfstoreDAO.loadDataIntoGraphBySparql(triplesFilename, lProcess.outputURI, lProcess.outputLogin, lProcess.outputPassword, lProcess.outputGraph)) {
 					lProcess.LOGGER.error(MessageCatalog._00069_TRIPLES_FILE_UPLOAD_ERROR, triplesFilename);
 				}
 			}

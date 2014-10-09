@@ -24,7 +24,7 @@ public class JobConfiguration {
 	 *  indicated by the input_uri field. */
 	private String inputGraph;
 	/** The URI of the SPARQL endpoint where to store the generated links of 
-	 * Aliada. This field will have the same value as the input_uri field.. */
+	 * Aliada. This field will have the same value as the input_uri field. */
 	private String outputURI;
 	/** The login of the SPARQL endpoint indicated by the output_uri field. */
 	private String outputLogin;
@@ -37,14 +37,6 @@ public class JobConfiguration {
 	 * parameters to be used by the Links Discovery module to configure the 
 	 * SILK processes to be executed by the subjob instances created by this job. */
 	private String configFile;
-	/** The URI of the RDF Sink Folder of the RDF store, where to upload 
-	 * the files containing the triples of the generated links. */
-	private String rdfSinkFolder;
-	/** The login of the RDF Sink folder. */
-	private String rdfSinkLogin;
-	/** The password of the RDF Sink folder. */
-	private String rdfSinkPassword;
-	/** The name of the temporary folder to be used by the Links Discovery module. */
 	private String tmpDir;
 	/** The name of the folder where the links-discovery-task-runner.sh shell script 
 	 * has been installed. */
@@ -258,72 +250,6 @@ public class JobConfiguration {
 		this.configFile = configFile;
 	}		
 
-	/**
-	 * Returns the URI of the RDF SINK Folder of the RDF store.
-	 * 
-	 * @return The URI of the RDF SINK Folder of the RDF store.
-	 * @since 1.0
-	 */
-	public String getRdfSinkFolder() {
-		return rdfSinkFolder;
-	}
-	/**
-	 * Sets the URI of the RDF SINK Folder of the RDF store.
-	 * 
-	 * @param rdfSinkFolder The URI of the RDF SINK Folder of the RDF store.
-	 * @since 1.0
-	 */
-	public void setRdfSinkFolder(final String rdfSinkFolder) {
-		this.rdfSinkFolder = rdfSinkFolder;
-	}
-
-	/**
-	 * Returns the login required for authentication in the RDF SINK 
-	 * Folder of the RDF store.
-	 * 
-	 * @return The login required for authentication in the RDF SINK 
-	 *         Folder of the RDF store.
-	 * @since 1.0
-	 */
-	public String getRdfSinkLogin() {
-		return rdfSinkLogin;
-	}
-	/**
-	 * Sets the login required for authentication in the RDF SINK Folder 
-	 * of the RDF store.
-	 * 
-	 * @param rdfSinkLogin The login required for authentication in the 
-	 *        RDF SINK Folder of the RDF store.
-	 * @since 1.0
-	 */
-	public void setRdfSinkLogin(final String rdfSinkLogin) {
-		this.rdfSinkLogin = rdfSinkLogin;
-	}
-	
-	/**
-	 * Returns the password required for authentication in the RDF SINK Folder 
-	 * of the RDF store.
-	 * 
-	 * @return The password required for authentication in the RDF SINK Folder 
-	 *         of the RDF store.
-	 * @since 1.0
-	 */
-	public String getRdfSinkPassword() {
-		return rdfSinkPassword;
-	}
-	/**
-	 * Sets the password required for authentication in the RDF SINK Folder 
-	 * of the RDF store.
-	 * 
-	 * @param rdfSinkPassword Password required for authentication in the 
-	 *        RDF SINK Folder of the RDF store.
-	 * @since 1.0
-	 */
-	public void setRdfSinkPassword(final String rdfSinkPassword) {
-		this.rdfSinkPassword = rdfSinkPassword;
-	}	
-	
-	
 	/**
 	 * Returns the path of the temporary directory for creating temporary files.
 	 * 

@@ -113,9 +113,6 @@ public class DBConnectionManager {
 				job.setOutputPassword(resultSet.getString("output_password"));
 				job.setOutputGraph(resultSet.getString("output_graph"));
 				job.setConfigFile(resultSet.getString("config_file"));
-				job.setRdfSinkFolder(resultSet.getString("rdf_sink_folder"));
-				job.setRdfSinkLogin(resultSet.getString("rdf_sink_login"));
-				job.setRdfSinkPassword(resultSet.getString("rdf_sink_password"));
 				job.setTmpDir(resultSet.getString("tmp_dir"));
 				job.setClientAppBinDir(resultSet.getString("client_app_bin_dir"));
 		    }
@@ -197,7 +194,7 @@ public class DBConnectionManager {
 	public boolean insertSubjobToDDBB(final int jobId, final int subjobId, final SubjobConfiguration subjobConf, final String linkingXMLConfigFilename, final JobConfiguration jobConf){
     	try {
     		PreparedStatement preparedStatement = null;		
-    		preparedStatement = conn.prepareStatement("INSERT INTO  linksdiscovery_subjob_instances VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, default, default, default)");
+    		preparedStatement = conn.prepareStatement("INSERT INTO  linksdiscovery_subjob_instances VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, default, default, default)");
     		// (job_id, subjob_id, name, config_file, num_threads, reload, rdf_sink_folder, rdf_sink_login, rdf_sink_password, tmp_dir, num_links, start_date, end_date)
     		// parameters start with 1
     		preparedStatement.setInt(1, jobId);
@@ -206,10 +203,11 @@ public class DBConnectionManager {
     		preparedStatement.setString(4, linkingXMLConfigFilename);
     		preparedStatement.setInt(5, subjobConf.getLinkingNumThreads());
     		preparedStatement.setBoolean(6, subjobConf.isLinkingReload());
-    		preparedStatement.setString(7, jobConf.getRdfSinkFolder());
-    		preparedStatement.setString(8, jobConf.getRdfSinkLogin());
-    		preparedStatement.setString(9, jobConf.getRdfSinkPassword());
-    		preparedStatement.setString(10, jobConf.getTmpDir());
+    		preparedStatement.setString(7, jobConf.getOutputURI());
+    		preparedStatement.setString(8, jobConf.getOutputLogin());
+    		preparedStatement.setString(9, jobConf.getOutputPassword());
+    		preparedStatement.setString(10, jobConf.getOutputGraph());
+    		preparedStatement.setString(11, jobConf.getTmpDir());
     		preparedStatement.executeUpdate();
 		} catch (SQLException exception) {
 			LOGGER.error(MessageCatalog._00024_DATA_ACCESS_FAILURE, exception);

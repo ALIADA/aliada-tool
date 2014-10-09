@@ -73,9 +73,6 @@ public class CreateLinkingXMLConfigFileTest {
 		job.setOutputPassword("password");
 		job.setOutputGraph("http://biblioteca.artium.org");
 		job.setConfigFile("src/test/resources/linksdiscovery.properties");
-		job.setRdfSinkFolder("http://aliada.scanbit.net:8890/aliada/rdf-sink");
-		job.setRdfSinkLogin("login");
-		job.setRdfSinkPassword("password");
 		job.setTmpDir("D:\\Proyectos\\023779_ALIADA\\Development\\aliada-links-discovery\\tmp");
 		job.setClientAppBinDir("src/test/resources/");
 		return job;
