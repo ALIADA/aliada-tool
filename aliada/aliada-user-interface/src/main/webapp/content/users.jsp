@@ -11,6 +11,7 @@
 			<th><label class="bold"><html:text name="email"/></label></th>
 			<th><label class="bold"><html:text name="role"/></label></th>
 			<th><label class="bold"><html:text name="type"/></label></th>
+			<th><label class="bold"><html:text name="organisation_name"/></label></th>
 		</tr>
 		<html:iterator value="users" var="dato">
 			<tr>
@@ -19,6 +20,7 @@
 				<td><html:property value="email" /></td>
 				<td><html:property value="role" /></td>
 				<td><html:property value="type" /></td>
+				<td><html:property value="organisation" /></td>
 			</tr>
 		</html:iterator>
 	</table>
@@ -58,18 +60,21 @@
 				<th><label for="emailForm" class="bold"><html:text name="email"/></label></th>
 				<th><label for="roleForm" class="bold"><html:text name="role"/></label></th>
 				<th><label for="typeForm" class="bold"><html:text name="type"/></label></th>
+				<th><label for="organisationForm" class="bold"><html:text name="organisation_name"/></label></th>
 			</tr>
 			<tr>
 				<td><html:textfield key="usernameForm"
-						cssClass="inputForm fright input" size="30" required="true" /></td>
+						cssClass="tableInput input" required="true" /></td>
 				<td><html:password key="passwordForm" showPassword="true"
-						cssClass="inputForm fright input" size="20" required="true" /></td>
+						cssClass="tableInput input" required="true" /></td>
 				<td><html:textfield key="emailForm"
-						cssClass="inputForm fright input" size="30" /></td>
+						cssClass="tableInput input" /></td>
 				<td><html:select key="roleForm"
-						cssClass="inputForm fright" list="roles" /></td>
+						cssClass="tableInput" list="roles" /></td>
 				<td><html:select key="typeForm"
-						cssClass="inputForm fright" list="types" /></td>
+						cssClass="tableInput" list="types" /></td>
+				<td><html:select key="organisationForm"
+						cssClass="tableInput" list="organisations" /></td>
 			</tr> 
 			<tr>
 				<td><html:fielderror fieldName="usernameForm"/> </td>		
@@ -99,18 +104,21 @@
 				<th><label for="emailForm" class="bold"><html:text name="email"/></label></th>
 				<th><label for="roleForm" class="bold"><html:text name="role"/></label></th>
 				<th><label for="typeForm" class="bold"><html:text name="type"/></label></th>
+				<th><label for="organisationForm" class="bold"><html:text name="organisation_name"/></label></th>
 			</tr>
 			<tr>
 				<td><html:textfield key="usernameForm"
-						cssClass="inputForm fright input disabled" size="30" required="true" readonly="true" /></td>
+						cssClass="tableInput input disabled" size="30" required="true" readonly="true" /></td>
 				<td><html:password key="passwordForm" showPassword="true"
-						cssClass="inputForm fright input" size="20" required="true" /></td>
+						cssClass="tableInput input" size="20" required="true" /></td>
 				<td><html:textfield key="emailForm"
-						cssClass="inputForm fright input" size="30" /></td>
+						cssClass="tableInput input" size="30" /></td>
 				<td><html:select key="roleForm"
-						cssClass="inputForm fright" list="roles" /></td>
+						cssClass="tableInput" list="roles" /></td>
 				<td><html:select key="typeForm"
-						cssClass="inputForm fright" list="types" /></td>
+						cssClass="tableInput" list="types" /></td>
+				<td><html:select key="organisationForm"
+						cssClass="tableInput" list="organisations" /></td>
 			</tr>
 			<tr>
 				<td><html:fielderror fieldName="usernameForm"/> </td>		

@@ -206,7 +206,7 @@
 			<result name="error" type="tiles">/configuration.tiles</result>
 		</action>
 
-		<action name="addInstitution" method="addInstitution"
+		<action name="editInstitution" method="editInstitution"
 			class="eu.aliada.gui.action.InstitutionConfigurationAction"> 
 			<interceptor-ref name="fileImageStack"/>
 			<result name="success" type="tiles">/configuration.tiles</result>

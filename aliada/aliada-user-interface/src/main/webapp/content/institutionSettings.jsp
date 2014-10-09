@@ -9,7 +9,7 @@
 	<li><span class="breadcrumb"><html:text name="linking.title"/></span></li>
 </ul>
 <div id="institutionPage">
-	<html:form id="institutionConfiguration" action="/addInstitution.action"
+	<html:form id="institutionConfiguration" action="/editInstitution.action"
 		enctype="multipart/form-data">
 	<div class="content form">
 		<table class="pad10">
@@ -33,7 +33,7 @@
 			</tr>
 		</table>
 		<html:actionmessage/>
-		<html:submit action="addInstitution" property="saveButton"
+		<html:submit action="editInstitution" property="saveButton"
 			cssClass="leftMargin submitButton buttonGreen" key="edit" />
 	</div>	
 	<div id="submitButtons" class="buttons row">
