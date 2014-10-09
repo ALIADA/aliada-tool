@@ -482,3 +482,7 @@ clear: both;
 .scrollify{
 	overflow: scroll;
 }
+#queryResults{
+	width:1000px;
+	height:340px;
+}

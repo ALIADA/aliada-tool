@@ -32,8 +32,8 @@
 				dataType: 'html', 
 			    success:function(data, textStatus, jqXHR) 
 		        {
-					$("#results").empty();
-					$("#results").append(data);
+					$("#queryResults").empty();
+					$("#queryResults").append(data);
 		        },
 		        error: function(jqXHR, textStatus, errorThrown) 
 		        {
@@ -94,7 +94,7 @@
 				<input type="hidden" name="debug" id="debug" value="1"/>
 		</form>	
 	</div>
-	<div id="results" class="content scrollify">
+	<div id="queryResults" class="content scrollify">
 	</div>
 	<div id="collapseCloud"></div>
 	<div class="headerContentGreenBorder"></div>
