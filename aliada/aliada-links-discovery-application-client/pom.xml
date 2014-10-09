@@ -23,6 +23,12 @@
 			<groupId>de.fuberlin.wiwiss.silk</groupId>
 			<artifactId>silk-singlemachine</artifactId>
 			<version>2.5.3</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>arq</artifactId>
+					<groupId>com.hp.hpl.jena</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>commons-logging</groupId>
