@@ -26,6 +26,7 @@ SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 --
 
 CREATE TABLE IF NOT EXISTS `aliada`.`organisation` (
+    `organisationId` int(11) NOT NULL AUTO_INCREMENT,
   	`organisation_name` varchar(32) NOT NULL,
   	`organisation_path` varchar(128) NOT NULL,
   	`organisation_logo` BLOB,
@@ -302,18 +303,19 @@ CREATE TABLE IF NOT EXISTS `aliada`.`user` (
   `user_email` varchar(128) NOT NULL,
   `user_type_code` int(11) NOT NULL,
   `user_role_code` int(11) NOT NULL,
-  `organisation_name` varchar(50) NOT NULL,
+  `organisationId` int(11) NOT NULL,
   PRIMARY KEY  (`user_name`),
   KEY `user_type_code` (`user_type_code`),
-  KEY `user_role_code` (`user_role_code`)
+  KEY `user_role_code` (`user_role_code`),
+  FOREIGN KEY (organisationId) REFERENCES organisation(organisationId)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Volcar la base de datos para la tabla `user`
 --
 
-INSERT INTO `aliada`.`user` (`user_name`, `user_password`, `user_email`, `user_type_code`, `user_role_code`) VALUES
-('admin','admin','admin@aliada.eu',0,0);
+INSERT INTO `aliada`.`user` (`user_name`, `user_password`, `user_email`, `user_type_code`, `user_role_code`,`organisationId`) VALUES
+('admin','admin','admin@aliada.eu',0,0,1);
 
 -- --------------------------------------------------------
 
@@ -523,8 +525,7 @@ ALTER TABLE `aliada`.`template_xml_tag`
 --
 ALTER TABLE `aliada`.`user`
   ADD CONSTRAINT `user_ibfk_2` FOREIGN KEY (`user_role_code`) REFERENCES `t_user_role` (`user_role_code`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `user_ibfk_1` FOREIGN KEY (`user_type_code`) REFERENCES `t_user_type` (`user_type_code`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `user_ibfk_3` FOREIGN KEY (`organisation_name`) REFERENCES `organisation` (`organisation_name`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `user_ibfk_1` FOREIGN KEY (`user_type_code`) REFERENCES `t_user_type` (`user_type_code`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `xml_tag`
