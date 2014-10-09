@@ -3,12 +3,14 @@
 <%@ taglib uri="/struts-tags" prefix="html"%>
 <script>
 function confirmBox(){
-	var location = confirm("Previous data will be deleted, are you agree?");
-	if (location == true){
+	var answer = window.confirm("Previous data will be deleted, are you agree?");
+	console.log(answer);
+	if (answer == true){
 		console.log("RDFize called");
 		window.location = "${pageContext.request.contextPath}/RDFize";  
 	}
 	else{
+		console.log("RDFize canceled");
 		window.location = "${pageContext.request.contextPath}/conversion";
 	}
 }
