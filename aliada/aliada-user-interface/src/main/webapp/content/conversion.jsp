@@ -3,7 +3,7 @@
 <%@ taglib uri="/struts-tags" prefix="html"%>
 <script>
 function confirmBox(){
-	var answer = window.confirm(<html:text name="conversion.rdfAgain"/>);
+	var answer = window.confirm("<html:text name='conversion.rdfAgain'/>");
 	console.log(answer);
 	if (answer == true){
 		console.log("RDFize called");
