@@ -302,6 +302,7 @@ CREATE TABLE IF NOT EXISTS `aliada`.`user` (
   `user_email` varchar(128) NOT NULL,
   `user_type_code` int(11) NOT NULL,
   `user_role_code` int(11) NOT NULL,
+  `organisation_name` varchar(50) NOT NULL,
   PRIMARY KEY  (`user_name`),
   KEY `user_type_code` (`user_type_code`),
   KEY `user_role_code` (`user_role_code`)
@@ -522,7 +523,8 @@ ALTER TABLE `aliada`.`template_xml_tag`
 --
 ALTER TABLE `aliada`.`user`
   ADD CONSTRAINT `user_ibfk_2` FOREIGN KEY (`user_role_code`) REFERENCES `t_user_role` (`user_role_code`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `user_ibfk_1` FOREIGN KEY (`user_type_code`) REFERENCES `t_user_type` (`user_type_code`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `user_ibfk_1` FOREIGN KEY (`user_type_code`) REFERENCES `t_user_type` (`user_type_code`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `user_ibfk_3` FOREIGN KEY (`organisation_name`) REFERENCES `organisation` (`organisation_name`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `xml_tag`
