@@ -15,7 +15,8 @@ public class User{
     private String password;
     private String email;
     private String role;
-    private String type;       
+    private String type;   
+    private String organisation;
     
     /**
      * @return Returns the username.
@@ -96,6 +97,22 @@ public class User{
      */
     public void setType(String type) {
         this.type = type;
+    }
+    /**
+     * @return Returns the organisation.
+     * @exception
+     * @since 1.0
+     */
+    public String getOrganisation() {
+        return organisation;
+    }
+    /**
+     * @param organisation The organisation to set.
+     * @exception
+     * @since 1.0
+     */
+    public void setOrganisation(String organisation) {
+        this.organisation = organisation;
     }
 
 }

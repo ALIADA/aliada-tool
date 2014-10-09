@@ -34,6 +34,7 @@ import eu.aliada.shared.log.Log;
 public class UsersAction extends ActionSupport{
     private List<User> users;
     private HashMap<Integer, String> roles;
+    private HashMap<Integer, String> organisations;
     private HashMap<Integer, String> types;    
     private String selectedUser;
     
@@ -45,7 +46,8 @@ public class UsersAction extends ActionSupport{
     private String passwordForm;
     private String emailForm;
     private int roleForm;
-    private int typeForm;   
+    private int typeForm; 
+    private int organisationForm;
 
     private final Log logger = new Log(UsersAction.class);
     
@@ -111,6 +113,7 @@ public class UsersAction extends ActionSupport{
                 this.emailForm = rs.getString("user_email");
                 this.typeForm = rs.getInt("user_type_code");
                 this.roleForm = rs.getInt("user_role_code"); 
+                this.organisationForm = rs.getInt("organisationId"); 
                 statement.close();
                 connection.close();
                 getUsersDb();
@@ -143,6 +146,7 @@ public class UsersAction extends ActionSupport{
         ServletActionContext.getRequest().getSession().removeAttribute("userToUpdate");    
         getRolesDb();
         getTypesDb();
+        getOrganisationsDb();
         Connection connection = null;
         try {
             connection = new DBConnectionManager().getConnection();
@@ -157,6 +161,7 @@ public class UsersAction extends ActionSupport{
                 user.setEmail(rs.getString("user_email"));
                 user.setType(getUserType(rs.getInt("user_type_code")));
                 user.setRole(getRoleCode(rs.getInt("user_role_code")));
+                user.setOrganisation(getOrganisationName(rs.getInt("organisationId")));
                 this.users.add(user);
             }
             statement.close();
@@ -192,7 +197,7 @@ public class UsersAction extends ActionSupport{
                 statement.close();
                 statement = connection.createStatement();
                 statement.executeUpdate("INSERT INTO user VALUES ('"+this.usernameForm+"', '"
-                  +this.passwordForm+"', '"+this.emailForm+"', '"+this.roleForm+"', '"+this.typeForm+"')");
+                  +this.passwordForm+"', '"+this.emailForm+"', '"+this.roleForm+"', '"+this.typeForm+"', '"+this.organisationForm+"')");
                 addActionMessage(getText("user.save.ok"));
                 connection.close(); 
                 getUsersDb();
@@ -221,7 +226,7 @@ public class UsersAction extends ActionSupport{
         try {
             connection = new DBConnectionManager().getConnection();
         	Statement statement = connection.createStatement();
-            statement.executeUpdate("UPDATE user set user_password='"+this.passwordForm+"',user_email='"+this.emailForm+"',user_role_code='"+this.roleForm+"',user_type_code='"+this.typeForm+"' where user_name='"+this.usernameForm+"'");
+            statement.executeUpdate("UPDATE user set user_password='"+this.passwordForm+"',user_email='"+this.emailForm+"',user_role_code='"+this.roleForm+"',user_type_code='"+this.typeForm+"',organisationId='"+this.organisationForm+"' where user_name='"+this.usernameForm+"'");
             clearErrorsAndMessages();
             addActionMessage(getText("user.edit.ok"));
             statement.close(); 
@@ -252,6 +257,31 @@ public class UsersAction extends ActionSupport{
                 String userRole = rs.getString("user_role");
                 connection.close();
                 return userRole;
+            }
+        } catch (SQLException e) {
+            logger.error(MessageCatalog._00011_SQL_EXCEPTION,e);
+            return ERROR;
+        }
+        return null;
+    }
+    /**
+     * Gets the user organisation name for a given user organisation id
+     * @param code
+     * @return
+     * @see
+     * @since 1.0
+     */
+    private String getOrganisationName(int code) {
+        Connection connection = null;
+        try {
+            connection = new DBConnectionManager().getConnection();
+            Statement statement = connection.createStatement();
+            ResultSet rs = statement
+                    .executeQuery("select organisation_name from aliada.organisation where organisationId='"+code+"'");
+            if (rs.next()) {
+                String organisationName = rs.getString("organisation_Name");
+                connection.close();
+                return organisationName;
             }
         } catch (SQLException e) {
             logger.error(MessageCatalog._00011_SQL_EXCEPTION,e);
@@ -301,6 +331,33 @@ public class UsersAction extends ActionSupport{
                 int code = rs.getInt("user_role_code");
                 String name = rs.getString("user_role");
                 this.roles.put(code, name);
+            }
+            rs.close();
+            statement.close();
+            connection.close();
+        } catch (SQLException e) {
+            logger.error(MessageCatalog._00011_SQL_EXCEPTION,e);
+            return ERROR;
+        }
+        return SUCCESS;   
+    }
+    /**
+     * Get the organisations from DB
+     * @return
+     * @see
+     * @since 1.0
+     */
+    private String getOrganisationsDb(){
+        Connection connection;
+        this.organisations = new HashMap<Integer, String>();
+        try {
+            connection = new DBConnectionManager().getConnection();
+            Statement statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery("select * from aliada.organisation");
+            while (rs.next()) {
+                int code = rs.getInt("organisationId");
+                String name = rs.getString("organisation_name");
+                this.organisations.put(code, name);
             }
             rs.close();
             statement.close();
@@ -537,5 +594,37 @@ public class UsersAction extends ActionSupport{
      */
     public void setAreUsers(boolean areUsers) {
         this.areUsers = areUsers;
+    }
+    /**
+     * @return Returns the organisationForm.
+     * @exception
+     * @since 1.0
+     */
+    public int getOrganisationForm() {
+        return organisationForm;
+    }
+    /**
+     * @param organisationForm The organisationForm to set.
+     * @exception
+     * @since 1.0
+     */
+    public void setOrganisationForm(int organisationForm) {
+        this.organisationForm = organisationForm;
+    }
+    /**
+     * @return Returns the organisations.
+     * @exception
+     * @since 1.0
+     */
+    public HashMap<Integer, String> getOrganisations() {
+        return organisations;
+    }
+    /**
+     * @param organisations The organisations to set.
+     * @exception
+     * @since 1.0
+     */
+    public void setOrganisations(HashMap<Integer, String> organisations) {
+        this.organisations = organisations;
     }
 }

@@ -48,6 +48,17 @@ a:disabled{
 	-webkit-border-radius: 10px;
 	border-radius: 5px 5px 5px 5px;
 }
+.tableInput{
+	font-size: 14px;
+	border: 1px solid #02207C;
+	background-color: #F8FBFC;
+	width: 13em;
+	height: 34px;
+	color: black;
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+	border-radius: 5px 5px 5px 5px;
+}
 .displayNo{
 	display: none;
 }
