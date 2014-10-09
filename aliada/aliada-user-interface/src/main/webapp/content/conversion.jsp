@@ -4,13 +4,14 @@
 <script>
 function confirmBox(){
 	var location = confirm("Previous data will be deleted, are you agree?");
-	 if (location == true){
-       	window.location = "RDFize.action";
-       }
-       else{
-       	window.location = "conversion.action";
-       }
- }
+	if (location == true){
+		console.log("RDFize called");
+		window.location = "${pageContext.request.contextPath}/RDFize";  
+	}
+	else{
+		window.location = "${pageContext.request.contextPath}/conversion";
+	}
+}
 $(function(){
 	var interval;
 	var checkRDF = function(){
