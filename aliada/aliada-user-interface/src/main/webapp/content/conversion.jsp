@@ -7,15 +7,13 @@ function confirmBox(){
 	console.log(answer);
 	if (answer == true){
 		console.log("RDFize called");
-		console.log("${pageContext.request.contextPath}");
-		console.log("${pageContext.request.contextPath}");
-		window.location = "${pageContext.request.contextPath}/RDFize.action";
-		window.location='RDFize';
+		window.location.href = "${pageContext.request.contextPath}/RDFize.action";
 	}
 	else{
 		console.log("RDFize canceled");
 		window.location = "${pageContext.request.contextPath}/conversion.action";
 	}
+    return false;
 }
 $(function(){
 	var interval;
@@ -118,7 +116,7 @@ $(function(){
 					</td>
 				</tr>			
 			</table>
-			<html:submit id="rdfizeButton" onClick="confirmBox();" disabled="true" cssClass="submitButton button"
+			<html:submit id="rdfizeButton" onClick="return confirmBox();" disabled="true" cssClass="submitButton button"
 				key="RDF-ize"/>
 		</div>
 		<div id="checkInfo" class="displayNo content">
