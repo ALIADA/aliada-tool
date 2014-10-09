@@ -94,7 +94,7 @@
 				<input type="hidden" name="debug" id="debug" value="1"/>
 		</form>	
 	</div>
-	<div id="results" class="content">
+	<div id="results" class="content scrollify">
 	</div>
 	<div id="collapseCloud"></div>
 	<div class="headerContentGreenBorder"></div>
