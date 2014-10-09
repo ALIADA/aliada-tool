@@ -19,6 +19,7 @@ import java.sql.Statement;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.struts2.ServletActionContext;
 
@@ -52,11 +53,12 @@ public class InstitutionConfigurationAction extends ActionSupport {
      * Read the institution
      */
     public String execute() {
+        String userName = (String) ServletActionContext.getRequest().getSession().getAttribute("logedUser");
         Connection connection;
         try {
             connection = new DBConnectionManager().getConnection();
             Statement statement = connection.createStatement();
-            ResultSet rs = statement.executeQuery("SELECT * FROM organisation");
+            ResultSet rs = statement.executeQuery("SELECT * FROM organisation o INNER JOIN user u ON o.organisationId = u.organisationId WHERE u.user_name='"+userName+"';");
             if (rs.next() && rs.getString("organisation_name") != null) {
                 setOrganisation_name(rs.getString("organisation_name"));
                 setOrganisation_path(rs.getString("organisation_path"));
@@ -74,9 +76,9 @@ public class InstitutionConfigurationAction extends ActionSupport {
     }
 
     /**
-     * Insertion of the institution
+     * Edit the institution
      */
-    public String addInstitution() {
+    public String editInstitution() {
         Connection connection = null;
         FileInputStream fis = null;
         try {
@@ -85,22 +87,22 @@ public class InstitutionConfigurationAction extends ActionSupport {
 //            ResultSet rs = statement.executeQuery("SELECT * FROM organisation WHERE organisation_name='"+getOrganisation_name()+"'");
 //            if(!rs.next()){
             PreparedStatement preparedStatement = connection
-                    .prepareStatement("INSERT INTO organisation (organisation_name, organisation_path, organisation_logo, organisation_catalog_url) VALUES (?, ?, ?, ?) ON DUPLICATE KEY UPDATE organisation_path=VALUES(organisation_path), organisation_logo=VALUES(organisation_logo),organisation_catalog_url=VALUES(organisation_catalog_url)");
-            preparedStatement.setString(1, this.organisation_name);
-            preparedStatement.setString(2, this.organisation_path);
+                    .prepareStatement("UPDATE organisation  SET organisation_path = ?, organisation_logo = ?, organisation_catalog_url =? WHERE organisation_name = ?");
+            preparedStatement.setString(1, this.organisation_path);
             if (this.organisation_logo != null) {
                 fis = new FileInputStream(this.organisation_logo);
-                preparedStatement.setBinaryStream(3, fis,
+                preparedStatement.setBinaryStream(2, fis,
                         (int) this.organisation_logo.length());
             } else {
                 File defaultImg = new File(DEFAULTLOGOPATH);
                 fis = new FileInputStream(defaultImg);
-                preparedStatement.setBinaryStream(3, fis,
+                preparedStatement.setBinaryStream(2, fis,
                         (int) defaultImg.length());
             }
-            preparedStatement.setString(4, this.organisation_catalog_url);
+            preparedStatement.setString(3, this.organisation_catalog_url);
+            preparedStatement.setString(4, this.organisation_name);
             preparedStatement.executeUpdate();
-            addActionMessage(getText("institution.added"));
+            addActionMessage(getText("institution.changed"));
             preparedStatement.close();
 //            }
 //            else{
