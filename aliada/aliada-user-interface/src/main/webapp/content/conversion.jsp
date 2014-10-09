@@ -7,11 +7,14 @@ function confirmBox(){
 	console.log(answer);
 	if (answer == true){
 		console.log("RDFize called");
-		window.location = "${pageContext.request.contextPath}/RDFize";  
+		console.log("${pageContext.request.contextPath}");
+		console.log("${pageContext.request.contextPath}");
+		window.location = "${pageContext.request.contextPath}/RDFize.action";
+		window.location='RDFize';
 	}
 	else{
 		console.log("RDFize canceled");
-		window.location = "${pageContext.request.contextPath}/conversion";
+		window.location = "${pageContext.request.contextPath}/conversion.action";
 	}
 }
 $(function(){
