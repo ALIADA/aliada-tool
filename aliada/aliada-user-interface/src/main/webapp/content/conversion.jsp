@@ -126,7 +126,6 @@ $(function(){
 			<div id="conversionButtons" class="buttons row">	
 				<html:submit id="rdfizeButton" onClick="return confirmBox();" disabled="true" cssClass="submitButton button"
 					key="RDF-ize"/>
-				<img id="progressBar" class="displayNo" src="images/progressBar.gif" alt="" />
 				<html:submit id="checkRDFButton" disabled="true" cssClass="submitButton button"
 					key="check" onClick="return false;"/>
 			</div>
@@ -161,6 +160,9 @@ $(function(){
 				<div id="triplesThroughput" class="displayInline"></div>
 				<html:text name="rdf.triplesSec"/>		
 			</div>
+		</div>
+		<div class="buttons row">
+-			<img id="progressBar" class="displayNo" src="images/progressBar.gif" alt="" />
 		</div>
 	</html:form>
 </div>
