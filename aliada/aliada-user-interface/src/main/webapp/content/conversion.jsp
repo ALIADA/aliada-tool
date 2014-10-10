@@ -4,6 +4,7 @@
 <script>
 function confirmBox(){
 	var rdfizerJobId = $("#rdfizerJobId").val();
+	console.log(rdfizerJobId);
 	if(rdfizerJobId!=null){
 		var answer = window.confirm("<html:text name='conversion.rdfAgain'/>");
 		console.log(answer);
