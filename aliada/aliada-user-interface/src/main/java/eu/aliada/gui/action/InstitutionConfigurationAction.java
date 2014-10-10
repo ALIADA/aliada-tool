@@ -40,7 +40,6 @@ public class InstitutionConfigurationAction extends ActionSupport {
 
     private List<Organisation> organisations;
     private String organisation_name;
-    private String organisation_path;
     private File organisation_logo;
     private String organisation_catalog_url;     
         
@@ -61,7 +60,6 @@ public class InstitutionConfigurationAction extends ActionSupport {
             ResultSet rs = statement.executeQuery("SELECT * FROM organisation o INNER JOIN user u ON o.organisationId = u.organisationId WHERE u.user_name='"+userName+"';");
             if (rs.next() && rs.getString("organisation_name") != null) {
                 setOrganisation_name(rs.getString("organisation_name"));
-                setOrganisation_path(rs.getString("organisation_path"));
                 // readFile(rs);
                 setOrganisation_catalog_url(rs
                         .getString("organisation_catalog_url"));
@@ -87,20 +85,19 @@ public class InstitutionConfigurationAction extends ActionSupport {
 //            ResultSet rs = statement.executeQuery("SELECT * FROM organisation WHERE organisation_name='"+getOrganisation_name()+"'");
 //            if(!rs.next()){
             PreparedStatement preparedStatement = connection
-                    .prepareStatement("UPDATE organisation  SET organisation_path = ?, organisation_logo = ?, organisation_catalog_url =? WHERE organisation_name = ?");
-            preparedStatement.setString(1, this.organisation_path);
+                    .prepareStatement("UPDATE organisation  SET organisation_logo = ?, organisation_catalog_url =? WHERE organisation_name = ?");
             if (this.organisation_logo != null) {
                 fis = new FileInputStream(this.organisation_logo);
-                preparedStatement.setBinaryStream(2, fis,
+                preparedStatement.setBinaryStream(1, fis,
                         (int) this.organisation_logo.length());
             } else {
                 File defaultImg = new File(DEFAULTLOGOPATH);
                 fis = new FileInputStream(defaultImg);
-                preparedStatement.setBinaryStream(2, fis,
+                preparedStatement.setBinaryStream(1, fis,
                         (int) defaultImg.length());
             }
-            preparedStatement.setString(3, this.organisation_catalog_url);
-            preparedStatement.setString(4, this.organisation_name);
+            preparedStatement.setString(2, this.organisation_catalog_url);
+            preparedStatement.setString(3, this.organisation_name);
             preparedStatement.executeUpdate();
             addActionMessage(getText("institution.changed"));
             preparedStatement.close();
@@ -155,26 +152,7 @@ public class InstitutionConfigurationAction extends ActionSupport {
     public void setOrganisation_name(String organisation_name) {
         this.organisation_name = organisation_name;
     }
-
-    /**
-     * @return Returns the organisation_path.
-     * @exception
-     * @since 1.0
-     */
-    public String getOrganisation_path() {
-        return organisation_path;
-    }
-
-    /**
-     * @param organisation_path
-     *            The organisation_path to set.
-     * @exception
-     * @since 1.0
-     */
-    public void setOrganisation_path(String organisation_path) {
-        this.organisation_path = organisation_path;
-    }
-
+    
     /**
      * @return Returns the organisation_logo.
      * @exception
