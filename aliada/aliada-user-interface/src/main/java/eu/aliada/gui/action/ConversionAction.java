@@ -55,9 +55,13 @@ public class ConversionAction extends ActionSupport {
     private final Log logger = new Log(ConversionAction.class);
     
     public String execute() {
+        boolean rdfizerFinished = false;
         HttpSession session = ServletActionContext.getRequest().getSession();
-        setImportFile((File) session.getAttribute("importFile"));        
-        if ((boolean) session.getAttribute("rdfizerFinished")) {
+        setImportFile((File) session.getAttribute("importFile")); 
+        if(session.getAttribute("rdfizerFinished") != null){
+            rdfizerFinished = (boolean) session.getAttribute("rdfizerFinished");
+        }
+        if (rdfizerFinished) {
             setShowCheckButton(false);
             setShowRdfizerButton(true);
         }else if (session.getAttribute("rdfizerJobId") == null) {
