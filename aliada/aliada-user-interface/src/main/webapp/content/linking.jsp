@@ -16,6 +16,7 @@
 		      success: function(json) {
 		    	  console.log(json);
 			   	   var sDate = json.startDate;
+			   	   //sDate= new Date(sDate);
 			   	   var eDate = json.endDate;
 			   	   var numLinks = json.numLinks;
 			   	   var status = json.status;

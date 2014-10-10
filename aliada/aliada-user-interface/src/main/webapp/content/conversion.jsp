@@ -123,8 +123,13 @@ $(function(){
 					</td>
 				</tr>			
 			</table>
-			<html:submit id="rdfizeButton" onClick="return confirmBox();" disabled="true" cssClass="submitButton button"
-				key="RDF-ize"/>
+			<div id="conversionButtons" class="buttons row">	
+				<html:submit id="rdfizeButton" onClick="return confirmBox();" disabled="true" cssClass="submitButton button"
+					key="RDF-ize"/>
+				<img id="progressBar" class="displayNo" src="images/progressBar.gif" alt="" />
+				<html:submit id="checkRDFButton" disabled="true" cssClass="submitButton button"
+					key="check" onClick="return false;"/>
+			</div>
 		</div>
 		<div id="checkInfo" class="displayNo content">
 			<label class="row label"><html:text name="rdf.fileTo"/></label>		
@@ -157,11 +162,6 @@ $(function(){
 				<html:text name="rdf.triplesSec"/>		
 			</div>
 		</div>
-		<div id="conversionButtons" class="buttons row">
-				<img id="progressBar" class="displayNo" src="images/progressBar.gif" alt="" />
-				<html:submit id="checkRDFButton" disabled="true" cssClass="submitButton button"
-					key="check" onClick="return false;"/>
-		</div>	
 	</html:form>
 </div>
 <div id="submitButtons" class="buttons row">
