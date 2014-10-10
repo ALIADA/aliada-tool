@@ -56,23 +56,14 @@ public class ConversionAction extends ActionSupport {
     
     public String execute() {
         HttpSession session = ServletActionContext.getRequest().getSession();
-        File newFile = (File) session.getAttribute("importFile");
-        if(newFile==null){
-            setShowCheckButton(false);
-            setShowRdfizerButton(false); 
-        }
-        else if(!newFile.equals(session.getAttribute("oldImportFile"))){
-            session.setAttribute("oldImportFile", newFile);
-            setImportFile(newFile);
+        setImportFile((File) session.getAttribute("importFile"));        
+        if ((boolean) session.getAttribute("rdfizerFinished")) {
             setShowCheckButton(false);
             setShowRdfizerButton(true);
-        }        
-        else if (session.getAttribute("rdfizerJobId") == null) {
-            setImportFile(newFile);
+        }else if (session.getAttribute("rdfizerJobId") == null) {
             setShowCheckButton(false);
             setShowRdfizerButton(true);
         } else {
-            setImportFile(newFile);
             setShowCheckButton(true);
             setShowRdfizerButton(false); 
         }
@@ -126,6 +117,7 @@ public class ConversionAction extends ActionSupport {
                     try {
                         enableRdfizer();
                         createJob(addedId);
+                        session.setAttribute("rdfizerFinished", false);
                     } catch (IOException e) {
                         logger.error(MessageCatalog._00012_IO_EXCEPTION,e);
                         getTemplatesDb();

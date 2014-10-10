@@ -45,6 +45,7 @@ public class LinkingAction extends ActionSupport {
 
     public String execute() {
         HttpSession session = ServletActionContext.getRequest().getSession();
+        session.setAttribute("rdfizerFinished", true);
         File importFile = (File) session.getAttribute("importFile");
         if (importFile == null) {
             setNotFiles(true);
