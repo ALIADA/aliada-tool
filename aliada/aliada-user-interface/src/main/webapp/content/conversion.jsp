@@ -3,17 +3,25 @@
 <%@ taglib uri="/struts-tags" prefix="html"%>
 <script>
 function confirmBox(){
-	var answer = window.confirm("<html:text name='conversion.rdfAgain'/>");
-	console.log(answer);
-	if (answer == true){
-		console.log("RDFize called");
-		window.location.href = "${pageContext.request.contextPath}/RDFize.action";
+	var rdfizerJobId = $("#rdfizerJobId").val();
+	if(rdfizerJobId!=null){
+		var answer = window.confirm("<html:text name='conversion.rdfAgain'/>");
+		console.log(answer);
+		if (answer == true){
+			console.log("RDFize called");
+			window.location.href = "${pageContext.request.contextPath}/RDFize.action";
+		}
+		else{
+			console.log("RDFize canceled");
+			window.location = "${pageContext.request.contextPath}/conversion.action";
+		}
+	    return false;		
 	}
 	else{
-		console.log("RDFize canceled");
-		window.location = "${pageContext.request.contextPath}/conversion.action";
+		window.location.href = "${pageContext.request.contextPath}/RDFize.action";
+	    return false;
 	}
-    return false;
+	
 }
 $(function(){
 	var interval;
