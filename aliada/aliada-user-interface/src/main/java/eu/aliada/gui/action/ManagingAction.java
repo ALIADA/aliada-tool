@@ -147,7 +147,7 @@ public class ManagingAction extends ActionSupport {
 							FileWork fileWork = new FileWork();
 							fileWork.setFile(this.importFile);
 							fileWork.setProfile(this.selectedProfile);
-							if(session.getAttribute("importedFiles")!=null){
+							if(session.getAttribute("importedFiles")==null){
 							    importedFiles = new HashMap<>();
 							    importedFiles.put(1, fileWork);
 							}
