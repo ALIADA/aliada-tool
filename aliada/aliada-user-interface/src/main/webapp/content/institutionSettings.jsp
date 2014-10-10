@@ -19,11 +19,6 @@
 						cssClass="inputPage disabled" size="15" readonly="true"/></td>
 			</tr>
 			<tr>
-				<td colspan="2"><html:textfield theme="xhtml"
-						key="organisation_path"
-						cssClass="inputPage" size="15" /></td>
-			</tr>
-			<tr>
 				<td><html:file theme="xhtml" key="organisation_logo" /></td>
 			</tr>
 			<tr>

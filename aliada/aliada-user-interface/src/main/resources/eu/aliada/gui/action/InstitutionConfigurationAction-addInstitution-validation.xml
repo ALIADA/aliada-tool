@@ -8,11 +8,6 @@
 			<message key="name.required" />
        </field-validator>
    </field>
-   <field name="organisation_path">
-       <field-validator type="requiredstring">
-			<message key="path.required" />
-       </field-validator>
-   </field>
    <field name="organisation_catalog_url">
        <field-validator type="requiredstring">
 			<message key="catalogue.required" />
