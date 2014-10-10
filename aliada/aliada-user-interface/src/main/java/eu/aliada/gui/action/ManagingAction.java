@@ -22,6 +22,7 @@ import org.apache.struts2.ServletActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 
 import eu.aliada.gui.log.MessageCatalog;
+import eu.aliada.gui.model.FileWork;
 import eu.aliada.gui.rdbms.DBConnectionManager;
 import eu.aliada.inputValidation.CheckImportError;
 import eu.aliada.inputValidation.VisualizeXML;
@@ -61,7 +62,7 @@ public class ManagingAction extends ActionSupport {
 	private boolean areProfiles;
 	private File importFile;
 	private String importFileFileName;
-	private String profilesSelect;
+	private HashMap<Integer, FileWork> importedFiles;
 
 	private static final String VISUALIZE_PATH = "webapps/aliada-user-interface-1.0/WEB-INF/classes/xmlVisualize/";
     private static final String VALIDATOR_PATH = "webapps/aliada-user-interface-1.0/WEB-INF/classes/xmlValidators/";
@@ -99,7 +100,7 @@ public class ManagingAction extends ActionSupport {
 				Statement statement = connection.createStatement();
 				ResultSet rs = statement
 						.executeQuery("select metadata_scheme_code,file_type_code from aliada.profile where profile_id='"
-								+ this.profilesSelect + "'");
+								+ this.selectedProfile + "'");
 				rs.next();
 				int validationType = rs.getInt(1);
 				int fileType = rs.getInt(2);
@@ -143,9 +144,21 @@ public class ManagingAction extends ActionSupport {
 							File fileCreated = new File(filePath,
 									this.importFileFileName);
 							FileUtils.copyFile(this.importFile, fileCreated);
+							FileWork fileWork = new FileWork();
+							fileWork.setFile(this.importFile);
+							fileWork.setProfile(this.selectedProfile);
+							if(session.getAttribute("importedFiles")!=null){
+							    importedFiles = new HashMap<>();
+							    importedFiles.put(1, fileWork);
+							}
+							else{
+							    importedFiles = (HashMap<Integer, FileWork>) session.getAttribute("importedFiles");
+							    importedFiles.put(importedFiles.size()+1,fileWork);
+							}
+							session.setAttribute("importedFiles", importedFiles);
 							session.setAttribute("importFile", fileCreated);
                             session.setAttribute("importFileName", fileCreated.getName());
-							session.setAttribute("profile", this.profilesSelect);
+							session.setAttribute("profile", this.selectedProfile);
 							logger.debug(MessageCatalog._00026_MANAGE_VALIDATED);
 							addActionMessage(getText("correct.file"));
 							showProfiles();
@@ -832,25 +845,6 @@ public class ManagingAction extends ActionSupport {
 	 */
 	public File getImportFile() {
 		return importFile;
-	}
-
-	/**
-	 * @return Returns the profilesSelect.
-	 * @exception
-	 * @since 1.0
-	 */
-	public String getProfilesSelect() {
-		return profilesSelect;
-	}
-
-	/**
-	 * @param profilesSelect
-	 *            The profilesSelect to set.
-	 * @exception
-	 * @since 1.0
-	 */
-	public void setProfilesSelect(final String profilesSelect) {
-		this.profilesSelect = profilesSelect;
 	}
 
 	/**
