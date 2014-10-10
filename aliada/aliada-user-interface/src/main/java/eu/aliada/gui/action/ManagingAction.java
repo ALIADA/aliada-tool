@@ -144,18 +144,18 @@ public class ManagingAction extends ActionSupport {
 							File fileCreated = new File(filePath,
 									this.importFileFileName);
 							FileUtils.copyFile(this.importFile, fileCreated);
-							FileWork fileWork = new FileWork();
-							fileWork.setFile(this.importFile);
-							fileWork.setProfile(this.selectedProfile);
-							if(session.getAttribute("importedFiles")==null){
-							    importedFiles = new HashMap<>();
-							    importedFiles.put(1, fileWork);
-							}
-							else{
-							    importedFiles = (HashMap<Integer, FileWork>) session.getAttribute("importedFiles");
-							    importedFiles.put(importedFiles.size()+1,fileWork);
-							}
-							session.setAttribute("importedFiles", importedFiles);
+//							FileWork fileWork = new FileWork();
+//							fileWork.setFile(this.importFile);
+//							fileWork.setProfile(this.selectedProfile);
+//							if(session.getAttribute("importedFiles")==null){
+//							    importedFiles = new HashMap<>();
+//							    importedFiles.put(1, fileWork);
+//							}
+//							else{
+//							    importedFiles = (HashMap<Integer, FileWork>) session.getAttribute("importedFiles");
+//							    importedFiles.put(importedFiles.size()+1,fileWork);
+//							}
+//							session.setAttribute("importedFiles", importedFiles);
 							session.setAttribute("importFile", fileCreated);
                             session.setAttribute("importFileName", fileCreated.getName());
 							session.setAttribute("profile", this.selectedProfile);

@@ -20,12 +20,9 @@
 		<html:text name="importFile"/>
 		<html:file key="importFile" />
 		<html:fielderror fieldName="importFile" />
-		<div class="row">
-			<html:property value="%{#session['importFileName']}" />
-		</div>
 		<html:actionerror/>
 		<html:actionmessage />
-		<table class="table">
+		<%-- <table class="table">
 			<tr class="backgroundGreen center">
 				<th></th>
 				<th><label class="bold"><html:text name="filename"/></label></th>
@@ -38,7 +35,7 @@
 					<td><html:property value="profile" /></td>
 				</tr>
 			</html:iterator>
-		</table>
+		</table> --%>
 		<div id="managingButtons" class="buttons row">
 			<html:form id="managingButtonsForm">
 				<img id=loader class="displayNo leftMargin rMargin20" src="images/loader.gif" alt="" />
