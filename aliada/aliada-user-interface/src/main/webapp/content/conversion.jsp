@@ -4,10 +4,8 @@
 <script>
 function confirmBox(){
 	var rdfizerJobId = $("#rdfizerJobId").val();
-	console.log(rdfizerJobId);
-	if(rdfizerJobId!=null){
+	if(rdfizerJobId!=""){
 		var answer = window.confirm("<html:text name='conversion.rdfAgain'/>");
-		console.log(answer);
 		if (answer == true){
 			console.log("RDFize called");
 			window.location.href = "${pageContext.request.contextPath}/RDFize.action";
