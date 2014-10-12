@@ -77,16 +77,20 @@ public class Function {
 	}		
 	
 	public String lidoClass(final String value) {
-		final String midx = "/id/resource/";
-		
-		int indexOfIdResource = value.indexOf(midx);
-		if (indexOfIdResource != -1) {
-			int indexOfSlash = value.indexOf("/", (indexOfIdResource + midx.length() + 1));
-			if (indexOfSlash != -1) {
-				return value.substring((indexOfIdResource + midx.length()), indexOfSlash);
+		try {
+			final String midx = "/id/resource/";
+			
+			int indexOfIdResource = value.indexOf(midx);
+			if (indexOfIdResource != -1) {
+				int indexOfSlash = value.indexOf("/", (indexOfIdResource + midx.length() + 1));
+				if (indexOfSlash != -1) {
+					return value.substring((indexOfIdResource + midx.length()), indexOfSlash);
+				}
 			}
+			return null;
+		} catch (Exception exception) {
+			return null;
 		}
-		return null;
 	}
 	
 	/**
