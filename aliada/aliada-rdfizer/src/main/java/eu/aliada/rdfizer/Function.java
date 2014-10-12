@@ -76,6 +76,19 @@ public class Function {
 			            .replaceAll("[^A-Za-z0-9]", "");
 	}		
 	
+	public String lidoClass(final String value) {
+		final String midx = "/id/resource/";
+		
+		int indexOfIdResource = value.indexOf(midx);
+		if (indexOfIdResource != -1) {
+			int indexOfSlash = value.indexOf("/", (indexOfIdResource + midx.length() + 1));
+			if (indexOfSlash != -1) {
+				return value.substring((indexOfIdResource + midx.length()), indexOfSlash);
+			}
+		}
+		return null;
+	}
+	
 	/**
 	 * Returns the ALIADA event type class corresponding to the given CIDOC-CRM class.
 	 * 

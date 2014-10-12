@@ -5,6 +5,7 @@
 #set($P2_has_type = "#ecrm('P2_has_type')")
 #set($Concept = "#skos('Concept')")
 #set($main_subject = "<${mainSubject}>")
+#set($lidoClass = $function.lidoClass($main_subject))
 ## RECORD ID BEGIN
 #set($lidoRecID = $xpath.value("lidoRecID", $root))
 #set($appellation_s = "#uri('E41Appellation' $lidoRecID)")
@@ -14,6 +15,9 @@ $appellation_s $P3_has_note "$lidoRecID" .
 $document_s $is_a #ecrm("E31_Document") .
 $document_s #ecrm("P1_is_identified_by") $appellation_s . 
 $main_subject #ecrm("P70i_is_documented_in") $document_s .
+#if($lidoClass)
+	$main_subject $is_a #ecrm($lidoClass) .
+#end	
 ## RECORD ID END
 ## CATEGORY BEGIN
 #set($categories = $xpath.many("category/conceptID[type='URI']",$root))
