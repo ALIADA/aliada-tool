@@ -12,7 +12,9 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
@@ -23,6 +25,7 @@ import com.opensymphony.xwork2.ActionSupport;
 
 import eu.aliada.gui.log.MessageCatalog;
 import eu.aliada.gui.model.FileWork;
+import eu.aliada.gui.model.User;
 import eu.aliada.gui.rdbms.DBConnectionManager;
 import eu.aliada.inputValidation.CheckImportError;
 import eu.aliada.inputValidation.VisualizeXML;
@@ -62,7 +65,7 @@ public class ManagingAction extends ActionSupport {
 	private boolean areProfiles;
 	private File importFile;
 	private String importFileFileName;
-	private HashMap<Integer, FileWork> importedFiles;
+	private List<FileWork> importedFiles;
 
 	private static final String VISUALIZE_PATH = "webapps/aliada-user-interface-1.0/WEB-INF/classes/xmlVisualize/";
     private static final String VALIDATOR_PATH = "webapps/aliada-user-interface-1.0/WEB-INF/classes/xmlValidators/";
@@ -145,16 +148,17 @@ public class ManagingAction extends ActionSupport {
 									this.importFileFileName);
 							FileUtils.copyFile(this.importFile, fileCreated);
 							FileWork fileWork = new FileWork();
-							fileWork.setFile(this.importFile);
+							fileWork.setFile(fileCreated);
+							fileWork.setFilename(fileCreated.getName());
 							fileWork.setProfile(this.selectedProfile);
 							if(session.getAttribute("importedFiles")==null){
-							    importedFiles = new HashMap<>();
-							    importedFiles.put(1, fileWork);
+							    importedFiles = new ArrayList<FileWork>();
+							    importedFiles.add(fileWork);
 							    logger.debug("added first file"+importedFiles.get(1).getFilename());
 							}
 							else{
-							    importedFiles = (HashMap<Integer, FileWork>) session.getAttribute("importedFiles");
-							    importedFiles.put(importedFiles.size()+1,fileWork);
+							    importedFiles = (ArrayList<FileWork>) session.getAttribute("importedFiles");
+							    importedFiles.add(fileWork);
                                 logger.debug("added file"+importedFiles.get(importedFiles.size()).getFilename());
 							}
 							session.setAttribute("importedFiles", importedFiles);

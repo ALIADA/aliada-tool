@@ -14,14 +14,13 @@ import java.io.File;
  */
 public class FileWork {
     private File file;
+    private String filename;
     private String profile;
     private String template;
     private String graph;
     private String status;
     
-    public String getFilename(){
-        return file.getName();
-    }
+    
     /**
      * @return Returns the file.
      * @exception
@@ -37,6 +36,23 @@ public class FileWork {
      */
     public void setFile(File file) {
         this.file = file;
+    }
+    
+    /**
+     * @return Returns the filename.
+     * @exception
+     * @since 1.0
+     */
+    public String getFilename() {
+        return filename;
+    }
+    /**
+     * @param filename The filename to set.
+     * @exception
+     * @since 1.0
+     */
+    public void setFilename(String filename) {
+        this.filename = filename;
     }
     /**
      * @return Returns the profile.
