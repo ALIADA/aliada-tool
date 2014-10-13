@@ -22,7 +22,7 @@
 		<html:fielderror fieldName="importFile" />
 		<html:actionerror/>
 		<html:actionmessage />
-		<%-- <table class="table">
+		<table class="table">
 			<tr class="backgroundGreen center">
 				<th></th>
 				<th><label class="bold"><html:text name="filename"/></label></th>
@@ -30,12 +30,12 @@
 			</tr>
 			<html:iterator value="%{#session['importedFiles']}" var="dato">
 				<tr>
-					<td><html:radio name="selectedUser" list="username" /></td>
+					<td><%-- <html:radio name="selectedUser" list="username" /> --%></td>
 					<td><html:property value="filename" /></td>
 					<td><html:property value="profile" /></td>
 				</tr>
 			</html:iterator>
-		</table> --%>
+		</table>
 		<div id="managingButtons" class="buttons row">
 			<html:form id="managingButtonsForm">
 				<img id=loader class="displayNo leftMargin rMargin20" src="images/loader.gif" alt="" />
