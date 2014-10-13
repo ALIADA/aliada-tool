@@ -1,5 +1,27 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@ taglib uri="/struts-tags" prefix="html" %>
+<script>
+	if(fileImported){
+		$("#importFileButton").removeClass("buttonGreen");
+		$("#importFileButton").addClass("button");
+		$("#nextButton").removeClass("button");
+		$("#nextButton").addClass("buttonGreen");
+		$("#nextButton").prop( "disabled", false);
+	}
+	if(enableErrorLogButton){
+		$("#importFileButton").removeClass("buttonGreen");
+		$("#importFileButton").addClass("button");
+		$("#errorLog").removeClass("button");
+		$("#errorLog").addClass("buttonGreen");
+		$("#errorLog").prop( "disabled", false);	
+	}
+	if(importedFiles!=null){
+		$("#importedFilesTable").show();	
+	}
+</script>
+<html:hidden id="importedFiles" name="importedFiles" value="%{#session['importedFiles']}" />
+<html:hidden id="fileImported" name="fileImported" value="fileImported" />
+<html:hidden id="enableErrorLogButton" name="enableErrorLogButton" value="enableErrorLogButton" />
 <ul class="breadcrumb">
 	<span class="breadCrumb"><html:text name="home"/></span>
 	<li><span class="breadcrumb"><html:text name="organisation.title"/></span></li>
@@ -30,7 +52,7 @@
 			</tr>
 			<html:iterator value="%{#session['importedFiles']}" var="dato">
 				<tr>
-					<td><html:checkbox name="selectedFile"/></td>
+					<td><html:checkbox value="fileChecked"/></td>
 					<td><html:property value="filename" /></td>
 					<td><html:property value="profile" /></td>
 				</tr>
@@ -56,30 +78,6 @@
 					key="next" />
 	</html:form>
 </div>
-<html:if test="fileImported">
-	<script>
-    	$("#importFileButton").removeClass("buttonGreen");
-    	$("#importFileButton").addClass("button");
-    	$("#nextButton").removeClass("button");
-    	$("#nextButton").addClass("buttonGreen");
-   		$("#nextButton").prop( "disabled", false);
-    </script>
-</html:if>
-<html:if test="enableErrorLogButton">
-	<script>
-    	$("#importFileButton").removeClass("buttonGreen");
-    	$("#importFileButton").addClass("button");
-    	$("#errorLog").removeClass("button");
-    	$("#errorLog").addClass("buttonGreen");
-   		$("#errorLog").prop( "disabled", false);
-    </script>
-</html:if>
-<html:if test="%{#session['importedFiles']!=null}">
-	<script>
-		$("#importedFilesTable").show();
-	</script>
-</html:if>
-
 
 
 
