@@ -150,16 +150,14 @@ public class ManagingAction extends ActionSupport {
 							FileWork fileWork = new FileWork();
 							fileWork.setFile(fileCreated);
 							fileWork.setFilename(fileCreated.getName());
-							fileWork.setProfile(this.selectedProfile);
+							fileWork.setProfile(getProfileNameFromCode(this.selectedProfile));
 							if(session.getAttribute("importedFiles")==null){
 							    importedFiles = new ArrayList<FileWork>();
 							    importedFiles.add(fileWork);
-							    logger.debug("added first file"+importedFiles.get(0).getFilename());
 							}
 							else{
 							    importedFiles = (ArrayList<FileWork>) session.getAttribute("importedFiles");
 							    importedFiles.add(fileWork);
-                                logger.debug("added file"+importedFiles.get(importedFiles.size()-1).getFilename());
 							}
 							session.setAttribute("importedFiles", importedFiles);
 							session.setAttribute("importFile", fileCreated);
@@ -393,6 +391,23 @@ public class ManagingAction extends ActionSupport {
 		setShowAddProfileForm(false);
 		setShowEditProfileForm(false);
 		return SUCCESS;
+	}
+	private String getProfileNameFromCode(String selectedProfile){
+	    Connection connection = null;
+            connection = new DBConnectionManager().getConnection();
+            Statement statement;
+            try {
+                statement = connection.createStatement();
+                ResultSet rs = statement
+                        .executeQuery("select profile_name from aliada.profile where profile_id="+selectedProfile);
+                if(rs.next()){
+                    return rs.getString("profile_name");
+                }
+            } catch (SQLException e) {
+                logger.error(MessageCatalog._00011_SQL_EXCEPTION,e);
+                return "";
+            }
+            return "";
 	}
 
 	/**

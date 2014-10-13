@@ -30,7 +30,7 @@
 			</tr>
 			<html:iterator value="%{#session['importedFiles']}" var="dato">
 				<tr>
-					<td><%-- <html:radio name="selectedUser" list="username" /> --%></td>
+					<td><html:checkbox name="selectedFile"/></td>
 					<td><html:property value="filename" /></td>
 					<td><html:property value="profile" /></td>
 				</tr>
