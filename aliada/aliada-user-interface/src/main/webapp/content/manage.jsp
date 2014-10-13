@@ -11,7 +11,7 @@ $(function(){
 		$("#errorLog").addClass("buttonGreen");
 		$("#errorLog").prop( "disabled", false);	
 	}
-	if(importedFiles!=null){
+	if(importedFiles){
 		$("#importedFilesTable").show();	
 	}
 	$("#importedFilesTable :checkbox").on("change",function(){
@@ -19,6 +19,11 @@ $(function(){
 			$("#nextButton").removeClass("button");
 			$("#nextButton").addClass("buttonGreen");
 			$("#nextButton").prop( "disabled", false);				
+		}
+		else{
+			$("#nextButton").removeClass("buttonGreen");
+			$("#nextButton").addClass("button");
+			$("#nextButton").prop( "disabled", true);				
 		}
 		});
 });
