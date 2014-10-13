@@ -27,6 +27,7 @@ import org.apache.struts2.ServletActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 
 import eu.aliada.gui.log.MessageCatalog;
+import eu.aliada.gui.model.FileWork;
 import eu.aliada.gui.rdbms.DBConnectionManager;
 import eu.aliada.shared.log.Log;
 import eu.aliada.shared.rdfstore.RDFStoreDAO;
@@ -39,7 +40,7 @@ import eu.aliada.shared.rdfstore.RDFStoreDAO;
  */
 public class ConversionAction extends ActionSupport {
     private static final int NOTEMPLATESELECTED = -1;
-    private File importFile;
+    private FileWork importedFile;
     private HashMap<Integer, String> templates;
     private HashMap<String, Boolean> tags;
     private List selectedTags = new ArrayList();
@@ -48,8 +49,8 @@ public class ConversionAction extends ActionSupport {
     private String templateDescription;
     private boolean showAddTemplateForm;
     private boolean showEditTemplateForm;
-    private boolean showCheckButton;
-    private boolean showRdfizerButton;
+    private int showCheckButton;
+    private int showRdfizerButton;
     private boolean areTemplates;
     
     private final Log logger = new Log(ConversionAction.class);
@@ -57,19 +58,19 @@ public class ConversionAction extends ActionSupport {
     public String execute() {
         boolean rdfizerFinished = false;
         HttpSession session = ServletActionContext.getRequest().getSession();
-        setImportFile((File) session.getAttribute("importFile")); 
+        setImportedFile((FileWork) session.getAttribute("importedFile")); 
         if(session.getAttribute("rdfizerFinished") != null){
             rdfizerFinished = (boolean) session.getAttribute("rdfizerFinished");
         }
         if (rdfizerFinished) {
-            setShowCheckButton(false);
-            setShowRdfizerButton(true);
+            setShowCheckButton(0);
+            setShowRdfizerButton(1);
         }else if (session.getAttribute("rdfizerJobId") == null) {
-            setShowCheckButton(false);
-            setShowRdfizerButton(true);
+            setShowCheckButton(0);
+            setShowRdfizerButton(1);
         } else {
-            setShowCheckButton(true);
-            setShowRdfizerButton(false); 
+            setShowCheckButton(1);
+            setShowRdfizerButton(0); 
         }
         return getTemplatesDb();
     }
@@ -91,7 +92,7 @@ public class ConversionAction extends ActionSupport {
                     .executeQuery("select aliada_ontology,sparql_endpoint_uri,sparql_endpoint_login,sparql_endpoint_password,graph_uri,dataset_base from organisation");
             if (rs.next()) {
                 RDFStoreDAO store = new RDFStoreDAO();
-                if(importFile==null){
+                if(importedFile==null){
                     logger.error(MessageCatalog._00033_CONVERSION_ERROR_NO_FILE_IMPORTED);
                     rs.close();
                     statement.close();
@@ -104,7 +105,7 @@ public class ConversionAction extends ActionSupport {
                             .prepareStatement(
                                     "INSERT INTO aliada.rdfizer_job_instances (datafile,format,namespace,graph_name,aliada_ontology,sparql_endpoint_uri,sparql_endpoint_login,sparql_endpoint_password) VALUES(?,?,?,?,?,?,?,?)",
                                     PreparedStatement.RETURN_GENERATED_KEYS);
-                    preparedStatement.setString(1, importFile.getAbsolutePath());
+                    preparedStatement.setString(1, importedFile.getFile().getAbsolutePath());
                     preparedStatement.setString(2, format);
                     preparedStatement.setString(3, rs.getString("dataset_base"));
                     preparedStatement.setString(4, rs.getString("graph_uri"));
@@ -135,9 +136,8 @@ public class ConversionAction extends ActionSupport {
                     rs.close();
                     statement.close();
                     connection.close();
-                    setImportFile((File) session.getAttribute("importFile"));
                     session.setAttribute("rdfizerJobId", addedId);
-                    setShowCheckButton(true);
+                    setShowCheckButton(1);
                     return getTemplatesDb();                
                 }
             } else {
@@ -168,13 +168,11 @@ public class ConversionAction extends ActionSupport {
         String format = null;
         connection = new DBConnectionManager().getConnection();
         Statement statement = connection.createStatement();
-        String profile = (String) ServletActionContext.getRequest()
-                .getSession().getAttribute("profile");
-        setImportFile((File) ServletActionContext.getRequest().getSession()
-                .getAttribute("importFile"));
+        setImportedFile((FileWork) ServletActionContext.getRequest().getSession()
+                .getAttribute("importedFile"));
         ResultSet rs = statement
-                .executeQuery("select metadata_name from t_metadata_scheme JOIN profile ON t_metadata_scheme.metadata_code=profile.metadata_scheme_code WHERE profile.profile_id= "
-                        + profile);
+                .executeQuery("select metadata_name from t_metadata_scheme JOIN profile ON t_metadata_scheme.metadata_code=profile.metadata_scheme_code WHERE profile.profile_name= "
+                        + importedFile.getProfile());
         if (rs.next()) {
             format = rs.getString(1);
         }
@@ -220,7 +218,7 @@ public class ConversionAction extends ActionSupport {
                     + conn.getResponseCode());
         }
         logger.debug(MessageCatalog._00031_CONVERSION_RDFIZE_JOB);
-        setShowRdfizerButton(false);
+        setShowRdfizerButton(0);
         conn.disconnect();
     }
 
@@ -511,22 +509,22 @@ public class ConversionAction extends ActionSupport {
     }
 
     /**
-     * @return Returns the importFile.
+     * @return Returns the importedFile.
      * @exception
      * @since 1.0
      */
-    public File getImportFile() {
-        return importFile;
+    public FileWork getImportedFile() {
+        return importedFile;
     }
 
     /**
-     * @param importFile
-     *            The importFile to set.
+     * @param importedFile
+     *            The importedFile to set.
      * @exception
      * @since 1.0
      */
-    public void setImportFile(File importFile) {
-        this.importFile = importFile;
+    public void setImportedFile(FileWork importedFile) {
+        this.importedFile = importedFile;
     }
 
     /**
@@ -648,7 +646,7 @@ public class ConversionAction extends ActionSupport {
      * @exception
      * @since 1.0
      */
-    public boolean isShowCheckButton() {
+    public int getShowCheckButton() {
         return showCheckButton;
     }
 
@@ -658,7 +656,7 @@ public class ConversionAction extends ActionSupport {
      * @exception
      * @since 1.0
      */
-    public void setShowCheckButton(boolean showCheckButton) {
+    public void setShowCheckButton(int showCheckButton) {
         this.showCheckButton = showCheckButton;
     }
 
@@ -686,7 +684,7 @@ public class ConversionAction extends ActionSupport {
      * @exception
      * @since 1.0
      */
-    public boolean isShowRdfizerButton() {
+    public int getShowRdfizerButton() {
         return showRdfizerButton;
     }
 
@@ -695,7 +693,7 @@ public class ConversionAction extends ActionSupport {
      * @exception
      * @since 1.0
      */
-    public void setShowRdfizerButton(boolean showRdfizerButton) {
+    public void setShowRdfizerButton(int showRdfizerButton) {
         this.showRdfizerButton = showRdfizerButton;
     }
 

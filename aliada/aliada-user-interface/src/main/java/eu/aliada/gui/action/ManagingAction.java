@@ -25,7 +25,6 @@ import com.opensymphony.xwork2.ActionSupport;
 
 import eu.aliada.gui.log.MessageCatalog;
 import eu.aliada.gui.model.FileWork;
-import eu.aliada.gui.model.User;
 import eu.aliada.gui.rdbms.DBConnectionManager;
 import eu.aliada.inputValidation.CheckImportError;
 import eu.aliada.inputValidation.VisualizeXML;
@@ -60,12 +59,12 @@ public class ManagingAction extends ActionSupport {
 	private HashMap<Integer, String> characterSets;
 	private boolean showAddProfileForm;
 	private boolean showEditProfileForm;
-	private boolean enableErrorLogButton;
-	private boolean fileImported;
+	private int enableErrorLogButton;
 	private boolean areProfiles;
 	private File importFile;
 	private String importFileFileName;
 	private List<FileWork> importedFiles;
+	private String selectedFile;
 
 	private static final String VISUALIZE_PATH = "webapps/aliada-user-interface-1.0/WEB-INF/classes/xmlVisualize/";
     private static final String VALIDATOR_PATH = "webapps/aliada-user-interface-1.0/WEB-INF/classes/xmlValidators/";
@@ -84,7 +83,6 @@ public class ManagingAction extends ActionSupport {
 		CheckImportError.initialize();
 		String message;
 		HttpSession session = ServletActionContext.getRequest().getSession();
-		session.removeAttribute("importFile");
 		WellFormed wf = new WellFormed();
 		if (importFile == null) {
 			addActionError(getText("err.not.file"));
@@ -134,8 +132,7 @@ public class ManagingAction extends ActionSupport {
 							addActionError(getText("err.not.validated"));
 							logger.debug(MessageCatalog._00022_MANAGE_NOT_VALIDATED_BY_VISUALIZE_FILE_TYPE);
 							showProfiles();
-							setEnableErrorLogButton(true);
-							setFileImported(false);
+							setEnableErrorLogButton(1);
 						} else if (CheckImportError.getCount() == 0) {
 							statement = connection.createStatement();
 							rs = statement
@@ -160,26 +157,22 @@ public class ManagingAction extends ActionSupport {
 							    importedFiles.add(fileWork);
 							}
 							session.setAttribute("importedFiles", importedFiles);
-							session.setAttribute("importFile", fileCreated);
-                            session.setAttribute("importFileName", fileCreated.getName());
-							session.setAttribute("profile", this.selectedProfile);
 							logger.debug(MessageCatalog._00026_MANAGE_VALIDATED);
 							addActionMessage(getText("correct.file"));
 							showProfiles();
-							setEnableErrorLogButton(false);
-							setFileImported(true);
+							setEnableErrorLogButton(0);
 						} else {
 							addActionError(getText("err.not.validated"));
 							logger.debug(MessageCatalog._00023_MANAGE_NOT_VALIDATED_BY_VISUALIZE_MANDATORY);
                             showProfiles();
-							setEnableErrorLogButton(true);
-                            setFileImported(false);
+							setEnableErrorLogButton(1);
 						}
 					} else {
 						addActionError(getText("err.not.validated"));
 						logger.debug(MessageCatalog._00024_MANAGE_NOT_VALIDATED_BY_VISUALIZE);
 						message = ERROR;
 						showProfiles();
+                        setEnableErrorLogButton(1);
 					}
 				} else {
 					addActionError(getText("err.wrong.file"));
@@ -206,13 +199,21 @@ public class ManagingAction extends ActionSupport {
 	    }	    
 	}
 	public String saveFilesToConversion(){
-	    List<FileWork> conversionFiles = new ArrayList<FileWork>();
-	    for (FileWork file : importedFiles){
-            if (file.isFileChecked()){
-                conversionFiles.add(file);
-            }
-	    }
-	    ServletActionContext.getRequest().getSession().setAttribute("conversionFiles", conversionFiles);	    
+//	    List<FileWork> conversionFiles = new ArrayList<FileWork>();
+//	    for (FileWork file : importedFiles){
+//            if (file.isFileChecked()){
+//                conversionFiles.add(file);
+//            }
+//	    }
+	    //ServletActionContext.getRequest().getSession().setAttribute("conversionFiles", conversionFiles);
+	    importedFiles = (ArrayList<FileWork>) ServletActionContext.getRequest().getSession().getAttribute("importedFiles");
+        for (FileWork file : importedFiles){
+            logger.debug("1"+file.getFilename());
+            logger.debug("2"+getSelectedFile());
+              if (file.getFilename().equals(this.selectedFile)){
+                  ServletActionContext.getRequest().getSession().setAttribute("importedFile", file);
+              }
+        }
 	    return SUCCESS;
 	}
 
@@ -395,10 +396,6 @@ public class ManagingAction extends ActionSupport {
 			logger.error(MessageCatalog._00011_SQL_EXCEPTION,e);
 			return ERROR;
 		}
-
-        if(ServletActionContext.getRequest().getSession().getAttribute("importFile")!=null){
-            setFileImported(true);
-        }
 		getSchemesDb();
 		getCharacterSetsDb();
 		getFormatsDb();
@@ -406,6 +403,7 @@ public class ManagingAction extends ActionSupport {
 		getTypesDb();
 		setShowAddProfileForm(false);
 		setShowEditProfileForm(false);
+		setEnableErrorLogButton(0);
 		return SUCCESS;
 	}
 	private String getProfileNameFromCode(String selectedProfile){
@@ -941,7 +939,7 @@ public class ManagingAction extends ActionSupport {
 	 * @since 1.0
 	 */
 
-	public boolean isEnableErrorLogButton() {
+	public int getEnableErrorLogButton() {
 		return enableErrorLogButton;
 	}
 
@@ -952,27 +950,9 @@ public class ManagingAction extends ActionSupport {
 	 * @since 1.0
 	 */
 
-	public void setEnableErrorLogButton(final boolean enableErrorLogButton) {
+	public void setEnableErrorLogButton(int enableErrorLogButton) {
 		this.enableErrorLogButton = enableErrorLogButton;
 	}
-
-    /**
-     * @return Returns the fileImported.
-     * @exception
-     * @since 1.0
-     */
-    public boolean isFileImported() {
-        return fileImported;
-    }
-
-    /**
-     * @param fileImported The fileImported to set.
-     * @exception
-     * @since 1.0
-     */
-    public void setFileImported(boolean fileImported) {
-        this.fileImported = fileImported;
-    }
     /**
      * @return Returns the importedFiles.
      * @exception
@@ -988,6 +968,22 @@ public class ManagingAction extends ActionSupport {
      */
     public void setImportedFiles(List<FileWork> importedFiles) {
         this.importedFiles = importedFiles;
+    }
+    /**
+     * @return Returns the selectedFile.
+     * @exception
+     * @since 1.0
+     */
+    public String getSelectedFile() {
+        return selectedFile;
+    }
+    /**
+     * @param selectedFile The selectedFile to set.
+     * @exception
+     * @since 1.0
+     */
+    public void setSelectedFile(String selectedFile) {
+        this.selectedFile = selectedFile;
     }
 
 }

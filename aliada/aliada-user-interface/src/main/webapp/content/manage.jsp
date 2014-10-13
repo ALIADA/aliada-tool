@@ -2,19 +2,24 @@
 <%@ taglib uri="/struts-tags" prefix="html" %>
 <script>
 $(function(){
-	var enableErrorLogButton = $("#enableErrorLogButton").val();
 	var areFiles = $("#areFiles").val();
-	if(enableErrorLogButton){
+	var enableErrorLogButton= $("#enableErrorLogButton").val();
+	if(enableErrorLogButton==1){
 		$("#importFileButton").removeClass("buttonGreen");
 		$("#importFileButton").addClass("button");
 		$("#errorLog").removeClass("button");
 		$("#errorLog").addClass("buttonGreen");
 		$("#errorLog").prop( "disabled", false);	
 	}
+	else{
+		$("#errorLog").removeClass("buttonGreen");
+		$("#errorLog").addClass("button");
+		$("#errorLog").prop( "disabled", true);		
+	}
 	if(areFiles){
 		$("#importedFilesTable").show();	
 	}
-	$("#importedFilesTable :checkbox").on("change",function(){
+	/* $("#importedFilesTable :checkbox").on("change",function(){
 		if($("#importedFilesTable :checkbox:checked").length>0){
 			$("#nextButton").removeClass("button");
 			$("#nextButton").addClass("buttonGreen");
@@ -25,11 +30,23 @@ $(function(){
 			$("#nextButton").addClass("button");
 			$("#nextButton").prop( "disabled", true);				
 		}
+	}); */	
+	 $("#importedFilesTable :radio").on("change",function(){
+			if($("#importedFilesTable :radio:checked")){
+				$("#nextButton").removeClass("button");
+				$("#nextButton").addClass("buttonGreen");
+				$("#nextButton").prop( "disabled", false);				
+			}
+			else{
+				$("#nextButton").removeClass("buttonGreen");
+				$("#nextButton").addClass("button");
+				$("#nextButton").prop( "disabled", true);				
+			}
 		});
 });
 </script>
 <html:hidden id="areFiles" name="areFiles" value="%{#session['importedFiles']}" />
-<html:hidden id="enableErrorLogButton" name="enableErrorLogButton" value="enableErrorLogButton" />
+<html:hidden id="enableErrorLogButton" name="enableErrorLogButton" value="%{enableErrorLogButton}" />
 <ul class="breadcrumb">
 	<span class="breadCrumb"><html:text name="home"/></span>
 	<li><span class="breadcrumb"><html:text name="organisation.title"/></span></li>
@@ -38,8 +55,8 @@ $(function(){
 	<li><span class="breadcrumb"><html:text name="linking.title"/></span></li>
 </ul>
 <div class="form centered">
-	<html:form id="managing" method="post" enctype="multipart/form-data">
 	<div id="managingPanel" class="content">
+	<html:form id="managing" method="post" enctype="multipart/form-data">
 		<label class="row label"><html:text name="manage.process"/></label>
 		<div class="row">
 			<html:select name="selectedProfile" cssClass="inputForm"
@@ -47,25 +64,13 @@ $(function(){
 			<html:submit action="showProfiles"
 				cssClass="submitButton button" key="profilesSubmit" />
 		</div>
-		<html:text name="importFile"/>
-		<html:file key="importFile" />
+		<div class="row">
+			<html:text name="importFile"/>
+			<html:file key="importFile" />
+		</div>
 		<html:fielderror fieldName="importFile" />
 		<html:actionerror/>
 		<html:actionmessage />
-		<table id="importedFilesTable" class="table displayNo">
-			<tr class="backgroundGreen center">
-				<th></th>
-				<th><label class="bold"><html:text name="filename"/></label></th>
-				<th><label class="bold"><html:text name="profile"/></label></th>
-			</tr>
-			<html:iterator value="importedFiles" var="dato">
-				<tr>
-					<td><html:checkbox name="fileChecked" value="fileChecked"/></td>
-					<td><html:property value="filename" /></td>
-					<td><html:property value="profile" /></td>
-				</tr>
-			</html:iterator>
-		</table>
 		<div id="managingButtons" class="buttons row">
 			<html:form id="managingButtonsForm">
 				<img id=loader class="displayNo leftMargin rMargin20" src="images/loader.gif" alt="" />
@@ -75,17 +80,36 @@ $(function(){
 				<html:submit id="errorLog" action="errorLog" disabled="true" cssClass="submitButton button"
 					key="errorLog" />
 			</html:form>
-		</div>
-	</div>	
+		</div>	
 	</html:form>
+	</div>
 </div>
-<div id="submitButtons" class="buttons row">
-	<html:form id="submitButtonsForm">
-		<html:submit action="configure" cssClass="fleft submitButton button" key="back" />	
-		<html:submit id="nextButton" action="saveFilesToConversion" disabled="true" cssClass="fright submitButton button"
-					key="next" />
-	</html:form>
-</div>
-
+<html:form>
+	<div class="form centered">
+	<div class="content">
+		<table id="importedFilesTable" class="table displayNo">
+			<tr class="backgroundGreen center">
+				<!-- <th></th> -->
+				<th><label class="bold"><html:text name="filename"/></label></th>
+				<th><label class="bold"><html:text name="profile"/></label></th>
+			</tr>
+			<html:iterator value="importedFiles" var="dato">
+				<tr>
+					<%-- <td><html:checkbox name="fileChecked" value="fileChecked"/></td> --%>
+					<%-- <td><html:property value="filename" /></td> --%>
+					<td><html:radio key="selectedFile" list="filename" /></td>
+					<td><html:property value="profile" /></td>
+				</tr>
+			</html:iterator>
+		</table>
+	</div>
+	</div>
+	
+	<div id="submitButtons" class="buttons row">
+			<html:submit action="configure" cssClass="fleft submitButton button" key="back" />	
+			<html:submit id="nextButton" action="saveFilesToConversion" disabled="true" cssClass="fright submitButton button"
+						key="next" />
+	</div>
+</html:form>
 
 

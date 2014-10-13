@@ -82,12 +82,12 @@ $(function(){
 		console.log("Checking");
 		interval = setInterval( checkRDF, 1000 );		
 	});
-	if(showRdfizerButton){
+	if(showRdfizerButton==0){
 	   	$("#rdfizeButton").removeClass("button");
 	   	$("#rdfizeButton").addClass("buttonGreen");
 		$('#rdfizeButton').prop("disabled",false);		
 	}
-	if(showCheckButton){
+	if(showCheckButton==1){
 	   	$("#checkRDFButton").removeClass("button");
 	   	$("#checkRDFButton").addClass("buttonGreen");
 		$('#checkRDFButton').prop("disabled",false);
@@ -96,8 +96,8 @@ $(function(){
 }); 
 </script>
 <html:hidden id="rdfizerJobId" name="rdfizerJobId" value="%{#session['rdfizerJobId']}" />
-<html:hidden id="showRdfizerButton" name="showRdfizerButton" value="showRdfizerButton" />
-<html:hidden id="showCheckButton" name="showCheckButton" value="showCheckButton" />
+<html:hidden id="showRdfizerButton" name="showRdfizerButton" value="%{showRdfizerButton}" />
+<html:hidden id="showCheckButton" name="showCheckButton" value="%{showCheckButton}" />
 <ul class="breadcrumb">
 	<span class="breadCrumb"><html:text name="home"/></span>
 	<li><span class="breadcrumb"><html:text name="organisation.title"/></span></li>
@@ -117,18 +117,7 @@ $(function(){
 				</tr>
 				<tr>
 					<td>
-						<div <html:if test="!showRdfizerButton && !showCheckButton">class="displayInline"</html:if>
-							<html:else>
-							    class="displayNo"
-							</html:else>>
-							<html:text name="conversion.not.file"/>
-						</div>
-						<div <html:if test="!showRdfizerButton && !showCheckButton">class="displayNo"</html:if>
-							<html:else>
-							    class="displayInline"
-							</html:else>>
-							<html:property value="importFile.getName()" />
-						</div>
+						<html:property value="importedFile.getFilename()" />
 					</td>
 					<td><html:select name="templatesSelect"
 							cssClass="inputForm" list="templates" />					
