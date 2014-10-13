@@ -60,7 +60,7 @@ $(function(){
 			</tr>
 			<html:iterator value="importedFiles" var="dato">
 				<tr>
-					<td><html:checkbox value="fileChecked"/></td>
+					<td><html:checkbox name="fileChecked" value="fileChecked"/></td>
 					<td><html:property value="filename" /></td>
 					<td><html:property value="profile" /></td>
 				</tr>
