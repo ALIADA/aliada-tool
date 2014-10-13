@@ -150,12 +150,12 @@ public class ManagingAction extends ActionSupport {
 							if(session.getAttribute("importedFiles")==null){
 							    importedFiles = new HashMap<>();
 							    importedFiles.put(1, fileWork);
-							    logger.debug("added first file"+importedFiles);
+							    logger.debug("added first file"+importedFiles.get(1).getFilename());
 							}
 							else{
 							    importedFiles = (HashMap<Integer, FileWork>) session.getAttribute("importedFiles");
 							    importedFiles.put(importedFiles.size()+1,fileWork);
-                                logger.debug("added file"+importedFiles);
+                                logger.debug("added file"+importedFiles.get(importedFiles.size()).getFilename());
 							}
 							session.setAttribute("importedFiles", importedFiles);
 							session.setAttribute("importFile", fileCreated);
