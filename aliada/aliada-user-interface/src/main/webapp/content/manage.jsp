@@ -3,7 +3,7 @@
 <script>
 $(function(){
 	var enableErrorLogButton = $("#enableErrorLogButton").val();
-	var importedFiles = $("#importedFiles").val();
+	var areFiles = $("#areFiles").val();
 	if(enableErrorLogButton){
 		$("#importFileButton").removeClass("buttonGreen");
 		$("#importFileButton").addClass("button");
@@ -11,7 +11,7 @@ $(function(){
 		$("#errorLog").addClass("buttonGreen");
 		$("#errorLog").prop( "disabled", false);	
 	}
-	if(importedFiles){
+	if(areFiles){
 		$("#importedFilesTable").show();	
 	}
 	$("#importedFilesTable :checkbox").on("change",function(){
@@ -28,7 +28,7 @@ $(function(){
 		});
 });
 </script>
-<html:hidden id="importedFiles" name="importedFiles" value="%{#session['importedFiles']}" />
+<html:hidden id="areFiles" name="areFiles" value="%{#session['importedFiles']}" />
 <html:hidden id="enableErrorLogButton" name="enableErrorLogButton" value="enableErrorLogButton" />
 <ul class="breadcrumb">
 	<span class="breadCrumb"><html:text name="home"/></span>
@@ -58,9 +58,9 @@ $(function(){
 				<th><label class="bold"><html:text name="filename"/></label></th>
 				<th><label class="bold"><html:text name="profile"/></label></th>
 			</tr>
-			<html:iterator value="%{#session['importedFiles']}" var="dato">
+			<html:iterator value="importedFiles" var="dato">
 				<tr>
-					<td><html:checkbox name="fileChecked" value="fileChecked"/></td>
+					<td><html:checkbox value="fileChecked"/></td>
 					<td><html:property value="filename" /></td>
 					<td><html:property value="profile" /></td>
 				</tr>

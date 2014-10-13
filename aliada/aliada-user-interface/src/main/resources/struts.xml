@@ -74,7 +74,7 @@
 		</action>
 		
 		<action name="saveFilesToConversion" class="eu.aliada.gui.action.ManagingAction">
-            <result name="succcess" type="redirectAction">
+            <result name="success" type="redirectAction">
          		<param name="actionName">conversion</param>
          	</result>
 		</action>

@@ -200,9 +200,19 @@ public class ManagingAction extends ActionSupport {
 		}
 		return message;
 	}
-	
+	private void getFiles(){
+	    if(ServletActionContext.getRequest().getSession().getAttribute("importedFiles") != null){
+	        importedFiles = (ArrayList<FileWork>) ServletActionContext.getRequest().getSession().getAttribute("importedFiles");
+	    }	    
+	}
 	public String saveFilesToConversion(){
-	    
+	    List<FileWork> conversionFiles = new ArrayList<FileWork>();
+	    for (FileWork file : importedFiles){
+            if (file.isFileChecked()){
+                conversionFiles.add(file);
+            }
+	    }
+	    ServletActionContext.getRequest().getSession().setAttribute("conversionFiles", conversionFiles);	    
 	    return SUCCESS;
 	}
 
@@ -361,6 +371,7 @@ public class ManagingAction extends ActionSupport {
 	 * @since 1.0
 	 */
 	public String showProfiles() {
+	    getFiles();
 		Connection connection = null;
         try {
 			connection = new DBConnectionManager().getConnection();
@@ -961,6 +972,22 @@ public class ManagingAction extends ActionSupport {
      */
     public void setFileImported(boolean fileImported) {
         this.fileImported = fileImported;
+    }
+    /**
+     * @return Returns the importedFiles.
+     * @exception
+     * @since 1.0
+     */
+    public List<FileWork> getImportedFiles() {
+        return importedFiles;
+    }
+    /**
+     * @param importedFiles The importedFiles to set.
+     * @exception
+     * @since 1.0
+     */
+    public void setImportedFiles(List<FileWork> importedFiles) {
+        this.importedFiles = importedFiles;
     }
 
 }
