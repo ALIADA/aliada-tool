@@ -1,13 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@ taglib uri="/struts-tags" prefix="html" %>
 <script>
-	if(fileImported){
-		$("#importFileButton").removeClass("buttonGreen");
-		$("#importFileButton").addClass("button");
-		$("#nextButton").removeClass("button");
-		$("#nextButton").addClass("buttonGreen");
-		$("#nextButton").prop( "disabled", false);
-	}
 	if(enableErrorLogButton){
 		$("#importFileButton").removeClass("buttonGreen");
 		$("#importFileButton").addClass("button");
@@ -18,9 +11,17 @@
 	if(importedFiles!=null){
 		$("#importedFilesTable").show();	
 	}
+	$(function(){
+		$("#importedFilesTable :checkbox").on("change",function(){
+			if($("#importedFilesTable :checkbox:checked").length>0){
+				$("#nextButton").removeClass("button");
+				$("#nextButton").addClass("buttonGreen");
+				$("#nextButton").prop( "disabled", false);				
+			}
+			});
+	});
 </script>
 <html:hidden id="importedFiles" name="importedFiles" value="%{#session['importedFiles']}" />
-<html:hidden id="fileImported" name="fileImported" value="fileImported" />
 <html:hidden id="enableErrorLogButton" name="enableErrorLogButton" value="enableErrorLogButton" />
 <ul class="breadcrumb">
 	<span class="breadCrumb"><html:text name="home"/></span>
