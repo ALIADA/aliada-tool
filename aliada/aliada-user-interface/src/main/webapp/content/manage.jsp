@@ -82,7 +82,7 @@ $(function(){
 <div id="submitButtons" class="buttons row">
 	<html:form id="submitButtonsForm">
 		<html:submit action="configure" cssClass="fleft submitButton button" key="back" />	
-		<html:submit id="nextButton" action="conversion" disabled="true" cssClass="fright submitButton button"
+		<html:submit id="nextButton" action="saveFilesToConversion" disabled="true" cssClass="fright submitButton button"
 					key="next" />
 	</html:form>
 </div>

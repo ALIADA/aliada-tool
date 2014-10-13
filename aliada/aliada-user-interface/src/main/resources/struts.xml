@@ -73,6 +73,12 @@
 			<result name="error" type="tiles">/manage.tiles</result>
 		</action>
 		
+		<action name="saveFilesToConversion" class="eu.aliada.gui.action.ManagingAction">
+            <result name="succcess" type="redirectAction">
+         		<param name="actionName">conversion</param>
+         	</result>
+		</action>
+		
 		<action name="conversion" class="eu.aliada.gui.action.ConversionAction">
             <result name="success" type="tiles">/conversion.tiles</result>
 			<result name="error" type="tiles">/conversion.tiles</result>

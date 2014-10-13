@@ -200,6 +200,11 @@ public class ManagingAction extends ActionSupport {
 		}
 		return message;
 	}
+	
+	public String saveFilesToConversion(){
+	    
+	    return SUCCESS;
+	}
 
 	/**
 	 * The method to show the profile form empty.

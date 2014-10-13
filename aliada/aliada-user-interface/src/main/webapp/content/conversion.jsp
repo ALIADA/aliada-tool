@@ -23,6 +23,8 @@ function confirmBox(){
 	
 }
 $(function(){
+	var showCheckButton = $("#showCheckButton").val();
+	var showRdfizerButton = $("#showRdfizerButton").val();
 	var interval;
 	var checkRDF = function(){
 		console.log("checking RDF");
@@ -80,9 +82,22 @@ $(function(){
 		console.log("Checking");
 		interval = setInterval( checkRDF, 1000 );		
 	});
+	if(showRdfizerButton){
+	   	$("#rdfizeButton").removeClass("button");
+	   	$("#rdfizeButton").addClass("buttonGreen");
+		$('#rdfizeButton').prop("disabled",false);		
+	}
+	if(showCheckButton){
+	   	$("#checkRDFButton").removeClass("button");
+	   	$("#checkRDFButton").addClass("buttonGreen");
+		$('#checkRDFButton').prop("disabled",false);
+		$('#backButton').prop("disabled",true);		
+	}
 }); 
 </script>
 <html:hidden id="rdfizerJobId" name="rdfizerJobId" value="%{#session['rdfizerJobId']}" />
+<html:hidden id="showRdfizerButton" name="showRdfizerButton" value="showRdfizerButton" />
+<html:hidden id="showCheckButton" name="showCheckButton" value="showCheckButton" />
 <ul class="breadcrumb">
 	<span class="breadCrumb"><html:text name="home"/></span>
 	<li><span class="breadcrumb"><html:text name="organisation.title"/></span></li>
@@ -173,21 +188,7 @@ $(function(){
 			key="next" />
 	</html:form>
 </div>
-<html:if test="showRdfizerButton">
-<script>
-   	$("#rdfizeButton").removeClass("button");
-   	$("#rdfizeButton").addClass("buttonGreen");
-	$('#rdfizeButton').prop("disabled",false);
-   </script>				
-</html:if>
-<html:if test="showCheckButton">
-<script>
-   	$("#checkRDFButton").removeClass("button");
-   	$("#checkRDFButton").addClass("buttonGreen");
-	$('#checkRDFButton').prop("disabled",false);
-	$('#backButton').prop("disabled",true);
-   </script>				
-</html:if>
+
 
 
 
