@@ -22,22 +22,20 @@
 		<html:fielderror fieldName="importFile" />
 		<html:actionerror/>
 		<html:actionmessage />
-		<html:if test="{#session['importedFiles']}!=null">
-			<table class="table">
-				<tr class="backgroundGreen center">
-					<th></th>
-					<th><label class="bold"><html:text name="filename"/></label></th>
-					<th><label class="bold"><html:text name="profile"/></label></th>
+		<table id="importedFilesTable" class="table displayNo">
+			<tr class="backgroundGreen center">
+				<th></th>
+				<th><label class="bold"><html:text name="filename"/></label></th>
+				<th><label class="bold"><html:text name="profile"/></label></th>
+			</tr>
+			<html:iterator value="%{#session['importedFiles']}" var="dato">
+				<tr>
+					<td><html:checkbox name="selectedFile"/></td>
+					<td><html:property value="filename" /></td>
+					<td><html:property value="profile" /></td>
 				</tr>
-				<html:iterator value="%{#session['importedFiles']}" var="dato">
-					<tr>
-						<td><html:checkbox name="selectedFile"/></td>
-						<td><html:property value="filename" /></td>
-						<td><html:property value="profile" /></td>
-					</tr>
-				</html:iterator>
-			</table>
-		</html:if>
+			</html:iterator>
+		</table>
 		<div id="managingButtons" class="buttons row">
 			<html:form id="managingButtonsForm">
 				<img id=loader class="displayNo leftMargin rMargin20" src="images/loader.gif" alt="" />
@@ -75,6 +73,11 @@
     	$("#errorLog").addClass("buttonGreen");
    		$("#errorLog").prop( "disabled", false);
     </script>
+</html:if>
+<html:if test="{#session['importedFiles']}!=null">
+	<script>
+		$("#importedFilesTable").show();
+	</script>
 </html:if>
 
 
