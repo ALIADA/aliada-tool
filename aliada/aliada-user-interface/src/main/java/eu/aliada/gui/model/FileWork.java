@@ -13,6 +13,7 @@ import java.io.File;
  * @since 1.0
  */
 public class FileWork {
+    private boolean fileChecked;
     private File file;
     private String filename;
     private String profile;
@@ -21,6 +22,23 @@ public class FileWork {
     private String status;
     
     
+    
+    /**
+     * @return Returns the fileChecked.
+     * @exception
+     * @since 1.0
+     */
+    public boolean isFileChecked() {
+        return fileChecked;
+    }
+    /**
+     * @param fileChecked The fileChecked to set.
+     * @exception
+     * @since 1.0
+     */
+    public void setFileChecked(boolean fileChecked) {
+        this.fileChecked = fileChecked;
+    }
     /**
      * @return Returns the file.
      * @exception
