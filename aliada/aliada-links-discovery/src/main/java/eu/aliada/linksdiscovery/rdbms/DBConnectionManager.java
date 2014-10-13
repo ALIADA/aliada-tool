@@ -195,7 +195,7 @@ public class DBConnectionManager {
     	try {
     		PreparedStatement preparedStatement = null;		
     		preparedStatement = conn.prepareStatement("INSERT INTO  linksdiscovery_subjob_instances VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, default, default, default)");
-    		// (job_id, subjob_id, name, config_file, num_threads, reload, rdf_sink_folder, rdf_sink_login, rdf_sink_password, tmp_dir, num_links, start_date, end_date)
+    		// (job_id, subjob_id, name, config_file, num_threads, reload, output_uri, output_login, output_password, output_graph, tmp_dir, num_links, start_date, end_date)
     		// parameters start with 1
     		preparedStatement.setInt(1, jobId);
     		preparedStatement.setInt(2, subjobId);

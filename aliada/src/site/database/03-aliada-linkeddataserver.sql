@@ -6,6 +6,8 @@ CREATE TABLE `aliada`.`linkeddataserver_job_instances` (
 `sql_password`  VARCHAR( 32 ) default NULL,
 `graph`  VARCHAR( 245 ) default NULL,
 `dataset_base`  VARCHAR( 245 ) default NULL,
+`listening_host` VARCHAR(45) default NULL,
+`virtual_host` VARCHAR(45) default NULL,
 `isql_command_path`  VARCHAR( 245 ) default NULL,
 `isql_commands_file`  VARCHAR( 245 ) default NULL,
 `isql_commands_file_default`  VARCHAR( 245 ) default NULL,

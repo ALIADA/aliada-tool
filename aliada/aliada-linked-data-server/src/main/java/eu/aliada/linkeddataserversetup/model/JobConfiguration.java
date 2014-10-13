@@ -26,6 +26,12 @@ public class JobConfiguration {
 	private String graph;
 	/** The URI prefix of all resources URIs in the dataset. */
 	private String datasetBase;
+	/** The address of the network interface the Virtuoso HTTP
+	 *  server uses to listen and accept connections. */
+	private String listeningHost;
+	/** The virtual host name that the browser presents as Host: 
+	 * entry in the request headers. i.e. Name-based virtual hosting. */
+	private String virtualHost;
 	/** Full path to the ISQL command. */
 	private String isqlCommandPath;
 	/** Full path of the ISQL commands file to execute. */
@@ -166,6 +172,48 @@ public class JobConfiguration {
 	 */
 	public void setDatasetBase(final String datasetBase) {
 		this.datasetBase = datasetBase;
+	}
+
+	/**
+	 * Returns the address of the network interface the Virtuoso HTTP
+	 * server uses to listen and accept connections.
+	 * 
+	 * @return The address of the listening host.
+	 * @since 1.0
+	 */
+	public String getListeningHost() {
+		return listeningHost;
+	}
+	/**
+	 * Sets  the address of the network interface the Virtuoso HTTP
+	 * server uses to listen and accept connections.
+	 * 
+	 * @param listeningHost The address of the listening host.
+	 * @since 1.0
+	 */
+	public void setListeningHost(final String listeningHost) {
+		this.listeningHost = listeningHost;
+	}
+
+	/**
+	 * Returns the virtual host name that the browser presents as Host: 
+	 * entry in the request headers. i.e. Name-based virtual hosting.
+	 * 
+	 * @return The address of the virtual host.
+	 * @since 1.0
+	 */
+	public String getVirtualHost() {
+		return virtualHost;
+	}
+	/**
+	 * Sets  the virtual host name that the browser presents as Host: 
+	 * entry in the request headers. i.e. Name-based virtual hosting.
+	 * 
+	 * @param virtualHost The address of the virtual host.
+	 * @since 1.0
+	 */
+	public void setVirtualHost(final String virtualHost) {
+		this.virtualHost = virtualHost;
 	}
 
 	/**
