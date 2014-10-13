@@ -1,6 +1,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@ taglib uri="/struts-tags" prefix="html" %>
 <script>
+$(function(){
+	var enableErrorLogButton = $("#enableErrorLogButton").val();
+	var importedFiles = $("#importedFiles").val();
 	if(enableErrorLogButton){
 		$("#importFileButton").removeClass("buttonGreen");
 		$("#importFileButton").addClass("button");
@@ -11,15 +14,14 @@
 	if(importedFiles!=null){
 		$("#importedFilesTable").show();	
 	}
-	$(function(){
-		$("#importedFilesTable :checkbox").on("change",function(){
-			if($("#importedFilesTable :checkbox:checked").length>0){
-				$("#nextButton").removeClass("button");
-				$("#nextButton").addClass("buttonGreen");
-				$("#nextButton").prop( "disabled", false);				
-			}
-			});
-	});
+	$("#importedFilesTable :checkbox").on("change",function(){
+		if($("#importedFilesTable :checkbox:checked").length>0){
+			$("#nextButton").removeClass("button");
+			$("#nextButton").addClass("buttonGreen");
+			$("#nextButton").prop( "disabled", false);				
+		}
+		});
+});
 </script>
 <html:hidden id="importedFiles" name="importedFiles" value="%{#session['importedFiles']}" />
 <html:hidden id="enableErrorLogButton" name="enableErrorLogButton" value="enableErrorLogButton" />
