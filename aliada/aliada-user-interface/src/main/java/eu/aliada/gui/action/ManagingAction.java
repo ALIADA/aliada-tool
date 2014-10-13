@@ -154,12 +154,12 @@ public class ManagingAction extends ActionSupport {
 							if(session.getAttribute("importedFiles")==null){
 							    importedFiles = new ArrayList<FileWork>();
 							    importedFiles.add(fileWork);
-							    logger.debug("added first file"+importedFiles.get(1).getFilename());
+							    logger.debug("added first file"+importedFiles.get(0).getFilename());
 							}
 							else{
 							    importedFiles = (ArrayList<FileWork>) session.getAttribute("importedFiles");
 							    importedFiles.add(fileWork);
-                                logger.debug("added file"+importedFiles.get(importedFiles.size()).getFilename());
+                                logger.debug("added file"+importedFiles.get(importedFiles.size()-1).getFilename());
 							}
 							session.setAttribute("importedFiles", importedFiles);
 							session.setAttribute("importFile", fileCreated);
