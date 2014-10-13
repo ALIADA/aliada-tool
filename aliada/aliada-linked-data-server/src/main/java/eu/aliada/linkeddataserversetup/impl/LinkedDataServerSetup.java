@@ -29,12 +29,14 @@ public class LinkedDataServerSetup {
 	/** For logging. */
 	private static final Log LOGGER = new Log(LinkedDataServerSetup.class);
 	/** Format for the ISQL command to execute */
-	private static final String ISQL_COMMAND_FORMAT = "%s %s:%d %s %s %s -i %s %s"; 
+	private static final String ISQL_COMMAND_FORMAT = "%s %s:%d %s %s %s -i %s %s %s %s %s"; 
 	/* Input parameters for URL rewrite rules */
 	/** datasetBase encoded in UTF-8 */
 	private String datasetBaseEncoded = "";
 	/** graph name encoded in UTF-8 */
-	private String graphEncoded = ""; 
+	private String graphEncoded = "";
+	/** Suffix to be added to URL rewrite rules names. */
+	private String rulesNamesSuffix = "";
 
 	/**
 	 * Get the appropiate ISQL commands file.
@@ -96,6 +98,8 @@ public class LinkedDataServerSetup {
 			graphEncoded = URLEncoder.encode(jobConf.getGraph(),"UTF-8"); 
 			datasetBaseEncoded = datasetBaseEncoded.replace("%", "%%");
 			graphEncoded = graphEncoded.replace("%", "%%");
+			rulesNamesSuffix = jobConf.getListeningHost().replace(":", "");
+			rulesNamesSuffix = rulesNamesSuffix.replace("/", "");
 			encoded = true;
 		} catch (UnsupportedEncodingException exception){
 			LOGGER.error(MessageCatalog._00038_ENCODING_ERROR, exception);
@@ -129,7 +133,9 @@ public class LinkedDataServerSetup {
 						jobConf.getIsqlCommandPath(), jobConf.getStoreIp(),
 						jobConf.getStoreSqlPort(), jobConf.getSqlLogin(),
 						jobConf.getSqlPassword(), isqlCommandsFilename,
-						datasetBaseEncoded, graphEncoded);
+						datasetBaseEncoded, graphEncoded,
+						jobConf.getListeningHost(), jobConf.getVirtualHost(),
+						rulesNamesSuffix);
 				//Execute ISQL command
 				try {
 					LOGGER.debug(MessageCatalog._00040_EXECUTING_ISQL);

@@ -108,6 +108,8 @@ public class DBConnectionManager {
 				job.setSqlPassword(resultSet.getString("sql_password"));
 				job.setGraph(resultSet.getString("graph"));
 				job.setDatasetBase(resultSet.getString("dataset_base"));
+				job.setListeningHost(resultSet.getString("listening_host"));
+				job.setVirtualHost(resultSet.getString("virtual_host"));
 				job.setIsqlCommandPath(resultSet.getString("isql_command_path"));
 				job.setIsqlCommandsFilename(resultSet.getString("isql_commands_file"));
 				job.setIsqlCommandsFilenameDefault(resultSet.getString("isql_commands_file_default"));
@@ -179,7 +181,7 @@ public class DBConnectionManager {
 	}
 
 	/**
-	 * Returns job and its corresponding subjobs information in the DDBB.
+	 * Returns job information in the DDBB.
 	 *
 	 * @param jobId	the job identification.
 	 * @return	the {@link eu.aliada.linkeddataserversetup.model.Job}

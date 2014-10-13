@@ -67,6 +67,8 @@ public class EncodeParamsTest {
 		job.setSqlPassword("sql_password");
 		job.setGraph("http://biblioteca.artium.org");
 		job.setDatasetBase("http://aliada.scanbit.net:8890");
+		job.setListeningHost("*ini*");
+		job.setVirtualHost("*ini*");
 		job.setIsqlCommandPath("isql");
 		job.setIsqlCommandsFilename("isql_id_rewrite_rules_html_artium.sql");
 		job.setIsqlCommandsFilenameDefault("src/test/resources/isql_id_rewrite_rules_html_default.sql");
