@@ -82,10 +82,15 @@ $(function(){
 		console.log("Checking");
 		interval = setInterval( checkRDF, 1000 );		
 	});
-	if(showRdfizerButton==0){
+	if(showRdfizerButton==1){
 	   	$("#rdfizeButton").removeClass("button");
 	   	$("#rdfizeButton").addClass("buttonGreen");
 		$('#rdfizeButton').prop("disabled",false);		
+	}
+	else{
+	   	$("#rdfizeButton").removeClass("buttonGreen");
+	   	$("#rdfizeButton").addClass("button");
+		$('#rdfizeButton').prop("disabled",true);			
 	}
 	if(showCheckButton==1){
 	   	$("#checkRDFButton").removeClass("button");

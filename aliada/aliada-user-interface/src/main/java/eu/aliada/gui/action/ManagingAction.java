@@ -65,7 +65,7 @@ public class ManagingAction extends ActionSupport {
 	private String importFileFileName;
 	private List<FileWork> importedFiles;
 	private String selectedFile;
-
+	
 	private static final String VISUALIZE_PATH = "webapps/aliada-user-interface-1.0/WEB-INF/classes/xmlVisualize/";
     private static final String VALIDATOR_PATH = "webapps/aliada-user-interface-1.0/WEB-INF/classes/xmlValidators/";
     private static final String ERROR_CONTENT_PATH = "webapps/aliada-user-interface-1.0/content/errorContent.jsp";
@@ -208,8 +208,6 @@ public class ManagingAction extends ActionSupport {
 	    //ServletActionContext.getRequest().getSession().setAttribute("conversionFiles", conversionFiles);
 	    importedFiles = (ArrayList<FileWork>) ServletActionContext.getRequest().getSession().getAttribute("importedFiles");
         for (FileWork file : importedFiles){
-            logger.debug("1"+file.getFilename());
-            logger.debug("2"+getSelectedFile());
               if (file.getFilename().equals(this.selectedFile)){
                   ServletActionContext.getRequest().getSession().setAttribute("importedFile", file);
               }
