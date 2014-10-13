@@ -74,7 +74,7 @@
    		$("#errorLog").prop( "disabled", false);
     </script>
 </html:if>
-<html:if test="{#session['importedFiles']}!=null">
+<html:if test="%{#session['importedFiles']}!=null">
 	<script>
 		$("#importedFilesTable").show();
 	</script>
