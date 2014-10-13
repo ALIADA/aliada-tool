@@ -394,20 +394,24 @@ public class ManagingAction extends ActionSupport {
 	}
 	private String getProfileNameFromCode(String selectedProfile){
 	    Connection connection = null;
+	    String profileName = "";
+        try {
             connection = new DBConnectionManager().getConnection();
             Statement statement;
-            try {
-                statement = connection.createStatement();
-                ResultSet rs = statement
-                        .executeQuery("select profile_name from aliada.profile where profile_id="+selectedProfile);
-                if(rs.next()){
-                    return rs.getString("profile_name");
-                }
-            } catch (SQLException e) {
-                logger.error(MessageCatalog._00011_SQL_EXCEPTION,e);
-                return "";
+            statement = connection.createStatement();
+            ResultSet rs = statement
+                    .executeQuery("select profile_name from aliada.profile where profile_id="+selectedProfile);
+            if(rs.next()){
+                profileName = rs.getString("profile_name");
             }
+            rs.close();
+            statement.close();
+            connection.close();
+        } catch (SQLException e) {
+            logger.error(MessageCatalog._00011_SQL_EXCEPTION,e);
             return "";
+        }
+        return profileName;
 	}
 
 	/**
