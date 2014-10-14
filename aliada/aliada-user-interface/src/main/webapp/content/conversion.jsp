@@ -150,8 +150,10 @@ $(function(){
 			</div>
 		</div>
 		<div id="checkInfo" class="displayNo content">
-			<label class="row label"><html:text name="rdf.fileTo"/></label>		
-			<html:property value="importFile"/>
+			<div class="row">
+				<label class="label"><html:text name="rdf.fileTo"/></label>
+				<html:property value="importFile.getFilename()"/>
+			</div>				
 			<img id="fineImg" class="displayNo" src="images/fine.png"/>
 			<div class="row">
 				<label class="label"><html:text name="rdf.format"/></label>
