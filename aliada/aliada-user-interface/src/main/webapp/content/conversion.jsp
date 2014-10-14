@@ -119,24 +119,27 @@ $(function(){
 				<tr class="backgroundGreen center">
 					<th><label class="bold"><html:text name="conversion.input"/></label></th>
 					<th><label class="bold"><html:text name="conversion.template"/></label></th>
+					<th><label class="bold"><html:text name="conversion.graph"/></label></th>
 				</tr>
 				<tr>
 					<td>
 						<html:property value="importedFile.getFilename()" />
 					</td>
-					<td><html:select name="templatesSelect"
+					<td><html:select name="selectedTemplate"
 							cssClass="inputForm" list="templates" />					
 					</td>
-					<td><html:submit action="showTemplates" cssClass="submitButton button"
-							key="templates" />
+					<td><html:select name="selectedGraph"
+							cssClass="inputForm" list="graphs" />					
 					</td>
 				</tr>			
 			</table>
 			<div id="conversionButtons" class="buttons row">	
-				<html:submit id="rdfizeButton" onClick="return confirmBox();" disabled="true" cssClass="submitButton button"
+				<html:submit id="rdfizeButton" action="RDFize" disabled="true" cssClass="submitButton button"
 					key="RDF-ize"/>
 				<html:submit id="checkRDFButton" disabled="true" cssClass="submitButton button"
 					key="check" onClick="return false;"/>
+				<html:submit action="showTemplates" cssClass="submitButton button"
+					key="templates" />
 			</div>
 		</div>
 		<div id="checkInfo" class="displayNo content">

@@ -6,7 +6,6 @@
 
 package eu.aliada.gui.action;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -42,6 +41,7 @@ public class ConversionAction extends ActionSupport {
     private static final int NOTEMPLATESELECTED = -1;
     private FileWork importedFile;
     private HashMap<Integer, String> templates;
+    private HashMap<Integer, String> graphs;
     private HashMap<String, Boolean> tags;
     private List selectedTags = new ArrayList();
     private String selectedTemplate;
@@ -52,6 +52,7 @@ public class ConversionAction extends ActionSupport {
     private int showCheckButton;
     private int showRdfizerButton;
     private boolean areTemplates;
+    private String selectedGraph;
     
     private final Log logger = new Log(ConversionAction.class);
     
@@ -72,6 +73,7 @@ public class ConversionAction extends ActionSupport {
             setShowCheckButton(1);
             setShowRdfizerButton(0); 
         }
+        getGraphsDb();
         return getTemplatesDb();
     }
     /**
@@ -82,25 +84,21 @@ public class ConversionAction extends ActionSupport {
      */
     public String rdfize() {
         HttpSession session = ServletActionContext.getRequest().getSession();
+        setImportedFile((FileWork) session.getAttribute("importedFile"));
+        logger.debug(getSelectedGraph());
+        importedFile.setTemplate(getSelectedTemplate());
+        importedFile.setGraph(getGraphUri(getSelectedGraph()));
         String format = null;
         try {
-            format = getFormat();
+            format = getFormat(importedFile.getProfile());
             Connection connection = null;
             connection = new DBConnectionManager().getConnection();
             Statement statement = connection.createStatement();
             ResultSet rs = statement
-                    .executeQuery("select aliada_ontology,sparql_endpoint_uri,sparql_endpoint_login,sparql_endpoint_password,graph_uri,dataset_base from organisation");
+                    .executeQuery("select aliada_ontology,sparql_endpoint_uri,sparql_endpoint_login,sparql_endpoint_password,graph_uri,dataset_base from organisation o INNER JOIN graph g ON o.organisationId=g.organisationId WHERE g.graph_uri='"+importedFile.getGraph()+"'");
             if (rs.next()) {
                 RDFStoreDAO store = new RDFStoreDAO();
-                if(importedFile==null){
-                    logger.error(MessageCatalog._00033_CONVERSION_ERROR_NO_FILE_IMPORTED);
-                    rs.close();
-                    statement.close();
-                    connection.close();
-                    getTemplatesDb();
-                    return ERROR;                    
-                }
-                else if(store.clearGraphBySparql(rs.getString("sparql_endpoint_uri"), rs.getString("sparql_endpoint_login"), rs.getString("sparql_endpoint_password"), rs.getString("graph_uri"))){
+                if(store.clearGraphBySparql(rs.getString("sparql_endpoint_uri"), rs.getString("sparql_endpoint_login"), rs.getString("sparql_endpoint_password"), rs.getString("graph_uri"))){
                     PreparedStatement preparedStatement = connection
                             .prepareStatement(
                                     "INSERT INTO aliada.rdfizer_job_instances (datafile,format,namespace,graph_name,aliada_ontology,sparql_endpoint_uri,sparql_endpoint_login,sparql_endpoint_password) VALUES(?,?,?,?,?,?,?,?)",
@@ -123,9 +121,11 @@ public class ConversionAction extends ActionSupport {
                         enableRdfizer();
                         createJob(addedId);
                         session.setAttribute("rdfizerFinished", false);
+                        session.setAttribute("importedFile", importedFile);
                     } catch (IOException e) {
                         logger.error(MessageCatalog._00012_IO_EXCEPTION,e);
                         getTemplatesDb();
+                        getGraphsDb();
                         rs2.close();
                         preparedStatement.close();
                         connection.close();
@@ -138,6 +138,7 @@ public class ConversionAction extends ActionSupport {
                     connection.close();
                     session.setAttribute("rdfizerJobId", addedId);
                     setShowCheckButton(1);
+                    getGraphsDb();
                     return getTemplatesDb();                
                 }
             } else {
@@ -145,14 +146,17 @@ public class ConversionAction extends ActionSupport {
                 rs.close();
                 statement.close();
                 connection.close();
+                getGraphsDb();
                 getTemplatesDb();
                 return ERROR;
             }
         } catch (SQLException e) {
             logger.error(MessageCatalog._00011_SQL_EXCEPTION,e);
+            getGraphsDb();
             getTemplatesDb();
             return ERROR;
         }
+        getGraphsDb();
         return getTemplatesDb(); 
     }
 
@@ -163,16 +167,14 @@ public class ConversionAction extends ActionSupport {
      * @see
      * @since 1.0
      */
-    private String getFormat() throws SQLException {
+    private String getFormat(String profile) throws SQLException {
         Connection connection = null;
         String format = null;
         connection = new DBConnectionManager().getConnection();
         Statement statement = connection.createStatement();
-        setImportedFile((FileWork) ServletActionContext.getRequest().getSession()
-                .getAttribute("importedFile"));
         ResultSet rs = statement
                 .executeQuery("select metadata_name from t_metadata_scheme JOIN profile ON t_metadata_scheme.metadata_code=profile.metadata_scheme_code WHERE profile.profile_name= '"
-                        + importedFile.getProfile()+"'");
+                        + profile+"'");
         if (rs.next()) {
             format = rs.getString(1);
         }
@@ -221,7 +223,7 @@ public class ConversionAction extends ActionSupport {
         setShowRdfizerButton(0);
         conn.disconnect();
     }
-
+    
     /**
      * Gets the available templates from the DB
      * @return
@@ -254,6 +256,59 @@ public class ConversionAction extends ActionSupport {
             return ERROR;
         }
         return SUCCESS;
+    }
+    /**
+     * Gets the available graphs from the DB
+     * @return
+     * @see
+     * @since 1.0
+     */
+    public String getGraphsDb() {
+        String username = (String) ServletActionContext.getRequest().getSession().getAttribute("logedUser");
+        Connection connection = null;
+        try {
+            connection = new DBConnectionManager().getConnection();
+            Statement statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery("SELECT graphId, graph_uri FROM graph g INNER JOIN user u ON g.organisationId = u.organisationId WHERE u.user_name='"+username+"';");
+            graphs = new HashMap<Integer, String>();
+            while (rs.next()) {
+                graphs.put(rs.getInt("graphId"),
+                        rs.getString("graph_uri"));
+            }
+            rs.close();
+            statement.close();
+            connection.close();
+        } catch (SQLException e) {
+            logger.error(MessageCatalog._00011_SQL_EXCEPTION,e);
+            return ERROR;
+        }
+        return SUCCESS;
+    }
+    
+    /**
+     * Gets the graph uri from a graph code
+     * @return
+     * @see
+     * @since 1.0
+     */
+    public String getGraphUri(String graphCode) {
+        Connection connection = null;
+        String graphUri = "";
+        try {
+            connection = new DBConnectionManager().getConnection();
+            Statement statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery("SELECT graph_uri FROM graph WHERE graphId='"+graphCode+"';");
+            if (rs.next()) {
+                graphUri = rs.getString("graph_uri");
+            }
+            rs.close();
+            statement.close();
+            connection.close();
+        } catch (SQLException e) {
+            logger.error(MessageCatalog._00011_SQL_EXCEPTION,e);
+            return "";
+        }
+        return graphUri;
     }
 
     /**
@@ -713,6 +768,38 @@ public class ConversionAction extends ActionSupport {
      */
     public void setAreTemplates(boolean areTemplates) {
         this.areTemplates = areTemplates;
+    }
+    /**
+     * @return Returns the graphs.
+     * @exception
+     * @since 1.0
+     */
+    public HashMap<Integer, String> getGraphs() {
+        return graphs;
+    }
+    /**
+     * @param graphs The graphs to set.
+     * @exception
+     * @since 1.0
+     */
+    public void setGraphs(HashMap<Integer, String> graphs) {
+        this.graphs = graphs;
+    }
+    /**
+     * @return Returns the selectedGraph.
+     * @exception
+     * @since 1.0
+     */
+    public String getSelectedGraph() {
+        return selectedGraph;
+    }
+    /**
+     * @param selectedGraph The selectedGraph to set.
+     * @exception
+     * @since 1.0
+     */
+    public void setSelectedGraph(String selectedGraph) {
+        this.selectedGraph = selectedGraph;
     }
 
 }
