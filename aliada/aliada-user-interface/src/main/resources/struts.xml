@@ -78,6 +78,11 @@
          		<param name="actionName">conversion</param>
          	</result>
 		</action>
+		<action name="finishFileWork" method="finishFileWork" class="eu.aliada.gui.action.LinkingAction">
+            <result name="success" type="redirectAction">
+         		<param name="actionName">manage</param>
+         	</result>
+		</action>
 		
 		<action name="conversion" class="eu.aliada.gui.action.ConversionAction">
             <result name="success" type="tiles">/conversion.tiles</result>

@@ -17,6 +17,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
@@ -47,6 +48,18 @@ public class LinkingAction extends ActionSupport {
         session.setAttribute("rdfizerFinished", true);
         setFileToLink((FileWork) session.getAttribute("importedFile"));
         return getDatasetsDb();
+    }
+    public String finishFileWork(){
+        HttpSession session = ServletActionContext.getRequest().getSession();
+        List<FileWork> importedFiles = (List<FileWork>) session.getAttribute("importedFiles");
+        FileWork importedFile = (FileWork) session.getAttribute("importedFile");
+        for (FileWork file : importedFiles){
+            if (file.equals(importedFile)){
+                file.setStatus("finished");
+            }
+        }
+        session.setAttribute("importedFiles", importedFiles);
+        return SUCCESS;
     }
 
     /**
