@@ -172,7 +172,7 @@ public class ConversionAction extends ActionSupport {
                 .getAttribute("importedFile"));
         ResultSet rs = statement
                 .executeQuery("select metadata_name from t_metadata_scheme JOIN profile ON t_metadata_scheme.metadata_code=profile.metadata_scheme_code WHERE profile.profile_name= "
-                        + importedFile.getProfile());
+                        + importedFile.getProfile()+"'");
         if (rs.next()) {
             format = rs.getString(1);
         }

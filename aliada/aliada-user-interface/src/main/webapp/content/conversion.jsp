@@ -171,7 +171,7 @@ $(function(){
 			</div>
 		</div>
 		<div class="buttons row">
--			<img id="progressBar" class="displayNo" src="images/progressBar.gif" alt="" />
+			<img id="progressBar" class="displayNo" src="images/progressBar.gif" alt="" />
 		</div>
 	</html:form>
 </div>

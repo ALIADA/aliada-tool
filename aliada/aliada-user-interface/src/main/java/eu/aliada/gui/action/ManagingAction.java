@@ -66,6 +66,7 @@ public class ManagingAction extends ActionSupport {
 	private List<FileWork> importedFiles;
 	private String selectedFile;
 	
+	
 	private static final String VISUALIZE_PATH = "webapps/aliada-user-interface-1.0/WEB-INF/classes/xmlVisualize/";
     private static final String VALIDATOR_PATH = "webapps/aliada-user-interface-1.0/WEB-INF/classes/xmlValidators/";
     private static final String ERROR_CONTENT_PATH = "webapps/aliada-user-interface-1.0/content/errorContent.jsp";
