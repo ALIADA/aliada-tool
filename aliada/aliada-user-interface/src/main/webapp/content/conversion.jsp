@@ -3,24 +3,16 @@
 <%@ taglib uri="/struts-tags" prefix="html"%>
 <script>
 function confirmBox(){
-	var rdfizerJobId = $("#rdfizerJobId").val();
-	if(rdfizerJobId!=""){
-		var answer = window.confirm("<html:text name='conversion.rdfAgain'/>");
-		if (answer == true){
-			console.log("RDFize called");
-			window.location.href = "${pageContext.request.contextPath}/RDFize.action";
-		}
-		else{
-			console.log("RDFize canceled");
-			window.location = "${pageContext.request.contextPath}/conversion.action";
-		}
-	    return false;		
+	var answer = window.confirm("<html:text name='conversion.cleanGraph'/>");
+	if (answer == true){
+		console.log("Cleaning graph");
+		window.location.href = "${pageContext.request.contextPath}/cleanGraph.action";
 	}
 	else{
-		window.location.href = "${pageContext.request.contextPath}/RDFize.action";
-	    return false;
+		console.log("Not cleaned");
+		window.location = "${pageContext.request.contextPath}/conversion.action";
 	}
-	
+    return false;
 }
 $(function(){
 	var showCheckButton = $("#showCheckButton").val();
@@ -145,7 +137,7 @@ $(function(){
 				<label class="row label"><html:text name="conversion.cleanSelect"/></label>
 				<html:select name="graphToClean"
 					cssClass="inputForm" list="graphs" />
-				<html:submit action="cleanGraph" cssClass="submitButton button"
+				<html:submit onclick="return confirmBox();" cssClass="submitButton button"
 					key="conversion.clean" />	
 			</div>
 		</div>
