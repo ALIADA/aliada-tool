@@ -38,19 +38,28 @@ CREATE TABLE IF NOT EXISTS `aliada`.`organisation` (
 	`sparql_endpoint_uri`  VARCHAR( 245 ) default NULL, 
 	`sparql_endpoint_login`  VARCHAR( 32 ) default NULL, 
 	`sparql_endpoint_password`  VARCHAR( 32 ) default NULL, 
-	`graph_uri`  VARCHAR( 245 ) default NULL, 
 	`store_ip`  VARCHAR( 245 ) default NULL, 
 	`store_sql_port`  INT default 1111, 
 	`sql_login`  VARCHAR( 32 ) default NULL, 
 	`sql_password`  VARCHAR( 32 ) default NULL, 
-	`dataset_base`  VARCHAR( 245 ) default NULL, 
 	`isql_command_path`  VARCHAR( 245 ) default NULL, 
 	`isql_commands_file`  VARCHAR( 245 ) default NULL, 
 	`isql_commands_file_default`  VARCHAR( 245 ) default NULL, 
 	`public_sparql_endpoint_uri` VARCHAR(45) default NULL,
+PRIMARY KEY ( `organisationId` )
+) ENGINE = InnoDB  DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `aliada`.`graph` (
+    `graphId` int(11) NOT NULL AUTO_INCREMENT,
+	`graph_uri`  VARCHAR( 245 ) default NULL, 
+	`dataset_base`  VARCHAR( 245 ) default NULL, 
 	`listening_host` VARCHAR(45) default NULL,
 	`virtual_host` VARCHAR(45) default NULL,
-PRIMARY KEY ( `organisation_name` )
+	`organisationId` int(11) NOT NULL,
+	FOREIGN KEY (organisationId) 
+    REFERENCES organisation(organisationId) 
+    ON DELETE CASCADE,
+PRIMARY KEY ( `graphId` )
 ) ENGINE = InnoDB  DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
