@@ -57,7 +57,7 @@ $(function(){
 <div class="form centered">
 	<div id="managingPanel" class="content">
 	<html:form id="managing" method="post" enctype="multipart/form-data">
-		<label class="row label"><html:text name="manage.process"/></label>
+		<label class="label"><html:text name="manage.process"/></label>
 		<div class="row">
 			<html:select name="selectedProfile" cssClass="inputForm"
 				list="profiles" />
@@ -85,9 +85,9 @@ $(function(){
 	</div>
 </div>
 <html:form>
-	<div class="form centered">
-	<div class="content">
-		<table id="importedFilesTable" class="table displayNo">
+	<div id="importedFilesTable" class="centered displayNo">
+		<label class="label"><html:text name="manage.selectFile"/></label>
+		<table class="table">
 			<tr class="backgroundGreen center">
 				<!-- <th></th> -->
 				<th><label class="bold"><html:text name="filename"/></label></th>
@@ -102,9 +102,7 @@ $(function(){
 				</tr>
 			</html:iterator>
 		</table>
-	</div>
-	</div>
-	
+	</div>	
 	<div id="submitButtons" class="buttons row">
 			<html:submit action="configure" cssClass="fleft submitButton button" key="back" />	
 			<html:submit id="nextButton" action="saveFilesToConversion" disabled="true" cssClass="fright submitButton button"
