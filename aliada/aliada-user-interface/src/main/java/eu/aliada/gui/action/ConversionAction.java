@@ -53,6 +53,7 @@ public class ConversionAction extends ActionSupport {
     private int showRdfizerButton;
     private boolean areTemplates;
     private String selectedGraph;
+    private String graphToClean;
     
     private final Log logger = new Log(ConversionAction.class);
     
@@ -85,7 +86,6 @@ public class ConversionAction extends ActionSupport {
     public String rdfize() {
         HttpSession session = ServletActionContext.getRequest().getSession();
         setImportedFile((FileWork) session.getAttribute("importedFile"));
-        logger.debug(getSelectedGraph());
         importedFile.setTemplate(getSelectedTemplate());
         importedFile.setGraph(getGraphUri(getSelectedGraph()));
         String format = null;
@@ -97,59 +97,48 @@ public class ConversionAction extends ActionSupport {
             ResultSet rs = statement
                     .executeQuery("select aliada_ontology,sparql_endpoint_uri,sparql_endpoint_login,sparql_endpoint_password,graph_uri,dataset_base from organisation o INNER JOIN graph g ON o.organisationId=g.organisationId WHERE g.graph_uri='"+importedFile.getGraph()+"'");
             if (rs.next()) {
-                RDFStoreDAO store = new RDFStoreDAO();
-//                if(store.clearGraphBySparql(rs.getString("sparql_endpoint_uri"), rs.getString("sparql_endpoint_login"), rs.getString("sparql_endpoint_password"), rs.getString("graph_uri"))){
-                    PreparedStatement preparedStatement = connection
-                            .prepareStatement(
-                                    "INSERT INTO aliada.rdfizer_job_instances (datafile,format,namespace,graph_name,aliada_ontology,sparql_endpoint_uri,sparql_endpoint_login,sparql_endpoint_password) VALUES(?,?,?,?,?,?,?,?)",
-                                    PreparedStatement.RETURN_GENERATED_KEYS);
-                    preparedStatement.setString(1, importedFile.getFile().getAbsolutePath());
-                    preparedStatement.setString(2, format);
-                    preparedStatement.setString(3, rs.getString("dataset_base"));
-                    preparedStatement.setString(4, rs.getString("graph_uri"));
-                    preparedStatement.setString(5, rs.getString("aliada_ontology"));
-                    preparedStatement.setString(6, rs.getString("sparql_endpoint_uri"));
-                    preparedStatement.setString(7, rs.getString("sparql_endpoint_login"));
-                    preparedStatement.setString(8, rs.getString("sparql_endpoint_password"));
-                    preparedStatement.executeUpdate();
-                    ResultSet rs2 = preparedStatement.getGeneratedKeys();
-                    int addedId = 0;
-                    if (rs2.next()) {
-                        addedId = (int) rs2.getInt(1);
-                    }
-                    try {
-                        enableRdfizer();
-                        createJob(addedId);
-                        session.setAttribute("rdfizerFinished", false);
-                        session.setAttribute("importedFile", importedFile);
-                    } catch (IOException e) {
-                        logger.error(MessageCatalog._00012_IO_EXCEPTION,e);
-                        getTemplatesDb();
-                        getGraphsDb();
-                        rs2.close();
-                        preparedStatement.close();
-                        connection.close();
-                        return ERROR;
-                    }
+                PreparedStatement preparedStatement = connection
+                        .prepareStatement(
+                                "INSERT INTO aliada.rdfizer_job_instances (datafile,format,namespace,graph_name,aliada_ontology,sparql_endpoint_uri,sparql_endpoint_login,sparql_endpoint_password) VALUES(?,?,?,?,?,?,?,?)",
+                                PreparedStatement.RETURN_GENERATED_KEYS);
+                preparedStatement.setString(1, importedFile.getFile().getAbsolutePath());
+                preparedStatement.setString(2, format);
+                preparedStatement.setString(3, rs.getString("dataset_base"));
+                preparedStatement.setString(4, rs.getString("graph_uri"));
+                preparedStatement.setString(5, rs.getString("aliada_ontology"));
+                preparedStatement.setString(6, rs.getString("sparql_endpoint_uri"));
+                preparedStatement.setString(7, rs.getString("sparql_endpoint_login"));
+                preparedStatement.setString(8, rs.getString("sparql_endpoint_password"));
+                preparedStatement.executeUpdate();
+                ResultSet rs2 = preparedStatement.getGeneratedKeys();
+                int addedId = 0;
+                if (rs2.next()) {
+                    addedId = (int) rs2.getInt(1);
+                }
+                try {
+                    enableRdfizer();
+                    createJob(addedId);
+                    session.setAttribute("rdfizerFinished", false);
+                    session.setAttribute("importedFile", importedFile);
+                } catch (IOException e) {
+                    logger.error(MessageCatalog._00012_IO_EXCEPTION,e);
+                    getTemplatesDb();
+                    getGraphsDb();
                     rs2.close();
                     preparedStatement.close();
-                    rs.close();
-                    statement.close();
                     connection.close();
-                    session.setAttribute("rdfizerJobId", addedId);
-                    setShowCheckButton(1);
-                    getGraphsDb();
-                    return getTemplatesDb();                
+                    return ERROR;
                 }
-//            } else {
-//                logger.error(MessageCatalog._00032_CONVERSION_ERROR_CLEARING_GRAPH);
-//                rs.close();
-//                statement.close();
-//                connection.close();
-//                getGraphsDb();
-//                getTemplatesDb();
-//                return ERROR;
-//            }
+                rs2.close();
+                preparedStatement.close();
+                rs.close();
+                statement.close();
+                connection.close();
+                session.setAttribute("rdfizerJobId", addedId);
+                setShowCheckButton(1);
+                getGraphsDb();
+                return getTemplatesDb();                
+            }
         } catch (SQLException e) {
             logger.error(MessageCatalog._00011_SQL_EXCEPTION,e);
             getGraphsDb();
@@ -159,7 +148,45 @@ public class ConversionAction extends ActionSupport {
         getGraphsDb();
         return getTemplatesDb(); 
     }
-
+    /**
+     * Clear the graph
+     * @return
+     * @see
+     * @since 1.0
+     */
+    public String cleanGraph(){
+        Connection connection = null;
+        connection = new DBConnectionManager().getConnection();
+        Statement statement;
+        try {
+            statement = connection.createStatement();
+            ResultSet rs = statement
+                    .executeQuery("select sparql_endpoint_uri,sparql_endpoint_login,sparql_endpoint_password,graph_uri from organisation o INNER JOIN graph g ON o.organisationId=g.organisationId WHERE g.graphId='"+graphToClean+"'");
+            if (rs.next()) {
+                RDFStoreDAO store = new RDFStoreDAO();
+                if(!store.clearGraphBySparql(rs.getString("sparql_endpoint_uri"), rs.getString("sparql_endpoint_login"), rs.getString("sparql_endpoint_password"), rs.getString("graph_uri"))){
+                    logger.error(MessageCatalog._00032_CONVERSION_ERROR_CLEARING_GRAPH);
+                    rs.close();
+                    statement.close();
+                    connection.close();
+                    getGraphsDb();
+                    getTemplatesDb();
+                    return ERROR;
+                }
+            }
+            rs.close();
+            statement.close();
+            connection.close();
+            getGraphsDb();
+            return getTemplatesDb(); 
+        } catch (SQLException e) {
+            logger.error(MessageCatalog._00011_SQL_EXCEPTION,e);
+            getGraphsDb();
+            getTemplatesDb();
+            return ERROR;
+        }
+        
+    }
     /**
      * Gets the format of the file
      * @return
@@ -800,6 +827,22 @@ public class ConversionAction extends ActionSupport {
      */
     public void setSelectedGraph(String selectedGraph) {
         this.selectedGraph = selectedGraph;
+    }
+    /**
+     * @return Returns the graphToClean.
+     * @exception
+     * @since 1.0
+     */
+    public String getGraphToClean() {
+        return graphToClean;
+    }
+    /**
+     * @param graphToClean The graphToClean to set.
+     * @exception
+     * @since 1.0
+     */
+    public void setGraphToClean(String graphToClean) {
+        this.graphToClean = graphToClean;
     }
 
 }

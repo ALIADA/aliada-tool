@@ -73,11 +73,19 @@
 			<result name="error" type="tiles">/manage.tiles</result>
 		</action>
 		
+		<action name="cleanGraph" method="cleanGraph"
+			class="eu.aliada.gui.action.ConversionAction">
+			<result name="success" type="tiles">/conversion.tiles</result>
+			<result name="error" type="tiles">/conversion.tiles</result>
+			<result name="input" type="tiles">/conversion.tiles</result>
+		</action>
+		
 		<action name="saveFilesToConversion" method="saveFilesToConversion" class="eu.aliada.gui.action.ManagingAction">
             <result name="success" type="redirectAction">
          		<param name="actionName">conversion</param>
          	</result>
 		</action>
+		
 		<action name="finishFileWork" method="finishFileWork" class="eu.aliada.gui.action.LinkingAction">
             <result name="success" type="redirectAction">
          		<param name="actionName">manage</param>

@@ -141,6 +141,12 @@ $(function(){
 				<html:submit action="showTemplates" cssClass="submitButton button"
 					key="templates" />
 			</div>
+			<div>
+				<html:select name="graphToClean"
+					cssClass="inputForm" list="graphs" />
+				<html:submit action="cleanGraph" cssClass="submitButton button"
+					key="conversion.clean" />	
+			</div>
 		</div>
 		<div id="checkInfo" class="displayNo content">
 			<label class="row label"><html:text name="rdf.fileTo"/></label>		

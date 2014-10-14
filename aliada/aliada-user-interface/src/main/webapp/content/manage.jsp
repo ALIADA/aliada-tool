@@ -100,7 +100,7 @@ $(function(){
 					<%-- <td><html:property value="filename" /></td> --%>
 					<td><html:radio key="selectedFile" list="filename" /></td>
 					<td><html:property value="profile" /></td>
-					<td><html:if test="status.equals('idle')">
+					<td class="center"><html:if test="status.equals('idle')">
 							<img class="displayNo" src="images/fine.png"/>
 							<img src="images/clock.png"/>
 						</html:if>
