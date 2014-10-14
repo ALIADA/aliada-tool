@@ -173,8 +173,8 @@ public class ConversionAction extends ActionSupport {
                     getTemplatesDb();
                     return ERROR;
                 }
+                logger.error(MessageCatalog._00034_CONVERSION_GRAPH_CLEANED);
             }
-            logger.error(MessageCatalog._00034_CONVERSION_GRAPH_CLEANED);
             rs.close();
             statement.close();
             connection.close();
