@@ -6,7 +6,7 @@ function confirmBox(){
 	var answer = window.confirm("<html:text name='conversion.cleanGraph'/>");
 	if (answer == true){
 		console.log("Cleaning graph");
-		window.location.href = "${pageContext.request.contextPath}/cleanGraph.action";
+		window.location = "%{cleanGraphUrl}";
 	}
 	else{
 		console.log("Not cleaned");
@@ -92,6 +92,9 @@ $(function(){
 	}
 }); 
 </script>
+<html:url id="cleanGraphUrl" action="cleanGraph">
+	<html:param name="graphToClean"><html:property value="graphToClean"/></html:param>
+</html:url>
 <html:hidden id="rdfizerJobId" name="rdfizerJobId" value="%{#session['rdfizerJobId']}" />
 <html:hidden id="showRdfizerButton" name="showRdfizerButton" value="%{showRdfizerButton}" />
 <html:hidden id="showCheckButton" name="showCheckButton" value="%{showCheckButton}" />
