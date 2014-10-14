@@ -183,11 +183,11 @@ public class LinkingAction extends ActionSupport {
         try {
             statement = connection.createStatement();
             ResultSet rs = statement
-                    .executeQuery("select store_ip,store_sql_port,sql_login, sql_password, graph_uri, dataset_base, isql_command_path, isql_commands_file, isql_commands_file_default from organisation");
+                    .executeQuery("select store_ip,store_sql_port,sql_login, sql_password, graph_uri, dataset_base, isql_command_path, isql_commands_file, isql_commands_file_default, listening_host, virtual_host from organisation");
             if (rs.next()) {
                 PreparedStatement preparedStatement = connection
                         .prepareStatement(
-                                "INSERT INTO linkeddataserver_job_instances (store_ip,store_sql_port,sql_login,sql_password,graph,dataset_base,isql_command_path,isql_commands_file,isql_commands_file_default) VALUES(?,?,?,?,?,?,?,?,?)",
+                                "INSERT INTO linkeddataserver_job_instances (store_ip,store_sql_port,sql_login,sql_password,graph,dataset_base,isql_command_path,isql_commands_file,isql_commands_file_default,listening_host,virtual_host) VALUES(?,?,?,?,?,?,?,?,?,?,?)",
                                 PreparedStatement.RETURN_GENERATED_KEYS);
                 preparedStatement.setString(1, rs.getString("store_ip"));
                 preparedStatement.setInt(2, rs.getInt("store_sql_port"));
@@ -198,6 +198,8 @@ public class LinkingAction extends ActionSupport {
                 preparedStatement.setString(7, rs.getString("isql_command_path"));
                 preparedStatement.setString(8, rs.getString("isql_commands_file"));
                 preparedStatement.setString(9, rs.getString("isql_commands_file_default"));
+                preparedStatement.setString(10, rs.getString("listening_host"));
+                preparedStatement.setString(11, rs.getString("virtual_host"));
                 preparedStatement.executeUpdate();
                 ResultSet rs2 = preparedStatement.getGeneratedKeys();
                 if (rs2.next()) {
