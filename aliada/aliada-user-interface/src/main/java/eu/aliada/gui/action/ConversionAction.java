@@ -174,11 +174,11 @@ public class ConversionAction extends ActionSupport {
                     return ERROR;
                 }
             }
+            logger.error(MessageCatalog._00034_CONVERSION_GRAPH_CLEANED);
             rs.close();
             statement.close();
             connection.close();
-            getGraphsDb();
-            return getTemplatesDb(); 
+            return execute(); 
         } catch (SQLException e) {
             logger.error(MessageCatalog._00011_SQL_EXCEPTION,e);
             getGraphsDb();

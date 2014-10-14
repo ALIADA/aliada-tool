@@ -43,6 +43,7 @@ public interface MessageCatalog {
     String _00031_CONVERSION_RDFIZE_JOB = LT + MODULE_NAME + "-00031> : RDFizer job created";
     String _00032_CONVERSION_ERROR_CLEARING_GRAPH = LT + MODULE_NAME + "-00032> : Error clearing graph";
     String _00033_CONVERSION_ERROR_NO_FILE_IMPORTED = LT + MODULE_NAME + "-00033> : No file imported";
+    String _00034_CONVERSION_GRAPH_CLEANED = LT + MODULE_NAME + "-00034> : Graph cleaned";
     
     String _00040_LDS_STARTED = LT + MODULE_NAME + "-00040> : LDS started";
     

@@ -142,6 +142,7 @@ $(function(){
 					key="templates" />
 			</div>
 			<div>
+				<label class="row label"><html:text name="conversion.cleanSelect"/></label>
 				<html:select name="graphToClean"
 					cssClass="inputForm" list="graphs" />
 				<html:submit action="cleanGraph" cssClass="submitButton button"
