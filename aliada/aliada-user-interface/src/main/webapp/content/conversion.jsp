@@ -138,8 +138,10 @@ $(function(){
 				<label class="row label"><html:text name="conversion.cleanSelect"/></label>
 				<html:select name="graphToClean"
 					cssClass="inputForm" list="graphs" />
-				<html:submit <%-- onclick="return confirmBox();" --%> action="cleanGraph" cssClass="submitButton button"
-					key="conversion.clean" />	
+				<%-- <html:submit onclick="return confirmBox();" cssClass="submitButton button"
+					key="conversion.clean" /> --%>	
+				<html:submit action="cleanGraph" cssClass="submitButton button"
+					key="conversion.clean" />
 			</div>
 		</div>
 		<div id="checkInfo" class="displayNo content">
