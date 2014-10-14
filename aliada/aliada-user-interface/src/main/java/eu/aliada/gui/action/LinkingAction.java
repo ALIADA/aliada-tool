@@ -106,7 +106,7 @@ public class LinkingAction extends ActionSupport {
         try {
             statement = connection.createStatement();
             ResultSet rs = statement
-                    .executeQuery("select sparql_endpoint_uri, sparql_endpoint_login, sparql_endpoint_password, graph_uri, linking_config_file, tmp_dir, linking_client_app_bin_dir from organisation");
+                    .executeQuery("select sparql_endpoint_uri, sparql_endpoint_login, sparql_endpoint_password, graph_uri, linking_config_file, tmp_dir, linking_client_app_bin_dir from organisation o INNER JOIN graph g ON o.organisationId=g.organisationId WHERE g.graph_uri='"+fileToLink.getGraph()+"'");
             if (rs.next()) {
                 PreparedStatement preparedStatement;
                 preparedStatement = connection
@@ -183,7 +183,7 @@ public class LinkingAction extends ActionSupport {
         try {
             statement = connection.createStatement();
             ResultSet rs = statement
-                    .executeQuery("select store_ip,store_sql_port,sql_login, sql_password, graph_uri, dataset_base, isql_command_path, isql_commands_file, isql_commands_file_default, listening_host, virtual_host from organisation");
+                    .executeQuery("select store_ip,store_sql_port,sql_login, sql_password, graph_uri, dataset_base, isql_command_path, isql_commands_file, isql_commands_file_default, listening_host, virtual_host from organisation o INNER JOIN graph g ON o.organisationId=g.organisationId WHERE g.graph_uri='"+fileToLink.getGraph()+"'");
             if (rs.next()) {
                 PreparedStatement preparedStatement = connection
                         .prepareStatement(
