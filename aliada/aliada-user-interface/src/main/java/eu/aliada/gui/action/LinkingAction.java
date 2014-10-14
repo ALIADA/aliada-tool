@@ -7,7 +7,6 @@
 package eu.aliada.gui.action;
 
 import java.io.DataOutputStream;
-import java.io.File;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -26,6 +25,7 @@ import org.apache.struts2.ServletActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 
 import eu.aliada.gui.log.MessageCatalog;
+import eu.aliada.gui.model.FileWork;
 import eu.aliada.gui.rdbms.DBConnectionManager;
 import eu.aliada.shared.log.Log;
 
@@ -36,9 +36,8 @@ import eu.aliada.shared.log.Log;
 public class LinkingAction extends ActionSupport {
 
     private boolean linkingStarted;
-    private boolean notFiles;
     private HashMap<Integer, String> datasets;
-    private String fileToLink;
+    private FileWork fileToLink;
     private Integer rdfizerJob;
 
     private final Log logger = new Log(LinkingAction.class);
@@ -46,13 +45,7 @@ public class LinkingAction extends ActionSupport {
     public String execute() {
         HttpSession session = ServletActionContext.getRequest().getSession();
         session.setAttribute("rdfizerFinished", true);
-        File importFile = (File) session.getAttribute("importFile");
-        if (importFile == null) {
-            setNotFiles(true);
-        } else {
-            setNotFiles(false);
-            setFileToLink(importFile.getAbsolutePath());
-        }
+        setFileToLink((FileWork) session.getAttribute("importedFile"));
         return getDatasetsDb();
     }
 
@@ -92,19 +85,12 @@ public class LinkingAction extends ActionSupport {
      * @since 1.0
      */
     public String startLinking() {
-        File importFile = (File) ServletActionContext.getRequest()
-                .getSession().getAttribute("importFile");
-        if (importFile == null) {
-            setNotFiles(true);
-            return getDatasetsDb();
-        } else {
-            setNotFiles(false);
-            setFileToLink(importFile.getAbsolutePath());
-            createJobLinking();
-            createJobLDS();
-            setLinkingStarted(true);
-            return getDatasetsDb();
-        }
+        setFileToLink((FileWork) ServletActionContext.getRequest()
+                .getSession().getAttribute("importedFile"));
+        createJobLinking();
+        createJobLDS();
+        setLinkingStarted(true);
+        return getDatasetsDb();
     }
     /**
      * Creates the job that does the link-discovery
@@ -276,31 +262,12 @@ public class LinkingAction extends ActionSupport {
         this.datasets = datasets;
     }
 
-    /**
-     * @return Returns the notFiles.
-     * @exception
-     * @since 1.0
-     */
-    public boolean isNotFiles() {
-        return notFiles;
-    }
-
-    /**
-     * @param notFiles
-     *            The notFiles to set.
-     * @exception
-     * @since 1.0
-     */
-    public void setNotFiles(boolean notFiles) {
-        this.notFiles = notFiles;
-    }
-
-    /**
+   /**
      * @return Returns the fileToLink.
      * @exception
      * @since 1.0
      */
-    public String getFileToLink() {
+    public FileWork getFileToLink() {
         return fileToLink;
     }
 
@@ -310,7 +277,7 @@ public class LinkingAction extends ActionSupport {
      * @exception
      * @since 1.0
      */
-    public void setFileToLink(String fileToLink) {
+    public void setFileToLink(FileWork fileToLink) {
         this.fileToLink = fileToLink;
     }
 

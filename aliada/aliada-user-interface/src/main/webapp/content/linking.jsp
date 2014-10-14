@@ -121,46 +121,35 @@
 </ul>
 <html:a id="rdfVal" action="rdfVal" cssClass="menuButton button fright" key="rdfVal" target="_blank"><html:text name="rdfVal"/></html:a>	
 <div id="linkingPanel" class="content centered form">	
-	<html:form>	
-	<div <html:if test="notFiles">class="displayNo"</html:if>
-		<html:else>
-		    class="display"
-		</html:else>>
+	<html:form>
 		<h3 class="bigLabel"><html:text name="linking.importedFile"/></h3>
-		<html:property value="fileToLink"/>	
-	</div>
-	<div <html:if test="notFiles">class="display"</html:if>
-		<html:else>
-		    class="displayNo"
-		</html:else>>
-		<h3 class="bigLabel"><html:text name="linking.notFiles"/></h3>
-	</div>
-	<h3 class="mediumLabel"><html:text name="linking.datasets"/></h3>		
-	<html:iterator value="datasets" var="data">
-         <li><html:property value="value"/></li>
-      </html:iterator> 
-	<html:actionerror/>
-	<div class="row">
-		<html:submit id="startLinkingButton" action="startLinking" cssClass="submitButton buttonGreen" key="linkSubmit"/>
-		<html:submit id="checkLinkingButton" disabled="true" onClick="return false;" cssClass="submitButton button" key="check"/>
-		<html:if test="linkingStarted">
-			<script>
-				$("#startLinkingButton").removeClass("buttonGreen");
-		    	$("#startLinkingButton").addClass("button");
-		    	$("#checkLinkingButton").removeClass("button");
-		    	$("#checkLinkingButton").addClass("buttonGreen");
-				$('#checkLinkingButton').prop("disabled",false);
-				$('#startLinkingButton').prop("disabled",true);
-		    </script>
-		</html:if>
-	</div>
+		<html:property value="fileToLink.getFilename()"/>
+		<h3 class="mediumLabel"><html:text name="linking.datasets"/></h3>		
+		<html:iterator value="datasets" var="data">
+	         <li><html:property value="value"/></li>
+	      </html:iterator> 
+		<html:actionerror/>
+		<div class="row">
+			<html:submit id="startLinkingButton" action="startLinking" cssClass="submitButton buttonGreen" key="linkSubmit"/>
+			<html:submit id="checkLinkingButton" disabled="true" onClick="return false;" cssClass="submitButton button" key="check"/>
+			<html:if test="linkingStarted">
+				<script>
+					$("#startLinkingButton").removeClass("buttonGreen");
+			    	$("#startLinkingButton").addClass("button");
+			    	$("#checkLinkingButton").removeClass("button");
+			    	$("#checkLinkingButton").addClass("buttonGreen");
+					$('#checkLinkingButton').prop("disabled",false);
+					$('#startLinkingButton').prop("disabled",true);
+			    </script>
+			</html:if>
+		</div>
 	</html:form>
 </div>
 <div id="checkInfo" class="displayNo">
 	<div class="content">
 		<div class="row bigLabel">
 			<html:text name="linkingInfo.nameFile"/>
-			<html:property value="fileToLink"/>		
+			<html:property value="fileToLink.getFilename()"/>		
 		</div>
 		<div id="linkingDividedPanel" class="clearfix">		
 			<div id="linkingInfoPanel" class="fleft" >
