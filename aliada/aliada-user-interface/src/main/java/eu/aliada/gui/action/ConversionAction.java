@@ -174,6 +174,7 @@ public class ConversionAction extends ActionSupport {
                     return ERROR;
                 }
                 logger.error(MessageCatalog._00034_CONVERSION_GRAPH_CLEANED);
+                addActionMessage(getText("conversion.graphCleaned")+rs.getString("graph_uri"));
             }
             rs.close();
             statement.close();

@@ -143,6 +143,7 @@ $(function(){
 				<html:submit action="cleanGraph" cssClass="submitButton button"
 					key="conversion.clean" />
 			</div>
+			<html:actionmessage />
 		</div>
 		<div id="checkInfo" class="displayNo content">
 			<div class="row">
