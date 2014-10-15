@@ -148,7 +148,7 @@ $(function(){
 		<div id="checkInfo" class="displayNo content">
 			<div class="row">
 				<label class="label"><html:text name="rdf.fileTo"/></label>
-				<html:property value="importFile.getFilename()"/>
+				<html:property value="importedFile.getFilename()"/>
 			</div>				
 			<img id="fineImg" class="displayNo" src="images/fine.png"/>
 			<div class="row">
