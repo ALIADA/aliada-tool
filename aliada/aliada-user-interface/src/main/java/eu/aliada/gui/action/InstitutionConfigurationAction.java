@@ -19,7 +19,6 @@ import java.sql.Statement;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.apache.struts2.ServletActionContext;
 
@@ -39,9 +38,9 @@ import eu.aliada.shared.log.Log;
 public class InstitutionConfigurationAction extends ActionSupport {
 
     private List<Organisation> organisations;
-    private String organisation_name;
-    private File organisation_logo;
-    private String organisation_catalog_url;     
+    private String organisationName;
+    private File organisationLogo;
+    private String organisationCatalogUrl;     
         
     private static final String DEFAULTLOGOPATH = "webapps/aliada-user-interface-1.0/images/aliada.png";
 
@@ -59,9 +58,9 @@ public class InstitutionConfigurationAction extends ActionSupport {
             Statement statement = connection.createStatement();
             ResultSet rs = statement.executeQuery("SELECT * FROM organisation o INNER JOIN user u ON o.organisationId = u.organisationId WHERE u.user_name='"+userName+"';");
             if (rs.next() && rs.getString("organisation_name") != null) {
-                setOrganisation_name(rs.getString("organisation_name"));
+                setOrganisationName(rs.getString("organisation_name"));
                 // readFile(rs);
-                setOrganisation_catalog_url(rs
+                setOrganisationCatalogUrl(rs
                         .getString("organisation_catalog_url"));
             }
             statement.close();
@@ -86,18 +85,18 @@ public class InstitutionConfigurationAction extends ActionSupport {
 //            if(!rs.next()){
             PreparedStatement preparedStatement = connection
                     .prepareStatement("UPDATE organisation  SET organisation_logo = ?, organisation_catalog_url =? WHERE organisation_name = ?");
-            if (this.organisation_logo != null) {
-                fis = new FileInputStream(this.organisation_logo);
+            if (this.organisationLogo != null) {
+                fis = new FileInputStream(this.organisationLogo);
                 preparedStatement.setBinaryStream(1, fis,
-                        (int) this.organisation_logo.length());
+                        (int) this.organisationLogo.length());
             } else {
                 File defaultImg = new File(DEFAULTLOGOPATH);
                 fis = new FileInputStream(defaultImg);
                 preparedStatement.setBinaryStream(1, fis,
                         (int) defaultImg.length());
             }
-            preparedStatement.setString(2, this.organisation_catalog_url);
-            preparedStatement.setString(3, this.organisation_name);
+            preparedStatement.setString(2, this.organisationCatalogUrl);
+            preparedStatement.setString(3, this.organisationName);
             preparedStatement.executeUpdate();
             addActionMessage(getText("institution.changed"));
             preparedStatement.close();
@@ -135,59 +134,59 @@ public class InstitutionConfigurationAction extends ActionSupport {
     }
 
     /**
-     * @return Returns the organisation_name.
+     * @return Returns the organisationName.
      * @exception
      * @since 1.0
      */
-    public String getOrganisation_name() {
-        return organisation_name;
+    public String getOrganisationName() {
+        return organisationName;
     }
 
     /**
-     * @param organisation_name
-     *            The organisation_name to set.
+     * @param organisationName
+     *            The organisationName to set.
      * @exception
      * @since 1.0
      */
-    public void setOrganisation_name(String organisation_name) {
-        this.organisation_name = organisation_name;
+    public void setOrganisationName(String organisationName) {
+        this.organisationName = organisationName;
     }
     
     /**
-     * @return Returns the organisation_logo.
+     * @return Returns the organisationLogo.
      * @exception
      * @since 1.0
      */
-    public File getOrganisation_logo() {
-        return organisation_logo;
+    public File getOrganisationLogo() {
+        return organisationLogo;
     }
 
     /**
-     * @param organisation_logo
-     *            The organisation_logo to set.
+     * @param organisationLogo
+     *            The organisationLogo to set.
      * @exception
      * @since 1.0
      */
-    public void setOrganisation_logo(File organisation_logo) {
-        this.organisation_logo = organisation_logo;
+    public void setOrganisationLogo(File organisationLogo) {
+        this.organisationLogo = organisationLogo;
     }
 
     /**
-     * @return Returns the organisation_catalog_url.
+     * @return Returns the organisationCatalogUrl.
      * @exception
      * @since 1.0
      */
-    public String getOrganisation_catalog_url() {
-        return organisation_catalog_url;
+    public String getOrganisationCatalogUrl() {
+        return organisationCatalogUrl;
     }
 
     /**
-     * @param organisation_catalog_url
-     *            The organisation_catalog_url to set.
+     * @param organisationCatalogUrl
+     *            The organisationCatalogUrl to set.
      * @exception
      * @since 1.0
      */
-    public void setOrganisation_catalog_url(String organisation_catalog_url) {
-        this.organisation_catalog_url = organisation_catalog_url;
+    public void setOrganisationCatalogUrl(String organisationCatalogUrl) {
+        this.organisationCatalogUrl = organisationCatalogUrl;
     }
 }

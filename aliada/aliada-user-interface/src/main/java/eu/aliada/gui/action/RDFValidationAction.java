@@ -25,8 +25,8 @@ import eu.aliada.shared.log.Log;
  * @since 1.0
  */
 public class RDFValidationAction extends ActionSupport {
-    private String sparql_endpoint;
-    private String graph_uri;
+    private String sparqlEndpoint;
+    private String graphUri;
 
     private final Log logger = new Log(InstitutionConfigurationAction.class);
     
@@ -39,8 +39,8 @@ public class RDFValidationAction extends ActionSupport {
             statement = connection.createStatement();
             ResultSet rs = statement.executeQuery("SELECT public_sparql_endpoint_uri, graph_uri FROM organisation o INNER JOIN graph g ON o.organisationId=g.organisationId WHERE graph_uri='"+importedFile.getGraph()+"'");
             if (rs.next() ) {
-                setSparql_endpoint(rs.getString("public_sparql_endpoint_uri"));
-                setGraph_uri(rs.getString("graph_uri"));
+                setSparqlEndpoint(rs.getString("public_sparql_endpoint_uri"));
+                setGraphUri(rs.getString("graph_uri"));
             }
             rs.close();
             statement.close();
@@ -54,35 +54,35 @@ public class RDFValidationAction extends ActionSupport {
     }
     
     /**
-     * @return Returns the sparql_endpoint.
+     * @return Returns the sparqlEndpoint.
      * @exception
      * @since 1.0
      */
-    public String getSparql_endpoint() {
-        return sparql_endpoint;
+    public String getSparqlEndpoint() {
+        return sparqlEndpoint;
     }
     /**
-     * @param sparql_endpoint The sparql_endpoint to set.
+     * @param sparqlEndpoint The sparqlEndpoint to set.
      * @exception
      * @since 1.0
      */
-    public void setSparql_endpoint(String sparql_endpoint) {
-        this.sparql_endpoint = sparql_endpoint;
+    public void setSparqlEndpoint(String sparqlEndpoint) {
+        this.sparqlEndpoint = sparqlEndpoint;
     }
     /**
-     * @return Returns the graph_uri.
+     * @return Returns the graphUri.
      * @exception
      * @since 1.0
      */
-    public String getGraph_uri() {
-        return graph_uri;
+    public String getGraphUri() {
+        return graphUri;
     }
     /**
-     * @param graph_uri The graph_uri to set.
+     * @param graphUri The graphUri to set.
      * @exception
      * @since 1.0
      */
-    public void setGraph_uri(String graph_uri) {
-        this.graph_uri = graph_uri;
+    public void setGraphUri(String graphUri) {
+        this.graphUri = graphUri;
     }
 }

@@ -13,10 +13,10 @@ package eu.aliada.gui.model;
 public class Organisation {
     private String name;
     private String path;
-    private String uri_domain;
-    private String uri_resource;
+    private String uriDomain;
+    private String uriResource;
     private String logo;
-    private String catalog_url;
+    private String catalogUrl;
     /**
      * @return Returns the name.
      * @exception
@@ -50,36 +50,36 @@ public class Organisation {
         this.path = path;
     }
     /**
-     * @return Returns the uri_domain.
+     * @return Returns the uriDomain.
      * @exception
      * @since 1.0
      */
-    public String getUri_domain() {
-        return uri_domain;
+    public String getUriDomain() {
+        return uriDomain;
     }
     /**
-     * @param uri_domain The uri_domain to set.
+     * @param uriDomain The uriDomain to set.
      * @exception
      * @since 1.0
      */
-    public void setUri_domain(String uri_domain) {
-        this.uri_domain = uri_domain;
+    public void setUriDomain(String uriDomain) {
+        this.uriDomain = uriDomain;
     }
     /**
-     * @return Returns the uri_resource.
+     * @return Returns the uriResource.
      * @exception
      * @since 1.0
      */
-    public String getUri_resource() {
-        return uri_resource;
+    public String getUriResource() {
+        return uriResource;
     }
     /**
-     * @param uri_resource The uri_resource to set.
+     * @param uriResource The uriResource to set.
      * @exception
      * @since 1.0
      */
-    public void setUri_resource(String uri_resource) {
-        this.uri_resource = uri_resource;
+    public void setUriResource(String uriResource) {
+        this.uriResource = uriResource;
     }
     /**
      * @return Returns the logo.
@@ -98,20 +98,20 @@ public class Organisation {
         this.logo = logo;
     }
     /**
-     * @return Returns the catalog_url.
+     * @return Returns the catalogUrl.
      * @exception
      * @since 1.0
      */
-    public String getCatalog_url() {
-        return catalog_url;
+    public String getCatalogUrl() {
+        return catalogUrl;
     }
     /**
-     * @param catalog_url The catalog_url to set.
+     * @param catalogUrl The catalogUrl to set.
      * @exception
      * @since 1.0
      */
-    public void setCatalog_url(String catalog_url) {
-        this.catalog_url = catalog_url;
+    public void setCatalogUrl(String catalogUrl) {
+        this.catalogUrl = catalogUrl;
     }
     
     

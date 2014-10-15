@@ -7,6 +7,7 @@
 package eu.aliada.gui.action;
 
 import java.io.IOException;
+import java.net.ConnectException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.sql.Connection;
@@ -222,7 +223,7 @@ public class ConversionAction extends ActionSupport {
         conn.setDoOutput(true);
         conn.setRequestMethod("PUT");
         if (conn.getResponseCode() != HttpURLConnection.HTTP_NO_CONTENT) {
-            throw new RuntimeException("Failed : HTTP error code : "
+            throw new ConnectException("Failed : HTTP error code : "
                     + conn.getResponseCode());
         }
         logger.debug(MessageCatalog._00030_CONVERSION_RDFIZE_ENABLE);
@@ -242,7 +243,7 @@ public class ConversionAction extends ActionSupport {
         conn.setDoOutput(true);
         conn.setRequestMethod("PUT");
         if (conn.getResponseCode() != HttpURLConnection.HTTP_CREATED) {
-            throw new RuntimeException("Failed : HTTP error code : "
+            throw new ConnectException("Failed : HTTP error code : "
                     + conn.getResponseCode());
         }
         logger.debug(MessageCatalog._00031_CONVERSION_RDFIZE_JOB);

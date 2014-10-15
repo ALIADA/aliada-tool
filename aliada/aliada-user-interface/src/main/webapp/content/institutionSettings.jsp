@@ -15,15 +15,15 @@
 		<table class="pad10">
 			<tr>
 				<td colspan="2"><html:textfield theme="xhtml"
-						key="organisation_name"
+						key="organisationName"
 						cssClass="inputPage disabled" size="15" readonly="true"/></td>
 			</tr>
 			<tr>
-				<td><html:file theme="xhtml" key="organisation_logo" /></td>
+				<td><html:file theme="xhtml" key="organisationLogo" /></td>
 			</tr>
 			<tr>
 				<td colspan="2"><html:textfield theme="xhtml"
-						key="organisation_catalog_url"
+						key="organisationCatalogUrl"
 						cssClass="inputPage" size="15" /></td>
 			</tr>
 		</table>

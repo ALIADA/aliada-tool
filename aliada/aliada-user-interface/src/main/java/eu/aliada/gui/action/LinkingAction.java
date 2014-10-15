@@ -8,6 +8,7 @@ package eu.aliada.gui.action;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.net.ConnectException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -162,7 +163,7 @@ public class LinkingAction extends ActionSupport {
                     wr.flush();
                     wr.close();
                     if (conn.getResponseCode() != HttpURLConnection.HTTP_CREATED) {
-                        throw new RuntimeException(
+                        throw new ConnectException(
                                 "Failed : HTTP error code : "
                                         + conn.getResponseCode());
                     } else {
@@ -236,7 +237,7 @@ public class LinkingAction extends ActionSupport {
                     wr.flush();
                     wr.close();
                     if (conn.getResponseCode() != HttpURLConnection.HTTP_CREATED) {
-                        throw new RuntimeException("Failed : HTTP error code : "
+                        throw new ConnectException("Failed : HTTP error code : "
                                 + conn.getResponseCode());
                     } else {
                         session.setAttribute("ldsJobId", addedId);

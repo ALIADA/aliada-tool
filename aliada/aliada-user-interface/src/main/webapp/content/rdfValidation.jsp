@@ -86,8 +86,8 @@
 		<li><a id="queryWorks" href="#"><html:text name="rdfVal.all"/></a></li>
 		<li><a id="querySameAs" href="#"><html:text name="rdfVal.links"/></a></li>
 		</ul>
-		<form id="formGetResults" name="formGetResults" action=<html:property value="sparql_endpoint"/> method="get" >
-				<input type="hidden" name="default-graph-uri" id="default-graph-uri" value="<html:property value="graph_uri"/>"/>
+		<form id="formGetResults" name="formGetResults" action=<html:property value="sparqlEndpoint"/> method="get" >
+				<input type="hidden" name="default-graph-uri" id="default-graph-uri" value="<html:property value="graphUri"/>"/>
 				<input type="hidden" name="query" id="query" value=""/>
 				<input type="hidden" name="format" id="format" value="text/html">
 				<input type="hidden" name="timeout" id="timeout" value="0" /> 
