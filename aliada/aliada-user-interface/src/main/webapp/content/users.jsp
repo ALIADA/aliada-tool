@@ -11,7 +11,7 @@
 			<th><label class="bold"><html:text name="email"/></label></th>
 			<th><label class="bold"><html:text name="role"/></label></th>
 			<th><label class="bold"><html:text name="type"/></label></th>
-			<th><label class="bold"><html:text name="organisation_name"/></label></th>
+			<th><label class="bold"><html:text name="organisationName"/></label></th>
 		</tr>
 		<html:iterator value="users" var="dato">
 			<tr>
@@ -60,7 +60,7 @@
 				<th><label for="emailForm" class="bold"><html:text name="email"/></label></th>
 				<th><label for="roleForm" class="bold"><html:text name="role"/></label></th>
 				<th><label for="typeForm" class="bold"><html:text name="type"/></label></th>
-				<th><label for="organisationForm" class="bold"><html:text name="organisation_name"/></label></th>
+				<th><label for="organisationForm" class="bold"><html:text name="organisationName"/></label></th>
 			</tr>
 			<tr>
 				<td><html:textfield key="usernameForm"
@@ -104,7 +104,7 @@
 				<th><label for="emailForm" class="bold"><html:text name="email"/></label></th>
 				<th><label for="roleForm" class="bold"><html:text name="role"/></label></th>
 				<th><label for="typeForm" class="bold"><html:text name="type"/></label></th>
-				<th><label for="organisationForm" class="bold"><html:text name="organisation_name"/></label></th>
+				<th><label for="organisationForm" class="bold"><html:text name="organisationName"/></label></th>
 			</tr>
 			<tr>
 				<td><html:textfield key="usernameForm"
