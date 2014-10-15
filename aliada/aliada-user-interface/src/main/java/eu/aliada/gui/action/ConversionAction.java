@@ -53,7 +53,6 @@ public class ConversionAction extends ActionSupport {
     private int showRdfizerButton;
     private boolean areTemplates;
     private String selectedGraph;
-    private String graphToClean;
     
     private final Log logger = new Log(ConversionAction.class);
     
@@ -158,10 +157,11 @@ public class ConversionAction extends ActionSupport {
         Connection connection = null;
         connection = new DBConnectionManager().getConnection();
         Statement statement;
+        String graphToCleanId = ServletActionContext.getRequest().getParameter("graphToCleanId");
         try {
             statement = connection.createStatement();
             ResultSet rs = statement
-                    .executeQuery("select sparql_endpoint_uri,sparql_endpoint_login,sparql_endpoint_password,graph_uri from organisation o INNER JOIN graph g ON o.organisationId=g.organisationId WHERE g.graphId='"+graphToClean+"'");
+                    .executeQuery("select sparql_endpoint_uri,sparql_endpoint_login,sparql_endpoint_password,graph_uri from organisation o INNER JOIN graph g ON o.organisationId=g.organisationId WHERE g.graphId='"+graphToCleanId+"'");
             if (rs.next()) {
                 RDFStoreDAO store = new RDFStoreDAO();
                 if(!store.clearGraphBySparql(rs.getString("sparql_endpoint_uri"), rs.getString("sparql_endpoint_login"), rs.getString("sparql_endpoint_password"), rs.getString("graph_uri"))){
@@ -169,8 +169,7 @@ public class ConversionAction extends ActionSupport {
                     rs.close();
                     statement.close();
                     connection.close();
-                    getGraphsDb();
-                    getTemplatesDb();
+                    execute();
                     return ERROR;
                 }
                 logger.error(MessageCatalog._00034_CONVERSION_GRAPH_CLEANED);
@@ -182,8 +181,7 @@ public class ConversionAction extends ActionSupport {
             return execute(); 
         } catch (SQLException e) {
             logger.error(MessageCatalog._00011_SQL_EXCEPTION,e);
-            getGraphsDb();
-            getTemplatesDb();
+            execute();
             return ERROR;
         }
         
@@ -829,21 +827,4 @@ public class ConversionAction extends ActionSupport {
     public void setSelectedGraph(String selectedGraph) {
         this.selectedGraph = selectedGraph;
     }
-    /**
-     * @return Returns the graphToClean.
-     * @exception
-     * @since 1.0
-     */
-    public String getGraphToClean() {
-        return graphToClean;
-    }
-    /**
-     * @param graphToClean The graphToClean to set.
-     * @exception
-     * @since 1.0
-     */
-    public void setGraphToClean(String graphToClean) {
-        this.graphToClean = graphToClean;
-    }
-
 }

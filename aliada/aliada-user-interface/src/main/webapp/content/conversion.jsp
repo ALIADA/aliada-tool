@@ -5,8 +5,9 @@
 function confirmBox(){
 	var answer = window.confirm("<html:text name='conversion.cleanGraph'/>");
 	if (answer == true){
+		var graphToCleanId = $("#graphToClean").val();
 		console.log("Cleaning graph");
-		window.location.href = "${pageContext.request.contextPath}/cleanGraph.action";
+		window.location.href = "${pageContext.request.contextPath}/cleanGraph.action?graphToCleanId="+graphToCleanId;
 	}
 	else{
 		console.log("Not cleaned");
@@ -136,12 +137,11 @@ $(function(){
 			</div>
 			<div>
 				<label class="row label"><html:text name="conversion.cleanSelect"/></label>
-				<html:select name="graphToClean"
-					cssClass="inputForm" list="graphs" />
-				<%-- <html:submit onclick="return confirmBox();" cssClass="submitButton button"
-					key="conversion.clean" /> --%>	
-				<html:submit action="cleanGraph" cssClass="submitButton button"
+				<html:select id="graphToClean" cssClass="inputForm" list="graphs" />
+				<html:submit onclick="return confirmBox();" cssClass="submitButton button"
 					key="conversion.clean" />
+				<%-- <html:submit action="cleanGraph" cssClass="submitButton button"
+					key="conversion.clean" /> --%>
 			</div>
 			<html:actionmessage />
 		</div>
