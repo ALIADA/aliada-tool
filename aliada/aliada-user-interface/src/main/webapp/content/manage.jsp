@@ -59,7 +59,7 @@ $(function(){
 	<html:form id="managing" method="post" enctype="multipart/form-data">
 		<label class="label"><html:text name="manage.process"/></label>
 		<div class="row">
-			<html:select name="selectedProfile" cssClass="inputForm"
+			<html:select name="profileSelected" cssClass="inputForm"
 				list="profiles" />
 			<html:submit action="showProfiles"
 				cssClass="submitButton button" key="profilesSubmit" />

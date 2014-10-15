@@ -65,8 +65,9 @@ public class ManagingAction extends ActionSupport {
 	private String importFileFileName;
 	private List<FileWork> importedFiles;
 	private String selectedFile;
+	private String profileSelected;
 	
-    
+ 
 	private static final String VISUALIZE_PATH = "webapps/aliada-user-interface-1.0/WEB-INF/classes/xmlVisualize/";
     private static final String VALIDATOR_PATH = "webapps/aliada-user-interface-1.0/WEB-INF/classes/xmlValidators/";
     private static final String ERROR_CONTENT_PATH = "webapps/aliada-user-interface-1.0/content/errorContent.jsp";
@@ -102,7 +103,7 @@ public class ManagingAction extends ActionSupport {
 				Statement statement = connection.createStatement();
 				ResultSet rs = statement
 						.executeQuery("select metadata_scheme_code,file_type_code from aliada.profile where profile_id='"
-								+ this.selectedProfile + "'");
+								+ this.profileSelected + "'");
 				rs.next();
 				int validationType = rs.getInt(1);
 				int fileType = rs.getInt(2);
@@ -149,7 +150,7 @@ public class ManagingAction extends ActionSupport {
 							fileWork.setFile(fileCreated);
 							fileWork.setFilename(fileCreated.getName());
                             fileWork.setStatus("idle");
-							fileWork.setProfile(getProfileNameFromCode(this.selectedProfile));
+							fileWork.setProfile(getProfileNameFromCode(this.profileSelected));
 							if(session.getAttribute("importedFiles")==null){
 							    importedFiles = new ArrayList<FileWork>();
 							    importedFiles.add(fileWork);
@@ -984,6 +985,22 @@ public class ManagingAction extends ActionSupport {
      */
     public void setSelectedFile(String selectedFile) {
         this.selectedFile = selectedFile;
+    }
+    /**
+     * @return Returns the profileSelected.
+     * @exception
+     * @since 1.0
+     */
+    public String getProfileSelected() {
+        return profileSelected;
+    }
+    /**
+     * @param profileSelected The profileSelected to set.
+     * @exception
+     * @since 1.0
+     */
+    public void setProfileSelected(String profileSelected) {
+        this.profileSelected = profileSelected;
     }
 
 }
