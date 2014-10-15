@@ -149,8 +149,8 @@ $(function(){
 			<div class="row">
 				<label class="label"><html:text name="rdf.fileTo"/></label>
 				<html:property value="importedFile.getFilename()"/>
+				<img id="fineImg" class="displayNo" src="images/fine.png"/>
 			</div>				
-			<img id="fineImg" class="displayNo" src="images/fine.png"/>
 			<div class="row">
 				<label class="label"><html:text name="rdf.format"/></label>
 				<div id="format" class="displayInline"></div>	
