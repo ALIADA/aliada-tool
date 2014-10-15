@@ -14,7 +14,7 @@
 	<properties>
 		<module.context.root>/aliada</module.context.root>
 		<module.listen.port>8880</module.listen.port>
-		<struts2.version>2.3.8</struts2.version>
+		<struts2.version>2.3.15.1</struts2.version>
 		<tiles.version>2.2.2</tiles.version>
 	</properties>
 	<dependencies>
