@@ -64,9 +64,9 @@
 			</tr>
 			<tr>
 				<td><html:textfield key="usernameForm"
-						cssClass="tableInput input" required="true" /></td>
+						cssClass="tableInput input" /></td>
 				<td><html:password key="passwordForm" showPassword="true"
-						cssClass="tableInput input" required="true" /></td>
+						cssClass="tableInput input" /></td>
 				<td><html:textfield key="emailForm"
 						cssClass="tableInput input" /></td>
 				<td><html:select key="roleForm"
@@ -108,9 +108,9 @@
 			</tr>
 			<tr>
 				<td><html:textfield key="usernameForm"
-						cssClass="tableInput input disabled" size="30" required="true" readonly="true" /></td>
+						cssClass="tableInput input disabled" size="30" readonly="true" /></td>
 				<td><html:password key="passwordForm" showPassword="true"
-						cssClass="tableInput input" size="20" required="true" /></td>
+						cssClass="tableInput input" size="20"/></td>
 				<td><html:textfield key="emailForm"
 						cssClass="tableInput input" size="30" /></td>
 				<td><html:select key="roleForm"
