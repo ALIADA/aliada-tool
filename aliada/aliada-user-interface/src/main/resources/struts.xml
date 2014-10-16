@@ -75,7 +75,9 @@
 		
 		<action name="cleanGraph" method="cleanGraph"
 			class="eu.aliada.gui.action.ConversionAction">
-			<result name="success" type="tiles">/conversion.tiles</result>
+			<result name="success" type="redirectAction">
+         		<param name="actionName">conversion</param>
+         	</result>
 			<result name="error" type="tiles">/conversion.tiles</result>
 			<result name="input" type="tiles">/conversion.tiles</result>
 		</action>
