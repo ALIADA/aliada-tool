@@ -215,6 +215,9 @@ public class ConversionAction extends ActionSupport {
         conn.setDoOutput(true);
         conn.setRequestMethod("PUT");
         if (conn.getResponseCode() != HttpURLConnection.HTTP_NO_CONTENT) {
+            setShowRdfizerButton(1);
+            getGraphsDb();
+            getTemplatesDb();  
             throw new ConnectException("Failed : HTTP error code : "
                     + conn.getResponseCode());
         }
