@@ -103,20 +103,20 @@
 		</action>
 		
 		<action name="showTemplates" method="getTemplatesDb"
-			class="eu.aliada.gui.action.ConversionAction">
+			class="eu.aliada.gui.action.TemplatesAction">
 			<result name="success" type="tiles">/templates.tiles</result>
 			<result name="input" type="tiles">/templates.tiles</result>
 		</action>
 		
 		<action name="showAddTemplateForm" method="showAddTemplate"
-			class="eu.aliada.gui.action.ConversionAction">
+			class="eu.aliada.gui.action.TemplatesAction">
 			<interceptor-ref name="retrieveStack"/>
 			<result name="success" type="tiles">/templates.tiles</result>
 			<result name="error" type="tiles">/templates.tiles</result>
 		</action>
 		
 		<action name="addTemplate" method="addTemplate"
-			class="eu.aliada.gui.action.ConversionAction">
+			class="eu.aliada.gui.action.TemplatesAction">
 			<interceptor-ref name="storeStack"/>
 			<result name="success" type="tiles">/templates.tiles</result>
 			<result name="error"  type="redirectAction">
@@ -128,19 +128,19 @@
 		</action>
 		
 		<action name="deleteTemplate" method="deleteTemplate"
-			class="eu.aliada.gui.action.ConversionAction">
+			class="eu.aliada.gui.action.TemplatesAction">
 			<result name="success" type="tiles">/templates.tiles</result>
 			<result name="error" type="tiles">/templates.tiles</result>
 		</action>		
 		
 		<action name="showEditTemplateForm" method="showEditTemplate"
-			class="eu.aliada.gui.action.ConversionAction">
+			class="eu.aliada.gui.action.TemplatesAction">
 			<result name="success" type="tiles">/templates.tiles</result>
 			<result name="error" type="tiles">/templates.tiles</result>
 		</action>
 		
 		<action name="editTemplate" method="editTemplate"
-			class="eu.aliada.gui.action.ConversionAction">
+			class="eu.aliada.gui.action.TemplatesAction">
 			<result name="success" type="tiles">/templates.tiles</result>
 			<result name="error"  type="redirectAction">
          		<param name="actionName">showTemplates</param>

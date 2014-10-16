@@ -10,8 +10,8 @@
 		<div
 			<html:if test="showAddTemplateForm || showEditTemplateForm">class="displayNo"</html:if>
 			<html:else>
-		    class="display buttons row"
-		</html:else>>
+			    class="display buttons row"
+			</html:else>>
 			<div class="fieldsNoBorder">
 				<html:iterator value="templates">
 					<html:radio key="selectedTemplate" cssClass="label" value="{key}"
