@@ -6,7 +6,7 @@
 	<h2 class="pageTitle"><html:text name="message.error"/></h2>
 	<%@ include file="errorContent.jsp" %>
 	<div id="errorLogButtons" class="buttons row">
-		<html:submit action="backToManage" cssClass="submitButton button" key="back" />
+		<html:submit action="manage" cssClass="submitButton button" key="back" />
 	</div>
 </html:form>
 

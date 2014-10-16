@@ -154,12 +154,12 @@
 			<result name="input" type="tiles">/configuration.tiles</result>
 		</action>
 
-		<action name="manage" method="showProfiles"
+		<action name="manage" method="getProfilesDb"
 			class="eu.aliada.gui.action.ManagingAction">
 			<result name="success" type="tiles">/manage.tiles</result>
 		</action>
 		
-		<action name="manageStack" method="showProfiles"
+		<action name="manageStack" method="getProfilesDb"
 			class="eu.aliada.gui.action.ManagingAction">
 			<interceptor-ref name="retrieveStack"/>
 			<result name="success" type="tiles">/manage.tiles</result>
@@ -168,25 +168,20 @@
 		<action name="errorLog" class="eu.aliada.gui.action.ManagingAction">
 			<result name="success" type="tiles">/errorLog.tiles</result>
 		</action>
-		
-		<action name="backToManage"  method="showProfiles"
-			class="eu.aliada.gui.action.ManagingAction">
-			<result name="success" type="tiles">/manage.tiles</result>
-		</action>
 				
 		<action name="showProfiles" method="showProfiles"
-			class="eu.aliada.gui.action.ManagingAction">
+			class="eu.aliada.gui.action.ProfilesAction">
 			<result name="success" type="tiles">/profiles.tiles</result>
 		</action>
 		
 		<action name="showAddProfileForm" method="showAddProfile"
-			class="eu.aliada.gui.action.ManagingAction">
+			class="eu.aliada.gui.action.ProfilesAction">
 			<interceptor-ref name="retrieveStack"/>
 			<result name="success" type="tiles">/profiles.tiles</result>
 		</action>
 		
 		<action name="addProfile" method="addProfile"
-			class="eu.aliada.gui.action.ManagingAction">
+			class="eu.aliada.gui.action.ProfilesAction">
 			<interceptor-ref name="storeStack"/>
 			<result name="success" type="tiles">/profiles.tiles</result>
 			<result name="error"  type="redirectAction">
@@ -198,13 +193,13 @@
 		</action>
 		
 		<action name="showEditProfileForm" method="showEditProfile"
-			class="eu.aliada.gui.action.ManagingAction">
+			class="eu.aliada.gui.action.ProfilesAction">
 			<result name="success" type="tiles">/profiles.tiles</result>
 			<result name="error" type="tiles">/profiles.tiles</result>
 		</action>
 		
 		<action name="editProfile" method="editProfile"
-			class="eu.aliada.gui.action.ManagingAction">
+			class="eu.aliada.gui.action.ProfilesAction">
 			<result name="success" type="tiles">/profiles.tiles</result>
 			<result name="error"  type="redirectAction">
          		<param name="actionName">showProfiles</param>
@@ -215,7 +210,7 @@
 		</action>
 		
 		<action name="deleteProfile" method="deleteProfile"
-			class="eu.aliada.gui.action.ManagingAction">
+			class="eu.aliada.gui.action.ProfilesAction">
 			<result name="success" type="tiles">/profiles.tiles</result>
 			<result name="error" type="tiles">/profiles.tiles</result>
 		</action>
