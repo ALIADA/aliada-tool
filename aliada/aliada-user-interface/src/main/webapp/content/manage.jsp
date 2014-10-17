@@ -72,14 +72,12 @@ $(function(){
 		<html:actionerror/>
 		<html:actionmessage />
 		<div id="managingButtons" class="buttons row">
-			<html:form id="managingButtonsForm">
-				<img id=loader class="displayNo leftMargin rMargin20" src="images/loader.gif" alt="" />
-				<html:submit id="importFileButton" action="importXML" cssClass="submitButton buttonGreen"
-					key="import" onClick="$('#loader').show();
-											$('#importFileButton').hide();" />
-				<html:submit id="errorLog" action="errorLog" disabled="true" cssClass="submitButton button"
-					key="errorLog" />
-			</html:form>
+			<img id=loader class="displayNo leftMargin rMargin20" src="images/loader.gif" alt="" />
+			<html:submit id="importFileButton" action="importXML" cssClass="submitButton buttonGreen"
+				key="import" onClick="$('#loader').show();
+										$('#importFileButton').hide();" />
+			<html:submit id="errorLog" action="errorLog" disabled="true" cssClass="submitButton button"
+				key="errorLog" />
 		</div>	
 	</html:form>
 	</div>
