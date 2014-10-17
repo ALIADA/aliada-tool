@@ -32,12 +32,10 @@
 			cssClass="leftMargin submitButton buttonGreen" key="edit" />
 	</div>	
 	<div id="submitButtons" class="buttons row">
-		<html:form id="submitButtonsForm">
-			<html:submit action="showUsers" property="usersButton"
-				cssClass="submitButton button" key="users" />
-			<html:submit action="manage" cssClass="fright submitButton button"
-				key="next" />
-		</html:form>
+		<html:submit action="showUsers" property="usersButton"
+			cssClass="submitButton button" key="users" />
+		<html:submit action="manage" cssClass="fright submitButton button"
+			key="next" />
 	</div>
 	</html:form>
 </div>
