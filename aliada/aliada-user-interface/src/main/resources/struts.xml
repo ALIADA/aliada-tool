@@ -8,7 +8,8 @@
 	<constant name="struts.devMode" value="false" />
 	<constant name="struts.custom.i18n.resources" value="ApplicationResources" />
 	<constant name="struts.ui.theme" value="simple" />
-	<package name="default" extends="struts-default" namespace="/*">
+	<constant name="struts.multipart.maxSize" value="50777216000" />
+    <package name="default" extends="struts-default" namespace="/*">
 		<result-types>
 			<result-type name="tiles"
 				class="org.apache.struts2.views.tiles.TilesResult" />
@@ -34,6 +35,7 @@
 		    </interceptor-stack>
 		    <interceptor-stack name="filexmlStack">
 			    <interceptor-ref name="fileUpload">
+			     	<param name="maximumSize">1073741824</param>
 	                <param name="allowedTypes">text/xml</param>
 	            </interceptor-ref>
 		    </interceptor-stack>
@@ -159,12 +161,14 @@
 		<action name="manage" method="getProfilesDb"
 			class="eu.aliada.gui.action.ManagingAction">
 			<result name="success" type="tiles">/manage.tiles</result>
+			<result name="input" type="tiles">/manage.tiles</result>
 		</action>
 		
 		<action name="manageStack" method="getProfilesDb"
 			class="eu.aliada.gui.action.ManagingAction">
 			<interceptor-ref name="retrieveStack"/>
 			<result name="success" type="tiles">/manage.tiles</result>
+			<result name="input" type="tiles">/manage.tiles</result>
 		</action>
 		
 		<action name="errorLog" class="eu.aliada.gui.action.ManagingAction">
