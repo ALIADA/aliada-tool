@@ -515,6 +515,7 @@ public class LinksDiscovery {
 			try {
 				LOGGER.debug(MessageCatalog._00040_EXECUTING_CRONTAB);
 				Process p = Runtime.getRuntime().exec(command);
+				System.out.println("crontab command=" + command);
 				String s = null;
 				BufferedReader stdInput = new BufferedReader(new
 		        InputStreamReader(p.getInputStream()));
