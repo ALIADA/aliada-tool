@@ -53,7 +53,9 @@ public class LinkingProcess {
 	/** Number of input parameters for the process. */
 	static final int PROCESS_PARAM_NUM = 3;
 	/** Crontab file name. */
-	private final static String CRONTAB_FILENAME = "aliada_links_discovery.cron";
+	private final static String CRONTAB_FILENAME = "aliada_links_discovery";
+	/** Crontab file extension. */
+	private final static String CRONTAB_EXT = ".cron"; 
 	/** Crontab List command. */
 	private final static String CRONTAB_LIST_COMMAND = "crontab -l";
 
@@ -438,7 +440,7 @@ public class LinkingProcess {
 		//String to supress from crontab file
 		final String crontabLineToSearch = String.format("%s %d %d %s", LINKING_PROCESS_NAME, jobId, subjobId, propertiesFileName);
 		//Create a new crontab file supressing the subjob already finished
-		String crontabFilename = tmpDir + File.separator + CRONTAB_FILENAME;
+		String crontabFilename = tmpDir + File.separator + CRONTAB_FILENAME +  System.currentTimeMillis() + CRONTAB_EXT;
 		//Replace Windows file separator by "/" Java file separator
 		crontabFilename = crontabFilename.replace("\\", "/");
 		//Remove the crontab file if it already exists
@@ -477,6 +479,10 @@ public class LinkingProcess {
 			removed = true;
 		} catch (IOException exception) {
 			LOGGER.error(MessageCatalog._00033_EXTERNAL_PROCESS_START_FAILURE, exception, command);
+		}
+		//Remove crontab file
+		if (cronFile.exists()) {
+			cronFile.delete();
 		}
 		return removed;
 	}

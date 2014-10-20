@@ -54,7 +54,9 @@ public class LinksDiscovery {
 	/** For logging. */
 	private static final Log LOGGER  = new Log(LinksDiscovery.class);
 	/** Crontab file name. */
-	private final static String CRONTAB_FILENAME = "aliada_links_discovery.cron"; 
+	private final static String CRONTAB_FILENAME = "aliada_links_discovery"; 
+	/** Crontab file extension. */
+	private final static String CRONTAB_EXT = ".cron"; 
 	/** Properties file name prefix. */
 	private final static String PROPFILE_FILENAME = "linking";
 	/** Name of the linking process to program with crontab, that executes 
@@ -167,7 +169,7 @@ public class LinksDiscovery {
 	 * @since 1.0
 	 */
 	public String createCrontabFile(final String tmpDir){
-		String crontabFilename = tmpDir + File.separator + CRONTAB_FILENAME;
+		String crontabFilename = tmpDir + File.separator + CRONTAB_FILENAME +  System.currentTimeMillis() + CRONTAB_EXT;
 		//Replace Windows file separator by "/" Java file separator
 		crontabFilename = crontabFilename.replace("\\", "/");
 		//Remove the crontab file if it already exists
@@ -515,6 +517,11 @@ public class LinksDiscovery {
 				Runtime.getRuntime().exec(command);
 			} catch (IOException exception) {
 				LOGGER.error(MessageCatalog._00033_EXTERNAL_PROCESS_START_FAILURE, exception, command);
+			}
+			//Remove crontab file
+			File cronFile = new File(crontabFilename);
+			if (cronFile.exists()) {
+				cronFile.delete();
 			}
 		}
 		final Job job = dbConn.getJob(jobConf.getId());
