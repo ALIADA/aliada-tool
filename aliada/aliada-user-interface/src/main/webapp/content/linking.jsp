@@ -8,7 +8,7 @@
 	 var checkLinking = function(){
 			console.log("checking Linking");
 			var linkingJobId = $("#linkingJobId").val();
-			var urlPath = "aliada-links-discovery-1.0/jobs/"+linkingJobId;
+			var urlPath = "/aliada-links-discovery-1.0/jobs/"+linkingJobId;
 		    $.ajax({
 		      type: "GET",
 		      url: urlPath,
@@ -63,7 +63,7 @@
 		var checkLDS = function(){
 			console.log("checking lds");
 			var ldsJobId = $("#ldsJobId").val();
-			var urlPath = "aliada-linked-data-server-1.0/jobs/"+ldsJobId;
+			var urlPath = "/aliada-linked-data-server-1.0/jobs/"+ldsJobId;
 		    $.ajax({
 		      type: "GET",
 		      url: urlPath,
