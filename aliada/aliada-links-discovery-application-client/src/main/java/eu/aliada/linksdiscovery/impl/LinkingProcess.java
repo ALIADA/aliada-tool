@@ -475,9 +475,10 @@ public class LinkingProcess {
 		final String command = "crontab " + crontabFilename;
 		try {
 			LOGGER.debug(MessageCatalog._00040_EXECUTING_CRONTAB);
-			Runtime.getRuntime().exec(command);
+			Process proc = Runtime.getRuntime().exec(command);
+			proc.waitFor();
 			removed = true;
-		} catch (IOException exception) {
+		} catch (Exception exception) {
 			LOGGER.error(MessageCatalog._00033_EXTERNAL_PROCESS_START_FAILURE, exception, command);
 		}
 		//Remove crontab file
