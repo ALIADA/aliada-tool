@@ -19,6 +19,7 @@ import java.util.List;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FilenameUtils;
 import org.apache.struts2.ServletActionContext;
 
 import com.opensymphony.xwork2.ActionSupport;
@@ -51,11 +52,16 @@ public class ManagingAction extends ActionSupport {
 	private String selectedFile;
 	private String profileSelected;
  
+	 
 	private static final String VISUALIZE_PATH = "webapps/aliada-user-interface-1.0/WEB-INF/classes/xmlVisualize/";
     private static final String VALIDATOR_PATH = "webapps/aliada-user-interface-1.0/WEB-INF/classes/xmlValidators/";
     private static final String ERROR_CONTENT_PATH = "webapps/aliada-user-interface-1.0/content/errorContent.jsp";
     private final Log logger = new Log(ManagingAction.class);
 
+    public String execute(){
+        getProfilesDb();
+        return SUCCESS;
+    }
 	/**
 	 * The method is to import the file in the institution path and do the input
 	 * validation.
@@ -126,8 +132,9 @@ public class ManagingAction extends ActionSupport {
 							String filePath = rs.getString(1);
 							rs.close();
 							statement.close();
+							String fileNameWithOutExt = FilenameUtils.removeExtension(this.importFileFileName);
 							File fileCreated = new File(filePath,
-									this.importFileFileName);
+							        fileNameWithOutExt+System.currentTimeMillis()+".xml");
 							FileUtils.copyFile(this.importFile, fileCreated);
 							FileWork fileWork = new FileWork();
 							fileWork.setFile(fileCreated);
