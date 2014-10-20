@@ -22,7 +22,7 @@ $(function(){
 	var checkRDF = function(){
 		console.log("checking RDF");
 		var rdfizerJobId = $("#rdfizerJobId").val();
-		var urlPath = "http://aliada.scanbit.net:8080/aliada-rdfizer-1.0/jobs/"+rdfizerJobId;
+		var urlPath = "aliada-rdfizer-1.0/jobs/"+rdfizerJobId;
 	    $.ajax({
 	      type: "GET",
 	      url: urlPath,
