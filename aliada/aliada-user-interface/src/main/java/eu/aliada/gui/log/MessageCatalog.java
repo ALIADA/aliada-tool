@@ -47,6 +47,7 @@ public interface MessageCatalog {
     String _00034_CONVERSION_GRAPH_CLEANED = LT + MODULE_NAME + "-00034> : Graph cleaned";
     
     String _00040_LDS_STARTED = LT + MODULE_NAME + "-00040> : LDS started";
+    String _00041_NOT_FILE_TO_LINK = LT + MODULE_NAME + "-00041> : Not file to link";
     
     String _00050_LINKING_JOB= LT + MODULE_NAME + "-00040> : Link discovery started";
     
