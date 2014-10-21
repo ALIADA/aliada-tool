@@ -19,9 +19,9 @@ $(function(){
 	var showCheckButton = $("#showCheckButton").val();
 	var showRdfizerButton = $("#showRdfizerButton").val();
 	var rdfizerStatus = $("#rdfizerStatus").val();
-	if(rdfizerStatus.equals("running")){
+	if(rdfizerStatus =="running"){
 		$("#cleanGraphPanel").hide();
-	}
+	} 
 	var interval;
 	var checkRDF = function(){
 		console.log("checking RDF");
