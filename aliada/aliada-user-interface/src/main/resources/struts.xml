@@ -304,6 +304,7 @@
 		
 		<action name="rdfVal" class="eu.aliada.gui.action.RDFValidationAction">
 			<result name="success" type="tiles">/rdfValidation.tiles</result>
+			<result name="error" type="tiles">/rdfValidation.tiles</result>
 		</action>
 		
 		<action name="locale" class="eu.aliada.gui.action.LocaleAction">
