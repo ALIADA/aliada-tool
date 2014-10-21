@@ -88,6 +88,7 @@
             <result name="success" type="redirectAction">
          		<param name="actionName">conversion</param>
          	</result>
+			<result name="error" type="tiles">/manage.tiles</result>
 		</action>
 		
 		<action name="finishFileWork" method="finishFileWork" class="eu.aliada.gui.action.LinkingAction">

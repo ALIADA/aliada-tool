@@ -74,68 +74,76 @@ public class ConversionAction extends ActionSupport {
      */
     public String rdfize() {
         HttpSession session = ServletActionContext.getRequest().getSession();
-        setImportedFile((FileWork) session.getAttribute("importedFile"));
-        importedFile.setTemplate(getSelectedTemplate());
-        importedFile.setGraph(getGraphUri(getSelectedGraph()));
-        String format = null;
-        try {
-            format = getFormat(importedFile.getProfile());
-            Connection connection = null;
-            connection = new DBConnectionManager().getConnection();
-            Statement statement = connection.createStatement();
-            ResultSet rs = statement
-                    .executeQuery("select aliada_ontology,sparql_endpoint_uri,sparql_endpoint_login,sparql_endpoint_password,graph_uri,dataset_base from organisation o INNER JOIN graph g ON o.organisationId=g.organisationId WHERE g.graph_uri='"+importedFile.getGraph()+"'");
-            if (rs.next()) {
-                PreparedStatement preparedStatement = connection
-                        .prepareStatement(
-                                "INSERT INTO aliada.rdfizer_job_instances (datafile,format,namespace,graph_name,aliada_ontology,sparql_endpoint_uri,sparql_endpoint_login,sparql_endpoint_password) VALUES(?,?,?,?,?,?,?,?)",
-                                PreparedStatement.RETURN_GENERATED_KEYS);
-                preparedStatement.setString(1, importedFile.getFile().getAbsolutePath());
-                preparedStatement.setString(2, format);
-                preparedStatement.setString(3, rs.getString("dataset_base"));
-                preparedStatement.setString(4, rs.getString("graph_uri"));
-                preparedStatement.setString(5, rs.getString("aliada_ontology"));
-                preparedStatement.setString(6, rs.getString("sparql_endpoint_uri"));
-                preparedStatement.setString(7, rs.getString("sparql_endpoint_login"));
-                preparedStatement.setString(8, rs.getString("sparql_endpoint_password"));
-                preparedStatement.executeUpdate();
-                ResultSet rs2 = preparedStatement.getGeneratedKeys();
-                int addedId = 0;
-                if (rs2.next()) {
-                    addedId = (int) rs2.getInt(1);
-                }
-                try {
-                    enableRdfizer();
-                    createJob(addedId);
-                    session.setAttribute("rdfizerFinished", false);
-                    session.setAttribute("importedFile", importedFile);
-                } catch (IOException e) {
-                    logger.error(MessageCatalog._00012_IO_EXCEPTION,e);
-                    getTemplatesDb();
-                    getGraphsDb();
+        if(session.getAttribute("importedFile")!=null){
+            setImportedFile((FileWork) session.getAttribute("importedFile"));
+            importedFile.setTemplate(getSelectedTemplate());
+            importedFile.setGraph(getGraphUri(getSelectedGraph()));
+            String format = null;
+            try {
+                format = getFormat(importedFile.getProfile());
+                Connection connection = null;
+                connection = new DBConnectionManager().getConnection();
+                Statement statement = connection.createStatement();
+                ResultSet rs = statement
+                        .executeQuery("select aliada_ontology,sparql_endpoint_uri,sparql_endpoint_login,sparql_endpoint_password,graph_uri,dataset_base from organisation o INNER JOIN graph g ON o.organisationId=g.organisationId WHERE g.graph_uri='"+importedFile.getGraph()+"'");
+                if (rs.next()) {
+                    PreparedStatement preparedStatement = connection
+                            .prepareStatement(
+                                    "INSERT INTO aliada.rdfizer_job_instances (datafile,format,namespace,graph_name,aliada_ontology,sparql_endpoint_uri,sparql_endpoint_login,sparql_endpoint_password) VALUES(?,?,?,?,?,?,?,?)",
+                                    PreparedStatement.RETURN_GENERATED_KEYS);
+                    preparedStatement.setString(1, importedFile.getFile().getAbsolutePath());
+                    preparedStatement.setString(2, format);
+                    preparedStatement.setString(3, rs.getString("dataset_base"));
+                    preparedStatement.setString(4, rs.getString("graph_uri"));
+                    preparedStatement.setString(5, rs.getString("aliada_ontology"));
+                    preparedStatement.setString(6, rs.getString("sparql_endpoint_uri"));
+                    preparedStatement.setString(7, rs.getString("sparql_endpoint_login"));
+                    preparedStatement.setString(8, rs.getString("sparql_endpoint_password"));
+                    preparedStatement.executeUpdate();
+                    ResultSet rs2 = preparedStatement.getGeneratedKeys();
+                    int addedId = 0;
+                    if (rs2.next()) {
+                        addedId = (int) rs2.getInt(1);
+                    }
+                    try {
+                        enableRdfizer();
+                        createJob(addedId);
+                        session.setAttribute("rdfizerFinished", false);
+                        session.setAttribute("importedFile", importedFile);
+                    } catch (IOException e) {
+                        logger.error(MessageCatalog._00012_IO_EXCEPTION,e);
+                        getTemplatesDb();
+                        getGraphsDb();
+                        rs2.close();
+                        preparedStatement.close();
+                        connection.close();
+                        return ERROR;
+                    }
                     rs2.close();
                     preparedStatement.close();
+                    rs.close();
+                    statement.close();
                     connection.close();
-                    return ERROR;
+                    session.setAttribute("rdfizerJobId", addedId);
+                    setShowCheckButton(1);
+                    getGraphsDb();
+                    return getTemplatesDb();                
                 }
-                rs2.close();
-                preparedStatement.close();
-                rs.close();
-                statement.close();
-                connection.close();
-                session.setAttribute("rdfizerJobId", addedId);
-                setShowCheckButton(1);
+            } catch (SQLException e) {
+                logger.error(MessageCatalog._00011_SQL_EXCEPTION,e);
                 getGraphsDb();
-                return getTemplatesDb();                
+                getTemplatesDb();
+                return ERROR;
             }
-        } catch (SQLException e) {
-            logger.error(MessageCatalog._00011_SQL_EXCEPTION,e);
+            getGraphsDb();
+            return getTemplatesDb();
+        }
+        else{
+            logger.error(MessageCatalog._00033_CONVERSION_ERROR_NO_FILE_IMPORTED);
             getGraphsDb();
             getTemplatesDb();
             return ERROR;
         }
-        getGraphsDb();
-        return getTemplatesDb(); 
     }
     /**
      * Clear the graph

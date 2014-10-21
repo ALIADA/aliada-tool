@@ -52,7 +52,7 @@ public class ManagingAction extends ActionSupport {
 	private String selectedFile;
 	private String profileSelected;
  
-	 
+	
 	private static final String VISUALIZE_PATH = "webapps/aliada-user-interface-1.0/WEB-INF/classes/xmlVisualize/";
     private static final String VALIDATOR_PATH = "webapps/aliada-user-interface-1.0/WEB-INF/classes/xmlValidators/";
     private static final String ERROR_CONTENT_PATH = "webapps/aliada-user-interface-1.0/content/errorContent.jsp";
@@ -199,13 +199,19 @@ public class ManagingAction extends ActionSupport {
 //            }
 //	    }
 	    //ServletActionContext.getRequest().getSession().setAttribute("conversionFiles", conversionFiles);
-	    importedFiles = (ArrayList<FileWork>) ServletActionContext.getRequest().getSession().getAttribute("importedFiles");
-        for (FileWork file : importedFiles){
-              if (file.getFilename().equals(this.selectedFile)){
-                  ServletActionContext.getRequest().getSession().setAttribute("importedFile", file);
-              }
-        }
-	    return SUCCESS;
+	    if(ServletActionContext.getRequest().getSession().getAttribute("importedFiles")!=null){
+	        importedFiles = (ArrayList<FileWork>) ServletActionContext.getRequest().getSession().getAttribute("importedFiles");
+	        for (FileWork file : importedFiles){
+	              if (file.getFilename().equals(this.selectedFile)){
+	                  ServletActionContext.getRequest().getSession().setAttribute("importedFile", file);
+	              }
+	        }   
+	        return SUCCESS;
+	    }
+	    else{
+	        logger.error(MessageCatalog._00027_MANAGE_FILE_NOT_SAVE);
+	        return ERROR;
+	    }	    
 	}
 
 	/**
