@@ -18,6 +18,10 @@ function confirmBox(){
 $(function(){
 	var showCheckButton = $("#showCheckButton").val();
 	var showRdfizerButton = $("#showRdfizerButton").val();
+	var rdfizerStatus = $("#rdfizerStatus").val();
+	if(rdfizerStatus.equals("running")){
+		$("#cleanGraphPanel").hide();
+	}
 	var interval;
 	var checkRDF = function(){
 		console.log("checking RDF");
@@ -94,6 +98,7 @@ $(function(){
 }); 
 </script>
 
+<html:hidden id="rdfizerStatus" name="rdfizerStatus" value="%{#session['rdfizerStatus']}" />
 <html:hidden id="rdfizerJobId" name="rdfizerJobId" value="%{#session['rdfizerJobId']}" />
 <html:hidden id="showRdfizerButton" name="showRdfizerButton" value="%{showRdfizerButton}" />
 <html:hidden id="showCheckButton" name="showCheckButton" value="%{showCheckButton}" />
@@ -135,7 +140,7 @@ $(function(){
 				<html:submit action="showTemplates" cssClass="submitButton button"
 					key="templates" />
 			</div>
-			<div>
+			<div id="cleanGraphPanel">
 				<label class="row label"><html:text name="conversion.cleanSelect"/></label>
 				<html:select id="graphToClean" cssClass="inputForm" list="graphs" />
 				<html:submit onclick="return confirmBox();" cssClass="submitButton button"

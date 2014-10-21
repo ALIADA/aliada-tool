@@ -47,21 +47,18 @@ public class ConversionAction extends ActionSupport {
     private final Log logger = new Log(ConversionAction.class);
     
     public String execute() {
-        boolean rdfizerFinished = false;
+        String rdfizerStatus = "idle";
         HttpSession session = ServletActionContext.getRequest().getSession();
         setImportedFile((FileWork) session.getAttribute("importedFile")); 
-        if(session.getAttribute("rdfizerFinished") != null){
-            rdfizerFinished = (boolean) session.getAttribute("rdfizerFinished");
+        if(session.getAttribute("rdfizerStatus") != null){
+            rdfizerStatus = (String) session.getAttribute("rdfizerStatus");
         }
-        if (rdfizerFinished) {
-            setShowCheckButton(0);
-            setShowRdfizerButton(1);
-        }else if (session.getAttribute("rdfizerJobId") == null) {
-            setShowCheckButton(0);
-            setShowRdfizerButton(1);
-        } else {
+        if (rdfizerStatus.equals("running")) {
             setShowCheckButton(1);
-            setShowRdfizerButton(0); 
+            setShowRdfizerButton(0);
+        } else {
+            setShowCheckButton(0);
+            setShowRdfizerButton(1); 
         }
         getGraphsDb();
         return getTemplatesDb();
@@ -108,7 +105,7 @@ public class ConversionAction extends ActionSupport {
                     try {
                         enableRdfizer();
                         createJob(addedId);
-                        session.setAttribute("rdfizerFinished", false);
+                        session.setAttribute("rdfizerStatus", "running");
                         session.setAttribute("importedFile", importedFile);
                     } catch (IOException e) {
                         logger.error(MessageCatalog._00012_IO_EXCEPTION,e);
