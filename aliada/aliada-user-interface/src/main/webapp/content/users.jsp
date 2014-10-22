@@ -7,7 +7,6 @@
 	<table class="table">
 		<tr class="backgroundGreen center">
 			<th><label class="bold"><html:text name="username"/></label></th>
-			<th><label class="bold"><html:text name="userPassword"/></label></th>
 			<th><label class="bold"><html:text name="email"/></label></th>
 			<th><label class="bold"><html:text name="role"/></label></th>
 			<th><label class="bold"><html:text name="type"/></label></th>
@@ -16,7 +15,6 @@
 		<html:iterator value="users" var="dato">
 			<tr>
 				<td><html:radio name="selectedUser" list="username" /></td>
-				<td><html:property value="password" /></td>
 				<td><html:property value="email" /></td>
 				<td><html:property value="role" /></td>
 				<td><html:property value="type" /></td>
