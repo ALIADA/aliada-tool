@@ -17,6 +17,7 @@ import java.util.List;
 import javax.servlet.http.HttpSession;
 
 import org.apache.struts2.ServletActionContext;
+import org.jasypt.util.password.StrongPasswordEncryptor;
 
 import com.opensymphony.xwork2.ActionSupport;
 
@@ -196,8 +197,10 @@ public class UsersAction extends ActionSupport{
                 rs.close();
                 statement.close();
                 statement = connection.createStatement();
+                StrongPasswordEncryptor passwordEncryptor = new StrongPasswordEncryptor();
+                String encryptedPassword = passwordEncryptor.encryptPassword(this.passwordForm);
                 statement.executeUpdate("INSERT INTO user VALUES ('"+this.usernameForm+"', '"
-                  +this.passwordForm+"', '"+this.emailForm+"', '"+this.roleForm+"', '"+this.typeForm+"', '"+this.organisationForm+"')");
+                  +encryptedPassword+"', '"+this.emailForm+"', '"+this.roleForm+"', '"+this.typeForm+"', '"+this.organisationForm+"')");
                 addActionMessage(getText("user.save.ok"));
                 connection.close(); 
                 getUsersDb();
@@ -226,7 +229,9 @@ public class UsersAction extends ActionSupport{
         try {
             connection = new DBConnectionManager().getConnection();
         	Statement statement = connection.createStatement();
-            statement.executeUpdate("UPDATE user set user_password='"+this.passwordForm+"',user_email='"+this.emailForm+"',user_role_code='"+this.roleForm+"',user_type_code='"+this.typeForm+"',organisationId='"+this.organisationForm+"' where user_name='"+this.usernameForm+"'");
+            StrongPasswordEncryptor passwordEncryptor = new StrongPasswordEncryptor();
+            String encryptedPassword = passwordEncryptor.encryptPassword(this.passwordForm);
+            statement.executeUpdate("UPDATE user set user_password='"+encryptedPassword+"',user_email='"+this.emailForm+"',user_role_code='"+this.roleForm+"',user_type_code='"+this.typeForm+"',organisationId='"+this.organisationForm+"' where user_name='"+this.usernameForm+"'");
             clearErrorsAndMessages();
             addActionMessage(getText("user.edit.ok"));
             statement.close(); 

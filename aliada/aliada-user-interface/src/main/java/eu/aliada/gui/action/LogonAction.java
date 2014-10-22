@@ -12,6 +12,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import org.apache.struts2.ServletActionContext;
+import org.jasypt.util.password.StrongPasswordEncryptor;
 
 import com.opensymphony.xwork2.ActionSupport;
 
@@ -93,16 +94,24 @@ public class LogonAction extends ActionSupport {
 				return ERROR;
 			}
 			st = conn.createStatement();
-			rs = st.executeQuery("select * from aliada.user where user_name = '"
-					+ getInputUser()
-					+ "' and user_password = '"
-					+ getInputPassword() + "'");
+			StrongPasswordEncryptor passwordEncryptor = new StrongPasswordEncryptor();
+			rs = st.executeQuery("select user_password from aliada.user where user_name = '"
+					+ getInputUser() +"'");			
 			if (rs.next()) {
-				rs.close();
-				st.close();
-				conn.close();
-				ServletActionContext.getRequest().getSession().setAttribute("logedUser",getInputUser());
-                return SUCCESS;
+			    if (passwordEncryptor.checkPassword(getInputPassword(), rs.getString("user_password"))) {
+	                rs.close();
+	                st.close();
+	                conn.close();
+	                ServletActionContext.getRequest().getSession().setAttribute("logedUser",getInputUser());
+	                return SUCCESS;
+	              } else {
+	                logger.debug(MessageCatalog._00010_LOGON_FAILURE);
+	                addActionError(getText("error.login"));
+                    rs.close();
+                    st.close();
+                    conn.close();
+                    return ERROR;
+	              }			
 			} else {
 				logger.debug(MessageCatalog._00010_LOGON_FAILURE);
 				addActionError(getText("error.login"));

@@ -310,7 +310,7 @@ INSERT INTO `aliada`.`t_xml_tag_type` (`xml_tag_type_code`, `xml_tag_type_name`,
 
 CREATE TABLE IF NOT EXISTS `aliada`.`user` (
   `user_name` varchar(20) NOT NULL,
-  `user_password` varchar(32) NOT NULL,
+  `user_password` varchar(150) NOT NULL,
   `user_email` varchar(128) NOT NULL,
   `user_type_code` int(11) NOT NULL,
   `user_role_code` int(11) NOT NULL,
