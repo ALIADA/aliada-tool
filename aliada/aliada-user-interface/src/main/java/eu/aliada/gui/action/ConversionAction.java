@@ -104,9 +104,9 @@ public class ConversionAction extends ActionSupport {
                     }
                     try {
                         enableRdfizer();
+                        session.setAttribute("importedFile", importedFile);
                         createJob(addedId);
                         session.setAttribute("rdfizerStatus", "running");
-                        session.setAttribute("importedFile", importedFile);
                     } catch (IOException e) {
                         logger.error(MessageCatalog._00012_IO_EXCEPTION,e);
                         getTemplatesDb();
