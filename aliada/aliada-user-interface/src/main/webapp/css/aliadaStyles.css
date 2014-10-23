@@ -476,6 +476,9 @@ clear: both;
 .topPad20{
 	padding-top: 20px;
 }
+.lPad10{
+	padding-left: 10px;
+}
 .scrollify{
 	overflow: scroll;
 }

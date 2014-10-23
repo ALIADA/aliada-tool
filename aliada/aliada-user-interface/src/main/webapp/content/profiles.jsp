@@ -34,7 +34,7 @@ $(function(){
 	<div id="profilesPanel" class="display buttons row">
 		<div class="fieldsNoBorder">
 			<html:iterator value="profiles">
-				<html:radio key="selectedProfile" cssClass="label" list="{value}"/><br>
+				<html:radio key="selectedProfile" cssClass="bold lPad10" list="{value}"/><br/>
 			</html:iterator>
 		</div>
 		<html:actionmessage />

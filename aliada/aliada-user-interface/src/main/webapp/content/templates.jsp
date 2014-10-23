@@ -36,7 +36,7 @@ $(function(){
 		<div id="templatesPanel" class="display buttons row">
 			<div class="fieldsNoBorder">
 				<html:iterator value="templates">
-					<html:radio key="selectedTemplate" cssClass="label" value="{key}"
+					<html:radio key="selectedTemplate" cssClass="bold lPad10" value="{key}"
 						list="{value}" />
 					<br>
 				</html:iterator>
