@@ -36,6 +36,7 @@ public class TemplatesAction extends ActionSupport {
     private String templateName;
     private String templateDescription;
     private String selectedTemplate;
+    private boolean showTheTemplate;
     private boolean showAddTemplateForm;
     private boolean showEditTemplateForm;
     private boolean areTemplates;
@@ -74,6 +75,49 @@ public class TemplatesAction extends ActionSupport {
             return ERROR;
         }
         return SUCCESS;
+    }    
+    /**
+     * Displays the selected template
+     * @return
+     * @see
+     * @since 1.0
+     */
+    public String getTheTemplate() {
+        Connection connection = null;
+        try {
+            connection = new DBConnectionManager().getConnection();
+            Statement statement = connection.createStatement();
+            ResultSet rs = statement
+                    .executeQuery("select * from aliada.template where template_name='"
+                            + this.selectedTemplate + "'");
+            if (rs.next()) {
+                int idTemplate = rs.getInt("template_id");
+                this.templateName = rs.getString("template_name");
+                this.templateDescription = rs.getString("template_description");
+                statement.close();
+                rs.close();
+                connection.close();
+                getTemplatesDb();
+                getTagsDb(idTemplate);
+                setShowTheTemplate(true);
+                ServletActionContext.getRequest().getSession()
+                        .setAttribute("selectedTemplateId", idTemplate);
+                return SUCCESS;
+            } else {
+                addActionError(getText("template.not.selected"));
+                statement.close();
+                rs.close();
+                connection.close();
+                getTemplatesDb();
+                getTagsDb(NOTEMPLATESELECTED);
+                return ERROR;
+            }
+        } catch (SQLException e) {
+            logger.error(MessageCatalog._00011_SQL_EXCEPTION,e);
+            getTemplatesDb();
+            getTagsDb(NOTEMPLATESELECTED);
+            return ERROR;
+        }
     }
     /**
      * Displays the template adding form
@@ -473,6 +517,22 @@ public class TemplatesAction extends ActionSupport {
      */
     public void setAreTemplates(boolean areTemplates) {
         this.areTemplates = areTemplates;
+    }
+    /**
+     * @return Returns the showTheTemplate.
+     * @exception
+     * @since 1.0
+     */
+    public boolean isShowTheTemplate() {
+        return showTheTemplate;
+    }
+    /**
+     * @param showTheTemplate The showTheTemplate to set.
+     * @exception
+     * @since 1.0
+     */
+    public void setShowTheTemplate(boolean showTheTemplate) {
+        this.showTheTemplate = showTheTemplate;
     }
 
 }
