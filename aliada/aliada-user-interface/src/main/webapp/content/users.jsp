@@ -1,7 +1,28 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="/struts-tags" prefix="html"%>
-
+<script>
+$(function(){
+	var areUsers = $("#areUsers").val();	
+	var showAddForm = $("#showAddForm").val();	
+	var showEditForm = $("#showEditForm").val();	
+	if(areUsers != "true"){
+		$("#areUsersButtons").hide();
+	}
+	if(showAddForm == "true"){
+		$("#addUserPanel").show("slow");
+	}
+	if(showEditForm == "true"){
+		$("#editUserPanel").show("slow");
+	}
+	if((showAddForm == "true") || (showEditForm == "true")){
+		$("#usersButtons").hide();		
+	}
+});
+</script>
+<html:hidden id="areUsers" name="areUsers" value="%{areUsers}" />
+<html:hidden id="showAddForm" name="showAddForm" value="%{showAddForm}" />
+<html:hidden id="showEditForm" name="showEditForm" value="%{showEditForm}" />
 <h2 class="pageTitle"><html:text name="registeredUsers"/></h2>
 <html:form id="user">
 	<table class="table">
@@ -25,16 +46,10 @@
 	<html:actionmessage />
 	<html:actionerror/>
 
-	<div <html:if test="showAddForm || showEditForm">class="displayNo"</html:if>
-		<html:else>
-		    class="display buttons row"
-		</html:else>>
+	<div id=usersButtons class="display buttons row">
 		<html:submit action="showAddForm" cssClass="submitButton button"
 			key="add" />
-		<div <html:if test="areUsers">class="displayInline"</html:if>
-		<html:else>
-		    class="displayNo"
-		</html:else>>	
+		<div id="areUserButtons" class="displayInline">	
 			<html:submit action="showEditForm" cssClass="submitButton button"
 				key="edit" />
 			<html:submit action="deleteUser" cssClass="submitButton button"
@@ -46,10 +61,7 @@
 </html:form>
 
 <html:form id="userAddForm" class="row">
-	<div <html:if test="showAddForm">class="display fields"</html:if>
-		<html:else>
-		    class="displayNo"
-		</html:else>>
+	<div id="addUserPanel" class="displayNo fields">
 		<h2 class="pageSubtitle"><html:text name="newUser"/></h2>
 		<table class="table">
 			<tr class="backgroundGreen center">
@@ -90,10 +102,7 @@
 </html:form>
 
 <html:form id="userEditForm" class="row">
-	<div <html:if test="showEditForm">class="display fields"</html:if>
-		<html:else>
-		    class="displayNo"
-		</html:else>>
+	<div id="editUserPanel" class="displayNo fields">
 		<h2 class="pageSubtitle"><html:text name="editUser"/></h2>
 		<table class="table">
 			<tr class="backgroundGreen center">
