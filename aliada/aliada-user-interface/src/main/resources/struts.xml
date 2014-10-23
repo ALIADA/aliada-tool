@@ -113,6 +113,12 @@
 			<result name="input" type="tiles">/templates.tiles</result>
 		</action>
 		
+		<action name="showTheTemplate" method="getTheTemplate"
+			class="eu.aliada.gui.action.TemplatesAction">
+			<result name="success" type="tiles">/templates.tiles</result>
+			<result name="error" type="tiles">/templates.tiles</result>
+		</action>
+		
 		<action name="showAddTemplateForm" method="showAddTemplate"
 			class="eu.aliada.gui.action.TemplatesAction">
 			<interceptor-ref name="retrieveStack"/>
@@ -179,6 +185,12 @@
 		<action name="showProfiles" method="showProfiles"
 			class="eu.aliada.gui.action.ProfilesAction">
 			<result name="success" type="tiles">/profiles.tiles</result>
+		</action>
+		
+		<action name="showTheProfile" method="getTheProfile"
+			class="eu.aliada.gui.action.ProfilesAction">
+			<result name="success" type="tiles">/profiles.tiles</result>
+			<result name="error" type="tiles">/profiles.tiles</result>
 		</action>
 		
 		<action name="showAddProfileForm" method="showAddProfile"
