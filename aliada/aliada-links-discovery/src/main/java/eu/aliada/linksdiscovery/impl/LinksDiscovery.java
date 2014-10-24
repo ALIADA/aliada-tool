@@ -535,10 +535,10 @@ public class LinksDiscovery {
 				LOGGER.error(MessageCatalog._00033_EXTERNAL_PROCESS_START_FAILURE, exception, command);
 			}
 			//Remove crontab file
-			File cronFile = new File(crontabFilename);
+			/*File cronFile = new File(crontabFilename);
 			if (cronFile.exists()) {
 				cronFile.delete();
-			}
+			}*/
 		}
 		final Job job = dbConn.getJob(jobConf.getId());
 		LOGGER.debug(MessageCatalog._00041_STOPPED);
