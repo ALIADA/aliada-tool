@@ -518,27 +518,14 @@ public class LinksDiscovery {
 				LOGGER.debug(MessageCatalog._00040_EXECUTING_CRONTAB);
 				Process proc = Runtime.getRuntime().exec(command);
 				proc.waitFor();
-				BufferedReader stdInput = new BufferedReader(new InputStreamReader(proc.getInputStream()));
-				BufferedReader stdError = new BufferedReader(new InputStreamReader(proc.getErrorStream()));
-				// read the output from the command
-				LOGGER.debug("Here is the standard output of the command:\n");
-		        String s = "";
-		        while ((s = stdInput.readLine()) != null) {
-		        	LOGGER.debug(s);
-			    }             
-		        // read any errors from the attempted command
-		        LOGGER.debug("Here is the standard error of the command (if any):\n");
-		        while ((s = stdError.readLine()) != null) {
-		        	LOGGER.debug(s);
-			    }
 			} catch (Exception exception) {
 				LOGGER.error(MessageCatalog._00033_EXTERNAL_PROCESS_START_FAILURE, exception, command);
 			}
 			//Remove crontab file
-			/*File cronFile = new File(crontabFilename);
+			File cronFile = new File(crontabFilename);
 			if (cronFile.exists()) {
 				cronFile.delete();
-			}*/
+			}
 		}
 		final Job job = dbConn.getJob(jobConf.getId());
 		LOGGER.debug(MessageCatalog._00041_STOPPED);
