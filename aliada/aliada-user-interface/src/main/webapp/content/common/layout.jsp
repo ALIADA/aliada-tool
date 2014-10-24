@@ -20,7 +20,8 @@
 		<img class="leftText" src="images/aliada-header.png"/>
 		<span class="fright topPad20">
 			<label class="underlined"><html:property value="%{#session['logedUser']}" /></label>
-			<html:a action="logout"><img src="images/userLogout.png"/></html:a>
+			<html:a href="https://github.com/ALIADA/aliada-tool/wiki/User_Manual" target="_blank"><img alt="help" src="images/info.png"></img></html:a>
+			<html:a action="logout"><img alt="logOut" src="images/userLogout.png"/></html:a>
 		</span>	
 		<div class="headerContentGreenBorder"></div>
 		<div class="content" >
