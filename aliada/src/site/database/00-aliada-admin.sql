@@ -43,7 +43,6 @@ CREATE TABLE IF NOT EXISTS `aliada`.`organisation` (
 	`sql_login`  VARCHAR( 32 ) default NULL, 
 	`sql_password`  VARCHAR( 32 ) default NULL, 
 	`isql_command_path`  VARCHAR( 245 ) default NULL, 
-	`isql_commands_file`  VARCHAR( 245 ) default NULL, 
 	`isql_commands_file_default`  VARCHAR( 245 ) default NULL, 
 	`public_sparql_endpoint_uri` VARCHAR(45) default NULL,
 PRIMARY KEY ( `organisationId` )
@@ -56,6 +55,7 @@ CREATE TABLE IF NOT EXISTS `aliada`.`graph` (
 	`listening_host` VARCHAR(45) default NULL,
 	`virtual_host` VARCHAR(45) default NULL,
 	`organisationId` int(11) NOT NULL,
+	`isql_commands_file`  VARCHAR( 245 ) default NULL, 
 	FOREIGN KEY (organisationId) 
     REFERENCES organisation(organisationId) 
     ON DELETE CASCADE,
