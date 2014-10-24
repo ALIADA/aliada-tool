@@ -18,7 +18,7 @@
 
 	<body class="whitebackground">
 		<img class="leftText" src="images/aliada-header.png"/>
-		<span class="lMargin500">
+		<%-- <span class="lMargin500">
 			<html:url id="localeEN" namespace="/">
 			   <html:param name="request_locale" >en</html:param>
 			</html:url>
@@ -27,7 +27,7 @@
 			</html:url>			 
 			<html:a href="%{localeEN}" ><img src="images/gbFlag.png"/></html:a>
 			<html:a href="%{localeES}" ><img src="images/spFlag.png"/></html:a>
-		</span>
+		</span> --%>
 		<span class="fright topPad20">
 			<label class="underlined"><html:property value="%{#session['logedUser']}" /></label>
 			<html:a href="https://github.com/ALIADA/aliada-tool/wiki/User_Manual" target="_blank"><img alt="help" src="images/info.png"></img></html:a>
