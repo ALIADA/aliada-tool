@@ -14,14 +14,17 @@ import eu.aliada.linksdiscovery.model.SubjobConfiguration;
 import eu.aliada.linksdiscovery.rdbms.DBConnectionManager;
 
 import java.io.BufferedWriter;
-import java.io.InputStreamReader;
 import java.io.BufferedReader;
 import java.io.FileWriter;
+import java.io.FileReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.util.Properties;
 import java.util.Vector;
 import java.util.Calendar;
@@ -78,8 +81,8 @@ public class LinksDiscovery {
 	private final static String ENTITYLIST = ""; 
 	/** PARALLEL parameter for the SPARQL endpoint of ALIADA input datasource. */
 	private final static String PARALLEL = ""; 
-	/** Crontab List command. */
-	private final static String CRONTAB_LIST_COMMAND = "crontab -l";
+	/** User´s Crontab filename. */
+	private final static String USER_CRONTAB_FILENAME = "/var/spool/cron/aliada";
 	/** Crontab line format.*/
 	private static final String CRONTAB_LINE = "%d %d %d %d * %s %d %d %s";
 	//Properties names
@@ -160,11 +163,11 @@ public class LinksDiscovery {
 	}
 
 	/**
-	 * Creates a new crontab file which contains formed programmed tasks. 
+	 * Creates a new temporary crontab file which contains formed programmed tasks. 
 	 * This way, former tasks are not removed when programming again via crontab.
 	 *
 	 * @param tmpDir	the name of temporary folder where to create the new 
-	 * 					crontab file.
+	 * 					temporary crontab file.
 	 * @return the name of the newly created crontab file.
 	 * @since 1.0
 	 */
@@ -173,28 +176,14 @@ public class LinksDiscovery {
 		//Replace Windows file separator by "/" Java file separator
 		crontabFilename = crontabFilename.replace("\\", "/");
 		//Remove the crontab file if it already exists
-		final File fCron = new File(crontabFilename);
-		if (fCron.exists()) {
-			fCron.delete();
+		final File fTmpCron = new File(crontabFilename);
+		if (fTmpCron.exists()) {
+			fTmpCron.delete();
 		}
-		//Now, create a new one
+		final File fUserCron = new File (USER_CRONTAB_FILENAME);
+		//Now, copy the user crontab file over the temporary crontab file
 		try {
-			final FileWriter fstream = new FileWriter(crontabFilename);
-			final BufferedWriter out = new BufferedWriter(fstream);
-			// Execute system command "crontab -l"
-	    	try {
-		    	String line = null;
-		    	final Process crontabList = Runtime.getRuntime().exec(CRONTAB_LIST_COMMAND);
-		    	final BufferedReader stdInput = new BufferedReader(new InputStreamReader(crontabList.getInputStream()));
-		        while ((line = stdInput.readLine()) != null) {
-		        	out.write(line);
-		        	out.newLine();
-		        }
-	    	} catch (IOException exception) {
-		    	crontabFilename = null;
-		    	LOGGER.error(MessageCatalog._00033_EXTERNAL_PROCESS_START_FAILURE, exception, CRONTAB_LIST_COMMAND);
-		    }
-	    	out.close();
+			Files.copy(fUserCron.toPath(), fTmpCron.toPath(), StandardCopyOption.REPLACE_EXISTING);
 		} catch (IOException exception) {
 			LOGGER.error(MessageCatalog._00034_FILE_CREATION_FAILURE, exception, crontabFilename);
 			crontabFilename = null;
@@ -510,19 +499,17 @@ public class LinksDiscovery {
 					}
 				}
 			}
-			// Execute system command "crontab contrabfilename"
-			final String command = "crontab " + crontabFilename;
+			// Copy the temporary crontab file as the user crontab file
+			final File fTmpCron = new File(crontabFilename);
+			final File fUserCron = new File (USER_CRONTAB_FILENAME);
 			try {
-				LOGGER.debug(MessageCatalog._00040_EXECUTING_CRONTAB);
-				Process proc = Runtime.getRuntime().exec(command);
-				proc.waitFor();
+				Files.copy(fTmpCron.toPath(), fUserCron.toPath(), StandardCopyOption.REPLACE_EXISTING);
 			} catch (Exception exception) {
-				LOGGER.error(MessageCatalog._00033_EXTERNAL_PROCESS_START_FAILURE, exception, command);
+				LOGGER.error(MessageCatalog._00034_FILE_CREATION_FAILURE, exception, USER_CRONTAB_FILENAME);
 			}
-			//Remove crontab file
-			File cronFile = new File(crontabFilename);
-			if (cronFile.exists()) {
-				cronFile.delete();
+			//Remove temporary crontab file
+			if (fTmpCron.exists()) {
+				fTmpCron.delete();
 			}
 		}
 		final Job job = dbConn.getJob(jobConf.getId());
