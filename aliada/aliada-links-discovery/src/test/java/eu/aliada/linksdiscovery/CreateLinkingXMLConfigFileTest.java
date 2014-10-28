@@ -73,7 +73,7 @@ public class CreateLinkingXMLConfigFileTest {
 		job.setOutputPassword("password");
 		job.setOutputGraph("http://biblioteca.artium.org");
 		job.setConfigFile("src/test/resources/linksdiscovery.properties");
-		job.setTmpDir("D:\\Proyectos\\023779_ALIADA\\Development\\aliada-links-discovery\\tmp");
+		job.setTmpDir("src/test/resources/");
 		job.setClientAppBinDir("src/test/resources/");
 		return job;
 	}
