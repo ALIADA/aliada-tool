@@ -21,6 +21,8 @@ public class CreateCronTabFileTest {
 	private static final Log LOGGER = new Log(CreateCronTabFileTest.class);
 	/** Temporary folder path. */
 	private static final String TMP_DIR = "src/test/resources/";
+	/** Machine´s user to xeecute crontab. */
+	private static final String CRON_USER = "linking";
     /**
      * @see
      * @since 1.0
@@ -28,7 +30,7 @@ public class CreateCronTabFileTest {
     @Test
     public void testCreateCrontabFile() {
 		final LinksDiscovery linksDisc = new LinksDiscovery();
-		final String result = linksDisc.createCrontabFile(TMP_DIR);
+		final String result = linksDisc.createCrontabFile(TMP_DIR, CRON_USER);
         if (result != null) {
         	LOGGER.info("OK");
         } else {

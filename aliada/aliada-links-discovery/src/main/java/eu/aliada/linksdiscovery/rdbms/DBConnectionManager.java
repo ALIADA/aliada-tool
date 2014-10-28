@@ -115,6 +115,7 @@ public class DBConnectionManager {
 				job.setConfigFile(resultSet.getString("config_file"));
 				job.setTmpDir(resultSet.getString("tmp_dir"));
 				job.setClientAppBinDir(resultSet.getString("client_app_bin_dir"));
+				job.setClientAppBinUser(resultSet.getString("client_app_user"));
 		    }
 			resultSet.close();
 			sta.close();

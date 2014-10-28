@@ -79,9 +79,9 @@ public class LinksDiscovery {
 	/** PARALLEL parameter for the SPARQL endpoint of ALIADA input datasource. */
 	private final static String PARALLEL = ""; 
 	/** Crontab List command. */
-	private final static String CRONTAB_LIST_COMMAND = "sudo -u aliada crontab -l";
+	private final static String CRONTAB_LIST_COMMAND = "sudo -u %s crontab -l";
 	/** Crontab command. */
-	private final static String CRONTAB_COMMAND = "sudo -u aliada crontab";
+	private final static String CRONTAB_COMMAND = "sudo -u %s crontab %s";
 	/** Crontab line format.*/
 	private static final String CRONTAB_LINE = "%d %d %d %d * %s %d %d %s";
 	//Properties names
@@ -167,10 +167,11 @@ public class LinksDiscovery {
 	 *
 	 * @param tmpDir	the name of temporary folder where to create the new 
 	 * 					crontab file.
+	 * @param cronUser	the machine´s user name to execute the crontab command.
 	 * @return the name of the newly created crontab file.
 	 * @since 1.0
 	 */
-	public String createCrontabFile(final String tmpDir){
+	public String createCrontabFile(final String tmpDir, final String cronUser){
 		String crontabFilename = tmpDir + File.separator + CRONTAB_FILENAME +  System.currentTimeMillis() + CRONTAB_EXT;
 		//Replace Windows file separator by "/" Java file separator
 		crontabFilename = crontabFilename.replace("\\", "/");
@@ -184,9 +185,10 @@ public class LinksDiscovery {
 			final FileWriter fstream = new FileWriter(crontabFilename);
 			final BufferedWriter out = new BufferedWriter(fstream);
 			// Execute system command "crontab -l"
+			final String command = String.format(CRONTAB_LIST_COMMAND, cronUser);
 	    	try {
 		    	String line = null;
-		    	final Process crontabList = Runtime.getRuntime().exec(CRONTAB_LIST_COMMAND);
+		    	final Process crontabList = Runtime.getRuntime().exec(command);
 		    	final BufferedReader stdInput = new BufferedReader(new InputStreamReader(crontabList.getInputStream()));
 		        while ((line = stdInput.readLine()) != null) {
 		        	out.write(line);
@@ -194,7 +196,7 @@ public class LinksDiscovery {
 		        }
 	    	} catch (IOException exception) {
 		    	crontabFilename = null;
-		    	LOGGER.error(MessageCatalog._00033_EXTERNAL_PROCESS_START_FAILURE, exception, CRONTAB_LIST_COMMAND);
+		    	LOGGER.error(MessageCatalog._00033_EXTERNAL_PROCESS_START_FAILURE, exception, command);
 		    }
 	    	out.close();
 		} catch (IOException exception) {
@@ -490,7 +492,7 @@ public class LinksDiscovery {
 		final SubjobConfiguration[] subjobConf = getLinkingConfigFiles(jobConf.getConfigFile());
 		//Generate initial crontab file with previous scheduled jobs
 		LOGGER.debug(MessageCatalog._00036_CREATE_CRONTAB_FILE);
-		final String crontabFilename  = createCrontabFile(jobConf.getTmpDir());
+		final String crontabFilename  = createCrontabFile(jobConf.getTmpDir(), jobConf.getClientAppBinUser());
 		if (crontabFilename != null){
 			//For each linking process to schedule with crontab
 			for (int i=0; i<subjobConf.length;i++){
@@ -513,7 +515,7 @@ public class LinksDiscovery {
 				}
 			}
 			// Execute system command "crontab contrabfilename"
-			final String command = CRONTAB_COMMAND + " " + crontabFilename;
+			final String command = String.format(CRONTAB_COMMAND, jobConf.getClientAppBinUser(), crontabFilename);
 			try {
 				LOGGER.debug(MessageCatalog._00040_EXECUTING_CRONTAB);
 				Process proc = Runtime.getRuntime().exec(command);

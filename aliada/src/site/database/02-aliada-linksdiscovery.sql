@@ -11,6 +11,7 @@ CREATE TABLE `aliada`.`linksdiscovery_job_instances` (
 `config_file`  VARCHAR( 245 ) default NULL,
 `tmp_dir`  VARCHAR( 245 ) default NULL,
 `client_app_bin_dir`  VARCHAR( 245 ) default NULL,
+`client_app_user`  VARCHAR( 245 ) default NULL, 
 `start_date` DATETIME default NULL,
 `end_date` DATETIME default NULL ,
 PRIMARY KEY ( `job_id` )

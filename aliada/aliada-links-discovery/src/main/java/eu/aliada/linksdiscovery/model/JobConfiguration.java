@@ -41,6 +41,8 @@ public class JobConfiguration {
 	/** The name of the folder where the links-discovery-task-runner.sh shell script 
 	 * has been installed. */
 	private String clientAppBinDir;
+	/** The machine´s user to execute the links-discovery-task-runner.sh shell script. */
+	private String clientAppBinUser;
     
 	/**
 	 * Returns the identifier of this job configuration.
@@ -286,5 +288,24 @@ public class JobConfiguration {
 	 */
 	public void setClientAppBinDir(final String clientAppBinDir) {
 		this.clientAppBinDir = clientAppBinDir;
+	}		
+
+	/**
+	 * Returns the machine´s user to execute the Links Discovery client application.
+	 * 
+	 * @return The machine´s user to execute the Links Discovery client application.
+	 * @since 1.0
+	 */
+	public String getClientAppBinUser() {
+		return clientAppBinUser;
+	}
+	/**
+	 * Sets the machine´s user to execute the Links Discovery client application.
+	 * 
+	 * @param clientAppBinUser The machine´s user to execute the Links Discovery client application.
+	 * @since 1.0
+	 */
+	public void setClientAppBinUser(final String clientAppBinUser) {
+		this.clientAppBinUser = clientAppBinUser;
 	}		
 }
