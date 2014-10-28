@@ -28,7 +28,7 @@ public class CreateLinkingPropConfigFileTest {
     @Test
     public void testCreateLinkingPropConfigFile() {
 		LinksDiscovery linksDisc = new LinksDiscovery();
-		String tmpDir = "D:\\Proyectos\\023779_ALIADA\\Development\\aliada-links-discovery\\tmp";
+		String tmpDir = "src/test/resources/";
 		DDBBParams ddbbParams = newDDBBParams();
 		String result = linksDisc.createLinkingPropConfigFile(tmpDir, ddbbParams);
         if (result != null) {
