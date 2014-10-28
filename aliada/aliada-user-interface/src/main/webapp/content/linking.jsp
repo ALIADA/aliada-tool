@@ -163,12 +163,12 @@
 					<div id="endDate" class="displayInline"></div>	
 				</div>
 				<div class="row"><label class="label"><html:text name="linkingInfo.linksDataset"/></label></div>
-				<div id="datasetsInfo" class="leftMargin"></div>
+				<div id="datasetsInfo" class="lMargin40"></div>
 				<div class="row">
 					<label class="label"><html:text name="linkingInfo.links"/></label>
 					<div id="numLinks" class="displayInline"></div>	
 				</div>
-				<img id="fineLinkingImg" class="displayNo leftMargin" src="images/fine.png"/>				
+				<img id="fineLinkingImg" class="displayNo lMargin40" src="images/fine.png"/>				
 				<img id="progressBarLinking" class="displayNo label" src="images/progressBar.gif" alt="" />
 			</div>	
 			
@@ -183,7 +183,7 @@
 					<div id="endDateLDS" class="displayInline"></div>		
 				</div>
 				<img id="progressBarLDS" class="displayNo label" src="images/progressBar.gif" alt="" />
-				<img id="fineLDSImg" class="displayNo leftMargin" src="images/fine.png"/>
+				<img id="fineLDSImg" class="displayNo lMargin40" src="images/fine.png"/>
 			</div>	
 		</div>
 	</div>

@@ -72,7 +72,7 @@ $(function(){
 		<html:actionerror/>
 		<html:actionmessage />
 		<div id="managingButtons" class="buttons row">
-			<img id=loader class="displayNo leftMargin rMargin20" src="images/loader.gif" alt="" />
+			<img id=loader class="displayNo lMargin40 rMargin20" src="images/loader.gif" alt="" />
 			<html:submit id="importFileButton" action="importXML" cssClass="submitButton buttonGreen"
 				key="import" onClick="$('#loader').show();
 										$('#importFileButton').hide();" />

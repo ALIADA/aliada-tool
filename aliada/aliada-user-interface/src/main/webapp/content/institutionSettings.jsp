@@ -29,7 +29,7 @@
 		</table>
 		<html:actionmessage/>
 		<html:submit action="editInstitution" property="saveButton"
-			cssClass="leftMargin submitButton buttonGreen" key="edit" />
+			cssClass="lMargin40 submitButton buttonGreen" key="edit" />
 	</div>	
 	<div id="submitButtons" class="buttons row">
 		<html:submit action="showUsers" property="usersButton"

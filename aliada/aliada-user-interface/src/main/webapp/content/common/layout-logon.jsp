@@ -15,7 +15,7 @@
 	    <html:head/>	
 	</head>
 	<body class="bluebackground" >
-	 	<div id="logon1">
+	 	<div id="logonPanel">
 			<div id="fieldsetContent">
 				<div id="logonWelcome"><img src="images/aliada-logo.png"/></div>
 					<div class="fields">

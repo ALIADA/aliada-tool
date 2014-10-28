@@ -99,9 +99,9 @@ public final class CheckImportError {
 	 */
 	public static String getFileType(final String fileType) {
 		if (isFileCorrect()
-				&& (((getFileType() == TYPE_BIBLIOGRAPHIC) && (fileType
+				&& ((getFileType() == TYPE_BIBLIOGRAPHIC) && (fileType
 						.charAt(0) != 'z')) || (getFileType() == TYPE_AUTHORITY)
-						&& (fileType.charAt(0) == 'z'))) {
+						&& (fileType.charAt(0) == 'z')) {
 			setFileCorrect(true);
 		} else {
 			setFileCorrect(false);

@@ -210,9 +210,6 @@ padding: 10px 7px 10px 10px;
 	font-weight: bold;
 	color: white;
 }
-.leftMargin{
-	margin-left:40px;
-}
 
 .pageButton {
 	font-size: 12px;
@@ -355,9 +352,6 @@ text-align: left;
 .centered{
 	margin-left: 240px; 
 }
-.margin150{
-	margin-left: 150px; 
-}
 
 .inputPageFile{
 	font-size: 14px;
@@ -377,7 +371,7 @@ text-align: left;
 }
 
 /* LOGINPAGE */
-#logon1{
+#logonPanel{
 	margin-left: 400px;
 	margin-top: 100px;
 }
@@ -455,6 +449,15 @@ padding-left: 2px;
 .rMargin20{
 	margin-right: 20px;
 }
+.lMargin40{
+	margin-left:40px;
+}
+.lMargin150{
+	margin-left: 150px; 
+}
+.lMargin500{
+	margin-left: 500px;
+}
 #institutionPage{
 	margin-left: 210px;
 }
@@ -485,7 +488,4 @@ clear: both;
 #queryResults{
 	width:1000px;
 	height:300px;
-}
-.lMargin500{
-	margin-left: 500px;
 }
