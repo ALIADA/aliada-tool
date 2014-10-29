@@ -21,6 +21,10 @@ $(function(){
 	var rdfizerStatus = $("#rdfizerStatus").val();
 	if(rdfizerStatus =="running"){
 		$("#cleanGraphPanel").hide();
+		$("#templateSelect").hide();
+		$("#templateProperty").show();
+		$("#graphSelect").hide();
+		$("#graphProperty").show();
 	} 
 	var interval;
 	var checkRDF = function(){
@@ -124,11 +128,15 @@ $(function(){
 					<td>
 						<html:property value="importedFile.getFilename()" />
 					</td>
-					<td><html:select name="selectedTemplate"
-							cssClass="inputForm" list="templates" />					
+					<td>
+						<html:select id="templateSelect" name="selectedTemplate"
+							cssClass="inputForm" list="templates" />
+						<span id="templateProperty" class="displayNo inputForm"><html:property  value="importedFile.getTemplate()" /></span>					
 					</td>
-					<td><html:select name="selectedGraph"
+					<td>
+						<html:select id="graphSelect" name="selectedGraph"
 							cssClass="inputForm" list="graphs" />					
+						<span id="graphProperty" class="displayNo inputForm"><html:property  value="importedFile.getGraph()" /></span>					
 					</td>
 				</tr>			
 			</table>
