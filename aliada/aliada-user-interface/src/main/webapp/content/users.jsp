@@ -73,11 +73,11 @@ $(function(){
 				<th><label for="organisationForm" class="bold"><html:text name="organisationName"/></label></th>
 			</tr>
 			<tr>
-				<td><html:textfield key="usernameForm"
+				<td><html:textfield key="usernameForm" maxLength="20"
 						cssClass="tableInput input" /></td>
 				<td><html:password key="passwordForm" showPassword="true"
 						cssClass="tableInput input" /></td>
-				<td><html:textfield key="emailForm"
+				<td><html:textfield key="emailForm" maxLength="128"
 						cssClass="tableInput input" /></td>
 				<td><html:select key="roleForm"
 						cssClass="tableInput" list="roles" /></td>
@@ -115,11 +115,11 @@ $(function(){
 			</tr>
 			<tr>
 				<td><html:textfield key="usernameForm"
-						cssClass="tableInput input disabled" size="30" readonly="true" /></td>
+						cssClass="tableInput input disabled" readonly="true" /></td>
 				<td><html:password key="passwordForm" showPassword="true"
-						cssClass="tableInput input" size="20"/></td>
-				<td><html:textfield key="emailForm"
-						cssClass="tableInput input" size="30" /></td>
+						cssClass="tableInput input"/></td>
+				<td><html:textfield key="emailForm" maxLength="128"
+						cssClass="tableInput input"/></td>
 				<td><html:select key="roleForm"
 						cssClass="tableInput" list="roles" /></td>
 				<td><html:select key="typeForm"

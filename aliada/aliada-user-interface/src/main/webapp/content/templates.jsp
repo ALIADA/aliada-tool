@@ -103,15 +103,14 @@ $(function(){
 		<div id="addTemplatePanel" class="displayNo">
 			<div class="row label">
 				<html:text name="templateName" />
-				<html:textfield key="templateName" cssClass="inputForm frigth input"
-					size="30" />
+				<html:textfield key="templateName" maxLength="32" cssClass="inputForm frigth input"/>
 				<span class="red"><html:property
 						value="fieldErrors.templateName" /></span>
 			</div>
 			<div class="row label">
 				<html:text name="templateDescription" />
-				<html:textfield key="templateDescription"
-					cssClass="inputForm frigth input" size="30" />
+				<html:textfield key="templateDescription" maxLength="128"
+					cssClass="inputForm frigth input"/>
 			</div>
 			<div class="row">
 				<label class="label"><html:text name="templateFields" /></label>
@@ -151,12 +150,12 @@ $(function(){
 			<div class="row label">
 				<html:text name="templateName" />
 				<html:textfield key="templateName" cssClass="inputForm frigth input disabled" 
-					size="30" readonly="true" />
+					readonly="true" />
 			</div>
 			<div class="row label">
 				<html:text name="templateDescription" />
-				<html:textfield key="templateDescription"
-					cssClass="inputForm frigth input" size="30" />
+				<html:textfield key="templateDescription" maxLength="128"
+					cssClass="inputForm frigth input"/>
 			</div>
 			<div class="row">
 				<label class="label"><html:text name="templateFields" /></label>

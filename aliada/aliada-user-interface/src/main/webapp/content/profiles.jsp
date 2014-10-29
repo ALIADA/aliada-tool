@@ -95,12 +95,12 @@ $(function(){
 	<div id="addProfilePanel" class="displayNo">
 		<div class="row label">
 			<html:text name="nameForm"/>
-			<html:textfield key="nameForm" cssClass="inputForm frigth input" size="30" />
+			<html:textfield key="nameForm" maxLength="32" cssClass="inputForm frigth input"/>
 			<span class="red"><html:property value="fieldErrors.nameForm" /></span>	
 		</div>
 		<div class="row label">
 			<html:text name="descriptionForm"/>
-			<html:textfield key="descriptionForm" cssClass="inputForm frigth input" size="30" />
+			<html:textfield key="descriptionForm" maxLength="128"  cssClass="inputForm frigth input"/>
 		</div>
 		<div class="row">
 			<html:select theme="xhtml" key="profileTypeForm"
@@ -135,11 +135,11 @@ $(function(){
 	<div id="editProfilePanel" class="displayNo">
 		<div class="row label">
 			<html:text name="nameForm"/>
-			<html:textfield key="nameForm" cssClass="inputForm frigth input disabled" size="30" readonly="true"/>	
+			<html:textfield key="nameForm" cssClass="inputForm frigth input disabled" readonly="true"/>	
 		</div>
 		<div class="row label">
 			<html:text name="descriptionForm"/>
-			<html:textfield key="descriptionForm" cssClass="inputForm frigth input" size="30" />
+			<html:textfield key="descriptionForm" maxLength="128" cssClass="inputForm frigth input" />
 		</div>
 		<div class="row">
 			<html:select theme="xhtml" key="profileTypeForm"

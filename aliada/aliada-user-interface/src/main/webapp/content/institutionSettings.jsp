@@ -16,7 +16,7 @@
 			<tr>
 				<td colspan="2"><html:textfield theme="xhtml"
 						key="organisationName"
-						cssClass="inputPage disabled" size="15" readonly="true"/></td>
+						cssClass="inputPage disabled" readonly="true"/></td>
 			</tr>
 			<tr>
 				<td><html:file theme="xhtml" key="organisationLogo" /></td>
@@ -24,7 +24,7 @@
 			<tr>
 				<td colspan="2"><html:textfield theme="xhtml"
 						key="organisationCatalogUrl"
-						cssClass="inputPage" size="15" /></td>
+						cssClass="inputPage" maxLength="128" /></td>
 			</tr>
 		</table>
 		<html:actionmessage/>

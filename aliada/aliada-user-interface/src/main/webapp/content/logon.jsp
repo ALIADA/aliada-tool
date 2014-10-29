@@ -6,7 +6,7 @@
 	<div class="row">
 		<div class="namePassword label"><html:text name="inputUser" /></div>
 		<div>
-			<html:textfield name="inputUser" theme="xhtml" cssClass="input" id="inputUser" size="15"/>
+			<html:textfield name="inputUser" theme="xhtml" cssClass="input" id="inputUser"/>
 		</div>
 	</div>
 	<div class="row">
@@ -14,7 +14,7 @@
 			<span><html:text name="userPassword" /></span>
 		</div>
 		<div>
-			<html:password name="inputPassword" theme="xhtml" id="inputPassword" cssClass="input" size="15" />
+			<html:password name="inputPassword" theme="xhtml" id="inputPassword" cssClass="input"/>
 		</div>
 	</div>
 	<html:actionerror/>
