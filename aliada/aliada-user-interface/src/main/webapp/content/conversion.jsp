@@ -131,12 +131,12 @@ $(function(){
 					<td>
 						<html:select id="templateSelect" name="selectedTemplate"
 							cssClass="inputForm" list="templates" />
-						<span id="templateProperty" class="displayNo inputForm"><html:property  value="importedFile.getTemplate()" /></span>					
+						<span id="templateProperty" class="displayNo"><html:property  value="importedFile.getTemplate()" /></span>					
 					</td>
 					<td>
 						<html:select id="graphSelect" name="selectedGraph"
 							cssClass="inputForm" list="graphs" />					
-						<span id="graphProperty" class="displayNo inputForm"><html:property  value="importedFile.getGraph()" /></span>					
+						<span id="graphProperty" class="displayNo"><html:property  value="importedFile.getGraph()" /></span>					
 					</td>
 				</tr>			
 			</table>

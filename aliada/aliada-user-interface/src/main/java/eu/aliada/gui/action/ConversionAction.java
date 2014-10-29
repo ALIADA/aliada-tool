@@ -73,7 +73,7 @@ public class ConversionAction extends ActionSupport {
         HttpSession session = ServletActionContext.getRequest().getSession();
         if(session.getAttribute("importedFile")!=null){
             setImportedFile((FileWork) session.getAttribute("importedFile"));
-            importedFile.setTemplate(getSelectedTemplate());
+            importedFile.setTemplate(getTemplateNameFromCode(getSelectedTemplate()));
             importedFile.setGraph(getGraphUri(getSelectedGraph()));
             String format = null;
             try {
@@ -180,6 +180,34 @@ public class ConversionAction extends ActionSupport {
             return ERROR;
         }
         
+    }
+    /**
+     * Get the name of the the template from a give template code
+     * @param selectedTemplate
+     * @return
+     * @see
+     * @since 1.0
+     */
+    private String getTemplateNameFromCode(String selectedTemplate){
+        Connection connection = null;
+        String templateName = "";
+        try {
+            connection = new DBConnectionManager().getConnection();
+            Statement statement;
+            statement = connection.createStatement();
+            ResultSet rs = statement
+                    .executeQuery("select template_name from aliada.template where template_id="+selectedTemplate);
+            if(rs.next()){
+                templateName = rs.getString("template_name");
+            }
+            rs.close();
+            statement.close();
+            connection.close();
+        } catch (SQLException e) {
+            logger.error(MessageCatalog._00011_SQL_EXCEPTION,e);
+            return "";
+        }
+        return templateName;
     }
     /**
      * Gets the format of the file
