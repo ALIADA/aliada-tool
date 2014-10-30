@@ -8,7 +8,7 @@
 	<constant name="struts.devMode" value="false" />
 	<constant name="struts.custom.i18n.resources" value="ApplicationResources" />
 	<constant name="struts.ui.theme" value="simple" />
-	<constant name="struts.multipart.maxSize" value="50777216000" />
+	<constant name="struts.multipart.maxSize" value="1073741824" />
     <package name="default" extends="struts-default" namespace="/*">
 		<result-types>
 			<result-type name="tiles"
