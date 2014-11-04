@@ -70,27 +70,34 @@ public class UsersAction extends ActionSupport{
      * @since 1.0
      */
     public String deleteUser() {
-        Connection connection = null;
-        try {
-            connection = new DBConnectionManager().getConnection();
-            Statement statement = connection.createStatement();
-            int correct = statement.executeUpdate("DELETE FROM aliada.user WHERE user_name='"+getSelectedUser()+"'");
-            statement.close();
-            connection.close();
-            if(correct==0){
-                clearErrorsAndMessages();
-                addActionError(getText("err.not.selected.user"));                
-            }
-            else{
-                clearErrorsAndMessages();
-                addActionMessage(getText("user.delete.ok"));
-            }
-        } catch (SQLException e) {
-            logger.error(MessageCatalog._00011_SQL_EXCEPTION,e);
+        if(getSelectedUser().equalsIgnoreCase((String) ServletActionContext.getRequest().getSession().getAttribute("logedUser"))){
+            addActionError(getText("err.user.deletion"));
             getUsersDb();
             return ERROR;
         }
-        return getUsersDb();           
+        else{
+            Connection connection = null;
+            try {
+                connection = new DBConnectionManager().getConnection();
+                Statement statement = connection.createStatement();
+                int correct = statement.executeUpdate("DELETE FROM aliada.user WHERE user_name='"+getSelectedUser()+"'");
+                statement.close();
+                connection.close();
+                if(correct==0){
+                    clearErrorsAndMessages();
+                    addActionError(getText("err.not.selected.user"));                
+                }
+                else{
+                    clearErrorsAndMessages();
+                    addActionMessage(getText("user.delete.ok"));
+                }
+            } catch (SQLException e) {
+                logger.error(MessageCatalog._00011_SQL_EXCEPTION,e);
+                getUsersDb();
+                return ERROR;
+            }
+            return getUsersDb(); 
+        }                  
     }
     /**
      * Displays the form to the edit the user
