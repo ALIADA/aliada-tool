@@ -200,7 +200,7 @@ public class UsersAction extends ActionSupport{
                 StrongPasswordEncryptor passwordEncryptor = new StrongPasswordEncryptor();
                 String encryptedPassword = passwordEncryptor.encryptPassword(this.passwordForm);
                 statement.executeUpdate("INSERT INTO user VALUES ('"+this.usernameForm+"', '"
-                  +encryptedPassword+"', '"+this.emailForm+"', '"+this.roleForm+"', '"+this.typeForm+"', '"+this.organisationForm+"')");
+                  +encryptedPassword+"', '"+this.emailForm+"', '"+this.typeForm+"', '"+this.roleForm+"', '"+this.organisationForm+"')");
                 addActionMessage(getText("user.save.ok"));
                 connection.close(); 
                 getUsersDb();
