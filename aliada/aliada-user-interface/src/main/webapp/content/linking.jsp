@@ -144,6 +144,11 @@
 			</html:if>
 		</div>
 	</html:form>
+	<div class="row">
+		<html:form>
+			<html:submit action="conversion" cssClass="fleft submitButton button" key="back"/>
+		</html:form>
+	</div>
 </div>
 <div id="checkInfo" class="displayNo">
 	<div class="content">
