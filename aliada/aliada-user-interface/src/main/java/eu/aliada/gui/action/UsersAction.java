@@ -70,7 +70,9 @@ public class UsersAction extends ActionSupport{
      * @since 1.0
      */
     public String deleteUser() {
-        if(getSelectedUser().equalsIgnoreCase((String) ServletActionContext.getRequest().getSession().getAttribute("logedUser"))){
+        String logedUser = (String) ServletActionContext.getRequest().getSession().getAttribute("logedUser");
+        logedUser = logedUser.trim();//Doesn't take into account the white spaces
+        if(getSelectedUser().equalsIgnoreCase(logedUser)){
             addActionError(getText("err.user.deletion"));
             getUsersDb();
             return ERROR;
