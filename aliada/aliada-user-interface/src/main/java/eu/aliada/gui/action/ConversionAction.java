@@ -263,7 +263,6 @@ public class ConversionAction extends ActionSupport {
      * @since 1.0
      */
     private void createJob(int addedId) throws IOException {
-        logger.debug("ADDED ID: "+addedId);
         URL url = new URL("http://aliada:8080/aliada-rdfizer-1.0/jobs/" + addedId);
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setDoOutput(true);
@@ -271,17 +270,13 @@ public class ConversionAction extends ActionSupport {
         if (conn.getResponseCode() != HttpURLConnection.HTTP_CREATED) {
             setShowRdfizerButton(1);
             getGraphsDb();
-            getTemplatesDb(); 
-            String errorMessage = "Failed : HTTP error code : "+ conn.getResponseCode();
-            logger.debug("CONNECTION CONTENT: "+conn.getContent());
-            conn.disconnect();
-            throw new ConnectException(errorMessage);
+            getTemplatesDb();  
+            throw new ConnectException("Failed : HTTP error code : "
+                    + conn.getResponseCode());
         }
-        else{
-            logger.debug(MessageCatalog._00031_CONVERSION_RDFIZE_JOB);
-            setShowRdfizerButton(0);
-            conn.disconnect();            
-        }
+        logger.debug(MessageCatalog._00031_CONVERSION_RDFIZE_JOB);
+        setShowRdfizerButton(0);
+        conn.disconnect();
     }
     
     /**
