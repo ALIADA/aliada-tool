@@ -100,7 +100,8 @@
 	
 	$("#checkLinkingButton").on("click",function(){
 		console.log("Checking");
-		$("#linkingPanel").hide();		
+		$("#linkingPanel").hide();
+		$("#linkingButtons").hide();			
 		$("#checkInfo").show("fast");
 		$('#checkLinkingButton').hide();
 		$('#progressBarLinking').show();
@@ -144,11 +145,6 @@
 			</html:if>
 		</div>
 	</html:form>
-	<div class="row">
-		<html:form>
-			<html:submit action="conversion" cssClass="fleft submitButton button" key="back"/>
-		</html:form>
-	</div>
 </div>
 <div id="checkInfo" class="displayNo">
 	<div class="content">
@@ -191,6 +187,11 @@
 				<img id="fineLDSImg" class="displayNo lMargin40" src="images/fine.png"/>
 			</div>	
 		</div>
+	</div>
+	<div id="linkingButtons" class="row">
+		<html:form>
+			<html:submit action="conversion" cssClass="fleft submitButton button" key="back"/>
+		</html:form>
 	</div>
 	<div class="row">
 		<html:form>

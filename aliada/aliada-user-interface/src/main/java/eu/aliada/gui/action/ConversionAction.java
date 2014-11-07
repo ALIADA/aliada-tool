@@ -270,13 +270,16 @@ public class ConversionAction extends ActionSupport {
         if (conn.getResponseCode() != HttpURLConnection.HTTP_CREATED) {
             setShowRdfizerButton(1);
             getGraphsDb();
-            getTemplatesDb();  
-            throw new ConnectException("Failed : HTTP error code : "
-                    + conn.getResponseCode());
+            getTemplatesDb(); 
+            String errorMessage = "Failed : HTTP error code : "+ conn.getResponseCode();
+            conn.disconnect();
+            throw new ConnectException(errorMessage);
         }
-        logger.debug(MessageCatalog._00031_CONVERSION_RDFIZE_JOB);
-        setShowRdfizerButton(0);
-        conn.disconnect();
+        else{
+            logger.debug(MessageCatalog._00031_CONVERSION_RDFIZE_JOB);
+            setShowRdfizerButton(0);
+            conn.disconnect();            
+        }
     }
     
     /**
