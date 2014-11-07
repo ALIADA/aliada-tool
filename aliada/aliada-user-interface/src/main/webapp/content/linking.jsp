@@ -100,8 +100,7 @@
 	
 	$("#checkLinkingButton").on("click",function(){
 		console.log("Checking");
-		$("#linkingPanel").hide();
-		$("#linkingButtons").hide();			
+		$("#linkingPanel").hide();		
 		$("#checkInfo").show("fast");
 		$('#checkLinkingButton').hide();
 		$('#progressBarLinking').show();
@@ -194,10 +193,5 @@
 			<html:submit id="publishButton" disabled="true" onClick="return false;" cssClass="fright submitButton button" key="publish"/>
 		</html:form>
 	</div>
-</div>
-<div id="linkingButtons" class="row">
-	<html:form>
-		<html:submit action="conversion" cssClass="fleft submitButton button" key="back"/>
-	</html:form>
 </div>
 
