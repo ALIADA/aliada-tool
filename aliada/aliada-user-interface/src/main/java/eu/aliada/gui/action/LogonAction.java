@@ -99,10 +99,10 @@ public class LogonAction extends ActionSupport {
 					+ getInputUser() +"'");			
 			if (rs.next()) {
 			    if (passwordEncryptor.checkPassword(getInputPassword(), rs.getString("user_password"))) {
+                    ServletActionContext.getRequest().getSession().setAttribute("logedUser",rs.getString("user_name"));
 	                rs.close();
 	                st.close();
 	                conn.close();
-	                ServletActionContext.getRequest().getSession().setAttribute("logedUser",rs.getString("user_name"));
 	                return SUCCESS;
 	              } else {
 	                logger.debug(MessageCatalog._00010_LOGON_FAILURE);
