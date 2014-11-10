@@ -95,14 +95,14 @@ public class LogonAction extends ActionSupport {
 			}
 			st = conn.createStatement();
 			StrongPasswordEncryptor passwordEncryptor = new StrongPasswordEncryptor();
-			rs = st.executeQuery("select user_password from aliada.user where user_name = '"
+			rs = st.executeQuery("select user_name,user_password from aliada.user where user_name = '"
 					+ getInputUser() +"'");			
 			if (rs.next()) {
 			    if (passwordEncryptor.checkPassword(getInputPassword(), rs.getString("user_password"))) {
 	                rs.close();
 	                st.close();
 	                conn.close();
-	                ServletActionContext.getRequest().getSession().setAttribute("logedUser",getInputUser());
+	                ServletActionContext.getRequest().getSession().setAttribute("logedUser",rs.getString("user_name"));
 	                return SUCCESS;
 	              } else {
 	                logger.debug(MessageCatalog._00010_LOGON_FAILURE);
