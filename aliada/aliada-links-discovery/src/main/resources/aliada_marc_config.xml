@@ -65,7 +65,7 @@
 		<RestrictTo> {?b rdf:type madsrdf:Authority} . {?b rdf:type madsrdf:Language} . {?b rdf:type &lt;http://id.loc.gov/vocabulary/languages/MARC_Language&gt;} </RestrictTo>
 	  </TargetDataset>
 	  <LinkageRule>
-		<Compare id="unnamed_6" metric="levenshteinDistance" threshold="2">
+		<Compare id="unnamed_6" metric="levenshteinDistance" threshold="1">
 			<TransformInput id="unnamed_7" function="lowerCase">
 				<Input id="unnamed_8" path="?lang/ecrm:P3_has_note"/>
 			</TransformInput>
