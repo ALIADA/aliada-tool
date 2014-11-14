@@ -1,30 +1,28 @@
 DB.DBA.VHOST_REMOVE (
-	 lhost=>'$ARGV[8]',
-	 vhost=>'$ARGV[9]',
+	 lhost=>':8891',
+	 vhost=>'aliada.scanbit.net',
 	 lpath=>'/id'
 );
 
 DB.DBA.VHOST_DEFINE (
-	 lhost=>'$ARGV[8]',
-	 vhost=>'$ARGV[9]',
+	 lhost=>':8891',
+	 vhost=>'aliada.scanbit.net',
 	 lpath=>'/id',
 	 ppath=>'/DAV/home/id/',
 	 is_dav=>1,
 	 def_page=>'',
 	 vsp_user=>'dba',
 	 ses_vars=>0,
-	 opts=>vector ('browse_sheet', '', 'url_rewrite', 'http_rule_list_$ARGV[10]'),
+	 opts=>vector ('browse_sheet', '', 'url_rewrite', 'http_rule_list_artium1'),
 	 is_default_host=>0
 );
 
-
-    
 DB.DBA.URLREWRITE_CREATE_RULELIST ( 
-'http_rule_list_$ARGV[10]', 1, 
-  vector ('http_rule_1_rdf_$ARGV[10]', 'http_rule_2_htmlvirtuoso_$ARGV[10]', 'http_rule_3_html_$ARGV[10]'));
+'http_rule_list_artium1', 1, 
+  vector ('http_rule_artium1_1_rdf', 'http_rule_artium1_2_htmlvirtuoso', 'http_rule_artium1_3_html'));
 
 DB.DBA.URLREWRITE_CREATE_REGEX_RULE ( 
-'http_rule_1_rdf_$ARGV[10]', 1, 
+'http_rule_artium1_1_rdf', 1, 
   '(/[^#]*)', 
 vector ('par_1'), 
 1, 
@@ -38,7 +36,7 @@ NULL,
 );
 
 DB.DBA.URLREWRITE_CREATE_REGEX_RULE ( 
-'http_rule_2_htmlvirtuoso_$ARGV[10]', 1, 
+'http_rule_artium1_2_htmlvirtuoso', 1, 
   '(/[^#]*)', 
 vector ('par_1'), 
 1, 
@@ -52,7 +50,7 @@ NULL,
 );
 
 DB.DBA.URLREWRITE_CREATE_REGEX_RULE ( 
-'http_rule_3_html_$ARGV[10]', 1, 
+'http_rule_artium1_3_html', 1, 
   '/id/resource/F3_Manifestation_Product_Type/0*([^#/]*)\$', 
 vector ('par_1'), 
 2, 
@@ -60,6 +58,45 @@ vector ('par_1'),
 vector ('par_1'), 
 NULL, 
 '(text/html)|(\\*/\\*)', 
+0, 
+303, 
+'' 
+);
+
+DB.DBA.VHOST_REMOVE (
+	 lhost=>':8891',
+	 vhost=>'aliada.scanbit.net',
+	 lpath=>'/doc'
+);
+
+DB.DBA.VHOST_DEFINE (
+	 lhost=>':8891',
+	 vhost=>'aliada.scanbit.net',
+	 lpath=>'/doc',
+	 ppath=>'/DAV/home/doc/',
+	 is_dav=>1,
+	 def_page=>'',
+	 vsp_user=>'dba',
+	 ses_vars=>0,
+	 opts=>vector ('browse_sheet', '', 'url_rewrite', 'http_rule_list_artium2'),
+	 is_default_host=>0
+);
+
+
+    
+DB.DBA.URLREWRITE_CREATE_RULELIST ( 
+'http_rule_list_artium2', 1, 
+  vector ('http_rule_artium2_1_html'));
+
+DB.DBA.URLREWRITE_CREATE_REGEX_RULE ( 
+'http_rule_artium2_1_html', 1, 
+ '/doc(/[^#]*)', 
+vector ('par_1'), 
+1, 
+'/describe/?uri=$ARGV[6]/id%s&graph=$ARGV[7]', 
+vector ('par_1'), 
+NULL, 
+'(text/html)', 
 0, 
 303, 
 '' 
