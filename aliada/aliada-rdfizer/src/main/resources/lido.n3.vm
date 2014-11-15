@@ -70,10 +70,10 @@ $main_subject #ecrm("P70i_is_documented_in") $document_s .
 ##  	
         #set($coordinates = $xpath.one("gml/Point/pos", $repositoryLocation))
         #if($coordinates)
-    		#set($lat_lon = $coordinates.textContent.split(" "))
-			#if($lat_lon && $lat_lon.length == 2)
-				$address_s #wgs("lat") "$lat_lon[0]" .
-				$address_s #wgs("lon") "$lat_lon[1]" . 
+    		#set($lat_lon = $function.asList($coordinates.textContent.trim().split(" ")))
+			#if($lat_lon && $lat_lon.size() == 2)
+				$address_s #wgs("lat") $lat_lon.get(0) .
+				$address_s #wgs("lon") $lat_lon.get(1) . 
 			#end	
         #end	
 ##		

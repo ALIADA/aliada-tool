@@ -7,6 +7,8 @@ package eu.aliada.rdfizer;
 
 import java.text.Normalizer;
 import java.text.Normalizer.Form;
+import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +37,10 @@ public class Function {
 	 */
 	public long getId() {
 		return ID.get();
+	}
+	
+	public List<String> asList(final String [] array) {
+		return array != null ? Arrays.asList(array) : null;
 	}
 	
 	/**
