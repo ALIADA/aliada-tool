@@ -1,6 +1,7 @@
 ## SHORTCUTS
 #set($is_a = "#rdf('type')")
 #set($E41Appellation = "#ecrm('E41Appellation')")
+#set($E39_Actor = "#ecrm('E39_Actor')")
 #set($P3_has_note = "#ecrm('P3_has_note')")
 #set($P2_has_type = "#ecrm('P2_has_type')")
 #set($Concept = "#skos('Concept')")
@@ -143,6 +144,7 @@ $main_subject #ecrm("P70i_is_documented_in") $document_s .
 	## EVENT ACTORS START
 	#set($actors = $xpath.many("eventActor", $event))
 	#foreach($actor in $actors)
+		#set($author_s = "")
 		#set($displaysActorInRole = $xpath.many("displayActorInRole", $actor))
 		#if($event_type_s)
     		#foreach($displayLabel in $displaysActorInRole)
@@ -154,23 +156,27 @@ $main_subject #ecrm("P70i_is_documented_in") $document_s .
 		#foreach($actor_identifier in $actor_identifiers)
 			#set($value = $actor_identifier.textContent)
 			#set($id_s = "#uri('E42_Identifier' $value)")
-			#if(!$author_s)
+			#if(!$author_s || $author_s == "")
 				#set($author_s = "#uri('E39_Actor' $value)")
+				$author_s $is_a $E39_Actor .
 			#end	
 			$id_s $is_a #ecrm('E42_Identifier') .
 			$id_s $P3_has_note "$value" . 
 			$id_s $P2_has_type #aliada('LocalIdentifier') . 
+			$author_s #ecrm('P48_has_preferred_identifier') $id_s .
 		#end	
 		#set($actor_identifiers = $xpath.many("actorID[@type='URI' and @source='VIAF']", $actor))
 		#foreach($actor_identifier in $actor_identifiers)
 			#set($value = $actor_identifier.textContent)
 			#set($id_s = "#uri_with_fragment('E42_Identifier' $value)")
-			#if(!$author_s)
+			#if(!$author_s || $author_s == "")
 				#set($author_s = "#uri_with_fragment('E39_Actor' $value)")
+				$author_s $is_a $E39_Actor .
 			#end	
 			$id_s $is_a #ecrm('E42_Identifier') .
 			$id_s $P3_has_note "$value" . 
 			$id_s $P2_has_type #aliada('VIAFIdentifier') . 
+			$author_s #ecrm('P48_has_preferred_identifier') $id_s .
 		#end		
 		#if ($author_s)
     		#set($actor_names = $xpath.many("nameActorSet/appellationValue[@pref='preferred']", $actor))
