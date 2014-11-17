@@ -131,9 +131,9 @@ $main_subject #ecrm("P70i_is_documented_in") $document_s .
 #set($E65_Creation = "#ecrm('E65_Creation')")
 #set($P12i_was_present_at = "#ecrm('P12i_was_present_at')")
 #foreach($event in $events)
-	#set($event_type_uri = $xpath.value("eventType[@type='URI']", $event))
-	#if($function.isNotNullAndNotEmpty($event_type_uri))
-		#set($event_type_uri = "<$event_type_uri>")
+	#set($event_type_uris = $xpath.many("eventType/conceptID[@type='URI']", $event))
+	#foreach($event_type_uri in $event_type_uris)
+		#set($event_type_uri = "<$event_type_uri.textContent>")
 		#set($event_type_s = "#uri_with_fragment('E65_Creation' $event_type_uri)")
 		$event_type_uri $is_a $Concept .
 		$event_type_s $is_a $E65_Creation . 
