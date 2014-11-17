@@ -132,15 +132,9 @@ $main_subject #ecrm("P70i_is_documented_in") $document_s .
 #set($E65_Creation = "#ecrm('E65_Creation')")
 #set($P12i_was_present_at = "#ecrm('P12i_was_present_at')")
 #foreach($event in $events)
-	#set($event_type_uris = $xpath.many("eventType/conceptID[@type='URI']", $event))
-	#foreach($event_type_uri in $event_type_uris)
-		#set($event_type_uri = "<$event_type_uri.textContent>")
-		#set($event_type_s = "#uri_with_fragment('E65_Creation' $event_type_uri)")
-		$event_type_uri $is_a $Concept .
-		$event_type_s $is_a $E65_Creation . 
-		$event_type_s $P2_has_type $event_type_uri . 
-		$main_subject $P12i_was_present_at $event_type_s . 
-	#end	
+	#set($event_type_s = "#new_uri('E65_Creation')")
+	$event_type_s $is_a $E65_Creation . 
+	$main_subject $P12i_was_present_at $event_type_s . 
 	## EVENT ACTORS START
 	#set($actors = $xpath.many("eventActor", $event))
 	#foreach($actor in $actors)
@@ -179,6 +173,7 @@ $main_subject #ecrm("P70i_is_documented_in") $document_s .
 			$author_s #ecrm('P48_has_preferred_identifier') $id_s .
 		#end		
 		#if ($author_s)
+ 			$event_type_s #ecrm('P11_had_participant') $author_s .
     		#set($actor_names = $xpath.many("nameActorSet/appellationValue[@pref='preferred']", $actor))
     		#foreach($actor_name in $actor_names)
     			#set($value = $actor_name.textContent)
@@ -213,7 +208,7 @@ $main_subject #ecrm("P70i_is_documented_in") $document_s .
 				$time_span_event_s $is_a #ecrm("E5_Event") . 
 				$time_span_event_s $P2_has_type #aliada("Existance") . 
 				$time_span_event_s #ecrm("P4_has_time-span") $time_span_s . 
-				$author_s #ecrm("P11_participated_in") $time_span_event_s .
+				$author_s #ecrm("P11i_participated_in") $time_span_event_s .
 			#end	
 		#end	
 	#end	
