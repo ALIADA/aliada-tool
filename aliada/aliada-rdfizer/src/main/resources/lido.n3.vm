@@ -137,6 +137,7 @@ $main_subject #ecrm("P70i_is_documented_in") $document_s .
 				$event_type_s $P3_has_note "$displayLabel.textContent" . 
     		#end	
 		#end	
+		#set($actorInRole = $xpath.one("actorInRole", $actor))
 		#set($actor = $xpath.one("actorInRole/actor", $actor))
 		#set($actor_identifiers = $xpath.many("actorID[@type='local']", $actor))
 		#foreach($actor_identifier in $actor_identifiers)
@@ -201,7 +202,12 @@ $main_subject #ecrm("P70i_is_documented_in") $document_s .
 				$time_span_event_s $P2_has_type #aliada("Existance") . 
 				$time_span_event_s #ecrm("P4_has_time-span") $time_span_s . 
 				$author_s #ecrm("P11i_participated_in") $time_span_event_s .
-			#end	
+			#end
+    		#set($actor_roles = $xpath.many("roleActor/term",$actorInRole))
+    		#foreach($actor_role in $actor_roles)
+    			#set($value = $actor_role.textContent)
+    			$author_s $P3_has_note "$value" .
+    		#end
 		#end	
 	#end	
 	## EVENT ACTORS END
