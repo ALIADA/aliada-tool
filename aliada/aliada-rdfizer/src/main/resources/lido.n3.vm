@@ -196,9 +196,9 @@ $main_subject #ecrm("P70i_is_documented_in") $document_s .
 			#set($earliest_date = $xpath.value("vitalDatesActor/earliestDate",$actor))
 			#set($latest_date = $xpath.value("vitalDatesActor/latestDate",$actor))
 			#if ($function.isNotNullAndNotEmpty($earliest_date) || $function.isNotNullAndNotEmpty($latest_date))
-				#set($time_span_s = "#new_uri('E52_Time_Span')")
+				#set($time_span_s = "#new_uri('E52_Time-Span')")
 				#set($time_span_event_s = "#new_uri('E5_Event')")
-				$time_span_s $is_a #ecrm("E52_Time_Span") . 
+				$time_span_s $is_a #ecrm("E52_Time-Span") . 
 				#if ($function.isNotNullAndNotEmpty($earliest_date))
 					$time_span_s #ecrm("P79_beginning_is_qualified_by") "$earliest_date" . 
 				#end	
