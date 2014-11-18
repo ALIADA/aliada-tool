@@ -35,7 +35,7 @@
         #set($weblink = $xpath.one("legalBodyWeblink",$legalBody))
         #if($weblink)
     		#set($value = $weblink.textContent)
-            #set($web_resource_s = "#aliada('web_resource')")
+            #set($web_resource_s = "#aliadaconcept('web_resource')")
             #set($conceptual_appellation_s = "#uri_with_fragment('E75_Conceptual_Object_Appellation' $value)")
             #set($information_object_s = "#uri('E73_Information_Object' $value)")
             $conceptual_appellation_s $is_a #ecrm("E75_Conceptual_Object_Appellation") .
