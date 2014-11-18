@@ -57,7 +57,7 @@
         	$actor $is_a #ecrm("E39_Actor") .
         	$actor #ecrm("P131_is_identified_by") $repository_appellation .
         	#if($weblink)
-        		$actor #ecrm("P129B_is_subject_of") $information_object_s .
+        		$actor #ecrm("P129i_is_subject_of") $information_object_s .
         	#end
         	$owner_s $owner_p $actor .
         #end		
