@@ -108,7 +108,7 @@ $main_subject #ecrm("P70i_is_documented_in") $document_s .
 		#set($measurementValue = $xpath.one("measurementValue", $measurementsSet))					
 		#if($measurementType && $measurementValue)
 			#set($m_type = $measurementType.textContent)
-			#set($type_s = "#uri('E54_Dimension' $m_type$displayObjectMeasurements.textContent)")
+			#set($type_s = "#new_uri('E54_Dimension')")
 			$type_s $is_a $E54_Dimension . 
 			$type_s $P3_has_note "$m_type" . 
 			$type_s #ecrm("P91_has_unit") $unit_s . 
