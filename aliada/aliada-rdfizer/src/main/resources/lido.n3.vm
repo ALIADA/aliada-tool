@@ -223,6 +223,7 @@ $main_subject #ecrm("P70i_is_documented_in") $document_s .
 	#set($credit_line_s = "#uri('E30_Right' $value)")
 	$credit_line_s $is_a #ecrm('E30_Right') . 
 	$credit_line_s $P3_has_note "$value" . 
+	$main_subject  #ecrm('P104_is_subject_to') $credit_line_s .	
 #end	
 ## RIGHT WORK END
 ## RECORD WRAP START
