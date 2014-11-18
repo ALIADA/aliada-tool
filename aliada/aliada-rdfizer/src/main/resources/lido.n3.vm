@@ -20,14 +20,6 @@ $main_subject #ecrm("P70i_is_documented_in") $document_s .
 	$main_subject $is_a #ecrm($lidoClass) .
 #end	
 ## RECORD ID END
-## CATEGORY BEGIN
-#set($categories = $xpath.many("category/conceptID[type='URI']",$root))
-#foreach($category in $categories)
-	#set($categoryURI = "<$category.textContent>")
-	$categoryURI $is_a $Concept .
-	$main_subject $P2_has_type $categoryURI .
-#end
-## CATEGORY END
 ## WORK TYPE BEGIN
 #set($objectWorkTypes = $xpath.many("descriptiveMetadata/objectClassificationWrap/objectWorkTypeWrap/objectWorkType/term",$root))
 #foreach($objectWorkType in $objectWorkTypes)
