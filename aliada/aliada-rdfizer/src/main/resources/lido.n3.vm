@@ -240,14 +240,6 @@ $main_subject #ecrm("P70i_is_documented_in") $document_s .
 		$record_document_s #ecrm('P48_has_preferred_identifier') $record_identifier_s .
 		$main_subject #ecrm('P70i_is_documented_in') $record_document_s . 
 		## RECORD ID END
-		## RECORD TYPE START
-		#set($recordTypeConceptIDs = $xpath.one("recordType/conceptID[@type='URI']", $recordWrap))
-		#foreach($conceptID in $recordTypeConceptIDs)
-			#set($conceptID_s = "$conceptID.textContent")
-			<$conceptID_s> $is_a $Concept . 
-			$record_document_s $P2_has_type <$conceptID_s> . 
-		#end	
-		## RECORD TYPE END
 		## RECORD SOURCE START
         #set($recordSources = $xpath.many("recordSource",$recordWrap))
 		#foreach($recordSource in $recordSources)
