@@ -19,8 +19,8 @@
 #macro (newId)$function.id#end
 
 ## NAMESPACES SHORTCUTS
-#macro (aliada $literal)<${configuration.aliadaOntologyNamespace}id/resource/$function.normalizeWithoutLowercase($literal)>#end
-#macro (aliadaconcept $suffix)<${configuration.aliadaOntologyNamespace}id/resource/$suffix>#end
+#macro (aliada $literal)<${configuration.aliadaOntologyNamespace}id/resource/Concept/$function.normalizeWithoutLowercase($literal)>#end
+#macro (aliadaconcept $suffix)<${configuration.aliadaOntologyNamespace}id/resource/Concept/$suffix>#end
 #macro (owl $v)<http://www.w3.org/2002/07/owl#$v>#end
 #macro (rdf $v)<http://www.w3.org/1999/02/22-rdf-syntax-ns#$v>#end
 #macro (rdfs $v)<http://www.w3.org/2000/01/rdf-schema#$v>#end
