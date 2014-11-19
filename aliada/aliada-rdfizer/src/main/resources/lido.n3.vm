@@ -303,24 +303,24 @@ $main_subject #ecrm("P70i_is_documented_in") $document_s .
 			$resource_id_s $P2_has_type #aliada($resourceType.textContent) . 
 		#end 	
 		## RESOURCE TYPE END
-		## RIGHT HOLDERS START
-		#set($creditLine = $xpath.one("rightsResource/creditLine", $resource))
-		#set($rightTypes = $xpath.one("rightsResource/rightType", $resource))
-		#set($rightsHolders = $xpath.many("rightsResource/rightsHolder",$resource))
-		#foreach($rightsHolder in $rightsHolders)
+		## RIGHTS RESOURCES START
+		#set($rightsResources = $xpath.many("rightsResource",$resource))
+		#foreach($rightsResource in $rightsResources)
 			#set($right_s = "#new_uri('E30_Right')")
 			$right_s $is_a #ecrm('E30_Right') . 
+			$resource_id_s #ecrm('P104_is_subject_to') $right_s . 
+			#set($creditLine = $xpath.one("creditLine", $rightsResource))
 			#if($creditLine)
 				$right_s $P3_has_note "$creditLine.textContent" .
 			#end	
-			$resource_id_s #ecrm('P104_is_subject_to') $right_s . 
-			#foreach($rightType in $rightTypes)
-				#set($conceptID = $xpath.one("conceptID[type='URL']",$rightType))
+			#set($rightsTypes = $xpath.many("rightsType", $rightsResource))
+			#foreach($rightsType in $rightsTypes)
+				#set($conceptID = $xpath.one("conceptID[@type='URL']",$rightsType))
 				#if ($conceptID)
-					#set($term = $xpath.one("term",$rightType))			
+					#set($term = $xpath.one("term",$rightsType))			
 					#if ($term)
 						#set($termText = $term.textContent)
-						#set($type_s = "#uri('E55_Type' $termContext)")
+						#set($type_s = "#uri('E55_Type' $termText)")
 						$type_s $is_a #ecrm('E55_Type') . 
 						$right_s $P2_has_type $type_s . 
 						#set($conceptual_appellation_s = "#uri('E75_Conceptual_Object_Appellation' $termText)")
@@ -334,9 +334,12 @@ $main_subject #ecrm("P70i_is_documented_in") $document_s .
 					#end	
 				#end	
 			#end	
-			#legalBody($rightsHolder $right_s "#ecrm('P75i_is_possessed_by')")		
-		#end 	
-		## RIGHT HOLDERS END
+			#set($rightsHolders = $xpath.many("rightsHolder",$rightsResource))
+			#foreach($rightsHolder in $rightsHolders)
+				#legalBody($rightsHolder $right_s "#ecrm('P75i_is_possessed_by')")		
+			#end
+		#end
+		## RIGHTS RESOURCES END
 	#end	
 #end	
 ## RESOURCE WRAP END
