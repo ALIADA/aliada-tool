@@ -269,12 +269,12 @@ $main_subject #ecrm("P70i_is_documented_in") $document_s .
 #end
 ## RECORD WRAP END
 ## RESOURCE WRAP START
-#set($resourceSets = $xpath.one("administrativeMetadata/resourceWrap/resourceSet", $root))
+#set($resourceSets = $xpath.many("administrativeMetadata/resourceWrap/resourceSet", $root))
 #foreach($resource in $resourceSets)
 	#set($resourceID = $xpath.one("resourceID", $resource))
 	#if($resourceID)
 		## RESOURCE ID START
-		#set($resource_id = $resourceId.textContent)
+		#set($resource_id = $resourceID.textContent)
 		#set($resource_id_s = "#uri('E36_Visual_Item' $resource_id)")
 		#set($resource_identifier_s = "#uri('E42_Identifier' $resource_id)")
 		$resource_identifier_s $is_a #ecrm('E42_Identifier') . 
