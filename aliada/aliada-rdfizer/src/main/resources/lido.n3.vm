@@ -292,7 +292,7 @@ $main_subject #ecrm("P70i_is_documented_in") $document_s .
 			$uri $P3_has_note "$linkResourceText" . 
 			#set($information_obj_s = "#uri('E73_Information_Object' $resource_id)")
 			$information_obj_s $is_a #ecrm('E73_Information_Object') . 
-			$information_obj_s $P2_has_type #aliada('web_resource') . 
+			$information_obj_s $P2_has_type #aliadaconcept('web_resource') . 
 			$information_obj_s #ecrm('P149_is_identified_by') $uri . 
 			$resource_id_s #ecrm('P129i_is_subject_of') $information_obj_s .
 		#end 	
@@ -328,7 +328,7 @@ $main_subject #ecrm("P70i_is_documented_in") $document_s .
 						$conceptual_appellation_s $is_a #ecrm('E75_Conceptual_Object_Appellation') . 
 						$conceptual_appellation_s $P3_has_note "$conceptID.textContent" . 
 						$information_object_s $is_a #ecrm('E73_Information_Object') . 
-						$information_object_s $P2_has_type #aliada('web_resource') . 
+						$information_object_s $P2_has_type #aliadaconcept('web_resource') . 
 						$information_object_s #ecrm('P149_is_identified_by') $conceptual_appellation_s . 
 						$right_s #ecrm('P129i_is_subject_of') $information_object_s . 
 					#end	
