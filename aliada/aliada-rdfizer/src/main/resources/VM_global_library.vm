@@ -31,6 +31,22 @@
 ## LIDO MACROS
 #macro(legalBody $legalBody $owner_s $owner_p)
     #if($legalBody)
+		#set($actor = "")
+        ## LEGAL BODY NAME BEGIN
+        #set($repositoryNames = $xpath.many("legalBodyName/appellationValue",$legalBody))
+		#foreach($repositoryName in $repositoryNames)
+    		#set($value = $repositoryName.textContent)
+        	#set($repository_appellation = "#uri('E82_Actor_Appellation' $value)")
+        	$repository_appellation $is_a #ecrm("E82_Actor_Appellation") .
+        	$repository_appellation $P3_has_note "$value" .
+        	#if(!$actor || $actor == "")
+        		#set($actor = "#uri('E39_Actor' $value)")
+        		$actor $is_a #ecrm("E39_Actor") .
+	        	$owner_s $owner_p $actor .
+        	#end
+        	$actor #ecrm("P131_is_identified_by") $repository_appellation .
+        #end		
+        ## LEGAL BODY NAME END
     	## LEGAL BODY WEBLINK BEGIN
         #set($weblink = $xpath.one("legalBodyWeblink",$legalBody))
         #if($weblink)
@@ -43,25 +59,24 @@
             $information_object_s $is_a #ecrm("E73_Information_Object") .
             $information_object_s $P2_has_type $web_resource_s . 
             $information_object_s #ecrm("P149_is_identified_by") $conceptual_appellation_s . 
-        #end			
-        ## LEGAL BODY WEBLINK END
-        ## LEGAL BODY NAME BEGIN
-        #set($repositoryName = $xpath.one("legalBodyName/appellationValue",$legalBody))
-        #if($repositoryName)
-    		#set($value = $repositoryName.textContent)
-        	#set($repository_appellation = "#uri('E82_Actor_Appellation' $value)")
-        	$repository_appellation $is_a #ecrm("E82_Actor_Appellation") .
-        	$repository_appellation $P3_has_note "$value" . 
-##
-        	#set($actor = "#uri('E39_Actor' $value)")
-        	$actor $is_a #ecrm("E39_Actor") .
-        	$actor #ecrm("P131_is_identified_by") $repository_appellation .
-        	#if($weblink)
+        	#if($actor)
         		$actor #ecrm("P129i_is_subject_of") $information_object_s .
         	#end
-        	$owner_s $owner_p $actor .
-        #end		
-        ## LEGAL BODY NAME END
+        #end			
+        ## LEGAL BODY WEBLINK END
+    	## LEGAL BODY ID BEGIN
+		#set($body_identifiers = $xpath.many("legalBodyID[@type='local']", $legalBody))
+		#foreach($body_identifier in $body_identifiers)
+			#set($value = $body_identifier.textContent)
+			#set($id_s = "#uri('E42_Identifier' $value)")
+			$id_s $is_a #ecrm('E42_Identifier') .
+			$id_s $P3_has_note "$value" . 
+			$id_s $P2_has_type #aliada('LocalIdentifier') .
+        	#if($actor)
+				$actor #ecrm('P48_has_preferred_identifier') $id_s .
+        	#end
+		#end	
+    	## LEGAL BODY ID END
     #end	
 #end	
 
