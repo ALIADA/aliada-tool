@@ -211,6 +211,32 @@ $main_subject #ecrm("P70i_is_documented_in") $document_s .
 		#end	
 	#end	
 	## EVENT ACTORS END
+	## EVENT DATE START
+	#set($dates = $xpath.many("eventDate", $event))
+	#foreach($date in $dates)
+		#set($displayDate = $xpath.many("displayDate", $date))
+		#if($event_type_s)
+    		#foreach($displayLabel in $displayDate)
+				$event_type_s $P3_has_note "$displayLabel.textContent" . 
+    		#end	
+		#end
+		#set($earliest_date = $xpath.value("date/earliestDate",$date))
+		#set($latest_date = $xpath.value("date/latestDate",$date))
+		#if ($function.isNotNullAndNotEmpty($earliest_date) || $function.isNotNullAndNotEmpty($latest_date))
+			#set($time_span_s = "#new_uri('E52_Time-Span')")
+			$time_span_s $is_a #ecrm("E52_Time-Span") . 
+			#if ($function.isNotNullAndNotEmpty($earliest_date))
+				$time_span_s #ecrm("P79_beginning_is_qualified_by") "$earliest_date" . 
+			#end	
+			#if ($function.isNotNullAndNotEmpty($latest_date))
+				$time_span_s #ecrm("P80_end_is_qualified_by") "$latest_date" . 
+			#end	
+			#if($event_type_s)
+				$event_type_s #ecrm("P4_has_time-span") $time_span_s . 
+    		#end	
+		#end
+	#end	
+	## EVENT DATE END
 	## EVENT MATERIALS TECH START
 	#set($materials = $xpath.many("eventMaterialsTech", $event))
 	#foreach($material in $materials)
