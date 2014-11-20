@@ -211,6 +211,17 @@ $main_subject #ecrm("P70i_is_documented_in") $document_s .
 		#end	
 	#end	
 	## EVENT ACTORS END
+	## EVENT MATERIALS TECH START
+	#set($materials = $xpath.many("eventMaterialsTech", $event))
+	#foreach($material in $materials)
+		#set($displayMaterialsTech = $xpath.many("displayMaterialsTech", $material))
+		#if($event_type_s)
+    		#foreach($displayMaterial in $displayMaterialsTech)
+				$event_type_s $P3_has_note "$displayMaterial.textContent" . 
+    		#end	
+		#end
+	#end	
+	## EVENT MATERIALS TECH START
 #end	
 ## EVENT TYPES END
 ## EVENTS END
