@@ -36,9 +36,14 @@
         #set($repositoryNames = $xpath.many("legalBodyName/appellationValue",$legalBody))
 		#foreach($repositoryName in $repositoryNames)
     		#set($value = $repositoryName.textContent)
+			#set($lang = $xpath.one("@lang", $repositoryName))
         	#set($repository_appellation = "#uri('E82_Actor_Appellation' $value)")
         	$repository_appellation $is_a #ecrm("E82_Actor_Appellation") .
-        	$repository_appellation $P3_has_note "$value" .
+         	#if($lang)
+	        	$repository_appellation $P3_has_note "$value"@$lang.textContent .
+	        #else
+	        	$repository_appellation $P3_has_note "$value" .
+        	#end
         	#if(!$actor || $actor == "")
         		#set($actor = "#uri('E39_Actor' $value)")
         		$actor $is_a #ecrm("E39_Actor") .
