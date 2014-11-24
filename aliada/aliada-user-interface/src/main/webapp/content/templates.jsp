@@ -67,6 +67,10 @@ $(function(){
 			<div class="row">
 				<label class="label"><html:text name="templateDescription" /></label>
 				<html:property value="templateDescription" />
+			</div>			
+			<div class="row">
+				<label class="label"><html:text name="fileTypeForm"/></label>:
+				<html:property value="fileTypeName" />
 			</div>
 			<div class="row">
 				<label class="label"><html:text name="templateFields" /></label>
@@ -113,6 +117,11 @@ $(function(){
 					cssClass="inputForm frigth input"/>
 			</div>
 			<div class="row">
+				<label class="label"><html:text name="fileTypeForm"/></label>:
+				<html:select theme="xhtml" key="fileType"
+							cssClass="inputForm input" list="types" />
+			</div>
+			<div class="row">
 				<label class="label"><html:text name="templateFields" /></label>
 				<table class="table">
 					<html:iterator value="tags" status="status">
@@ -156,6 +165,11 @@ $(function(){
 				<html:text name="templateDescription" />
 				<html:textfield key="templateDescription" maxLength="128"
 					cssClass="inputForm frigth input"/>
+			</div>			
+			<div class="row">
+				<label class="label"><html:text name="fileTypeForm"/></label>:
+				<html:select theme="xhtml" key="fileType"
+							cssClass="inputForm input" list="types" />
 			</div>
 			<div class="row">
 				<label class="label"><html:text name="templateFields" /></label>

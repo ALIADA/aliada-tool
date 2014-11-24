@@ -32,9 +32,12 @@ public class TemplatesAction extends ActionSupport {
     private static final int NOTEMPLATESELECTED = -1;
     private HashMap<Integer, String> templates;
     private HashMap<String, Boolean> tags;
+    private HashMap<Integer, String> types;
     private List selectedTags = new ArrayList();
     private String templateName;
     private String templateDescription;
+    private int fileType;
+    private String fileTypeName;
     private String selectedTemplate;
     private boolean showTheTemplate;
     private boolean showAddTemplateForm;
@@ -43,6 +46,34 @@ public class TemplatesAction extends ActionSupport {
 
     private final Log logger = new Log(ConversionAction.class);
     
+    /**
+     * The method to show the file type list.
+     * 
+     * @return String
+     * @see
+     * @since 1.0
+     */
+    public String getTypesDb() {
+        Connection connection = null;
+        try {
+            connection = new DBConnectionManager().getConnection();
+            Statement statement = connection.createStatement();
+            ResultSet rs = statement
+                    .executeQuery("select * from aliada.t_file_type");
+            types = new HashMap<Integer, String>();
+            while (rs.next()) {
+                types.put(rs.getInt("file_type_code"),
+                        rs.getString("file_type_name"));
+            }
+            rs.close();
+            statement.close();
+            connection.close();
+        } catch (SQLException e) {
+            logger.error(MessageCatalog._00011_SQL_EXCEPTION, e);
+            return ERROR;
+        }
+        return SUCCESS;
+    }
     /**
      * Gets the available templates from the DB
      * @return
@@ -74,6 +105,7 @@ public class TemplatesAction extends ActionSupport {
             logger.error(MessageCatalog._00011_SQL_EXCEPTION,e);
             return ERROR;
         }
+        getTypesDb();
         return SUCCESS;
     }    
     /**
@@ -88,12 +120,13 @@ public class TemplatesAction extends ActionSupport {
             connection = new DBConnectionManager().getConnection();
             Statement statement = connection.createStatement();
             ResultSet rs = statement
-                    .executeQuery("select * from aliada.template where template_name='"
+                    .executeQuery("select t.template_id,t.template_name,t.template_description,f.file_type_name from aliada.template t INNER JOIN aliada.t_file_type f ON t.file_type_code=f.file_type_code where t.template_name='"
                             + this.selectedTemplate + "'");
             if (rs.next()) {
-                int idTemplate = rs.getInt("template_id");
-                this.templateName = rs.getString("template_name");
-                this.templateDescription = rs.getString("template_description");
+                int idTemplate = rs.getInt("t.template_id");
+                this.templateName = rs.getString("t.template_name");
+                this.templateDescription = rs.getString("t.template_description");
+                this.fileTypeName = rs.getString("f.file_type_name");
                 statement.close();
                 rs.close();
                 connection.close();
@@ -230,6 +263,7 @@ public class TemplatesAction extends ActionSupport {
                 int idTemplate = rs.getInt("template_id");
                 this.templateName = rs.getString("template_name");
                 this.templateDescription = rs.getString("template_description");
+                this.fileType = rs.getInt("file_type_code");
                 statement.close();
                 rs.close();
                 connection.close();
@@ -533,6 +567,38 @@ public class TemplatesAction extends ActionSupport {
      */
     public void setShowTheTemplate(boolean showTheTemplate) {
         this.showTheTemplate = showTheTemplate;
+    }
+    /**
+     * @return Returns the fileType.
+     * @exception
+     * @since 1.0
+     */
+    public int getFileType() {
+        return fileType;
+    }
+    /**
+     * @param fileType The fileType to set.
+     * @exception
+     * @since 1.0
+     */
+    public void setFileType(int fileType) {
+        this.fileType = fileType;
+    }
+    /**
+     * @return Returns the fileTypeName.
+     * @exception
+     * @since 1.0
+     */
+    public String getFileTypeName() {
+        return fileTypeName;
+    }
+    /**
+     * @param fileTypeName The fileTypeName to set.
+     * @exception
+     * @since 1.0
+     */
+    public void setFileTypeName(String fileTypeName) {
+        this.fileTypeName = fileTypeName;
     }
 
 }
