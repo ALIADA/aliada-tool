@@ -15,6 +15,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.ArrayList;
 
 import org.apache.commons.codec.binary.Base64;
 import org.apache.jena.atlas.web.auth.HttpAuthenticator;
@@ -22,6 +23,12 @@ import org.apache.jena.atlas.web.auth.SimpleAuthenticator;
 
 import com.hp.hpl.jena.update.UpdateExecutionFactory;
 import com.hp.hpl.jena.update.UpdateFactory;
+import com.hp.hpl.jena.query.QueryExecution;
+import com.hp.hpl.jena.query.QueryExecutionFactory;
+import com.hp.hpl.jena.query.QueryFactory;
+import com.hp.hpl.jena.query.QuerySolution;
+import com.hp.hpl.jena.query.ResultSet;
+import com.hp.hpl.jena.rdf.model.Resource;
 
 import eu.aliada.shared.log.Log;
 import eu.aliada.shared.log.MessageCatalog;
@@ -243,6 +250,47 @@ public class RDFStoreDAO {
 		//Execute SPARQL
 		done = executeUpdateQuerySparqlEndpoint(sparqlEndpointURI, user, password, removeGraphSPARQL);
 		return done;
+	}
+
+	/**
+	 * It executes a SELECT SPARQL query on the SPARQL endpoint, to get the URIs of a type from 
+	 *   ALIADA ontology.
+	 *
+	 * @param sparqlEndpointURI		the SPARQL endpoint URI.  
+	 * @param user					the user name for the SPARQl endpoint.
+	 * @param password				the password for the SPARQl endpoint.
+	 * @param typeLabel				the label value of the type to search for.
+	 * @return a list of URIs with the matched types.
+	 * @since 1.0
+	 */
+	public String[] getOntologyTypeURI(final String sparqlEndpointURI, final String user, final String password, final String typeLabel) {
+		String query = "select distinct ?type FROM <http://aliada-project.eu/2014/aliada-ontology#> " + 
+						"where {?type a <http://www.w3.org/2004/02/skos/core#Concept> . " +
+						"?type <http://www.w3.org/2004/02/skos/core#prefLabel> ?label . " +
+						"FILTER regex(str(?label), \"^" + typeLabel + "$\")}";
+	  	ArrayList<String> typesList = new ArrayList<String>();
+	 	try {
+	        // Execute the query and obtain results
+	        QueryExecution qexec = QueryExecutionFactory.sparqlService(
+	        		sparqlEndpointURI, 
+	        		QueryFactory.create(query), 
+					auth(sparqlEndpointURI, user, password));
+            ResultSet results = qexec.execSelect() ;
+            while (results.hasNext())
+            {
+            	QuerySolution soln = results.nextSolution() ;
+            	Resource resType = soln.getResource("type");
+        		String type = resType.getURI();
+        		typesList.add(type);
+            }
+	        qexec.close() ;
+	      } catch (Exception exception) {
+			LOGGER.error(MessageCatalog._00035_SPARQL_FAILED, exception, query);
+		}
+		if (typesList.isEmpty()) {
+			return new String[0];
+		}
+		return (String[]) typesList.toArray(new String[typesList.size()]);
 	}
 
 	/**
