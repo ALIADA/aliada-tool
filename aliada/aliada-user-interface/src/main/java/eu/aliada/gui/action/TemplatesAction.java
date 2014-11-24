@@ -178,7 +178,7 @@ public class TemplatesAction extends ActionSupport {
             connection = new DBConnectionManager().getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(
                     "INSERT INTO template VALUES (default,'" + this.templateName
-                            + "', '" + this.templateDescription + "')",
+                            + "', '" + this.templateDescription + "', '" + this.fileType + "')",
                     PreparedStatement.RETURN_GENERATED_KEYS);
             preparedStatement.executeUpdate();
             ResultSet rs = preparedStatement.getGeneratedKeys();
@@ -305,8 +305,9 @@ public class TemplatesAction extends ActionSupport {
             Statement statement = connection.createStatement();
             statement
                     .executeUpdate("UPDATE template set template_description='"
-                            + this.templateDescription + "' where template_id='"
-                            + idTemplate + "'");
+                            + this.templateDescription + "', file_type_code="
+                            + this.fileType +" where template_id="
+                            + idTemplate + "");
             statement.close();
             statement = connection.createStatement();
             statement
@@ -599,6 +600,22 @@ public class TemplatesAction extends ActionSupport {
      */
     public void setFileTypeName(String fileTypeName) {
         this.fileTypeName = fileTypeName;
+    }
+    /**
+     * @return Returns the types.
+     * @exception
+     * @since 1.0
+     */
+    public HashMap<Integer, String> getTypes() {
+        return types;
+    }
+    /**
+     * @param types The types to set.
+     * @exception
+     * @since 1.0
+     */
+    public void setTypes(HashMap<Integer, String> types) {
+        this.types = types;
     }
 
 }

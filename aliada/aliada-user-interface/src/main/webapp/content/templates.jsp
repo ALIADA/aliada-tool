@@ -118,7 +118,7 @@ $(function(){
 			</div>
 			<div class="row">
 				<label class="label"><html:text name="fileTypeForm"/></label>:
-				<html:select theme="xhtml" key="fileType"
+				<html:select key="fileType"
 							cssClass="inputForm input" list="types" />
 			</div>
 			<div class="row">
@@ -168,7 +168,7 @@ $(function(){
 			</div>			
 			<div class="row">
 				<label class="label"><html:text name="fileTypeForm"/></label>:
-				<html:select theme="xhtml" key="fileType"
+				<html:select key="fileType"
 							cssClass="inputForm input" list="types" />
 			</div>
 			<div class="row">

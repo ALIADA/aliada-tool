@@ -280,7 +280,7 @@ public class ConversionAction extends ActionSupport {
     }
     
     /**
-     * Gets the available templates from the DB
+     * Gets the templates from the DB available for this type of file
      * @return
      * @see
      * @since 1.0
@@ -291,7 +291,14 @@ public class ConversionAction extends ActionSupport {
             connection = new DBConnectionManager().getConnection();
             Statement statement = connection.createStatement();
             ResultSet rs = statement
-                    .executeQuery("select * from aliada.template");
+                    .executeQuery("select file_type_code from aliada.profile WHERE profile_name='"+importedFile.getProfile()+"'");
+            rs.next();
+            int fileTypeCode = rs.getInt("file_type_code");   
+            rs.close();
+            statement.close();
+            statement = connection.createStatement();
+            rs = statement
+                    .executeQuery("select * from aliada.template WHERE file_type_code="+fileTypeCode);
             templates = new HashMap<Integer, String>();
             while (rs.next()) {
                 templates.put(rs.getInt("template_id"),
