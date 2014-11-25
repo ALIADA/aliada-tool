@@ -17,6 +17,7 @@ public interface Constants {
 	String MAIN_SUBJECT_ATTRIBUTE_NAME = "mainSubject";
 	String ROOT_ELEMENT_ATTRIBUTE_NAME = "root";
 	String JOB_CONFIGURATION_ATTRIBUTE_NAME = "configuration";
+	String JOB_CONFIGURATION_ID_ATTRIBUTE_NAME = "cid";
 	String XPATH_ATTRIBUTE_NAME = "xpath";
 	String FUNCTION_ATTRIBUTE_NAME = "function";
 	String FRBR_DATA_ATTRIBUTE_NAME = "frbr";

@@ -194,6 +194,7 @@ public class SynchXmlDocumentTranslator implements Processor, ApplicationContext
 		final Document document = message.getBody(Document.class);
 		final Element root = document.getDocumentElement();
 		final String mainSubject = rule.computeFrom(root, configuration);
+		velocityContext.put(Constants.JOB_CONFIGURATION_ID_ATTRIBUTE_NAME, configuration.getId());
 		velocityContext.put(Constants.MAIN_SUBJECT_ATTRIBUTE_NAME, mainSubject);
 		velocityContext.put(Constants.ROOT_ELEMENT_ATTRIBUTE_NAME, root);
 	}

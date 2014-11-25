@@ -23,13 +23,13 @@ $main_subject #ecrm("P70i_is_documented_in") $document_s .
 ## WORK TYPE BEGIN
 #set($objectWorkTypes = $xpath.many("descriptiveMetadata/objectClassificationWrap/objectWorkTypeWrap/objectWorkType/term",$root))
 #foreach($objectWorkType in $objectWorkTypes)
-    $main_subject $P2_has_type #aliada($objectWorkType.textContent) .
+    #ontologyTypeURI($main_subject $P2_has_type $objectWorkType.textContent)
 #end
 ## WORK TYPE END
 ## CLASSIFICATION BEGIN
 #set($classifications = $xpath.many("descriptiveMetadata/objectClassificationWrap/classificationWrap/classification/term",$root))
 #foreach($classification in $classifications)
-	$main_subject $P2_has_type #aliada($classification.textContent) .
+	#ontologyTypeURI($main_subject $P2_has_type $classification.textContent)
 #end
 ## CLASSIFICATION END
 ## OBJECT ID BEGIN

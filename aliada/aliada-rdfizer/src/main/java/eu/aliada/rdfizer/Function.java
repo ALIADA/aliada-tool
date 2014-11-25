@@ -15,8 +15,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import eu.aliada.rdfizer.datasource.Cache;
+import eu.aliada.rdfizer.datasource.rdbms.JobInstance;
 import eu.aliada.shared.ID;
 import eu.aliada.shared.Strings;
+import eu.aliada.shared.rdfstore.RDFStoreDAO;
 
 /**
  * A generic tool used in templates to invoke some useful functions.
@@ -29,6 +31,8 @@ public class Function {
 	
 	@Autowired
 	private Cache cache;
+	
+	private RDFStoreDAO rdfStore = new RDFStoreDAO();
 	
 	/**
 	 * Returns a new generated UID.
@@ -115,7 +119,23 @@ public class Function {
 	 * @param value the string to check.
 	 * @return true if the given string is not null and not empty.
 	 */
-	public boolean isNotNullAndNotEmpty(final String value) {
+	public boolean isNotNullAnrdfStoredNotEmpty(final String value) {
 		return Strings.isNotNullAndNotEmpty(value);
+	}
+	
+	public String getOntologyTypeURI(final Integer id, final String term) {
+		try {
+			JobInstance instance = cache.getJobInstance(id);
+			if (instance != null) {
+				final String [] uris = rdfStore.getOntologyTypeURI(instance.getSparqlEndpointUrl(), instance.getSparqlUsername(), instance.getSparqlPassword(), term);
+				if (uris != null && uris.length > 0) {
+					return uris[0];
+				}
+			}
+			return null;
+		} catch(Exception exception){
+			exception.printStackTrace();
+			return null;
+		}
 	}
 }
