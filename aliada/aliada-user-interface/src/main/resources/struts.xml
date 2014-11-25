@@ -55,7 +55,7 @@
 		<action name="logon" class="eu.aliada.gui.action.LogonAction">
 			<interceptor-ref name="logonStack"/>
 			<result name="success" type="redirectAction">
-         		<param name="actionName">configure</param>
+         		<param name="actionName">manage</param>
          	</result>
 			<result name="error" type="tiles">/logon.tiles</result>
 			<result name="input" type="tiles">/logon.tiles</result>

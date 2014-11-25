@@ -31,6 +31,7 @@
 		<span class="fright topPad20">
 			<label class="underlined"><html:property value="%{#session['logedUser']}" /></label>
 			<html:a href="https://github.com/ALIADA/aliada-tool/wiki/User_Manual" target="_blank"><img alt="help" src="images/info.png"></img></html:a>
+			<html:a action="configure"><img alt="condiguration" src="images/config.png"></img></html:a>
 			<html:a action="logout"><img alt="logOut" src="images/userLogout.png"/></html:a>
 		</span>	
 		<div class="headerContentGreenBorder"></div>

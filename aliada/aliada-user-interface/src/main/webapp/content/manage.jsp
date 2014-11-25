@@ -49,7 +49,6 @@ $(function(){
 <html:hidden id="enableErrorLogButton" name="enableErrorLogButton" value="%{enableErrorLogButton}" />
 <ul class="breadcrumb">
 	<span class="breadCrumb"><html:text name="home"/></span>
-	<li><span class="breadcrumb"><html:text name="organisation.title"/></span></li>
 	<li><span class="breadcrumb activeGreen"><html:text name="manage.title"/></span></li>
 	<li><span class="breadcrumb"><html:text name="conversion.title"/></span></li>
 	<li><span class="breadcrumb"><html:text name="linking.title"/></span></li>
@@ -113,7 +112,6 @@ $(function(){
 		</table>
 	</div>	
 	<div id="submitButtons" class="buttons row">
-			<html:submit action="configure" cssClass="fleft submitButton button" key="back" />	
 			<html:submit id="nextButton" action="saveFilesToConversion" disabled="true" cssClass="fright submitButton button"
 						key="next" />
 	</div>

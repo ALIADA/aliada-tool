@@ -4,9 +4,6 @@
 <ul class="breadcrumb">
 	<span class="breadCrumb"><html:text name="home"/></span>
 	<li><span class="breadcrumb activeGreen"><html:text name="organisation.title"/></span></li>
-	<li><span class="breadcrumb"><html:text name="manage.title"/></span></li>
-	<li><span class="breadcrumb"><html:text name="conversion.title"/></span></li>
-	<li><span class="breadcrumb"><html:text name="linking.title"/></span></li>
 </ul>
 <div id="institutionPage">
 	<html:form id="institutionConfiguration" action="/editInstitution.action"
