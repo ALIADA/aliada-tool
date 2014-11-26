@@ -1,7 +1,7 @@
 #macro (ontologyTypeURI $s $p $term)
 	#set ($uri = $function.getOntologyTypeURI($cid,$term))
 	#if($uri)
-$s $p $uri .		
+		$s $p $uri . 
 	#end	
 #end
 ## Generates ALIADA resource prefix
