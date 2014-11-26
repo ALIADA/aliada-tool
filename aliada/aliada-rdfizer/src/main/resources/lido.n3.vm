@@ -1,6 +1,6 @@
 ## SHORTCUTS
 #set($is_a = "#rdf('type')")
-#set($E41Appellation = "#ecrm('E41Appellation')")
+#set($E41_Appellation = "#ecrm('E41_Appellation')")
 #set($E39_Actor = "#ecrm('E39_Actor')")
 #set($P3_has_note = "#ecrm('P3_has_note')")
 #set($P2_has_type = "#ecrm('P2_has_type')")
@@ -9,9 +9,9 @@
 #set($lidoClass = $function.lidoClass($main_subject))
 ## RECORD ID BEGIN
 #set($lidoRecID = $xpath.value("lidoRecID", $root))
-#set($appellation_s = "#uri('E41Appellation' $lidoRecID)")
+#set($appellation_s = "#uri('E41_Appellation' $lidoRecID)")
 #set($document_s = "#uri('E31_Document' $lidoRecID)")
-$appellation_s $is_a $E41Appellation .
+$appellation_s $is_a $E41_Appellation .
 $appellation_s $P3_has_note "$lidoRecID" .
 $document_s $is_a #ecrm("E31_Document") .
 $document_s #ecrm("P1_is_identified_by") $appellation_s . 
@@ -36,8 +36,8 @@ $main_subject #ecrm("P70i_is_documented_in") $document_s .
 #set($titles = $xpath.many("descriptiveMetadata/objectIdentificationWrap/titleWrap/titleSet/appellationValue",$root))
 #foreach($title in $titles)
 	#set($value = $title.textContent)
-	#set($appellation_s = "#uri('E41Appellation' $value)")
-    $appellation_s $is_a $E41Appellation .
+	#set($appellation_s = "#uri('E41_Appellation' $value)")
+    $appellation_s $is_a $E41_Appellation .
     $appellation_s $P3_has_note "$value" .
 	$main_subject #ecrm("P1_is_identified_by") $appellation_s .
 #end	
