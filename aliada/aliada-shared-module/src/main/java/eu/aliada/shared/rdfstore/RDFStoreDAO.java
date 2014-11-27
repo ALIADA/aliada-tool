@@ -9,6 +9,7 @@ import static eu.aliada.shared.Strings.isNotNullAndNotEmpty;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
@@ -16,6 +17,8 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ArrayList;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 
 import org.apache.commons.codec.binary.Base64;
 import org.apache.jena.atlas.web.auth.HttpAuthenticator;
@@ -205,14 +208,52 @@ public class RDFStoreDAO {
 	 * @param user					the user name for the SPARQl endpoint.
 	 * @param password				the password for the SPARQl endpoint.
 	 * @param graphUri				the URI of the graph.
-	 * @return true if the graph has been cleared. False otherwise.
+	 * @return true if the triples have been loaded in the graph. False otherwise.
 	 * @since 1.0
 	 */
 	public boolean loadDataIntoGraphBySparql(final String triplesFilename, final String sparqlEndpointURI, final String user, final String password, final String graphUri) {
-		boolean done = false;
-		final String loadDataSPARQL = "LOAD <file://" + triplesFilename + "> INTO GRAPH <" + graphUri + ">;";
+		boolean done = true;
+		//The following lines only works if the file is located where Virtuoso is installed
+		//final String loadDataSPARQL = "LOAD <file://" + triplesFilename + "> INTO GRAPH <" + graphUri + ">;";
 		//Execute SPARQL
-		done = executeUpdateQuerySparqlEndpoint(sparqlEndpointURI, user, password, loadDataSPARQL);
+		//done = executeUpdateQuerySparqlEndpoint(sparqlEndpointURI, user, password, loadDataSPARQL);
+		try {
+			FileInputStream fTriples = new FileInputStream(triplesFilename);
+			BufferedReader inTriples = new BufferedReader(new InputStreamReader(fTriples));
+			String line;
+			String triples = "";
+			int numTriples = 0;
+			while (((line = inTriples.readLine()) != null) && done){
+			    // Deal with the line
+				triples = triples + line;
+				numTriples++;
+				if(numTriples >= 10) {
+					try {
+						LOGGER.debug(MessageCatalog._00049_DEBUG_TRIPLES, triples);
+						executeInsert(sparqlEndpointURI, graphUri, user, password, triples);
+					} catch (Exception exception) {
+						done = false;
+						LOGGER.error(MessageCatalog._00035_SPARQL_FAILED, exception, "INSERT");
+					}
+					triples = "";
+					numTriples = 0;
+				}
+			}
+			if(done && (numTriples > 0)) {
+				try {
+					LOGGER.debug(MessageCatalog._00049_DEBUG_TRIPLES, triples);
+					executeInsert(sparqlEndpointURI, graphUri, user, password, triples);
+				} catch (Exception exception) {
+					done = false;
+					LOGGER.error(MessageCatalog._00035_SPARQL_FAILED, exception, "INSERT");
+				}
+			}
+			// Done with the file
+			inTriples.close();
+		} catch (IOException exception) {
+			done = false;
+			LOGGER.error(MessageCatalog._00036_FILE_READING_FAILURE, exception, triplesFilename);
+		}
 		return done;
 	}
 	

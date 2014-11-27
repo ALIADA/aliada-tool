@@ -12,7 +12,7 @@ echo $SCRIPTPATH
 #CLASSPATH=../lib/*
 CLASSPATH=$SCRIPTPATH/../lib/*
 
-JAVA_OPTS=-Dlog4j.configuration='file:///home/aliada/links-discovery/config/log4j.xml'
+JAVA_OPTS="-Dlog4j.configuration='file:///home/aliada/links-discovery/config/log4j.xml' -d64 -Xmx4g"
 
 if [ -z "$JAVA" ]; then
     if [ -n "$JAVA_HOME" ]; then
