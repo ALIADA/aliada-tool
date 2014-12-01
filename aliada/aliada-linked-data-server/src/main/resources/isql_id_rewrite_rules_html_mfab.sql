@@ -51,7 +51,7 @@ NULL,
 
 DB.DBA.URLREWRITE_CREATE_REGEX_RULE ( 
 'http_rule_mfab1_3_html', 1, 
-  '/id/resource/E22_Man-Made_Object/([^#/]*)_([^#/_]*)\$', 
+  '/id/resource/E19_Physical_Object/([^#/]*)_([^#/_]*)\$', 
 vector ('par_1', 'par_2'), 
 3, 
 'http://www.szepmuveszeti.hu/adatlap/%s', 

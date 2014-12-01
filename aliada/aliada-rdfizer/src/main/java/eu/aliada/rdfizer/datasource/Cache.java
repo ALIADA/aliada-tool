@@ -29,7 +29,7 @@ import com.googlecode.concurrentlinkedhashmap.ConcurrentLinkedHashMap;
 @Component
 public class Cache {
 	
-	static final String DEFAULT_ALIADA_CLASS = "http://erlangen-crm.org/120111/E19_Physical_Object";
+	static final String DEFAULT_ALIADA_CLASS = "http://erlangen-crm.org/current/E19_Physical_Object";
 	final Map<String, String> crm2AliadaClasses = new HashMap<String, String>();
 	{
 		crm2AliadaClasses.put("E22", "http://erlangen-crm.org/current/E22_Man-Made_Object");
@@ -63,9 +63,12 @@ public class Cache {
 	 * @return the ALIADA class that corresponds to the given input class.
 	 */
 	public String getAliadaClassFrom(final String crmClass) {
-		String uri = crm2AliadaClasses.get(crmClass);
-		if (uri == null) {
-			uri = rdfStore.crm2AliadaClass(crmClass);
+		String uri = null;
+		if (crmClass != null) {
+			uri = crm2AliadaClasses.get(crmClass);
+			if (uri == null) {
+				uri = rdfStore.crm2AliadaClass(crmClass);
+			}
 		}
 		return uri != null ? uri : DEFAULT_ALIADA_CLASS;
 	}

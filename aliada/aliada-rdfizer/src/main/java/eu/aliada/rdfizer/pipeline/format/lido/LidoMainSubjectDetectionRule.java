@@ -45,6 +45,9 @@ public class LidoMainSubjectDetectionRule implements MainSubjectDetectionRule<El
 			}
 			final StringBuilder builder = new StringBuilder(configuration.getNamespace()).append("id/resource/");
 			String clazzURI = null;
+			/*
+			 * The class will always be the same for all LIDO objects. 
+			 * The following processing is not necessary any more.
 			List<Node> categories = xpath.many("category/conceptID", input);
 			if (!categories.isEmpty()) {
 				for (final Node categoryNode : categories) {
@@ -72,7 +75,7 @@ public class LidoMainSubjectDetectionRule implements MainSubjectDetectionRule<El
 					}
 				}
 			} 
-			
+			*/
 			String uri = cache.getAliadaClassFrom(clazzURI);
 			int indexOfLocalName = uri.lastIndexOf("/");
 			return builder
