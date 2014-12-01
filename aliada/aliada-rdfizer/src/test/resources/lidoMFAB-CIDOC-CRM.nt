@@ -1,15 +1,15 @@
-<http://www.szepmuveszeti.hu/id/resource/E22_Man-Made_Object/szepmuveszeti.hu_object_29> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://erlangen-crm.org/current/E22_Man-Made_Object> .
+<http://www.szepmuveszeti.hu/id/resource/E19_Physical_Object/szepmuveszeti.hu_object_29> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://erlangen-crm.org/current/E19_Physical_Object> .
 <http://www.szepmuveszeti.hu/id/resource/E31_Document/szepmuveszeti.hu_object_29/E41_Appellation/1> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://erlangen-crm.org/current/E41_Appellation> .
 <http://www.szepmuveszeti.hu/id/resource/E31_Document/szepmuveszeti.hu_object_29/E41_Appellation/1> <http://erlangen-crm.org/current/P3_has_note> "szepmuveszeti.hu_object_29"^^<http://www.w3.org/2001/XMLSchema#string> .
 <http://www.szepmuveszeti.hu/id/resource/E31_Document/szepmuveszeti.hu_object_29> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://erlangen-crm.org/current/E31_Document> .
 <http://www.szepmuveszeti.hu/id/resource/E31_Document/szepmuveszeti.hu_object_29> <http://erlangen-crm.org/current/P1_is_identified_by> <http://www.szepmuveszeti.hu/id/resource/E31_Document/szepmuveszeti.hu_object_29/E41_Appellation/1> .
-<http://www.szepmuveszeti.hu/id/resource/E22_Man-Made_Object/szepmuveszeti.hu_object_29> <http://erlangen-crm.org/current/P70i_is_documented_in> <http://www.szepmuveszeti.hu/id/resource/E31_Document/szepmuveszeti.hu_object_29> .
-<http://www.szepmuveszeti.hu/id/resource/E22_Man-Made_Object/szepmuveszeti.hu_object_29> <http://erlangen-crm.org/current/P2_has_type> <http://aliada-project.eu/2014/aliada-ontology/id/resource/Concept/MFAB/Classification/68> .
-<http://www.szepmuveszeti.hu/id/resource/E22_Man-Made_Object/szepmuveszeti.hu_object_29> <http://erlangen-crm.org/current/P2_has_type> <http://aliada-project.eu/2014/aliada-ontology/id/resource/Concept/IMAGE> .
-<http://www.szepmuveszeti.hu/id/resource/E22_Man-Made_Object/szepmuveszeti.hu_object_29> <http://erlangen-crm.org/current/P2_has_type> <http://aliada-project.eu/2014/aliada-ontology/id/resource/Concept/MFAB/Department/2> .
-<http://www.szepmuveszeti.hu/id/resource/E22_Man-Made_Object/szepmuveszeti.hu_object_29/E41_Appellation/1> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://erlangen-crm.org/current/E41_Appellation> .
-<http://www.szepmuveszeti.hu/id/resource/E22_Man-Made_Object/szepmuveszeti.hu_object_29/E41_Appellation/1> <http://erlangen-crm.org/current/P3_has_note> "Vil\u00C3\u00A1gossz\u00C3\u00BCrke fal"^^<http://www.w3.org/2001/XMLSchema#string> .
-<http://www.szepmuveszeti.hu/id/resource/E22_Man-Made_Object/szepmuveszeti.hu_object_29> <http://erlangen-crm.org/current/P1_is_identified_by> <http://www.szepmuveszeti.hu/id/resource/E22_Man-Made_Object/szepmuveszeti.hu_object_29/E41_Appellation/1> .
+<http://www.szepmuveszeti.hu/id/resource/E19_Physical_Object/szepmuveszeti.hu_object_29> <http://erlangen-crm.org/current/P70i_is_documented_in> <http://www.szepmuveszeti.hu/id/resource/E31_Document/szepmuveszeti.hu_object_29> .
+<http://www.szepmuveszeti.hu/id/resource/E19_Physical_Object/szepmuveszeti.hu_object_29> <http://erlangen-crm.org/current/P2_has_type> <http://aliada-project.eu/2014/aliada-ontology/id/resource/Concept/MFAB/Classification/68> .
+<http://www.szepmuveszeti.hu/id/resource/E19_Physical_Object/szepmuveszeti.hu_object_29> <http://erlangen-crm.org/current/P2_has_type> <http://aliada-project.eu/2014/aliada-ontology/id/resource/Concept/IMAGE> .
+<http://www.szepmuveszeti.hu/id/resource/E19_Physical_Object/szepmuveszeti.hu_object_29> <http://erlangen-crm.org/current/P2_has_type> <http://aliada-project.eu/2014/aliada-ontology/id/resource/Concept/MFAB/Department/2> .
+<http://www.szepmuveszeti.hu/id/resource/E19_Physical_Object/szepmuveszeti.hu_object_29/E41_Appellation/1> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://erlangen-crm.org/current/E41_Appellation> .
+<http://www.szepmuveszeti.hu/id/resource/E19_Physical_Object/szepmuveszeti.hu_object_29/E41_Appellation/1> <http://erlangen-crm.org/current/P3_has_note> "Vil\u00C3\u00A1gossz\u00C3\u00BCrke fal"^^<http://www.w3.org/2001/XMLSchema#string> .
+<http://www.szepmuveszeti.hu/id/resource/E19_Physical_Object/szepmuveszeti.hu_object_29> <http://erlangen-crm.org/current/P1_is_identified_by> <http://www.szepmuveszeti.hu/id/resource/E19_Physical_Object/szepmuveszeti.hu_object_29/E41_Appellation/1> .
 <http://www.szepmuveszeti.hu/id/resource/E73_Information_Object/1/E75_Conceptual_Object_Appellation/1> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://erlangen-crm.org/current/E75_Conceptual_Object_Appellation> .
 <http://www.szepmuveszeti.hu/id/resource/E73_Information_Object/1/E75_Conceptual_Object_Appellation/1> <http://erlangen-crm.org/current/P3_has_note> "http://www.szepmuveszeti.hu"^^<http://www.w3.org/2001/XMLSchema#string> .
 <http://www.szepmuveszeti.hu/id/resource/E73_Information_Object/1> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://erlangen-crm.org/current/E73_Information_Object> .
@@ -20,12 +20,12 @@
 <http://www.szepmuveszeti.hu/id/resource/E39_Actor/1> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://erlangen-crm.org/current/E39_Actor> .
 <http://www.szepmuveszeti.hu/id/resource/E39_Actor/1> <http://erlangen-crm.org/current/P131_is_identified_by> <http://www.szepmuveszeti.hu/id/resource/E39_Actor/1/E82_Actor_Appellation/1> .
 <http://www.szepmuveszeti.hu/id/resource/E39_Actor/1> <http://erlangen-crm.org/current/P129B_is_subject_of> <http://www.szepmuveszeti.hu/id/resource/E73_Information_Object/1> .
-<http://www.szepmuveszeti.hu/id/resource/E22_Man-Made_Object/szepmuveszeti.hu_object_29> <http://erlangen-crm.org/current/P50_has_current_keeper> <http://www.szepmuveszeti.hu/id/resource/E39_Actor/1> .
+<http://www.szepmuveszeti.hu/id/resource/E19_Physical_Object/szepmuveszeti.hu_object_29> <http://erlangen-crm.org/current/P50_has_current_keeper> <http://www.szepmuveszeti.hu/id/resource/E39_Actor/1> .
 <http://www.szepmuveszeti.hu/id/resource/E53_Place/1/E44_Place_Appellation/1> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://erlangen-crm.org/current/E44_Place_Appellation> .
 <http://www.szepmuveszeti.hu/id/resource/E53_Place/1/E44_Place_Appellation/1> <http://erlangen-crm.org/current/P3_has_note> "1146 Budapest, D\u00C3\u00B3zsa Gy\u00C3\u00B6rgy \u00C3\u00BAt 41."^^<http://www.w3.org/2001/XMLSchema#string> .
 <http://www.szepmuveszeti.hu/id/resource/E53_Place/1> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://erlangen-crm.org/current/E53_Place> .
 <http://www.szepmuveszeti.hu/id/resource/E53_Place/1> <http://erlangen-crm.org/current/P87_is_identified_by> <http://www.szepmuveszeti.hu/id/resource/E53_Place/1/E44_Place_Appellation/1> .
-<http://www.szepmuveszeti.hu/id/resource/E22_Man-Made_Object/szepmuveszeti.hu_object_29> <http://erlangen-crm.org/current/P55_has_current_location> <http://www.szepmuveszeti.hu/id/resource/E53_Place/1> .
+<http://www.szepmuveszeti.hu/id/resource/E19_Physical_Object/szepmuveszeti.hu_object_29> <http://erlangen-crm.org/current/P55_has_current_location> <http://www.szepmuveszeti.hu/id/resource/E53_Place/1> .
 <http://www.szepmuveszeti.hu/id/resource/E53_Place/1> <http://www.w3.org/2003/01/geo/wgs84_pos#lat> "47.516353" .
 <http://www.szepmuveszeti.hu/id/resource/E53_Place/1> <http://www.w3.org/2003/01/geo/wgs84_pos#long> "19.076471" .
 <http://www.szepmuveszeti.hu/id/resource/E53_Place/2/E44_Place_Appellation/1> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://erlangen-crm.org/current/E44_Place_Appellation> .
@@ -43,22 +43,22 @@
 <http://www.szepmuveszeti.hu/id/resource/E53_Place/4> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://erlangen-crm.org/current/E53_Place> .
 <http://www.szepmuveszeti.hu/id/resource/E53_Place/4> <http://erlangen-crm.org/current/P87_is_identified_by> <http://www.szepmuveszeti.hu/id/resource/E53_Place/4/E44_Place_Appellation/1> .
 <http://www.szepmuveszeti.hu/id/resource/E53_Place/4> <http://erlangen-crm.org/current/P88_consists_of> <http://www.szepmuveszeti.hu/id/resource/E53_Place/1> .
-<http://www.szepmuveszeti.hu/id/resource/E22_Man-Made_Object/szepmuveszeti.hu_object_29> <http://erlangen-crm.org/current/P3_has_note> "60 x 82 cm"^^<http://www.w3.org/2001/XMLSchema#string> .
+<http://www.szepmuveszeti.hu/id/resource/E19_Physical_Object/szepmuveszeti.hu_object_29> <http://erlangen-crm.org/current/P3_has_note> "60 x 82 cm"^^<http://www.w3.org/2001/XMLSchema#string> .
 <http://www.szepmuveszeti.hu/id/resource/E58_Measurement_Unit/1> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://erlangen-crm.org/current/E58_Measurement_Unit> .
 <http://www.szepmuveszeti.hu/id/resource/E58_Measurement_Unit/1> <http://erlangen-crm.org/current/P3_has_note> "centim\u00C3\u00A9ter"^^<http://www.w3.org/2001/XMLSchema#string> .
-<http://www.szepmuveszeti.hu/id/resource/E22_Man-Made_Object/szepmuveszeti.hu_object_29/E54_Dimension/1> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://erlangen-crm.org/current/E54_Dimension> .
-<http://www.szepmuveszeti.hu/id/resource/E22_Man-Made_Object/szepmuveszeti.hu_object_29/E54_Dimension/1> <http://erlangen-crm.org/current/P3_has_note> "Magass\u00C3\u00A1g"^^<http://www.w3.org/2001/XMLSchema#string> .
-<http://www.szepmuveszeti.hu/id/resource/E22_Man-Made_Object/szepmuveszeti.hu_object_29/E54_Dimension/1> <http://erlangen-crm.org/current/P91_has_unit> <http://www.szepmuveszeti.hu/id/resource/E58_Measurement_Unit/1> .
-<http://www.szepmuveszeti.hu/id/resource/E22_Man-Made_Object/szepmuveszeti.hu_object_29/E54_Dimension/1> <http://erlangen-crm.org/current/P90_has_value> "60.0" .
-<http://www.szepmuveszeti.hu/id/resource/E22_Man-Made_Object/szepmuveszeti.hu_object_29/E54_Dimension/2> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://erlangen-crm.org/current/E54_Dimension> .
-<http://www.szepmuveszeti.hu/id/resource/E22_Man-Made_Object/szepmuveszeti.hu_object_29/E54_Dimension/2> <http://erlangen-crm.org/current/P3_has_note> "Sz\u00C3\u00A9less\u00C3\u00A9g"^^<http://www.w3.org/2001/XMLSchema#string> .
-<http://www.szepmuveszeti.hu/id/resource/E22_Man-Made_Object/szepmuveszeti.hu_object_29/E54_Dimension/2> <http://erlangen-crm.org/current/P91_has_unit> <http://www.szepmuveszeti.hu/id/resource/E58_Measurement_Unit/1> .
-<http://www.szepmuveszeti.hu/id/resource/E22_Man-Made_Object/szepmuveszeti.hu_object_29/E54_Dimension/2> <http://erlangen-crm.org/current/P90_has_value> "82.0" .
-<http://www.szepmuveszeti.hu/id/resource/E22_Man-Made_Object/szepmuveszeti.hu_object_29> <http://erlangen-crm.org/current/P43_has_dimension> <http://www.szepmuveszeti.hu/id/resource/E22_Man-Made_Object/szepmuveszeti.hu_object_29/E54_Dimension/1> .
-<http://www.szepmuveszeti.hu/id/resource/E22_Man-Made_Object/szepmuveszeti.hu_object_29> <http://erlangen-crm.org/current/P43_has_dimension> <http://www.szepmuveszeti.hu/id/resource/E22_Man-Made_Object/szepmuveszeti.hu_object_29/E54_Dimension/2> .
-<http://www.szepmuveszeti.hu/id/resource/E22_Man-Made_Object/szepmuveszeti.hu_object_29/E65_Creation/1> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://erlangen-crm.org/current/E65_Creation> .
-<http://www.szepmuveszeti.hu/id/resource/E22_Man-Made_Object/szepmuveszeti.hu_object_29> <http://erlangen-crm.org/current/P12B_was_present_at> <http://www.szepmuveszeti.hu/id/resource/E22_Man-Made_Object/szepmuveszeti.hu_object_29/E65_Creation/1> .
-<http://www.szepmuveszeti.hu/id/resource/E22_Man-Made_Object/szepmuveszeti.hu_object_29/E65_Creation/1> <http://erlangen-crm.org/current/P3_has_note> "alkot\u00C3\u00B3: Josef Albers, n\u00C3\u00A9met (Bottrop 1888 \u00E2\u0080\u0093 1976 New Haven)"^^<http://www.w3.org/2001/XMLSchema#string> .
+<http://www.szepmuveszeti.hu/id/resource/E19_Physical_Object/szepmuveszeti.hu_object_29/E54_Dimension/1> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://erlangen-crm.org/current/E54_Dimension> .
+<http://www.szepmuveszeti.hu/id/resource/E19_Physical_Object/szepmuveszeti.hu_object_29/E54_Dimension/1> <http://erlangen-crm.org/current/P3_has_note> "Magass\u00C3\u00A1g"^^<http://www.w3.org/2001/XMLSchema#string> .
+<http://www.szepmuveszeti.hu/id/resource/E19_Physical_Object/szepmuveszeti.hu_object_29/E54_Dimension/1> <http://erlangen-crm.org/current/P91_has_unit> <http://www.szepmuveszeti.hu/id/resource/E58_Measurement_Unit/1> .
+<http://www.szepmuveszeti.hu/id/resource/E19_Physical_Object/szepmuveszeti.hu_object_29/E54_Dimension/1> <http://erlangen-crm.org/current/P90_has_value> "60.0" .
+<http://www.szepmuveszeti.hu/id/resource/E19_Physical_Object/szepmuveszeti.hu_object_29/E54_Dimension/2> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://erlangen-crm.org/current/E54_Dimension> .
+<http://www.szepmuveszeti.hu/id/resource/E19_Physical_Object/szepmuveszeti.hu_object_29/E54_Dimension/2> <http://erlangen-crm.org/current/P3_has_note> "Sz\u00C3\u00A9less\u00C3\u00A9g"^^<http://www.w3.org/2001/XMLSchema#string> .
+<http://www.szepmuveszeti.hu/id/resource/E19_Physical_Object/szepmuveszeti.hu_object_29/E54_Dimension/2> <http://erlangen-crm.org/current/P91_has_unit> <http://www.szepmuveszeti.hu/id/resource/E58_Measurement_Unit/1> .
+<http://www.szepmuveszeti.hu/id/resource/E19_Physical_Object/szepmuveszeti.hu_object_29/E54_Dimension/2> <http://erlangen-crm.org/current/P90_has_value> "82.0" .
+<http://www.szepmuveszeti.hu/id/resource/E19_Physical_Object/szepmuveszeti.hu_object_29> <http://erlangen-crm.org/current/P43_has_dimension> <http://www.szepmuveszeti.hu/id/resource/E19_Physical_Object/szepmuveszeti.hu_object_29/E54_Dimension/1> .
+<http://www.szepmuveszeti.hu/id/resource/E19_Physical_Object/szepmuveszeti.hu_object_29> <http://erlangen-crm.org/current/P43_has_dimension> <http://www.szepmuveszeti.hu/id/resource/E19_Physical_Object/szepmuveszeti.hu_object_29/E54_Dimension/2> .
+<http://www.szepmuveszeti.hu/id/resource/E19_Physical_Object/szepmuveszeti.hu_object_29/E65_Creation/1> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://erlangen-crm.org/current/E65_Creation> .
+<http://www.szepmuveszeti.hu/id/resource/E19_Physical_Object/szepmuveszeti.hu_object_29> <http://erlangen-crm.org/current/P12B_was_present_at> <http://www.szepmuveszeti.hu/id/resource/E19_Physical_Object/szepmuveszeti.hu_object_29/E65_Creation/1> .
+<http://www.szepmuveszeti.hu/id/resource/E19_Physical_Object/szepmuveszeti.hu_object_29/E65_Creation/1> <http://erlangen-crm.org/current/P3_has_note> "alkot\u00C3\u00B3: Josef Albers, n\u00C3\u00A9met (Bottrop 1888 \u00E2\u0080\u0093 1976 New Haven)"^^<http://www.w3.org/2001/XMLSchema#string> .
 <http://www.szepmuveszeti.hu/id/resource/E39_Actor/2/E42_Identifier/1> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://erlangen-crm.org/current/E42_Identifier> .
 <http://www.szepmuveszeti.hu/id/resource/E39_Actor/2/E42_Identifier/1> <http://erlangen-crm.org/current/P3_has_note> "173"^^<http://www.w3.org/2001/XMLSchema#string> .
 <http://www.szepmuveszeti.hu/id/resource/E39_Actor/2/E42_Identifier/1> <http://erlangen-crm.org/current/P2_has_type> <http://aliada-project.eu/2014/aliada-ontology/id/resource/Concept/LocalIdentifier> .
@@ -68,7 +68,7 @@
 <http://www.szepmuveszeti.hu/id/resource/E39_Actor/2> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://erlangen-crm.org/current/E39_Actor> .
 <http://www.szepmuveszeti.hu/id/resource/E39_Actor/2> <http://erlangen-crm.org/current/P48_has_preferred_identifier> <http://www.szepmuveszeti.hu/id/resource/E39_Actor/2/E42_Identifier/1> .
 <http://www.szepmuveszeti.hu/id/resource/E39_Actor/2> <http://erlangen-crm.org/current/P48_has_preferred_identifier> <http://www.szepmuveszeti.hu/id/resource/E39_Actor/2/E42_Identifier/2> .
-<http://www.szepmuveszeti.hu/id/resource/E22_Man-Made_Object/szepmuveszeti.hu_object_29/E65_Creation/1> <http://erlangen-crm.org/current/P11_had_participant> <http://www.szepmuveszeti.hu/id/resource/E39_Actor/2> .
+<http://www.szepmuveszeti.hu/id/resource/E19_Physical_Object/szepmuveszeti.hu_object_29/E65_Creation/1> <http://erlangen-crm.org/current/P11_had_participant> <http://www.szepmuveszeti.hu/id/resource/E39_Actor/2> .
 <http://www.szepmuveszeti.hu/id/resource/E39_Actor/2/E82_Actor_Appellation/1> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://erlangen-crm.org/current/E82_Actor_Appellation> .
 <http://www.szepmuveszeti.hu/id/resource/E39_Actor/2/E82_Actor_Appellation/1> <http://erlangen-crm.org/current/P3_has_note> "Josef Albers"^^<http://www.w3.org/2001/XMLSchema#string> .
 <http://www.szepmuveszeti.hu/id/resource/E39_Actor/2/E82_Actor_Appellation/2> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://erlangen-crm.org/current/E82_Actor_Appellation> .
@@ -88,17 +88,17 @@
 <http://www.szepmuveszeti.hu/id/resource/E39_Actor/2/E5_Event/1> <http://erlangen-crm.org/current/P4_has_time_span> <http://www.szepmuveszeti.hu/id/resource/E39_Actor/2/E5_Event/1/E52_Time_Span/1> .
 <http://www.szepmuveszeti.hu/id/resource/E39_Actor/2> <http://erlangen-crm.org/current/P11_participated_in> <http://www.szepmuveszeti.hu/id/resource/E39_Actor/2/E5_Event/1> .
 <http://www.szepmuveszeti.hu/id/resource/E39_Actor/2> <http://erlangen-crm.org/current/P3_has_note> "alkot\u00C3\u00B3"^^<http://www.w3.org/2001/XMLSchema#string> .
-<http://www.szepmuveszeti.hu/id/resource/E22_Man-Made_Object/szepmuveszeti.hu_object_29/E65_Creation/1/E52_Time_Span/1> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://erlangen-crm.org/current/E52_Time_Span> .
-<http://www.szepmuveszeti.hu/id/resource/E22_Man-Made_Object/szepmuveszeti.hu_object_29/E65_Creation/1/E52_Time_Span/1> <http://erlangen-crm.org/current/P79_beginning_is_qualified_by> "1958"^^<http://www.w3.org/2001/XMLSchema#string> .
-<http://www.szepmuveszeti.hu/id/resource/E22_Man-Made_Object/szepmuveszeti.hu_object_29/E65_Creation/1/E52_Time_Span/1> <http://erlangen-crm.org/current/P80_end_is_qualified_by> "1958"^^<http://www.w3.org/2001/XMLSchema#string> .
-<http://www.szepmuveszeti.hu/id/resource/E22_Man-Made_Object/szepmuveszeti.hu_object_29/E65_Creation/1> <http://erlangen-crm.org/current/P4_has_time_span> <http://www.szepmuveszeti.hu/id/resource/E22_Man-Made_Object/szepmuveszeti.hu_object_29/E65_Creation/1/E52_Time_Span/1> .
-<http://www.szepmuveszeti.hu/id/resource/E22_Man-Made_Object/szepmuveszeti.hu_object_29/E65_Creation/1> <http://erlangen-crm.org/current/P3_has_note> "1958"^^<http://www.w3.org/2001/XMLSchema#string> .
-<http://www.szepmuveszeti.hu/id/resource/E22_Man-Made_Object/szepmuveszeti.hu_object_29/E65_Creation/1> <http://erlangen-crm.org/current/P3_has_note> "olaj, farostlemez"^^<http://www.w3.org/2001/XMLSchema#string> .
-<http://www.szepmuveszeti.hu/id/resource/E22_Man-Made_Object/szepmuveszeti.hu_object_29/E30_Right/1> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://erlangen-crm.org/current/E30_Right> .
-<http://www.szepmuveszeti.hu/id/resource/E22_Man-Made_Object/szepmuveszeti.hu_object_29/E30_Right/1> <http://erlangen-crm.org/current/P3_has_note> "Copyright \u00C2\u00A9 Sz\u00C3\u00A9pmuv\u00C3\u00A9szeti M\u00C3\u00BAzeum"^^<http://www.w3.org/2001/XMLSchema#string> .
-<http://www.szepmuveszeti.hu/id/resource/E22_Man-Made_Object/szepmuveszeti.hu_object_29> <http://erlangen-crm.org/current/P104_is_subject_to> <http://www.szepmuveszeti.hu/id/resource/E22_Man-Made_Object/szepmuveszeti.hu_object_29/E30_Right/1> .
+<http://www.szepmuveszeti.hu/id/resource/E19_Physical_Object/szepmuveszeti.hu_object_29/E65_Creation/1/E52_Time_Span/1> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://erlangen-crm.org/current/E52_Time_Span> .
+<http://www.szepmuveszeti.hu/id/resource/E19_Physical_Object/szepmuveszeti.hu_object_29/E65_Creation/1/E52_Time_Span/1> <http://erlangen-crm.org/current/P79_beginning_is_qualified_by> "1958"^^<http://www.w3.org/2001/XMLSchema#string> .
+<http://www.szepmuveszeti.hu/id/resource/E19_Physical_Object/szepmuveszeti.hu_object_29/E65_Creation/1/E52_Time_Span/1> <http://erlangen-crm.org/current/P80_end_is_qualified_by> "1958"^^<http://www.w3.org/2001/XMLSchema#string> .
+<http://www.szepmuveszeti.hu/id/resource/E19_Physical_Object/szepmuveszeti.hu_object_29/E65_Creation/1> <http://erlangen-crm.org/current/P4_has_time_span> <http://www.szepmuveszeti.hu/id/resource/E19_Physical_Object/szepmuveszeti.hu_object_29/E65_Creation/1/E52_Time_Span/1> .
+<http://www.szepmuveszeti.hu/id/resource/E19_Physical_Object/szepmuveszeti.hu_object_29/E65_Creation/1> <http://erlangen-crm.org/current/P3_has_note> "1958"^^<http://www.w3.org/2001/XMLSchema#string> .
+<http://www.szepmuveszeti.hu/id/resource/E19_Physical_Object/szepmuveszeti.hu_object_29/E65_Creation/1> <http://erlangen-crm.org/current/P3_has_note> "olaj, farostlemez"^^<http://www.w3.org/2001/XMLSchema#string> .
+<http://www.szepmuveszeti.hu/id/resource/E19_Physical_Object/szepmuveszeti.hu_object_29/E30_Right/1> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://erlangen-crm.org/current/E30_Right> .
+<http://www.szepmuveszeti.hu/id/resource/E19_Physical_Object/szepmuveszeti.hu_object_29/E30_Right/1> <http://erlangen-crm.org/current/P3_has_note> "Copyright \u00C2\u00A9 Sz\u00C3\u00A9pmuv\u00C3\u00A9szeti M\u00C3\u00BAzeum"^^<http://www.w3.org/2001/XMLSchema#string> .
+<http://www.szepmuveszeti.hu/id/resource/E19_Physical_Object/szepmuveszeti.hu_object_29> <http://erlangen-crm.org/current/P104_is_subject_to> <http://www.szepmuveszeti.hu/id/resource/E19_Physical_Object/szepmuveszeti.hu_object_29/E30_Right/1> .
 <http://www.szepmuveszeti.hu/id/resource/E31_Document/29> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://erlangen-crm.org/current/E31_Document> .
-<http://www.szepmuveszeti.hu/id/resource/E22_Man-Made_Object/szepmuveszeti.hu_object_29> <http://erlangen-crm.org/current/P70B_is_documented_in> <http://www.szepmuveszeti.hu/id/resource/E31_Document/29> .
+<http://www.szepmuveszeti.hu/id/resource/E19_Physical_Object/szepmuveszeti.hu_object_29> <http://erlangen-crm.org/current/P70B_is_documented_in> <http://www.szepmuveszeti.hu/id/resource/E31_Document/29> .
 <http://www.szepmuveszeti.hu/id/resource/E31_Document/29/E42_Identifier/1> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://erlangen-crm.org/current/E42_Identifier> .
 <http://www.szepmuveszeti.hu/id/resource/E31_Document/29/E42_Identifier/1> <http://erlangen-crm.org/current/P3_has_note> "29"^^<http://www.w3.org/2001/XMLSchema#string> .
 <http://www.szepmuveszeti.hu/id/resource/E31_Document/29> <http://erlangen-crm.org/current/P48_has_preferred_identifier> <http://www.szepmuveszeti.hu/id/resource/E31_Document/29/E42_Identifier/1> .
@@ -131,9 +131,9 @@
 <http://www.szepmuveszeti.hu/id/resource/E36_Visual_Item/1> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://erlangen-crm.org/current/E36_Visual_Item> .
 <http://www.szepmuveszeti.hu/id/resource/E36_Visual_Item/1> <http://erlangen-crm.org/current/P2_has_type> <http://aliada-project.eu/2014/aliada-ontology/id/resource/Concept/HTMLrepresentation> .
 <http://www.szepmuveszeti.hu/id/resource/E36_Visual_Item/1> <http://erlangen-crm.org/current/P3_has_note> "http://www.szepmuveszeti.hu/adatlap/29"^^<http://www.w3.org/2001/XMLSchema#string> .
-<http://www.szepmuveszeti.hu/id/resource/E22_Man-Made_Object/szepmuveszeti.hu_object_29> <http://erlangen-crm.org/current/P138i_has_representation> <http://www.szepmuveszeti.hu/id/resource/E36_Visual_Item/1> .
+<http://www.szepmuveszeti.hu/id/resource/E19_Physical_Object/szepmuveszeti.hu_object_29> <http://erlangen-crm.org/current/P138i_has_representation> <http://www.szepmuveszeti.hu/id/resource/E36_Visual_Item/1> .
 <http://www.szepmuveszeti.hu/id/resource/E36_Visual_Item/1> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://erlangen-crm.org/current/E36_Visual_Item> .
-<http://www.szepmuveszeti.hu/id/resource/E22_Man-Made_Object/szepmuveszeti.hu_object_29> <http://erlangen-crm.org/current/P138i_has_representation> <http://www.szepmuveszeti.hu/id/resource/E36_Visual_Item/1> .
+<http://www.szepmuveszeti.hu/id/resource/E19_Physical_Object/szepmuveszeti.hu_object_29> <http://erlangen-crm.org/current/P138i_has_representation> <http://www.szepmuveszeti.hu/id/resource/E36_Visual_Item/1> .
 <http://www.szepmuveszeti.hu/id/resource/E36_Visual_Item/1/E42_Identifier/1> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://erlangen-crm.org/current/E42_Identifier> .
 <http://www.szepmuveszeti.hu/id/resource/E36_Visual_Item/1/E42_Identifier/1> <http://erlangen-crm.org/current/P3_has_note> "11645"^^<http://www.w3.org/2001/XMLSchema#string> .
 <http://www.szepmuveszeti.hu/id/resource/E36_Visual_Item/1> <http://erlangen-crm.org/current/P48_has_preferred_identifier> <http://www.szepmuveszeti.hu/id/resource/E36_Visual_Item/1/E42_Identifier/1> .

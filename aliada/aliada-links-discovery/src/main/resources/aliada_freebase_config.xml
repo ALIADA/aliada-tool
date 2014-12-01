@@ -58,7 +58,7 @@
 	<Interlink id="aliada_freebase_object">
 	  <LinkType>owl:sameAs</LinkType>
 	  <SourceDataset dataSource="ALIADA_ds" var="object">
-		<RestrictTo> ?object rdf:type ecrm:E22_Man-Made_Object . </RestrictTo>
+		<RestrictTo> ?object rdf:type ecrm:E19_Physical_Object . </RestrictTo>
 	  </SourceDataset>
 	  <TargetDataset dataSource="Freebase" var="b">
 		<RestrictTo> ?b &lt;http://rdf.freebase.com/ns/type.object.type&gt; &lt;http://rdf.freebase.com/ns/visual_art.artwork&gt; . </RestrictTo>
