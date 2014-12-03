@@ -77,7 +77,7 @@ public class LinksDiscovery {
 	/** ENTITYLIST parameter for the SPARQL endpoint of ALIADA input datasource. */
 	private final static String ENTITYLIST = ""; 
 	/** PARALLEL parameter for the SPARQL endpoint of ALIADA input datasource. */
-	private final static String PARALLEL = ""; 
+	private final static String PARALLEL = "true"; 
 	/** Crontab List command. */
 	private final static String CRONTAB_LIST_COMMAND = "sudo -u %s crontab -l";
 	/** Crontab command. */
