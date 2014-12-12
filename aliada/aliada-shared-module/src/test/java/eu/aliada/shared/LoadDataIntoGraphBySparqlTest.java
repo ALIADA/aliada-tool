@@ -21,7 +21,7 @@ public class LoadDataIntoGraphBySparqlTest {
      */
     @Test
     public void testLoadDataIntoGraphBySparqlTest() {
-    	String sparqlEndpointURI = "http://aliada.scanbit.net:8890/sparql-auth";
+    	String sparqlEndpointURI = "http://localhost:8890/sparql-auth";
     	String graphUri = "http://aliada_graph1";
     	String user = "aliada_dev";
     	String password = "aliada_dev";
