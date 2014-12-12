@@ -204,12 +204,12 @@ public class DBConnectionManager {
     		preparedStatement.setString(4, linkingXMLConfigFilename);
     		preparedStatement.setInt(5, subjobConf.getLinkingNumThreads());
     		preparedStatement.setBoolean(6, subjobConf.isLinkingReloadSource());
-    		preparedStatement.setBoolean(6, subjobConf.isLinkingReloadTarget());
-    		preparedStatement.setString(7, jobConf.getOutputURI());
-    		preparedStatement.setString(8, jobConf.getOutputLogin());
-    		preparedStatement.setString(9, jobConf.getOutputPassword());
-    		preparedStatement.setString(10, jobConf.getOutputGraph());
-    		preparedStatement.setString(11, jobConf.getTmpDir());
+    		preparedStatement.setBoolean(7, subjobConf.isLinkingReloadTarget());
+    		preparedStatement.setString(8, jobConf.getOutputURI());
+    		preparedStatement.setString(9, jobConf.getOutputLogin());
+    		preparedStatement.setString(10, jobConf.getOutputPassword());
+    		preparedStatement.setString(11, jobConf.getOutputGraph());
+    		preparedStatement.setString(12, jobConf.getTmpDir());
     		preparedStatement.executeUpdate();
 		} catch (SQLException exception) {
 			LOGGER.error(MessageCatalog._00024_DATA_ACCESS_FAILURE, exception);
