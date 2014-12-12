@@ -143,11 +143,11 @@ public class LinksDiscovery {
 				}
     			
 				if (props.getProperty(RELOAD_TARGET_PROP + idx) != null) {
-					subjobConf.setLinkingReloadSource(Boolean.valueOf(props.getProperty(RELOAD_TARGET_PROP + idx)));
+					subjobConf.setLinkingReloadTarget(Boolean.valueOf(props.getProperty(RELOAD_TARGET_PROP + idx)));
 				}
 				else {
 					//Default value: reloadTarget=true
-					subjobConf.setLinkingReloadSource(true);
+					subjobConf.setLinkingReloadTarget(true);
 				}
 
 				subJobsConfs.add(subjobConf);
