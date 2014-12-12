@@ -20,8 +20,10 @@ public class SubjobConfiguration {
 	private String dataSource;
 	/** Number of threads for the SILK process. */
 	private int linkingNumThreads;
-	/** Reload parameter for SILK. */
-	private boolean linkingReload;
+	/** reloadSource parameter for SILK. */
+	private boolean linkingReloadSource;
+	/** reloadTarget parameter for SILK. */
+	private boolean linkingReloadTarget;
    
 	/**
 	 * Returns the name of the subjob.
@@ -100,25 +102,48 @@ public class SubjobConfiguration {
 	}
 
 	/**
-	 * Returns the reload parameter for SILK.
-	 * Specifies if the entity cache is to be reloaded before 
+	 * Returns the reloadSource parameter for SILK.
+	 * Specifies if the Source entity cache is to be reloaded before 
 	 * executing the matching. Default: true. 
 	 * 
-	 * @return The reload parameter for SILK.
+	 * @return The reloadSource parameter for SILK.
 	 * @since 1.0
 	 */
-	public boolean isLinkingReload() {
-		return linkingReload;
+	public boolean isLinkingReloadSource() {
+		return linkingReloadSource;
 	}
 	/**
-	 * Sets the reload parameter for SILK.
-	 * Specifies if the entity cache is to be reloaded before executing 
+	 * Sets the reloadSource parameter for SILK.
+	 * Specifies if the Source entity cache is to be reloaded before executing 
 	 * the matching. Default: true. 
 	 * 
-	 * @param linkingReload The reload parameter for SILK.
+	 * @param linkingReloadSource The reloadSource parameter for SILK.
 	 * @since 1.0
 	 */
-	public void setLinkingReload(final boolean linkingReload) {
-		this.linkingReload = linkingReload;
+	public void setLinkingReloadSource(final boolean linkingReloadSource) {
+		this.linkingReloadSource = linkingReloadSource;
+	}
+
+	/**
+	 * Returns the reloadTarget parameter for SILK.
+	 * Specifies if the Target entity cache is to be reloaded before 
+	 * executing the matching. Default: true. 
+	 * 
+	 * @return The reloadTarget parameter for SILK.
+	 * @since 1.0
+	 */
+	public boolean isLinkingReloadTarget() {
+		return linkingReloadTarget;
+	}
+	/**
+	 * Sets the reloadTarget parameter for SILK.
+	 * Specifies if the Target entity cache is to be reloaded before executing 
+	 * the matching. Default: true. 
+	 * 
+	 * @param linkingReloadTarget The reloadTarget parameter for SILK.
+	 * @since 1.0
+	 */
+	public void setLinkingReloadTarget(final boolean linkingReloadTarget) {
+		this.linkingReloadTarget = linkingReloadTarget;
 	}
 }

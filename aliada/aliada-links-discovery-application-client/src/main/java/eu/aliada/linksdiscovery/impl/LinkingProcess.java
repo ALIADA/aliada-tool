@@ -78,10 +78,12 @@ public class LinkingProcess {
 	private String linkingXMLConfigFilename;
 	/** XML configuration file for SILK. */
 	private File linkingXMLConfigFile;
-	/** XML configuration file for SILK. */
+	/** Number of threads for the SILK process. */
 	private int linkingNumThreads;
-	/** XML configuration file for SILK. */
-	private boolean linkingReload;
+	/** reloadSource parameter for SILK. */
+	private boolean linkingReloadSource;
+	/** reloadTarget parameter for SILK. */
+	private boolean linkingReloadTarget;
 	/* SPARQL endpoint parameters of the RDF Store*/
 	/** The URI of the SPARQL endpoint where to upload 
 	 * the files containing the triples of the generated links*/
@@ -186,7 +188,8 @@ public class LinkingProcess {
 				found = true;
 	    		linkingXMLConfigFilename = resultSet.getString("config_file");
 	    		linkingNumThreads = resultSet.getInt("num_threads");
-	    		linkingReload = resultSet.getBoolean("reload");
+	    		linkingReloadSource = resultSet.getBoolean("reloadSource");
+	    		linkingReloadTarget = resultSet.getBoolean("reloadTarget");
 	    		tmpDir = resultSet.getString("tmp_dir");
 	    		outputURI = resultSet.getString("output_uri");
 	    		outputLogin = resultSet.getString("output_login");
@@ -562,15 +565,15 @@ public class LinkingProcess {
 				System.exit(2);
 			}
 			//Execute SILK
-			lProcess.LOGGER.info(MessageCatalog._00053_SILK_STARTING, lProcess.linkingXMLConfigFile, lProcess.linkingNumThreads, lProcess.linkingReload);
+			lProcess.LOGGER.info(MessageCatalog._00053_SILK_STARTING, lProcess.linkingXMLConfigFile, lProcess.linkingNumThreads, lProcess.linkingReloadSource, lProcess.linkingReloadTarget);
 			try {
-				Silk.executeFile(lProcess.linkingXMLConfigFile, (String) null, lProcess.linkingNumThreads, lProcess.linkingReload);
+				Silk.executeFile(lProcess.linkingXMLConfigFile, (String) null, lProcess.linkingNumThreads, lProcess.linkingReloadSource, lProcess.linkingReloadTarget);
 			} catch (Exception exception){
 				lProcess.LOGGER.error(MessageCatalog._00054_SILK_EXCEPTION, exception);
 			}
-			lProcess.LOGGER.info(MessageCatalog._00055_SILK_FINISHED, lProcess.linkingXMLConfigFile, lProcess.linkingNumThreads, lProcess.linkingReload);
+			lProcess.LOGGER.info(MessageCatalog._00055_SILK_FINISHED, lProcess.linkingXMLConfigFile, lProcess.linkingNumThreads, lProcess.linkingReloadSource, lProcess.linkingReloadTarget);
 			//Check the number of generated links
-			lProcess.LOGGER.debug(MessageCatalog._00060_VALIDATING_NUM_GENERATED_LINKS, lProcess.linkingXMLConfigFile, lProcess.linkingNumThreads, lProcess.linkingReload);
+			lProcess.LOGGER.debug(MessageCatalog._00060_VALIDATING_NUM_GENERATED_LINKS, lProcess.linkingXMLConfigFile);
 			final int numLinks = lProcess.getNumLinks();
 			//Upload generated links to RDF store
 			final RDFStoreDAO rdfstoreDAO = new RDFStoreDAO();

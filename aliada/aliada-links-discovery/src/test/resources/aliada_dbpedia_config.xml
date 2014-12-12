@@ -97,7 +97,7 @@
 					<Input id="unnamed_18" path="?object/ecrm:P1_is_identified_by[&lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#type&gt; = &lt;http://erlangen-crm.org/current/E41_Appellation&gt;]/ecrm:P3_has_note"/>
 				</TransformInput>
 				<TransformInput id="unnamed_19" function="lowerCase">
-					<Input id="unnamed_20" path="?b/dbpediaprop:title"/>
+					<Input id="unnamed_20" path="?b/rdfs:label"/>
 				</TransformInput>
 				<Param name="minChar" value="0"/>
 				<Param name="maxChar" value="z"/>
@@ -107,7 +107,7 @@
 					<Input id="unnamed_23" path="?object/ecrm:P102_has_title[&lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#type&gt; = &lt;http://erlangen-crm.org/current/E35_Title&gt;]/ecrm:P3_has_note"/>
 				</TransformInput>
 				<TransformInput id="unnamed_24" function="lowerCase">
-					<Input id="unnamed_25" path="?b/dbpediaprop:title"/>
+					<Input id="unnamed_25" path="?b/rdfs:label"/>
 				</TransformInput>
 				<Param name="minChar" value="0"/>
 				<Param name="maxChar" value="z"/>

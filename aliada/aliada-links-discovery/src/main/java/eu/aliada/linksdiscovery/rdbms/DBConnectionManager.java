@@ -195,15 +195,16 @@ public class DBConnectionManager {
 	public boolean insertSubjobToDDBB(final int jobId, final int subjobId, final SubjobConfiguration subjobConf, final String linkingXMLConfigFilename, final JobConfiguration jobConf){
     	try {
     		PreparedStatement preparedStatement = null;		
-    		preparedStatement = conn.prepareStatement("INSERT INTO  linksdiscovery_subjob_instances VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, default, default, default)");
-    		// (job_id, subjob_id, name, config_file, num_threads, reload, output_uri, output_login, output_password, output_graph, tmp_dir, num_links, start_date, end_date)
+    		preparedStatement = conn.prepareStatement("INSERT INTO  linksdiscovery_subjob_instances VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, default, default, default)");
+    		// (job_id, subjob_id, name, config_file, num_threads, reloadSource, reloadTarget, output_uri, output_login, output_password, output_graph, tmp_dir, num_links, start_date, end_date)
     		// parameters start with 1
     		preparedStatement.setInt(1, jobId);
     		preparedStatement.setInt(2, subjobId);
     		preparedStatement.setString(3, subjobConf.getName());
     		preparedStatement.setString(4, linkingXMLConfigFilename);
     		preparedStatement.setInt(5, subjobConf.getLinkingNumThreads());
-    		preparedStatement.setBoolean(6, subjobConf.isLinkingReload());
+    		preparedStatement.setBoolean(6, subjobConf.isLinkingReloadSource());
+    		preparedStatement.setBoolean(6, subjobConf.isLinkingReloadTarget());
     		preparedStatement.setString(7, jobConf.getOutputURI());
     		preparedStatement.setString(8, jobConf.getOutputLogin());
     		preparedStatement.setString(9, jobConf.getOutputPassword());

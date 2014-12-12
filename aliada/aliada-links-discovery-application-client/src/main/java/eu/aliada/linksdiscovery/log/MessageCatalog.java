@@ -25,9 +25,9 @@ public interface MessageCatalog {
 	String _00050_STARTING = LT + MODULE_NAME + "-00050> : LinksDiscovery process is starting.";	
 	String _00051_GET_CONFIG_FILE_PROPERTIES = LT + MODULE_NAME + "-00051> : Getting properties from config file %s.";
 	String _00052_CONNECT_DDBB = LT + MODULE_NAME + "-00052> : Connecting to DDBB.";
-	String _00053_SILK_STARTING = LT + MODULE_NAME + "-00053> : Starting SILK with parameters: configfile=%s, numthreads=%d, reload=%s .";
+	String _00053_SILK_STARTING = LT + MODULE_NAME + "-00053> : Starting SILK with parameters: configfile=%s, numthreads=%d, reloadSource=%s, reloadTarget=%s .";
 	String _00054_SILK_EXCEPTION = LT + MODULE_NAME + "-00054> : SILK launched an exception. See below for further details.";
-	String _00055_SILK_FINISHED = LT + MODULE_NAME + "-00055> : Finished SILK with parameters: configfile=%s, numthreads=%d, reload=%s .";
+	String _00055_SILK_FINISHED = LT + MODULE_NAME + "-00055> : Finished SILK with parameters: configfile=%s, numthreads=%d, reloadSource=%s, reloadTarget=%s .";
 	String _00056_UPDATING_SUBJOB_DDBB = LT + MODULE_NAME + "-00056> : Updating job %d - subjob %d in DDBB.";	
 	String _00057_UPDATING_JOB_DDBB = LT + MODULE_NAME + "-00057> : Updating job %d in DDBB.";	
 	String _00057_SUBJOB_PARAMETERS = LT + MODULE_NAME + "-00057> : Subjob parameters: job=%d subjob=%d propertiesfile=%s.";	

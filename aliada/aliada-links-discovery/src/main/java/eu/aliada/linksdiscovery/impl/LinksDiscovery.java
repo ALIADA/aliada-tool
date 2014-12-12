@@ -93,8 +93,10 @@ public class LinksDiscovery {
 	private final static String DS_PROP = "linking.ds.";
 	/** Number of threads property.*/
 	private final static String NUM_THREADS_PROP = "linking.numthreads.";
-	/** Reload property.*/
-	private final static String RELOAD_PROP = "linking.reload.";
+	/** reloadSource property.*/
+	private final static String RELOAD_SOURCE_PROP = "linking.reloadSource.";
+	/** reloadTarget property.*/
+	private final static String RELOAD_TARGET_PROP = "linking.reloadTarget.";
 
 
 	/**
@@ -132,14 +134,22 @@ public class LinksDiscovery {
 					subjobConf.setLinkingNumThreads(1);
 				}
         		
-				if (props.getProperty(RELOAD_PROP + idx) != null) {
-					subjobConf.setLinkingReload(Boolean.valueOf(props.getProperty(RELOAD_PROP + idx)));
+				if (props.getProperty(RELOAD_SOURCE_PROP + idx) != null) {
+					subjobConf.setLinkingReloadSource(Boolean.valueOf(props.getProperty(RELOAD_SOURCE_PROP + idx)));
 				}
 				else {
-					//Default value: reload=true
-					subjobConf.setLinkingReload(true);
+					//Default value: reloadSource=true
+					subjobConf.setLinkingReloadSource(true);
 				}
     			
+				if (props.getProperty(RELOAD_TARGET_PROP + idx) != null) {
+					subjobConf.setLinkingReloadSource(Boolean.valueOf(props.getProperty(RELOAD_TARGET_PROP + idx)));
+				}
+				else {
+					//Default value: reloadTarget=true
+					subjobConf.setLinkingReloadSource(true);
+				}
+
 				subJobsConfs.add(subjobConf);
 				idx++;
 				name = props.getProperty(NAME_PROP + idx);
