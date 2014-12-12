@@ -188,8 +188,8 @@ public class LinkingProcess {
 				found = true;
 	    		linkingXMLConfigFilename = resultSet.getString("config_file");
 	    		linkingNumThreads = resultSet.getInt("num_threads");
-	    		linkingReloadSource = resultSet.getBoolean("reloadSource");
-	    		linkingReloadTarget = resultSet.getBoolean("reloadTarget");
+	    		linkingReloadSource = resultSet.getBoolean("reload_source");
+	    		linkingReloadTarget = resultSet.getBoolean("reload_target");
 	    		tmpDir = resultSet.getString("tmp_dir");
 	    		outputURI = resultSet.getString("output_uri");
 	    		outputLogin = resultSet.getString("output_login");
