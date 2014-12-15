@@ -11,7 +11,7 @@
 	<repositories>
 	    <repository>
 	        <id>p3-silk-mvn-repo</id>
-	        <url>https://github.com/ALIADA/p3-silk/mvn-repo/</url>
+	        <url>https://raw.github.com/ALIADA/p3-silk/mvn-repo/</url>
 	        <snapshots>
 	            <enabled>true</enabled>
 	            <updatePolicy>always</updatePolicy>
