@@ -3,4 +3,21 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
          version="2.5">
+  <display-name>CKAN Datahub Page Creation</display-name>
+	<listener>
+		<listener-class>eu.aliada.ckancreation.listeners.ApplicationLifecycleListener</listener-class>
+	</listener>
+ <servlet>
+    <servlet-name>ALIADA CKAN Page Creation</servlet-name>
+    <servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>
+    <init-param>
+      <param-name>jersey.config.server.provider.packages</param-name>
+      <param-value>eu.aliada.ckancreation.rest</param-value>
+    </init-param>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ALIADA CKAN Page Creation</servlet-name>
+    <url-pattern>/*</url-pattern>
+  </servlet-mapping>
 </web-app>

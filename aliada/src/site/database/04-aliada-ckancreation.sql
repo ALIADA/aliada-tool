@@ -1,0 +1,20 @@
+CREATE TABLE `aliada`.`ckancreation_job_instances` (
+`job_id` INT NOT NULL AUTO_INCREMENT,
+`ckan_api_url`  VARCHAR( 245 ) default NULL,
+`ckan_api_key`  VARCHAR( 245 ) default NULL,
+`org_title`  VARCHAR( 245 ) default NULL,
+`org_name`  VARCHAR( 245 ) default NULL,
+`org_description`  VARCHAR( 245 ) default NULL,
+`org_home_page`  VARCHAR( 245 ) default NULL,
+`org_image_url`  VARCHAR( 245 ) default NULL,
+`dataset_author`  VARCHAR( 245 ) default NULL,
+`dataset_name`  VARCHAR( 245 ) default NULL,
+`dataset_notes`  VARCHAR( 245 ) default NULL,
+`dataset_url`  VARCHAR( 245 ) default NULL,
+`sparql_endpoint`  VARCHAR( 245 ) default NULL,
+`ckan_org_url`  VARCHAR( 245 ) default NULL,
+`ckan_dataset_url`  VARCHAR( 245 ) default NULL,
+`start_date` DATETIME default NULL,
+`end_date` DATETIME default NULL ,
+PRIMARY KEY ( `job_id` )
+) ENGINE = InnoDB ;

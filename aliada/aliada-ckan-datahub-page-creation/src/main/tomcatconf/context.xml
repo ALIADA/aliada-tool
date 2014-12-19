@@ -1,0 +1,21 @@
+<Context>
+    <Resource 
+		name="jdbc/aliada"
+		auth="Container"
+		type="javax.sql.DataSource"
+		username="aliada" password="aliada"
+		driverClassName="com.mysql.jdbc.Driver"
+		url="jdbc:mysql://localhost:3306/aliada"
+		maxActive="2"
+		maxIdle="2"/>
+<!--  Params to create the sub_jobs properties files: BEGIN -->
+	<Parameter name="ddbb.username" value="aliada"
+         override="false"/>
+	<Parameter name="ddbb.password" value="aliada"
+         override="false"/>
+	<Parameter name="ddbb.driverClassName" value="com.mysql.jdbc.Driver"
+         override="false"/>
+	<Parameter name="ddbb.url" value="jdbc:mysql://localhost:3306/aliada"
+         override="false"/>
+<!--  Params to create the sub_jobs properties files: END -->
+</Context>
