@@ -62,6 +62,7 @@ public class WorkDetector extends AbstractEntityDetector<String> {
 		for (final Expression<String, Document> expression : expressions) {
 			append(buffer, expression.evaluate(target));
 		}
+		
 		return buffer.toString();
 	}
 }

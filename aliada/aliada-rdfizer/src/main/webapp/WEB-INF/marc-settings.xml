@@ -15,10 +15,6 @@
 			<list>
 				<bean
 					class="eu.aliada.rdfizer.pipeline.format.marc.selector.xml.VariableFieldExpression">
-					<constructor-arg value="100a" />
-				</bean>
-				<bean
-					class="eu.aliada.rdfizer.pipeline.format.marc.selector.xml.VariableFieldExpression">
 					<constructor-arg value="100t" />
 				</bean>
 				<bean
