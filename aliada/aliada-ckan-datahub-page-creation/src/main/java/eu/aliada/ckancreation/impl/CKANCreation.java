@@ -6,6 +6,7 @@
 package eu.aliada.ckancreation.impl;
 
 import java.io.*;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map;
@@ -22,8 +23,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 
+import eu.aliada.ckancreation.model.Graph;
 import eu.aliada.ckancreation.model.Organization;
-import eu.aliada.ckancreation.model.CKANListOrgResponse;
 import eu.aliada.ckancreation.model.CKANOrgResponse;
 import eu.aliada.ckancreation.model.Dataset;
 import eu.aliada.ckancreation.model.CKANDatasetResponse;
@@ -31,8 +32,11 @@ import eu.aliada.ckancreation.model.Resource;
 import eu.aliada.ckancreation.model.CKANResourceResponse;
 import eu.aliada.ckancreation.model.Job;
 import eu.aliada.ckancreation.model.JobConfiguration;
+import eu.aliada.ckancreation.model.DumpFileInfo;
 import eu.aliada.ckancreation.log.MessageCatalog;
 import eu.aliada.ckancreation.rdbms.DBConnectionManager;
+import eu.aliada.ckancreation.impl.DataDump;
+import eu.aliada.ckancreation.impl.VoidFile;
 import eu.aliada.shared.log.Log;
 
 /**
@@ -71,28 +75,24 @@ public class CKANCreation {
 	 * 			which contains the information of the organization in CKAN.
 	 * @since 2.0
 	 */
-    public CKANOrgResponse getOrganizationCKAN(String orgName){
-		Client client = ClientBuilder.newClient();
-		WebTarget webTarget = client.target(jobConf.getCkanApiURL());
+    public CKANOrgResponse getOrganizationCKAN(final String orgName){
+		final Client client = ClientBuilder.newClient();
+		final WebTarget webTarget = client.target(jobConf.getCkanApiURL());
 		
 		//GET 
-		WebTarget resourceWebTarget = webTarget.path("/organization_show");
-		Response getResponse = resourceWebTarget
+		final WebTarget resourceWebTarget = webTarget.path("/organization_show");
+		final Response getResponse = resourceWebTarget
 				.queryParam("id", orgName)
 				.queryParam("include_datasets", "True")
 				.request().header("Authorization", jobConf.getCkanApiKey()).get();
-		String orgShowResp = getResponse.readEntity(String.class);
+		final String orgShowResp = getResponse.readEntity(String.class);
 		//Convert JSON representation to Java Object with JACKSON libraries
 		CKANOrgResponse cResponse = new CKANOrgResponse();
-		ObjectMapper mapper = new ObjectMapper();
+		final ObjectMapper mapper = new ObjectMapper();
 		try {
 			cResponse = mapper.readValue(orgShowResp, CKANOrgResponse.class);
-    	} catch (JsonGenerationException e) {
-			e.printStackTrace();
-		} catch (JsonMappingException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
+    	} catch (Exception exception) {
+			LOGGER.error(MessageCatalog._00032_OBJECT_CONVERSION_FAILURE, exception);
 		}
 		return cResponse;
 	}
@@ -111,12 +111,14 @@ public class CKANCreation {
 	 * 			which contains the information of the organization in CKAN.
 	 * @since 2.0
 	 */
-	public CKANOrgResponse updateOrganizationCKAN(String orgId, String orgName, String orgTitle, String orgDescription, String orgImageURL, String orgHomePage, ArrayList<Map<String, String>> lUsers){
-		Client client = ClientBuilder.newClient();
-		WebTarget webTarget = client.target(jobConf.getCkanApiURL());
+	public CKANOrgResponse updateOrganizationCKAN(final String orgId, final String orgName, 
+			final String orgTitle, final String orgDescription, final String orgImageURL, 
+			final String orgHomePage, final ArrayList<Map<String, String>> lUsers){
+		final Client client = ClientBuilder.newClient();
+		final WebTarget webTarget = client.target(jobConf.getCkanApiURL());
 		
 		//Create a Java Object with the organization data
-		Organization org = new Organization(orgName, orgId, orgTitle, 
+		final Organization org = new Organization(orgName, orgId, orgTitle, 
 											orgDescription, orgImageURL, orgHomePage);
 		/////////////////////////******************///////////////////
 		///VERY IMPORTANT!!!!!
@@ -128,27 +130,25 @@ public class CKANCreation {
 
 		//Convert Java Object to JSON representation with JACKSON libraries
 		String orgJSON = "";
-		ObjectMapper mapper = new ObjectMapper();
+		final ObjectMapper mapper = new ObjectMapper();
 		try {
 			orgJSON = mapper.writeValueAsString(org);
-		} catch (JsonProcessingException ex) {
-			ex.printStackTrace();
-        } 
+    	} catch (Exception exception) {
+			LOGGER.error(MessageCatalog._00032_OBJECT_CONVERSION_FAILURE, exception);
+		}
 
 		//POST 
-		WebTarget resourceWebTarget = webTarget.path("/organization_update");
-		Response postResponse = resourceWebTarget.request(MediaType.APPLICATION_XML_TYPE).header("Authorization", jobConf.getCkanApiKey()).post(Entity.json(orgJSON));
-		String orgUpdateResp = postResponse.readEntity(String.class);
+		final WebTarget resourceWebTarget = webTarget.path("/organization_update");
+		final Response postResponse = resourceWebTarget
+				.request(MediaType.APPLICATION_XML_TYPE)
+				.header("Authorization", jobConf.getCkanApiKey()).post(Entity.json(orgJSON));
+		final String orgUpdateResp = postResponse.readEntity(String.class);
 		//Convert JSON representation to Java Object with JACKSON libraries
 		CKANOrgResponse cResponse = new CKANOrgResponse();
 		try {
 			cResponse = mapper.readValue(orgUpdateResp, CKANOrgResponse.class);
-    	} catch (JsonGenerationException e) {
-			e.printStackTrace();
-		} catch (JsonMappingException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
+    	} catch (Exception exception) {
+			LOGGER.error(MessageCatalog._00032_OBJECT_CONVERSION_FAILURE, exception);
 		}
 		return cResponse;
 	}
@@ -161,50 +161,65 @@ public class CKANCreation {
 	 * 			which contains the information of the dataset in CKAN.
 	 * @since 2.0
 	 */
-    public CKANDatasetResponse getDatasetCKAN(String datasetName){
-		Client client = ClientBuilder.newClient();
-		WebTarget webTarget = client.target(jobConf.getCkanApiURL());
+    public CKANDatasetResponse getDatasetCKAN(final String datasetName){
+    	final Client client = ClientBuilder.newClient();
+    	final WebTarget webTarget = client.target(jobConf.getCkanApiURL());
 		
 		//GET 
-		WebTarget resourceWebTarget = webTarget.path("/package_show");
-		Response getResponse = resourceWebTarget
+    	final WebTarget resourceWebTarget = webTarget.path("/package_show");
+    	final Response getResponse = resourceWebTarget
 				.queryParam("id", datasetName)
 				.request().header("Authorization", jobConf.getCkanApiKey()).get();
-		String datasetShowResp = getResponse.readEntity(String.class);
+		final String datasetShowResp = getResponse.readEntity(String.class);
 		//Convert JSON representation to Java Object with JACKSON libraries
 		CKANDatasetResponse cResponse = new CKANDatasetResponse();
-		ObjectMapper mapper = new ObjectMapper();
+		final ObjectMapper mapper = new ObjectMapper();
 		try {
 			cResponse = mapper.readValue(datasetShowResp, CKANDatasetResponse.class);
-    	} catch (JsonGenerationException e) {
-			e.printStackTrace();
-		} catch (JsonMappingException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
+    	} catch (Exception exception) {
+			LOGGER.error(MessageCatalog._00032_OBJECT_CONVERSION_FAILURE, exception);
 		}
 		return cResponse;
 	}
 
 	/**
 	 * Delete the dataset from CKAN Datahub.
+	 * The package_delete method of CKAN only sets the "state" field of the dataset to the "deleted" value.
+	 * It does not remove it permanently.
 	 *
 	 * @param packId  the package/dataset id to delete.
-	 * @return	
+	 * @return	the response of CKAN.
 	 * @since 2.0
 	 */
-	public String deleteDatasetCKAN(String packId){
-		Client client = ClientBuilder.newClient();
-		WebTarget webTarget = client.target(jobConf.getCkanApiURL());
+	public String deleteDatasetCKAN(final String packId){
+		final Client client = ClientBuilder.newClient();
+		final WebTarget webTarget = client.target(jobConf.getCkanApiURL());
 		
-		//GET 
-		WebTarget resourceWebTarget = webTarget.path("/package_delete");
-		Response getResponse = resourceWebTarget
+		//Create a Java Object with the dataset data
+		final Dataset dataset = new Dataset();
+		dataset.setState("deleted");
+		dataset.setId(packId);
+
+		//Convert Java Object to JSON representation with JACKSON libraries
+		String datasetJSON = "";
+		final ObjectMapper mapper = new ObjectMapper();
+		try {
+			datasetJSON = mapper.writeValueAsString(dataset);
+    	} catch (Exception exception) {
+			LOGGER.error(MessageCatalog._00032_OBJECT_CONVERSION_FAILURE, exception);
+		}
+
+		//POST
+		//The package_delete method of CKAN only sets the "state" field of the dataset 
+		//to the "deleted" value. It does not remove it permanently.
+		final WebTarget resourceWebTarget = webTarget.path("/package_delete");
+		final Response getResponse = resourceWebTarget
 				.queryParam("id", packId)
-				.request().header("Authorization", jobConf.getCkanApiKey()).delete();
-		String orgDeleteResp = getResponse.readEntity(String.class);
+				.request().header("Authorization", jobConf.getCkanApiKey()).post(Entity.json(datasetJSON));
+		final String orgDeleteResp = getResponse.readEntity(String.class);
 		return orgDeleteResp;	
 	}
+
 
 	/**
 	 * Create the dataset in CKAN Datahub.
@@ -212,43 +227,43 @@ public class CKANCreation {
 	 * @param datasetName  		the dataset name.
 	 * @param datasetAuthor		the dataset author.
 	 * @param datasetNotes		the dataset description.
-	 * @param datasetURL		the dataset URL.
+	 * @param datasetSourceURL	the URL of the dataset´s source.
 	 * @param ownerOrg			the id of the dataset’s owning organization.
+	 * @param licenseId			the id of the dataset’s license.
 	 * @return	the {@link eu.aliada.ckancreation.model.CKANDatasetResponse}
 	 * 			which contains the information of the dataset in CKAN.
 	 * @since 2.0
 	 */
-	public CKANDatasetResponse createDatasetCKAN(String datasetName, String datasetAuthor, String datasetNotes, String datasetURL, String ownerOrg){
-		Client client = ClientBuilder.newClient();
-		WebTarget webTarget = client.target(jobConf.getCkanApiURL());
+	public CKANDatasetResponse createDatasetCKAN(final String datasetName, final String datasetAuthor, 
+			final String datasetNotes, final String datasetSourceURL, final String ownerOrg, final String licenseId){
+		final Client client = ClientBuilder.newClient();
+		final WebTarget webTarget = client.target(jobConf.getCkanApiURL());
 		
 		//Create a Java Object with the dataset data
-		Dataset dataset = new Dataset(datasetName, null, datasetAuthor, datasetNotes, 
-				datasetURL, ownerOrg);
+		final Dataset dataset = new Dataset(datasetName, null, datasetAuthor, datasetNotes, 
+				datasetSourceURL, ownerOrg, licenseId);
 
 		//Convert Java Object to JSON representation with JACKSON libraries
 		String datasetJSON = "";
-		ObjectMapper mapper = new ObjectMapper();
+		final ObjectMapper mapper = new ObjectMapper();
 		try {
 			datasetJSON = mapper.writeValueAsString(dataset);
-		} catch (JsonProcessingException ex) {
-			ex.printStackTrace();
-        } 
+    	} catch (Exception exception) {
+			LOGGER.error(MessageCatalog._00032_OBJECT_CONVERSION_FAILURE, exception);
+		}
 
 		//POST 
-		WebTarget resourceWebTarget = webTarget.path("/package_create");
-		Response postResponse = resourceWebTarget.request(MediaType.APPLICATION_XML_TYPE).header("Authorization", jobConf.getCkanApiKey()).post(Entity.json(datasetJSON));
-		String datasetCreateResp = postResponse.readEntity(String.class);
+		final WebTarget resourceWebTarget = webTarget.path("/package_create");
+		final Response postResponse = resourceWebTarget
+				.request(MediaType.APPLICATION_XML_TYPE)
+				.header("Authorization", jobConf.getCkanApiKey()).post(Entity.json(datasetJSON));
+		final String datasetCreateResp = postResponse.readEntity(String.class);
 		//Convert JSON representation to Java Object with JACKSON libraries
 		CKANDatasetResponse cResponse = new CKANDatasetResponse();
 		try {
 			cResponse = mapper.readValue(datasetCreateResp, CKANDatasetResponse.class);
-    	} catch (JsonGenerationException e) {
-			e.printStackTrace();
-		} catch (JsonMappingException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
+    	} catch (Exception exception) {
+			LOGGER.error(MessageCatalog._00032_OBJECT_CONVERSION_FAILURE, exception);
 		}
 		return cResponse;
 	}
@@ -259,43 +274,43 @@ public class CKANCreation {
 	 * @param datasetName  		the dataset name.
 	 * @param datasetAuthor		the dataset author.
 	 * @param datasetNotes		the dataset description.
-	 * @param datasetURL		the dataset URL.
+	 * @param datasetSourceURL	the URL of the dataset´s source.
 	 * @param ownerOrg			the id of the dataset’s owning organization.
+	 * @param licenseId			the id of the dataset’s license.
 	 * @return	the {@link eu.aliada.ckancreation.model.CKANDatasetResponse}
 	 * 			which contains the information of the dataset in CKAN.
 	 * @since 2.0
 	 */
-	public CKANDatasetResponse updateDatasetCKAN(String datasetName, String datasetAuthor, String datasetNotes, String datasetURL, String ownerOrg){
-		Client client = ClientBuilder.newClient();
-		WebTarget webTarget = client.target(jobConf.getCkanApiURL());
+	public CKANDatasetResponse updateDatasetCKAN(final String datasetName, final String datasetAuthor, 
+			final String datasetNotes, final String datasetSourceURL, final String ownerOrg,  final String licenseId){
+		final Client client = ClientBuilder.newClient();
+		final WebTarget webTarget = client.target(jobConf.getCkanApiURL());
 		
 		//Create a Java Object with the dataset data
-		Dataset dataset = new Dataset(datasetName, null, datasetAuthor, datasetNotes, 
-				datasetURL, ownerOrg);
+		final Dataset dataset = new Dataset(datasetName, null, datasetAuthor, datasetNotes, 
+				datasetSourceURL, ownerOrg, licenseId, "active");
 
 		//Convert Java Object to JSON representation with JACKSON libraries
 		String datasetJSON = "";
-		ObjectMapper mapper = new ObjectMapper();
+		final ObjectMapper mapper = new ObjectMapper();
 		try {
 			datasetJSON = mapper.writeValueAsString(dataset);
-		} catch (JsonProcessingException ex) {
-			ex.printStackTrace();
-        } 
+    	} catch (Exception exception) {
+			LOGGER.error(MessageCatalog._00032_OBJECT_CONVERSION_FAILURE, exception);
+		}
 
 		//POST 
-		WebTarget resourceWebTarget = webTarget.path("/package_update");
-		Response postResponse = resourceWebTarget.request(MediaType.APPLICATION_XML_TYPE).header("Authorization", jobConf.getCkanApiKey()).post(Entity.json(datasetJSON));
-		String datasetCreateResp = postResponse.readEntity(String.class);
+		final WebTarget resourceWebTarget = webTarget.path("/package_update");
+		final Response postResponse = resourceWebTarget
+				.request(MediaType.APPLICATION_XML_TYPE)
+				.header("Authorization", jobConf.getCkanApiKey()).post(Entity.json(datasetJSON));
+		final String datasetCreateResp = postResponse.readEntity(String.class);
 		//Convert JSON representation to Java Object with JACKSON libraries
 		CKANDatasetResponse cResponse = new CKANDatasetResponse();
 		try {
 			cResponse = mapper.readValue(datasetCreateResp, CKANDatasetResponse.class);
-    	} catch (JsonGenerationException e) {
-			e.printStackTrace();
-		} catch (JsonMappingException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
+    	} catch (Exception exception) {
+			LOGGER.error(MessageCatalog._00032_OBJECT_CONVERSION_FAILURE, exception);
 		}
 		return cResponse;
 	}
@@ -313,61 +328,38 @@ public class CKANCreation {
 	 * 			which contains the information of the resource in CKAN.
 	 * @since 2.0
 	 */
-	public CKANResourceResponse createResourceCKAN(String datasetId, String resName, String resDescription, String resFormat, String resUrl, String resType){
-		Client client = ClientBuilder.newClient();
-		WebTarget webTarget = client.target(jobConf.getCkanApiURL());
+	public CKANResourceResponse createResourceCKAN(final String datasetId, final String resName, 
+			final String resDescription, final String resFormat, final String resUrl, final String resType){
+		final Client client = ClientBuilder.newClient();
+		final WebTarget webTarget = client.target(jobConf.getCkanApiURL());
 		
 		//Create a Java Object with the resource data
-		Resource resource = new Resource(datasetId, resName, 
+		final Resource resource = new Resource(datasetId, resName, 
 				resDescription, resFormat, resUrl, resType);
 
 		//Convert Java Object to JSON representation with JACKSON libraries
 		String resourceJSON = "";
-		ObjectMapper mapper = new ObjectMapper();
+		final ObjectMapper mapper = new ObjectMapper();
 		try {
 			resourceJSON = mapper.writeValueAsString(resource);
-		} catch (JsonProcessingException ex) {
-			ex.printStackTrace();
-        } 
+    	} catch (Exception exception) {
+			LOGGER.error(MessageCatalog._00032_OBJECT_CONVERSION_FAILURE, exception);
+		}
 
 		//POST 
-		WebTarget resourceWebTarget = webTarget.path("/resource_create");
-		Response postResponse = resourceWebTarget.request(MediaType.APPLICATION_XML_TYPE).header("Authorization", jobConf.getCkanApiKey()).post(Entity.json(resourceJSON));
-		String datasetCreateResp = postResponse.readEntity(String.class);
+		final WebTarget resourceWebTarget = webTarget.path("/resource_create");
+		final Response postResponse = resourceWebTarget
+				.request(MediaType.APPLICATION_XML_TYPE)
+				.header("Authorization", jobConf.getCkanApiKey()).post(Entity.json(resourceJSON));
+		final String datasetCreateResp = postResponse.readEntity(String.class);
 		//Convert JSON representation to Java Object with JACKSON libraries
 		CKANResourceResponse cResponse = new CKANResourceResponse();
 		try {
 			cResponse = mapper.readValue(datasetCreateResp, CKANResourceResponse.class);
-    	} catch (JsonGenerationException e) {
-			e.printStackTrace();
-		} catch (JsonMappingException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
+    	} catch (Exception exception) {
+			LOGGER.error(MessageCatalog._00032_OBJECT_CONVERSION_FAILURE, exception);
 		}
 		return cResponse;
-	}
-	
-	/**
-	 * Check if the dataset already exists in CKAN Datahub.
-	 *
-	 * @param packages  the existing packages/datasets in CKAN Datahub.
-	 * @param packName  the new package/dataset name.
-	 * @return true if the dataset already exists in CKAN Datahub. 					
-	 * @since 2.0
-	 */
-	public boolean ckeckDatasetExist( ArrayList<Map<String, String>> packages, String packName) {
-		//Convert the package name to lower case, as CKAN does not allow capital letters in the package name
-		packName = packName.toLowerCase();
-		boolean found = false;
-		//Look for a package with the same name
-		for (Iterator<Map<String, String>> iterPackages = packages.iterator(); iterPackages.hasNext();  ) {
-			Map<String, String> pack = iterPackages.next();
-			if(pack.get("name").equals(packName)) {
-				found = true;
-			}
-		}
-		return found;
 	}
 	
 	/**
@@ -385,15 +377,15 @@ public class CKANCreation {
 			return cOrgResponse;
 		}
 		//Obtain the organization ID in CKAN
-		String orgId = cOrgResponse.getResult().getId();
-		ArrayList<Map<String, String>> users = cOrgResponse.getResult().getUsers();
+		final String orgId = cOrgResponse.getResult().getId();
+		final ArrayList<Map<String, String>> users = cOrgResponse.getResult().getUsers();
 		//Update organization data
 		cOrgResponse = updateOrganizationCKAN(orgId, jobConf.getOrgName(), 
 				jobConf.getOrgTitle(), jobConf.getOrgDescription(), 
 				jobConf.getOrgImageURL(), jobConf.getOrgHomePage(), users);
 		if(cOrgResponse.getSuccess() == "true") {
 			//Update DB with ckan_org_url
-			String ckanOrgUrl = "http://datahub.io/organization/" + cOrgResponse.getResult().getName();
+			final String ckanOrgUrl = "http://datahub.io/organization/" + cOrgResponse.getResult().getName();
 			dbConn.updateCkanOrgUrl(jobConf.getId(), ckanOrgUrl);
 		} else {
 			LOGGER.debug(MessageCatalog._00037_CREATE_ORGANIZATION_CKAN_FAILURE, cOrgResponse.getError().getMessage());
@@ -410,30 +402,31 @@ public class CKANCreation {
 	 * 			which contains the information of the dataset in CKAN.
 	 * @since 2.0
 	 */
-	public CKANDatasetResponse createDataset(CKANOrgResponse cOrgResponse){
-		//Check if dataset already exists. If it exists, remove it first. 
-		/*if(ckeckDatasetExist(cOrgResponse.getResult().getPackages(), jobConf.getDatasetName())) {
-			deleteDatasetCKAN(jobConf.getDatasetName());
-		}*/
-
+	public CKANDatasetResponse createDataset(final CKANOrgResponse cOrgResponse){
 		//Check if dataset already exists. If it exists, update it. 
-		CKANDatasetResponse cGetDataResponse = getDatasetCKAN(jobConf.getDatasetName());
+		final CKANDatasetResponse cGetDataResponse = getDatasetCKAN(jobConf.getDatasetName());
 		CKANDatasetResponse cDataResponse;
 		if(cGetDataResponse.getSuccess() == "true") {
-			//deleteDatasetCKAN(cGetDataResponse.getResult().getId());
+			//Update dataset. (http://datahub.io/api/action/package_update)
+			//When updating the dataset, the resources already associated to it are removed automatically
 			cDataResponse = updateDatasetCKAN(jobConf.getDatasetName(), 
-						jobConf.getDatasetAuthor(),	jobConf.getDatasetNotes(), jobConf.getDatasetURL(), cOrgResponse.getResult().getId());
+					jobConf.getDatasetAuthor(),	jobConf.getDatasetNotes(), 
+					jobConf.getDatasetSourceURL(), cOrgResponse.getResult().getId(),
+					jobConf.getLicenseId());
 		} else {
 			//Create dataset. (http://datahub.io/api/action/package_create)
 			cDataResponse = createDatasetCKAN(jobConf.getDatasetName(), 
-					jobConf.getDatasetAuthor(),	jobConf.getDatasetNotes(), jobConf.getDatasetURL(), cOrgResponse.getResult().getId());
+					jobConf.getDatasetAuthor(),	jobConf.getDatasetNotes(), 
+					jobConf.getDatasetSourceURL(), cOrgResponse.getResult().getId(),
+					jobConf.getLicenseId());
 		}
+			
 		if(cDataResponse.getSuccess() == "true") {
 			//Update DB with ckan_dataset_url
-			String ckanDatasetUrl = "http://datahub.io/dataset/" + cDataResponse.getResult().getName();
+			final String ckanDatasetUrl = "http://datahub.io/dataset/" + cDataResponse.getResult().getName();
 			dbConn.updateCkanOrgUrl(jobConf.getId(), ckanDatasetUrl);
 		} else {
-			String message;
+			final String message;
 			if((cDataResponse.getError().getName() != null ) && (cDataResponse.getError().getName().length > 0)){
 				message = cDataResponse.getError().getName()[0];
 			}else {
@@ -466,32 +459,59 @@ public class CKANCreation {
 		if(cResourceResponse.getSuccess() == "false") {
 			LOGGER.debug(MessageCatalog._00039_CREATE_RESOURCE_CKAN_FAILURE, cResourceResponse.getError().getMessage());
 		}
+
+		//Create the resource for the dataset dumps.
+		//A dump for existing graph in an organization, is created
+		final DataDump dataDump = new DataDump(jobConf, dbConn);
+		final ArrayList<Graph> graphs = dataDump.createDatasetDumps(jobConf.getOrgId(), jobConf.getDumpPath(),  jobConf.getDumpUrl());
+		for (final Iterator<Graph> iter = graphs.iterator(); iter.hasNext();  ) {
+			final Graph graph = iter.next();
+			final DumpFileInfo[] listDumpFileInfo= graph.getDumpFiles();
+			if(listDumpFileInfo.length > 0) {
+				//A graph may contain several file dumps because of its big size
+	    		for(int i=0; i < listDumpFileInfo.length; i++) {
+	    			final DumpFileInfo dumpFileInfo = listDumpFileInfo[i];
+	    			String fileIndex = "";
+	    			if(listDumpFileInfo.length > 1) {
+	    				//If there are more than one dump file per graph, number it
+	    				fileIndex = " " + (i+1);
+	    			}
+					cResourceResponse = createResourceCKAN(cDataResponse.getResult().getId(), 
+							"Datadump of " + graph.getDescription() + " in (N-Triples)" + fileIndex,
+							"Datadump of " + graph.getDescription() + " of the " + cDataResponse.getResult().getName() + " dataset in (N-Triples).",
+							graph.getDumpFileFormat(), 
+							dumpFileInfo.getDumpFileUrl(),
+							"file");
+					if(cResourceResponse.getSuccess() == "false") {
+						LOGGER.debug(MessageCatalog._00039_CREATE_RESOURCE_CKAN_FAILURE, cResourceResponse.getError().getMessage());
+					}
+	    		}
+			}
+		}
+		
 		//Create resource Void file.
-/*		String voidFilePath = createVoidFile();
-		final File voidFile = new File(voidFilePath);
-		final String voidFileName = voidFile.getName();
-		cResourceResponse = createResource(cDataResponse.getResult().getId(), 
-				voidFileName,
+		VoidFile voidFile = new VoidFile(jobConf, dbConn);
+		final File voidFileCreated = voidFile.createVoidFile(jobConf.getOrgId(), jobConf.getDumpPath(),  jobConf.getDumpUrl());
+		final String voidFileUrl = jobConf.getDumpUrl()  + "/" + voidFileCreated.getName();
+		String voidFilePath = null;
+		try {
+			voidFilePath = voidFileCreated.getCanonicalPath();
+		} catch (IOException exception) {
+			LOGGER.error(MessageCatalog._00034_FILE_ACCESS_FAILURE, exception, voidFileCreated.getName());
+		}
+		cResourceResponse = createResourceCKAN(cDataResponse.getResult().getId(), 
+				voidFileCreated.getName(),
 				"Void file describing the main features of the " + cDataResponse.getResult().getName() + " dataset",
 				"application/octet-stream", 
-				voidFilePath,
-				"file");*/
+				voidFileUrl,
+				"file");
+		if(cResourceResponse.getSuccess() == "true") {
+			//Update DB with void_file_path, void_file_url
+			dbConn.updateVoidFile(jobConf.getId(), voidFilePath, voidFileUrl);
+		} else {
+			LOGGER.debug(MessageCatalog._00039_CREATE_RESOURCE_CKAN_FAILURE, cResourceResponse.getError().getMessage());
+		}
 
-		//Create resource dataset dumps.
-		//Un dump por graph existente => añadir graph_name en tabla graphs
-		//????Si MARC: Authority data Bibliographic data
-/*		String[] dumpFilePath = createDatasetDumps();
-		for (int i=0; i<dumpFilePath.length;i++) {
-			final File dumpFile = new File(dumpFilePath[i]);
-			final String dumpFileName = dumpFile.getName();
-			cResourceResponse = createResource(cDataResponse.getResult().getId(), 
-					"Datadump of ",
-					"Datadump of the authority data of the " + cDataResponse.getResult().getName() + " dataset",
-					"application/x-bzip2", 
-					dumpFilePath[i],
-					"file");
-		}*/
-		
 		return cResourceResponse;
 	}
 
@@ -508,10 +528,10 @@ public class CKANCreation {
 		dbConn.updateJobStartDate(jobConf.getId());
 		
 		//ORGANIZATION
-		CKANOrgResponse cOrgResponse = updateOrganization();
+		final CKANOrgResponse cOrgResponse = updateOrganization();
 		//DATASET
 		if(cOrgResponse.getSuccess() == "true"){
-			CKANDatasetResponse cDataResponse = createDataset(cOrgResponse);
+			final CKANDatasetResponse cDataResponse = createDataset(cOrgResponse);
 			//DATASET RESOURCES
 			if(cDataResponse.getSuccess() == "true"){
 				createResources(cDataResponse);

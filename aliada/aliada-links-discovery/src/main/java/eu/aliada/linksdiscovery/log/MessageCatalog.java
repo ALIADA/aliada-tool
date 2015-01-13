@@ -27,7 +27,7 @@ public interface MessageCatalog {
 	String _00030_STARTING = LT + MODULE_NAME + "-00030> : LinksDiscovery programming is starting.";	
 	String _00031_FILE_NOT_FOUND = LT + MODULE_NAME + "-00031> : File %s not found.";
 	String _00032_BAD_FILE = LT + MODULE_NAME + "-00032> : Bad file format %s.";
-	String _00033_EXTERNAL_PROCESS_START_FAILURE = LT + MODULE_NAME + "-00033> : LinksDiscovery could not launch the external process %s.";		
+	String _00033_EXTERNAL_PROCESS_START_FAILURE = LT + MODULE_NAME + "-00033> : Could not launch the external process %s.";		
 	String _00034_FILE_CREATION_FAILURE = LT + MODULE_NAME + "-00034> : Could not create file %s.";
 	String _00035_GET_LINKING_CONFIG_FILES = LT + MODULE_NAME + "-00035> : Get linking processes config files.";
 	String _00036_CREATE_CRONTAB_FILE = LT + MODULE_NAME + "-00036> : Creating crontab file.";

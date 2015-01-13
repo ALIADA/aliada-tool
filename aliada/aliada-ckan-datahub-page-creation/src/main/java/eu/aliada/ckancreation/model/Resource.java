@@ -18,6 +18,7 @@ public class Resource {
 	private String description;
 	private String format;
 	private String url;
+	@JsonProperty("resource_type")
 	private String type;
 
 	public Resource() {

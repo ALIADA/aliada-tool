@@ -16,22 +16,41 @@ public class Dataset {
 	private String id;
 	private String author;
 	private String notes;
-	private String url;
+	@JsonProperty("url")
+	private String sourceUrl;
 	@JsonProperty("owner_org")
 	private String ownerOrg;
+	@JsonProperty("license_id")
+	private String licenseId;
+	private String state;
 	
 
 	public Dataset() {
 	}
 
-	public Dataset(String name, String id, String author, String notes, String url, String ownerOrg)
+	public Dataset(String name, String id, String author, String notes, String sourceUrl, 
+			String ownerOrg, String licenseId)
 	{
 		this.name = name.toLowerCase();
 		this.id = id;
 		this.author = author;
 		this.notes = notes;
-		this.url = url;
+		this.sourceUrl = sourceUrl;
 		this.ownerOrg = ownerOrg;
+		this.licenseId = licenseId;
+	}
+
+	public Dataset(String name, String id, String author, String notes, String sourceUrl, 
+			String ownerOrg, String licenseId, String state)
+	{
+		this.name = name.toLowerCase();
+		this.id = id;
+		this.author = author;
+		this.notes = notes;
+		this.sourceUrl = sourceUrl;
+		this.ownerOrg = ownerOrg;
+		this.licenseId = licenseId;
+		this.state = state;
 	}
 	
 	public String getName() {
@@ -62,11 +81,11 @@ public class Dataset {
 		this.notes = notes;
 	}
 
-	public String getUrl() {
-		return this.url;
+	public String getSourceUrl() {
+		return this.sourceUrl;
 	}
-	public void setUrl(String url) {
-		this.url = url;
+	public void setSourceUrl(String sourceUrl) {
+		this.sourceUrl = sourceUrl;
 	}
 
 	public String getOwnerOrg() {
@@ -76,4 +95,18 @@ public class Dataset {
 		this.ownerOrg = ownerOrg;
 	}
 	
+	public String getLicenseId() {
+		return this.licenseId;
+	}
+	public void setLicenseId(String licenseId) {
+		this.licenseId = licenseId;
+	}
+
+	public String getState() {
+		return this.state;
+	}
+	public void setState(String state) {
+		this.state = state;
+	}
+
 }

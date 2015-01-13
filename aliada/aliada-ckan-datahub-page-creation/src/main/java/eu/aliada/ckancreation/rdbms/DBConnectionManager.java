@@ -14,10 +14,12 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 import eu.aliada.ckancreation.log.MessageCatalog;
 import eu.aliada.ckancreation.model.Job;
 import eu.aliada.ckancreation.model.JobConfiguration;
+import eu.aliada.ckancreation.model.Graph;
 import eu.aliada.shared.log.Log;
 
 /**
@@ -94,26 +96,35 @@ public class DBConnectionManager {
 	 * @since 2.0
 	 */
 	public JobConfiguration getJobConfiguration(final Integer jobId) {
-		JobConfiguration job = null;
+		JobConfiguration jobConf = null;
 		try {
 			final Statement sta = conn.createStatement();
 			final String sql = "SELECT * FROM ckancreation_job_instances WHERE job_id=" + jobId;
 			final ResultSet resultSet = sta.executeQuery(sql);
 			while (resultSet.next()) {
-				job = new JobConfiguration();
-				job.setId(jobId);
-				job.setCkanApiURL(resultSet.getString("ckan_api_url"));
-				job.setCkanApiKey(resultSet.getString("ckan_api_key"));
-				job.setOrgTitle(resultSet.getString("org_title"));
-				job.setOrgName(resultSet.getString("org_name"));
-				job.setOrgDescription(resultSet.getString("org_description"));
-				job.setOrgHomePage(resultSet.getString("org_home_page"));
-				job.setOrgImageURL(resultSet.getString("org_image_url"));
-				job.setDatasetAuthor(resultSet.getString("dataset_author"));
-				job.setDatasetName(resultSet.getString("dataset_name"));
-				job.setDatasetNotes(resultSet.getString("dataset_notes"));
-				job.setDatasetURL(resultSet.getString("dataset_url"));
-				job.setSPARQLEndpoint(resultSet.getString("sparql_endpoint"));
+				jobConf = new JobConfiguration();
+				jobConf.setId(jobId);
+				jobConf.setOrgId(resultSet.getInt("org_id"));
+				jobConf.setStoreIp(resultSet.getString("store_ip"));
+				jobConf.setStoreSqlPort(resultSet.getInt("store_sql_port"));
+				jobConf.setSqlLogin(resultSet.getString("sql_login"));
+				jobConf.setSqlPassword(resultSet.getString("sql_password"));
+				jobConf.setIsqlCommandPath(resultSet.getString("isql_command_path"));
+				jobConf.setDumpPath(resultSet.getString("dump_path"));
+				jobConf.setDumpUrl(resultSet.getString("dump_url"));
+				jobConf.setCkanApiURL(resultSet.getString("ckan_api_url"));
+				jobConf.setCkanApiKey(resultSet.getString("ckan_api_key"));
+				jobConf.setOrgTitle(resultSet.getString("org_title"));
+				jobConf.setOrgName(resultSet.getString("org_name"));
+				jobConf.setOrgDescription(resultSet.getString("org_description"));
+				jobConf.setOrgHomePage(resultSet.getString("org_home_page"));
+				jobConf.setOrgImageURL(resultSet.getString("org_image_url"));
+				jobConf.setDatasetAuthor(resultSet.getString("dataset_author"));
+				jobConf.setDatasetName(resultSet.getString("dataset_name"));
+				jobConf.setDatasetNotes(resultSet.getString("dataset_notes"));
+				jobConf.setDatasetSourceURL(resultSet.getString("dataset_source_url"));
+				jobConf.setSPARQLEndpoint(resultSet.getString("sparql_endpoint"));
+				jobConf.setLicenseId(resultSet.getString("license_id"));
 		    }
 			resultSet.close();
 			sta.close();
@@ -121,7 +132,7 @@ public class DBConnectionManager {
 			LOGGER.error(MessageCatalog._00024_DATA_ACCESS_FAILURE, exception);
 			return null;
 		}
-		return job;
+		return jobConf;
 	}
 	
 	/**
@@ -133,7 +144,6 @@ public class DBConnectionManager {
 	 * @since 2.0
 	 */
 	public boolean updateCkanOrgUrl(final int jobId, final String ckanOrgUrl){
-		//Update start_date of job
     	try {
     		PreparedStatement preparedStatement = null;		
     		preparedStatement = conn.prepareStatement("UPDATE ckancreation_job_instances SET ckan_org_url = ? WHERE job_id = ?");
@@ -158,7 +168,6 @@ public class DBConnectionManager {
 	 * @since 2.0
 	 */
 	public boolean updateCkanDatasetUrl(final int jobId, final String ckanDatasetUrl){
-		//Update start_date of job
     	try {
     		PreparedStatement preparedStatement = null;		
     		preparedStatement = conn.prepareStatement("UPDATE ckancreation_job_instances SET ckan_dataset_url = ? WHERE job_id = ?");
@@ -175,6 +184,32 @@ public class DBConnectionManager {
 	}
 
 	/**
+	 * Updates the Void file related info of the job.
+	 *
+	 * @param jobId			the job identification.
+	 * @param voidFilePath	the Void file path.
+	 * @param voidFileUrl	the Void file URL.
+	 * @return true if the Void file related info has been updated correctly in the DDBB. False otherwise.
+	 * @since 2.0
+	 */
+	public boolean updateVoidFile(final int jobId, final String voidFilePath, String voidFileUrl){
+    	try {
+    		PreparedStatement preparedStatement = null;		
+    		preparedStatement = conn.prepareStatement("UPDATE ckancreation_job_instances SET void_file_path = ? , void_file_url = ? WHERE job_id = ?");
+    		// (job_id, void_file_path)
+    		// parameters start with 1
+    		preparedStatement.setString(1, voidFilePath);
+    		preparedStatement.setString(2, voidFileUrl);
+    		preparedStatement.setInt(3, jobId);
+    		preparedStatement.executeUpdate();
+		} catch (SQLException exception) {
+			LOGGER.error(MessageCatalog._00024_DATA_ACCESS_FAILURE, exception);
+			return false;
+		}
+  		return true;
+	}
+
+	/**
 	 * Updates the start_date of the job.
 	 *
 	 * @param jobId	the job identification.
@@ -182,7 +217,6 @@ public class DBConnectionManager {
 	 * @since 2.0
 	 */
 	public boolean updateJobStartDate(final int jobId){
-		//Update start_date of job
     	try {
     		PreparedStatement preparedStatement = null;		
     		preparedStatement = conn.prepareStatement("UPDATE ckancreation_job_instances SET start_date = ? WHERE job_id = ?");
@@ -208,7 +242,6 @@ public class DBConnectionManager {
 	 * @since 2.0
 	 */
 	public boolean updateJobEndDate(final int jobId){
-		//Update end_date of job
     	try {
     		PreparedStatement preparedStatement = null;		
     		preparedStatement = conn.prepareStatement("UPDATE ckancreation_job_instances SET end_date = ? WHERE job_id = ?");
@@ -247,6 +280,8 @@ public class DBConnectionManager {
 				job.setEndDate(resultSet.getTimestamp("end_date"));
 				job.setCkanOrgUrl(resultSet.getString("ckan_org_url"));
 				job.setCkanDatasetUrl(resultSet.getString("ckan_dataset_url"));
+				job.setVoidFilePath(resultSet.getString("void_file_path"));
+				job.setVoidFileUrl(resultSet.getString("void_file_url"));
 				//Determine job status
 				String status = JOB_STATUS_IDLE;
 				if(job.getStartDate() != null){
@@ -264,5 +299,37 @@ public class DBConnectionManager {
 			return null;
 		}
 		return job;
+	}
+
+
+	/**
+	 * Returns graphs information in the DDBB of a specific organization.
+	 *
+	 * @param orgId	the organization identification.
+	 * @return	the {@link eu.aliada.ckancreation.model.Graph}
+	 * 			which contains the graph information.
+	 * @since 2.0
+	 */
+	public ArrayList<Graph> getGraphs(final int orgId) {		//Get the graphs information from the DDBB
+		final ArrayList<Graph> graphs =  new ArrayList<Graph>();
+		try {
+			final Statement sta = conn.createStatement();
+			String sql = "SELECT * FROM graph WHERE organisationId=" + orgId;
+			ResultSet resultSet = sta.executeQuery(sql);
+			while (resultSet.next()) {
+				final Graph graph = new Graph();
+				graph.setId(resultSet.getInt("graphId"));
+				graph.setOrgId(resultSet.getInt("organisationId"));
+				graph.setUri(resultSet.getString("graph_uri"));
+				graph.setDescription(resultSet.getString("description")); //???Add this column in the graph table
+				graphs.add(graph); 
+			}
+			resultSet.close();
+			sta.close();
+		} catch (SQLException exception) {
+			LOGGER.error(MessageCatalog._00024_DATA_ACCESS_FAILURE, exception);
+			return null;
+		}
+		return graphs;
 	}
 }

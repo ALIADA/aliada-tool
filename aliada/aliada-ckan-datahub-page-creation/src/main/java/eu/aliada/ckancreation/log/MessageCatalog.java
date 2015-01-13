@@ -26,14 +26,14 @@ public interface MessageCatalog {
 
 	String _00030_STARTING = LT + MODULE_NAME + "-00030> : CKANCreation programming is starting.";	
 	String _00031_FILE_NOT_FOUND = LT + MODULE_NAME + "-00031> : File %s not found.";
-	String _00032_BAD_FILE = LT + MODULE_NAME + "-00032> : Bad file format %s.";
-	String _00033_EXTERNAL_PROCESS_START_FAILURE = LT + MODULE_NAME + "-00033> : LinksDiscovery could not launch the external process %s.";		
-	String _00034_FILE_CREATION_FAILURE = LT + MODULE_NAME + "-00034> : Could not create file %s.";
-	String _00035_GET_LINKING_CONFIG_FILES = LT + MODULE_NAME + "-00035> : Get linking processes config files.";
+	String _00032_OBJECT_CONVERSION_FAILURE = LT + MODULE_NAME + "-00032> : Error converting object.";
+	String _00033_EXTERNAL_PROCESS_START_FAILURE = LT + MODULE_NAME + "-00033> : Could not launch the external process %s.";		
+	String _00034_FILE_ACCESS_FAILURE = LT + MODULE_NAME + "-00034> : Could not access file %s.";
 	String _00036_GET_ORGANIZATION_CKAN_FAILURE = LT + MODULE_NAME + "-00036> : Error getting organization from CKAN: %s";
 	String _00037_CREATE_ORGANIZATION_CKAN_FAILURE = LT + MODULE_NAME + "-00037> : Error creating organization in CKAN: %s";
 	String _00038_CREATE_DATASET_CKAN_FAILURE = LT + MODULE_NAME + "-00038> : Error creating dataset in CKAN: %s";
 	String _00039_CREATE_RESOURCE_CKAN_FAILURE = LT + MODULE_NAME + "-00039> : Error creating dataset in CKAN: %s";
+	String _00040_EXECUTING_ISQL = LT + MODULE_NAME + "-00040> : Executing ISQL command.";	
 	String _00041_STOPPED = LT + MODULE_NAME + "-00041> : CKANCreation programming has finished.";	
 	String _00057_UPDATING_JOB_DDBB = LT + MODULE_NAME + "-00057> : Updating job %d in DDBB.";	
 }
