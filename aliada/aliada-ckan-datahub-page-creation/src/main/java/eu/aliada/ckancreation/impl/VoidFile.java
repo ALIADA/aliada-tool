@@ -13,8 +13,8 @@ import java.util.Date;
 	
 
 
+
 import eu.aliada.ckancreation.model.JobConfiguration;
-import eu.aliada.ckancreation.model.Graph;
 import eu.aliada.ckancreation.model.DumpFileInfo;
 import eu.aliada.ckancreation.log.MessageCatalog;
 import eu.aliada.ckancreation.rdbms.DBConnectionManager;
@@ -71,14 +71,15 @@ public class VoidFile {
 	/**
 	 * Creates the void file of a dataset.
 	 *
-	 * @param orgId			the organization id in the ALIADA DB.
+	 * @param graphURI		the URI of the graph.
 	 * @param dataDumpsPath	the physical path of the folder where to save the data dumps.
 	 * @param dataDumpsUrl	the URL of the folder where to save the data dumps.
 	 * @return	an array of {@link eu.aliada.ckancreation.model.Graph}
 	 * 			objects containing the URL of the files with the graphs dumps.
 	 * @since 2.0
 	 */
-    public File createVoidFile(final int orgId, final String dataDumpsPath, final String dataDumpsUrl){
+    public File createVoidFile(final String graphURI, final String dataDumpsPath, 
+    		final String dataDumpsUrl){
 		return voidFileCreated;
 	}
 

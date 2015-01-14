@@ -1,6 +1,5 @@
 CREATE TABLE `aliada`.`ckancreation_job_instances` (
 `job_id` INT NOT NULL AUTO_INCREMENT,
-`org_id` int(11) NOT NULL,
 `store_ip`  VARCHAR( 245 ) default NULL,
 `store_sql_port`  INT default 1111,
 `sql_login`  VARCHAR( 32 ) default NULL,
@@ -21,6 +20,7 @@ CREATE TABLE `aliada`.`ckancreation_job_instances` (
 `dataset_source_url`  VARCHAR( 245 ) default NULL,
 `sparql_endpoint`  VARCHAR( 245 ) default NULL,
 `license_id`  VARCHAR( 245 ) default NULL,
+`graph_uri`  VARCHAR( 245 ) default NULL,
 `ckan_org_url`  VARCHAR( 245 ) default NULL,
 `ckan_dataset_url`  VARCHAR( 245 ) default NULL,
 `void_file_path`  VARCHAR( 245 ) default NULL,

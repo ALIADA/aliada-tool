@@ -23,7 +23,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 
-import eu.aliada.ckancreation.model.Graph;
 import eu.aliada.ckancreation.model.Organization;
 import eu.aliada.ckancreation.model.CKANOrgResponse;
 import eu.aliada.ckancreation.model.Dataset;
@@ -461,37 +460,36 @@ public class CKANCreation {
 		}
 
 		//Create the resource for the dataset dumps.
-		//A dump for existing graph in an organization, is created
-		final DataDump dataDump = new DataDump(jobConf, dbConn);
-		final ArrayList<Graph> graphs = dataDump.createDatasetDumps(jobConf.getOrgId(), jobConf.getDumpPath(),  jobConf.getDumpUrl());
-		for (final Iterator<Graph> iter = graphs.iterator(); iter.hasNext();  ) {
-			final Graph graph = iter.next();
-			final DumpFileInfo[] listDumpFileInfo= graph.getDumpFiles();
-			if(listDumpFileInfo.length > 0) {
-				//A graph may contain several file dumps because of its big size
-	    		for(int i=0; i < listDumpFileInfo.length; i++) {
-	    			final DumpFileInfo dumpFileInfo = listDumpFileInfo[i];
-	    			String fileIndex = "";
-	    			if(listDumpFileInfo.length > 1) {
-	    				//If there are more than one dump file per graph, number it
-	    				fileIndex = " " + (i+1);
-	    			}
-					cResourceResponse = createResourceCKAN(cDataResponse.getResult().getId(), 
-							"Datadump of " + graph.getDescription() + " in (N-Triples)" + fileIndex,
-							"Datadump of " + graph.getDescription() + " of the " + cDataResponse.getResult().getName() + " dataset in (N-Triples).",
-							graph.getDumpFileFormat(), 
-							dumpFileInfo.getDumpFileUrl(),
-							"file");
-					if(cResourceResponse.getSuccess() == "false") {
-						LOGGER.debug(MessageCatalog._00039_CREATE_RESOURCE_CKAN_FAILURE, cResourceResponse.getError().getMessage());
-					}
-	    		}
-			}
+		//A graph may contain several file dumps because of its big size
+		final DataDump dataDump = new DataDump(jobConf);
+		final ArrayList<DumpFileInfo> dumpFileInfos = dataDump.createDatasetDump(jobConf.getGraphURI(), 
+				jobConf.getDumpPath(),  jobConf.getDumpUrl());
+		final DumpFileInfo[] listDumpFileInfo= dumpFileInfos.toArray(new DumpFileInfo[]{});
+		if(listDumpFileInfo.length > 0) {
+			//A graph may contain several file dumps because of its big size
+    		for(int i=0; i < listDumpFileInfo.length; i++) {
+    			final DumpFileInfo dumpFileInfo = listDumpFileInfo[i];
+    			String fileIndex = "";
+    			if(listDumpFileInfo.length > 1) {
+    				//If there are more than one dump file per graph, number it
+    				fileIndex = " " + (i+1);
+    			}
+				cResourceResponse = createResourceCKAN(cDataResponse.getResult().getId(), 
+						"Dataset dump in N-Triples format" + fileIndex,
+						"Dataset dump in N-Triples format.",
+						dumpFileInfo.getDumpFileFormat(), 
+						dumpFileInfo.getDumpFileUrl(),
+						"file");
+				if(cResourceResponse.getSuccess() == "false") {
+					LOGGER.debug(MessageCatalog._00039_CREATE_RESOURCE_CKAN_FAILURE, cResourceResponse.getError().getMessage());
+				}
+    		}
 		}
 		
 		//Create resource Void file.
 		VoidFile voidFile = new VoidFile(jobConf, dbConn);
-		final File voidFileCreated = voidFile.createVoidFile(jobConf.getOrgId(), jobConf.getDumpPath(),  jobConf.getDumpUrl());
+		final File voidFileCreated = voidFile.createVoidFile(jobConf.getGraphURI(), jobConf.getDumpPath(), 
+				jobConf.getDumpUrl());
 		final String voidFileUrl = jobConf.getDumpUrl()  + "/" + voidFileCreated.getName();
 		String voidFilePath = null;
 		try {

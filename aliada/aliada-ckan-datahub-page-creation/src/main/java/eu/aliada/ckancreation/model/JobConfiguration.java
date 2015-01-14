@@ -14,8 +14,6 @@ package eu.aliada.ckancreation.model;
 public class JobConfiguration {
 	/** Job identification number. */
 	private Integer id;
-	/** Organization  identification number in ALIADA DB. */
-	private Integer orgId;
 	/** IP address of the machine where the RDF store resides. */
 	private String storeIp;
 	/** Port number of the RDF store for SQL access. */
@@ -60,6 +58,8 @@ public class JobConfiguration {
 	private String SPARQLendpoint;
 	/** License id. See opendefinition.org .*/
 	private String licenseId;
+	/** Graph URI. */
+	private String graphURI;
 
     
 	/**
@@ -79,25 +79,6 @@ public class JobConfiguration {
 	 */
 	public void setId(final Integer id) {
 		this.id = id;
-	}
-
-	/**
-	 * Returns the identifier of the organization in ALIADA DB.
-	 * 
-	 * @return The identifier of the organization in ALIADA DB.
-	 * @since 2.0
-	 */
-	public Integer getOrgId() {
-		return orgId;
-	}
-	/**
-	 * Sets the identifier of the organization in ALIADA DB.
-	 * 
-	 * @param id The identifier of the organization in ALIADA DB.
-	 * @since 2.0
-	 */
-	public void setOrgId(final Integer orgId) {
-		this.orgId = orgId;
 	}
 
 	/**
@@ -479,5 +460,24 @@ public class JobConfiguration {
 	 */
 	public void setLicenseId(String licenseId) {
 		this.licenseId = licenseId;
+	}
+
+	/**
+	 * Returns the graph URI.
+	 * 
+	 * @return The graph URI.
+	 * @since 2.0
+	 */
+	public String getGraphURI() {
+		return graphURI;
+	}
+	/**
+	 * Sets the graph URI.
+	 * 
+	 * @param uri The graph URI.
+	 * @since 2.0
+	 */
+	public void setGraphURI(final String graphURI) {
+		this.graphURI = graphURI;
 	}
 }

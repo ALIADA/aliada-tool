@@ -14,12 +14,10 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.ResultSet;
 import java.sql.Statement;
-import java.util.ArrayList;
 
 import eu.aliada.ckancreation.log.MessageCatalog;
 import eu.aliada.ckancreation.model.Job;
 import eu.aliada.ckancreation.model.JobConfiguration;
-import eu.aliada.ckancreation.model.Graph;
 import eu.aliada.shared.log.Log;
 
 /**
@@ -104,7 +102,6 @@ public class DBConnectionManager {
 			while (resultSet.next()) {
 				jobConf = new JobConfiguration();
 				jobConf.setId(jobId);
-				jobConf.setOrgId(resultSet.getInt("org_id"));
 				jobConf.setStoreIp(resultSet.getString("store_ip"));
 				jobConf.setStoreSqlPort(resultSet.getInt("store_sql_port"));
 				jobConf.setSqlLogin(resultSet.getString("sql_login"));
@@ -125,6 +122,7 @@ public class DBConnectionManager {
 				jobConf.setDatasetSourceURL(resultSet.getString("dataset_source_url"));
 				jobConf.setSPARQLEndpoint(resultSet.getString("sparql_endpoint"));
 				jobConf.setLicenseId(resultSet.getString("license_id"));
+				jobConf.setGraphURI(resultSet.getString("graph_uri"));
 		    }
 			resultSet.close();
 			sta.close();
@@ -301,35 +299,4 @@ public class DBConnectionManager {
 		return job;
 	}
 
-
-	/**
-	 * Returns graphs information in the DDBB of a specific organization.
-	 *
-	 * @param orgId	the organization identification.
-	 * @return	the {@link eu.aliada.ckancreation.model.Graph}
-	 * 			which contains the graph information.
-	 * @since 2.0
-	 */
-	public ArrayList<Graph> getGraphs(final int orgId) {		//Get the graphs information from the DDBB
-		final ArrayList<Graph> graphs =  new ArrayList<Graph>();
-		try {
-			final Statement sta = conn.createStatement();
-			String sql = "SELECT * FROM graph WHERE organisationId=" + orgId;
-			ResultSet resultSet = sta.executeQuery(sql);
-			while (resultSet.next()) {
-				final Graph graph = new Graph();
-				graph.setId(resultSet.getInt("graphId"));
-				graph.setOrgId(resultSet.getInt("organisationId"));
-				graph.setUri(resultSet.getString("graph_uri"));
-				graph.setDescription(resultSet.getString("description")); //???Add this column in the graph table
-				graphs.add(graph); 
-			}
-			resultSet.close();
-			sta.close();
-		} catch (SQLException exception) {
-			LOGGER.error(MessageCatalog._00024_DATA_ACCESS_FAILURE, exception);
-			return null;
-		}
-		return graphs;
-	}
 }
