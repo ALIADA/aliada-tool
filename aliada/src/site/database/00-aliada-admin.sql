@@ -44,6 +44,7 @@ CREATE TABLE IF NOT EXISTS `aliada`.`organisation` (
 	`sql_login`  VARCHAR( 32 ) default NULL, 
 	`sql_password`  VARCHAR( 32 ) default NULL, 
 	`isql_command_path`  VARCHAR( 245 ) default NULL, 
+	`isql_commands_file`  VARCHAR( 245 ) default NULL, 
 	`isql_commands_file_default`  VARCHAR( 245 ) default NULL, 
 	`public_sparql_endpoint_uri` VARCHAR(45) default NULL,
 PRIMARY KEY ( `organisationId` )
@@ -141,15 +142,6 @@ CREATE TABLE IF NOT EXISTS `aliada`.`t_character_set` (
   PRIMARY KEY  (`character_set_code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Volcar la base de datos para la tabla `t_character_set`
---
-
-INSERT INTO `aliada`.`t_character_set` (`character_set_code`, `character_set_name`, `character_set_description`) VALUES
-(0, 'MARC standard', NULL),
-(1, 'AMICUS', NULL),
-(2, 'Latin1', NULL);
-
 -- --------------------------------------------------------
 
 --
@@ -162,13 +154,6 @@ CREATE TABLE IF NOT EXISTS `aliada`.`t_file_format` (
   `file_format_description` varchar(128) default NULL,
   PRIMARY KEY  (`file_format_code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Volcar la base de datos para la tabla `t_file_format`
---
-
-INSERT INTO `aliada`.`t_file_format` (`file_format_code`, `file_format_name`, `file_format_description`) VALUES
-(0, 'XML', 'XML file');
 
 -- --------------------------------------------------------
 
@@ -184,15 +169,6 @@ CREATE TABLE IF NOT EXISTS `aliada`.`t_file_type` (
   PRIMARY KEY  (`file_type_code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Volcar la base de datos para la tabla `t_file_type`
---
-
-INSERT INTO `aliada`.`t_file_type` (`file_type_code`, `file_type_name`, `file_type_description`, `file_type_conversion_file`) VALUES
-(0, 'Bibliographic', NULL, 'marc_bib.xsl'),
-(1, 'Authority', NULL, 'marc_aut.xsl'),
-(2, 'Museum Resource', NULL, 'lido.xsl');
-
 -- --------------------------------------------------------
 
 --
@@ -207,15 +183,6 @@ CREATE TABLE IF NOT EXISTS `aliada`.`t_metadata_scheme` (
   PRIMARY KEY  (`metadata_code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Volcar la base de datos para la tabla `t_metadata_scheme`
---
-
-INSERT INTO `aliada`.`t_metadata_scheme` (`metadata_code`, `metadata_name`, `metadata_description`, `metadata_conversion_file`) VALUES
-(0, 'marcxml', NULL, 'MARC21slim.xsd'),
-(1, 'lido', NULL, 'lido-v1.0.xsd'),
-(2, 'Dublin Core', NULL, 'xsd');
-
 -- --------------------------------------------------------
 
 --
@@ -228,15 +195,6 @@ CREATE TABLE IF NOT EXISTS `aliada`.`t_profile_type` (
   `profile_description` varchar(128) default NULL,
   PRIMARY KEY  (`profile_code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Volcar la base de datos para la tabla `t_profile_type`
---
-
-INSERT INTO `aliada`.`t_profile_type` (`profile_code`, `profile_name`, `profile_description`) VALUES
-(0, 'ILS', NULL),
-(1, 'TMS', NULL),
-(2, 'Drupal', NULL);
 
 -- --------------------------------------------------------
 
@@ -251,14 +209,6 @@ CREATE TABLE IF NOT EXISTS `aliada`.`t_user_role` (
   PRIMARY KEY  (`user_role_code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Volcar la base de datos para la tabla `t_user_role`
---
-
-INSERT INTO `aliada`.`t_user_role` (`user_role_code`, `user_role`, `user_role_description`) VALUES
-(0, 'Basic', NULL),
-(1, 'Administrator', NULL);
-
 -- --------------------------------------------------------
 
 --
@@ -272,14 +222,6 @@ CREATE TABLE IF NOT EXISTS `aliada`.`t_user_type` (
   PRIMARY KEY  (`user_type_code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Volcar la base de datos para la tabla `t_user_type`
---
-
-INSERT INTO `aliada`.`t_user_type` (`user_type_code`, `user_type`, `user_type_description`) VALUES
-(0, 'Basic', NULL),
-(1, 'Advanced', NULL);
-
 -- --------------------------------------------------------
 
 --
@@ -292,16 +234,6 @@ CREATE TABLE IF NOT EXISTS `aliada`.`t_xml_tag_type` (
   `xml_tag_type_description` varchar(128) default NULL,
   PRIMARY KEY  (`xml_tag_type_code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Volcar la base de datos para la tabla `t_xml_tag_type`
---
-
-INSERT INTO `aliada`.`t_xml_tag_type` (`xml_tag_type_code`, `xml_tag_type_name`, `xml_tag_type_description`) VALUES
-(0, 'MARC21 Bibliographic', NULL),
-(1, 'MARC21 Authority', NULL),
-(2, 'LIDO', NULL),
-(3, 'DC', NULL);
 
 -- --------------------------------------------------------
 
@@ -322,12 +254,6 @@ CREATE TABLE IF NOT EXISTS `aliada`.`user` (
   FOREIGN KEY (organisationId) REFERENCES organisation(organisationId)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Volcar la base de datos para la tabla `user`
---
-
-INSERT INTO `aliada`.`user` (`user_name`, `user_password`, `user_email`, `user_type_code`, `user_role_code`,`organisationId`) VALUES
-('admin','admin','admin@aliada.eu',0,0,1);
 
 -- --------------------------------------------------------
 
@@ -344,10 +270,112 @@ CREATE TABLE IF NOT EXISTS `aliada`.`xml_tag` (
   KEY `xml_tag_type_code` (`xml_tag_type_code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+CREATE TABLE IF NOT EXISTS `aliada`.`t_external_dataset` (
+  `external_dataset_code` int(11) NOT NULL,
+  `external_dataset_name` varchar(32) NOT NULL,
+  `external_dataset_description` varchar(128) default NULL,
+  PRIMARY KEY  (`external_dataset_code`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Filtros para las tablas descargadas (dump)
+--
+
+--
+-- Filtros para la tabla `profile`
+--
+ALTER TABLE `aliada`.`profile`
+  ADD CONSTRAINT `profile_ibfk_5` FOREIGN KEY (`character_set_code`) REFERENCES `t_character_set` (`character_set_code`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `profile_ibfk_1` FOREIGN KEY (`profile_type_code`) REFERENCES `t_profile_type` (`profile_code`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `profile_ibfk_2` FOREIGN KEY (`metadata_scheme_code`) REFERENCES `t_metadata_scheme` (`metadata_code`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `profile_ibfk_3` FOREIGN KEY (`file_type_code`) REFERENCES `t_file_type` (`file_type_code`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `profile_ibfk_4` FOREIGN KEY (`file_format_code`) REFERENCES `t_file_format` (`file_format_code`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `template_xml_tag`
+--
+ALTER TABLE `aliada`.`template_xml_tag`
+  ADD CONSTRAINT `template_xml_tag_ibfk_2` FOREIGN KEY (`xml_tag_id`) REFERENCES `xml_tag` (`xml_tag_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `template_xml_tag_ibfk_1` FOREIGN KEY (`template_id`) REFERENCES `template` (`template_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `user`
+--
+ALTER TABLE `aliada`.`user`
+  ADD CONSTRAINT `user_ibfk_2` FOREIGN KEY (`user_role_code`) REFERENCES `t_user_role` (`user_role_code`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `user_ibfk_1` FOREIGN KEY (`user_type_code`) REFERENCES `t_user_type` (`user_type_code`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `xml_tag`
+--
+ALTER TABLE `aliada`.`xml_tag`
+  ADD CONSTRAINT `xml_tag_ibfk_1` FOREIGN KEY (`xml_tag_type_code`) REFERENCES `t_xml_tag_type` (`xml_tag_type_code`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+
+--
+-- Volcar la base de datos para la tabla `t_character_set`
+--
+INSERT INTO `aliada`.`t_character_set` (`character_set_code`, `character_set_name`, `character_set_description`) VALUES
+(0, 'MARC standard', NULL),
+(1, 'AMICUS', NULL),
+(2, 'Latin1', NULL);
+
+--
+-- Volcar la base de datos para la tabla `t_file_format`
+--
+INSERT INTO `aliada`.`t_file_format` (`file_format_code`, `file_format_name`, `file_format_description`) VALUES
+(0, 'XML', 'XML file');
+
+--
+-- Volcar la base de datos para la tabla `t_file_type`
+--
+INSERT INTO `aliada`.`t_file_type` (`file_type_code`, `file_type_name`, `file_type_description`, `file_type_conversion_file`) VALUES
+(0, 'Bibliographic', NULL, 'marc_bib.xsl'),
+(1, 'Authority', NULL, 'marc_aut.xsl'),
+(2, 'Museum Resource', NULL, 'lido.xsl');
+
+--
+-- Volcar la base de datos para la tabla `t_metadata_scheme`
+--
+INSERT INTO `aliada`.`t_metadata_scheme` (`metadata_code`, `metadata_name`, `metadata_description`, `metadata_conversion_file`) VALUES
+(0, 'marcxml', NULL, 'MARC21slim.xsd'),
+(1, 'lido', NULL, 'lido-v1.0.xsd'),
+(2, 'Dublin Core', NULL, 'xsd');
+
+--
+-- Volcar la base de datos para la tabla `t_profile_type`
+--
+INSERT INTO `aliada`.`t_profile_type` (`profile_code`, `profile_name`, `profile_description`) VALUES
+(0, 'ILS', NULL),
+(1, 'TMS', NULL),
+(2, 'Drupal', NULL);
+
+--
+-- Volcar la base de datos para la tabla `t_user_role`
+--
+INSERT INTO `aliada`.`t_user_role` (`user_role_code`, `user_role`, `user_role_description`) VALUES
+(0, 'Basic', NULL),
+(1, 'Administrator', NULL);
+
+--
+-- Volcar la base de datos para la tabla `t_user_type`
+--
+INSERT INTO `aliada`.`t_user_type` (`user_type_code`, `user_type`, `user_type_description`) VALUES
+(0, 'Basic', NULL),
+(1, 'Advanced', NULL);
+
+--
+-- Volcar la base de datos para la tabla `t_xml_tag_type`
+--
+INSERT INTO `aliada`.`t_xml_tag_type` (`xml_tag_type_code`, `xml_tag_type_name`, `xml_tag_type_description`) VALUES
+(0, 'MARC21 Bibliographic', NULL),
+(1, 'MARC21 Authority', NULL),
+(2, 'LIDO', NULL),
+(3, 'DC', NULL);
+
 --
 -- Volcar la base de datos para la tabla `xml_tag`
 --
-
 INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('100a', '0', '100a', '0');
 INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('100t', '0', '100t', '0');   
 INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('110t', '0', '110t', '0');   
@@ -496,51 +524,20 @@ INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_desc
 INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('700(3)a-c-d-g', '0', '700(3)a-c-d-g', '0');   
 INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('852()a', '0', '852()a', '0');   
 
-
-CREATE TABLE IF NOT EXISTS `aliada`.`t_external_dataset` (
-  `external_dataset_code` int(11) NOT NULL,
-  `external_dataset_name` varchar(32) NOT NULL,
-  `external_dataset_description` varchar(128) default NULL,
-  PRIMARY KEY  (`external_dataset_code`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 --
 -- Volcar la base de datos para la tabla `t_external_dataset`
 --
-
 INSERT INTO `aliada`.`t_external_dataset` (`external_dataset_code`, `external_dataset_name`, `external_dataset_description`) VALUES
 (0, 'DBPedia', NULL),
 (1, 'GeoNames', NULL);
---
--- Filtros para las tablas descargadas (dump)
---
 
 --
--- Filtros para la tabla `profile`
+-- Volcar la base de datos para las tablas `organisation`, `user`
 --
-ALTER TABLE `aliada`.`profile`
-  ADD CONSTRAINT `profile_ibfk_5` FOREIGN KEY (`character_set_code`) REFERENCES `t_character_set` (`character_set_code`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `profile_ibfk_1` FOREIGN KEY (`profile_type_code`) REFERENCES `t_profile_type` (`profile_code`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `profile_ibfk_2` FOREIGN KEY (`metadata_scheme_code`) REFERENCES `t_metadata_scheme` (`metadata_code`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `profile_ibfk_3` FOREIGN KEY (`file_type_code`) REFERENCES `t_file_type` (`file_type_code`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `profile_ibfk_4` FOREIGN KEY (`file_format_code`) REFERENCES `t_file_format` (`file_format_code`) ON DELETE CASCADE ON UPDATE CASCADE;
+INSERT INTO `aliada`.`organisation` (`organisation_name`, `organisation_path`, `organisation_catalog_url` , `aliada_ontology`, `linking_config_file`, `tmp_dir`, `linking_client_app_bin_dir`, `linking_client_app_user`, `sparql_endpoint_uri`, `sparql_endpoint_login`, `sparql_endpoint_password`, `store_ip`,  `store_sql_port`, `sql_login`, `sql_password`, `isql_command_path`, `isql_commands_file`, `isql_commands_file_default`, `public_sparql_endpoint_uri`)
+ VALUES ('MFAB','/usr/share/tomcat/upload','http://www.szepmuveszeti.hu/collection_browser_eng','http://aliada-project.eu/2014/aliada-ontology/' , '/home/aliada/links-discovery/config/linksdiscoveryTest.properties', '/home/aliada/tmp', '/home/aliada/links-discovery/bin/',
+'aliada', 'http://localhost:8890/sparql-auth', 'aliada_dev', 'aliada_dev', 'localhost', '1111', 'dba', 'dba', '/home/virtuoso/bin/isql-v', '/home/aliada/linked-data-server/config/isql_id_rewrite_rules_html_mfab.sql', '/home/aliada/linked-data-server/config/isql_id_rewrite_rules_html_default.sql', 'http://aliada.scanbit.net:8890/sparql');
 
---
--- Filtros para la tabla `template_xml_tag`
---
-ALTER TABLE `aliada`.`template_xml_tag`
-  ADD CONSTRAINT `template_xml_tag_ibfk_2` FOREIGN KEY (`xml_tag_id`) REFERENCES `xml_tag` (`xml_tag_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `template_xml_tag_ibfk_1` FOREIGN KEY (`template_id`) REFERENCES `template` (`template_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+INSERT INTO `aliada`.`user` (`user_name`, `user_password`, `user_email`, `user_type_code`, `user_role_code`,`organisationId`) VALUES
+('admin','admin','admin@aliada.eu',0,0,1);
 
---
--- Filtros para la tabla `user`
---
-ALTER TABLE `aliada`.`user`
-  ADD CONSTRAINT `user_ibfk_2` FOREIGN KEY (`user_role_code`) REFERENCES `t_user_role` (`user_role_code`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `user_ibfk_1` FOREIGN KEY (`user_type_code`) REFERENCES `t_user_type` (`user_type_code`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Filtros para la tabla `xml_tag`
---
-ALTER TABLE `aliada`.`xml_tag`
-  ADD CONSTRAINT `xml_tag_ibfk_1` FOREIGN KEY (`xml_tag_type_code`) REFERENCES `t_xml_tag_type` (`xml_tag_type_code`) ON DELETE CASCADE ON UPDATE CASCADE;
