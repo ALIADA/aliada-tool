@@ -102,10 +102,7 @@ CREATE TABLE IF NOT EXISTS `aliada`.`template` (
   `template_id` int(11) NOT NULL AUTO_INCREMENT,
   `template_name` varchar(32) NOT NULL,
   `template_description` varchar(128) default NULL,
-  `file_type_code` int(11) NOT NULL,
-  PRIMARY KEY  (`template_id`),
-	FOREIGN KEY (file_type_code) 
-    REFERENCES t_file_type(file_type_code) 
+  PRIMARY KEY  (`template_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --

@@ -335,6 +335,48 @@ public class RDFStoreDAO {
 	}
 
 	/**
+	 * It executes a SELECT SPARQL query on the SPARQL endpoint, to get the number of triples of a graph.
+	 *
+	 * @param sparqlEndpointURI		the SPARQL endpoint URI.  
+	 * @param graphName 			the graphName, null in case of default graph.
+	 * @return the number of triples in the graph.
+	 * @since 1.0
+	 */
+	public int getNumTriples(final String sparqlEndpointURI, final String graphName) {
+		int numTriples = 0; 
+		final StringBuilder builder = new StringBuilder();
+		builder.append("SELECT (COUNT(*) AS ?no) ");
+		if (isNotNullAndNotEmpty(graphName)) {
+			builder.append("FROM ");
+			if (graphName.startsWith("<") && graphName.endsWith(">")) {
+				builder.append(graphName);
+			} else 
+			{
+				builder.append("<").append(graphName).append(">");
+			}
+		}
+		
+		builder.append(" WHERE { ?s ?p ?o }");
+		String query = builder.toString();
+	 	try {
+	        // Execute the query and obtain results
+	        QueryExecution qexec = QueryExecutionFactory.sparqlService(
+	        		sparqlEndpointURI, 
+	        		QueryFactory.create(query));
+            ResultSet results = qexec.execSelect() ;
+            while (results.hasNext())
+            {
+            	QuerySolution soln = results.nextSolution() ;
+            	numTriples = soln.getLiteral("no").getInt();
+            }
+	        qexec.close() ;
+	      } catch (Exception exception) {
+			LOGGER.error(MessageCatalog._00035_SPARQL_FAILED, exception, query);
+		}
+		return numTriples;
+	}
+
+	/**
 	 * Builds a SPARQL INSERT with the given data.
 	 * 
 	 * @param graphName the graphName, null in case of default graph.
