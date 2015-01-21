@@ -44,7 +44,6 @@ CREATE TABLE IF NOT EXISTS `aliada`.`organisation` (
 	`sql_login`  VARCHAR( 32 ) default NULL, 
 	`sql_password`  VARCHAR( 32 ) default NULL, 
 	`isql_command_path`  VARCHAR( 245 ) default NULL, 
-	`isql_commands_file`  VARCHAR( 245 ) default NULL, 
 	`isql_commands_file_default`  VARCHAR( 245 ) default NULL, 
 	`public_sparql_endpoint_uri` VARCHAR(45) default NULL,
 PRIMARY KEY ( `organisationId` )
@@ -538,9 +537,9 @@ INSERT INTO `aliada`.`t_external_dataset` (`external_dataset_code`, `external_da
 --
 -- Volcar la base de datos para las tablas `organisation`, `user`
 --
-INSERT INTO `aliada`.`organisation` (`organisation_name`, `organisation_path`, `organisation_catalog_url` , `aliada_ontology`, `linking_config_file`, `tmp_dir`, `linking_client_app_bin_dir`, `linking_client_app_user`, `sparql_endpoint_uri`, `sparql_endpoint_login`, `sparql_endpoint_password`, `store_ip`,  `store_sql_port`, `sql_login`, `sql_password`, `isql_command_path`, `isql_commands_file`, `isql_commands_file_default`, `public_sparql_endpoint_uri`)
+INSERT INTO `aliada`.`organisation` (`organisation_name`, `organisation_path`, `organisation_catalog_url` , `aliada_ontology`, `linking_config_file`, `tmp_dir`, `linking_client_app_bin_dir`, `linking_client_app_user`, `sparql_endpoint_uri`, `sparql_endpoint_login`, `sparql_endpoint_password`, `store_ip`,  `store_sql_port`, `sql_login`, `sql_password`, `isql_command_path`, `isql_commands_file_default`, `public_sparql_endpoint_uri`)
  VALUES ('MFAB','/usr/share/tomcat/upload','http://www.szepmuveszeti.hu/collection_browser_eng','http://aliada-project.eu/2014/aliada-ontology/' , '/home/aliada/links-discovery/config/linksdiscoveryTest.properties', '/home/aliada/tmp', '/home/aliada/links-discovery/bin/',
-'aliada', 'http://localhost:8890/sparql-auth', 'aliada_dev', 'aliada_dev', 'localhost', '1111', 'dba', 'dba', '/home/virtuoso/bin/isql-v', '/home/aliada/linked-data-server/config/isql_id_rewrite_rules_html_mfab.sql', '/home/aliada/linked-data-server/config/isql_id_rewrite_rules_html_default.sql', 'http://aliada.scanbit.net:8890/sparql');
+'aliada', 'http://localhost:8890/sparql-auth', 'aliada_dev', 'aliada_dev', 'localhost', '1111', 'dba', 'dba', '/home/virtuoso/bin/isql-v', '/home/aliada/linked-data-server/config/isql_id_rewrite_rules_html_default.sql', 'http://aliada.scanbit.net:8890/sparql');
 
 INSERT INTO `aliada`.`user` (`user_name`, `user_password`, `user_email`, `user_type_code`, `user_role_code`,`organisationId`) VALUES
 ('admin','admin','admin@aliada.eu',0,0,1);
