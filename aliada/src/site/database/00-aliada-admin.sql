@@ -102,7 +102,9 @@ CREATE TABLE IF NOT EXISTS `aliada`.`template` (
   `template_id` int(11) NOT NULL AUTO_INCREMENT,
   `template_name` varchar(32) NOT NULL,
   `template_description` varchar(128) default NULL,
-  PRIMARY KEY  (`template_id`)
+  `file_type_code` int(11) NOT NULL,
+  PRIMARY KEY  (`template_id`),
+  KEY `fk_file_type_code_idx` (`file_type_code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -253,11 +255,6 @@ CREATE TABLE IF NOT EXISTS `aliada`.`user` (
   FOREIGN KEY (organisationId) REFERENCES organisation(organisationId)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-ALTER TABLE `aliada`.`user`
-  ADD CONSTRAINT `user_ibfk_2` FOREIGN KEY (`user_role_code`) REFERENCES `t_user_role` (`user_role_code`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `user_ibfk_3` FOREIGN KEY (`user_type_code`) REFERENCES `t_user_type` (`user_type_code`) ON DELETE CASCADE ON UPDATE CASCADE;
-
-
 -- --------------------------------------------------------
 
 --
@@ -308,6 +305,13 @@ ALTER TABLE `aliada`.`user`
   ADD CONSTRAINT `user_ibfk_2` FOREIGN KEY (`user_role_code`) REFERENCES `t_user_role` (`user_role_code`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `user_ibfk_3` FOREIGN KEY (`user_type_code`) REFERENCES `t_user_type` (`user_type_code`) ON DELETE CASCADE ON UPDATE CASCADE;
 
+
+--
+-- Filtros para la tabla `template`
+--
+ALTER TABLE `aliada`.`template`
+  ADD CONSTRAINT `fk_file_type_code` FOREIGN KEY (`file_type_code`) REFERENCES `t_file_type` (`file_type_code`) ON DELETE CASCADE ON UPDATE CASCADE;
+  
 --
 -- Filtros para la tabla `xml_tag`
 --
@@ -535,12 +539,20 @@ INSERT INTO `aliada`.`t_external_dataset` (`external_dataset_code`, `external_da
 (1, 'GeoNames', NULL);
 
 --
--- Volcar la base de datos para las tablas `organisation`, `user`
+-- Volcar la base de datos para las siguientes tablas 
 --
 INSERT INTO `aliada`.`organisation` (`organisation_name`, `organisation_path`, `organisation_catalog_url` , `aliada_ontology`, `linking_config_file`, `tmp_dir`, `linking_client_app_bin_dir`, `linking_client_app_user`, `sparql_endpoint_uri`, `sparql_endpoint_login`, `sparql_endpoint_password`, `store_ip`,  `store_sql_port`, `sql_login`, `sql_password`, `isql_command_path`, `isql_commands_file_default`, `public_sparql_endpoint_uri`)
- VALUES ('MFAB','/usr/share/tomcat/upload','http://www.szepmuveszeti.hu/collection_browser_eng','http://aliada-project.eu/2014/aliada-ontology/' , '/home/aliada/links-discovery/config/linksdiscoveryTest.properties', '/home/aliada/tmp', '/home/aliada/links-discovery/bin/',
-'aliada', 'http://localhost:8890/sparql-auth', 'aliada_dev', 'aliada_dev', 'localhost', '1111', 'dba', 'dba', '/home/virtuoso/bin/isql-v', '/home/aliada/linked-data-server/config/isql_id_rewrite_rules_html_default.sql', 'http://aliada.scanbit.net:8890/sparql');
+ VALUES ('MFAB','/var/lib/tomcat7/upload','http://www.szepmuveszeti.hu/collection_browser_eng','http://aliada-project.eu/2014/aliada-ontology/' , '/home/aliada/links-discovery/config/linksdiscoveryTest.properties', '/home/aliada/tmp', '/home/aliada/links-discovery/bin/',
+'aliada', 'http://data.szepmuveszeti.hu/sparql-auth', 'aliada_dev', 'aliada_dev', 'localhost', '1111', 'dba', 'eskubaratz2015', '/home/virtuoso/bin/isql-v', '/home/aliada/linked-data-server/config/isql_id_rewrite_rules_html_default.sql', 'http://data.szepmuveszeti.hu/sparql');
 
 INSERT INTO `aliada`.`user` (`user_name`, `user_password`, `user_email`, `user_type_code`, `user_role_code`,`organisationId`) VALUES
-('admin','admin','admin@aliada.eu',0,0,1);
+('admin','1eh/F6TPx3EfCmKlAEeeppB1PHE+J16XaJIS/ig/78o+3yfNwSsso7YsldTyPnhW','admin@aliada.eu',1,1,1);
+
+INSERT INTO `aliada`.`profile` VALUES (1,'MARC BIB',0,'MARC biblio',0,0,0,0),(2,'MARC AUT',0,'MARC authorities',0,1,0,0),(3,'LIDO',1,'LIDO MUSEUM',1,2,0,2);
+
+INSERT INTO `aliada`.`template` VALUES (1,'MARC BIB','MARC biblio',0),(3,'LIDO','lido',2),(10,'Authorities','Authorities template',1);
+
+INSERT INTO `aliada`.`template_xml_tag` VALUES (1,'024z'),(1,'130l'),(1,'700(0-1)a-b-c-d-q-u'),(1,'810k'),(3,'024d'),(3,'045c'),(3,'046l'),(3,'100(0-1)a-b-c-d-q-u'),(3,'100n'),(3,'110d'),(3,'110n'),(3,'111k'),(3,'111p'),(3,'111t'),(3,'240a'),(3,'240p'),(3,'240s'),(3,'243a'),(3,'336a'),(3,'546a'),(3,'700l'),(3,'700o'),(3,'700p'),(3,'710d'),(3,'710h'),(3,'710o'),(3,'710p'),(3,'710t'),(3,'711n'),(3,'730d'),(3,'730h'),(3,'800n'),(3,'810d'),(3,'830l');
+
+INSERT INTO aliada.graph (graphId, graph_uri, dataset_base, listening_host, virtual_host, organisationId, isql_commands_file) VALUES (1, 'http://data.szepmuveszeti.hu', 'http://data.szepmuveszeti.hu', '*ini*', '*ini*', 1, '/home/aliada/linked-data-server/config/isql_id_rewrite_rules_html_mfab.sql');
 
