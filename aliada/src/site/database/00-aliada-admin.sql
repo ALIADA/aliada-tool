@@ -543,7 +543,7 @@ INSERT INTO `aliada`.`t_external_dataset` (`external_dataset_code`, `external_da
 --
 INSERT INTO `aliada`.`organisation` (`organisation_name`, `organisation_path`, `organisation_catalog_url` , `aliada_ontology`, `linking_config_file`, `tmp_dir`, `linking_client_app_bin_dir`, `linking_client_app_user`, `sparql_endpoint_uri`, `sparql_endpoint_login`, `sparql_endpoint_password`, `store_ip`,  `store_sql_port`, `sql_login`, `sql_password`, `isql_command_path`, `isql_commands_file_default`, `public_sparql_endpoint_uri`)
  VALUES ('MFAB','/var/lib/tomcat7/upload','http://www.szepmuveszeti.hu/collection_browser_eng','http://aliada-project.eu/2014/aliada-ontology/' , '/home/aliada/links-discovery/config/linksdiscoveryTest.properties', '/home/aliada/tmp', '/home/aliada/links-discovery/bin/',
-'aliada', 'http://data.szepmuveszeti.hu/sparql-auth', 'aliada_dev', 'aliada_dev', 'localhost', '1111', 'dba', 'eskubaratz2015', '/home/virtuoso/bin/isql-v', '/home/aliada/linked-data-server/config/isql_id_rewrite_rules_html_default.sql', 'http://data.szepmuveszeti.hu/sparql');
+'aliada', 'http://data.szepmuveszeti.hu/sparql-auth', 'aliada_dev', 'aliada_dev', 'localhost', '1111', 'dba', 'dba', '/home/virtuoso/bin/isql-v', '/home/aliada/linked-data-server/config/isql_id_rewrite_rules_html_default.sql', 'http://data.szepmuveszeti.hu/sparql');
 
 INSERT INTO `aliada`.`user` (`user_name`, `user_password`, `user_email`, `user_type_code`, `user_role_code`,`organisationId`) VALUES
 ('admin','1eh/F6TPx3EfCmKlAEeeppB1PHE+J16XaJIS/ig/78o+3yfNwSsso7YsldTyPnhW','admin@aliada.eu',1,1,1);
