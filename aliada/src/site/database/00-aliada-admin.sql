@@ -535,8 +535,7 @@ INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_desc
 -- Volcar la base de datos para la tabla `t_external_dataset`
 --
 INSERT INTO `aliada`.`t_external_dataset` (`external_dataset_code`, `external_dataset_name`, `external_dataset_description`) VALUES
-(0, 'DBPedia', NULL),
-(1, 'GeoNames', NULL);
+(0,'DBPedia',NULL),(1,'GeoNames',NULL),(2,'Freebase',NULL),(3,'BNE',NULL),(4,'BNB',NULL),(5,'Europeana',NULL),(6,'NSZL',NULL),(7,'MARC',NULL);
 
 --
 -- Volcar la base de datos para las siguientes tablas 

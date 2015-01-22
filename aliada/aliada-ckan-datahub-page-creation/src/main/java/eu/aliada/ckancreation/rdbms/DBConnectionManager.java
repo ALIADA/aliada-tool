@@ -102,15 +102,16 @@ public class DBConnectionManager {
 			while (resultSet.next()) {
 				jobConf = new JobConfiguration();
 				jobConf.setId(jobId);
+				jobConf.setCkanApiURL(resultSet.getString("ckan_api_url"));
+				jobConf.setCkanApiKey(resultSet.getString("ckan_api_key"));
 				jobConf.setStoreIp(resultSet.getString("store_ip"));
 				jobConf.setStoreSqlPort(resultSet.getInt("store_sql_port"));
 				jobConf.setSqlLogin(resultSet.getString("sql_login"));
 				jobConf.setSqlPassword(resultSet.getString("sql_password"));
 				jobConf.setIsqlCommandPath(resultSet.getString("isql_command_path"));
-				jobConf.setDumpPath(resultSet.getString("dump_path"));
-				jobConf.setDumpUrl(resultSet.getString("dump_url"));
-				jobConf.setCkanApiURL(resultSet.getString("ckan_api_url"));
-				jobConf.setCkanApiKey(resultSet.getString("ckan_api_key"));
+				jobConf.setDumpFolderPath(resultSet.getString("dump_folder_path"));
+				jobConf.setDumpFolderURL(resultSet.getString("dump_folder_url"));
+				jobConf.setAliadaOntologyURL(resultSet.getString("aliada_ontology"));
 				jobConf.setOrgTitle(resultSet.getString("org_title"));
 				jobConf.setOrgName(resultSet.getString("org_name"));
 				jobConf.setOrgDescription(resultSet.getString("org_description"));
@@ -120,9 +121,12 @@ public class DBConnectionManager {
 				jobConf.setDatasetName(resultSet.getString("dataset_name"));
 				jobConf.setDatasetNotes(resultSet.getString("dataset_notes"));
 				jobConf.setDatasetSourceURL(resultSet.getString("dataset_source_url"));
-				jobConf.setSPARQLEndpoint(resultSet.getString("sparql_endpoint"));
-				jobConf.setLicenseId(resultSet.getString("license_id"));
+				jobConf.setSPARQLEndpoint(resultSet.getString("public_sparql_endpoint_uri"));
+				jobConf.setLicenseCKANId(resultSet.getString("license_ckan_id"));
+				jobConf.setLicenseURL(resultSet.getString("license_url"));
 				jobConf.setGraphURI(resultSet.getString("graph_uri"));
+				jobConf.setDatasetDescFolderPath(resultSet.getString("datasetdesc_folder_path"));
+				jobConf.setDatasetDescFolderURL(resultSet.getString("datasetdesc_folder_url"));
 		    }
 			resultSet.close();
 			sta.close();
@@ -182,22 +186,22 @@ public class DBConnectionManager {
 	}
 
 	/**
-	 * Updates the Void file related info of the job.
+	 * Updates the info in the job related to the dataset description file.
 	 *
-	 * @param jobId			the job identification.
-	 * @param voidFilePath	the Void file path.
-	 * @param voidFileUrl	the Void file URL.
-	 * @return true if the Void file related info has been updated correctly in the DDBB. False otherwise.
+	 * @param jobId				the job identification.
+	 * @param datasetDescPath	the path of the dataset description file.
+	 * @param datasetDescURL	the URL of the dataset description file.
+	 * @return true if the file related info has been updated correctly in the DDBB. False otherwise.
 	 * @since 2.0
 	 */
-	public boolean updateVoidFile(final int jobId, final String voidFilePath, String voidFileUrl){
+	public boolean updateDatasetDescFile(final int jobId, final String datasetDescPath, String datasetDescURL){
     	try {
     		PreparedStatement preparedStatement = null;		
-    		preparedStatement = conn.prepareStatement("UPDATE ckancreation_job_instances SET void_file_path = ? , void_file_url = ? WHERE job_id = ?");
+    		preparedStatement = conn.prepareStatement("UPDATE ckancreation_job_instances SET datasetdesc_file_path = ? , datasetdesc_file_url = ? WHERE job_id = ?");
     		// (job_id, void_file_path)
     		// parameters start with 1
-    		preparedStatement.setString(1, voidFilePath);
-    		preparedStatement.setString(2, voidFileUrl);
+    		preparedStatement.setString(1, datasetDescPath);
+    		preparedStatement.setString(2, datasetDescURL);
     		preparedStatement.setInt(3, jobId);
     		preparedStatement.executeUpdate();
 		} catch (SQLException exception) {
@@ -276,10 +280,10 @@ public class DBConnectionManager {
 			while (resultSet.next()) {
 				job.setStartDate(resultSet.getTimestamp("start_date"));
 				job.setEndDate(resultSet.getTimestamp("end_date"));
-				job.setCkanOrgUrl(resultSet.getString("ckan_org_url"));
-				job.setCkanDatasetUrl(resultSet.getString("ckan_dataset_url"));
-				job.setVoidFilePath(resultSet.getString("void_file_path"));
-				job.setVoidFileUrl(resultSet.getString("void_file_url"));
+				job.setCkanOrgURL(resultSet.getString("ckan_org_url"));
+				job.setCkanDatasetURL(resultSet.getString("ckan_dataset_url"));
+				job.setDatasetDescFilePath(resultSet.getString("datasetdesc_file_path"));
+				job.setDatasetDescFileURL(resultSet.getString("datasetdesc_file_url"));
 				//Determine job status
 				String status = JOB_STATUS_IDLE;
 				if(job.getStartDate() != null){

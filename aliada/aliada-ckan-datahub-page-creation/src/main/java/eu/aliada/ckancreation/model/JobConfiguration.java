@@ -14,6 +14,10 @@ package eu.aliada.ckancreation.model;
 public class JobConfiguration {
 	/** Job identification number. */
 	private Integer id;
+	/** CKAN API URL. */
+	private String ckanApiURL;
+	/** CKAN API Key. */
+	private String ckanApiKey;
 	/** IP address of the machine where the RDF store resides. */
 	private String storeIp;
 	/** Port number of the RDF store for SQL access. */
@@ -25,13 +29,11 @@ public class JobConfiguration {
 	/** Full path to the ISQL command. */
 	private String isqlCommandPath;
 	/** Path for graphs dump. */
-	private String dumpPath;
+	private String dumpFolderPath;
 	/** URL for graphs dump. */
-	private String dumpUrl;
-	/** CKAN API URL. */
-	private String ckanApiURL;
-	/** CKAN API Key. */
-	private String ckanApiKey;
+	private String dumpFolderURL;
+	/** Aliada ontology URL. */
+	private String aliadaOntologyURL;
 
 	/** ORGANIZATION **/
 	/** The organization name. */
@@ -56,10 +58,16 @@ public class JobConfiguration {
 	private String datasetSourceURL;
 	/** The SPARQL endpoint URL. */
 	private String SPARQLendpoint;
-	/** License id. See opendefinition.org .*/
-	private String licenseId;
+	/** License id in CKAN. See opendefinition.org .*/
+	private String licenseCKANId;
+	/** License URL.*/
+	private String licenseURL;
 	/** Graph URI. */
 	private String graphURI;
+	/** Path of the folder where to store the dataset description file. */
+	private String datasetDescFolderPath;
+	/** URL of the folder where to store the dataset description file. */
+	private String datasetDescFolderURL;
 
     
 	/**
@@ -79,6 +87,44 @@ public class JobConfiguration {
 	 */
 	public void setId(final Integer id) {
 		this.id = id;
+	}
+
+	/**
+	 * Returns the CKAN API URL.
+	 * 
+	 * @return The CKAN API URL.
+	 * @since 2.0
+	 */
+	public String getCkanApiURL() {
+		return ckanApiURL;
+	}
+	/**
+	 * Sets the CKAN API URL.
+	 * 
+	 * @param ckanApiURL CKAN API URL.
+	 * @since 2.0
+	 */
+	public void setCkanApiURL(final String ckanApiURL) {
+		this.ckanApiURL = ckanApiURL;
+	}
+
+	/**
+	 * Returns the CKAN API Key.
+	 * 
+	 * @return The CKAN API Key.
+	 * @since 2.0
+	 */
+	public String getCkanApiKey() {
+		return ckanApiKey;
+	}
+	/**
+	 * Sets the CKAN API Key.
+	 * 
+	 * @param ckanApiKey CKAN API Key.
+	 * @since 2.0
+	 */
+	public void setCkanApiKey(final String ckanApiKey) {
+		this.ckanApiKey = ckanApiKey;
 	}
 
 	/**
@@ -177,79 +223,60 @@ public class JobConfiguration {
 	}		
 
 	/**
-	 * Returns the path for the graphs dump.
+	 * Returns the path of the folder for the graphs dump.
 	 * 
-	 * @return The path for the graphs dump.
+	 * @return The path of the folder for the graphs dump.
 	 * @since 2.0
 	 */
-	public String getDumpPath() {
-		return dumpPath;
+	public String getDumpFolderPath() {
+		return dumpFolderPath;
 	}
 	/**
-	 * Sets the path for the graphs dump.
+	 * Sets the path of the folder for the graphs dump.
 	 * 
-	 * @param dumpPath The path for the graphs dump.
+	 * @param dumpFolderPath The path of the folder for the graphs dump.
 	 * @since 2.0
 	 */
-	public void setDumpPath(final String dumpPath) {
-		this.dumpPath = dumpPath;
-	}
-
-	/**
-	 * Returns the URL for the graphs dump.
-	 * 
-	 * @return The URL for the graphs dump.
-	 * @since 2.0
-	 */
-	public String getDumpUrl() {
-		return dumpUrl;
-	}
-	/**
-	 * Sets the URL for the graphs dump.
-	 * 
-	 * @param dumpUrl The URL for the graphs dump.
-	 * @since 2.0
-	 */
-	public void setDumpUrl(final String dumpUrl) {
-		this.dumpUrl = dumpUrl;
+	public void setDumpFolderPath(final String dumpFolderPath) {
+		this.dumpFolderPath = dumpFolderPath;
 	}
 
 	/**
-	 * Returns the CKAN API URL.
+	 * Returns the URL for the folder of the graphs dump.
 	 * 
-	 * @return The CKAN API URL.
+	 * @return The URL for the folder of the graphs dump.
 	 * @since 2.0
 	 */
-	public String getCkanApiURL() {
-		return ckanApiURL;
+	public String getDumpFolderURL() {
+		return dumpFolderURL;
 	}
 	/**
-	 * Sets the CKAN API URL.
+	 * Sets the URL for the folder of the graphs dump.
 	 * 
-	 * @param ckanApiURL CKAN API URL.
+	 * @param dumpURL The URL for the folder of the graphs dump.
 	 * @since 2.0
 	 */
-	public void setCkanApiURL(final String ckanApiURL) {
-		this.ckanApiURL = ckanApiURL;
+	public void setDumpFolderURL(final String dumpFolderURL) {
+		this.dumpFolderURL = dumpFolderURL;
 	}
 
 	/**
-	 * Returns the CKAN API Key.
+	 * Returns the ALIADA ontology URL.
 	 * 
-	 * @return The CKAN API Key.
+	 * @return The ALIADA ontology URL.
 	 * @since 2.0
 	 */
-	public String getCkanApiKey() {
-		return ckanApiKey;
+	public String getAliadaOntologyURL() {
+		return aliadaOntologyURL;
 	}
 	/**
-	 * Sets the CKAN API Key.
+	 * Sets the ALIADA ontology URL.
 	 * 
-	 * @param ckanApiKey CKAN API Key.
+	 * @param aliadaOntologyURL The ALIADA ontology URL.
 	 * @since 2.0
 	 */
-	public void setCkanApiKey(final String ckanApiKey) {
-		this.ckanApiKey = ckanApiKey;
+	public void setAliadaOntologyURL(final String aliadaOntologyURL) {
+		this.aliadaOntologyURL = aliadaOntologyURL;
 	}
 
 	/**
@@ -444,22 +471,41 @@ public class JobConfiguration {
 
 
 	/**
-	 * Returns the id of the License of the dataset. See opendefinition.org .
+	 * Returns the CKAN id of the License of the dataset. See opendefinition.org .
 	 * 
-	 * @return The id of the License of the dataset.
+	 * @return The CKAN id of the License of the dataset.
 	 * @since 2.0
 	 */
-	public String getLicenseId() {
-		return this.licenseId;
+	public String getLicenseCKANId() {
+		return this.licenseCKANId;
 	}
 	/**
-	 * Sets the id of the License of the dataset. See opendefinition.org .
+	 * Sets the CKAN id of the License of the dataset. See opendefinition.org .
 	 * 
-	 * @param licenseid Id of the License of the dataset.
+	 * @param licenseCKANId CKAN id of the License of the dataset.
 	 * @since 2.0
 	 */
-	public void setLicenseId(String licenseId) {
-		this.licenseId = licenseId;
+	public void setLicenseCKANId(String licenseCKANId) {
+		this.licenseCKANId = licenseCKANId;
+	}
+
+	/**
+	 * Returns the license URL of the dataset. 
+	 * 
+	 * @return The license URL of the dataset.
+	 * @since 2.0
+	 */
+	public String getLicenseURL() {
+		return this.licenseURL;
+	}
+	/**
+	 * Sets the license URL of the dataset.
+	 * 
+	 * @param licenseURL license URL of the dataset.
+	 * @since 2.0
+	 */
+	public void setLicenseURL(String licenseURL) {
+		this.licenseURL = licenseURL;
 	}
 
 	/**
@@ -480,4 +526,43 @@ public class JobConfiguration {
 	public void setGraphURI(final String graphURI) {
 		this.graphURI = graphURI;
 	}
+
+	/**
+	 * Returns the path of the folder where to store the dataset description file.
+	 * 
+	 * @return The path of the folder where to store the dataset description file.
+	 * @since 2.0
+	 */
+	public String getDatasetDescFolderPath() {
+		return datasetDescFolderPath;
+	}
+	/**
+	 * Sets the path of the folder where to store the dataset description file.
+	 * 
+	 * @param datasetDescFolderPath The path of the folder where to store the dataset description file.
+	 * @since 2.0
+	 */
+	public void setDatasetDescFolderPath(final String datasetDescFolderPath) {
+		this.datasetDescFolderPath = datasetDescFolderPath;
+	}
+
+	/**
+	 * Returns the URL of the folder where to store the dataset description file.
+	 * 
+	 * @return The URL of the folder where to store the dataset description file.
+	 * @since 2.0
+	 */
+	public String getDatasetDescFolderURL() {
+		return datasetDescFolderURL;
+	}
+	/**
+	 * Sets the URL of the folder where to store the dataset description file.
+	 * 
+	 * @param datasetDescURL The URL of the folder where to store the dataset description file.
+	 * @since 2.0
+	 */
+	public void setDatasetDescFolderURL(final String datasetDescFolderURL) {
+		this.datasetDescFolderURL = datasetDescFolderURL;
+	}
+
 }
