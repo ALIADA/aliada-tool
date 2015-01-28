@@ -23,6 +23,7 @@ public interface MessageCatalog {
 	String _00023_JOB_CONFIGURATION_NOT_FOUND = LT + MODULE_NAME + "-00023> : Unable to find a configuration for creating a job with id %s.";	
 	String _00024_DATA_ACCESS_FAILURE = LT + MODULE_NAME + "-00024> : Data access failure has been detected. See below for further details.";	
 	String _00025_GET_JOB_REQUEST = LT + MODULE_NAME + "-00025> : A job info request has been detected.";		
+	String _00026_GET_NEW_DB_CONNECTION = LT + MODULE_NAME + "-00026> : Getting a new DB connection.";		
 
 	String _00030_STARTING = LT + MODULE_NAME + "-00030> : LinksDiscovery programming is starting.";	
 	String _00031_FILE_NOT_FOUND = LT + MODULE_NAME + "-00031> : File %s not found.";

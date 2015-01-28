@@ -51,6 +51,16 @@ public class DBConnectionManager {
 	 * @since 1.0
 	 */
 	public DBConnectionManager() {
+		getNewConnection();
+	}
+
+	/**
+	 * Returns a new DDBB connection.
+	 *
+	 * @return	the new DDBB connection.
+	 * @since 2.0
+	 */
+	public void getNewConnection() {
 		InitialContext ic;
 		DataSource ds;
 		try {
@@ -84,6 +94,15 @@ public class DBConnectionManager {
 	 * @since 1.0
 	 */
 	public Connection getConnection() {
+		try {
+			//Check first if the DB connection is still valid
+			if(!this.conn.isValid(1)){
+				LOGGER.debug(MessageCatalog._00026_GET_NEW_DB_CONNECTION);
+				getNewConnection();
+			}
+		} catch (SQLException exception) {
+			LOGGER.error(MessageCatalog._00024_DATA_ACCESS_FAILURE, exception);
+		}
 		return this.conn;
 	}
  
@@ -98,7 +117,7 @@ public class DBConnectionManager {
 	public JobConfiguration getJobConfiguration(final Integer jobId) {
 		JobConfiguration job = null;
 		try {
-			final Statement sta = conn.createStatement();
+			final Statement sta = getConnection().createStatement();
 			final String sql = "SELECT * FROM linksdiscovery_job_instances WHERE job_id=" + jobId;
 			final ResultSet resultSet = sta.executeQuery(sql);
 			while (resultSet.next()) {
@@ -137,7 +156,7 @@ public class DBConnectionManager {
 		//Update start_date of job
     	try {
     		PreparedStatement preparedStatement = null;		
-    		preparedStatement = conn.prepareStatement("UPDATE linksdiscovery_job_instances SET start_date = ? WHERE job_id = ?");
+    		preparedStatement = getConnection().prepareStatement("UPDATE linksdiscovery_job_instances SET start_date = ? WHERE job_id = ?");
     		// (job_id, start_date)
     		// parameters start with 1
     		final java.util.Date today = new java.util.Date();
@@ -163,7 +182,7 @@ public class DBConnectionManager {
 		//Update end_date of job
     	try {
     		PreparedStatement preparedStatement = null;		
-    		preparedStatement = conn.prepareStatement("UPDATE linksdiscovery_job_instances SET end_date = ? WHERE job_id = ?");
+    		preparedStatement = getConnection().prepareStatement("UPDATE linksdiscovery_job_instances SET end_date = ? WHERE job_id = ?");
     		// (job_id, end_date)
     		// parameters start with 1
     		final java.util.Date today = new java.util.Date();
@@ -195,7 +214,7 @@ public class DBConnectionManager {
 	public boolean insertSubjobToDDBB(final int jobId, final int subjobId, final SubjobConfiguration subjobConf, final String linkingXMLConfigFilename, final JobConfiguration jobConf){
     	try {
     		PreparedStatement preparedStatement = null;		
-    		preparedStatement = conn.prepareStatement("INSERT INTO  linksdiscovery_subjob_instances VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, default, default, default)");
+    		preparedStatement = getConnection().prepareStatement("INSERT INTO  linksdiscovery_subjob_instances VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, default, default, default)");
     		// (job_id, subjob_id, name, config_file, num_threads, reloadSource, reloadTarget, output_uri, output_login, output_password, output_graph, tmp_dir, num_links, start_date, end_date)
     		// parameters start with 1
     		preparedStatement.setInt(1, jobId);
@@ -231,7 +250,7 @@ public class DBConnectionManager {
 		final Job job = new Job();
 		job.setId(jobId);
 		try {
-			final Statement sta = conn.createStatement();
+			final Statement sta = getConnection().createStatement();
 			String sql = "SELECT * FROM linksdiscovery_job_instances WHERE job_id=" + jobId;
 			ResultSet resultSet = sta.executeQuery(sql);
 			while (resultSet.next()) {
