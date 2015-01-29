@@ -141,7 +141,7 @@ $expression_s #efrbroo('R4_carriers_provided_by') $manifestation_s .
 	$pub_event_s $is_a #efrbroo("F30_Publication_Event") . 
 	$pub_event_s #efrbroo("R24_created") $pub_exp_s . 
 	$pub_event_s #ecrm('P14_carried_out_by') $publisher_actor_s . 
-	$publisher_actor_s $is_a #efrbroo("E39_Actor") . 
+	$publisher_actor_s $is_a #ecrm("E39_Actor") . 
 	$publisher_actor_s #ecrm('P131_is_identified_by') $publisher_appellation_s . 
 	$publisher_appellation_s $is_a #efrbroo("E82_Actor_Appellation") . 
 	$publisher_appellation_s $P3_has_note "$value" .
