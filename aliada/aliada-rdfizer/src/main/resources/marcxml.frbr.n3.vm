@@ -55,7 +55,7 @@ $expression_s #efrbroo('R4_carriers_provided_by') $manifestation_s .
 #set($controlNumber = $xpath.cf("001",$root))
 #if ($controlNumber)
     #set($id_s = "#uri('E75_Conceptual_Object_Appellation' $controlNumber)")
-    $id_s $is_a #efrbroo("E75_Conceptual_Object_Appellation") . 
+    $id_s $is_a #ecrm("E75_Conceptual_Object_Appellation") . 
     $id_s $P3_has_note "$controlNumber" . 
     $manifestation_s $P149_is_identified_by $id_s .
 #end	
@@ -123,7 +123,7 @@ $expression_s #efrbroo('R4_carriers_provided_by') $manifestation_s .
 	$pub_exp_s $is_a #efrbroo("F24_Publication_Expression") . 
 	$pub_exp_s #efrbroo("R14_incorporates") $expression_s . 
 	$pub_exp_s #ecrm('P106_is_composed_of') $lin_obj_s . 
-	$lin_obj_s $is_a #efrbroo("E33_Linguistic_Object") . 
+	$lin_obj_s $is_a #ecrm("E33_Linguistic_Object") . 
 	$lin_obj_s $P3_has_note "$value" . 
 	$lin_obj_s $P2_has_type #aliadaconcept('Concept/MARC/3') . 
 #end
@@ -143,9 +143,9 @@ $expression_s #efrbroo('R4_carriers_provided_by') $manifestation_s .
 	$pub_event_s #ecrm('P14_carried_out_by') $publisher_actor_s . 
 	$publisher_actor_s $is_a #ecrm("E39_Actor") . 
 	$publisher_actor_s #ecrm('P131_is_identified_by') $publisher_appellation_s . 
-	$publisher_appellation_s $is_a #efrbroo("E82_Actor_Appellation") . 
+	$publisher_appellation_s $is_a #ecrm("E82_Actor_Appellation") . 
 	$publisher_appellation_s $P3_has_note "$value" .
-	$lin_obj_s $is_a #efrbroo("E33_Linguistic_Object") . 
+	$lin_obj_s $is_a #ecrm("E33_Linguistic_Object") . 
 	$lin_obj_s $P3_has_note "$value" . 
 	$lin_obj_s $P2_has_type #aliadaconcept('Concept/MARC/4') . 
 #end	
@@ -160,13 +160,13 @@ $expression_s #efrbroo('R4_carriers_provided_by') $manifestation_s .
 	$pub_exp_s $is_a #efrbroo("F24_Publication_Expression") . 
 	$pub_exp_s #efrbroo("R14_incorporates") $expression_s . 
 	$pub_exp_s #ecrm('P106_is_composed_of') $lin_obj_s . 
-	$lin_obj_s $is_a #efrbroo("E33_Linguistic_Object") . 
+	$lin_obj_s $is_a #ecrm("E33_Linguistic_Object") . 
 	$lin_obj_s $P3_has_note "$value" . 
 	$lin_obj_s $P2_has_type #aliadaconcept('Concept/MARC/5') . 
 	$pub_event_s $is_a #efrbroo("F30_Publication_Event") . 
 	$pub_event_s #efrbroo("R24_created") $pub_exp_s . 
 	$pub_event_s #ecrm('P4_has_time-span') $time_span_s . 
-	$time_span_s $is_a #efrbroo("E52_Time-Span") . 
+	$time_span_s $is_a #ecrm("E52_Time-Span") . 
 	$time_span_s #ecrm('P82_at_some_time_within') "$value" . 
 #end	
 #simplest_mapping_with_repeatable_tag ($expression_s "242" "c" $root "E33_Linguistic_Object" "#ecrm('E33_Linguistic_Object')" "#ecrm('P148_has_component')" "#aliadaconcept('Concept/MARC/1')")
