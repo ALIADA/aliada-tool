@@ -6,8 +6,7 @@
     <Prefix id="rdfs" namespace="http://www.w3.org/2000/01/rdf-schema#"/>
     <Prefix id="ecrm" namespace="http://erlangen-crm.org/current/"/>
     <Prefix id="efrbroo" namespace="http://erlangen-crm.org/efrbroo/"/>
-    <Prefix id="ifla-frbr" namespace="http://iflastandards.info/ns/fr/frbr/frbrer/"/>
-    <Prefix id="ifla-frad" namespace="http://iflastandards.info/ns/fr/frad/"/>
+    <Prefix id="bne" namespace="http://datos.bne.es/def/"/>
   </Prefixes>
 
   <DataSources>
@@ -36,7 +35,7 @@
 		<RestrictTo> {?actor rdf:type ecrm:E39_Actor} UNION {?actor rdf:type ecrm:E21_Person} UNION {?actor rdf:type efrbroo:F10_Person} </RestrictTo>
 	  </SourceDataset>
 	  <TargetDataset dataSource="BNE" var="b">
-		<RestrictTo> ?b rdf:type ifla-frbr:C1005 . </RestrictTo>
+		<RestrictTo> ?b rdf:type bne:C1005 . </RestrictTo>
 	  </TargetDataset>
 	  <LinkageRule>
 		<Aggregate type="max">
@@ -45,7 +44,7 @@
 					<Input id="unnamed_3" path="?actor/ecrm:P131_is_identified_by[&lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#type&gt; = &lt;http://erlangen-crm.org/current/E82_Actor_Appellation&gt;]/ecrm:P3_has_note"/>
 				</TransformInput>
 				<TransformInput id="unnamed_4" function="lowerCase">
-					<Input id="unnamed_5" path="?b/ifla-frbr:P3039"/>
+					<Input id="unnamed_5" path="?b/rdfs:label"/>
 				</TransformInput>
 				<Param name="minChar" value="0"/>
 				<Param name="maxChar" value="z"/>
@@ -55,7 +54,7 @@
 					<Input id="unnamed_8" path="?actor/ecrm:P131_is_identified_by[&lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#type&gt; = &lt;http://erlangen-crm.org/current/E82_Actor_Appellation&gt;]/ecrm:P3_has_note"/>
 				</TransformInput>
 				<TransformInput id="unnamed_9" function="lowerCase">
-					<Input id="unnamed_10" path="?b/ifla-frad:P4031"/>
+					<Input id="unnamed_10" path="?b/bne:P5001"/>
 				</TransformInput>
 				<Param name="minChar" value="0"/>
 				<Param name="maxChar" value="z"/>
@@ -74,7 +73,7 @@
 		<RestrictTo> ?book rdf:type efrbroo:F3_Manifestation_Product_Type . </RestrictTo>
 	  </SourceDataset>
 	  <TargetDataset dataSource="BNE" var="b">
-		<RestrictTo> ?b rdf:type ifla-frbr:C1001 . </RestrictTo>
+		<RestrictTo> ?b rdf:type bne:C1003 . </RestrictTo>
 	  </TargetDataset>
 	  <LinkageRule>
 		<Aggregate type="max">
@@ -83,7 +82,7 @@
 					<Input id="unnamed_13" path="?book/ecrm:P102_has_title[&lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#type&gt; = &lt;http://erlangen-crm.org/current/E35_Title&gt;]/ecrm:P3_has_note"/>
 				</TransformInput>
 				<TransformInput id="unnamed_14" function="lowerCase">
-					<Input id="unnamed_15" path="?b/ifla-frbr:P3001"/>
+					<Input id="unnamed_15" path="?b/rdfs:label"/>
 				</TransformInput>
 				<Param name="minChar" value="0"/>
 				<Param name="maxChar" value="z"/>
@@ -93,7 +92,7 @@
 					<Input id="unnamed_18" path="?book/ecrm:P102_has_title[&lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#type&gt; = &lt;http://erlangen-crm.org/current/E35_Title&gt;]/ecrm:P3_has_note"/>
 				</TransformInput>
 				<TransformInput id="unnamed_19" function="lowerCase">
-					<Input id="unnamed_20" path="?b/ifla-frad:P4033"/>
+					<Input id="unnamed_20" path="?b/bne:P1004"/>
 				</TransformInput>
 				<Param name="minChar" value="0"/>
 				<Param name="maxChar" value="z"/>
