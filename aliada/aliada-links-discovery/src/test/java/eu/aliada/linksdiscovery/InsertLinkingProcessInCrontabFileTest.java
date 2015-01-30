@@ -37,7 +37,8 @@ public class InsertLinkingProcessInCrontabFileTest {
 		final int jobId = randomIdentifier();
 		final int subjobId = randomIdentifier();
 		final String linkingPropConfigFilename = randomString();
-		final boolean result = linksDisc.insertLinkingProcessInCrontabFile(CRONTAB_FILE_NAME, clientAppBinDir, jobId, subjobId, linkingPropConfigFilename);
+		final boolean reloadTarget = false;
+		final boolean result = linksDisc.insertLinkingProcessInCrontabFile(CRONTAB_FILE_NAME, clientAppBinDir, jobId, subjobId, linkingPropConfigFilename, reloadTarget);
         if (result) {
         	LOGGER.info("OK");
         } else {

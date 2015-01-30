@@ -106,7 +106,7 @@ public class LinksDiscovery {
 			final BufferedWriter out = new BufferedWriter(fstream);
 			// Execute system command "crontab -l"
 			final String command = String.format(CRONTAB_LIST_COMMAND, cronUser);
-	    	try {
+/*	    	try {
 		    	String line = null;
 		    	final Process crontabList = Runtime.getRuntime().exec(command);
 		    	final BufferedReader stdInput = new BufferedReader(new InputStreamReader(crontabList.getInputStream()));
@@ -117,7 +117,7 @@ public class LinksDiscovery {
 	    	} catch (IOException exception) {
 		    	crontabFilename = null;
 		    	LOGGER.error(MessageCatalog._00033_EXTERNAL_PROCESS_START_FAILURE, exception, command);
-		    }
+		    }*/
 	    	out.close();
 		} catch (IOException exception) {
 			LOGGER.error(MessageCatalog._00034_FILE_CREATION_FAILURE, exception, crontabFilename);
@@ -352,10 +352,11 @@ public class LinksDiscovery {
 	 * 									as input parameter to the linking process
 	 * @param linkingPropConfigFilename	the name of the properties file. It will be
 	 * 									passed as input parameter to the linking process
+	 * @param reloadTarget				if the target dataset must be reloaded
 	 * @return true if the process has been inserted in the file. False otherwise.
 	 * @since 1.0
 	 */
-	public boolean insertLinkingProcessInCrontabFile(final String crontabFilename, final String clientAppBinDir, final int jobId, final int subjobId, final String linkingPropConfigFilename)
+	public boolean insertLinkingProcessInCrontabFile(final String crontabFilename, final String clientAppBinDir, final int jobId, final int subjobId, final String linkingPropConfigFilename, final boolean reloadTarget)
 	{
 		if(linkingPropConfigFilename == null) {
 			return false;
@@ -365,13 +366,20 @@ public class LinksDiscovery {
 			final FileWriter fstream = new FileWriter(crontabFilename,true);
 			final BufferedWriter out = new BufferedWriter(fstream);
 			final Calendar calendar = Calendar.getInstance();
-			if(subjobId <= 1) {
-				//If it is the first subjob, add 1 minute for starting the programmed process
-				calendar.add(Calendar.MINUTE, 1);
+			if(reloadTarget) {
+				//When the target dataset is to be loaded, add more time to start every process  
+				if(subjobId <= 1) {
+					//If it is the first subjob, add a minute for starting the programmed process
+					calendar.add(Calendar.MINUTE, 1);
+				} else {
+					//We add an hour to start the programmed processes for every other subjob
+					calendar.add(Calendar.HOUR_OF_DAY, subjobId - 1);
+				}
 			} else {
-				//We add an hour to start the programmed processes for every other subjob
-				calendar.add(Calendar.HOUR_OF_DAY, subjobId - 1);
+				//If it is the first subjob, add a minute for starting ALL the programmed process
+				calendar.add(Calendar.MINUTE, 1);
 			}
+			
 			final int hour = calendar.get(Calendar.HOUR_OF_DAY);
 			final int minute = calendar.get(Calendar.MINUTE);
 			final int day = calendar.get(Calendar.DAY_OF_MONTH);
@@ -426,7 +434,7 @@ public class LinksDiscovery {
 					final String linkingPropConfigFilename = createLinkingPropConfigFile(jobConf.getTmpDir(), ddbbParams);
 					if (linkingPropConfigFilename != null){
 						LOGGER.debug(MessageCatalog._00039_INSERT_LINKING_CRONTAB_FILE, subjobId);
-						if(insertLinkingProcessInCrontabFile(crontabFilename, jobConf.getClientAppBinDir(), jobConf.getId(), subjobId, linkingPropConfigFilename)){
+						if(insertLinkingProcessInCrontabFile(crontabFilename, jobConf.getClientAppBinDir(), jobConf.getId(), subjobId, linkingPropConfigFilename, subjobConf[i].isLinkingReloadTarget())){
 							//Insert job-subjob in DDBB
 							LOGGER.debug(MessageCatalog._00042_INSERT_SUBJOB_DDBB, jobConf.getId(), subjobId);
 							dbConn.insertSubjobToDB(jobConf.getId(), subjobId, subjobConf[i], linkingXMLConfigFilename,jobConf);
