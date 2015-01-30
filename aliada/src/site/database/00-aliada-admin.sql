@@ -32,7 +32,6 @@ CREATE TABLE IF NOT EXISTS `aliada`.`organisation` (
   	`organisation_logo` BLOB,
 	`organisation_catalog_url` varchar(128) NOT NULL,
 	`aliada_ontology`  VARCHAR( 245 ) default NULL,
-	`linking_config_file`  VARCHAR( 245 ) default NULL, 
 	`tmp_dir`  VARCHAR( 245 ) default NULL,
 	`linking_client_app_bin_dir`  VARCHAR( 245 ) default NULL, 
 	`linking_client_app_user`  VARCHAR( 245 ) default NULL, 
@@ -559,8 +558,8 @@ INSERT INTO `aliada`.`t_external_dataset` (`external_dataset_code`, `external_da
 --
 -- Volcar la base de datos para las siguientes tablas 
 --
-INSERT INTO `aliada`.`organisation` (`organisation_name`, `organisation_path`, `organisation_catalog_url` , `aliada_ontology`, `linking_config_file`, `tmp_dir`, `linking_client_app_bin_dir`, `linking_client_app_user`, `sparql_endpoint_uri`, `sparql_endpoint_login`, `sparql_endpoint_password`, `store_ip`,  `store_sql_port`, `sql_login`, `sql_password`, `isql_command_path`, `isql_commands_file_default`, `public_sparql_endpoint_uri`)
- VALUES ('MFAB','/var/lib/tomcat7/upload','http://www.szepmuveszeti.hu/collection_browser_eng','http://aliada-project.eu/2014/aliada-ontology/' , '/home/aliada/links-discovery/config/linksdiscoveryTest.properties', '/home/aliada/tmp', '/home/aliada/links-discovery/bin/',
+INSERT INTO `aliada`.`organisation` (`organisation_name`, `organisation_path`, `organisation_catalog_url` , `aliada_ontology`, `tmp_dir`, `linking_client_app_bin_dir`, `linking_client_app_user`, `sparql_endpoint_uri`, `sparql_endpoint_login`, `sparql_endpoint_password`, `store_ip`,  `store_sql_port`, `sql_login`, `sql_password`, `isql_command_path`, `isql_commands_file_default`, `public_sparql_endpoint_uri`)
+ VALUES ('MFAB','/var/lib/tomcat7/upload','http://www.szepmuveszeti.hu/collection_browser_eng','http://aliada-project.eu/2014/aliada-ontology/' , '/home/aliada/tmp', '/home/aliada/links-discovery/bin/',
 'aliada', 'http://data.szepmuveszeti.hu/sparql-auth', 'aliada_dev', 'aliada_dev', 'localhost', '1111', 'dba', 'dba', '/home/virtuoso/bin/isql-v', '/home/aliada/linked-data-server/config/isql_id_rewrite_rules_html_default.sql', 'http://data.szepmuveszeti.hu/sparql');
 
 INSERT INTO `aliada`.`user` (`user_name`, `user_password`, `user_email`, `user_type_code`, `user_role_code`,`organisationId`) VALUES
