@@ -33,10 +33,7 @@ public class JobConfiguration {
 	/** The URI of the dataset graph to be accessed through the SPARQL 
 	 * endpoint indicated by the output_uri field. */
 	private String outputGraph;
-	/** The whole path of the file which contains the configuration files and 
-	 * parameters to be used by the Links Discovery module to configure the 
-	 * SILK processes to be executed by the subjob instances created by this job. */
-	private String configFile;
+	/** Temporary folder name where to create temporary files. */
 	private String tmpDir;
 	/** The name of the folder where the links-discovery-task-runner.sh shell script 
 	 * has been installed. */
@@ -231,25 +228,6 @@ public class JobConfiguration {
 	 */
 	public void setOutputGraph(final String outputGraph) {
 		this.outputGraph = outputGraph;
-	}		
-
-	/**
-	 * Returns the path of the configuration file for the linking processes.
-	 * 
-	 * @return The path of the configuration file for the linking processes. 
-	 * @since 1.0
-	 */
-	public String getConfigFile() {
-		return configFile;
-	}
-	/**
-	 * Sets the path of the configuration file for the linking processes. 
-	 * 
-	 * @param configFile The path of the configuration file for the linking processes. 
-	 * @since 1.0
-	 */
-	public void setConfigFile(final String configFile) {
-		this.configFile = configFile;
 	}		
 
 	/**

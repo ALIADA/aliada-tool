@@ -72,7 +72,6 @@ public class CreateLinkingXMLConfigFileTest {
 		job.setOutputLogin("login");
 		job.setOutputPassword("password");
 		job.setOutputGraph("http://biblioteca.artium.org");
-		job.setConfigFile("src/test/resources/linksdiscovery.properties");
 		job.setTmpDir("src/test/resources/");
 		job.setClientAppBinDir("src/test/resources/");
 		return job;

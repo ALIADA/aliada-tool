@@ -18,12 +18,7 @@ import java.io.InputStreamReader;
 import java.io.BufferedReader;
 import java.io.FileWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.FileInputStream;
-import java.io.InputStream;
-import java.util.Properties;
-import java.util.Vector;
 import java.util.Calendar;
 
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -84,92 +79,7 @@ public class LinksDiscovery {
 	private final static String CRONTAB_COMMAND = "sudo -u %s crontab %s";
 	/** Crontab line format.*/
 	private static final String CRONTAB_LINE = "%d %d %d %d * %s %d %d %s";
-	//Properties names
-	/** Name property.*/
-	private final static String NAME_PROP = "linking.name.";
-	/** File name property.*/
-	private final static String FILE_PROP = "linking.file.";
-	/** Datasource name property.*/
-	private final static String DS_PROP = "linking.ds.";
-	/** Number of threads property.*/
-	private final static String NUM_THREADS_PROP = "linking.numthreads.";
-	/** reloadSource property.*/
-	private final static String RELOAD_SOURCE_PROP = "linking.reloadSource.";
-	/** reloadTarget property.*/
-	private final static String RELOAD_TARGET_PROP = "linking.reloadTarget.";
 
-
-	/**
-	 * Gets the subjobs configuration from a properties file.
-	 *
-	 * @param propertiesFileName	the name of the properties file.
-	 * @return	a list of {@link eu.aliada.linksdiscovery.model.SubjobConfiguration}
-	 *			which contain the configuration of each subjob.
-	 * @since 1.0
-	 */
-	public SubjobConfiguration[] getLinkingConfigFiles(final String propertiesFileName) {
-		final Vector<SubjobConfiguration> subJobsConfs = new Vector<SubjobConfiguration>();
-		String name;
-		String file;
-		String dataSource;
-		int idx = 1;
-		try {
-			final InputStream propertyStream = new FileInputStream(propertiesFileName);
-			final Properties props = new Properties();
-			props.load( propertyStream );
-			name = props.getProperty(NAME_PROP + idx);
-			file = props.getProperty(FILE_PROP + idx);
-			dataSource = props.getProperty(DS_PROP + idx);
-			while (name != null && file != null && dataSource != null){
-				final SubjobConfiguration subjobConf = new SubjobConfiguration();
-				subjobConf.setName(name);
-				subjobConf.setLinkingXMLConfigFilename(file);
-				subjobConf.setDs(dataSource);
-    	   		
-				if (props.getProperty(NUM_THREADS_PROP + idx) != null) {
-					subjobConf.setLinkingNumThreads(Integer.valueOf(props.getProperty(NUM_THREADS_PROP + idx)));
-				}
-				else {
-					//Default value: numthreads=1
-					subjobConf.setLinkingNumThreads(1);
-				}
-        		
-				if (props.getProperty(RELOAD_SOURCE_PROP + idx) != null) {
-					subjobConf.setLinkingReloadSource(Boolean.valueOf(props.getProperty(RELOAD_SOURCE_PROP + idx)));
-				}
-				else {
-					//Default value: reloadSource=true
-					subjobConf.setLinkingReloadSource(true);
-				}
-    			
-				if (props.getProperty(RELOAD_TARGET_PROP + idx) != null) {
-					subjobConf.setLinkingReloadTarget(Boolean.valueOf(props.getProperty(RELOAD_TARGET_PROP + idx)));
-				}
-				else {
-					//Default value: reloadTarget=true
-					subjobConf.setLinkingReloadTarget(true);
-				}
-
-				subJobsConfs.add(subjobConf);
-				idx++;
-				name = props.getProperty(NAME_PROP + idx);
-				file = props.getProperty(FILE_PROP + idx);
-				dataSource = props.getProperty(DS_PROP + idx);
-			}
-
-			if (subJobsConfs.isEmpty()) {
-				return new SubjobConfiguration[0];
-			}
-
-			return (SubjobConfiguration[]) subJobsConfs.toArray(new SubjobConfiguration[subJobsConfs.size()]);
-		} catch(FileNotFoundException exception) {
-			LOGGER.error(MessageCatalog._00031_FILE_NOT_FOUND, propertiesFileName);
-			return new SubjobConfiguration[0];
-		} catch(IOException exception) {
-			LOGGER.error(MessageCatalog._00032_BAD_FILE, exception, propertiesFileName);
-			return new SubjobConfiguration[0];
-		}
-	}
 
 	/**
 	 * Creates a new crontab file which contains formed programmed tasks. 
@@ -499,7 +409,7 @@ public class LinksDiscovery {
 		dbConn.updateJobStartDate(jobConf.getId());
 		//Get files and other parameters to generate linking processes (subjobs)
 		LOGGER.debug(MessageCatalog._00035_GET_LINKING_CONFIG_FILES);
-		final SubjobConfiguration[] subjobConf = getLinkingConfigFiles(jobConf.getConfigFile());
+		final SubjobConfiguration[] subjobConf = dbConn.getSubjobConfigurations();
 		//Generate initial crontab file with previous scheduled jobs
 		LOGGER.debug(MessageCatalog._00036_CREATE_CRONTAB_FILE);
 		final String crontabFilename  = createCrontabFile(jobConf.getTmpDir(), jobConf.getClientAppBinUser());
@@ -519,7 +429,7 @@ public class LinksDiscovery {
 						if(insertLinkingProcessInCrontabFile(crontabFilename, jobConf.getClientAppBinDir(), jobConf.getId(), subjobId, linkingPropConfigFilename)){
 							//Insert job-subjob in DDBB
 							LOGGER.debug(MessageCatalog._00042_INSERT_SUBJOB_DDBB, jobConf.getId(), subjobId);
-							dbConn.insertSubjobToDDBB(jobConf.getId(), subjobId, subjobConf[i], linkingXMLConfigFilename,jobConf);
+							dbConn.insertSubjobToDB(jobConf.getId(), subjobId, subjobConf[i], linkingXMLConfigFilename,jobConf);
 						}
 					}
 				}

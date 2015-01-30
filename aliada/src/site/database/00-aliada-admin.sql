@@ -274,6 +274,11 @@ CREATE TABLE IF NOT EXISTS `aliada`.`t_external_dataset` (
   `external_dataset_code` int(11) NOT NULL,
   `external_dataset_name` varchar(32) NOT NULL,
   `external_dataset_description` varchar(128) default NULL,
+  `external_dataset_homepage` varchar(128) default NULL,
+  `external_dataset_linkingfile` varchar(245) default NULL,
+  `external_dataset_linkingnumthreads` tinyint(1) default 8,
+  `external_dataset_linkingreloadsource` tinyint(1) default 1,
+  `external_dataset_linkingreloadtarget` tinyint(1) default 1,
   PRIMARY KEY  (`external_dataset_code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -534,8 +539,22 @@ INSERT INTO `aliada`.`xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_desc
 --
 -- Volcar la base de datos para la tabla `t_external_dataset`
 --
-INSERT INTO `aliada`.`t_external_dataset` (`external_dataset_code`, `external_dataset_name`, `external_dataset_description`) VALUES
-(0,'DBPedia',NULL),(1,'GeoNames',NULL),(2,'Freebase',NULL),(3,'BNE',NULL),(4,'BNB',NULL),(5,'Europeana',NULL),(6,'NSZL',NULL),(7,'MARC',NULL);
+INSERT INTO `aliada`.`t_external_dataset` (`external_dataset_code`, `external_dataset_name`, `external_dataset_description`, `external_dataset_homepage`, `external_dataset_linkingfile`, `external_dataset_linkingnumthreads`,  `external_dataset_linkingreloadsource`,  `external_dataset_linkingreloadtarget`) VALUES
+(0,'DBPedia','Linked Data version of Wikipedia','http://dbpedia.org', '/home/aliada/links-discovery/config/silk/aliada_dbpedia_config.xml', 8, 1, 1);
+INSERT INTO `aliada`.`t_external_dataset` (`external_dataset_code`, `external_dataset_name`, `external_dataset_description`, `external_dataset_homepage`, `external_dataset_linkingfile`, `external_dataset_linkingnumthreads`,  `external_dataset_linkingreloadsource`,  `external_dataset_linkingreloadtarget`) VALUES
+(1,'GeoNames','Linked Data version of Geonames','http://www.geonames.org', '/home/aliada/links-discovery/config/silk/aliada_geonames_config.xml', 8, 1, 1);
+INSERT INTO `aliada`.`t_external_dataset` (`external_dataset_code`, `external_dataset_name`, `external_dataset_description`, `external_dataset_homepage`, `external_dataset_linkingfile`, `external_dataset_linkingnumthreads`,  `external_dataset_linkingreloadsource`,  `external_dataset_linkingreloadtarget`) VALUES
+(2,'Freebase','A community-curated database of well-known people, places, and things','https://www.freebase.com', '/home/aliada/links-discovery/config/silk/aliada_freebase_config.xml', 8, 1, 1);
+INSERT INTO `aliada`.`t_external_dataset` (`external_dataset_code`, `external_dataset_name`, `external_dataset_description`, `external_dataset_homepage`, `external_dataset_linkingfile`, `external_dataset_linkingnumthreads`,  `external_dataset_linkingreloadsource`,  `external_dataset_linkingreloadtarget`) VALUES
+(3,'BNE','National Library of Spain Linked Data Dataset','http://datos.bne.es', '/home/aliada/links-discovery/config/silk/aliada_bne_config.xml', 8, 1, 1);
+INSERT INTO `aliada`.`t_external_dataset` (`external_dataset_code`, `external_dataset_name`, `external_dataset_description`, `external_dataset_homepage`, `external_dataset_linkingfile`, `external_dataset_linkingnumthreads`,  `external_dataset_linkingreloadsource`,  `external_dataset_linkingreloadtarget`) VALUES
+(4,'BNB','The British National Bibliography as Linked Data','http://bnb.data.bl.uk/id/data/BNB', '/home/aliada/links-discovery/config/silk/aliada_bnb_config.xml', 8, 1, 1);
+INSERT INTO `aliada`.`t_external_dataset` (`external_dataset_code`, `external_dataset_name`, `external_dataset_description`, `external_dataset_homepage`, `external_dataset_linkingfile`, `external_dataset_linkingnumthreads`,  `external_dataset_linkingreloadsource`,  `external_dataset_linkingreloadtarget`) VALUES
+(5,'Europeana','Europeana as Linked Open Data','http://data.europeana.eu', '/home/aliada/links-discovery/config/silk/aliada_europeana_config.xml', 8, 1, 1);
+INSERT INTO `aliada`.`t_external_dataset` (`external_dataset_code`, `external_dataset_name`, `external_dataset_description`, `external_dataset_homepage`, `external_dataset_linkingfile`, `external_dataset_linkingnumthreads`,  `external_dataset_linkingreloadsource`,  `external_dataset_linkingreloadtarget`) VALUES
+(6,'NSZL','Hungarian National Library (NSZL) as Linked Open Data','http://nektar.oszk.hu/wiki/Semantic_web', '/home/aliada/links-discovery/config/silk/aliada_nszl_config.xml', 8, 1, 1);
+INSERT INTO `aliada`.`t_external_dataset` (`external_dataset_code`, `external_dataset_name`, `external_dataset_description`, `external_dataset_homepage`, `external_dataset_linkingfile`, `external_dataset_linkingnumthreads`,  `external_dataset_linkingreloadsource`,  `external_dataset_linkingreloadtarget`) VALUES
+(7,'MARC','Linked Data version of MARC Codes List','http://id.loc.gov', '/home/aliada/links-discovery/config/silk/aliada_marc_config.xml', 8, 1, 1);
 
 --
 -- Volcar la base de datos para las siguientes tablas 

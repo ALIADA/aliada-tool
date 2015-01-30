@@ -14,6 +14,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.Vector;
 
 import eu.aliada.linksdiscovery.log.MessageCatalog;
 import eu.aliada.linksdiscovery.model.Job;
@@ -23,8 +24,8 @@ import eu.aliada.linksdiscovery.model.SubjobConfiguration;
 import eu.aliada.shared.log.Log;
 
 /**
- * DDBB connection manager. 
- * It contains all the related functions with the DDBB: open, close connection,
+ * DB connection manager. 
+ * It contains all the related functions with the DB: open, close connection,
  * execute SQL-s.
  *  
  * @author Idoia Murua
@@ -41,12 +42,12 @@ public class DBConnectionManager {
 	/** Subjob has finished */
 	private final static String JOB_STATUS_FINISHED = "finished"; 
 
-	/** DDBB connection */
+	/** DB connection */
 	private Connection conn;
 	 
 	/**
 	 * Constructor. 
-	 * Creates the DDBB connection.
+	 * Creates the DB connection.
 	 *
 	 * @since 1.0
 	 */
@@ -55,9 +56,9 @@ public class DBConnectionManager {
 	}
 
 	/**
-	 * Returns a new DDBB connection.
+	 * Returns a new DB connection.
 	 *
-	 * @return	the new DDBB connection.
+	 * @return	the new DB connection.
 	 * @since 2.0
 	 */
 	public void getNewConnection() {
@@ -75,7 +76,7 @@ public class DBConnectionManager {
 	}
 
 	/**
-	 * Closes the DDBB connection.
+	 * Closes the DB connection.
 	 *
 	 * @since 1.0
 	 */
@@ -88,9 +89,9 @@ public class DBConnectionManager {
 	}
 	
 	/**
-	 * Returns the DDBB connection.
+	 * Returns the DB connection.
 	 *
-	 * @return	the DDBB connection.
+	 * @return	the DB connection.
 	 * @since 1.0
 	 */
 	public Connection getConnection() {
@@ -107,7 +108,7 @@ public class DBConnectionManager {
 	}
  
 	/**
-	 * Gets the job configuration from the DDBB.
+	 * Gets the job configuration from the DB.
 	 *
 	 * @param jobId	the job identification.
 	 * @return	the {@link eu.aliada.linksdiscovery.model.JobConfiguration}
@@ -131,7 +132,6 @@ public class DBConnectionManager {
 				job.setOutputLogin(resultSet.getString("output_login"));
 				job.setOutputPassword(resultSet.getString("output_password"));
 				job.setOutputGraph(resultSet.getString("output_graph"));
-				job.setConfigFile(resultSet.getString("config_file"));
 				job.setTmpDir(resultSet.getString("tmp_dir"));
 				job.setClientAppBinDir(resultSet.getString("client_app_bin_dir"));
 				job.setClientAppBinUser(resultSet.getString("client_app_user"));
@@ -146,10 +146,52 @@ public class DBConnectionManager {
 	}
 	
 	/**
+	 * Gets the subjob configuration from the DB.
+	 *
+	 * @return	a list of {@link eu.aliada.linksdiscovery.model.SubjobConfiguration}
+	 *			which contain the configuration of each subjob.
+	 * @since 1.0
+	 */
+	public SubjobConfiguration[] getSubjobConfigurations() {
+		final Vector<SubjobConfiguration> subJobsConfs = new Vector<SubjobConfiguration>();
+		try {
+			final Statement sta = getConnection().createStatement();
+			final String sql = "SELECT * FROM t_external_dataset";
+			final ResultSet resultSet = sta.executeQuery(sql);
+			while (resultSet.next()) {
+				final SubjobConfiguration subjobConf = new SubjobConfiguration();
+				subjobConf.setName("ALIADA_" + resultSet.getString("external_dataset_name"));
+				subjobConf.setLinkingXMLConfigFilename(resultSet.getString("external_dataset_linkingfile"));
+				subjobConf.setDs("ALIADA_ds");
+				subjobConf.setLinkingNumThreads(resultSet.getInt("external_dataset_linkingnumthreads"));
+				final int reloadSource = resultSet.getInt("external_dataset_linkingreloadsource");
+				if(reloadSource == 1) {
+					subjobConf.setLinkingReloadSource(true);
+				} else {
+					subjobConf.setLinkingReloadSource(false);
+				}
+				final int reloadTarget = resultSet.getInt("external_dataset_linkingreloadtarget");
+				if(reloadTarget == 1) {
+					subjobConf.setLinkingReloadTarget(true);
+				} else {
+					subjobConf.setLinkingReloadTarget(false);
+				}
+				subJobsConfs.add(subjobConf);
+		    }
+			resultSet.close();
+			sta.close();
+		} catch (SQLException exception) {
+			LOGGER.error(MessageCatalog._00024_DATA_ACCESS_FAILURE, exception);
+			return null;
+		}
+		return subJobsConfs.toArray(new SubjobConfiguration[]{});
+	}
+	
+	/**
 	 * Updates the start_date of the job.
 	 *
 	 * @param jobId	the job identification.
-	 * @return true if the date has been updated correctly in the DDBB. False otherwise.
+	 * @return true if the date has been updated correctly in the DB. False otherwise.
 	 * @since 1.0
 	 */
 	public boolean updateJobStartDate(final int jobId){
@@ -175,7 +217,7 @@ public class DBConnectionManager {
 	 * Updates the end_date of the job.
 	 *
 	 * @param jobId	the job identification.
-	 * @return true if the date has been updated correctly in the DDBB. False otherwise.
+	 * @return true if the date has been updated correctly in the DB. False otherwise.
 	 * @since 1.0
 	 */
 	public boolean updateJobEndDate(final int jobId){
@@ -198,7 +240,7 @@ public class DBConnectionManager {
 	}
 
 	/**
-	 * Inserts a new subjob in the DDBB.
+	 * Inserts a new subjob in the DB.
 	 *
 	 * @param jobId						the job identification.
 	 * @param subjobId					the subjob identification.
@@ -208,10 +250,10 @@ public class DBConnectionManager {
 	 * @param linkingXMLConfigFilename	Name of the XML configuration file for 
 	 * 									the SILK process.
 	 * @param tmpDir					the name of temporary folder.
-	 * @return true if the subjob has been inserted correctly in the DDBB. False otherwise.
+	 * @return true if the subjob has been inserted correctly in the DB. False otherwise.
 	 * @since 1.0
 	 */
-	public boolean insertSubjobToDDBB(final int jobId, final int subjobId, final SubjobConfiguration subjobConf, final String linkingXMLConfigFilename, final JobConfiguration jobConf){
+	public boolean insertSubjobToDB(final int jobId, final int subjobId, final SubjobConfiguration subjobConf, final String linkingXMLConfigFilename, final JobConfiguration jobConf){
     	try {
     		PreparedStatement preparedStatement = null;		
     		preparedStatement = getConnection().prepareStatement("INSERT INTO  linksdiscovery_subjob_instances VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, default, default, default)");
@@ -238,7 +280,7 @@ public class DBConnectionManager {
 	}
 	
 	/**
-	 * Returns job and its corresponding subjobs information in the DDBB.
+	 * Returns job and its corresponding subjobs information in the DB.
 	 *
 	 * @param jobId	the job identification.
 	 * @return	the {@link eu.aliada.linksdiscovery.model.Job}
@@ -246,7 +288,7 @@ public class DBConnectionManager {
 	 * @since 1.0
 	 */
 	public Job getJob(final int jobId) {
-		//Get the job information from the DDBB
+		//Get the job information from the DB
 		final Job job = new Job();
 		job.setId(jobId);
 		try {
@@ -267,7 +309,7 @@ public class DBConnectionManager {
 				job.setStatus(status);
 			}
 			int totalNumLinks = 0;
-			//Get subjobs of this job and their information in the DDBB.
+			//Get subjobs of this job and their information in the DB.
 			sql = "SELECT * FROM linksdiscovery_subjob_instances WHERE job_id=" + jobId;
 			resultSet = sta.executeQuery(sql);
 			while (resultSet.next()) {

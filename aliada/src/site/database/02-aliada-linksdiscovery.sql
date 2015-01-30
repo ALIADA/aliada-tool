@@ -8,7 +8,6 @@ CREATE TABLE `aliada`.`linksdiscovery_job_instances` (
 `output_login`  VARCHAR( 32 ) default NULL,
 `output_password`  VARCHAR( 32 ) default NULL,
 `output_graph`  VARCHAR( 245 ) default NULL,
-`config_file`  VARCHAR( 245 ) default NULL,
 `tmp_dir`  VARCHAR( 245 ) default NULL,
 `client_app_bin_dir`  VARCHAR( 245 ) default NULL,
 `client_app_user`  VARCHAR( 245 ) default NULL, 
