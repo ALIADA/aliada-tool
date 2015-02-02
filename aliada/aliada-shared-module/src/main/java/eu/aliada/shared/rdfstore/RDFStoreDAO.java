@@ -32,6 +32,8 @@ import com.hp.hpl.jena.query.QueryFactory;
 import com.hp.hpl.jena.query.QuerySolution;
 import com.hp.hpl.jena.query.ResultSet;
 import com.hp.hpl.jena.rdf.model.Resource;
+import com.hp.hpl.jena.graph.Triple;
+import com.hp.hpl.jena.rdf.model.ResourceFactory;
 
 import eu.aliada.shared.log.Log;
 import eu.aliada.shared.log.MessageCatalog;
@@ -168,6 +170,7 @@ public class RDFStoreDAO {
 	 * @param password				the password for the SPARQl endpoint.
 	 * @param triples				the triples that will be added.
 	 * throws Exception in case the INSERT goes wrong.
+	 * @since 1.0
 	 */
 	public void executeInsert(
 			final String sparqlEndpointURI, 
@@ -377,22 +380,88 @@ public class RDFStoreDAO {
 	}
 
 	/**
+	 * It executes a SELECT SPARQL query on the SPARQL endpoint, to get the discovered links.
+	 *
+	 * @param sparqlEndpointURI		the SPARQL endpoint URI.  
+	 * @param graphName 			the graphName, null in case of default graph.
+	 * @param user					the user name for the SPARQl endpoint.
+	 * @param password				the password for the SPARQl endpoint.
+	 * @return a list of triples with the discovered links.
+	 * @since 2.0
+	 */
+	public Triple[] getDiscoveredLinks(final String sparqlEndpointURI, final String graphName, final String user, final String password) {
+		final String sameAs = "http://www.w3.org/2002/07/owl#sameAs";
+		final String query = "select * FROM <" + graphName + "> " + 
+						"where {?source <" + sameAs + "> ?target }";
+	  	ArrayList<Triple> linksList = new ArrayList<Triple>();
+	 	try {
+	        // Execute the query and obtain results
+	        final QueryExecution qexec = QueryExecutionFactory.sparqlService(
+	        		sparqlEndpointURI, 
+	        		QueryFactory.create(query), 
+					auth(sparqlEndpointURI, user, password));
+            final ResultSet results = qexec.execSelect() ;
+            while (results.hasNext())
+            {
+            	final QuerySolution soln = results.nextSolution() ;
+            	final Resource sourceResType = soln.getResource("source");
+            	final Resource targetResType = soln.getResource("target");
+        		Resource sameAsPred = ResourceFactory.createResource(sameAs);
+        		final Triple triple = new Triple(sourceResType.asNode(), sameAsPred.asNode(), targetResType.asNode());
+        		linksList.add(triple);
+            }
+	        qexec.close() ;
+	      } catch (Exception exception) {
+			LOGGER.error(MessageCatalog._00035_SPARQL_FAILED, exception, query);
+		}
+		if (linksList.isEmpty()) {
+			return new Triple[0];
+		}
+		return (Triple[]) linksList.toArray(new Triple[linksList.size()]);
+	}
+
+	/**
+	 * It executes an DELETE SPARQL query on the SPARQL endpoint.
+	 *
+	 * @param sparqlEndpointURI		the SPARQL endpoint URI.  
+	 * @param graphName the graphName, null in case of default graph.
+	 * @param user					the user name for the SPARQl endpoint.
+	 * @param password				the password for the SPARQl endpoint.
+	 * @param triples				the triples that will be removed.
+	 * throws Exception in case the DELETE goes wrong.
+	 * @since 2.0
+	 */
+	public void executeDelete(
+			final String sparqlEndpointURI, 
+			final String graphName, 
+			final String user, 
+			final String password, 
+			final String triples) throws Exception {
+		UpdateExecutionFactory.createRemoteForm(
+				UpdateFactory.create(buildDeleteQuery(graphName, triples)), 
+				sparqlEndpointURI, 
+				auth(sparqlEndpointURI, user, password))
+			.execute();
+	}	
+
+	/**
 	 * Builds a SPARQL INSERT with the given data.
 	 * 
 	 * @param graphName the graphName, null in case of default graph.
 	 * @param triples the triples (in N3 format) that will be added.
 	 * @return a new SPARQL INSERT query.
+	 * @since 1.0
 	 */
 	String buildInsertQuery(final String graphName, final String triples) {
 		final StringBuilder builder = new StringBuilder();
 		builder.append("INSERT DATA ");
 		if (isNotNullAndNotEmpty(graphName)) {
 			builder.append("{ GRAPH ");
-			if (graphName.startsWith("<") && graphName.endsWith(">")) {
+			if (graphName.startsWith("<") && graphName.endsWith("> ")) {
 				builder.append(graphName);
 			} else 
 			{
-				builder.append("<").append(graphName).append(">");
+				builder.append("<").append(graphName).append("> ");
 			}
 		}
 		
@@ -412,6 +481,7 @@ public class RDFStoreDAO {
 	 * @param username the username.
 	 * @param password the password.
 	 * @return the authenticator associated with a given endpoint.
+	 * @since 1.0
 	 */
 	HttpAuthenticator auth(final String endpointAddress, final String username, final String password) {
 		HttpAuthenticator auth = authCache.get(endpointAddress);
@@ -420,5 +490,33 @@ public class RDFStoreDAO {
 			authCache.put(endpointAddress, auth);
 		}
 		return auth;
+	}
+
+	/**
+	 * Builds a SPARQL DELETE with the given data.
+	 * 
+	 * @param graphName the graphName, null in case of default graph.
+	 * @param triples the triples (in N3 format) that will be removed.
+	 * @return a new SPARQL INSERT query.
+	 * @since 2.0
+	 */
+	String buildDeleteQuery(final String graphName, final String triples) {
+		final StringBuilder builder = new StringBuilder();
+		builder.append("DELETE DATA ");
+		if (isNotNullAndNotEmpty(graphName)) {
+			builder.append("{ GRAPH ");
+			if (graphName.startsWith("<") && graphName.endsWith("> ")) {
+				builder.append(graphName);
+			} else 
+			{
+				builder.append("<").append(graphName).append("> ");
+			}
+		}
+		
+		builder.append("{ ").append(triples).append("}");
+		if (isNotNullAndNotEmpty(graphName)) {
+			builder.append("}");
+		}
+		return builder.toString();
 	}
 }
