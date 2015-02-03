@@ -79,6 +79,8 @@ public class LinksDiscovery {
 	private final static String CRONTAB_COMMAND = "sudo -u %s crontab %s";
 	/** Crontab line format.*/
 	private static final String CRONTAB_LINE = "%d %d %d %d * %s %d %d %s";
+	/** Hours to add to following crontab process.*/
+	private int hoursToAdd = 0;
 
 
 	/**
@@ -106,7 +108,7 @@ public class LinksDiscovery {
 			final BufferedWriter out = new BufferedWriter(fstream);
 			// Execute system command "crontab -l"
 			final String command = String.format(CRONTAB_LIST_COMMAND, cronUser);
-/*	    	try {
+	    	try {
 		    	String line = null;
 		    	final Process crontabList = Runtime.getRuntime().exec(command);
 		    	final BufferedReader stdInput = new BufferedReader(new InputStreamReader(crontabList.getInputStream()));
@@ -117,7 +119,7 @@ public class LinksDiscovery {
 	    	} catch (IOException exception) {
 		    	crontabFilename = null;
 		    	LOGGER.error(MessageCatalog._00033_EXTERNAL_PROCESS_START_FAILURE, exception, command);
-		    }*/
+		    }
 	    	out.close();
 		} catch (IOException exception) {
 			LOGGER.error(MessageCatalog._00034_FILE_CREATION_FAILURE, exception, crontabFilename);
@@ -366,19 +368,22 @@ public class LinksDiscovery {
 			final FileWriter fstream = new FileWriter(crontabFilename,true);
 			final BufferedWriter out = new BufferedWriter(fstream);
 			final Calendar calendar = Calendar.getInstance();
-			if(reloadTarget) {
-				//When the target dataset is to be loaded, add more time to start every process  
-				if(subjobId <= 1) {
-					//If it is the first subjob, add a minute for starting the programmed process
-					calendar.add(Calendar.MINUTE, 1);
-				} else {
-					//We add an hour to start the programmed processes for every other subjob
-					calendar.add(Calendar.HOUR_OF_DAY, subjobId - 1);
-				}
-			} else {
-				//If it is the first subjob, add a minute for starting ALL the programmed process
+			if(subjobId <= 1) {
+				//If it is the first subjob, add a minute for starting the programmed process
 				calendar.add(Calendar.MINUTE, 1);
+			} else {
+				if(hoursToAdd > 0) {
+					//We add an hour to start the programmed processes for every other subjob
+					calendar.add(Calendar.HOUR_OF_DAY, hoursToAdd);
+				} else {
+					calendar.add(Calendar.MINUTE, 1);
+				}
+				
 			}
+			if(reloadTarget) {
+				//The process will take long, so add 1 hour for the following process to program 
+				hoursToAdd++;
+			} 
 			
 			final int hour = calendar.get(Calendar.HOUR_OF_DAY);
 			final int minute = calendar.get(Calendar.MINUTE);
