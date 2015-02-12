@@ -1,4 +1,4 @@
-CREATE TABLE `rdfizer_job_instances` (
+CREATE TABLE `aliada`.`rdfizer_job_instances` (
   `job_id` int(11) NOT NULL AUTO_INCREMENT,
   `datafile` varchar(245) NOT NULL,
   `format` varchar(32) NOT NULL,
