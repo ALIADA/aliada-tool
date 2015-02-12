@@ -75,8 +75,8 @@ public class TemplatesAction extends ActionSupport {
         return SUCCESS;
     }
     /**
-     * Gets the available templates from the DB
-     * @return
+     * Gets the available templates from the DB.
+     * @return String
      * @see
      * @since 1.0
      */
@@ -95,22 +95,21 @@ public class TemplatesAction extends ActionSupport {
             rs.close();
             statement.close();
             connection.close();
-            if(templates.isEmpty()){
+            if (templates.isEmpty()) {
                 setAreTemplates(false);
-            }
-            else{
+            } else {
                 setAreTemplates(true);
             }
         } catch (SQLException e) {
-            logger.error(MessageCatalog._00011_SQL_EXCEPTION,e);
+            logger.error(MessageCatalog._00011_SQL_EXCEPTION, e);
             return ERROR;
         }
         getTypesDb();
         return SUCCESS;
     }    
     /**
-     * Displays the selected template
-     * @return
+     * Displays the selected template.
+     * @return String
      * @see
      * @since 1.0
      */
@@ -120,8 +119,9 @@ public class TemplatesAction extends ActionSupport {
             connection = new DBConnectionManager().getConnection();
             Statement statement = connection.createStatement();
             ResultSet rs = statement
-                    .executeQuery("select t.template_id,t.template_name,t.template_description,f.file_type_name from aliada.template t INNER JOIN aliada.t_file_type f ON t.file_type_code=f.file_type_code where t.template_name='"
-                            + this.selectedTemplate + "'");
+                    .executeQuery("select t.template_id,t.template_name,t.template_description,f.file_type_name "
+                    		+ "from aliada.template t INNER JOIN aliada.t_file_type f ON t.file_type_code=f.file_type_code "
+                    		+ "where t.template_name='" + this.selectedTemplate + "'");
             if (rs.next()) {
                 int idTemplate = rs.getInt("t.template_id");
                 this.templateName = rs.getString("t.template_name");
@@ -146,15 +146,15 @@ public class TemplatesAction extends ActionSupport {
                 return ERROR;
             }
         } catch (SQLException e) {
-            logger.error(MessageCatalog._00011_SQL_EXCEPTION,e);
+            logger.error(MessageCatalog._00011_SQL_EXCEPTION, e);
             getTemplatesDb();
             getTagsDb(NOTEMPLATESELECTED);
             return ERROR;
         }
     }
     /**
-     * Displays the template adding form
-     * @return
+     * Displays the template adding form.
+     * @return String
      * @see
      * @since 1.0
      */
@@ -166,8 +166,8 @@ public class TemplatesAction extends ActionSupport {
     }
 
     /**
-     * Adds a new template to the DB
-     * @return
+     * Adds a new template to the DB.
+     * @return String
      * @see
      * @since 1.0
      */
@@ -203,15 +203,15 @@ public class TemplatesAction extends ActionSupport {
             getTemplatesDb();
             return SUCCESS;
         } catch (SQLException e) {
-            logger.error(MessageCatalog._00011_SQL_EXCEPTION,e);
+            logger.error(MessageCatalog._00011_SQL_EXCEPTION, e);
             getTemplatesDb();
             return ERROR;
         }
     }
 
     /**
-     * Deletes a template from the DB
-     * @return
+     * Deletes a template from the DB.
+     * @return String
      * @see
      * @since 1.0
      */
@@ -230,15 +230,14 @@ public class TemplatesAction extends ActionSupport {
                             + getSelectedTemplate() + "'");
             statement.close();
             connection.close();
-            if(correct==0){
+            if (correct == 0) {
                 addActionError(getText("template.not.selected"));                
-            }
-            else{
+            } else {
                 addActionMessage(getText("template.delete.ok"));
             }
         } catch (SQLException e) {
             getTemplatesDb();
-            logger.error(MessageCatalog._00011_SQL_EXCEPTION,e);
+            logger.error(MessageCatalog._00011_SQL_EXCEPTION, e);
             return ERROR;
         }
         getTemplatesDb();
@@ -246,8 +245,8 @@ public class TemplatesAction extends ActionSupport {
     }
 
     /**
-     * Displays the form to edit the template
-     * @return
+     * Displays the form to edit the template.
+     * @return String
      * @see
      * @since 1.0
      */
@@ -283,7 +282,7 @@ public class TemplatesAction extends ActionSupport {
                 return ERROR;
             }
         } catch (SQLException e) {
-            logger.error(MessageCatalog._00011_SQL_EXCEPTION,e);
+            logger.error(MessageCatalog._00011_SQL_EXCEPTION, e);
             getTemplatesDb();
             getTagsDb(NOTEMPLATESELECTED);
             return ERROR;
@@ -291,8 +290,8 @@ public class TemplatesAction extends ActionSupport {
     }
 
     /**
-     * Updates a existing template
-     * @return
+     * Updates a existing template.
+     * @return String
      * @see
      * @since 1.0
      */
@@ -306,7 +305,7 @@ public class TemplatesAction extends ActionSupport {
             statement
                     .executeUpdate("UPDATE template set template_description='"
                             + this.templateDescription + "', file_type_code="
-                            + this.fileType +" where template_id="
+                            + this.fileType + " where template_id="
                             + idTemplate + "");
             statement.close();
             statement = connection.createStatement();
@@ -328,7 +327,7 @@ public class TemplatesAction extends ActionSupport {
             addActionMessage(getText("template.save.ok"));
             getTemplatesDb();
         } catch (SQLException e) {
-            logger.error(MessageCatalog._00011_SQL_EXCEPTION,e);
+            logger.error(MessageCatalog._00011_SQL_EXCEPTION, e);
             setShowEditTemplateForm(false);
             return ERROR;
         }
@@ -337,12 +336,12 @@ public class TemplatesAction extends ActionSupport {
     }
 
     /**
-     * Gets teh available tags from the DB
-     * @param templateId
+     * Gets the available tags from the DB
+     * @param templateId The available templates
      * @see
      * @since 1.0
      */
-    private void getTagsDb(int templateId) {
+    private void getTagsDb(final int templateId) {
         Connection connection = null;
         try {
             connection = new DBConnectionManager().getConnection();
@@ -383,7 +382,7 @@ public class TemplatesAction extends ActionSupport {
             statement.close();
             connection.close();
         } catch (SQLException e) {
-            logger.error(MessageCatalog._00011_SQL_EXCEPTION,e);
+            logger.error(MessageCatalog._00011_SQL_EXCEPTION, e);
         }
     }
 
@@ -402,7 +401,7 @@ public class TemplatesAction extends ActionSupport {
      * @exception
      * @since 1.0
      */
-    public void setTemplates(HashMap<Integer, String> templates) {
+    public void setTemplates(final HashMap<Integer, String> templates) {
         this.templates = templates;
     }
     /**
@@ -420,7 +419,7 @@ public class TemplatesAction extends ActionSupport {
      * @exception
      * @since 1.0
      */
-    public void setSelectedTemplate(String selectedTemplate) {
+    public void setSelectedTemplate(final String selectedTemplate) {
         this.selectedTemplate = selectedTemplate;
     }
 
@@ -439,7 +438,7 @@ public class TemplatesAction extends ActionSupport {
      * @exception
      * @since 1.0
      */
-    public void setTemplateName(String templateName) {
+    public void setTemplateName(final String templateName) {
         this.templateName = templateName;
     }
 
@@ -458,7 +457,7 @@ public class TemplatesAction extends ActionSupport {
      * @exception
      * @since 1.0
      */
-    public void setTemplateDescription(String templateDescription) {
+    public void setTemplateDescription(final String templateDescription) {
         this.templateDescription = templateDescription;
     }
 
@@ -477,7 +476,7 @@ public class TemplatesAction extends ActionSupport {
      * @exception
      * @since 1.0
      */
-    public void setShowAddTemplateForm(boolean showAddTemplateForm) {
+    public void setShowAddTemplateForm(final boolean showAddTemplateForm) {
         this.showAddTemplateForm = showAddTemplateForm;
     }
 
@@ -496,7 +495,7 @@ public class TemplatesAction extends ActionSupport {
      * @exception
      * @since 1.0
      */
-    public void setShowEditTemplateForm(boolean showEditTemplateForm) {
+    public void setShowEditTemplateForm(final boolean showEditTemplateForm) {
         this.showEditTemplateForm = showEditTemplateForm;
     }
     /**
@@ -514,7 +513,7 @@ public class TemplatesAction extends ActionSupport {
      * @exception
      * @since 1.0
      */
-    public void setTags(HashMap<String, Boolean> tags) {
+    public void setTags(final HashMap<String, Boolean> tags) {
         this.tags = tags;
     }
 
@@ -533,7 +532,7 @@ public class TemplatesAction extends ActionSupport {
      * @exception
      * @since 1.0
      */
-    public void setSelectedTags(List selectedTags) {
+    public void setSelectedTags(final List selectedTags) {
         this.selectedTags = selectedTags;
     }
     /**
@@ -550,7 +549,7 @@ public class TemplatesAction extends ActionSupport {
      * @exception
      * @since 1.0
      */
-    public void setAreTemplates(boolean areTemplates) {
+    public void setAreTemplates(final boolean areTemplates) {
         this.areTemplates = areTemplates;
     }
     /**
@@ -566,7 +565,7 @@ public class TemplatesAction extends ActionSupport {
      * @exception
      * @since 1.0
      */
-    public void setShowTheTemplate(boolean showTheTemplate) {
+    public void setShowTheTemplate(final boolean showTheTemplate) {
         this.showTheTemplate = showTheTemplate;
     }
     /**
@@ -582,7 +581,7 @@ public class TemplatesAction extends ActionSupport {
      * @exception
      * @since 1.0
      */
-    public void setFileType(int fileType) {
+    public void setFileType(final int fileType) {
         this.fileType = fileType;
     }
     /**
@@ -598,7 +597,7 @@ public class TemplatesAction extends ActionSupport {
      * @exception
      * @since 1.0
      */
-    public void setFileTypeName(String fileTypeName) {
+    public void setFileTypeName(final String fileTypeName) {
         this.fileTypeName = fileTypeName;
     }
     /**
@@ -614,7 +613,7 @@ public class TemplatesAction extends ActionSupport {
      * @exception
      * @since 1.0
      */
-    public void setTypes(HashMap<Integer, String> types) {
+    public void setTypes(final HashMap<Integer, String> types) {
         this.types = types;
     }
 

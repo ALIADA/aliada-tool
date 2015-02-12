@@ -13,6 +13,8 @@
 		<result-types>
 			<result-type name="tiles"
 				class="org.apache.struts2.views.tiles.TilesResult" />
+			<result-type name="imageResult"
+				class="eu.aliada.gui.action.CustomImageBytesResult" />
 		</result-types>
 		
 		<interceptors>
@@ -239,6 +241,11 @@
 			<result name="error" type="tiles">/configuration.tiles</result>
 		</action>
 
+		<action name="loadPendingLinking" method="loadPending" class="eu.aliada.gui.action.LinkingAction">
+			<result name="success" type="tiles">/linking.tiles</result>
+			<result name="error" type="tiles">/configuration.tiles</result>
+		</action>
+
 		<action name="editInstitution" method="editInstitution"
 			class="eu.aliada.gui.action.InstitutionConfigurationAction"> 
 			<interceptor-ref name="fileImageStack"/>
@@ -248,6 +255,11 @@
 		</action>
 		
 		<action name="startLinking" method="startLinking" class="eu.aliada.gui.action.LinkingAction">
+			<result name="success" type="tiles">/linking.tiles</result>
+			<result name="error" type="tiles">/linking.tiles</result>
+		</action>
+		
+		<action name="checkLinking" method="checkLinking" class="eu.aliada.gui.action.LinkingAction">
 			<result name="success" type="tiles">/linking.tiles</result>
 			<result name="error" type="tiles">/linking.tiles</result>
 		</action>
@@ -319,8 +331,55 @@
 			<result name="error" type="tiles">/rdfValidation.tiles</result>
 		</action>
 		
+		<action name="linksVal" class="eu.aliada.gui.action.DiscLinksValidationAction">
+			<result name="success" type="tiles">/linksValidation.tiles</result>
+			<result name="error" type="tiles">/linksValidation.tiles</result>
+		</action>
+		
+		<action name="removeLinks" method="removeLinks"
+			class="eu.aliada.gui.action.DiscLinksValidationAction">
+			<result name="success" type="tiles">/linksValidation.tiles</result>
+			<result name="error" type="tiles">/linksValidation.tiles</result>
+		</action>
+		
 		<action name="locale" class="eu.aliada.gui.action.LocaleAction">
 			<result name="success" type="tiles">/logon.tiles</result>
 	   </action>
+
+		<action name="pendingFiles" method="getPendingFilesDb" class="eu.aliada.gui.action.TasksAction">
+            <result name="success" type="tiles">/tasks.tiles</result>
+			<result name="error" type="tiles">/tasks.tiles</result>
+		</action>
+		
+		<action name="setRecoverdFile" method="setRecoverdFile"
+			class="eu.aliada.gui.action.TasksAction">			
+			<result name="idle" type="redirectAction">
+         		<param name="actionName">conversion</param>
+         	</result>
+         	<result name="runningRdfizer" type="redirectAction">
+         		<param name="actionName">conversion</param>
+         	</result>
+         	<result name="finishedRdfizer" type="redirectAction">
+         		<param name="actionName">loadPendingLinking</param>
+         	</result>
+         	<result name="runningLinking" type="redirectAction">
+         		<param name="actionName">loadPendingLinking</param>
+         	</result>
+         	<result name="finishedLinking" type="redirectAction">
+         		<param name="actionName">loadPendingLinking</param>
+         	</result>
+			<result name="error" type="tiles">/tasks.tiles</result>
+		</action>
+		
+		<action name="deleteFile" method="deleteFile" class="eu.aliada.gui.action.TasksAction">
+            <result name="success" type="tiles">/tasks.tiles</result>
+			<result name="error" type="tiles">/tasks.tiles</result>
+		</action>
+		
+		<action name="ImageAction" class="eu.aliada.gui.action.ImageAction">
+			<result name="success" type="imageResult">
+			</result>
+		</action>
+		
 	</package>
 </struts>

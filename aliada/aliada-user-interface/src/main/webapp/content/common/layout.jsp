@@ -1,7 +1,9 @@
+<%@page import="eu.aliada.gui.rdbms.DBConnectionManager"%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles" %>
 <%@ taglib uri="/struts-tags" prefix="html"%>
 <%@ taglib prefix="sj" uri="/struts-jquery-tags"%>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 
@@ -29,9 +31,11 @@
 			<html:a href="%{localeES}" ><img src="images/spFlag.png"/></html:a>
 		</span> --%>
 		<span class="fright topPad20">
-			<label class="underlined"><html:property value="%{#session['logedUser']}" /></label>
+			<img src="<html:url action='ImageAction'/> " alt="userLogo" width="30" height="30"/>
+			<html:a action="configure"><label class="underlined"><html:property value="%{#session['logedUser']}" /></label></html:a>
+			<html:a action="pendingFiles"><img alt="control panel" src="images/task.png"></img></html:a>
 			<html:a href="https://github.com/ALIADA/aliada-tool/wiki/User_Manual" target="_blank"><img alt="help" src="images/info.png"></img></html:a>
-			<html:a action="configure"><img alt="condiguration" src="images/config.png"></img></html:a>
+			<%--<html:a action="configure"><img alt="condiguration" src="images/config.png"></img></html:a>--%>
 			<html:a action="logout"><img alt="logOut" src="images/userLogout.png"/></html:a>
 		</span>	
 		<div class="headerContentGreenBorder"></div>

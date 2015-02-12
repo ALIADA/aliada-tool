@@ -105,7 +105,11 @@ public class ProfilesAction extends ActionSupport {
             connection = new DBConnectionManager().getConnection();
             Statement statement = connection.createStatement();
             ResultSet rs = statement
-                    .executeQuery("select p.profile_name,p.profile_description,t.profile_name,m.metadata_name,f.file_type_name,fo.file_format_name,c.character_set_name from profile p INNER JOIN t_profile_type t ON p.profile_type_code=t.profile_code INNER JOIN t_metadata_scheme m ON p.metadata_scheme_code=m.metadata_code INNER JOIN t_file_type f ON p.file_type_code=f.file_type_code INNER JOIN t_file_format fo ON fo.file_format_code=p.file_format_code INNER JOIN t_character_set c ON c.character_set_code=p.character_set_code where p.profile_name='"
+                    .executeQuery("select p.profile_name,p.profile_description,t.profile_name,m.metadata_name,f.file_type_name,"
+                    		+ "fo.file_format_name,c.character_set_name from profile p INNER JOIN t_profile_type t ON p.profile_type_code=t.profile_code "
+                    		+ "INNER JOIN t_metadata_scheme m ON p.metadata_scheme_code=m.metadata_code INNER JOIN t_file_type f ON p.file_type_code=f.file_type_code "
+                    		+ "INNER JOIN t_file_format fo ON fo.file_format_code=p.file_format_code INNER JOIN t_character_set c "
+                    		+ "ON c.character_set_code=p.character_set_code where p.profile_name='"
                             + this.selectedProfile + "'");
             if (rs.next()) {
                 this.nameForm = rs.getString("p.profile_name");
@@ -443,7 +447,7 @@ public class ProfilesAction extends ActionSupport {
      * @exception
      * @since 1.0
      */
-    public void setProfiles(HashMap<Integer, String> profiles) {
+    public void setProfiles(final HashMap<Integer, String> profiles) {
         this.profiles = profiles;
     }
 
@@ -462,7 +466,7 @@ public class ProfilesAction extends ActionSupport {
      * @exception
      * @since 1.0
      */
-    public void setSelectedProfile(String selectedProfile) {
+    public void setSelectedProfile(final String selectedProfile) {
         this.selectedProfile = selectedProfile;
     }
 
@@ -481,7 +485,7 @@ public class ProfilesAction extends ActionSupport {
      * @exception
      * @since 1.0
      */
-    public void setNameForm(String nameForm) {
+    public void setNameForm(final String nameForm) {
         this.nameForm = nameForm;
     }
 
@@ -500,7 +504,7 @@ public class ProfilesAction extends ActionSupport {
      * @exception
      * @since 1.0
      */
-    public void setDescriptionForm(String descriptionForm) {
+    public void setDescriptionForm(final String descriptionForm) {
         this.descriptionForm = descriptionForm;
     }
 
@@ -519,7 +523,7 @@ public class ProfilesAction extends ActionSupport {
      * @exception
      * @since 1.0
      */
-    public void setProfileTypeForm(int profileTypeForm) {
+    public void setProfileTypeForm(final int profileTypeForm) {
         this.profileTypeForm = profileTypeForm;
     }
 
@@ -538,7 +542,7 @@ public class ProfilesAction extends ActionSupport {
      * @exception
      * @since 1.0
      */
-    public void setSchemeForm(int schemeForm) {
+    public void setSchemeForm(final int schemeForm) {
         this.schemeForm = schemeForm;
     }
 
@@ -557,7 +561,7 @@ public class ProfilesAction extends ActionSupport {
      * @exception
      * @since 1.0
      */
-    public void setFileTypeForm(int fileTypeForm) {
+    public void setFileTypeForm(final int fileTypeForm) {
         this.fileTypeForm = fileTypeForm;
     }
 
@@ -576,7 +580,7 @@ public class ProfilesAction extends ActionSupport {
      * @exception
      * @since 1.0
      */
-    public void setFileFormatForm(int fileFormatForm) {
+    public void setFileFormatForm(final int fileFormatForm) {
         this.fileFormatForm = fileFormatForm;
     }
 
@@ -595,7 +599,7 @@ public class ProfilesAction extends ActionSupport {
      * @exception
      * @since 1.0
      */
-    public void setCharacterSetForm(int characterSetForm) {
+    public void setCharacterSetForm(final int characterSetForm) {
         this.characterSetForm = characterSetForm;
     }
 
@@ -614,7 +618,7 @@ public class ProfilesAction extends ActionSupport {
      * @exception
      * @since 1.0
      */
-    public void setSchemes(HashMap<Integer, String> schemes) {
+    public void setSchemes(final HashMap<Integer, String> schemes) {
         this.schemes = schemes;
     }
 
@@ -633,7 +637,7 @@ public class ProfilesAction extends ActionSupport {
      * @exception
      * @since 1.0
      */
-    public void setProfileTypes(HashMap<Integer, String> profileTypes) {
+    public void setProfileTypes(final HashMap<Integer, String> profileTypes) {
         this.profileTypes = profileTypes;
     }
 
@@ -652,7 +656,7 @@ public class ProfilesAction extends ActionSupport {
      * @exception
      * @since 1.0
      */
-    public void setTypes(HashMap<Integer, String> types) {
+    public void setTypes(final HashMap<Integer, String> types) {
         this.types = types;
     }
 
@@ -671,7 +675,7 @@ public class ProfilesAction extends ActionSupport {
      * @exception
      * @since 1.0
      */
-    public void setFormats(HashMap<Integer, String> formats) {
+    public void setFormats(final HashMap<Integer, String> formats) {
         this.formats = formats;
     }
 
@@ -690,7 +694,7 @@ public class ProfilesAction extends ActionSupport {
      * @exception
      * @since 1.0
      */
-    public void setCharacterSets(HashMap<Integer, String> characterSets) {
+    public void setCharacterSets(final HashMap<Integer, String> characterSets) {
         this.characterSets = characterSets;
     }
 
@@ -709,7 +713,7 @@ public class ProfilesAction extends ActionSupport {
      * @exception
      * @since 1.0
      */
-    public void setShowAddProfileForm(boolean showAddProfileForm) {
+    public void setShowAddProfileForm(final boolean showAddProfileForm) {
         this.showAddProfileForm = showAddProfileForm;
     }
 
@@ -728,7 +732,7 @@ public class ProfilesAction extends ActionSupport {
      * @exception
      * @since 1.0
      */
-    public void setShowEditProfileForm(boolean showEditProfileForm) {
+    public void setShowEditProfileForm(final boolean showEditProfileForm) {
         this.showEditProfileForm = showEditProfileForm;
     }
 
@@ -747,7 +751,7 @@ public class ProfilesAction extends ActionSupport {
      * @exception
      * @since 1.0
      */
-    public void setAreProfiles(boolean areProfiles) {
+    public void setAreProfiles(final boolean areProfiles) {
         this.areProfiles = areProfiles;
     }
 
@@ -766,7 +770,7 @@ public class ProfilesAction extends ActionSupport {
      * @exception
      * @since 1.0
      */
-    public void setShowTheProfile(boolean showTheProfile) {
+    public void setShowTheProfile(final boolean showTheProfile) {
         this.showTheProfile = showTheProfile;
     }
 
@@ -784,7 +788,7 @@ public class ProfilesAction extends ActionSupport {
      * @exception
      * @since 1.0
      */
-    public void setProfileTypeNameForm(String profileTypeNameForm) {
+    public void setProfileTypeNameForm(final String profileTypeNameForm) {
         this.profileTypeNameForm = profileTypeNameForm;
     }
 
@@ -802,7 +806,7 @@ public class ProfilesAction extends ActionSupport {
      * @exception
      * @since 1.0
      */
-    public void setSchemeNameForm(String schemeNameForm) {
+    public void setSchemeNameForm(final String schemeNameForm) {
         this.schemeNameForm = schemeNameForm;
     }
 
@@ -820,7 +824,7 @@ public class ProfilesAction extends ActionSupport {
      * @exception
      * @since 1.0
      */
-    public void setFileTypeNameForm(String fileTypeNameForm) {
+    public void setFileTypeNameForm(final String fileTypeNameForm) {
         this.fileTypeNameForm = fileTypeNameForm;
     }
 
@@ -838,7 +842,7 @@ public class ProfilesAction extends ActionSupport {
      * @exception
      * @since 1.0
      */
-    public void setFileFormatNameForm(String fileFormatNameForm) {
+    public void setFileFormatNameForm(final String fileFormatNameForm) {
         this.fileFormatNameForm = fileFormatNameForm;
     }
 
@@ -856,7 +860,7 @@ public class ProfilesAction extends ActionSupport {
      * @exception
      * @since 1.0
      */
-    public void setCharacterSetNameForm(String characterSetNameForm) {
+    public void setCharacterSetNameForm(final String characterSetNameForm) {
         this.characterSetNameForm = characterSetNameForm;
     }
 

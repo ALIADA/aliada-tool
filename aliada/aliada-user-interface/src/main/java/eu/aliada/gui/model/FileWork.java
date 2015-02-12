@@ -20,7 +20,7 @@ public class FileWork {
     private String template;
     private String graph;
     private String status;
-    
+    private int jobId;
     
     
     /**
@@ -36,7 +36,7 @@ public class FileWork {
      * @exception
      * @since 1.0
      */
-    public void setFileChecked(boolean fileChecked) {
+    public void setFileChecked(final boolean fileChecked) {
         this.fileChecked = fileChecked;
     }
     /**
@@ -52,7 +52,7 @@ public class FileWork {
      * @exception
      * @since 1.0
      */
-    public void setFile(File file) {
+    public void setFile(final File file) {
         this.file = file;
     }
     
@@ -69,7 +69,7 @@ public class FileWork {
      * @exception
      * @since 1.0
      */
-    public void setFilename(String filename) {
+    public void setFilename(final String filename) {
         this.filename = filename;
     }
     /**
@@ -85,7 +85,7 @@ public class FileWork {
      * @exception
      * @since 1.0
      */
-    public void setProfile(String profile) {
+    public void setProfile(final String profile) {
         this.profile = profile;
     }
     /**
@@ -101,7 +101,7 @@ public class FileWork {
      * @exception
      * @since 1.0
      */
-    public void setTemplate(String template) {
+    public void setTemplate(final String template) {
         this.template = template;
     }
     /**
@@ -117,7 +117,7 @@ public class FileWork {
      * @exception
      * @since 1.0
      */
-    public void setGraph(String graph) {
+    public void setGraph(final String graph) {
         this.graph = graph;
     }
     /**
@@ -133,8 +133,24 @@ public class FileWork {
      * @exception
      * @since 1.0
      */
-    public void setStatus(String status) {
+    public void setStatus(final String status) {
         this.status = status;
+	}
+    /**
+     * @return Returns the jobId.
+     * @exception
+     * @since 1.0
+     */
+    public int getJobId() {
+        return jobId;
+    }
+    /**
+     * @param jobId The jobId to set.
+     * @exception
+     * @since 1.0
+     */
+    public void setJobId(final int jobId) {
+        this.jobId = jobId;
     }
 
 }

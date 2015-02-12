@@ -43,12 +43,13 @@ public class InstitutionConfigurationAction extends ActionSupport {
     private String organisationCatalogUrl;     
         
     private static final String DEFAULTLOGOPATH = "webapps/aliada-user-interface-1.0/images/aliada.png";
-
+    private static final int BUFFER_SIZE = 4096;
 
     private final Log logger = new Log(InstitutionConfigurationAction.class);
 
     /**
-     * Read the institution
+     * Read the institution.
+     * @return String
      */
     public String execute() {
         String userName = (String) ServletActionContext.getRequest().getSession().getAttribute("logedUser");
@@ -56,10 +57,10 @@ public class InstitutionConfigurationAction extends ActionSupport {
         try {
             connection = new DBConnectionManager().getConnection();
             Statement statement = connection.createStatement();
-            ResultSet rs = statement.executeQuery("SELECT * FROM organisation o INNER JOIN user u ON o.organisationId = u.organisationId WHERE u.user_name='"+userName+"';");
+            ResultSet rs = statement.executeQuery("SELECT * FROM organisation o INNER JOIN user u ON o.organisationId = u.organisationId WHERE u.user_name='" + userName + "';");
             if (rs.next() && rs.getString("organisation_name") != null) {
                 setOrganisationName(rs.getString("organisation_name"));
-                // readFile(rs);
+               // readFile(rs);
                 setOrganisationCatalogUrl(rs
                         .getString("organisation_catalog_url"));
             }
@@ -67,13 +68,14 @@ public class InstitutionConfigurationAction extends ActionSupport {
             connection.close();
             return SUCCESS;
         } catch (SQLException e) {
-            logger.error(MessageCatalog._00011_SQL_EXCEPTION,e);
+            logger.error(MessageCatalog._00011_SQL_EXCEPTION, e);
             return ERROR;
         }
     }
 
     /**
-     * Edit the institution
+     * Edit the institution.
+     * @return String
      */
     public String editInstitution() {
         Connection connection = null;
@@ -109,15 +111,22 @@ public class InstitutionConfigurationAction extends ActionSupport {
             connection.close();
             return SUCCESS;
         } catch (SQLException e) {
-            logger.error(MessageCatalog._00011_SQL_EXCEPTION,e);
+            logger.error(MessageCatalog._00011_SQL_EXCEPTION, e);
             return ERROR;
         } catch (FileNotFoundException e) {
-            logger.error(MessageCatalog._00013_FILE_NOT_FOUND_EXCEPTION,e);
+            logger.error(MessageCatalog._00013_FILE_NOT_FOUND_EXCEPTION, e);
             return ERROR;
         }
     }
-
-    private void readFile(ResultSet rs) {
+    
+    /**
+     * Read the organisation logo.
+     * @param rs The ResultSet
+     * @return
+     * @see
+     * @since 1.0
+     */
+    private void readFile(final ResultSet rs) {
         HttpServletResponse response = ServletActionContext.getResponse();
         response.reset();
         response.setContentType("multipart/form-data");
@@ -129,7 +138,7 @@ public class InstitutionConfigurationAction extends ActionSupport {
             response.getOutputStream().write(buffer, 0, len);
             response.getOutputStream().flush();
         } catch (SQLException | IOException e) {
-            logger.error(MessageCatalog._00011_SQL_EXCEPTION,e);
+            logger.error(MessageCatalog._00011_SQL_EXCEPTION, e);
         }
     }
 
@@ -148,7 +157,7 @@ public class InstitutionConfigurationAction extends ActionSupport {
      * @exception
      * @since 1.0
      */
-    public void setOrganisationName(String organisationName) {
+    public void setOrganisationName(final String organisationName) {
         this.organisationName = organisationName;
     }
     
@@ -167,7 +176,7 @@ public class InstitutionConfigurationAction extends ActionSupport {
      * @exception
      * @since 1.0
      */
-    public void setOrganisationLogo(File organisationLogo) {
+    public void setOrganisationLogo(final File organisationLogo) {
         this.organisationLogo = organisationLogo;
     }
 
@@ -186,7 +195,7 @@ public class InstitutionConfigurationAction extends ActionSupport {
      * @exception
      * @since 1.0
      */
-    public void setOrganisationCatalogUrl(String organisationCatalogUrl) {
+    public void setOrganisationCatalogUrl(final String organisationCatalogUrl) {
         this.organisationCatalogUrl = organisationCatalogUrl;
     }
 }

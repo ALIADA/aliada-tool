@@ -29,9 +29,11 @@
 			<html:a href="%{localeES}" ><img src="images/spFlag.png"/></html:a>
 		</span> --%>
 		<span class="fright topPad20">
-			<label class="underlined"><html:property value="%{#session['logedUser']}" /></label>
+			<img src="<html:url action='ImageAction'/> " alt="userLogo" width="30" height="30"/>
+			<html:a action="configure"><label class="underlined"><html:property value="%{#session['logedUser']}" /></label></html:a>
+			<html:a action="pendingFiles"><img alt="control panel" src="images/task.png"></img></html:a>
 			<html:a href="https://github.com/ALIADA/aliada-tool/wiki/User_Manual" target="_blank"><img alt="help" src="images/info.png"></img></html:a>
-			<html:a action="configure"><img alt="condiguration" src="images/config.png"></img></html:a>
+			<%--<html:a action="configure"><img alt="condiguration" src="images/config.png"></img></html:a>--%>
 			<html:a action="logout"><img alt="logOut" src="images/userLogout.png"/></html:a>
 		</span>	
 		<div class="headerContentGreenBorder"></div>

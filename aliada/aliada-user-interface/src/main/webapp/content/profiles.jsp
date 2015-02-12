@@ -28,7 +28,12 @@ $(function(){
 <html:hidden id="showTheProfile" name="showTheProfile" value="%{showTheProfile}" />
 <html:hidden id="showAddProfileForm" name="showAddProfileForm" value="%{showAddProfileForm}" />
 <html:hidden id="showEditProfileForm" name="showEditProfileForm" value="%{showEditProfileForm}" />
-<h2 class="pageTitle"><html:text name="profiles.title"/></h2>
+
+<ul class="breadcrumb">
+	<span class="breadCrumb"><html:text name="home"/></span>
+	<li><span class="breadcrumb activeGreen"><html:text name="profiles.title"/></span></li>
+</ul>
+
 <div class="content">
 <html:form id="profiles">
 	<div id="profilesPanel" class="display buttons row">
@@ -49,7 +54,9 @@ $(function(){
 			<html:submit action="deleteProfile" cssClass="submitButton button"
 				key="delete" />
 		</div>
-		<html:submit action="manage" cssClass="submitButton button fright"
+		<%-- <html:submit action="manage" cssClass="submitButton button fright"
+			key="back" /> --%>
+		<html:submit action="configure" cssClass="submitButton button fright"
 			key="back" />
 	</div>
 </html:form>

@@ -23,7 +23,12 @@ $(function(){
 <html:hidden id="areUsers" name="areUsers" value="%{areUsers}" />
 <html:hidden id="showAddForm" name="showAddForm" value="%{showAddForm}" />
 <html:hidden id="showEditForm" name="showEditForm" value="%{showEditForm}" />
-<h2 class="pageTitle"><html:text name="registeredUsers"/></h2>
+
+<ul class="breadcrumb">
+	<span class="breadCrumb"><html:text name="home"/></span>
+	<li><span class="breadcrumb activeGreen"><html:text name="registeredUsers"/></span></li>
+</ul>
+
 <html:form id="user">
 	<table class="table">
 		<tr class="backgroundGreen center">

@@ -4,6 +4,7 @@
 $(function(){
 	var areFiles = $("#areFiles").val();
 	var enableErrorLogButton= $("#enableErrorLogButton").val();
+	var enableNextButton = $("#enableNextButton").val();
 	if(enableErrorLogButton==1){
 		$("#importFileButton").removeClass("buttonGreen");
 		$("#importFileButton").addClass("button");
@@ -14,10 +15,26 @@ $(function(){
 	else{
 		$("#errorLog").removeClass("buttonGreen");
 		$("#errorLog").addClass("button");
-		$("#errorLog").prop( "disabled", true);		
+		$("#errorLog").prop( "disabled", true);
 	}
-	if(areFiles){
-		$("#importedFilesTable").show();	
+	if(enableNextButton==1 ){
+		$("#nextButton").removeClass("button");
+		$("#nextButton").addClass("buttonGreen");
+		$("#nextButton").prop( "disabled", false);
+	}
+	else{
+		$("#nextButton").removeClass("buttonGreen");
+		$("#nextButton").addClass("button");
+		$("#nextButton").prop( "disabled", true);	
+	}
+	if(areFiles > 0){
+		$("#importedFilesTable").show();
+		$("#nextButton").removeClass("button");
+		$("#nextButton").addClass("buttonGreen");
+		$("#nextButton").prop( "disabled", false);
+	}
+	else {
+		$(".table").hide();
 	}
 	/* $("#importedFilesTable :checkbox").on("change",function(){
 		if($("#importedFilesTable :checkbox:checked").length>0){
@@ -30,7 +47,8 @@ $(function(){
 			$("#nextButton").addClass("button");
 			$("#nextButton").prop( "disabled", true);				
 		}
-	}); */	
+	}); */
+	
 	 $("#importedFilesTable :radio").on("change",function(){
 			if($("#importedFilesTable :radio:checked")){
 				$("#nextButton").removeClass("button");
@@ -42,11 +60,14 @@ $(function(){
 				$("#nextButton").addClass("button");
 				$("#nextButton").prop( "disabled", true);				
 			}
-		});
+		}); 
 });
 </script>
-<html:hidden id="areFiles" name="areFiles" value="%{#session['importedFiles']}" />
+<!-- Si se guarda en session -->
+<html:hidden id="areFiles" name="areFiles" value="%{#session['importedFiles'].size()}" />
+<!--<html:hidden id="areFiles" name="areFiles" value="importedFiles" />-->
 <html:hidden id="enableErrorLogButton" name="enableErrorLogButton" value="%{enableErrorLogButton}" />
+<html:hidden id="enableNextButton" name="enableNextButton" value="%{enableNextButton}" />
 <ul class="breadcrumb">
 	<span class="breadCrumb"><html:text name="home"/></span>
 	<li><span class="breadcrumb activeGreen"><html:text name="manage.title"/></span></li>
@@ -60,8 +81,8 @@ $(function(){
 		<div class="row">
 			<html:select name="profileSelected" cssClass="inputForm"
 				list="profiles" />
-			<html:submit action="showProfiles"
-				cssClass="submitButton button" key="profilesSubmit" />
+			<%--<html:submit action="showProfiles"
+				cssClass="submitButton button" key="profilesSubmit" />--%>
 		</div>
 		<div class="row">
 			<html:text name="importFile"/>
@@ -69,14 +90,14 @@ $(function(){
 		</div>
 		<html:fielderror fieldName="importFile" />
 		<html:actionerror/>
-		<html:actionmessage />
+		<%--<html:actionmessage />--%>
 		<div id="managingButtons" class="buttons row">
 			<img id=loader class="displayNo lMargin40 rMargin20" src="images/loader.gif" alt="" />
 			<html:submit id="importFileButton" action="importXML" cssClass="submitButton buttonGreen"
 				key="import" onClick="$('#loader').show();
 										$('#importFileButton').hide();" />
-			<html:submit id="errorLog" action="errorLog" disabled="true" cssClass="submitButton button"
-				key="errorLog" />
+			<%--<html:submit id="errorLog" action="errorLog" disabled="true" cssClass="submitButton button"
+				key="errorLog" />--%>
 		</div>	
 	</html:form>
 	</div>
@@ -95,7 +116,7 @@ $(function(){
 				<tr>
 					<%-- <td><html:checkbox name="fileChecked" value="fileChecked"/></td> --%>
 					<%-- <td><html:property value="filename" /></td> --%>
-					<td><html:radio key="selectedFile" list="filename" /></td>
+					<td><html:radio key="selectedFile" list="filename" checked="checked"/></td>
 					<td><html:property value="profile" /></td>
 					<td class="center">
 						<html:if test="status.equals('idle')">
@@ -112,6 +133,8 @@ $(function(){
 		</table>
 	</div>	
 	<div id="submitButtons" class="buttons row">
+			<%-- <html:submit action="showProfiles"
+				cssClass="submitButton button" key="profilesSubmit" /> --%>
 			<html:submit id="nextButton" action="saveFilesToConversion" disabled="true" cssClass="fright submitButton button"
 						key="next" />
 	</div>

@@ -30,7 +30,7 @@ public class Organisation {
      * @exception
      * @since 1.0
      */
-    public void setName(String name) {
+    public void setName(final String name) {
         this.name = name;
     }
     /**
@@ -46,7 +46,7 @@ public class Organisation {
      * @exception
      * @since 1.0
      */
-    public void setPath(String path) {
+    public void setPath(final String path) {
         this.path = path;
     }
     /**
@@ -62,7 +62,7 @@ public class Organisation {
      * @exception
      * @since 1.0
      */
-    public void setUriDomain(String uriDomain) {
+    public void setUriDomain(final String uriDomain) {
         this.uriDomain = uriDomain;
     }
     /**
@@ -78,7 +78,7 @@ public class Organisation {
      * @exception
      * @since 1.0
      */
-    public void setUriResource(String uriResource) {
+    public void setUriResource(final String uriResource) {
         this.uriResource = uriResource;
     }
     /**
@@ -94,7 +94,7 @@ public class Organisation {
      * @exception
      * @since 1.0
      */
-    public void setLogo(String logo) {
+    public void setLogo(final String logo) {
         this.logo = logo;
     }
     /**
@@ -110,7 +110,7 @@ public class Organisation {
      * @exception
      * @since 1.0
      */
-    public void setCatalogUrl(String catalogUrl) {
+    public void setCatalogUrl(final String catalogUrl) {
         this.catalogUrl = catalogUrl;
     }
     

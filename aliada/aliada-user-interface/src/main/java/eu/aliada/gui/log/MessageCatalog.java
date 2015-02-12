@@ -49,9 +49,9 @@ public interface MessageCatalog {
     String _00040_LDS_STARTED = LT + MODULE_NAME + "-00040> : LDS started";
     String _00041_NOT_FILE_TO_LINK = LT + MODULE_NAME + "-00041> : Not file to link";
     
-    String _00050_LINKING_JOB= LT + MODULE_NAME + "-00040> : Link discovery started";
+    String _00050_LINKING_JOB = LT + MODULE_NAME + "-00040> : Link discovery started";
     
-    String _00060_CONVERSION_TEMPLATE_ADDED= LT + MODULE_NAME + "-00060> : Added template";
+    String _00060_CONVERSION_TEMPLATE_ADDED = LT + MODULE_NAME + "-00060> : Added template";
 
     
     String _00100_EXCEPTION = LT + MODULE_NAME + "-00100> : Exception. See below for further details.";

@@ -28,9 +28,12 @@ $(function(){
 <html:hidden id="showTheTemplate" name="showTheTemplate" value="%{showTheTemplate}" />
 <html:hidden id="showAddTemplateForm" name="showAddTemplateForm" value="%{showAddTemplateForm}" />
 <html:hidden id="showEditTemplateForm" name="showEditTemplateForm" value="%{showEditTemplateForm}" />
-<h2 class="pageTitle">
-	<html:text name="templates" />
-</h2>
+
+<ul class="breadcrumb">
+	<span class="breadCrumb"><html:text name="home"/></span>
+	<li><span class="breadcrumb activeGreen"><html:text name="templates"/></span></li>
+</ul>
+
 <div class="content">
 	<html:form id="templates">
 		<div id="templatesPanel" class="display buttons row">
@@ -53,8 +56,10 @@ $(function(){
 				<html:submit action="deleteTemplate" cssClass="submitButton button"
 					key="delete" />
 			</div>	
-			<html:submit action="conversion" cssClass="submitButton button fright"
-				key="back" />
+			<%-- <html:submit action="conversion" cssClass="submitButton button fright"
+				key="back" /> --%>
+			<html:submit action="configure" cssClass="submitButton button fright"
+			    key="back" />
 		</div>
 	</html:form>
 	

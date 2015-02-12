@@ -13,12 +13,13 @@ function confirmBox(){
 		console.log("Not cleaned");
 		window.location = "${pageContext.request.contextPath}/conversion.action";
 	}
-    return false;
+	return false;
 }
 $(function(){
 	var showCheckButton = $("#showCheckButton").val();
 	var showRdfizerButton = $("#showRdfizerButton").val();
 	var rdfizerStatus = $("#rdfizerStatus").val();
+	console.log(rdfizerStatus);
 	if(rdfizerStatus =="running"){
 		$("#cleanGraphPanel").hide();
 		$("#templateSelect").hide();
@@ -31,6 +32,7 @@ $(function(){
 		console.log("checking RDF");
 		var rdfizerJobId = $("#rdfizerJobId").val();
 		var urlPath = "/aliada-rdfizer-1.0/jobs/"+rdfizerJobId;
+		//var urlPath = "/rdfizer/jobs/"+rdfizerJobId;
 	    $.ajax({
 	      type: "GET",
 	      url: urlPath,
@@ -58,6 +60,7 @@ $(function(){
 			       $("#nextButton").addClass("buttonGreen");
 			       $("#nextButton").prop("disabled",false);
 			       $("#rdfVal").show("fast");
+			       $("#linksVal").show("fast");
 			       $("#progressBar").hide();
 			       $("#fineImg").show();
 		   		   console.log("interval stopped");
@@ -112,7 +115,8 @@ $(function(){
 	<li><span class="breadcrumb activeGreen"><html:text name="conversion.title"/></span></li>
 	<li><span class="breadcrumb"><html:text name="linking.title"/></span></li>
 </ul>
-<html:a id="rdfVal" disabled="true" action="rdfVal" cssClass="displayNo menuButton button fright" key="rdfVal" target="_blank"><html:text name="rdfVal"/></html:a>			
+<html:a id="rdfVal" disabled="true" action="rdfVal" cssClass="displayNo menuButton button fleft" key="rdfVal" target="_blank"><html:text name="rdfVal"/></html:a>
+<%--<html:a id="linksVal" disabled="true" action="linksVal" cssClass="displayNo menuButton button fright" key="linksVal" target="_blank"><html:text name="linksVal"/></html:a>--%>		
 <div class="form centered">
 	<html:form id="conversion">
 		<div id="rdfizePanel" class="content">
@@ -122,6 +126,7 @@ $(function(){
 					<th><label class="bold"><html:text name="conversion.input"/></label></th>
 					<th><label class="bold"><html:text name="conversion.template"/></label></th>
 					<th><label class="bold"><html:text name="conversion.graph"/></label></th>
+					<th><label class="bold"><html:text name="Subset"/></label></th>
 				</tr>
 				<tr>
 					<td>
@@ -144,16 +149,21 @@ $(function(){
 					key="RDF-ize"/>
 				<html:submit id="checkRDFButton" disabled="true" cssClass="submitButton button"
 					key="check" onClick="return false;"/>
-				<html:submit action="showTemplates" cssClass="submitButton button"
-					key="templates" />
+				<%-- <html:submit action="showTemplates" cssClass="submitButton button"
+					key="templates" /> --%>
 			</div>
 			<div id="cleanGraphPanel">
 				<label class="row label"><html:text name="conversion.cleanSelect"/></label>
-				<html:select id="graphToClean" cssClass="inputForm" list="graphs" />
-				<html:submit onclick="return confirmBox();" cssClass="submitButton button"
-					key="conversion.clean" />
+				
 				<%-- <html:submit action="cleanGraph" cssClass="submitButton button"
 					key="conversion.clean" /> --%>
+			<div class="row">
+				<html:select id="graphToClean" cssClass="inputForm" list="graphs" />
+			</div>
+			<div class="row">
+				<html:submit onclick="return confirmBox();" cssClass="submitButton button"
+					key="conversion.clean" />
+			</div>
 			</div>
 			<html:actionmessage />
 		</div>

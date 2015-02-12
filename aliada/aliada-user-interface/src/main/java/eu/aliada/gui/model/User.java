@@ -31,7 +31,7 @@ public class User{
      * @exception
      * @since 1.0
      */
-    public void setUsername(String username) {
+    public void setUsername(final String username) {
         this.username = username;
     }
     /**
@@ -47,7 +47,7 @@ public class User{
      * @exception
      * @since 1.0
      */
-    public void setPassword(String password) {
+    public void setPassword(final String password) {
         this.password = password;
     }
     /**
@@ -63,7 +63,7 @@ public class User{
      * @exception
      * @since 1.0
      */
-    public void setEmail(String email) {
+    public void setEmail(final String email) {
         this.email = email;
     }
     /**
@@ -79,7 +79,7 @@ public class User{
      * @exception
      * @since 1.0
      */
-    public void setRole(String role) {
+    public void setRole(final String role) {
         this.role = role;
     }
     /**
@@ -91,11 +91,11 @@ public class User{
         return type;
     }
     /**
-     * @param advanced The type to set.
+     * @param type The type to set.
      * @exception
      * @since 1.0
      */
-    public void setType(String type) {
+    public void setType(final String type) {
         this.type = type;
     }
     /**
@@ -111,7 +111,7 @@ public class User{
      * @exception
      * @since 1.0
      */
-    public void setOrganisation(String organisation) {
+    public void setOrganisation(final String organisation) {
         this.organisation = organisation;
     }
 

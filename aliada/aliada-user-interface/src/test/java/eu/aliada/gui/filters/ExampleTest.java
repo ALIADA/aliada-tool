@@ -1,3 +1,9 @@
+// ALIADA - Automatic publication under Linked Data paradigm
+//          of library and museum data
+//
+// Component: aliada-user-interface
+// Responsible: ALIADA Consortium
+
 package eu.aliada.gui.filters;
 
 import org.junit.Test;

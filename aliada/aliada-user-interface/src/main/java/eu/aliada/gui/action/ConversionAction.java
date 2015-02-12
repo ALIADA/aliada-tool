@@ -45,12 +45,18 @@ public class ConversionAction extends ActionSupport {
     private String selectedGraph;
     
     private final Log logger = new Log(ConversionAction.class);
-    
+    /**
+     * Calls to the file session save process.
+     * @return String
+     * @see
+     * @since 1.0
+     */
     public String execute() {
+    	//STATUS IDLE
         String rdfizerStatus = "idle";
         HttpSession session = ServletActionContext.getRequest().getSession();
         setImportedFile((FileWork) session.getAttribute("importedFile")); 
-        if(session.getAttribute("rdfizerStatus") != null){
+        if (session.getAttribute("rdfizerStatus") != null) {
             rdfizerStatus = (String) session.getAttribute("rdfizerStatus");
         }
         if (rdfizerStatus.equals("running")) {
@@ -61,17 +67,18 @@ public class ConversionAction extends ActionSupport {
             setShowRdfizerButton(1); 
         }
         getGraphsDb();
+//        session.setAttribute("rdfizerStatus", null);
         return getTemplatesDb();
     }
     /**
-     * Calls to the rdfizer process
-     * @return
+     * Calls to the rdfizer process.
+     * @return String
      * @see
      * @since 1.0
      */
     public String rdfize() {
         HttpSession session = ServletActionContext.getRequest().getSession();
-        if(session.getAttribute("importedFile")!=null){
+        if (session.getAttribute("importedFile") != null) {
             setImportedFile((FileWork) session.getAttribute("importedFile"));
             importedFile.setTemplate(getTemplateNameFromCode(getSelectedTemplate()));
             importedFile.setGraph(getGraphUri(getSelectedGraph()));
@@ -82,11 +89,13 @@ public class ConversionAction extends ActionSupport {
                 connection = new DBConnectionManager().getConnection();
                 Statement statement = connection.createStatement();
                 ResultSet rs = statement
-                        .executeQuery("select aliada_ontology,sparql_endpoint_uri,sparql_endpoint_login,sparql_endpoint_password,graph_uri,dataset_base from organisation o INNER JOIN graph g ON o.organisationId=g.organisationId WHERE g.graph_uri='"+importedFile.getGraph()+"'");
+                        .executeQuery("select aliada_ontology,sparql_endpoint_uri,sparql_endpoint_login,sparql_endpoint_password,graph_uri,dataset_base from organisation "
+                        		+ "o INNER JOIN graph g ON o.organisationId=g.organisationId WHERE g.graph_uri='" + importedFile.getGraph() + "'");
                 if (rs.next()) {
                     PreparedStatement preparedStatement = connection
                             .prepareStatement(
-                                    "INSERT INTO aliada.rdfizer_job_instances (datafile,format,namespace,graph_name,aliada_ontology,sparql_endpoint_uri,sparql_endpoint_login,sparql_endpoint_password) VALUES(?,?,?,?,?,?,?,?)",
+                                    "INSERT INTO aliada.rdfizer_job_instances (datafile,format,namespace,graph_name,aliada_ontology,sparql_endpoint_uri,"
+                                    + "sparql_endpoint_login,sparql_endpoint_password) VALUES(?,?,?,?,?,?,?,?)",
                                     PreparedStatement.RETURN_GENERATED_KEYS);
                     preparedStatement.setString(1, importedFile.getFile().getAbsolutePath());
                     preparedStatement.setString(2, format);
@@ -107,8 +116,15 @@ public class ConversionAction extends ActionSupport {
                         session.setAttribute("importedFile", importedFile);
                         createJob(addedId);
                         session.setAttribute("rdfizerStatus", "running");
+					
+                        //If it's properly created  => change STATUS RUNNINGRDFIZER
+                        Statement updateStatement = connection.createStatement();
+                        updateStatement.executeUpdate("UPDATE aliada.user_session set status='runningRdfizer', job_id=" + addedId 
+                        		+ ", template=" + getSelectedTemplate() + ", graph=" + getSelectedGraph() + " where file_name='" + importedFile.getFilename() + "'");
+                        updateStatement.close();
+						
                     } catch (IOException e) {
-                        logger.error(MessageCatalog._00012_IO_EXCEPTION,e);
+                        logger.error(MessageCatalog._00012_IO_EXCEPTION, e);
                         getTemplatesDb();
                         getGraphsDb();
                         rs2.close();
@@ -127,15 +143,14 @@ public class ConversionAction extends ActionSupport {
                     return getTemplatesDb();                
                 }
             } catch (SQLException e) {
-                logger.error(MessageCatalog._00011_SQL_EXCEPTION,e);
+                logger.error(MessageCatalog._00011_SQL_EXCEPTION, e);
                 getGraphsDb();
                 getTemplatesDb();
                 return ERROR;
             }
             getGraphsDb();
             return getTemplatesDb();
-        }
-        else{
+        } else {
             logger.error(MessageCatalog._00033_CONVERSION_ERROR_NO_FILE_IMPORTED);
             getGraphsDb();
             getTemplatesDb();
@@ -143,12 +158,12 @@ public class ConversionAction extends ActionSupport {
         }
     }
     /**
-     * Clear the graph
-     * @return
+     * Clear the graph.
+     * @return String
      * @see
      * @since 1.0
      */
-    public String cleanGraph(){
+    public String cleanGraph() {
         Connection connection = null;
         connection = new DBConnectionManager().getConnection();
         Statement statement;
@@ -156,10 +171,12 @@ public class ConversionAction extends ActionSupport {
         try {
             statement = connection.createStatement();
             ResultSet rs = statement
-                    .executeQuery("select sparql_endpoint_uri,sparql_endpoint_login,sparql_endpoint_password,graph_uri from organisation o INNER JOIN graph g ON o.organisationId=g.organisationId WHERE g.graphId='"+graphToCleanId+"'");
+                    .executeQuery("select sparql_endpoint_uri,sparql_endpoint_login,sparql_endpoint_password,graph_uri from organisation "
+                    		+ "o INNER JOIN graph g ON o.organisationId=g.organisationId WHERE g.graphId='" + graphToCleanId + "'");
             if (rs.next()) {
                 RDFStoreDAO store = new RDFStoreDAO();
-                if(!store.clearGraphBySparql(rs.getString("sparql_endpoint_uri"), rs.getString("sparql_endpoint_login"), rs.getString("sparql_endpoint_password"), rs.getString("graph_uri"))){
+                if (!store.clearGraphBySparql(rs.getString("sparql_endpoint_uri"), rs.getString("sparql_endpoint_login"),
+                		rs.getString("sparql_endpoint_password"), rs.getString("graph_uri"))) {
                     logger.error(MessageCatalog._00032_CONVERSION_ERROR_CLEARING_GRAPH);
                     rs.close();
                     statement.close();
@@ -167,28 +184,28 @@ public class ConversionAction extends ActionSupport {
                     execute();
                     return ERROR;
                 }
-                logger.error(MessageCatalog._00034_CONVERSION_GRAPH_CLEANED);
-                addActionMessage(getText("conversion.graphCleaned")+rs.getString("graph_uri"));
+                logger.debug(MessageCatalog._00034_CONVERSION_GRAPH_CLEANED);
+                addActionMessage(getText("conversion.graphCleaned") + rs.getString("graph_uri"));
             }
             rs.close();
             statement.close();
             connection.close();
             return execute(); 
         } catch (SQLException e) {
-            logger.error(MessageCatalog._00011_SQL_EXCEPTION,e);
+            logger.error(MessageCatalog._00011_SQL_EXCEPTION, e);
             execute();
             return ERROR;
         }
         
     }
     /**
-     * Get the name of the the template from a give template code
-     * @param selectedTemplate
-     * @return
+     * Get the name of the the template from a give template code.
+     * @param selectedTemplate The selected template
+     * @return String
      * @see
      * @since 1.0
      */
-    private String getTemplateNameFromCode(String selectedTemplate){
+    private String getTemplateNameFromCode(final String selectedTemplate) {
         Connection connection = null;
         String templateName = "";
         try {
@@ -196,34 +213,35 @@ public class ConversionAction extends ActionSupport {
             Statement statement;
             statement = connection.createStatement();
             ResultSet rs = statement
-                    .executeQuery("select template_name from aliada.template where template_id="+selectedTemplate);
-            if(rs.next()){
+                    .executeQuery("select template_name from aliada.template where template_id=" + selectedTemplate);
+            if (rs.next()) {
                 templateName = rs.getString("template_name");
             }
             rs.close();
             statement.close();
             connection.close();
         } catch (SQLException e) {
-            logger.error(MessageCatalog._00011_SQL_EXCEPTION,e);
+            logger.error(MessageCatalog._00011_SQL_EXCEPTION, e);
             return "";
         }
         return templateName;
     }
     /**
-     * Gets the format of the file
-     * @return
-     * @throws SQLException
+     * Gets the format of the file.
+     * @return String
+     * @param profile The profile selected
+     * @throws SQLException Throws a SQLException
      * @see
      * @since 1.0
      */
-    private String getFormat(String profile) throws SQLException {
+    private String getFormat(final String profile) throws SQLException {
         Connection connection = null;
         String format = null;
         connection = new DBConnectionManager().getConnection();
         Statement statement = connection.createStatement();
         ResultSet rs = statement
-                .executeQuery("select metadata_name from t_metadata_scheme JOIN profile ON t_metadata_scheme.metadata_code=profile.metadata_scheme_code WHERE profile.profile_name= '"
-                        + profile+"'");
+                .executeQuery("select metadata_name from t_metadata_scheme JOIN profile ON t_metadata_scheme.metadata_code=profile.metadata_scheme_code "
+                		+ "WHERE profile.profile_name= '" + profile + "'");
         if (rs.next()) {
             format = rs.getString(1);
         }
@@ -234,13 +252,14 @@ public class ConversionAction extends ActionSupport {
     }
 
     /**
-     * Enables the RDFizer
-     * @throws IOException
+     * Enables the RDFizer.
+     * @throws IOException Throws a IOException 
      * @see
      * @since 1.0
      */
     private void enableRdfizer() throws IOException {
-        URL url = new URL("http://aliada:8080/aliada-rdfizer-1.0/enable");
+    	URL url = new URL("http://aliada:8080/aliada-rdfizer-1.0/enable");
+//        URL url = new URL("http://localhost:8891/rdfizer/enable");
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setDoOutput(true);
         conn.setRequestMethod("PUT");
@@ -257,13 +276,14 @@ public class ConversionAction extends ActionSupport {
 
     /**
      * Creates a job for the RDFizer
-     * @param addedId
-     * @throws IOException
+     * @param addedId Add the ID
+     * @throws IOException  Throws a IOException
      * @see
      * @since 1.0
      */
-    private void createJob(int addedId) throws IOException {
-        URL url = new URL("http://aliada:8080/aliada-rdfizer-1.0/jobs/" + addedId);
+    private void createJob(final int addedId) throws IOException {
+	    URL url = new URL("http://aliada:8080/aliada-rdfizer-1.0/jobs/" + addedId);
+//        URL url = new URL("http://localhost:8891/rdfizer/jobs/" + addedId);
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setDoOutput(true);
         conn.setRequestMethod("PUT");
@@ -280,8 +300,8 @@ public class ConversionAction extends ActionSupport {
     }
     
     /**
-     * Gets the templates from the DB available for this type of file
-     * @return
+     * Gets the templates from the DB available for this type of file.
+     * @return String
      * @see
      * @since 1.0
      */
@@ -291,14 +311,14 @@ public class ConversionAction extends ActionSupport {
             connection = new DBConnectionManager().getConnection();
             Statement statement = connection.createStatement();
             ResultSet rs = statement
-                    .executeQuery("select file_type_code from aliada.profile WHERE profile_name='"+importedFile.getProfile()+"'");
+                    .executeQuery("select file_type_code from aliada.profile WHERE profile_name='" + importedFile.getProfile() + "'");
             rs.next();
             int fileTypeCode = rs.getInt("file_type_code");   
             rs.close();
             statement.close();
             statement = connection.createStatement();
             rs = statement
-                    .executeQuery("select * from aliada.template WHERE file_type_code="+fileTypeCode);
+                    .executeQuery("select * from aliada.template WHERE file_type_code=" + fileTypeCode);
             templates = new HashMap<Integer, String>();
             while (rs.next()) {
                 templates.put(rs.getInt("template_id"),
@@ -308,14 +328,14 @@ public class ConversionAction extends ActionSupport {
             statement.close();
             connection.close();
         } catch (SQLException e) {
-            logger.error(MessageCatalog._00011_SQL_EXCEPTION,e);
+            logger.error(MessageCatalog._00011_SQL_EXCEPTION, e);
             return ERROR;
         }
         return SUCCESS;
     }
     /**
-     * Gets the available graphs from the DB
-     * @return
+     * Gets the available graphs from the DB.
+     * @return String
      * @see
      * @since 1.0
      */
@@ -325,7 +345,8 @@ public class ConversionAction extends ActionSupport {
         try {
             connection = new DBConnectionManager().getConnection();
             Statement statement = connection.createStatement();
-            ResultSet rs = statement.executeQuery("SELECT graphId, graph_uri FROM graph g INNER JOIN user u ON g.organisationId = u.organisationId WHERE u.user_name='"+username+"';");
+            ResultSet rs = statement.executeQuery("SELECT graphId, graph_uri FROM graph g INNER JOIN user u ON g.organisationId = u.organisationId "
+            		+ "WHERE u.user_name='" + username + "';");
             graphs = new HashMap<Integer, String>();
             while (rs.next()) {
                 graphs.put(rs.getInt("graphId"),
@@ -335,25 +356,26 @@ public class ConversionAction extends ActionSupport {
             statement.close();
             connection.close();
         } catch (SQLException e) {
-            logger.error(MessageCatalog._00011_SQL_EXCEPTION,e);
+            logger.error(MessageCatalog._00011_SQL_EXCEPTION, e);
             return ERROR;
         }
         return SUCCESS;
     }
     
     /**
-     * Gets the graph uri from a graph code
-     * @return
+     * Gets the graph uri from a graph code.
+     * @param graphCode The graph code
+     * @return String
      * @see
      * @since 1.0
      */
-    public String getGraphUri(String graphCode) {
+    public String getGraphUri(final String graphCode) {
         Connection connection = null;
         String graphUri = "";
         try {
             connection = new DBConnectionManager().getConnection();
             Statement statement = connection.createStatement();
-            ResultSet rs = statement.executeQuery("SELECT graph_uri FROM graph WHERE graphId='"+graphCode+"';");
+            ResultSet rs = statement.executeQuery("SELECT graph_uri FROM graph WHERE graphId='" + graphCode + "';");
             if (rs.next()) {
                 graphUri = rs.getString("graph_uri");
             }
@@ -361,7 +383,7 @@ public class ConversionAction extends ActionSupport {
             statement.close();
             connection.close();
         } catch (SQLException e) {
-            logger.error(MessageCatalog._00011_SQL_EXCEPTION,e);
+            logger.error(MessageCatalog._00011_SQL_EXCEPTION, e);
             return "";
         }
         return graphUri;
@@ -382,7 +404,7 @@ public class ConversionAction extends ActionSupport {
      * @exception
      * @since 1.0
      */
-    public void setTemplates(HashMap<Integer, String> templates) {
+    public void setTemplates(final HashMap<Integer, String> templates) {
         this.templates = templates;
     }
 
@@ -401,7 +423,7 @@ public class ConversionAction extends ActionSupport {
      * @exception
      * @since 1.0
      */
-    public void setImportedFile(FileWork importedFile) {
+    public void setImportedFile(final FileWork importedFile) {
         this.importedFile = importedFile;
     }
     /**
@@ -419,7 +441,7 @@ public class ConversionAction extends ActionSupport {
      * @exception
      * @since 1.0
      */
-    public void setSelectedTemplate(String selectedTemplate) {
+    public void setSelectedTemplate(final String selectedTemplate) {
         this.selectedTemplate = selectedTemplate;
     }
 
@@ -438,7 +460,7 @@ public class ConversionAction extends ActionSupport {
      * @exception
      * @since 1.0
      */
-    public void setShowCheckButton(int showCheckButton) {
+    public void setShowCheckButton(final int showCheckButton) {
         this.showCheckButton = showCheckButton;
     }
 
@@ -456,7 +478,7 @@ public class ConversionAction extends ActionSupport {
      * @exception
      * @since 1.0
      */
-    public void setShowRdfizerButton(int showRdfizerButton) {
+    public void setShowRdfizerButton(final int showRdfizerButton) {
         this.showRdfizerButton = showRdfizerButton;
     }
     /**
@@ -472,7 +494,7 @@ public class ConversionAction extends ActionSupport {
      * @exception
      * @since 1.0
      */
-    public void setGraphs(HashMap<Integer, String> graphs) {
+    public void setGraphs(final HashMap<Integer, String> graphs) {
         this.graphs = graphs;
     }
     /**
@@ -488,7 +510,7 @@ public class ConversionAction extends ActionSupport {
      * @exception
      * @since 1.0
      */
-    public void setSelectedGraph(String selectedGraph) {
+    public void setSelectedGraph(final String selectedGraph) {
         this.selectedGraph = selectedGraph;
     }
 }

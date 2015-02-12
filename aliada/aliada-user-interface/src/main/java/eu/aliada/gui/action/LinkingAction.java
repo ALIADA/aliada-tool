@@ -37,35 +37,113 @@ import eu.aliada.shared.log.Log;
  */
 public class LinkingAction extends ActionSupport {
 
-    private boolean linkingStarted;
     private HashMap<Integer, String> datasets;
     private FileWork fileToLink;
     private Integer rdfizerJob;
 
     private final Log logger = new Log(LinkingAction.class);
-
+    
+    /**
+     * Calls to the rdfizerStatus process.
+     * @return String
+     * @see
+     * @since 1.0
+     */
     public String execute() {
         HttpSession session = ServletActionContext.getRequest().getSession();
-        session.setAttribute("rdfizerStatus", "finished");
+        session.setAttribute("rdfizerStatus", "finishedRdfizer");
         setFileToLink((FileWork) session.getAttribute("importedFile"));
+        
+        //logger.info("STATUS FINISHEDRDFIZER", null);
+		
+        //If it's properly rdfizered => change STATUS FINISHEDRDFIZER
+        Connection connection = null;
+        Statement updateStatement = null;
+        try {
+        	connection = new DBConnectionManager().getConnection();
+        	updateStatement = connection.createStatement();
+        	updateStatement.executeUpdate("UPDATE aliada.user_session set status='finishedRdfizer' where file_name='" + fileToLink.getFilename() + "'");
+        	updateStatement.close();
+    		connection.close();
+        } catch (SQLException e) {
+    		logger.error(MessageCatalog._00011_SQL_EXCEPTION, e);
+    	} 
+
+        
         return getDatasetsDb();
     }
-    public String finishFileWork(){
+    /**
+     * Calls to the loadPending process.
+     * @return String
+     * @see
+     * @since 1.0
+     */
+    public String loadPending() {
+        HttpSession session = ServletActionContext.getRequest().getSession();
+        //session.setAttribute("rdfizerStatus", "finished");
+        setFileToLink((FileWork) session.getAttribute("importedFile"));
+        
+        //If it's properly rdfizered => change status depends on which is current state
+        if (this.fileToLink.getStatus() == "finishedRdfizer") { //Pending link and check
+         //Makes the same if we enter normally
+        } else if (this.fileToLink.getStatus() == "runningLinking") { //Pending check
+              createJobLinking();
+              createJobLDS();
+        } else if (this.fileToLink.getStatus() == "finishedLinking") { //Finish link and check
+            
+        }
+        
+        Connection connection = null;
+        Statement updateStatement = null;
+        try {
+        	connection = new DBConnectionManager().getConnection();
+        	updateStatement = connection.createStatement();
+        	updateStatement.executeUpdate("UPDATE aliada.user_session set status='finishedRdfizer' where file_name='" + fileToLink.getFilename() + "'");
+        	updateStatement.close();
+    		connection.close();
+        } catch (SQLException e) {
+    		logger.error(MessageCatalog._00011_SQL_EXCEPTION, e);
+    	}
+                
+        return getDatasetsDb();
+    }
+    /**
+     * Calls to the finishFileWork process.
+     * @return String
+     * @see
+     * @since 1.0
+     */
+    public String finishFileWork() {
         HttpSession session = ServletActionContext.getRequest().getSession();
         List<FileWork> importedFiles = (List<FileWork>) session.getAttribute("importedFiles");
         FileWork importedFile = (FileWork) session.getAttribute("importedFile");
-        for (FileWork file : importedFiles){
-            if (file.equals(importedFile)){
-                file.setStatus("finished");
+        for (FileWork file : importedFiles) {
+            if (file.equals(importedFile)) {
+                file.setStatus("finishedLinked");
             }
         }
         session.setAttribute("importedFiles", importedFiles);
+       
+    	setFileToLink((FileWork) session.getAttribute("importedFile"));
+    	
+    	//Delete file
+    	Connection connection = null;
+	    Statement statement = null;
+		    try {
+		        connection = new DBConnectionManager().getConnection();
+		        statement = connection.createStatement();
+		        statement.executeUpdate("DELETE FROM aliada.user_session where file_name='" + fileToLink.getFilename() + "'");
+		        statement.close();
+		        connection.close();
+		    } catch (SQLException e) {
+		        logger.error(MessageCatalog._00011_SQL_EXCEPTION, e);
+		      }
+        
         return SUCCESS;
     }
-
     /**
-     * Loads the datasets from the database
-     * @return
+     * Loads the datasets from the database.
+     * @return String
      * @see
      * @since 1.0
      */
@@ -86,24 +164,64 @@ public class LinkingAction extends ActionSupport {
             st.close();
             con.close();
         } catch (SQLException e) {
-            logger.error(MessageCatalog._00011_SQL_EXCEPTION,e);
+            logger.error(MessageCatalog._00011_SQL_EXCEPTION, e);
             return ERROR;
         }
         return SUCCESS;
     }
-
+    
     /**
-     * Calls to the link-discovery process
-     * @return
+     * Calls to the job deleting process.
+     * @return String
+     * @see
+     * @since 1.0
+     */
+    public String checkLinking() {
+    	HttpSession session = ServletActionContext.getRequest().getSession();
+    	setFileToLink((FileWork) session.getAttribute("importedFile"));
+    	
+    	//Delete file
+    	Connection connection = null;
+	    Statement statement = null;
+		    try {
+		        connection = new DBConnectionManager().getConnection();
+		        statement = connection.createStatement();
+		        statement.executeUpdate("DELETE FROM aliada.user_session where file_name='" + fileToLink.getFilename() + "'");
+		        statement.close();
+		        connection.close();
+		    } catch (SQLException e) {
+		        logger.error(MessageCatalog._00011_SQL_EXCEPTION, e);
+		      }
+    	return getDatasetsDb();
+    }
+    
+    /**
+     * Calls to the link-discovery process.
+     * @return String
      * @see
      * @since 1.0
      */
     public String startLinking() {
-        setFileToLink((FileWork) ServletActionContext.getRequest()
-                .getSession().getAttribute("importedFile"));
+    	HttpSession session = ServletActionContext.getRequest().getSession();
+        setFileToLink((FileWork) session.getAttribute("importedFile"));
         createJobLinking();
         createJobLDS();
-        setLinkingStarted(true);
+		
+        //If it's properly rdfizered => change status
+        Connection connection = null;
+        Statement updateStatement = null;
+        try {
+        	connection = new DBConnectionManager().getConnection();
+        	updateStatement = connection.createStatement();
+        	updateStatement.executeUpdate("UPDATE aliada.user_session set status='finishedLinking' where file_name='" + fileToLink.getFilename() + "'");
+        	updateStatement.close();
+    		connection.close();
+        } catch (SQLException e) {
+    		logger.error(MessageCatalog._00011_SQL_EXCEPTION, e);
+    	}
+        
+        session.setAttribute("rdfizerStatus", "finishedLinking");
+        
         return getDatasetsDb();
     }
     /**
@@ -114,21 +232,24 @@ public class LinkingAction extends ActionSupport {
      */
     private void createJobLinking() {
         int addedId = 0;
-        if(fileToLink.getGraph()!=null){
+        if (fileToLink.getGraph() != null) {
             Connection connection = null;
             connection = new DBConnectionManager().getConnection();
             Statement statement;
             try {
                 statement = connection.createStatement();
                 ResultSet rs = statement
-                        .executeQuery("select sparql_endpoint_uri, sparql_endpoint_login, sparql_endpoint_password, graph_uri, linking_config_file, tmp_dir, linking_client_app_bin_dir,linking_client_app_user from organisation o INNER JOIN graph g ON o.organisationId=g.organisationId WHERE g.graph_uri='"+fileToLink.getGraph()+"'");
+                        .executeQuery("select sparql_endpoint_uri, sparql_endpoint_login, sparql_endpoint_password, graph_uri, tmp_dir, "
+                        		+ "linking_client_app_bin_dir,linking_client_app_user from organisation "
+                        		+ "o INNER JOIN graph g ON o.organisationId=g.organisationId WHERE g.graph_uri='" + fileToLink.getGraph() + "'");
                 if (rs.next()) {
                     PreparedStatement preparedStatement;
                     preparedStatement = connection
                             .prepareStatement(
-                                    "INSERT INTO linksdiscovery_job_instances (input_uri, input_login, input_password, input_graph, output_uri, output_login, output_password, output_graph, config_file, tmp_dir, client_app_bin_dir,client_app_user) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)",
+                                    "INSERT INTO linksdiscovery_job_instances (input_uri, input_login, input_password, input_graph, output_uri, output_login,"
+                                    + " output_password, output_graph, tmp_dir, client_app_bin_dir,client_app_user) VALUES(?,?,?,?,?,?,?,?,?,?,?)",
                                     PreparedStatement.RETURN_GENERATED_KEYS);
-                    preparedStatement.setString(1,rs.getString("sparql_endpoint_uri"));
+                    preparedStatement.setString(1, rs.getString("sparql_endpoint_uri"));
                     preparedStatement.setString(2, rs.getString("sparql_endpoint_login"));
                     preparedStatement.setString(3, rs.getString("sparql_endpoint_login"));
                     preparedStatement.setString(4, rs.getString("graph_uri"));
@@ -136,10 +257,9 @@ public class LinkingAction extends ActionSupport {
                     preparedStatement.setString(6, rs.getString("sparql_endpoint_login"));
                     preparedStatement.setString(7, rs.getString("sparql_endpoint_password"));
                     preparedStatement.setString(8, rs.getString("graph_uri"));
-                    preparedStatement.setString(9, rs.getString("linking_config_file"));
-                    preparedStatement.setString(10, rs.getString("tmp_dir"));
-                    preparedStatement.setString(11, rs.getString("linking_client_app_bin_dir"));
-                    preparedStatement.setString(12, rs.getString("linking_client_app_user"));
+                    preparedStatement.setString(9, rs.getString("tmp_dir"));
+                    preparedStatement.setString(10, rs.getString("linking_client_app_bin_dir"));
+                    preparedStatement.setString(11, rs.getString("linking_client_app_user"));
                     preparedStatement.executeUpdate();
                     ResultSet rs2 = preparedStatement.getGeneratedKeys();
                     if (rs2.next()) {
@@ -151,8 +271,10 @@ public class LinkingAction extends ActionSupport {
                     URL url;
                     HttpURLConnection conn = null;
                     try {
-                        url = new URL("http://aliada:8080/aliada-links-discovery-1.0/jobs/");
-                        conn = (HttpURLConnection) url.openConnection();
+					    url = new URL("http://aliada:8080/aliada-links-discovery-1.0/jobs/");
+//                        url = new URL("http://localhost:8890/links-discovery");
+                        
+						conn = (HttpURLConnection) url.openConnection();
                         conn.setDoOutput(true);
                         conn.setRequestMethod("POST");
                         conn.setRequestProperty("Content-Type",
@@ -175,39 +297,41 @@ public class LinkingAction extends ActionSupport {
                         }
                         conn.disconnect();
                     } catch (MalformedURLException e) {
-                        logger.error(MessageCatalog._00014_MALFORMED_URL_EXCEPTION,e);
+                        logger.error(MessageCatalog._00014_MALFORMED_URL_EXCEPTION, e);
                     } catch (IOException e) {
-                        logger.error(MessageCatalog._00012_IO_EXCEPTION,e);
+                        logger.error(MessageCatalog._00012_IO_EXCEPTION, e);
                     }
                 }
             } catch (SQLException e) {
-                logger.error(MessageCatalog._00011_SQL_EXCEPTION,e);
+                logger.error(MessageCatalog._00011_SQL_EXCEPTION, e);
             }
-        }
-        else{
+        } else {
            logger.debug(MessageCatalog._00041_NOT_FILE_TO_LINK); 
         }        
     }
     /**
-     * Creates a job for the linked data server
+     * Creates a job for the linked data server.
      * @see
      * @since 1.0
      */
     private void createJobLDS() {
         HttpSession session = ServletActionContext.getRequest().getSession();
         int addedId = 0;
-        if(fileToLink.getGraph()!=null){
+        if (fileToLink.getGraph() != null) {
             Connection connection = null;
             connection = new DBConnectionManager().getConnection();
             Statement statement;
             try {
                 statement = connection.createStatement();
                 ResultSet rs = statement
-                        .executeQuery("select store_ip,store_sql_port,sql_login, sql_password, graph_uri, dataset_base, isql_command_path, isql_commands_file, isql_commands_file_default, listening_host, virtual_host from organisation o INNER JOIN graph g ON o.organisationId=g.organisationId WHERE g.graph_uri='"+fileToLink.getGraph()+"'");
+                        .executeQuery("select store_ip,store_sql_port,sql_login, sql_password, graph_uri, dataset_base, "
+                        		+ "isql_command_path, isql_commands_file, isql_commands_file_default, listening_host, virtual_host from organisation "
+                        		+ "o INNER JOIN graph g ON o.organisationId=g.organisationId WHERE g.graph_uri='" + fileToLink.getGraph() + "'");
                 if (rs.next()) {
                     PreparedStatement preparedStatement = connection
                             .prepareStatement(
-                                    "INSERT INTO linkeddataserver_job_instances (store_ip,store_sql_port,sql_login,sql_password,graph,dataset_base,isql_command_path,isql_commands_file,isql_commands_file_default,listening_host,virtual_host) VALUES(?,?,?,?,?,?,?,?,?,?,?)",
+                                    "INSERT INTO linkeddataserver_job_instances (store_ip,store_sql_port,sql_login,sql_password,graph,dataset_base,"
+                                    + "isql_command_path,isql_commands_file,isql_commands_file_default,listening_host,virtual_host) VALUES(?,?,?,?,?,?,?,?,?,?,?)",
                                     PreparedStatement.RETURN_GENERATED_KEYS);
                     preparedStatement.setString(1, rs.getString("store_ip"));
                     preparedStatement.setInt(2, rs.getInt("store_sql_port"));
@@ -230,7 +354,8 @@ public class LinkingAction extends ActionSupport {
                     URL url;
                     HttpURLConnection conn = null;
                     try {
-                        url = new URL("http://aliada:8080/aliada-linked-data-server-1.0/jobs/");
+					    url = new URL("http://aliada:8080/aliada-linked-data-server-1.0/jobs/");
+//                        url = new URL("http://localhost:8889/lds");
                         conn = (HttpURLConnection) url.openConnection();
                         conn.setDoOutput(true);
                         conn.setRequestMethod("POST");
@@ -251,19 +376,18 @@ public class LinkingAction extends ActionSupport {
                         conn.disconnect();
                         session.setAttribute("ldsStarted", true);
                     } catch (MalformedURLException e) {
-                        logger.error(MessageCatalog._00014_MALFORMED_URL_EXCEPTION,e);
+                        logger.error(MessageCatalog._00014_MALFORMED_URL_EXCEPTION, e);
                     } catch (IOException e) {
-                        logger.error(MessageCatalog._00012_IO_EXCEPTION,e);
+                        logger.error(MessageCatalog._00012_IO_EXCEPTION, e);
                     }
                 }
                 rs.close();
                 statement.close();
                 connection.close();  
                 } catch (SQLException e) {
-                    logger.error(MessageCatalog._00011_SQL_EXCEPTION,e);
+                    logger.error(MessageCatalog._00011_SQL_EXCEPTION, e);
             }
-        }
-        else{
+        } else {
             logger.debug(MessageCatalog._00041_NOT_FILE_TO_LINK);             
         }
     }
@@ -284,7 +408,7 @@ public class LinkingAction extends ActionSupport {
      * @exception
      * @since 1.0
      */
-    public void setDatasets(HashMap<Integer, String> datasets) {
+    public void setDatasets(final HashMap<Integer, String> datasets) {
         this.datasets = datasets;
     }
 
@@ -303,27 +427,8 @@ public class LinkingAction extends ActionSupport {
      * @exception
      * @since 1.0
      */
-    public void setFileToLink(FileWork fileToLink) {
+    public void setFileToLink(final FileWork fileToLink) {
         this.fileToLink = fileToLink;
-    }
-
-    /**
-     * @return Returns the linkingStarted.
-     * @exception
-     * @since 1.0
-     */
-    public boolean isLinkingStarted() {
-        return linkingStarted;
-    }
-
-    /**
-     * @param linkingStarted
-     *            The linkingStarted to set.
-     * @exception
-     * @since 1.0
-     */
-    public void setLinkingStarted(boolean linkingStarted) {
-        this.linkingStarted = linkingStarted;
     }
 
 }

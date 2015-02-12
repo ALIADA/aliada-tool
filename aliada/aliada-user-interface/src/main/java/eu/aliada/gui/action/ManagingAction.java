@@ -9,6 +9,7 @@ package eu.aliada.gui.action;
 import java.io.File;
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -46,20 +47,32 @@ public class ManagingAction extends ActionSupport {
 
 	private HashMap<Integer, String> profiles;
 	private int enableErrorLogButton;
+	private int enableNextButton;
 	private File importFile;
 	private String importFileFileName;
 	private List<FileWork> importedFiles;
 	private String selectedFile;
 	private String profileSelected;
  
-	
-	private static final String VISUALIZE_PATH = "webapps/aliada-user-interface-1.0/WEB-INF/classes/xmlVisualize/";
-    private static final String VALIDATOR_PATH = "webapps/aliada-user-interface-1.0/WEB-INF/classes/xmlValidators/";
-    private static final String ERROR_CONTENT_PATH = "webapps/aliada-user-interface-1.0/content/errorContent.jsp";
-    private final Log logger = new Log(ManagingAction.class);
-
-    public String execute(){
-        getProfilesDb();
+	 // Local server
+//    private static final String VISUALIZE_PATH = "src/main/resources/xmlVisualize/";
+//    private static final String VALIDATOR_PATH = "src/main/resources/xmlValidators/";
+//    private static final String ERROR_CONTENT_PATH = "src/main/webapp/content/errorContent.jsp";
+   
+     // Server
+	  private static final String VISUALIZE_PATH = "webapps/aliada-user-interface-2.0/WEB-INF/classes/xmlVisualize/";
+	  private static final String VALIDATOR_PATH = "webapps/aliada-user-interface-2.0/WEB-INF/classes/xmlValidators/";
+	  private static final String ERROR_CONTENT_PATH = "webapps/aliada-user-interface-2.0/content/errorContent.jsp";
+    
+	private final Log logger = new Log(ManagingAction.class);
+	/**
+     * Get the profiles from DB.
+     * @return String
+     * @see
+     * @since 1.0
+     */
+    public String execute() {
+        // getProfilesDb();
         return SUCCESS;
     }
 	/**
@@ -80,11 +93,13 @@ public class ManagingAction extends ActionSupport {
 			logger.debug(MessageCatalog._00020_MANAGE_FILE_NOT_FOUND);
 			message = ERROR;
 			getProfilesDb();
+			enableNextBut(session);
 		} else if (!wf.isWellFormedXML(importFile.getPath())) {
 			addActionError(getText("err.xml.wrong"));
 			logger.debug(MessageCatalog._00021_MANAGE_NOT_VALIDATED_BY_WELL_FORMED);
 			message = ERROR;
             getProfilesDb();
+            enableNextBut(session);
 		} else {
 			Connection connection = null;
 			try {
@@ -133,27 +148,50 @@ public class ManagingAction extends ActionSupport {
 							rs.close();
 							statement.close();
 							String fileNameWithOutExt = FilenameUtils.removeExtension(this.importFileFileName);
-							File fileCreated = new File(filePath,
-							        fileNameWithOutExt+System.currentTimeMillis()+".xml");
+							String fileNameIDWithOutExt =  fileNameWithOutExt + System.currentTimeMillis();
+							String fileNameIDWithExt =  fileNameIDWithOutExt + ".xml";
+							File fileCreated = new File(filePath, fileNameIDWithExt);
 							FileUtils.copyFile(this.importFile, fileCreated);
 							FileWork fileWork = new FileWork();
 							fileWork.setFile(fileCreated);
 							fileWork.setFilename(fileCreated.getName());
                             fileWork.setStatus("idle");
 							fileWork.setProfile(getProfileNameFromCode(this.profileSelected));
-							if(session.getAttribute("importedFiles")==null){
+							/* Get data from session*/
+							if (session.getAttribute("importedFiles") == null) {
 							    importedFiles = new ArrayList<FileWork>();
 							    importedFiles.add(fileWork);
-							}
-							else{
+							} else {
 							    importedFiles = (ArrayList<FileWork>) session.getAttribute("importedFiles");
 							    importedFiles.add(fileWork);
 							}
+							session.setAttribute("rdfizerStatus", "idle");
 							session.setAttribute("importedFiles", importedFiles);
+							
+							/***FIN GUARDAR EN SESION***/
+							/***GUARDAR EN BD EL FICHERO SELECCIONADO***/	
+							String usernameLogged = (String) ServletActionContext.getRequest().getSession().getAttribute("logedUser");
+
+							PreparedStatement preparedStatement = connection
+					                .prepareStatement(
+					                        "INSERT INTO aliada.user_session (user_name,file_name,datafile,profile,status) VALUES(?,?,?,?,?)",
+					                        PreparedStatement.RETURN_GENERATED_KEYS);
+							preparedStatement.setString(1, usernameLogged);
+							preparedStatement.setString(2, fileNameIDWithExt);
+					        preparedStatement.setString(3, filePath);
+					        preparedStatement.setString(4, this.profileSelected);
+					        preparedStatement.setString(5, "idle");
+					        preparedStatement.executeUpdate();
+					        preparedStatement.close(); 
+					        connection.close();
+					        
+							/***FIN GUARDAR EN BD***/
+					        
 							logger.debug(MessageCatalog._00026_MANAGE_VALIDATED);
 							addActionMessage(getText("correct.file"));
 				            getProfilesDb();
 							setEnableErrorLogButton(0);
+							setEnableNextButton(1);
 						} else {
 							addActionError(getText("err.not.validated"));
 							logger.debug(MessageCatalog._00023_MANAGE_NOT_VALIDATED_BY_VISUALIZE_MANDATORY);
@@ -173,25 +211,52 @@ public class ManagingAction extends ActionSupport {
 					message = ERROR;
 		            getProfilesDb();
 				}
+				enableNextBut(session);
 				connection.close();
 			} catch (SQLException e) {
-				logger.error(MessageCatalog._00011_SQL_EXCEPTION,e);
+				logger.error(MessageCatalog._00011_SQL_EXCEPTION, e);
 	            getProfilesDb();
 				message = ERROR;
 			} catch (IOException e) {
-			    logger.error(MessageCatalog._00012_IO_EXCEPTION,e);
+			    logger.error(MessageCatalog._00012_IO_EXCEPTION, e);
 	            getProfilesDb();
 				message = ERROR;
 			}
 		}
 		return message;
 	}
-	private void getFiles(){
-	    if(ServletActionContext.getRequest().getSession().getAttribute("importedFiles") != null){
+	/**
+     * Enable the Next Button.
+     * @param session The user_session
+     * @return 
+     * @see
+     * @since 1.0
+     */
+	private void enableNextBut(final HttpSession session) {
+        
+	    if (session.getAttribute("importedFiles") != null) {
+            setEnableNextButton(1);
+        }
+        
+    }
+	/**
+     * Get the files saved in the user_session.
+     * @return 
+     * @see
+     * @since 1.0
+     */
+    private void getFiles() {
+	    if (ServletActionContext.getRequest().getSession().getAttribute("importedFiles") != null) {
 	        importedFiles = (ArrayList<FileWork>) ServletActionContext.getRequest().getSession().getAttribute("importedFiles");
 	    }	    
 	}
-	public String saveFilesToConversion(){
+    /**
+     * Save the user_session files.
+     * @return String
+     * @see
+     * @since 1.0
+     */
+	public String saveFilesToConversion() {
 //	    List<FileWork> conversionFiles = new ArrayList<FileWork>();
 //	    for (FileWork file : importedFiles){
 //            if (file.isFileChecked()){
@@ -199,8 +264,21 @@ public class ManagingAction extends ActionSupport {
 //            }
 //	    }
 	    //ServletActionContext.getRequest().getSession().setAttribute("conversionFiles", conversionFiles);
-	    if(ServletActionContext.getRequest().getSession().getAttribute("importedFiles")!=null){
+	    if (ServletActionContext.getRequest().getSession().getAttribute("importedFiles") != null) {
 	        importedFiles = (ArrayList<FileWork>) ServletActionContext.getRequest().getSession().getAttribute("importedFiles");
+	        for (FileWork file : importedFiles) {
+	              if (file.getFilename().equals(this.selectedFile)) {
+	                  ServletActionContext.getRequest().getSession().setAttribute("importedFile", file);
+	              }
+	        }   
+	        return SUCCESS;
+	    } else {
+	        logger.error(MessageCatalog._00027_MANAGE_FILE_NOT_SAVE);
+	        return ERROR;
+	    }	    
+	/* Get from Database
+		getFilesDb();
+	    if(importedFiles != null){
 	        for (FileWork file : importedFiles){
 	              if (file.getFilename().equals(this.selectedFile)){
 	                  ServletActionContext.getRequest().getSession().setAttribute("importedFile", file);
@@ -211,7 +289,58 @@ public class ManagingAction extends ActionSupport {
 	    else{
 	        logger.error(MessageCatalog._00027_MANAGE_FILE_NOT_SAVE);
 	        return ERROR;
-	    }	    
+	    }	
+	     */
+	}
+	
+	/**
+	 * The method to show the profile list.
+	 * 
+	 * @return String
+	 * @see
+	 * @since 1.0
+	 */
+	
+	public String getFilesDb() {
+		HttpSession session = ServletActionContext.getRequest().getSession();		
+		String usernameLogged = (String) ServletActionContext.getRequest().getSession().getAttribute("logedUser");
+		Connection connection = null;
+        try {
+			connection = new DBConnectionManager().getConnection();
+			Statement statement = connection.createStatement();
+			ResultSet rs = statement
+					.executeQuery("select user_name,file_name,datafile,profile,template,graph,status,job_id from "
+							+ "aliada.user_session where user_name ='" + usernameLogged + "'");
+			if (rs != null) {
+				if (session.getAttribute("importedFiles") == null) {
+				    importedFiles = new ArrayList<FileWork>();
+				}
+				while (rs.next()) {
+					File fileCreated = new File(rs.getString("datafile"), rs.getString("file_name"));
+					FileWork fileWork = new FileWork();
+					fileWork.setFilename(fileCreated.getName());
+					fileWork.setFile(fileCreated);
+					fileWork.setProfile(getProfileNameFromCode(Integer.toString(rs.getInt("profile"))));
+					if (rs.getString("template") != null) {
+						fileWork.setTemplate(rs.getString("template").toString());
+					}
+					if (rs.getString("graph") != null) {
+						fileWork.setGraph(rs.getString("graph").toString());
+					}
+					fileWork.setStatus(rs.getString("status"));
+	               
+					importedFiles.add(fileWork);
+				}
+			}
+			rs.close();
+			statement.close();
+			connection.close();
+		} catch (SQLException e) {
+			logger.error(MessageCatalog._00011_SQL_EXCEPTION, e);
+			return ERROR;
+		}
+		setEnableErrorLogButton(0);
+		return SUCCESS;
 	}
 
 	/**
@@ -223,6 +352,7 @@ public class ManagingAction extends ActionSupport {
 	 */
 	public String getProfilesDb() {
 	    getFiles();
+		/*getFilesDb();*/
 		Connection connection = null;
         try {
 			connection = new DBConnectionManager().getConnection();
@@ -238,13 +368,20 @@ public class ManagingAction extends ActionSupport {
 			statement.close();
 			connection.close();
 		} catch (SQLException e) {
-			logger.error(MessageCatalog._00011_SQL_EXCEPTION,e);
+			logger.error(MessageCatalog._00011_SQL_EXCEPTION, e);
 			return ERROR;
 		}
 		setEnableErrorLogButton(0);
 		return SUCCESS;
 	}
-	private String getProfileNameFromCode(String selectedProfile){
+	/**
+     * Get the profile name.
+     * @param selectedProfile The selected profile.
+     * @return String
+     * @see
+     * @since 1.0
+     */
+	private String getProfileNameFromCode(final String selectedProfile) {
 	    Connection connection = null;
 	    String profileName = "";
         try {
@@ -252,15 +389,15 @@ public class ManagingAction extends ActionSupport {
             Statement statement;
             statement = connection.createStatement();
             ResultSet rs = statement
-                    .executeQuery("select profile_name from aliada.profile where profile_id="+selectedProfile);
-            if(rs.next()){
+                    .executeQuery("select profile_name from aliada.profile where profile_id=" + selectedProfile);
+            if (rs.next()) {
                 profileName = rs.getString("profile_name");
             }
             rs.close();
             statement.close();
             connection.close();
         } catch (SQLException e) {
-            logger.error(MessageCatalog._00011_SQL_EXCEPTION,e);
+            logger.error(MessageCatalog._00011_SQL_EXCEPTION, e);
             return "";
         }
         return profileName;
@@ -336,9 +473,26 @@ public class ManagingAction extends ActionSupport {
 	 * @since 1.0
 	 */
 
-	public void setEnableErrorLogButton(int enableErrorLogButton) {
+	public void setEnableErrorLogButton(final int enableErrorLogButton) {
 		this.enableErrorLogButton = enableErrorLogButton;
 	}
+	
+    /**
+     * @return Returns the enableNextButton.
+     * @exception
+     * @since 1.0
+     */
+    public int getEnableNextButton() {
+        return enableNextButton;
+    }
+    /**
+     * @param enableNextButton The enableNextButton to set.
+     * @exception
+     * @since 1.0
+     */
+    public void setEnableNextButton(final int enableNextButton) {
+        this.enableNextButton = enableNextButton;
+    }
     /**
      * @return Returns the importedFiles.
      * @exception
@@ -352,7 +506,7 @@ public class ManagingAction extends ActionSupport {
      * @exception
      * @since 1.0
      */
-    public void setImportedFiles(List<FileWork> importedFiles) {
+    public void setImportedFiles(final List<FileWork> importedFiles) {
         this.importedFiles = importedFiles;
     }
     /**
@@ -368,7 +522,7 @@ public class ManagingAction extends ActionSupport {
      * @exception
      * @since 1.0
      */
-    public void setSelectedFile(String selectedFile) {
+    public void setSelectedFile(final String selectedFile) {
         this.selectedFile = selectedFile;
     }
     /**
@@ -384,7 +538,7 @@ public class ManagingAction extends ActionSupport {
      * @exception
      * @since 1.0
      */
-    public void setProfileSelected(String profileSelected) {
+    public void setProfileSelected(final String profileSelected) {
         this.profileSelected = profileSelected;
     }
 

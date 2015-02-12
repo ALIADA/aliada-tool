@@ -29,17 +29,23 @@ public class RDFValidationAction extends ActionSupport {
     private String graphUri;
 
     private final Log logger = new Log(InstitutionConfigurationAction.class);
-    
-    public String execute(){
-        if(ServletActionContext.getRequest().getSession().getAttribute("importedFile")!=null){
+    /**
+     * File validation process.
+     * @return String
+     * @see
+     * @since 1.0
+     */
+    public String execute() {
+        if (ServletActionContext.getRequest().getSession().getAttribute("importedFile") != null) {
             FileWork importedFile = (FileWork) ServletActionContext.getRequest().getSession().getAttribute("importedFile"); 
             Connection connection;
             connection = new DBConnectionManager().getConnection();
             Statement statement;
             try {
                 statement = connection.createStatement();
-                ResultSet rs = statement.executeQuery("SELECT public_sparql_endpoint_uri, graph_uri FROM organisation o INNER JOIN graph g ON o.organisationId=g.organisationId WHERE graph_uri='"+importedFile.getGraph()+"'");
-                if (rs.next() ) {
+                ResultSet rs = statement.executeQuery("SELECT public_sparql_endpoint_uri, graph_uri FROM organisation o "
+                		+ "INNER JOIN graph g ON o.organisationId=g.organisationId WHERE graph_uri='" + importedFile.getGraph() + "'");
+                if (rs.next()) {
                     setSparqlEndpoint(rs.getString("public_sparql_endpoint_uri"));
                     setGraphUri(rs.getString("graph_uri"));
                 }
@@ -48,11 +54,10 @@ public class RDFValidationAction extends ActionSupport {
                 connection.close();
                 return SUCCESS;
             } catch (SQLException e) {
-                logger.error(MessageCatalog._00011_SQL_EXCEPTION,e);
+                logger.error(MessageCatalog._00011_SQL_EXCEPTION, e);
                 return ERROR;
             }
-        }
-        else{
+        } else {
             logger.error(MessageCatalog._00033_CONVERSION_ERROR_NO_FILE_IMPORTED);
             return ERROR;
         }        
@@ -71,7 +76,7 @@ public class RDFValidationAction extends ActionSupport {
      * @exception
      * @since 1.0
      */
-    public void setSparqlEndpoint(String sparqlEndpoint) {
+    public void setSparqlEndpoint(final String sparqlEndpoint) {
         this.sparqlEndpoint = sparqlEndpoint;
     }
     /**
@@ -87,7 +92,7 @@ public class RDFValidationAction extends ActionSupport {
      * @exception
      * @since 1.0
      */
-    public void setGraphUri(String graphUri) {
+    public void setGraphUri(final String graphUri) {
         this.graphUri = graphUri;
     }
 }

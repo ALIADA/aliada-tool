@@ -5,6 +5,30 @@
 	 var intervalLinking = 0;
 	 var intervalLDS = 0;
 	 var finished=false;
+	 
+	 var rdfizerStatus = $("#rdfizerStatus").val();
+	 
+	 if(rdfizerStatus == "finishedRdfizer"){
+		 
+		 $("#checkLinkingButton").removeClass("buttonGreen");
+    	 $("#checkLinkingButton").addClass("button");
+		 $('#checkLinkingButton').prop("disabled",true);
+		 
+		 $("#startLinkingButton").removeClass("button");
+  	   	 $("#startLinkingButton").addClass("buttonGreen");
+  	     $("#startLinkingButton").prop("disabled",false);
+		 
+	 } else if (rdfizerStatus == "finishedLinking") {
+		 
+  	     $("#startLinkingButton").removeClass("buttonGreen");
+    	 $("#startLinkingButton").addClass("button");
+		 $('#startLinkingButton').prop("disabled",true);
+		 
+		 $("#checkLinkingButton").removeClass("button");
+  	   	 $("#checkLinkingButton").addClass("buttonGreen");
+  	     $("#checkLinkingButton").prop("disabled",false);
+	 }
+	 
 	 var checkLinking = function(){
 			console.log("checking Linking");
 			var linkingJobId = $("#linkingJobId").val();
@@ -29,7 +53,7 @@
 				            $("#datasetsInfo").html(obj.name+': '+obj.numLinks+' <img src="images/loaderMini.gif"/>');				   			
 				   		}
 				   		else if(obj.status=="finished"){
-				            $("#datasetsInfo").html(obj.name+': '+obj.numLinks+' <img src="images/fine.png"/>');				   			
+				            $("#datasetsInfo").html(obj.name+': '+obj.numLinks+' <img src="images/fine.png"/>');
 				   		}	
 				   		else{
 				            $("#datasetsInfo").html(obj.name+': '+obj.numLinks+' <img src="images/clock.png"/>');	
@@ -110,6 +134,7 @@
 	});
 }); 
 </script>
+<html:hidden id="rdfizerStatus" name="rdfizerStatus" value="%{#session['rdfizerStatus']}" />
 <html:hidden id="linkingJobId" name="linkingJobId" value="%{#session['linkingJobId']}" />
 <html:hidden id="ldsJobId" name="ldsJobId" value="%{#session['ldsJobId']}" />
 <ul class="breadcrumb">
@@ -118,29 +143,22 @@
 	<li><span class="breadcrumb"><html:text name="conversion.title"/></span></li>
 	<li><span class="breadcrumb activeGreen"><html:text name="linking.title"/></span></li>
 </ul>
-<html:a id="rdfVal" action="rdfVal" cssClass="menuButton button fright" key="rdfVal" target="_blank"><html:text name="rdfVal"/></html:a>	
+<html:a id="rdfVal" action="rdfVal" cssClass="menuButton button fleft" key="rdfVal" target="_blank"><html:text name="rdfVal"/></html:a>
+<html:a id="linksVal" action="linksVal" cssClass="menuButton button fright" key="linksVal" target="_blank"><html:text name="linksVal"/></html:a>	
 <div id="linkingPanel" class="content centered form">	
 	<html:form>
 		<h3 class="bigLabel"><html:text name="linking.importedFile"/></h3>
 		<html:property value="fileToLink.getFilename()"/>
 		<h3 class="mediumLabel"><html:text name="linking.datasets"/></h3>		
 		<html:iterator value="datasets" var="data">
-	         <li><html:property value="value"/></li>
+	         <ul><html:checkbox fieldValue="%{key}" name="dataset">
+     		</html:checkbox>
+     		<html:property value="%{value}"/></ul>
 	      </html:iterator> 
 		<html:actionerror/>
 		<div class="row">
 			<html:submit id="startLinkingButton" action="startLinking" cssClass="submitButton buttonGreen" key="linkSubmit"/>
 			<html:submit id="checkLinkingButton" disabled="true" onClick="return false;" cssClass="submitButton button" key="check"/>
-			<html:if test="linkingStarted">
-				<script>
-					$("#startLinkingButton").removeClass("buttonGreen");
-			    	$("#startLinkingButton").addClass("button");
-			    	$("#checkLinkingButton").removeClass("button");
-			    	$("#checkLinkingButton").addClass("buttonGreen");
-					$('#checkLinkingButton').prop("disabled",false);
-					$('#startLinkingButton').prop("disabled",true);
-			    </script>
-			</html:if>
 		</div>
 	</html:form>
 </div>
