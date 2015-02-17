@@ -7,7 +7,6 @@ package eu.aliada.ckancreation.impl;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 	
@@ -101,7 +100,8 @@ public class DataDump {
 	 * @param dataDumpsPath		the physical path of the folder where the data dumps are kept.
 	 * @param dataDumpsUrl		the URL of the folder where the data dumps are kept.
 	 * @param dumpFileNameInit	the initial name for the files that contain the graph dumps.
-	 * @return	
+	 * @return	an array of  {@link eu.aliada.ckancreation.model.DumpFileInfo}
+	 * 			objects with the info about the files containing the graph dump.
 	 * @since 2.0
 	 */
     public ArrayList<DumpFileInfo> getGraphDumpsNames(final String graphURI, final String dataDumpsPath, 
@@ -120,7 +120,7 @@ public class DataDump {
     	    	try {
     	    		dumpFileInfo.setDumpFilePath(dumpFile.getCanonicalPath());
     	    	} catch (IOException exception) {
-    				LOGGER.error(MessageCatalog._00034_FILE_ACCESS_FAILURE, exception, dumpFile.getName());
+    				LOGGER.error(MessageCatalog._00035_FILE_ACCESS_FAILURE, exception, dumpFile.getName());
     	    	}
 	    	    dumpFileInfo.setDumpFileUrl(dumpFileUrl);
 	    	    dumpFilesInfo.add(dumpFileInfo);
@@ -139,16 +139,19 @@ public class DataDump {
 	 * 			objects with the info about the files containing the graph dump.
 	 * @since 2.0
 	 */
-    public ArrayList<DumpFileInfo> createDatasetDump(final String graphURI, final String dataDumpsPath, 
+    public ArrayList<DumpFileInfo> createGraphDump(final String graphURI, final String dataDumpsPath, 
     		final String dataDumpsUrl){
-		//Compose initial dump file name from the graph URI + current day
+    	ArrayList<DumpFileInfo> dumpFilesInfo;
+    	//Compose initial dump file name from the graph URI + current day
     	final int stInd = graphURI.lastIndexOf('/');
     	String dumpFileNameInit = graphURI.substring(stInd + 1);
     	dumpFileNameInit = dumpFileNameInit.replace('.', '_');
     	final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
     	final Date date = new Date();
     	dumpFileNameInit = dumpFileNameInit + dateFormat.format(date);
-    	final String dumpFilePathInit = dataDumpsPath + File.separator + dumpFileNameInit;
+    	String dumpFilePathInit = dataDumpsPath + File.separator + dumpFileNameInit;
+		//Replace Windows file separator by "/" Java file separator
+    	dumpFilePathInit = dumpFilePathInit.replace("\\", "/");
 		//Compose ISQL command execution statement
     	final String isqlCommand = String.format(ISQL_COMMAND_FORMAT,
 				jobConf.getIsqlCommandPath(), jobConf.getStoreIp(),
@@ -157,18 +160,18 @@ public class DataDump {
 				dumpFilePathInit,
 				FILE_LENGTH_LIMIT);
 		//Execute ISQL command
-//		try {
+		try {
 			LOGGER.debug(MessageCatalog._00040_EXECUTING_ISQL);
-/*			final Process commandProcess = Runtime.getRuntime().exec(isqlCommand);
+			final Process commandProcess = Runtime.getRuntime().exec(isqlCommand);
 			final BufferedReader stdInput = new BufferedReader(new InputStreamReader(commandProcess.getInputStream()));
 			String comOutput = "";
 			while ((comOutput = stdInput.readLine()) != null) {
 				LOGGER.debug(comOutput);
-			}*/
-			ArrayList<DumpFileInfo> dumpFilesInfo = getGraphDumpsNames(graphURI, dataDumpsPath, dataDumpsUrl, dumpFileNameInit);
-/*		} catch (IOException exception) {
+			}
+			dumpFilesInfo = getGraphDumpsNames(graphURI, dataDumpsPath, dataDumpsUrl, dumpFileNameInit);
+		} catch (IOException exception) {
 			LOGGER.error(MessageCatalog._00033_EXTERNAL_PROCESS_START_FAILURE, exception, isqlCommand);
-		}*/
+		}
 		return dumpFilesInfo;
 	}
 

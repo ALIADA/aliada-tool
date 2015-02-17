@@ -4,14 +4,14 @@ CREATE TABLE `aliada`.`linkeddataserver_job_instances` (
 `store_sql_port`  INT default 1111,
 `sql_login`  VARCHAR( 32 ) default NULL,
 `sql_password`  VARCHAR( 32 ) default NULL,
-`graph`  VARCHAR( 245 ) default NULL,
-`dataset_base`  VARCHAR( 245 ) default NULL,
-`listening_host` VARCHAR(45) default NULL,
-`virtual_host` VARCHAR(45) default NULL,
 `isql_command_path`  VARCHAR( 245 ) default NULL,
-`isql_commands_file`  VARCHAR( 245 ) default NULL,
-`isql_commands_file_default`  VARCHAR( 245 ) default NULL,
+`virtuoso_http_server_root`  VARCHAR( 245 ) default NULL,
+`aliada_ontology`  VARCHAR( 245 ) default NULL,
+`datasetId` int(11) NOT NULL,
 `start_date` DATETIME default NULL,
 `end_date` DATETIME default NULL ,
+FOREIGN KEY (datasetId) 
+REFERENCES dataset(datasetId) 
+ON DELETE CASCADE,
 PRIMARY KEY ( `job_id` )
 ) ENGINE = InnoDB ;

@@ -5,6 +5,9 @@
 // Responsible: ALIADA Consortium
 package eu.aliada.linkeddataserversetup.model;
 
+import java.util.ArrayList;
+import eu.aliada.linkeddataserversetup.model.Subset;
+
 /**
  * Linked Data Server job configuration.
  * 
@@ -22,10 +25,8 @@ public class JobConfiguration {
 	private String sqlLogin;
 	/** The password of the SQL access. */
 	private String sqlPassword;
-	/** The URI of the dataset graph of Aliada. */
-	private String graph;
-	/** The URI prefix of all resources URIs in the dataset. */
-	private String datasetBase;
+	/** The dataset domain name. */
+	private String domainName;
 	/** The address of the network interface the Virtuoso HTTP
 	 *  server uses to listen and accept connections. */
 	private String listeningHost;
@@ -34,13 +35,34 @@ public class JobConfiguration {
 	private String virtualHost;
 	/** Full path to the ISQL command. */
 	private String isqlCommandPath;
-	/** Full path of the ISQL commands file to execute. */
-	private String isqlCommandsFilename;
-	/** Full path of the ISQL commands default file to execute. 
-	 *  If the isql_commands_file is null or it does not exist, 
+	/** Full path of the ISQL commands global file to execute. */
+	private String isqlCommandsGlobalFilename;
+	/** Full path of the ISQL commands default file to execute for every subset. 
+	 *  If the isql_commands_file_subset is null or it does not exist, 
 	 *  this one will be used. */
-	private String isqlCommandsFilenameDefault;
-    
+	private String isqlCommandsSubsetFilenameDefault;
+	/** The URI Identifier section. */
+	private String uriIdPart;
+	/** The URI Document section. */
+	private String uriDocPart;
+	/** The URI Ontology section. */
+	private String uriDefPart;
+	/** The URI Dataset Concept section. */
+	private String uriConceptPart; 
+	/** Virtuoso HTTP Server Root physical path. */
+	private String virtHttpServRoot;
+	/** Aliada Ontology URI. */
+	private String ontologyUri;
+	/** Dataset short description. */
+	private String datasetDesc;
+	/** Dataset long description. */
+	private String datasetLongDesc;
+	/** Dataset Public Sparql endpoint */
+	private String publicSparqlEndpointUri;
+	
+	/** The subsets where the dataset resides. */
+	private ArrayList<Subset> subsets; 
+   
 	/**
 	 * Returns the identifier of this job configuration.
 	 * 
@@ -137,41 +159,22 @@ public class JobConfiguration {
 	}	
 	
 	/**
-	 * Returns graph name where dataset resides. 
+	 * Returns the dataset domain name.
 	 * 
-	 * @return Graph name where dataset resides. 
-	 * @since 1.0
+	 * @return The dataset domain name.
+	 * @since 2.0
 	 */
-	public String getGraph() {
-		return graph;
+	public String getDomainName() {
+		return domainName;
 	}
 	/**
-	 * Sets graph name where dataset resides. 
+	 * Sets the dataset domain name.
 	 * 
-	 * @param graph Graph name where dataset resides. 
-	 * @since 1.0
+	 * @param domainName The dataset domain name.
+	 * @since 2.0
 	 */
-	public void setGraph(final String graph) {
-		this.graph = graph;
-	}		
-
-	/**
-	 * Returns the URI prefix of all resources URIs in the dataset.
-	 * 
-	 * @return The URI prefix of all resources URIs in the dataset.
-	 * @since 1.0
-	 */
-	public String getDatasetBase() {
-		return datasetBase;
-	}
-	/**
-	 * Sets the URI prefix of all resources URIs in the dataset.
-	 * 
-	 * @param datasetBase The URI prefix of all resources URIs in the dataset.
-	 * @since 1.0
-	 */
-	public void setDatasetBase(final String datasetBase) {
-		this.datasetBase = datasetBase;
+	public void setDomainName(final String domainName) {
+		this.domainName = domainName;
 	}
 
 	/**
@@ -241,44 +244,234 @@ public class JobConfiguration {
 	 * 
 	 * @return The path of the file containing the ISQL commands for URL 
 	 *         rewriting in Virtuoso.
-	 * @since 1.0
+	 * @since 2.0
 	 */
-	public String getIsqlCommandsFilename() {
-		return isqlCommandsFilename;
+	public String getIsqlCommandsGlobalFilename() {
+		return isqlCommandsGlobalFilename;
 	}
 	/**
 	 * Sets the path of the file containing the ISQL commands for URL 
 	 * rewriting in Virtuoso.
 	 * 
-	 * @param isqlCommandsFilename The path of the file containing 
+	 * @param isqlCommandsGlobalFilename The path of the file containing 
 	 *        the ISQL commands for URL rewriting in Virtuoso.
-	 * @since 1.0
+	 * @since 2.0
 	 */
-	public void setIsqlCommandsFilename(final String isqlCommandsFilename) {
-		this.isqlCommandsFilename = isqlCommandsFilename;
+	public void setIsqlCommandsGlobalFilename(final String isqlCommandsGlobalFilename) {
+		this.isqlCommandsGlobalFilename = isqlCommandsGlobalFilename;
 	}		
 
 	/**
 	 * Returns the path of the default file containing the ISQL commands for URL 
-	 * rewriting in Virtuoso. It contains the default mapping for HTML rendering.
+	 * rewriting in Virtuoso for a subset. It contains the default mapping for HTML rendering.
 	 * 
 	 * @return The path of the default file containing the ISQL commands for URL 
-	 *         rewriting in Virtuoso.  It contains the default mapping for HTML 
+	 *         rewriting in Virtuoso for a subset.  It contains the default mapping for HTML 
 	 *         rendering.
-	 * @since 1.0
+	 * @since 2.0
 	 */
-	public String getIsqlCommandsFilenameDefault() {
-		return isqlCommandsFilenameDefault;
+	public String getIsqlCommandsSubsetFilenameDefault() {
+		return isqlCommandsSubsetFilenameDefault;
 	}
 	/**
 	 * Sets the path of the default file containing the ISQL commands for URL 
-	 * rewriting in Virtuoso. It contains the default mapping for HTML rendering.
+	 * rewriting in Virtuoso for a subset. It contains the default mapping for HTML rendering.
 	 * 
-	 * @param isqlCommandsFilenameDefault The path of the default file containing 
-	 *        the ISQL commands for URL rewriting in Virtuoso.
+	 * @param isqlCommandsSubsetFilenameDefault The path of the default file containing 
+	 *        the ISQL commands for URL rewriting in Virtuoso for a subset.
+	 * @since 2.0
+	 */
+	public void setIsqlCommandsSubsetFilenameDefault(String isqlCommandsSubsetFilenameDefault) {
+		this.isqlCommandsSubsetFilenameDefault = isqlCommandsSubsetFilenameDefault;
+	}		
+
+	/**
+	 * Returns the URI Identifier section.
+	 * 
+	 * @return The URI Identifier section.
+	 * @since 2.0
+	 */
+	public String getUriIdPart() {
+		return uriIdPart;
+	}
+	/**
+	 * Sets the URI Identifier section.
+	 * 
+	 * @param uriIdPart The URI Identifier section.
+	 * @since 2.0
+	 */
+	public void setUriIdPart(final String uriIdPart) {
+		this.uriIdPart = uriIdPart;
+	}
+
+	/**
+	 * Returns the URI Document section.
+	 * 
+	 * @return The URI Document section.
+	 * @since 2.0
+	 */
+	public String getUriDocPart() {
+		return uriDocPart;
+	}
+	/**
+	 * Sets the URI Document section.
+	 * 
+	 * @param uriDocPart The URI Document section.
+	 * @since 2.0
+	 */
+	public void setUriDocPart(final String uriDocPart) {
+		this.uriDocPart = uriDocPart;
+	}
+
+	/**
+	 * Returns the URI Ontology section.
+	 * 
+	 * @return The URI Ontology section.
+	 * @since 2.0
+	 */
+	public String getUriDefPart() {
+		return uriDefPart;
+	}
+	/**
+	 * Sets the URI Ontology section.
+	 * 
+	 * @param uriDefPart The URI Ontology section.
+	 * @since 2.0
+	 */
+	public void setUriDefPart(final String uriDefPart) {
+		this.uriDefPart = uriDefPart;
+	}
+
+	/**
+	 * Returns the URI Dataset Concept section.
+	 * 
+	 * @return The URI Dataset Concept section.
+	 * @since 2.0
+	 */
+	public String getUriConceptPart() {
+		return uriConceptPart;
+	}
+	/**
+	 * Sets the URI Dataset Concept section.
+	 * 
+	 * @param uriConceptPart The URI Dataset Concept section.
+	 * @since 2.0
+	 */
+	public void setUriConceptPart(final String uriConceptPart) {
+		this.uriConceptPart = uriConceptPart;
+	}
+
+	/**
+	 * Returns Virtuoso HTTP Server Root physical path.
+	 * 
+	 * @return Virtuoso HTTP Server Root physical path.
+	 * @since 2.0
+	 */
+	public String getVirtHttpServRoot() {
+		return virtHttpServRoot;
+	}
+	/**
+	 * Sets Virtuoso HTTP Server Root physical path.
+	 * 
+	 * @param virtHttpServRoot Virtuoso HTTP Server Root physical path.
+	 * @since 2.0
+	 */
+	public void setVirtHttpServRoot(final String virtHttpServRoot) {
+		this.virtHttpServRoot = virtHttpServRoot;
+	}
+
+	/**
+	 * Returns the Aliada ontology URI.
+	 * 
+	 * @return The Aliada ontology URI.
 	 * @since 1.0
 	 */
-	public void setIsqlCommandsFilenameDefault(String isqlCommandsFilenameDefault) {
-		this.isqlCommandsFilenameDefault = isqlCommandsFilenameDefault;
+	public String getOntologyUri() {
+		return ontologyUri;
+	}
+	/**
+	 * Sets the Aliada ontology URI.
+	 * 
+	 * @param ontologyUri The Aliada ontology URI.
+	 * @since 1.0
+	 */
+	public void setOntologyUri(final String ontologyUri) {
+		this.ontologyUri = ontologyUri;
+	}
+
+	/**
+	 * Returns the dataset short description.
+	 * 
+	 * @return The dataset short description.
+	 * @since 1.0
+	 */
+	public String getDatasetDesc() {
+		return datasetDesc;
+	}
+	/**
+	 * Sets the dataset short description.
+	 * 
+	 * @param datasetDesc The dataset short description.
+	 * @since 1.0
+	 */
+	public void setDatasetDesc(final String datasetDesc) {
+		this.datasetDesc = datasetDesc;
+	}
+
+	/**
+	 * Returns the dataset long description.
+	 * 
+	 * @return The dataset long description.
+	 * @since 1.0
+	 */
+	public String getDatasetLongDesc() {
+		return datasetLongDesc;
+	}
+	/**
+	 * Sets the dataset long description.
+	 * 
+	 * @param datasetLongDesc The dataset long description.
+	 * @since 1.0
+	 */
+	public void setDatasetLongDesc(final String datasetLongDesc) {
+		this.datasetLongDesc = datasetLongDesc;
+	}
+
+	/**
+	 * Returns the dataset Public Sparql endpoint.
+	 * 
+	 * @return The dataset Public Sparql endpoint.
+	 * @since 1.0
+	 */
+	public String getPublicSparqlEndpointUri() {
+		return publicSparqlEndpointUri;
+	}
+	/**
+	 * Sets the dataset Public Sparql endpoint.
+	 * 
+	 * @param publicSparqlEndpointUri The dataset Public Sparql endpoint.
+	 * @since 1.0
+	 */
+	public void setPublicSparqlEndpointUri(final String publicSparqlEndpointUri) {
+		this.publicSparqlEndpointUri = publicSparqlEndpointUri;
+	}
+	
+	/**
+	 * Returns the subsets of the dataset. 
+	 * 
+	 * @return Subsets where dataset resides. 
+	 * @since 2.0
+	 */
+	public ArrayList<Subset> getSubsets() {
+		return subsets;
+	}
+	/**
+	 * Adds a subset where dataset resides. 
+	 * 
+	 * @param subset Subset where dataset resides. 
+	 * @since 2.0
+	 */
+	public void setSubset(final Subset subset) {
+		subsets.add(subset);
 	}		
 }

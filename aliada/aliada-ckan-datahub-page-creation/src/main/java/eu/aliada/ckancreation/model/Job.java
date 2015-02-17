@@ -20,13 +20,13 @@ public class Job {
 	/** Job identification number. */
 	private int id;
 	/** URL of the organization in CKAN. */
-	private String ckanOrgUrl;
+	private String ckanOrgURL;
 	/** URL of the dataset in CKAN. */
-	private String ckanDatasetUrl;
+	private String ckanDatasetURL;
 	/** Void file path. */
-	private String voidFilePath;
+	private String datasetDescFilePath;
 	/** Void file URL. */
-	private String voidFileUrl;
+	private String datasetDescFileURL;
 	/** Job starting date. */
 	private Date startDate;
 	/** Job end date. */
@@ -60,8 +60,8 @@ public class Job {
 	 * @return The URL of the organization in CKAN.
 	 * @since 2.0
 	 */
-	public String getCkanOrgUrl() {
-		return ckanOrgUrl;
+	public String getCkanOrgURL() {
+		return ckanOrgURL;
 	}
 	/**
 	 * Sets the URL of the organization in CKAN.
@@ -69,8 +69,8 @@ public class Job {
 	 * @param ckanOrgUrl The URL of the organization in CKAN.
 	 * @since 2.0
 	 */
-	public void setCkanOrgUrl(final String ckanOrgUrl) {
-		this.ckanOrgUrl = ckanOrgUrl;
+	public void setCkanOrgURL(final String ckanOrgURL) {
+		this.ckanOrgURL = ckanOrgURL;
 	}
 
 	/**
@@ -79,8 +79,8 @@ public class Job {
 	 * @return The URL of the dataset in CKAN.
 	 * @since 2.0
 	 */
-	public String getCkanDatasetUrl() {
-		return ckanDatasetUrl;
+	public String getCkanDatasetURL() {
+		return ckanDatasetURL;
 	}
 	/**
 	 * Sets the URL of the dataset in CKAN.
@@ -88,46 +88,46 @@ public class Job {
 	 * @param ckanDatasetUrl The URL of the dataset in CKAN.
 	 * @since 2.0
 	 */
-	public void setCkanDatasetUrl(final String ckanDatasetUrl) {
-		this.ckanDatasetUrl = ckanDatasetUrl;
+	public void setCkanDatasetURL(final String ckanDatasetURL) {
+		this.ckanDatasetURL = ckanDatasetURL;
 	}
 
 	/**
-	 * Returns the Void file path.
+	 * Returns the path of the dataset description file.
 	 * 
-	 * @return The Void file path.
+	 * @return The path of the dataset description file.
 	 * @since 2.0
 	 */
-	public String getVoidFilePath() {
-		return voidFilePath;
+	public String getDatasetDescFilePath() {
+		return datasetDescFilePath;
 	}
 	/**
-	 * Sets the Void file path.
+	 * Sets the path the dataset description file.
 	 * 
-	 * @param voidFilePath The void file path.
+	 * @param datasetDescFilePath The path of the dataset description file.
 	 * @since 2.0
 	 */
-	public void setVoidFilePath(final String voidFilePath) {
-		this.voidFilePath = voidFilePath;
+	public void setDatasetDescFilePath(final String datasetDescFilePath) {
+		this.datasetDescFilePath = datasetDescFilePath;
 	}
 
 	/**
-	 * Returns the Void file URL.
+	 * Returns the URL of the dataset description file.
 	 * 
-	 * @return The Void file URL.
+	 * @return The URL of the dataset description file.
 	 * @since 2.0
 	 */
-	public String getVoidFileUrl() {
-		return voidFileUrl;
+	public String getDatasetDescFileURL() {
+		return datasetDescFileURL;
 	}
 	/**
-	 * Sets the Void file URL.
+	 * Sets the URL of the dataset description file.
 	 * 
-	 * @param voidFileUrl The Void file URL.
+	 * @param datasetDescFileURL The URL of the dataset description file.
 	 * @since 2.0
 	 */
-	public void setVoidFileUrl(final String voidFileUrl) {
-		this.voidFileUrl = voidFileUrl;
+	public void setDatasetDescFileURL(final String datasetDescFileURL) {
+		this.datasetDescFileURL = datasetDescFileURL;
 	}
 
 	/**

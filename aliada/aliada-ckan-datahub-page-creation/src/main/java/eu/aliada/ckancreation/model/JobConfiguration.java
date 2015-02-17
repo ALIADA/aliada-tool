@@ -5,6 +5,10 @@
 // Responsible: ALIADA Consortium
 package eu.aliada.ckancreation.model;
 
+import java.util.ArrayList;
+
+import eu.aliada.ckancreation.model.Subset;
+
 /**
  * CKAN Page Creation job configuration.
  * 
@@ -28,12 +32,10 @@ public class JobConfiguration {
 	private String sqlPassword;
 	/** Full path to the ISQL command. */
 	private String isqlCommandPath;
-	/** Path for graphs dump. */
-	private String dumpFolderPath;
-	/** URL for graphs dump. */
-	private String dumpFolderURL;
-	/** Aliada ontology URL. */
-	private String aliadaOntologyURL;
+	/** Aliada Ontology URI. */
+	private String ontologyUri;
+	/** Virtuoso HTTP Server Root physical path. */
+	private String virtHttpServRoot;
 
 	/** ORGANIZATION **/
 	/** The organization name. */
@@ -49,26 +51,35 @@ public class JobConfiguration {
 	
 	/** DATASET **/
 	/** The dataset name. */
-	private String datasetName;
+	private String ckanDatasetName;
 	/** The dataset  author. */
 	private String datasetAuthor;
-	/** The dataset description. */
-	private String datasetNotes;
 	/** The dataset source URL. */
 	private String datasetSourceURL;
-	/** The SPARQL endpoint URL. */
-	private String SPARQLendpoint;
+	/** the dataset short description. */
+	private String datasetDesc;
+	/** the dataset long description. */
+	private String datasetLongDesc;
+	/** The dataset Public Sparql endpoint */
+	private String publicSparqlEndpointUri;
 	/** License id in CKAN. See opendefinition.org .*/
 	private String licenseCKANId;
 	/** License URL.*/
 	private String licenseURL;
-	/** Graph URI. */
-	private String graphURI;
-	/** Path of the folder where to store the dataset description file. */
-	private String datasetDescFolderPath;
-	/** URL of the folder where to store the dataset description file. */
-	private String datasetDescFolderURL;
+	/** The dataset domain name. */
+	private String domainName;
+	/** The virtual host name that the browser presents as Host: 
+	 * entry in the request headers. i.e. Name-based virtual hosting. */
+	private String virtualHost;
+	/** The URI Document section. */
+	private String uriDocPart;
+	/** The URI Dataset Concept section. */
+	private String uriConceptPart; 
+	/** Total number of triples */
+	private int numTriples;
 
+	/** The subsets where the dataset resides. */
+	private ArrayList<Subset> subsets; 
     
 	/**
 	 * Returns the identifier of this job configuration.
@@ -223,60 +234,41 @@ public class JobConfiguration {
 	}		
 
 	/**
-	 * Returns the path of the folder for the graphs dump.
+	 * Returns the Aliada ontology URI.
 	 * 
-	 * @return The path of the folder for the graphs dump.
-	 * @since 2.0
+	 * @return The Aliada ontology URI.
+	 * @since 1.0
 	 */
-	public String getDumpFolderPath() {
-		return dumpFolderPath;
+	public String getOntologyUri() {
+		return ontologyUri;
 	}
 	/**
-	 * Sets the path of the folder for the graphs dump.
+	 * Sets the Aliada ontology URI.
 	 * 
-	 * @param dumpFolderPath The path of the folder for the graphs dump.
-	 * @since 2.0
+	 * @param ontologyUri The Aliada ontology URI.
+	 * @since 1.0
 	 */
-	public void setDumpFolderPath(final String dumpFolderPath) {
-		this.dumpFolderPath = dumpFolderPath;
-	}
-
-	/**
-	 * Returns the URL for the folder of the graphs dump.
-	 * 
-	 * @return The URL for the folder of the graphs dump.
-	 * @since 2.0
-	 */
-	public String getDumpFolderURL() {
-		return dumpFolderURL;
-	}
-	/**
-	 * Sets the URL for the folder of the graphs dump.
-	 * 
-	 * @param dumpURL The URL for the folder of the graphs dump.
-	 * @since 2.0
-	 */
-	public void setDumpFolderURL(final String dumpFolderURL) {
-		this.dumpFolderURL = dumpFolderURL;
+	public void setOntologyUri(final String ontologyUri) {
+		this.ontologyUri = ontologyUri;
 	}
 
 	/**
-	 * Returns the ALIADA ontology URL.
+	 * Returns Virtuoso HTTP Server Root physical path.
 	 * 
-	 * @return The ALIADA ontology URL.
+	 * @return Virtuoso HTTP Server Root physical path.
 	 * @since 2.0
 	 */
-	public String getAliadaOntologyURL() {
-		return aliadaOntologyURL;
+	public String getVirtHttpServRoot() {
+		return virtHttpServRoot;
 	}
 	/**
-	 * Sets the ALIADA ontology URL.
+	 * Sets Virtuoso HTTP Server Root physical path.
 	 * 
-	 * @param aliadaOntologyURL The ALIADA ontology URL.
+	 * @param virtHttpServRoot Virtuoso HTTP Server Root physical path.
 	 * @since 2.0
 	 */
-	public void setAliadaOntologyURL(final String aliadaOntologyURL) {
-		this.aliadaOntologyURL = aliadaOntologyURL;
+	public void setVirtHttpServRoot(final String virtHttpServRoot) {
+		this.virtHttpServRoot = virtHttpServRoot;
 	}
 
 	/**
@@ -375,22 +367,22 @@ public class JobConfiguration {
 	}
 
 	/**
-	 * Returns the dataset name.
+	 * Returns the dataset name in CKAN.
 	 * 
-	 * @return The dataset name.
+	 * @return The dataset name in CKAN.
 	 * @since 2.0
 	 */
-	public String getDatasetName() {
-		return datasetName;
+	public String getCkanDatasetName() {
+		return ckanDatasetName;
 	}
 	/**
-	 * Sets the dataset name.
+	 * Sets the dataset name in CKAN.
 	 * 
-	 * @param datasetName dataset name.
+	 * @param datasetName dataset name in CKAN.
 	 * @since 2.0
 	 */
-	public void setDatasetName(final String datasetName) {
-		this.datasetName = datasetName;
+	public void setCkanDatasetName(final String ckanDatasetName) {
+		this.ckanDatasetName = ckanDatasetName;
 	}
 
 	/**
@@ -413,25 +405,6 @@ public class JobConfiguration {
 	}
 
 	/**
-	 * Returns the dataset description.
-	 * 
-	 * @return The dataset description.
-	 * @since 2.0
-	 */
-	public String getDatasetNotes() {
-		return datasetNotes;
-	}
-	/**
-	 * Sets the dataset description.
-	 * 
-	 * @param datasetNotes dataset description.
-	 * @since 2.0
-	 */
-	public void setDatasetNotes(final String datasetNotes) {
-		this.datasetNotes = datasetNotes;
-	}
-
-	/**
 	 * Returns the dataset source URL.
 	 * 
 	 * @return The dataset source URL.
@@ -451,25 +424,62 @@ public class JobConfiguration {
 	}
 
 	/**
-	 * Returns the URI of the SPARQL endpoint of the dataset.
+	 * Returns the dataset short description.
 	 * 
-	 * @return The URI of the SPARQL endpoint of the dataset.
-	 * @since 2.0
+	 * @return The dataset short description.
+	 * @since 1.0
 	 */
-	public String getSPARQLEndpoint() {
-		return SPARQLendpoint;
+	public String getDatasetDesc() {
+		return datasetDesc;
 	}
 	/**
-	 * Sets the URI of the SPARQL endpoint of the dataset.
+	 * Sets the dataset short description.
 	 * 
-	 * @param SPARQLendpoint The URI of the SPARQL endpoint of the dataset.
-	 * @since 2.0
+	 * @param datasetDesc The dataset short description.
+	 * @since 1.0
 	 */
-	public void setSPARQLEndpoint(final String SPARQLendpoint) {
-		this.SPARQLendpoint = SPARQLendpoint;
+	public void setDatasetDesc(final String datasetDesc) {
+		this.datasetDesc = datasetDesc;
 	}
 
+	/**
+	 * Returns the dataset long description.
+	 * 
+	 * @return The dataset long description.
+	 * @since 1.0
+	 */
+	public String getDatasetLongDesc() {
+		return datasetLongDesc;
+	}
+	/**
+	 * Sets the dataset long description.
+	 * 
+	 * @param datasetLongDesc The dataset long description.
+	 * @since 1.0
+	 */
+	public void setDatasetLongDesc(final String datasetLongDesc) {
+		this.datasetLongDesc = datasetLongDesc;
+	}
 
+	/**
+	 * Returns the dataset Public Sparql endpoint.
+	 * 
+	 * @return The dataset Public Sparql endpoint.
+	 * @since 1.0
+	 */
+	public String getPublicSparqlEndpointUri() {
+		return publicSparqlEndpointUri;
+	}
+	/**
+	 * Sets the dataset Public Sparql endpoint.
+	 * 
+	 * @param publicSparqlEndpointUri The dataset Public Sparql endpoint.
+	 * @since 1.0
+	 */
+	public void setPublicSparqlEndpointUri(final String publicSparqlEndpointUri) {
+		this.publicSparqlEndpointUri = publicSparqlEndpointUri;
+	}
+	
 	/**
 	 * Returns the CKAN id of the License of the dataset. See opendefinition.org .
 	 * 
@@ -509,60 +519,119 @@ public class JobConfiguration {
 	}
 
 	/**
-	 * Returns the graph URI.
+	 * Returns the dataset domain name.
 	 * 
-	 * @return The graph URI.
+	 * @return The dataset domain name.
 	 * @since 2.0
 	 */
-	public String getGraphURI() {
-		return graphURI;
+	public String getDomainName() {
+		return domainName;
 	}
 	/**
-	 * Sets the graph URI.
+	 * Sets the dataset domain name.
 	 * 
-	 * @param uri The graph URI.
+	 * @param domainName The dataset domain name.
 	 * @since 2.0
 	 */
-	public void setGraphURI(final String graphURI) {
-		this.graphURI = graphURI;
+	public void setDomainName(final String domainName) {
+		this.domainName = domainName;
 	}
 
 	/**
-	 * Returns the path of the folder where to store the dataset description file.
+	 * Returns the virtual host name that the browser presents as Host: 
+	 * entry in the request headers. i.e. Name-based virtual hosting.
 	 * 
-	 * @return The path of the folder where to store the dataset description file.
-	 * @since 2.0
+	 * @return The address of the virtual host.
+	 * @since 1.0
 	 */
-	public String getDatasetDescFolderPath() {
-		return datasetDescFolderPath;
+	public String getVirtualHost() {
+		return virtualHost;
 	}
 	/**
-	 * Sets the path of the folder where to store the dataset description file.
+	 * Sets  the virtual host name that the browser presents as Host: 
+	 * entry in the request headers. i.e. Name-based virtual hosting.
 	 * 
-	 * @param datasetDescFolderPath The path of the folder where to store the dataset description file.
-	 * @since 2.0
+	 * @param virtualHost The address of the virtual host.
+	 * @since 1.0
 	 */
-	public void setDatasetDescFolderPath(final String datasetDescFolderPath) {
-		this.datasetDescFolderPath = datasetDescFolderPath;
+	public void setVirtualHost(final String virtualHost) {
+		this.virtualHost = virtualHost;
 	}
 
 	/**
-	 * Returns the URL of the folder where to store the dataset description file.
+	 * Returns the URI Document section.
 	 * 
-	 * @return The URL of the folder where to store the dataset description file.
+	 * @return The URI Document section.
 	 * @since 2.0
 	 */
-	public String getDatasetDescFolderURL() {
-		return datasetDescFolderURL;
+	public String getUriDocPart() {
+		return uriDocPart;
 	}
 	/**
-	 * Sets the URL of the folder where to store the dataset description file.
+	 * Sets the URI Document section.
 	 * 
-	 * @param datasetDescURL The URL of the folder where to store the dataset description file.
+	 * @param uriDocPart The URI Document section.
 	 * @since 2.0
 	 */
-	public void setDatasetDescFolderURL(final String datasetDescFolderURL) {
-		this.datasetDescFolderURL = datasetDescFolderURL;
+	public void setUriDocPart(final String uriDocPart) {
+		this.uriDocPart = uriDocPart;
 	}
 
+	/**
+	 * Returns the URI Dataset Concept section.
+	 * 
+	 * @return The URI Dataset Concept section.
+	 * @since 2.0
+	 */
+	public String getUriConceptPart() {
+		return uriConceptPart;
+	}
+	/**
+	 * Sets the URI Dataset Concept section.
+	 * 
+	 * @param uriConceptPart The URI Dataset Concept section.
+	 * @since 2.0
+	 */
+	public void setUriConceptPart(final String uriConceptPart) {
+		this.uriConceptPart = uriConceptPart;
+	}
+
+	
+	/**
+	 * Returns the number of triples of the dataset. 
+	 * 
+	 * @return The number of triples of the dataset.
+	 * @since 2.0
+	 */
+	public int getNumTriples() {
+		return this.numTriples;
+	}
+	/**
+	 * Sets the number of triples of the dataset.
+	 * 
+	 * @param numTriples Number of triples of the dataset.
+	 * @since 2.0
+	 */
+	public void setNumTriples(int numTriples) {
+		this.numTriples = numTriples;
+	}
+
+	/**
+	 * Returns the subsets of the dataset. 
+	 * 
+	 * @return Subsets where dataset resides. 
+	 * @since 2.0
+	 */
+	public ArrayList<Subset> getSubsets() {
+		return subsets;
+	}
+	/**
+	 * Adds a subset where dataset resides. 
+	 * 
+	 * @param subset Subset where dataset resides. 
+	 * @since 2.0
+	 */
+	public void setSubset(final Subset subset) {
+		subsets.add(subset);
+	}		
 }

@@ -32,11 +32,13 @@ import eu.aliada.ckancreation.model.CKANResourceResponse;
 import eu.aliada.ckancreation.model.Job;
 import eu.aliada.ckancreation.model.JobConfiguration;
 import eu.aliada.ckancreation.model.DumpFileInfo;
+import eu.aliada.ckancreation.model.Subset;
 import eu.aliada.ckancreation.log.MessageCatalog;
 import eu.aliada.ckancreation.rdbms.DBConnectionManager;
 import eu.aliada.ckancreation.impl.DataDump;
-import eu.aliada.ckancreation.impl.VoidFile;
+import eu.aliada.ckancreation.impl.DatasetDescFile;
 import eu.aliada.shared.log.Log;
+import eu.aliada.shared.rdfstore.RDFStoreDAO;
 
 /**
  * CKAN Creation implementation. 
@@ -49,9 +51,20 @@ import eu.aliada.shared.log.Log;
 public class CKANCreation {
 	/** For logging. */
 	private static final Log LOGGER  = new Log(CKANCreation.class);
+	/** Folder where to store the dataset sump files **/
+	static final String DUMPS_FOLDER = "datadumps"; 
 	private final JobConfiguration jobConf;
 	private final DBConnectionManager dbConn;
-	
+	//Create the folder where the dataset dumps and the description file will reside
+	private final String dataFolderName;
+	private final String dataFolderURL; 
+	/** the URL of the organization in CKAN. **/
+	private String ckanOrgUrl;	
+	/** the URL of the dataset in CKAN. **/
+	private String ckanDatasetUrl;
+	/** the info of the dataset dump files. */
+	private ArrayList<DumpFileInfo> datasetDumpFileInfoList; 
+
 	/**
 	 * Constructor. 
 	 * Initializes the class variables.
@@ -64,6 +77,19 @@ public class CKANCreation {
 	public CKANCreation(final JobConfiguration jobConf, final DBConnectionManager dbConn) {
 		this.jobConf = jobConf;
 		this.dbConn = dbConn;
+		//Create the folder where the data dumps and the dataset description file will reside
+		String dataFolderName = "";
+		dataFolderName = jobConf.getDomainName().replace("http", ""); 
+		dataFolderName = dataFolderName.replace(":", "");
+		dataFolderName = dataFolderName.replace("/", "");
+		dataFolderName = dataFolderName.replace(".", "");
+		final String fullFolderName = jobConf.getVirtHttpServRoot() + File.separator + dataFolderName +
+				File.separator + DUMPS_FOLDER;
+		final File fFolder = new File(fullFolderName);
+		if (!fFolder.exists()) {
+			fFolder.mkdir();
+		}
+		dataFolderURL = "http://" + jobConf.getVirtualHost() + "/" + DUMPS_FOLDER;
 	}
 	
 	/**
@@ -223,25 +249,15 @@ public class CKANCreation {
 	/**
 	 * Create the dataset in CKAN Datahub.
 	 *
-	 * @param datasetName  		the dataset name.
-	 * @param datasetAuthor		the dataset author.
-	 * @param datasetNotes		the dataset description.
-	 * @param datasetSourceURL	the URL of the dataset´s source.
-	 * @param ownerOrg			the id of the dataset’s owning organization.
-	 * @param licenseId			the id of the dataset’s license.
+	 * @param dataset	the {@link eu.aliada.ckancreation.model.Dataset} object to create.
 	 * @return	the {@link eu.aliada.ckancreation.model.CKANDatasetResponse}
 	 * 			which contains the information of the dataset in CKAN.
 	 * @since 2.0
 	 */
-	public CKANDatasetResponse createDatasetCKAN(final String datasetName, final String datasetAuthor, 
-			final String datasetNotes, final String datasetSourceURL, final String ownerOrg, final String licenseId){
+	public CKANDatasetResponse createDatasetCKAN(final Dataset dataset){
 		final Client client = ClientBuilder.newClient();
 		final WebTarget webTarget = client.target(jobConf.getCkanApiURL());
 		
-		//Create a Java Object with the dataset data
-		final Dataset dataset = new Dataset(datasetName, null, datasetAuthor, datasetNotes, 
-				datasetSourceURL, ownerOrg, licenseId);
-
 		//Convert Java Object to JSON representation with JACKSON libraries
 		String datasetJSON = "";
 		final ObjectMapper mapper = new ObjectMapper();
@@ -270,25 +286,15 @@ public class CKANCreation {
 	/**
 	 * Update the dataset in CKAN Datahub.
 	 *
-	 * @param datasetName  		the dataset name.
-	 * @param datasetAuthor		the dataset author.
-	 * @param datasetNotes		the dataset description.
-	 * @param datasetSourceURL	the URL of the dataset´s source.
-	 * @param ownerOrg			the id of the dataset’s owning organization.
-	 * @param licenseId			the id of the dataset’s license.
+	 * @param dataset	the {@link eu.aliada.ckancreation.model.Dataset} object to update.
 	 * @return	the {@link eu.aliada.ckancreation.model.CKANDatasetResponse}
 	 * 			which contains the information of the dataset in CKAN.
 	 * @since 2.0
 	 */
-	public CKANDatasetResponse updateDatasetCKAN(final String datasetName, final String datasetAuthor, 
-			final String datasetNotes, final String datasetSourceURL, final String ownerOrg,  final String licenseId){
+	public CKANDatasetResponse updateDatasetCKAN(final Dataset dataset){
 		final Client client = ClientBuilder.newClient();
 		final WebTarget webTarget = client.target(jobConf.getCkanApiURL());
 		
-		//Create a Java Object with the dataset data
-		final Dataset dataset = new Dataset(datasetName, null, datasetAuthor, datasetNotes, 
-				datasetSourceURL, ownerOrg, licenseId, "active");
-
 		//Convert Java Object to JSON representation with JACKSON libraries
 		String datasetJSON = "";
 		final ObjectMapper mapper = new ObjectMapper();
@@ -372,7 +378,7 @@ public class CKANCreation {
 		//Get the organization data first
 		CKANOrgResponse cOrgResponse = getOrganizationCKAN(jobConf.getOrgName());
 		if(cOrgResponse.getSuccess() == "false") {
-			LOGGER.debug(MessageCatalog._00036_GET_ORGANIZATION_CKAN_FAILURE, cOrgResponse.getError().getMessage());
+			LOGGER.error(MessageCatalog._00036_GET_ORGANIZATION_CKAN_FAILURE, cOrgResponse.getError().getMessage());
 			return cOrgResponse;
 		}
 		//Obtain the organization ID in CKAN
@@ -384,10 +390,11 @@ public class CKANCreation {
 				jobConf.getOrgImageURL(), jobConf.getOrgHomePage(), users);
 		if(cOrgResponse.getSuccess() == "true") {
 			//Update DB with ckan_org_url
-			final String ckanOrgUrl = "http://datahub.io/organization/" + cOrgResponse.getResult().getName();
-			dbConn.updateCkanOrgUrl(jobConf.getId(), ckanOrgUrl);
+			this.ckanOrgUrl = "http://datahub.io/organization/" + cOrgResponse.getResult().getName();
+			dbConn.updateCkanOrgUrl(jobConf.getId(), this.ckanOrgUrl);
+			LOGGER.debug(MessageCatalog._00042_CKAN_ORG_UPDATED);
 		} else {
-			LOGGER.debug(MessageCatalog._00037_CREATE_ORGANIZATION_CKAN_FAILURE, cOrgResponse.getError().getMessage());
+			LOGGER.error(MessageCatalog._00037_CREATE_ORGANIZATION_CKAN_FAILURE, cOrgResponse.getError().getMessage());
 		}
 		return cOrgResponse;
 	}
@@ -397,33 +404,35 @@ public class CKANCreation {
 	 *
 	 * @param cOrgResponse	the {@link eu.aliada.ckancreation.model.CKANOrgResponse}
 	 * 						which contains the information of the organization in CKAN.
+	 * @param numTriples	the number of triples of the dataset.
 	 * @return	the {@link eu.aliada.ckancreation.model.CKANDatasetResponse}
 	 * 			which contains the information of the dataset in CKAN.
 	 * @since 2.0
 	 */
-	public CKANDatasetResponse createDataset(final CKANOrgResponse cOrgResponse){
+	public CKANDatasetResponse createDataset(final CKANOrgResponse cOrgResponse, int numTriples){
+		//Create a Java Object with the dataset data
+		final Dataset dataset = new Dataset(jobConf.getCkanDatasetName(), null,
+				jobConf.getDatasetAuthor(),	jobConf.getDatasetLongDesc(), 
+				jobConf.getDatasetSourceURL(), cOrgResponse.getResult().getId(),
+				jobConf.getLicenseCKANId(), "active", numTriples);
+
 		//Check if dataset already exists. If it exists, update it. 
-		final CKANDatasetResponse cGetDataResponse = getDatasetCKAN(jobConf.getDatasetName());
+		final CKANDatasetResponse cGetDataResponse = getDatasetCKAN(jobConf.getCkanDatasetName());
 		CKANDatasetResponse cDataResponse;
 		if(cGetDataResponse.getSuccess() == "true") {
 			//Update dataset. (http://datahub.io/api/action/package_update)
 			//When updating the dataset, the resources already associated to it are removed automatically
-			cDataResponse = updateDatasetCKAN(jobConf.getDatasetName(), 
-					jobConf.getDatasetAuthor(),	jobConf.getDatasetNotes(), 
-					jobConf.getDatasetSourceURL(), cOrgResponse.getResult().getId(),
-					jobConf.getLicenseId());
+			cDataResponse = updateDatasetCKAN(dataset);
 		} else {
 			//Create dataset. (http://datahub.io/api/action/package_create)
-			cDataResponse = createDatasetCKAN(jobConf.getDatasetName(), 
-					jobConf.getDatasetAuthor(),	jobConf.getDatasetNotes(), 
-					jobConf.getDatasetSourceURL(), cOrgResponse.getResult().getId(),
-					jobConf.getLicenseId());
+			cDataResponse = createDatasetCKAN(dataset);
 		}
 			
 		if(cDataResponse.getSuccess() == "true") {
 			//Update DB with ckan_dataset_url
-			final String ckanDatasetUrl = "http://datahub.io/dataset/" + cDataResponse.getResult().getName();
-			dbConn.updateCkanOrgUrl(jobConf.getId(), ckanDatasetUrl);
+			this.ckanDatasetUrl = "http://datahub.io/dataset/" + cDataResponse.getResult().getName();
+			dbConn.updateCkanDatasetUrl(jobConf.getId(), this.ckanDatasetUrl);
+			LOGGER.debug(MessageCatalog._00043_CKAN_DATASET_CREATED);
 		} else {
 			final String message;
 			if((cDataResponse.getError().getName() != null ) && (cDataResponse.getError().getName().length > 0)){
@@ -431,39 +440,32 @@ public class CKANCreation {
 			}else {
 				message = cDataResponse.getError().getMessage();
 			}
-			LOGGER.debug(MessageCatalog._00038_CREATE_DATASET_CKAN_FAILURE, message);
+			LOGGER.error(MessageCatalog._00038_CREATE_DATASET_CKAN_FAILURE, message);
 		}
 		return cDataResponse;
 	}
 
 	/**
-	 * Create the dataset in CKAN Datahub.
+	 * Create a graph dump resource in CKAN.
 	 *
-	 * @param cDataResponse	the {@link eu.aliada.ckancreation.model.CKANDatasetResponse}
-	 * 						which contains the information of the dataset in CKAN.
+	 * @param datasetCkanId		the datset Id in CKAN.
+	 * @param graphDesc			the graph description.
+	 * @param graphURI			the graph URI.
+	 * @param dataFolderName	the folder name where the graph dump is to be stored.
+	 * @param dataFolderURL		the URL of the folder.
 	 * @return	the {@link eu.aliada.ckancreation.model.CKANResourceResponse}
 	 * 			which contains the information of the resource in CKAN.
 	 * @since 2.0
 	 */
-	public CKANResourceResponse createResources(CKANDatasetResponse cDataResponse){
-		//Add new resources to the dataset (http://datahub.io/api/action/resource_create)
-		//Create resource SPARQL endpoint. 
-		CKANResourceResponse cResourceResponse = createResourceCKAN(cDataResponse.getResult().getId(), 
-				"Sparql Endpoint",
-				"SPARQL endpoint for " + cDataResponse.getResult().getName() + " dataset",
-				"api/sparql", 
-				jobConf.getSPARQLEndpoint(),
-				"api");
-		
-		if(cResourceResponse.getSuccess() == "false") {
-			LOGGER.debug(MessageCatalog._00039_CREATE_RESOURCE_CKAN_FAILURE, cResourceResponse.getError().getMessage());
-		}
-
-		//Create the resource for the dataset dumps.
+	public CKANResourceResponse createGraphDumpResource(String datasetCkanId, String graphDesc, 
+			String graphURI, String dataFolderName, String dataFolderURL){
 		//A graph may contain several file dumps because of its big size
+		final CKANResourceResponse cResourceResponse;
 		final DataDump dataDump = new DataDump(jobConf);
-		final ArrayList<DumpFileInfo> dumpFileInfos = dataDump.createDatasetDump(jobConf.getGraphURI(), 
-				jobConf.getDumpPath(),  jobConf.getDumpUrl());
+		final ArrayList<DumpFileInfo> dumpFileInfos = dataDump.createGraphDump(graphURI, 
+				dataFolderName,  dataFolderURL);
+		//Add the generated dump files to the global list
+		datasetDumpFileInfoList.addAll(dumpFileInfos);
 		final DumpFileInfo[] listDumpFileInfo= dumpFileInfos.toArray(new DumpFileInfo[]{});
 		if(listDumpFileInfo.length > 0) {
 			//A graph may contain several file dumps because of its big size
@@ -474,45 +476,105 @@ public class CKANCreation {
     				//If there are more than one dump file per graph, number it
     				fileIndex = " " + (i+1);
     			}
-				cResourceResponse = createResourceCKAN(cDataResponse.getResult().getId(), 
-						"Dataset dump in N-Triples format" + fileIndex,
+    			final String resourceName = "Dataset dump of " + graphDesc + " in N-Triples format" + fileIndex;
+    			cResourceResponse = createResourceCKAN(datasetCkanId, 
+						resourceName,
 						"Dataset dump in N-Triples format.",
 						dumpFileInfo.getDumpFileFormat(), 
 						dumpFileInfo.getDumpFileUrl(),
 						"file");
 				if(cResourceResponse.getSuccess() == "false") {
-					LOGGER.debug(MessageCatalog._00039_CREATE_RESOURCE_CKAN_FAILURE, cResourceResponse.getError().getMessage());
+					LOGGER.error(MessageCatalog._00039_CREATE_RESOURCE_CKAN_FAILURE, cResourceResponse.getError().getMessage());
+				} else {
+					LOGGER.debug(MessageCatalog._00044_CKAN_RESOURCE_CREATED, resourceName);
 				}
     		}
 		}
+		return cResourceResponse;
+	}
+
+	/**
+	 * Create the dataset in CKAN Datahub.
+	 *
+	 * @param cDataResponse	the {@link eu.aliada.ckancreation.model.CKANDatasetResponse}
+	 * 						which contains the information of the dataset in CKAN.
+	 * @param numTriples	the number of triples of the dataset.
+	 * @return	the {@link eu.aliada.ckancreation.model.CKANResourceResponse}
+	 * 			which contains the information of the resource in CKAN.
+	 * @since 2.0
+	 */
+	public CKANResourceResponse createResources(CKANDatasetResponse cDataResponse, int numTriples){
+		//Add new resources to the dataset (http://datahub.io/api/action/resource_create)
+		//Create resource: SPARQL endpoint. 
+		String resourceName = "Sparql Endpoint";
+		CKANResourceResponse cResourceResponse = createResourceCKAN(cDataResponse.getResult().getId(), 
+				resourceName,
+				"SPARQL endpoint for " + cDataResponse.getResult().getName() + " dataset",
+				"api/sparql", 
+				jobConf.getPublicSparqlEndpointUri(),
+				"api");
 		
-		//Create resource Void file.
-		VoidFile voidFile = new VoidFile(jobConf, dbConn);
-		final File voidFileCreated = voidFile.createVoidFile(jobConf.getGraphURI(), jobConf.getDumpPath(), 
-				jobConf.getDumpUrl());
-		final String voidFileUrl = jobConf.getDumpUrl()  + "/" + voidFileCreated.getName();
-		String voidFilePath = null;
-		try {
-			voidFilePath = voidFileCreated.getCanonicalPath();
-		} catch (IOException exception) {
-			LOGGER.error(MessageCatalog._00034_FILE_ACCESS_FAILURE, exception, voidFileCreated.getName());
-		}
-		cResourceResponse = createResourceCKAN(cDataResponse.getResult().getId(), 
-				voidFileCreated.getName(),
-				"Void file describing the main features of the " + cDataResponse.getResult().getName() + " dataset",
-				"application/octet-stream", 
-				voidFileUrl,
-				"file");
-		if(cResourceResponse.getSuccess() == "true") {
-			//Update DB with void_file_path, void_file_url
-			dbConn.updateVoidFile(jobConf.getId(), voidFilePath, voidFileUrl);
+		if(cResourceResponse.getSuccess() == "false") {
+			LOGGER.error(MessageCatalog._00039_CREATE_RESOURCE_CKAN_FAILURE, cResourceResponse.getError().getMessage());
 		} else {
-			LOGGER.debug(MessageCatalog._00039_CREATE_RESOURCE_CKAN_FAILURE, cResourceResponse.getError().getMessage());
+			LOGGER.debug(MessageCatalog._00044_CKAN_RESOURCE_CREATED, resourceName);
+		}
+
+		//Create resource: the dataset dumps.
+		//Get subset graphs and create a resource for each
+		for (Iterator<Subset> iterSubsets = jobConf.getSubsets().iterator(); iterSubsets.hasNext();  ) {
+			Subset subset = iterSubsets.next();
+			//Create dump of graph
+			createGraphDumpResource(cDataResponse.getResult().getId(), subset.getDescription(), subset.getGraph(), dataFolderName, dataFolderURL);
+			//Create dump of links graph
+			String linksGraphDesc = "links to external datasets of " + subset.getDescription();
+			createGraphDumpResource(cDataResponse.getResult().getId(), linksGraphDesc, subset.getLinksGraph(), dataFolderName, dataFolderURL);
+		}
+
+		//Create resource: dataset description file.
+		final DatasetDescFile datasetDescFile = new DatasetDescFile(jobConf, this.ckanDatasetUrl, 
+				datasetDumpFileInfoList, numTriples, dataFolderName, dataFolderURL);
+		if(datasetDescFile.createFile()) {
+			resourceName = datasetDescFile.getName();
+			cResourceResponse = createResourceCKAN(cDataResponse.getResult().getId(), 
+					resourceName,
+					"Void file describing the main features of the " + cDataResponse.getResult().getName() + " dataset",
+					datasetDescFile.FILE_FORMAT, 
+					datasetDescFile.getUrl(),
+					"file");
+			if(cResourceResponse.getSuccess() == "true") {
+				//Update DB with void_file_path, void_file_url
+				dbConn.updateDatasetDescFile(jobConf.getId(), datasetDescFile.getPath(), datasetDescFile.getUrl());
+				LOGGER.debug(MessageCatalog._00044_CKAN_RESOURCE_CREATED, resourceName);
+			} else {
+				LOGGER.error(MessageCatalog._00039_CREATE_RESOURCE_CKAN_FAILURE, cResourceResponse.getError().getMessage());
+			}
 		}
 
 		return cResourceResponse;
 	}
 
+	/**
+	 * It calculates the number of triples contained in the subsets of a dataset.
+	 *
+	 * @param sparqlEndpoint	The SPARQL endpoint of the dataset. 
+	 * @param subsetsList		the {@link eu.aliada.ckancreation.model.Subset}
+	 *							that contains information of the graphs of the subset.  
+	 * @return the number of triples contained in the subsets of the dataset.  					
+	 * @since 2.0
+	 */
+	public int calculateDatasetNumTriples(String sparqlEndpoint, ArrayList<Subset> subsetsList) {
+		int numTriples = 0;
+		//Get subset graphs and get number of triples
+		for (Iterator<Subset> iterSubsets = jobConf.getSubsets().iterator(); iterSubsets.hasNext();  ) {
+			Subset subset = iterSubsets.next();
+			subset.setGraphNumTriples(rdfstoreDAO.getNumTriples(sparqlEndpoint, subset.getGraph());
+			subset.setLinksGraphNumTriples(rdfstoreDAO.getNumTriples(sparqlEndpoint, subset.getLinksGraph());
+			numTriples = numTriples+ subset.getGraphNumTriples() + subset.getLinksGraphNumTriples();
+		}
+		return numTriples;
+	}
+	
 	/**
 	 * It creates a new Dataset in CKAN Datahub. Removes it first if it already exists.
 	 * It also updates the organization information in CKAN Datahub.
@@ -525,14 +587,18 @@ public class CKANCreation {
 		//Update job start-date in DDBB
 		dbConn.updateJobStartDate(jobConf.getId());
 		
+		//Get the number of triples of the dataset
+		final RDFStoreDAO rdfstoreDAO = new RDFStoreDAO();
+		final int numTriples = calculateDatasetNumTriples(jobConf.getPublicSparqlEndpointUri(), jobConf.getSubsets());
+		jobConf.setNumTriples(numTriples);
 		//ORGANIZATION
 		final CKANOrgResponse cOrgResponse = updateOrganization();
 		//DATASET
 		if(cOrgResponse.getSuccess() == "true"){
-			final CKANDatasetResponse cDataResponse = createDataset(cOrgResponse);
+			final CKANDatasetResponse cDataResponse = createDataset(cOrgResponse, numTriples);
 			//DATASET RESOURCES
 			if(cDataResponse.getSuccess() == "true"){
-				createResources(cDataResponse);
+				createResources(cDataResponse, numTriples);
 			}
 		}
 
