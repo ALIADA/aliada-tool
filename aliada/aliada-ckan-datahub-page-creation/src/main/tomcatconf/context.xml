@@ -5,7 +5,8 @@
 		type="javax.sql.DataSource"
 		username="aliada" password="aliada"
 		driverClassName="com.mysql.jdbc.Driver"
-		url="jdbc:mysql://localhost:3306/aliada"
+		url="jdbc:mysql://localhost:3306/aliada?autoReconnect=true"
+		validationQuery="Select 1"
 		maxActive="2"
 		maxIdle="2"/>
 <!--  Params to create the sub_jobs properties files: BEGIN -->

@@ -81,8 +81,8 @@ public class CKANCreationResource {
 		if(!orgName.equals(jobConf.getOrgName()) || orgName.contains(" ")) {
 			return Response.status(Status.BAD_REQUEST).build();			
 		}
-		String datasetName = jobConf.getDatasetName().toLowerCase();
-		if(!datasetName.equals(jobConf.getDatasetName()) || datasetName.contains(" ")) {
+		String datasetName = jobConf.getCkanDatasetName().toLowerCase();
+		if(!datasetName.equals(jobConf.getCkanDatasetName()) || datasetName.contains(" ")) {
 			return Response.status(Status.BAD_REQUEST).build();			
 		}
 		

@@ -61,7 +61,7 @@ public class JobConfiguration {
 	private String publicSparqlEndpointUri;
 	
 	/** The subsets where the dataset resides. */
-	private ArrayList<Subset> subsets; 
+	private ArrayList<Subset> subsets = new ArrayList<Subset>(); 
    
 	/**
 	 * Returns the identifier of this job configuration.

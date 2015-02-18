@@ -3,40 +3,46 @@
 //
 // Component: aliada-links-discovery
 // Responsible: ALIADA Consortiums
-package eu.aliada.linkeddataserversetup;
+package eu.aliada.ckancreation;
 
-import eu.aliada.linkeddataserversetup.impl.LinkedDataServerSetup;
-import eu.aliada.linkeddataserversetup.model.JobConfiguration;
-import eu.aliada.linkeddataserversetup.model.Subset;
+import eu.aliada.ckancreation.impl.CKANCreation;
+import eu.aliada.ckancreation.model.JobConfiguration;
+import eu.aliada.ckancreation.model.Subset;
+import eu.aliada.ckancreation.rdbms.DBConnectionManager;
 import eu.aliada.shared.log.Log;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 import org.junit.Test;
 
 /**
- * Test {@link LinkedDataServerSetup} class functions
+ * Test {@link CKANCreation} class functions
  * 
  * @author Idoia Murua
  * @since 1.0
  */
-public class EncodeParamsTest {
+public class calculateDatasetNumTriplesTest {
 	/** For creating random variable values. */
 	static final Random RANDOMIZER = new Random();
 	/** For logging. */
-	private static final Log LOGGER = new Log(EncodeParamsTest.class);
+	private static final Log LOGGER = new Log(calculateDatasetNumTriplesTest.class);
 
     /**
-     * Test the encodeParams method.
+     * Test the calculateDatasetNumTriples method.
      * 
      * @since 1.0
      */
     @Test
-    public void testEncodeParams() {
-		final LinkedDataServerSetup ldsSetup = new LinkedDataServerSetup();
+    public void testCalculateDatasetNumTriples() {
+    	DBConnectionManager dbConn = new DBConnectionManager();
 		final JobConfiguration jobConf = newJobConfiguration();
-		final boolean result = ldsSetup.encodeParams(jobConf);
-        if (result) {
+		final CKANCreation ckanCreation = new CKANCreation(jobConf, dbConn);
+		final  ArrayList<Subset> subsetsList = newSubsetList();
+		final String sparqlEndpoint = "http://aliada.scanbit.net:8891/sparql";
+		int result = -1;
+		result = ckanCreation.calculateDatasetNumTriples(sparqlEndpoint, subsetsList);
+        if (result >= 0) {
         	LOGGER.info("OK");
         } else {
         	LOGGER.info("NOK");
@@ -67,15 +73,29 @@ public class EncodeParamsTest {
 		job.setSqlLogin("sql_login");
 		job.setSqlPassword("sql_password");
 		job.setUriDocPart("doc");
-		job.setUriIdPart("id");
-		job.setUriDefPart("def");
 		job.setDomainName("data.artium.org");
 		job.setOntologyUri("http://aliada-project.eu/2014/aliada-ontology#");
 		job.setUriConceptPart("collections");
-		job.setListeningHost("*ini*");
 		job.setVirtualHost("*ini*");
 		job.setIsqlCommandPath("isql");
 		return job;
+	}
+
+	/**
+	 * Creates a dummy subset list. 
+	 * 
+	 * @return a dummy subset list.
+     * @since 1.0
+	 */
+	public static  ArrayList<Subset> newSubsetList() {
+		ArrayList<Subset> subsetsList = new ArrayList<Subset>();
+		Subset subset = new Subset();
+		subset.setDescription("Library bibliography");
+		subset.setGraph("http://aliada_graph1");
+		subset.setLinksGraph("http://aliada_graph1.links");
+		subset.setUriConceptPart("bib");
+		subsetsList.add(subset);
+		return subsetsList;
 	}
 
 }

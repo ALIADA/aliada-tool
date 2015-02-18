@@ -79,7 +79,7 @@ public class JobConfiguration {
 	private int numTriples;
 
 	/** The subsets where the dataset resides. */
-	private ArrayList<Subset> subsets; 
+	private ArrayList<Subset> subsets = new ArrayList<Subset>(); 
     
 	/**
 	 * Returns the identifier of this job configuration.

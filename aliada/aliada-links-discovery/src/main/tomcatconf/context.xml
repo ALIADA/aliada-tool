@@ -5,7 +5,8 @@
 		type="javax.sql.DataSource"
 		username="aliada" password="aliada"
 		driverClassName="com.mysql.jdbc.Driver"
-		url="jdbc:mysql://aliada:3306/aliada"
+		url="jdbc:mysql://localhost:3306/aliada?autoReconnect=true"
+		validationQuery="Select 1"
 		maxActive="2"
 		maxIdle="2"/>
 <!--  Params to create the sub_jobs properties files: BEGIN -->
@@ -15,7 +16,7 @@
          override="false"/>
 	<Parameter name="ddbb.driverClassName" value="com.mysql.jdbc.Driver"
          override="false"/>
-	<Parameter name="ddbb.url" value="jdbc:mysql://aliada:3306/aliada"
+	<Parameter name="ddbb.url" value="jdbc:mysql://localhost:3306/aliada"
          override="false"/>
 <!--  Params to create the sub_jobs properties files: END -->
 </Context>

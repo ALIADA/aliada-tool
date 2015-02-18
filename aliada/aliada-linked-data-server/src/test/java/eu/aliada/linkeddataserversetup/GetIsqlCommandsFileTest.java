@@ -7,6 +7,7 @@ package eu.aliada.linkeddataserversetup;
 
 import eu.aliada.linkeddataserversetup.impl.LinkedDataServerSetup;
 import eu.aliada.linkeddataserversetup.model.JobConfiguration;
+import eu.aliada.linkeddataserversetup.model.Subset;
 import eu.aliada.shared.log.Log;
 
 import java.util.Random;
@@ -34,7 +35,8 @@ public class GetIsqlCommandsFileTest {
     public void testGetIsqlCommandsFile() {
 		final LinkedDataServerSetup ldsSetup = new LinkedDataServerSetup();
 		final JobConfiguration jobConf = newJobConfiguration();
-		final String result = ldsSetup.getIsqlCommandsFile(jobConf);
+		final Subset subset = newSubset();
+		final String result = ldsSetup.getIsqlCommandsFileSubset(jobConf, subset);
         if (result != null) {
         	LOGGER.info("OK");
         } else {
@@ -65,12 +67,20 @@ public class GetIsqlCommandsFileTest {
 		job.setStoreSqlPort(1111);
 		job.setSqlLogin("sql_login");
 		job.setSqlPassword("sql_password");
-		job.setGraph("http://biblioteca.artium.org");
-		job.setDatasetBase("http://aliada.scanbit.net:8890");
 		job.setIsqlCommandPath("isql");
-		job.setIsqlCommandsFilename("isql_id_rewrite_rules_html_artium.sql");
-		job.setIsqlCommandsFilenameDefault("src/test/resources/isql_id_rewrite_rules_html_default.sql");
+		job.setIsqlCommandsSubsetFilenameDefault("src/test/resources/isql_id_rewrite_rules_html_default.sql");
 		return job;
 	}
 
+	/**
+	 * Creates a dummy subset. 
+	 * 
+	 * @return a dummy subset.
+     * @since 1.0
+	 */
+	public static Subset newSubset() {
+		final Subset subset = new Subset();
+		subset.setIsqlCommandsSubsetFilename("isql_id_rewrite_rules_html_artium.sql");
+		return subset;
+	}
 }

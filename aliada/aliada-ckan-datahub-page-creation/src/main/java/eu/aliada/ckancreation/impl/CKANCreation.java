@@ -56,7 +56,7 @@ public class CKANCreation {
 	private final JobConfiguration jobConf;
 	private final DBConnectionManager dbConn;
 	//Create the folder where the dataset dumps and the description file will reside
-	private final String dataFolderName;
+	private String dataFolderName;
 	private final String dataFolderURL; 
 	/** the URL of the organization in CKAN. **/
 	private String ckanOrgUrl;	
@@ -78,7 +78,6 @@ public class CKANCreation {
 		this.jobConf = jobConf;
 		this.dbConn = dbConn;
 		//Create the folder where the data dumps and the dataset description file will reside
-		String dataFolderName = "";
 		dataFolderName = jobConf.getDomainName().replace("http", ""); 
 		dataFolderName = dataFolderName.replace(":", "");
 		dataFolderName = dataFolderName.replace("/", "");
@@ -89,7 +88,7 @@ public class CKANCreation {
 		if (!fFolder.exists()) {
 			fFolder.mkdir();
 		}
-		dataFolderURL = "http://" + jobConf.getVirtualHost() + "/" + DUMPS_FOLDER;
+		dataFolderURL = "http://" + jobConf.getDomainName() + "/" + DUMPS_FOLDER;
 	}
 	
 	/**
@@ -460,7 +459,7 @@ public class CKANCreation {
 	public CKANResourceResponse createGraphDumpResource(String datasetCkanId, String graphDesc, 
 			String graphURI, String dataFolderName, String dataFolderURL){
 		//A graph may contain several file dumps because of its big size
-		final CKANResourceResponse cResourceResponse;
+		CKANResourceResponse cResourceResponse = null;
 		final DataDump dataDump = new DataDump(jobConf);
 		final ArrayList<DumpFileInfo> dumpFileInfos = dataDump.createGraphDump(graphURI, 
 				dataFolderName,  dataFolderURL);
@@ -568,8 +567,10 @@ public class CKANCreation {
 		//Get subset graphs and get number of triples
 		for (Iterator<Subset> iterSubsets = jobConf.getSubsets().iterator(); iterSubsets.hasNext();  ) {
 			Subset subset = iterSubsets.next();
-			subset.setGraphNumTriples(rdfstoreDAO.getNumTriples(sparqlEndpoint, subset.getGraph());
-			subset.setLinksGraphNumTriples(rdfstoreDAO.getNumTriples(sparqlEndpoint, subset.getLinksGraph());
+			//Get number of triples of each subgraph
+			final RDFStoreDAO rdfstoreDAO = new RDFStoreDAO();
+			subset.setGraphNumTriples(rdfstoreDAO.getNumTriples(sparqlEndpoint, subset.getGraph()));
+			subset.setLinksGraphNumTriples(rdfstoreDAO.getNumTriples(sparqlEndpoint, subset.getLinksGraph()));
 			numTriples = numTriples+ subset.getGraphNumTriples() + subset.getLinksGraphNumTriples();
 		}
 		return numTriples;
@@ -588,7 +589,6 @@ public class CKANCreation {
 		dbConn.updateJobStartDate(jobConf.getId());
 		
 		//Get the number of triples of the dataset
-		final RDFStoreDAO rdfstoreDAO = new RDFStoreDAO();
 		final int numTriples = calculateDatasetNumTriples(jobConf.getPublicSparqlEndpointUri(), jobConf.getSubsets());
 		jobConf.setNumTriples(numTriples);
 		//ORGANIZATION

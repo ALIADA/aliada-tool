@@ -74,8 +74,8 @@ public class DatasetDescFile {
 		fileName = jobConf.getDomainName().replace("http", ""); 
 		fileName = fileName.replace(":", "");
 		fileName = fileName.replace("/", "");
-		fileName = fileName.replace(".", "");
-    	this.name = fileName  + FILE_EXTENSION;
+		fileName = fileName.replace(".", "")  + FILE_EXTENSION;
+    	this.name = fileName;
     	//Compose dataset description file path
     	String filePath = dataFolderName + File.separator + fileName;
 		//Replace Windows file separator by "/" Java file separator
@@ -230,10 +230,10 @@ public class DatasetDescFile {
         	//
 			//Start writing dataset general info
         	//
-        	String datasetUri = "http://" + jobConf.getVirtualHost() + "/" + uriDocConcept;  
+        	String datasetUri = "http://" + jobConf.getDomainName() + "/" + uriDocConcept;  
 	    	out.write("<" + datasetUri + "> rdf:type void:Dataset ;");
 	    	out.newLine();
-	    	out.write("    foaf:homepage <http://" + jobConf.getVirtualHost()  + "> ;");
+	    	out.write("    foaf:homepage <http://" + jobConf.getDomainName()  + "> ;");
 	    	out.newLine();
 	    	out.write("    foaf:page <" + this.ckanDatasetUrl + "> ;");
 	    	out.newLine();
@@ -253,10 +253,10 @@ public class DatasetDescFile {
 	    	out.newLine();
 	    	out.write("    void:sparqlEndpoint <" + jobConf.getPublicSparqlEndpointUri() + "> ;");
 	    	out.newLine();
-			out.write("   void:vocabulary <" + jobConf.getOntologyUri() + "> ;");
+			out.write("    void:vocabulary <" + jobConf.getOntologyUri() + "> ;");
 	    	out.newLine();
 	    	//Write number of triples
-	    	out.write("   void:triples " + this.numTriples + " ;");
+	    	out.write("    void:triples " + this.numTriples + " ;");
 	    	out.newLine();    	
 	    	///////////////////////
 			//Enumerate dataset dump files 
@@ -287,6 +287,7 @@ public class DatasetDescFile {
 				}
 			}
 	    	out.write("    .");
+	    	out.newLine();    	
 	    	//
 	    	//End of dataset description
 	    	//
@@ -309,7 +310,7 @@ public class DatasetDescFile {
 			    	out.newLine();
 			    	//Write number of triples
 			    	int numTriples = subset.getGraphNumTriples() + subset.getLinksGraphNumTriples();
-			    	out.write("   void:triples " + numTriples + " ;");
+			    	out.write("    void:triples " + numTriples + " ;");
 			    	out.newLine();    	
 			    	out.write("    .");
 				}

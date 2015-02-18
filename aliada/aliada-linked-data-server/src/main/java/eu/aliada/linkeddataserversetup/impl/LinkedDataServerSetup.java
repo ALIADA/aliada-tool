@@ -350,7 +350,7 @@ public class LinkedDataServerSetup {
         	line = "<a href=\"" + jobConf.getPublicSparqlEndpointUri() + "\">" + "SPARQL Endpoint" + "</a><br>";
         	out.newLine();
         	//List resources of dataset
-        	String datasetUri = "http://" + jobConf.getVirtualHost() + "/" + uriDocConcept;  
+        	String datasetUri = "http://" + jobConf.getDomainName() + "/" + uriDocConcept;  
         	line = "<a href=\"" + datasetUri + "\">" + "list of resources" + "</a><br>";
         	out.newLine();
 			for (Iterator<Subset> iterSubsets = jobConf.getSubsets().iterator(); iterSubsets.hasNext();  ) {

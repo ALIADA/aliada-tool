@@ -141,7 +141,7 @@ public class DataDump {
 	 */
     public ArrayList<DumpFileInfo> createGraphDump(final String graphURI, final String dataDumpsPath, 
     		final String dataDumpsUrl){
-    	ArrayList<DumpFileInfo> dumpFilesInfo;
+    	ArrayList<DumpFileInfo> dumpFilesInfo = new ArrayList<DumpFileInfo>();
     	//Compose initial dump file name from the graph URI + current day
     	final int stInd = graphURI.lastIndexOf('/');
     	String dumpFileNameInit = graphURI.substring(stInd + 1);
