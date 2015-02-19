@@ -102,7 +102,7 @@ public class datasetDescFileTest {
 		job.setVirtualHost("*ini*");
 		job.setIsqlCommandPath("isql");
 		job.setDatasetAuthor("Aliada Consortium");
-		job.setDatasetDesc("Dataset containing ARTIUM bibliogarphy as Linked Data.");
+		job.setDatasetDesc("Dataset containing ARTIUM bibliogarphy and museum data as Linked Data.");
 		job.setDatasetLongDesc("Dataset containing ARTIUM bibliogarphy as Linked Data.");
 		job.setDatasetSourceURL("http://www.artium.org");
 		job.setLicenseCKANId("cc-zero");
@@ -115,7 +115,7 @@ public class datasetDescFileTest {
 		subset.setDescription("Library bibliography");
 		subset.setGraph("http://aliada_graph1");
 		subset.setLinksGraph("http://aliada_graph1.links");
-		subset.setUriConceptPart("bib");
+		subset.setUriConceptPart("library/bib");
 		subset.setGraphNumTriples(900);
 		subset.setLinksGraphNumTriples(100);
 		job.setSubset(subset);

@@ -126,6 +126,7 @@ public class DBConnectionManager {
 				jobConf.setId(jobId);
 				jobConf.setCkanApiURL(resultSet.getString("ckan_api_url"));
 				jobConf.setCkanApiKey(resultSet.getString("ckan_api_key"));
+				jobConf.setTmpDir(resultSet.getString("tmp_dir"));
 				jobConf.setStoreIp(resultSet.getString("store_ip"));
 				jobConf.setStoreSqlPort(resultSet.getInt("store_sql_port"));
 				jobConf.setSqlLogin(resultSet.getString("sql_login"));
@@ -230,32 +231,6 @@ public class DBConnectionManager {
 	}
 
 	/**
-	 * Updates the info in the job related to the dataset description file.
-	 *
-	 * @param jobId				the job identification.
-	 * @param datasetDescPath	the path of the dataset description file.
-	 * @param datasetDescURL	the URL of the dataset description file.
-	 * @return true if the file related info has been updated correctly in the DDBB. False otherwise.
-	 * @since 2.0
-	 */
-	public boolean updateDatasetDescFile(final int jobId, final String datasetDescPath, String datasetDescURL){
-    	try {
-    		PreparedStatement preparedStatement = null;		
-    		preparedStatement = getConnection().prepareStatement("UPDATE ckancreation_job_instances SET datasetdesc_file_path = ? , datasetdesc_file_url = ? WHERE job_id = ?");
-    		// (job_id, void_file_path)
-    		// parameters start with 1
-    		preparedStatement.setString(1, datasetDescPath);
-    		preparedStatement.setString(2, datasetDescURL);
-    		preparedStatement.setInt(3, jobId);
-    		preparedStatement.executeUpdate();
-		} catch (SQLException exception) {
-			LOGGER.error(MessageCatalog._00024_DATA_ACCESS_FAILURE, exception);
-			return false;
-		}
-  		return true;
-	}
-
-	/**
 	 * Updates the start_date of the job.
 	 *
 	 * @param jobId	the job identification.
@@ -326,8 +301,6 @@ public class DBConnectionManager {
 				job.setEndDate(resultSet.getTimestamp("end_date"));
 				job.setCkanOrgURL(resultSet.getString("ckan_org_url"));
 				job.setCkanDatasetURL(resultSet.getString("ckan_dataset_url"));
-				job.setDatasetDescFilePath(resultSet.getString("datasetdesc_file_path"));
-				job.setDatasetDescFileURL(resultSet.getString("datasetdesc_file_url"));
 				//Determine job status
 				String status = JOB_STATUS_IDLE;
 				if(job.getStartDate() != null){

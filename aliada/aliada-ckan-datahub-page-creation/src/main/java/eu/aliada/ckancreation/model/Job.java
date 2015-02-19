@@ -23,10 +23,6 @@ public class Job {
 	private String ckanOrgURL;
 	/** URL of the dataset in CKAN. */
 	private String ckanDatasetURL;
-	/** Void file path. */
-	private String datasetDescFilePath;
-	/** Void file URL. */
-	private String datasetDescFileURL;
 	/** Job starting date. */
 	private Date startDate;
 	/** Job end date. */
@@ -90,44 +86,6 @@ public class Job {
 	 */
 	public void setCkanDatasetURL(final String ckanDatasetURL) {
 		this.ckanDatasetURL = ckanDatasetURL;
-	}
-
-	/**
-	 * Returns the path of the dataset description file.
-	 * 
-	 * @return The path of the dataset description file.
-	 * @since 2.0
-	 */
-	public String getDatasetDescFilePath() {
-		return datasetDescFilePath;
-	}
-	/**
-	 * Sets the path the dataset description file.
-	 * 
-	 * @param datasetDescFilePath The path of the dataset description file.
-	 * @since 2.0
-	 */
-	public void setDatasetDescFilePath(final String datasetDescFilePath) {
-		this.datasetDescFilePath = datasetDescFilePath;
-	}
-
-	/**
-	 * Returns the URL of the dataset description file.
-	 * 
-	 * @return The URL of the dataset description file.
-	 * @since 2.0
-	 */
-	public String getDatasetDescFileURL() {
-		return datasetDescFileURL;
-	}
-	/**
-	 * Sets the URL of the dataset description file.
-	 * 
-	 * @param datasetDescFileURL The URL of the dataset description file.
-	 * @since 2.0
-	 */
-	public void setDatasetDescFileURL(final String datasetDescFileURL) {
-		this.datasetDescFileURL = datasetDescFileURL;
 	}
 
 	/**

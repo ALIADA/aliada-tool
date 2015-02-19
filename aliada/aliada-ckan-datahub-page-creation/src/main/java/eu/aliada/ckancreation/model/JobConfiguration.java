@@ -22,6 +22,8 @@ public class JobConfiguration {
 	private String ckanApiURL;
 	/** CKAN API Key. */
 	private String ckanApiKey;
+	/** Temporary folder name where to create temporary files. */
+	private String tmpDir;
 	/** IP address of the machine where the RDF store resides. */
 	private String storeIp;
 	/** Port number of the RDF store for SQL access. */
@@ -137,6 +139,25 @@ public class JobConfiguration {
 	public void setCkanApiKey(final String ckanApiKey) {
 		this.ckanApiKey = ckanApiKey;
 	}
+
+	/**
+	 * Returns the path of the temporary directory for creating temporary files.
+	 * 
+	 * @return The path of the temporary directory for creating temporary files.
+	 * @since 1.0
+	 */
+	public String getTmpDir() {
+		return tmpDir;
+	}
+	/**
+	 * Sets the path of the temporary directory for creating temporary files.
+	 * 
+	 * @param tmpDir The path of the temporary directory for creating temporary files.
+	 * @since 1.0
+	 */
+	public void setTmpDir(final String tmpDir) {
+		this.tmpDir = tmpDir;
+	}		
 
 	/**
 	 * Returns the IP of the RDF store.

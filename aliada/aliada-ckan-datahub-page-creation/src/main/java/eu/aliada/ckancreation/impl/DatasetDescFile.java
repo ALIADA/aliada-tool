@@ -241,7 +241,7 @@ public class DatasetDescFile {
 	    	out.newLine();
 	    	out.write("    dcterms:description \"" + jobConf.getDatasetLongDesc() + "\" ;");
 	    	out.newLine();
-	    	out.write("    dcterms:publisher \"" + jobConf.getOrgName() + "\" ;");
+	    	out.write("    dcterms:publisher \"" + jobConf.getOrgName().toUpperCase() + "\" ;");
 	    	out.newLine();
 	    	out.write("    dcterms:source <" + jobConf.getDatasetSourceURL() + "> ;");
 	    	out.newLine();
@@ -313,6 +313,7 @@ public class DatasetDescFile {
 			    	out.write("    void:triples " + numTriples + " ;");
 			    	out.newLine();    	
 			    	out.write("    .");
+			    	out.newLine();    	
 				}
 			}
 		} catch (IOException exception) {

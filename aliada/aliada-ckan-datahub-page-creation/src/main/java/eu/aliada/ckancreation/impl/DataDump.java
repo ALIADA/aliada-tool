@@ -9,8 +9,8 @@ import java.io.*;
 import java.util.ArrayList;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-	
-
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 import eu.aliada.ckancreation.model.JobConfiguration;
 import eu.aliada.ckancreation.model.DumpFileInfo;
@@ -97,7 +97,7 @@ public class DataDump {
 	 * Obtains the dump file names generated for the graph.
 	 *
 	 * @param graphURI			the graph URI.
-	 * @param dataDumpsPath		the physical path of the folder where the data dumps are kept.
+	 * @param dataDumpsPath		the definitive physical path of the folder where the data dumps are kept.
 	 * @param dataDumpsUrl		the URL of the folder where the data dumps are kept.
 	 * @param dumpFileNameInit	the initial name for the files that contain the graph dumps.
 	 * @return	an array of  {@link eu.aliada.ckancreation.model.DumpFileInfo}
@@ -109,21 +109,25 @@ public class DataDump {
     	/** Dump files of the graph. */
     	final ArrayList<DumpFileInfo> dumpFilesInfo = new ArrayList<DumpFileInfo>();
    		// List the dump files
-   		final File dumpFolder = new File(dataDumpsPath);
+   		final File dumpFolder = new File(jobConf.getTmpDir());
    		final File[] listDumpFiles = dumpFolder.listFiles(new DumpsFileNameFilter(dumpFileNameInit, FILE_EXTENSION));
 		if( (listDumpFiles != null) && (listDumpFiles.length > 0)) {
     		for(File dumpFile:listDumpFiles)
     		{
     	    	final String dumpFileUrl = dataDumpsUrl + "/" + dumpFile.getName();
-    	    	DumpFileInfo dumpFileInfo = new DumpFileInfo();
-    	    	dumpFileInfo.setDumpFileFormat(FILE_FORMAT);
-    	    	try {
-    	    		dumpFileInfo.setDumpFilePath(dumpFile.getCanonicalPath());
+    			try {
+        			//Move the generated dump file from TMP folder to the definitive folder
+        			final String definitiveFileName = dataDumpsPath + File.separator + dumpFile.getName();
+	    			final File definitiveFile = new File (definitiveFileName);
+	    			Files.move(dumpFile.toPath(), definitiveFile.toPath(), java.nio.file.StandardCopyOption.REPLACE_EXISTING);
+	    	    	DumpFileInfo dumpFileInfo = new DumpFileInfo();
+	    	    	dumpFileInfo.setDumpFileFormat(FILE_FORMAT);
+		    		dumpFileInfo.setDumpFilePath(definitiveFileName);
+		    	    dumpFileInfo.setDumpFileUrl(dumpFileUrl);
+		    	    dumpFilesInfo.add(dumpFileInfo);
     	    	} catch (IOException exception) {
     				LOGGER.error(MessageCatalog._00035_FILE_ACCESS_FAILURE, exception, dumpFile.getName());
     	    	}
-	    	    dumpFileInfo.setDumpFileUrl(dumpFileUrl);
-	    	    dumpFilesInfo.add(dumpFileInfo);
 			}
 		}
     	return dumpFilesInfo;
@@ -133,14 +137,14 @@ public class DataDump {
 	 * Generates the dump in file format for a graph.
 	 *
 	 * @param graphURI		the URI of the graph.
-	 * @param dataDumpsPath	the physical path of the folder where to save the data dumps.
+	 * @param dataDumpsPath	the definitive physical path of the folder where to save the data dumps.
 	 * @param dataDumpsUrl	the URL of the folder where to save the data dumps.
 	 * @return	an array of  {@link eu.aliada.ckancreation.model.DumpFileInfo}
 	 * 			objects with the info about the files containing the graph dump.
 	 * @since 2.0
 	 */
-    public ArrayList<DumpFileInfo> createGraphDump(final String graphURI, final String dataDumpsPath, 
-    		final String dataDumpsUrl){
+    public ArrayList<DumpFileInfo> createGraphDump(final String graphURI, 
+    		final String dataDumpsPath,	final String dataDumpsUrl){
     	ArrayList<DumpFileInfo> dumpFilesInfo = new ArrayList<DumpFileInfo>();
     	//Compose initial dump file name from the graph URI + current day
     	final int stInd = graphURI.lastIndexOf('/');
@@ -148,8 +152,8 @@ public class DataDump {
     	dumpFileNameInit = dumpFileNameInit.replace('.', '_');
     	final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
     	final Date date = new Date();
-    	dumpFileNameInit = dumpFileNameInit + dateFormat.format(date);
-    	String dumpFilePathInit = dataDumpsPath + File.separator + dumpFileNameInit;
+    	dumpFileNameInit = dumpFileNameInit + "_" + System.currentTimeMillis() + "_" + dateFormat.format(date);
+    	String dumpFilePathInit = jobConf.getTmpDir() + File.separator + dumpFileNameInit;
 		//Replace Windows file separator by "/" Java file separator
     	dumpFilePathInit = dumpFilePathInit.replace("\\", "/");
 		//Compose ISQL command execution statement

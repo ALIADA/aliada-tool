@@ -2,6 +2,7 @@ CREATE TABLE `aliada`.`ckancreation_job_instances` (
 `job_id` INT NOT NULL AUTO_INCREMENT,
 `ckan_api_url`  VARCHAR( 245 ) default NULL,
 `ckan_api_key`  VARCHAR( 245 ) default NULL,
+`tmp_dir`  VARCHAR( 245 ) default NULL,
 `store_ip`  VARCHAR( 245 ) default NULL,
 `store_sql_port`  INT default 1111,
 `sql_login`  VARCHAR( 32 ) default NULL,

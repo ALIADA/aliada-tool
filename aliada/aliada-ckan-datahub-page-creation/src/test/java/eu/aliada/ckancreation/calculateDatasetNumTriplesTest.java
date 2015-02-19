@@ -93,7 +93,7 @@ public class calculateDatasetNumTriplesTest {
 		subset.setDescription("Library bibliography");
 		subset.setGraph("http://aliada_graph1");
 		subset.setLinksGraph("http://aliada_graph1.links");
-		subset.setUriConceptPart("bib");
+		subset.setUriConceptPart("library/bib");
 		subsetsList.add(subset);
 		return subsetsList;
 	}

@@ -63,7 +63,7 @@ public class CKANCreation {
 	/** the URL of the dataset in CKAN. **/
 	private String ckanDatasetUrl;
 	/** the info of the dataset dump files. */
-	private ArrayList<DumpFileInfo> datasetDumpFileInfoList; 
+	private ArrayList<DumpFileInfo> datasetDumpFileInfoList = new ArrayList<DumpFileInfo>(); 
 
 	/**
 	 * Constructor. 
@@ -82,9 +82,9 @@ public class CKANCreation {
 		dataFolderName = dataFolderName.replace(":", "");
 		dataFolderName = dataFolderName.replace("/", "");
 		dataFolderName = dataFolderName.replace(".", "");
-		final String fullFolderName = jobConf.getVirtHttpServRoot() + File.separator + dataFolderName +
+		dataFolderName = jobConf.getVirtHttpServRoot() + File.separator + dataFolderName +
 				File.separator + DUMPS_FOLDER;
-		final File fFolder = new File(fullFolderName);
+		final File fFolder = new File(dataFolderName);
 		if (!fFolder.exists()) {
 			fFolder.mkdir();
 		}
@@ -450,21 +450,21 @@ public class CKANCreation {
 	 * @param datasetCkanId		the datset Id in CKAN.
 	 * @param graphDesc			the graph description.
 	 * @param graphURI			the graph URI.
-	 * @param dataFolderName	the folder name where the graph dump is to be stored.
-	 * @param dataFolderURL		the URL of the folder.
 	 * @return	the {@link eu.aliada.ckancreation.model.CKANResourceResponse}
 	 * 			which contains the information of the resource in CKAN.
 	 * @since 2.0
 	 */
 	public CKANResourceResponse createGraphDumpResource(String datasetCkanId, String graphDesc, 
-			String graphURI, String dataFolderName, String dataFolderURL){
+			String graphURI){
 		//A graph may contain several file dumps because of its big size
 		CKANResourceResponse cResourceResponse = null;
 		final DataDump dataDump = new DataDump(jobConf);
 		final ArrayList<DumpFileInfo> dumpFileInfos = dataDump.createGraphDump(graphURI, 
 				dataFolderName,  dataFolderURL);
 		//Add the generated dump files to the global list
-		datasetDumpFileInfoList.addAll(dumpFileInfos);
+		if(dumpFileInfos.size() > 0){
+			datasetDumpFileInfoList.addAll(dumpFileInfos);
+		}
 		final DumpFileInfo[] listDumpFileInfo= dumpFileInfos.toArray(new DumpFileInfo[]{});
 		if(listDumpFileInfo.length > 0) {
 			//A graph may contain several file dumps because of its big size
@@ -524,10 +524,10 @@ public class CKANCreation {
 		for (Iterator<Subset> iterSubsets = jobConf.getSubsets().iterator(); iterSubsets.hasNext();  ) {
 			Subset subset = iterSubsets.next();
 			//Create dump of graph
-			createGraphDumpResource(cDataResponse.getResult().getId(), subset.getDescription(), subset.getGraph(), dataFolderName, dataFolderURL);
+			createGraphDumpResource(cDataResponse.getResult().getId(), subset.getDescription(), subset.getGraph());
 			//Create dump of links graph
 			String linksGraphDesc = "links to external datasets of " + subset.getDescription();
-			createGraphDumpResource(cDataResponse.getResult().getId(), linksGraphDesc, subset.getLinksGraph(), dataFolderName, dataFolderURL);
+			createGraphDumpResource(cDataResponse.getResult().getId(), linksGraphDesc, subset.getLinksGraph());
 		}
 
 		//Create resource: dataset description file.
@@ -542,8 +542,6 @@ public class CKANCreation {
 					datasetDescFile.getUrl(),
 					"file");
 			if(cResourceResponse.getSuccess() == "true") {
-				//Update DB with void_file_path, void_file_url
-				dbConn.updateDatasetDescFile(jobConf.getId(), datasetDescFile.getPath(), datasetDescFile.getUrl());
 				LOGGER.debug(MessageCatalog._00044_CKAN_RESOURCE_CREATED, resourceName);
 			} else {
 				LOGGER.error(MessageCatalog._00039_CREATE_RESOURCE_CKAN_FAILURE, cResourceResponse.getError().getMessage());
