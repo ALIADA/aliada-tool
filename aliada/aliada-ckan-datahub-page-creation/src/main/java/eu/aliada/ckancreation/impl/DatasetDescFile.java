@@ -188,7 +188,7 @@ public class DatasetDescFile {
 		//Remove leading slashes
 		cleanPath = path.replaceFirst("^/+", "");
 		//Remove trailing slashes
-		cleanPath = path.replaceFirst("/+$", "");
+		cleanPath = cleanPath.replaceFirst("/+$", "");
 		return cleanPath;
 	}
 

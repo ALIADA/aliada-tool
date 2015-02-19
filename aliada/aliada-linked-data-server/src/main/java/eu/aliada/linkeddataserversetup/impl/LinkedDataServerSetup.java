@@ -38,7 +38,7 @@ public class LinkedDataServerSetup {
 	private static final String DATASET_INDEX_PAGE = "dataset.html"; 
 	/* Input parameters for URL rewrite rules */
 	/** Suffix to be added to URL rewrite rules names. */
-	private String rulesNamesSuffix = "";
+	private String rulesNamesSuffix;
 	/** The URI Document section. */
 	private String uriDocPart;
 	/** The URI Identifier section. */
@@ -70,7 +70,7 @@ public class LinkedDataServerSetup {
 		//Remove leading slashes
 		cleanPath = path.replaceFirst("^/+", "");
 		//Remove trailing slashes
-		cleanPath = path.replaceFirst("/+$", "");
+		cleanPath = cleanPath.replaceFirst("/+$", "");
 		return cleanPath;
 	}
 
@@ -86,19 +86,17 @@ public class LinkedDataServerSetup {
 	public boolean encodeParams(final JobConfiguration jobConf){
 		boolean encoded = false;
 		try{
-			//Add leading slash to URI Document section
+			//Remove leading/trailing slashes of URI Document section
 			if(jobConf.getUriDocPart() != null) {
-				uriDocPart = "/" + removeLeadingTralingSlashes(jobConf.getUriDocPart());
-			} else {
-				uriDocPart = "/";
-			}
-			//Check URI identifier section is correct
-			if(jobConf.getUriIdPart() != null) {
-				uriIdPart = "/" + removeLeadingTralingSlashes(jobConf.getUriIdPart());
+				uriDocPart = removeLeadingTralingSlashes(jobConf.getUriDocPart());
 			} 
-			//Check URI Ontology section is correct
+			//Remove leading/trailing slashes of URI identifier section
+			if(jobConf.getUriIdPart() != null) {
+				uriIdPart = removeLeadingTralingSlashes(jobConf.getUriIdPart());
+			} 
+			//Remove leading/trailing slashes of URI Ontology section
 			if(jobConf.getUriDefPart() != null) {
-				uriDefPart = "/" + removeLeadingTralingSlashes(jobConf.getUriDefPart());
+				uriDefPart = removeLeadingTralingSlashes(jobConf.getUriDefPart());
 			} 
 			//Encode dataset graphs
 			graphsSelectEncoded = "";
@@ -135,7 +133,6 @@ public class LinkedDataServerSetup {
 				}
 			}
 			//Compose rules name suffix
-			rulesNamesSuffix = "";
 			rulesNamesSuffix = jobConf.getDomainName().replace("http", ""); 
 			rulesNamesSuffix = rulesNamesSuffix.replace(":", "");
 			rulesNamesSuffix = rulesNamesSuffix.replace("/", "");
@@ -224,7 +221,7 @@ public class LinkedDataServerSetup {
 					jobConf.getStoreSqlPort(), jobConf.getSqlLogin(),
 					jobConf.getSqlPassword(), isqlCommandsFilename,
 					jobConf.getListeningHost(), jobConf.getVirtualHost(),
-					uriIdPart, uriDocPart, uriDefPart, graphsSelectEncoded,
+					uriIdPart, "/" + uriDocPart, uriDefPart, graphsSelectEncoded,
 					graphsEncoded, domainNameEncoded, rulesNamesSuffix,
 					uriDocConcept, DATASET_INDEX_PAGE, ontologyEncoded, 
 					uriIdPartEncoded);
@@ -283,7 +280,7 @@ public class LinkedDataServerSetup {
 					jobConf.getStoreSqlPort(), jobConf.getSqlLogin(),
 					jobConf.getSqlPassword(), isqlCommandsFilename,
 					jobConf.getListeningHost(), jobConf.getVirtualHost(),
-					uriIdPart, uriDocPart, uriDefPart, graphsSelectEncoded,
+					uriIdPart,  "/" + uriDocPart, uriDefPart, graphsSelectEncoded,
 					graphsEncoded, domainNameEncoded, rulesNamesSuffixSubset,
 					uriDocConceptSubset, DATASET_INDEX_PAGE, ontologyEncoded, 
 					uriIdPartEncoded);
@@ -334,24 +331,33 @@ public class LinkedDataServerSetup {
         	out.write(line);
         	out.newLine();
         	line = "<html>";
+        	out.write(line);
         	out.newLine();
         	line = "<head>";
+        	out.write(line);
         	out.newLine();
         	line = "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=ISO-8859-1\">";
+        	out.write(line);
         	out.newLine();
         	line = "<title>" + jobConf.getDatasetDesc() + "</title>";
+        	out.write(line);
         	out.newLine();
         	line = "</head>";
+        	out.write(line);
         	out.newLine();
         	line = "<body>";
+        	out.write(line);
         	out.newLine();
         	line = jobConf.getDatasetLongDesc() + "<br>";
+        	out.write(line);
         	out.newLine();
         	line = "<a href=\"" + jobConf.getPublicSparqlEndpointUri() + "\">" + "SPARQL Endpoint" + "</a><br>";
+        	out.write(line);
         	out.newLine();
         	//List resources of dataset
         	String datasetUri = "http://" + jobConf.getDomainName() + "/" + uriDocConcept;  
         	line = "<a href=\"" + datasetUri + "\">" + "list of resources" + "</a><br>";
+        	out.write(line);
         	out.newLine();
 			for (Iterator<Subset> iterSubsets = jobConf.getSubsets().iterator(); iterSubsets.hasNext();  ) {
 				Subset subset = iterSubsets.next();
@@ -362,15 +368,18 @@ public class LinkedDataServerSetup {
 				if(uriDocConceptSubset.length() > 0) {
 		        	//List resources of subset
 					String subsetUri = datasetUri + "/" + uriDocConceptSubset;
-		        	line = "<a href=\"" + subsetUri + "\">" + "list of resources os subset " + subset.getDescription()+ "</a><br>";
+		        	line = "<a href=\"" + subsetUri + "\">" + "list of resources of subset " + subset.getDescription()+ "</a><br>";
+		        	out.write(line);
 		        	out.newLine();
 
 				}
 			}
         	
         	line = "</body>";
+        	out.write(line);
         	out.newLine();
         	line = "</html>";
+        	out.write(line);
         	out.newLine();
 	    	out.close();
 		} catch (IOException exception) {
@@ -407,7 +416,7 @@ public class LinkedDataServerSetup {
 			}
 		}
 		
-		//TO DO
+		//Create Dataset default HTML page
 		createDatasetDefaultPage(jobConf);
 
 		//Update job end_date of DDBB
