@@ -106,8 +106,8 @@ public class LinkedDataServerSetup {
 				String graphSelectEncoded = URLEncoder.encode(" FROM <" + subset.getGraph() + ">", "UTF-8");
 				String linksGraphSelectEncoded = URLEncoder.encode(" FROM <" + subset.getLinksGraph() + ">", "UTF-8");
 				graphsSelectEncoded = graphsSelectEncoded + graphSelectEncoded + linksGraphSelectEncoded;
-				String graphEncoded = URLEncoder.encode("&graph=" + subset.getGraph(), "UTF-8");
-				String linksGraphEncoded = URLEncoder.encode("&graph=" + subset.getLinksGraph(), "UTF-8");
+				String graphEncoded = "&graph=" + URLEncoder.encode(subset.getGraph(), "UTF-8");
+				String linksGraphEncoded = "&graph=" + URLEncoder.encode(subset.getLinksGraph(), "UTF-8");
 				graphsEncoded = graphsEncoded + graphEncoded + linksGraphEncoded;
 			}
 			graphsSelectEncoded = graphsSelectEncoded.replace("%", "%%");
