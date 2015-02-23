@@ -339,7 +339,7 @@ public class LinkedDataServerSetup {
         	line = "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=ISO-8859-1\">";
         	out.write(line);
         	out.newLine();
-        	line = "<title>" + jobConf.getDatasetDesc() + "</title>";
+        	line = "<title>" + jobConf.getDatasetDesc().toUpperCase() + "</title>";
         	out.write(line);
         	out.newLine();
         	line = "</head>";
@@ -359,6 +359,7 @@ public class LinkedDataServerSetup {
         	line = "<a href=\"" + datasetUri + "\">" + "list of resources" + "</a><br>";
         	out.write(line);
         	out.newLine();
+        	int numSubsets = 0;
 			for (Iterator<Subset> iterSubsets = jobConf.getSubsets().iterator(); iterSubsets.hasNext();  ) {
 				Subset subset = iterSubsets.next();
 				String uriDocConceptSubset = "";
@@ -366,6 +367,12 @@ public class LinkedDataServerSetup {
 					uriDocConceptSubset = removeLeadingTralingSlashes(subset.getUriConceptPart());
 				} 				
 				if(uriDocConceptSubset.length() > 0) {
+					if(numSubsets == 0){
+			        	line = "Subsets:<br>";
+			        	out.write(line);
+			        	out.newLine();
+					}
+					numSubsets++;
 		        	//List resources of subset
 					String subsetUri = datasetUri + "/" + uriDocConceptSubset;
 		        	line = "<a href=\"" + subsetUri + "\">" + "list of resources of subset " + subset.getDescription()+ "</a><br>";

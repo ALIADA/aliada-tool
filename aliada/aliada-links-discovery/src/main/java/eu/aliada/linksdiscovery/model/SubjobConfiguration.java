@@ -12,6 +12,8 @@ package eu.aliada.linksdiscovery.model;
  * @since 1.0
  */
 public class SubjobConfiguration {
+	/** Subjob identification number. */
+	private Integer id;
 	/** Subjob name. */
 	private String name;
 	/** Name of linking XML configuration file for the SILK process. */
@@ -25,6 +27,25 @@ public class SubjobConfiguration {
 	/** reloadTarget parameter for SILK. */
 	private boolean linkingReloadTarget;
    
+	/**
+	 * Returns the identifier of this subjob configuration.
+	 * 
+	 * @return The identifier of this subjob configuration.
+	 * @since 1.0
+	 */
+	public Integer getId() {
+		return id;
+	}
+	/**
+	 * Sets the identifier of this subjob configuration.
+	 * 
+	 * @param id The identifier of this subjob configuration.
+	 * @since 1.0
+	 */
+	public void setId(final Integer id) {
+		this.id = id;
+	}
+
 	/**
 	 * Returns the name of the subjob.
 	 * 

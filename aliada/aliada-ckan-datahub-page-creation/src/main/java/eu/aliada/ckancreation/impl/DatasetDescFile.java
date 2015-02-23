@@ -230,7 +230,7 @@ public class DatasetDescFile {
         	//
 			//Start writing dataset general info
         	//
-        	String datasetUri = "http://" + jobConf.getDomainName() + "/" + uriDocConcept;  
+        	String datasetUri = "http://" + jobConf.getDomainName();  
 	    	out.write("<" + datasetUri + "> rdf:type void:Dataset ;");
 	    	out.newLine();
 	    	out.write("    foaf:homepage <http://" + jobConf.getDomainName()  + "> ;");
@@ -280,9 +280,9 @@ public class DatasetDescFile {
 				} 
 				
 				if(uriDocConceptSubset.length() > 0) {
-					String subsetUri = datasetUri + "/" + uriDocConceptSubset;
+					String subsetUri = datasetUri + "/" + jobConf.getUriSetPart() + "/" + uriDocConceptSubset;
 					//Enumerate subset
-			    	out.write("    void:subset <" + subsetUri + "> ;");
+			    	out.write("    void:subset :" + subsetUri + " ;");
 			    	out.newLine();
 				}
 			}
@@ -302,9 +302,9 @@ public class DatasetDescFile {
 					uriDocConceptSubset = removeLeadingTralingSlashes(subset.getUriConceptPart());
 				} 				
 				if(uriDocConceptSubset.length() > 0) {
-					String subsetUri = datasetUri + "/" + uriDocConceptSubset;
+					String subsetUri = datasetUri + "/" + jobConf.getUriSetPart() + "/" + uriDocConceptSubset;
 					//Describe subset
-			    	out.write("<" + subsetUri + "> rdf:type void:Dataset ;");
+			    	out.write(":" + subsetUri + " rdf:type void:Dataset ;");
 			    	out.newLine();
 			    	out.write("    dcterms:description \"" + subset.getDescription() + "\" ;");
 			    	out.newLine();

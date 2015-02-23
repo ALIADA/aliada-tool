@@ -158,6 +158,7 @@ public class DBConnectionManager {
 				jobConf.setVirtualHost(resultSet.getString("virtual_host"));
 				jobConf.setUriDocPart(resultSet.getString("uri_doc_part"));
 				jobConf.setUriConceptPart(resultSet.getString("uri_concept_part"));
+				jobConf.setUriSetPart(resultSet.getString("uri_set_part"));
 			}
 			resultSet.close();
 			//Get subsets related information 

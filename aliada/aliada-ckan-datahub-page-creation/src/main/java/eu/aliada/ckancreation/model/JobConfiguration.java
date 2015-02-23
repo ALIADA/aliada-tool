@@ -77,6 +77,8 @@ public class JobConfiguration {
 	private String uriDocPart;
 	/** The URI Dataset Concept section. */
 	private String uriConceptPart; 
+	/** The URI Set section. */
+	private String uriSetPart;
 	/** Total number of triples */
 	private int numTriples;
 
@@ -618,6 +620,25 @@ public class JobConfiguration {
 	}
 
 	
+	/**
+	 * Returns the URI Set section.
+	 * 
+	 * @return The URI Set section.
+	 * @since 2.0
+	 */
+	public String getUriSetPart() {
+		return uriSetPart;
+	}
+	/**
+	 * Sets the URI Set section.
+	 * 
+	 * @param uriSetPart The URI Set section.
+	 * @since 2.0
+	 */
+	public void setUriSetPart(final String uriSetPart) {
+		this.uriSetPart = uriSetPart;
+	}
+
 	/**
 	 * Returns the number of triples of the dataset. 
 	 * 
