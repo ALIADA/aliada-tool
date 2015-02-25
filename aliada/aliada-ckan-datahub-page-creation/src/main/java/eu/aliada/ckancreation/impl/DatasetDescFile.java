@@ -269,15 +269,7 @@ public class DatasetDescFile {
 	    	///////////////////////
 			for (Iterator<Subset> iterSubsets = jobConf.getSubsets().iterator(); iterSubsets.hasNext();  ) {
 				Subset subset = iterSubsets.next();
-				//Compose URI document part + URI Concept part + Subset URI Concept part
 				String uriConceptSubset = "";
-				if(subset.getUriConceptPart() != null) {
-					uriConceptSubset = removeLeadingTralingSlashes(subset.getUriConceptPart());
-					if(uriConceptSubset.length() > 0) {
-						uriConceptSubset = uriDocConcept + "/" + uriConceptSubset;
-					}
-				} 
-
 				String uriConceptDataset = "";
 				if(subset.getUriConceptPart() != null) {
 					uriConceptSubset = removeLeadingTralingSlashes(subset.getUriConceptPart());
@@ -308,12 +300,21 @@ public class DatasetDescFile {
 	    	///////////////////////
 			for (Iterator<Subset> iterSubsets = jobConf.getSubsets().iterator(); iterSubsets.hasNext();  ) {
 				Subset subset = iterSubsets.next();
-				String uriDocConceptSubset = "";
+				String uriConceptSubset = "";
+				String uriConceptDataset = "";
 				if(subset.getUriConceptPart() != null) {
-					uriDocConceptSubset = removeLeadingTralingSlashes(subset.getUriConceptPart());
-				} 				
-				if(uriDocConceptSubset.length() > 0) {
-					String subsetUri = datasetUri + "/" + jobConf.getUriSetPart() + "/" + uriDocConceptSubset;
+					uriConceptSubset = removeLeadingTralingSlashes(subset.getUriConceptPart());
+				} 
+				
+				if(uriConceptSubset.length() > 0) {
+					if(jobConf.getUriConceptPart() != null) {
+						uriConceptDataset = removeLeadingTralingSlashes(jobConf.getUriConceptPart());
+						if(uriConceptDataset.length() > 0) {
+							uriConceptSubset = uriConceptDataset + "/" + uriConceptSubset;
+						}
+					}
+					//Compose URI set part + URI Dataset Concept part + URI Subset Concept part
+					String subsetUri = datasetUri + "/" + jobConf.getUriSetPart() + "/" + uriConceptSubset;
 					//Describe subset
 			    	out.write(":" + subsetUri + " rdf:type void:Dataset ;");
 			    	out.newLine();
