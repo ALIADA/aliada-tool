@@ -277,7 +277,7 @@ public class LinkingAction extends ActionSupport {
                     URL url;
                     HttpURLConnection conn = null;
                     try {
-					    url = new URL("http://aliada:8080/aliada-links-discovery-1.0/jobs/");
+					    url = new URL("http://aliada:8080/aliada-links-discovery-2.0/jobs/");
 //                        url = new URL("http://localhost:8890/links-discovery");
                         
 						conn = (HttpURLConnection) url.openConnection();
@@ -331,7 +331,7 @@ public class LinkingAction extends ActionSupport {
                 statement = connection.createStatement();
                 ResultSet rs = statement
                         .executeQuery("select store_ip,store_sql_port,sql_login, sql_password, isql_command_path, "
-                        		+ "virtuoso_http_server_root, o.aliada_ontology, s.datasetId from aliada.organisation o "
+                        		+ "o.virtuoso_http_server_root, o.aliada_ontology, s.datasetId from aliada.organisation o "
                         		+ "INNER JOIN aliada.dataset d ON o.organisationId=d.organisationId "
                         		+ "INNER JOIN aliada.subset s ON d.datasetId=s.datasetId INNER JOIN aliada.rdfizer_job_instances r "
                         		+ "WHERE s.graph_uri='" + fileToLink.getGraph() + "' ORDER BY r.job_id DESC LIMIT 1");
@@ -359,7 +359,7 @@ public class LinkingAction extends ActionSupport {
                     URL url;
                     HttpURLConnection conn = null;
                     try {
-					    url = new URL("http://aliada:8080/aliada-linked-data-server-1.0/jobs/");
+					    url = new URL("http://aliada:8080/aliada-linked-data-server-2.0/jobs/");
 //                        url = new URL("http://localhost:8889/lds");
                         conn = (HttpURLConnection) url.openConnection();
                         conn.setDoOutput(true);
