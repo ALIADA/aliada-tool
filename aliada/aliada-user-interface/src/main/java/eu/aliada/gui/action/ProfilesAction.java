@@ -24,7 +24,12 @@ import eu.aliada.shared.log.Log;
  */
 public class ProfilesAction extends ActionSupport {
 
-    private HashMap<Integer, String> profiles;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
+	private HashMap<Integer, String> profiles;
     private String selectedProfile;
     private String nameForm;
     private String descriptionForm;
@@ -106,9 +111,10 @@ public class ProfilesAction extends ActionSupport {
             Statement statement = connection.createStatement();
             ResultSet rs = statement
                     .executeQuery("select p.profile_name,p.profile_description,t.profile_name,m.metadata_name,f.file_type_name,"
-                    		+ "fo.file_format_name,c.character_set_name from profile p INNER JOIN t_profile_type t ON p.profile_type_code=t.profile_code "
-                    		+ "INNER JOIN t_metadata_scheme m ON p.metadata_scheme_code=m.metadata_code INNER JOIN t_file_type f ON p.file_type_code=f.file_type_code "
-                    		+ "INNER JOIN t_file_format fo ON fo.file_format_code=p.file_format_code INNER JOIN t_character_set c "
+                    		+ "fo.file_format_name,c.character_set_name from aliada.profile p INNER JOIN aliada.t_profile_type t ON p.profile_type_code=t.profile_code "
+                    		+ "INNER JOIN aliada.t_metadata_scheme m ON p.metadata_scheme_code=m.metadata_code "
+                    		+ "INNER JOIN aliada.t_file_type f ON p.file_type_code=f.file_type_code "
+                    		+ "INNER JOIN aliada.t_file_format fo ON fo.file_format_code=p.file_format_code INNER JOIN aliada.t_character_set c "
                     		+ "ON c.character_set_code=p.character_set_code where p.profile_name='"
                             + this.selectedProfile + "'");
             if (rs.next()) {
@@ -196,7 +202,7 @@ public class ProfilesAction extends ActionSupport {
         try {
             connection = new DBConnectionManager().getConnection();
             Statement statement = connection.createStatement();
-            statement.executeUpdate("UPDATE profile set profile_type_code='"
+            statement.executeUpdate("UPDATE aliada.profile set profile_type_code='"
                     + this.profileTypeForm + "',profile_description='"
                     + this.descriptionForm + "',metadata_scheme_code='"
                     + this.schemeForm + "',file_type_code='"
@@ -258,7 +264,7 @@ public class ProfilesAction extends ActionSupport {
         try {
             connection = new DBConnectionManager().getConnection();
             Statement statement = connection.createStatement();
-            statement.executeUpdate("INSERT INTO profile VALUES (default,'"
+            statement.executeUpdate("INSERT INTO aliada.profile VALUES (default,'"
                     + this.nameForm + "', '" + this.profileTypeForm + "', '"
                     + this.descriptionForm + "', '" + this.schemeForm + "', '"
                     + this.fileTypeForm + "', '" + this.fileFormatForm + "', '"

@@ -189,16 +189,52 @@
 			<result name="success" type="tiles">/profiles.tiles</result>
 		</action>
 		
+		<action name="showDatasets" method="showDatasets" class="eu.aliada.gui.action.DatasetsAction">
+            <result name="success" type="tiles">/datasets.tiles</result>
+		</action>
+		
+		<action name="showSubsets" method="showSubsets" class="eu.aliada.gui.action.SubsetsAction">
+            <result name="success" type="tiles">/subsets.tiles</result>
+		</action>
+		
+		<action name="showExternalDatasets" method="showExternalDatasets" class="eu.aliada.gui.action.ExternalDatasetsAction">
+            <result name="success" type="tiles">/externalDatasets.tiles</result>
+		</action>
+		
 		<action name="showTheProfile" method="getTheProfile"
 			class="eu.aliada.gui.action.ProfilesAction">
 			<result name="success" type="tiles">/profiles.tiles</result>
 			<result name="error" type="tiles">/profiles.tiles</result>
 		</action>
 		
+		<action name="showTheDataset" method="getTheDataset"
+			class="eu.aliada.gui.action.DatasetsAction">
+			<result name="success" type="tiles">/datasets.tiles</result>
+			<result name="error" type="tiles">/datasets.tiles</result>
+		</action>
+		
+		<action name="showTheSubset" method="getTheSubset"
+			class="eu.aliada.gui.action.SubsetsAction">
+			<result name="success" type="tiles">/subsets.tiles</result>
+			<result name="error" type="tiles">/subsets.tiles</result>
+		</action>
+		
 		<action name="showAddProfileForm" method="showAddProfile"
 			class="eu.aliada.gui.action.ProfilesAction">
 			<interceptor-ref name="retrieveStack"/>
 			<result name="success" type="tiles">/profiles.tiles</result>
+		</action>
+		
+		<action name="showAddDatasetForm" method="showAddDataset"
+			class="eu.aliada.gui.action.DatasetsAction">
+			<interceptor-ref name="retrieveStack"/>
+			<result name="success" type="tiles">/datasets.tiles</result>
+		</action>
+		
+		<action name="showAddSubsetForm" method="showAddSubset"
+			class="eu.aliada.gui.action.SubsetsAction">
+			<interceptor-ref name="retrieveStack"/>
+			<result name="success" type="tiles">/subsets.tiles</result>
 		</action>
 		
 		<action name="addProfile" method="addProfile"
@@ -213,10 +249,46 @@
          	</result>
 		</action>
 		
+		<action name="addDataset" method="addDataset"
+			class="eu.aliada.gui.action.DatasetsAction">
+			<interceptor-ref name="storeStack"/>
+			<result name="success" type="tiles">/datasets.tiles</result>
+			<result name="error"  type="redirectAction">
+         		<param name="actionName">showAddDatasetForm</param>
+         	</result>
+         	<result name="input"  type="redirectAction">
+         		<param name="actionName">showAddDatasetForm</param>
+         	</result>
+		</action>
+		
+		<action name="addSubset" method="addSubset"
+			class="eu.aliada.gui.action.SubsetsAction">
+			<interceptor-ref name="storeStack"/>
+			<result name="success" type="tiles">/subsets.tiles</result>
+			<result name="error"  type="redirectAction">
+         		<param name="actionName">showAddSubsetForm</param>
+         	</result>
+         	<result name="input"  type="redirectAction">
+         		<param name="actionName">showAddSubsetForm</param>
+         	</result>
+		</action>
+		
 		<action name="showEditProfileForm" method="showEditProfile"
 			class="eu.aliada.gui.action.ProfilesAction">
 			<result name="success" type="tiles">/profiles.tiles</result>
 			<result name="error" type="tiles">/profiles.tiles</result>
+		</action>
+		
+		<action name="showEditDatasetForm" method="showEditDataset"
+			class="eu.aliada.gui.action.DatasetsAction">
+			<result name="success" type="tiles">/datasets.tiles</result>
+			<result name="error" type="tiles">/datasets.tiles</result>
+		</action>
+		
+		<action name="showEditSubsetForm" method="showEditSubset"
+			class="eu.aliada.gui.action.SubsetsAction">
+			<result name="success" type="tiles">/subsets.tiles</result>
+			<result name="error" type="tiles">/subsets.tiles</result>
 		</action>
 		
 		<action name="editProfile" method="editProfile"
@@ -230,10 +302,44 @@
          	</result>
 		</action>
 		
+		<action name="editDataset" method="editDataset"
+			class="eu.aliada.gui.action.DatasetsAction">
+			<result name="success" type="tiles">/datasets.tiles</result>
+			<result name="error"  type="redirectAction">
+         		<param name="actionName">showDatasets</param>
+         	</result>
+         	<result name="input"  type="redirectAction">
+         		<param name="actionName">showEditDatasetForm</param>
+         	</result>
+		</action>
+		
+		<action name="editSubset" method="editSubset"
+			class="eu.aliada.gui.action.SubsetsAction">
+			<result name="success" type="tiles">/subsets.tiles</result>
+			<result name="error"  type="redirectAction">
+         		<param name="actionName">showSubsets</param>
+         	</result>
+         	<result name="input"  type="redirectAction">
+         		<param name="actionName">showEditSubsetForm</param>
+         	</result>
+		</action>
+		
 		<action name="deleteProfile" method="deleteProfile"
 			class="eu.aliada.gui.action.ProfilesAction">
 			<result name="success" type="tiles">/profiles.tiles</result>
 			<result name="error" type="tiles">/profiles.tiles</result>
+		</action>
+		
+		<action name="deleteDataset" method="deleteDataset"
+			class="eu.aliada.gui.action.DatasetsAction">
+			<result name="success" type="tiles">/datasets.tiles</result>
+			<result name="error" type="tiles">/datasets.tiles</result>
+		</action>
+		
+		<action name="deleteSubset" method="deleteSubset"
+			class="eu.aliada.gui.action.SubsetsAction">
+			<result name="success" type="tiles">/subsets.tiles</result>
+			<result name="error" type="tiles">/subsets.tiles</result>
 		</action>
 
 		<action name="linking" method="execute" class="eu.aliada.gui.action.LinkingAction">
@@ -340,6 +446,12 @@
 			class="eu.aliada.gui.action.DiscLinksValidationAction">
 			<result name="success" type="tiles">/linksValidation.tiles</result>
 			<result name="error" type="tiles">/linksValidation.tiles</result>
+		</action>
+		
+		<action name="reloadExternalDatasets" method="reloadExternalDatasets"
+			class="eu.aliada.gui.action.ExternalDatasetsAction">
+			<result name="success" type="tiles">/externalDatasets.tiles</result>
+			<result name="error" type="tiles">/externalDatasets.tiles</result>
 		</action>
 		
 		<action name="locale" class="eu.aliada.gui.action.LocaleAction">

@@ -22,6 +22,11 @@ import com.opensymphony.xwork2.Result;
 
 public class CustomImageBytesResult implements Result{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@Override
 	public void execute(final ActionInvocation invocation) throws Exception {
 		

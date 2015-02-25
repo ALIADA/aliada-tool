@@ -151,7 +151,7 @@
 		<html:property value="fileToLink.getFilename()"/>
 		<h3 class="mediumLabel"><html:text name="linking.datasets"/></h3>		
 		<html:iterator value="datasets" var="data">
-	         <ul><html:checkbox fieldValue="%{key}" name="dataset">
+	         <ul><html:checkbox fieldValue="%{value}" name="dataset" value="false">
      		</html:checkbox>
      		<html:property value="%{value}"/></ul>
 	      </html:iterator> 

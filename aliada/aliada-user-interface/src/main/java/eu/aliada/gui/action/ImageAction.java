@@ -32,7 +32,10 @@ import eu.aliada.shared.log.Log;
 
 public class ImageAction extends ActionSupport implements ServletRequestAware{
 	
-	private static final int BUFFER_SIZE = 4096;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	
 	byte[] imageInByte = null;
 	
@@ -69,7 +72,7 @@ public class ImageAction extends ActionSupport implements ServletRequestAware{
         try {
             connection = new DBConnectionManager().getConnection();
             Statement statement = connection.createStatement();
-            ResultSet rs = statement.executeQuery("SELECT organisation_logo FROM organisation o INNER JOIN user u ON o.organisationId = u.organisationId "
+            ResultSet rs = statement.executeQuery("SELECT organisation_logo FROM aliada.organisation o INNER JOIN aliada.user u ON o.organisationId = u.organisationId "
             		+ "WHERE u.user_name='" + userName + "';");
             if (rs.next() && rs.getBlob("organisation_logo") != null) {
                 Blob logo = rs.getBlob("organisation_logo");
