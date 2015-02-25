@@ -33,7 +33,7 @@ public class LinkedDataServerSetup {
 	/** For logging. */
 	private static final Log LOGGER = new Log(LinkedDataServerSetup.class);
 	/** Format for the ISQL command to execute */
-	private static final String ISQL_COMMAND_FORMAT = "%s %s:%d %s %s %s -u lhost=%s vhost=%s uri_id=%s uri_doc_slash=%s uri_def=%s graphs_select_encoded=%s graphs_encoded=%s domain_name_encoded=%s rules_suffix=%s uri_doc_concept=%s dataset_page=%s aliada_ont_encoded=%s uri_id_encoded=%s";
+	private static final String ISQL_COMMAND_FORMAT = "%s %s:%d %s %s %s -u lhost='%s' vhost='%s' uri_id='%s' uri_doc_slash='%s' uri_def='%s' graphs_select_encoded='%s' graphs_encoded='%s' domain_name_encoded='%s' rules_suffix='%s' uri_doc_concept='%s' dataset_page='%s' aliada_ont_encoded='%s' uri_id_encoded='%s'";
 	/** Dataset Index HTML Page*/
 	private static final String DATASET_INDEX_PAGE = "dataset.html"; 
 	/* Input parameters for URL rewrite rules */
@@ -101,14 +101,21 @@ public class LinkedDataServerSetup {
 			//Encode dataset graphs
 			graphsSelectEncoded = "";
 			graphsEncoded = "";
+			int subsetIndex = 0;
 			for (Iterator<Subset> iterSubsets = jobConf.getSubsets().iterator(); iterSubsets.hasNext();  ) {
 				Subset subset = iterSubsets.next();
 				String graphSelectEncoded = URLEncoder.encode(" FROM <" + subset.getGraph() + ">", "UTF-8");
 				String linksGraphSelectEncoded = URLEncoder.encode(" FROM <" + subset.getLinksGraph() + ">", "UTF-8");
 				graphsSelectEncoded = graphsSelectEncoded + graphSelectEncoded + linksGraphSelectEncoded;
-				String graphEncoded = "&graph=" + URLEncoder.encode(subset.getGraph(), "UTF-8");
-				String linksGraphEncoded = "&graph=" + URLEncoder.encode(subset.getLinksGraph(), "UTF-8");
+				String graphEncoded = "";
+				if(subsetIndex == 0){
+					graphEncoded = "&graph" + URLEncoder.encode("=" + subset.getGraph(), "UTF-8");
+				} else {
+					graphEncoded = URLEncoder.encode("&graph=" + subset.getGraph(), "UTF-8");
+				}
+				String linksGraphEncoded = URLEncoder.encode("&graph=" + subset.getLinksGraph(), "UTF-8");
 				graphsEncoded = graphsEncoded + graphEncoded + linksGraphEncoded;
+				subsetIndex ++;
 			}
 			graphsSelectEncoded = graphsSelectEncoded.replace("%", "%%");
 			graphsEncoded = graphsEncoded.replace("%", "%%");

@@ -9,7 +9,6 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
-import java.util.Properties;
 import java.text.SimpleDateFormat;
 
 import eu.aliada.ckancreation.model.DumpFileInfo;
@@ -32,10 +31,6 @@ public class DatasetDescFile {
 	/** Description file extension **/
 	static final String FILE_EXTENSION = ".ttl"; 
 	//Properties names
-	/** Name property.*/
-	private final static String NAME_PROP = "linking.name.";
-	/** File name property.*/
-	private final static String FILE_PROP = "linking.file.";
 	private final JobConfiguration jobConf;
 	/** The URL of the dataset in CKAN **/
 	private final String ckanDatasetUrl;
@@ -274,13 +269,29 @@ public class DatasetDescFile {
 	    	///////////////////////
 			for (Iterator<Subset> iterSubsets = jobConf.getSubsets().iterator(); iterSubsets.hasNext();  ) {
 				Subset subset = iterSubsets.next();
-				String uriDocConceptSubset = "";
+				//Compose URI document part + URI Concept part + Subset URI Concept part
+				String uriConceptSubset = "";
 				if(subset.getUriConceptPart() != null) {
-					uriDocConceptSubset = removeLeadingTralingSlashes(subset.getUriConceptPart());
+					uriConceptSubset = removeLeadingTralingSlashes(subset.getUriConceptPart());
+					if(uriConceptSubset.length() > 0) {
+						uriConceptSubset = uriDocConcept + "/" + uriConceptSubset;
+					}
+				} 
+
+				String uriConceptDataset = "";
+				if(subset.getUriConceptPart() != null) {
+					uriConceptSubset = removeLeadingTralingSlashes(subset.getUriConceptPart());
 				} 
 				
-				if(uriDocConceptSubset.length() > 0) {
-					String subsetUri = datasetUri + "/" + jobConf.getUriSetPart() + "/" + uriDocConceptSubset;
+				if(uriConceptSubset.length() > 0) {
+					if(jobConf.getUriConceptPart() != null) {
+						uriConceptDataset = removeLeadingTralingSlashes(jobConf.getUriConceptPart());
+						if(uriConceptDataset.length() > 0) {
+							uriConceptSubset = uriConceptDataset + "/" + uriConceptSubset;
+						}
+					}
+					//Compose URI set part + URI Dataset Concept part + URI Subset Concept part
+					String subsetUri = datasetUri + "/" + jobConf.getUriSetPart() + "/" + uriConceptSubset;
 					//Enumerate subset
 			    	out.write("    void:subset :" + subsetUri + " ;");
 			    	out.newLine();
