@@ -135,10 +135,6 @@ $(function(){
 			<html:property value="licenseURLForm" />
 		</div>
 		<div class="row">
-			<label class="label"><html:text name="virtuosoHttpServerRootForm"/></label>
-			<html:property value="virtuosoHttpServerRootForm" />
-		</div>
-		<div class="row">
 			<label class="label"><html:text name="isqlCommandsFileGlobalForm"/></label>
 			<html:property value="isqlCommandsFileGlobalForm" />
 		</div>
@@ -227,10 +223,6 @@ $(function(){
 		<div class="row label">
 			<html:text name="licenseURLForm"/>
 			<html:textfield key="licenseURLForm" maxLength="128" cssClass="inputForm frigth input" />
-		</div>
-		<div class="row label">
-			<html:text name="virtuosoHttpServerRootForm"/>
-			<html:textfield key="virtuosoHttpServerRootForm" maxLength="128" cssClass="inputForm frigth input" />
 		</div>
 		<div class="row label">
 			<html:text name="isqlCommandsFileGlobalForm"/>
@@ -322,10 +314,6 @@ $(function(){
 		<div class="row label">
 			<html:text name="licenseURLForm"/>
 			<html:textfield key="licenseURLForm" maxLength="128" cssClass="inputForm frigth input" />
-		</div>
-		<div class="row label">
-			<html:text name="virtuosoHttpServerRootForm"/>
-			<html:textfield key="virtuosoHttpServerRootForm" maxLength="128" cssClass="inputForm frigth input" />
 		</div>
 		<div class="row label">
 			<html:text name="isqlCommandsFileGlobalForm"/>
