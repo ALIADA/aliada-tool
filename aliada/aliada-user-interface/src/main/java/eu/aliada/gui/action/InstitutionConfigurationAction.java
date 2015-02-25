@@ -9,23 +9,17 @@ package eu.aliada.gui.action;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.List;
-
-import javax.servlet.http.HttpServletResponse;
 
 import org.apache.struts2.ServletActionContext;
 
 import com.opensymphony.xwork2.ActionSupport;
 
 import eu.aliada.gui.log.MessageCatalog;
-import eu.aliada.gui.model.Organisation;
 import eu.aliada.gui.rdbms.DBConnectionManager;
 import eu.aliada.shared.log.Log;
 
@@ -37,13 +31,16 @@ import eu.aliada.shared.log.Log;
 
 public class InstitutionConfigurationAction extends ActionSupport {
 
-    private List<Organisation> organisations;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
     private String organisationName;
     private File organisationLogo;
     private String organisationCatalogUrl;     
         
     private static final String DEFAULTLOGOPATH = "webapps/aliada-user-interface-1.0/images/aliada.png";
-    private static final int BUFFER_SIZE = 4096;
 
     private final Log logger = new Log(InstitutionConfigurationAction.class);
 
@@ -57,7 +54,8 @@ public class InstitutionConfigurationAction extends ActionSupport {
         try {
             connection = new DBConnectionManager().getConnection();
             Statement statement = connection.createStatement();
-            ResultSet rs = statement.executeQuery("SELECT * FROM organisation o INNER JOIN user u ON o.organisationId = u.organisationId WHERE u.user_name='" + userName + "';");
+            ResultSet rs = statement.executeQuery("SELECT * FROM aliada.organisation o INNER JOIN aliada.user u ON o.organisationId = "
+            		+ "u.organisationId WHERE u.user_name='" + userName + "';");
             if (rs.next() && rs.getString("organisation_name") != null) {
                 setOrganisationName(rs.getString("organisation_name"));
                // readFile(rs);
@@ -86,7 +84,7 @@ public class InstitutionConfigurationAction extends ActionSupport {
 //            ResultSet rs = statement.executeQuery("SELECT * FROM organisation WHERE organisation_name='"+getOrganisation_name()+"'");
 //            if(!rs.next()){
             PreparedStatement preparedStatement = connection
-                    .prepareStatement("UPDATE organisation  SET organisation_logo = ?, organisation_catalog_url =? WHERE organisation_name = ?");
+                    .prepareStatement("UPDATE aliada.organisation  SET organisation_logo = ?, organisation_catalog_url =? WHERE organisation_name = ?");
             if (this.organisationLogo != null) {
                 fis = new FileInputStream(this.organisationLogo);
                 preparedStatement.setBinaryStream(1, fis,
@@ -116,29 +114,6 @@ public class InstitutionConfigurationAction extends ActionSupport {
         } catch (FileNotFoundException e) {
             logger.error(MessageCatalog._00013_FILE_NOT_FOUND_EXCEPTION, e);
             return ERROR;
-        }
-    }
-    
-    /**
-     * Read the organisation logo.
-     * @param rs The ResultSet
-     * @return
-     * @see
-     * @since 1.0
-     */
-    private void readFile(final ResultSet rs) {
-        HttpServletResponse response = ServletActionContext.getResponse();
-        response.reset();
-        response.setContentType("multipart/form-data");
-        try {
-            int len = rs.getString("organisation_logo").length();
-            byte[] buffer = new byte[len];
-            InputStream readImg = rs.getBinaryStream("organisation_logo");
-            int index = readImg.read(buffer, 0, len);
-            response.getOutputStream().write(buffer, 0, len);
-            response.getOutputStream().flush();
-        } catch (SQLException | IOException e) {
-            logger.error(MessageCatalog._00011_SQL_EXCEPTION, e);
         }
     }
 

@@ -109,6 +109,7 @@ public class TasksAction extends ActionSupport{
      */
     public String setRecoverdFile() {
     	String status = "ERROR";
+    	String code = "";
     	
     	HttpSession session = ServletActionContext.getRequest().getSession();
     	//Get file data from database
@@ -131,8 +132,12 @@ public class TasksAction extends ActionSupport{
     				recoveredFile.setTemplate(getTemplateNameFromCode(String.valueOf(rs.getInt("template"))));
     			  }
     			  if (rs.getString("graph") != null) {
-    				recoveredFile.setGraph(getGraphUri(String.valueOf(rs.getInt("graph"))));
+    				code = String.valueOf(rs.getInt("graph"));
     			  }
+    			  
+    			  recoveredFile.setDataset(getDatasetDesc(code));
+  				  recoveredFile.setGraph(getGraphUri(code));
+    			  
     			  status = rs.getString("status");
     			
     			  recoveredFile.setStatus(status);
@@ -381,7 +386,33 @@ public class TasksAction extends ActionSupport{
         }
         return templateName;
     }
-    
+    /**
+     * Gets the dataset desc from a graph code.
+     * @param graphCode The selected graph
+     * @return String 
+     * @see
+     * @since 1.0
+     */
+    public String getDatasetDesc(final String graphCode) {
+        Connection connection = null;
+        String datasetDesc = "";
+        try {
+            connection = new DBConnectionManager().getConnection();
+            Statement statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery("SELECT dataset_desc FROM aliada.subset s "
+            		+ "Inner JOIN aliada.dataset d on s.datasetId=d.datasetId where s.subsetId='" + graphCode + "';");
+            if (rs.next()) {
+                datasetDesc = rs.getString("dataset_desc");
+            }
+            rs.close();
+            statement.close();
+            connection.close();
+        } catch (SQLException e) {
+            logger.error(MessageCatalog._00011_SQL_EXCEPTION, e);
+            return "";
+        }
+        return datasetDesc;
+    }    
     /**
      * Gets the graph uri from a graph code.
      * @param graphCode The selected graph
@@ -395,7 +426,7 @@ public class TasksAction extends ActionSupport{
         try {
             connection = new DBConnectionManager().getConnection();
             Statement statement = connection.createStatement();
-            ResultSet rs = statement.executeQuery("SELECT graph_uri FROM graph WHERE graphId='" + graphCode + "';");
+            ResultSet rs = statement.executeQuery("SELECT graph_uri FROM aliada.subset where subsetId='" + graphCode + "';");
             if (rs.next()) {
                 graphUri = rs.getString("graph_uri");
             }

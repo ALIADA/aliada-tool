@@ -19,6 +19,7 @@ import eu.aliada.shared.log.Log;
 import eu.aliada.linkeddataserversetup.log.MessageCatalog;
 import eu.aliada.linkeddataserversetup.model.Job;
 import eu.aliada.linkeddataserversetup.model.JobConfiguration;
+import eu.aliada.linkeddataserversetup.model.Subset;
 
 /**
  * DDBB connection manager. 
@@ -113,33 +114,63 @@ public class DBConnectionManager {
 	 * @since 1.0
 	 */
 	public JobConfiguration getJobConfiguration(final Integer jobId) {
-		JobConfiguration job = null;
+		JobConfiguration jobConf = null;
+		int datasetId = -1;
 		try {
+			//Get general information 
 			final Statement sta = getConnection().createStatement();
-			final String sql = "SELECT * FROM linkeddataserver_job_instances WHERE job_id=" + jobId;
-			final ResultSet resultSet = sta.executeQuery(sql);
-			job = new JobConfiguration();
+			String sql = "SELECT * FROM linkeddataserver_job_instances WHERE job_id=" + jobId;
+			ResultSet resultSet = sta.executeQuery(sql);
+			jobConf = new JobConfiguration();
 			while (resultSet.next()) {
-				job.setId(jobId);
-				job.setStoreIp(resultSet.getString("store_ip"));
-				job.setStoreSqlPort(resultSet.getInt("store_sql_port"));
-				job.setSqlLogin(resultSet.getString("sql_login"));
-				job.setSqlPassword(resultSet.getString("sql_password"));
-				job.setGraph(resultSet.getString("graph"));
-				job.setDatasetBase(resultSet.getString("dataset_base"));
-				job.setListeningHost(resultSet.getString("listening_host"));
-				job.setVirtualHost(resultSet.getString("virtual_host"));
-				job.setIsqlCommandPath(resultSet.getString("isql_command_path"));
-				job.setIsqlCommandsFilename(resultSet.getString("isql_commands_file"));
-				job.setIsqlCommandsFilenameDefault(resultSet.getString("isql_commands_file_default"));
-		    }
+				jobConf.setId(jobId);
+				jobConf.setStoreIp(resultSet.getString("store_ip"));
+				jobConf.setStoreSqlPort(resultSet.getInt("store_sql_port"));
+				jobConf.setSqlLogin(resultSet.getString("sql_login"));
+				jobConf.setSqlPassword(resultSet.getString("sql_password"));
+				jobConf.setIsqlCommandPath(resultSet.getString("isql_command_path"));
+				jobConf.setVirtHttpServRoot(resultSet.getString("virtuoso_http_server_root"));
+				jobConf.setOntologyUri(resultSet.getString("aliada_ontology"));
+				datasetId = resultSet.getInt("datasetId");
+			}
+			resultSet.close();
+			//Get dataset related information 
+			sql = "SELECT * FROM dataset WHERE datasetId=" + datasetId;
+			resultSet = sta.executeQuery(sql);
+			while (resultSet.next()) {
+				jobConf.setDatasetDesc(resultSet.getString("dataset_desc"));
+				jobConf.setDatasetLongDesc(resultSet.getString("dataset_long_desc"));
+				jobConf.setPublicSparqlEndpointUri(resultSet.getString("public_sparql_endpoint_uri"));
+				jobConf.setDomainName(resultSet.getString("domain_name"));
+				jobConf.setUriIdPart(resultSet.getString("uri_id_part"));
+				jobConf.setUriDocPart(resultSet.getString("uri_doc_part"));
+				jobConf.setUriDefPart(resultSet.getString("uri_def_art"));
+				jobConf.setUriConceptPart(resultSet.getString("uri_concept_part"));
+				jobConf.setListeningHost(resultSet.getString("listening_host"));
+				jobConf.setVirtualHost(resultSet.getString("virtual_host"));
+				jobConf.setIsqlCommandsGlobalFilename(resultSet.getString("isql_commands_file_global"));
+				jobConf.setIsqlCommandsSubsetFilenameDefault(resultSet.getString("isql_commands_file_subset_default"));
+			}
+			resultSet.close();
+			//Get subsets related information 
+			sql = "SELECT * FROM subset WHERE datasetId=" + datasetId;
+			resultSet = sta.executeQuery(sql);
+			while (resultSet.next()) {
+				Subset subset = new Subset();
+				subset.setUriConceptPart(resultSet.getString("uri_concept_part"));
+				subset.setDescription(resultSet.getString("subset_desc"));
+				subset.setIsqlCommandsSubsetFilename(resultSet.getString("isql_commands_file_subset"));
+				subset.setGraph(resultSet.getString("graph_uri"));
+				subset.setLinksGraph(resultSet.getString("links_graph_uri"));
+				jobConf.setSubset(subset);
+			}
 			resultSet.close();
 			sta.close();
 		} catch (SQLException exception) {
 			LOGGER.error(MessageCatalog._00024_DATA_ACCESS_FAILURE, exception);
-			job = null;
+			jobConf = null;
 		}
-		return job;
+		return jobConf;
 	}
 	
 	/**

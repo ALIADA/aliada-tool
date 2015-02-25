@@ -28,6 +28,7 @@ public interface MessageCatalog {
 	String _00030_STARTING = LT + MODULE_NAME + "-00030> : LinkedDataServer programming is starting.";	
 	String _00031_FILE_NOT_FOUND = LT + MODULE_NAME + "-00031> : File %s not found.";
 	String _00033_EXTERNAL_PROCESS_START_FAILURE = LT + MODULE_NAME + "-00033> : Could not launch the external process %s.";		
+	String _00034_FILE_CREATION_FAILURE = LT + MODULE_NAME + "-00034> : Could not create file %s.";
 	String _00036_GET_ISQL_COMMANDS_FILE = LT + MODULE_NAME + "-00036> : Getting ISQL commands file.";
 	String _00037_ENCODE_PARAMS = LT + MODULE_NAME + "-00037> : Encode params for ISQL commands.";
 	String _00038_ENCODING_ERROR = LT + MODULE_NAME + "-00038> : Encoding error. See below for further details..";

@@ -148,29 +148,31 @@ public class DBConnectionManager {
 	/**
 	 * Gets the subjob configuration from the DB.
 	 *
+	 * @param jobId	the job identification.
 	 * @return	a list of {@link eu.aliada.linksdiscovery.model.SubjobConfiguration}
 	 *			which contain the configuration of each subjob.
 	 * @since 1.0
 	 */
-	public SubjobConfiguration[] getSubjobConfigurations() {
+	public SubjobConfiguration[] getSubjobConfigurations(final Integer jobId) {
 		final Vector<SubjobConfiguration> subJobsConfs = new Vector<SubjobConfiguration>();
 		try {
 			final Statement sta = getConnection().createStatement();
-			final String sql = "SELECT * FROM t_external_dataset";
+			final String sql = "SELECT * FROM linksdiscovery_subjob_instances WHERE job_id=" + jobId;
 			final ResultSet resultSet = sta.executeQuery(sql);
 			while (resultSet.next()) {
 				final SubjobConfiguration subjobConf = new SubjobConfiguration();
-				subjobConf.setName("ALIADA_" + resultSet.getString("external_dataset_name"));
-				subjobConf.setLinkingXMLConfigFilename(resultSet.getString("external_dataset_linkingfile"));
+				subjobConf.setId(resultSet.getInt("subjob_id"));
+				subjobConf.setName(resultSet.getString("name"));
+				subjobConf.setLinkingXMLConfigFilename(resultSet.getString("config_file"));
 				subjobConf.setDs("ALIADA_ds");
-				subjobConf.setLinkingNumThreads(resultSet.getInt("external_dataset_linkingnumthreads"));
-				final int reloadSource = resultSet.getInt("external_dataset_linkingreloadsource");
+				subjobConf.setLinkingNumThreads(resultSet.getInt("num_threads"));
+				final int reloadSource = resultSet.getInt("reload_source");
 				if(reloadSource == 1) {
 					subjobConf.setLinkingReloadSource(true);
 				} else {
 					subjobConf.setLinkingReloadSource(false);
 				}
-				final int reloadTarget = resultSet.getInt("external_dataset_linkingreloadtarget");
+				final int reloadTarget = resultSet.getInt("reload_target");
 				if(reloadTarget == 1) {
 					subjobConf.setLinkingReloadTarget(true);
 				} else {
@@ -199,7 +201,7 @@ public class DBConnectionManager {
     	try {
     		PreparedStatement preparedStatement = null;		
     		preparedStatement = getConnection().prepareStatement("UPDATE linksdiscovery_job_instances SET start_date = ? WHERE job_id = ?");
-    		// (job_id, start_date)
+    		// (start_date, job_id)
     		// parameters start with 1
     		final java.util.Date today = new java.util.Date();
     		final java.sql.Timestamp todaySQL = new java.sql.Timestamp(today.getTime());
@@ -225,12 +227,42 @@ public class DBConnectionManager {
     	try {
     		PreparedStatement preparedStatement = null;		
     		preparedStatement = getConnection().prepareStatement("UPDATE linksdiscovery_job_instances SET end_date = ? WHERE job_id = ?");
-    		// (job_id, end_date)
+    		// (end_date, job_id)
     		// parameters start with 1
     		final java.util.Date today = new java.util.Date();
     		final java.sql.Timestamp todaySQL = new java.sql.Timestamp(today.getTime());
     		preparedStatement.setTimestamp(1, todaySQL);
     		preparedStatement.setInt(2, jobId);
+    		preparedStatement.executeUpdate();
+		} catch (SQLException exception) {
+			LOGGER.error(MessageCatalog._00024_DATA_ACCESS_FAILURE, exception);
+			return false;
+		}
+    	return true;
+	}
+
+	/**
+	 * Updates the XML configuration file of the SILK process, for the specified subjob.
+	 *
+	 * @param jobId	the job identification.
+	 * @param subjobId					the subjob identification.
+	 * @param linkingXMLConfigFilename	Name of the XML configuration file for 
+	 * 									the SILK process.
+	 * @return true if the file has been updated correctly in the DB. False otherwise.
+	 * @since 2.0
+	 */
+	public boolean updateSubjobConfigFile(final int jobId, final int subjobId, final String linkingXMLConfigFilename){
+		//Update config_file of job
+    	try {
+    		PreparedStatement preparedStatement = null;		
+    		preparedStatement = getConnection().prepareStatement("UPDATE linksdiscovery_subjob_instances SET config_file = ? WHERE job_id = ? AND subjob_id= ?");
+    		// (config_file, job_id, subjob_id)
+    		// parameters start with 1
+    		final java.util.Date today = new java.util.Date();
+    		final java.sql.Timestamp todaySQL = new java.sql.Timestamp(today.getTime());
+    		preparedStatement.setString(1, linkingXMLConfigFilename);
+    		preparedStatement.setInt(2, jobId);
+    		preparedStatement.setInt(3, subjobId);
     		preparedStatement.executeUpdate();
 		} catch (SQLException exception) {
 			LOGGER.error(MessageCatalog._00024_DATA_ACCESS_FAILURE, exception);

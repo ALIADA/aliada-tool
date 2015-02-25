@@ -71,6 +71,18 @@
 		<put-attribute name="body" value="/content/tasks.jsp" />		
 	</definition>
 	
+	<definition name="/datasets.tiles" extends="userLayout">
+		<put-attribute name="body" value="/content/datasets.jsp" />		
+	</definition>
+	
+	<definition name="/externalDatasets.tiles" extends="userLayout">
+		<put-attribute name="body" value="/content/externalDatasets.jsp" />		
+	</definition>
+	
+	<definition name="/subsets.tiles" extends="userLayout">
+		<put-attribute name="body" value="/content/subsets.jsp" />		
+	</definition>
+	
 	<definition name="/linking.tiles" extends="baseLayout">
 		<put-attribute name="body" value="/content/linking.jsp" />
 	</definition>

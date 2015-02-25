@@ -33,7 +33,12 @@ import eu.aliada.shared.log.Log;
  * @since 1.0
  */
 public class UsersAction extends ActionSupport{
-    private List<User> users;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
+	private List<User> users;
     private HashMap<Integer, String> roles;
     private HashMap<Integer, String> organisations;
     private HashMap<Integer, String> types;    
@@ -197,14 +202,14 @@ public class UsersAction extends ActionSupport{
         try {
             connection = new DBConnectionManager().getConnection();
             Statement statement = connection.createStatement();
-            ResultSet rs = statement.executeQuery("SELECT * FROM user WHERE user_name='" + getUsernameForm() + "'");
+            ResultSet rs = statement.executeQuery("SELECT * FROM aliada.user WHERE user_name='" + getUsernameForm() + "'");
             if (!rs.next()) {
                 rs.close();
                 statement.close();
                 statement = connection.createStatement();
                 StrongPasswordEncryptor passwordEncryptor = new StrongPasswordEncryptor();
                 String encryptedPassword = passwordEncryptor.encryptPassword(this.passwordForm);
-                statement.executeUpdate("INSERT INTO user VALUES ('" + this.usernameForm + "', '"
+                statement.executeUpdate("INSERT INTO aliada.user VALUES ('" + this.usernameForm + "', '"
                   + encryptedPassword + "', '" + this.emailForm + "', '" + this.typeForm + "', '" + this.roleForm + "', '" + this.organisationForm + "')");
                 addActionMessage(getText("user.save.ok"));
                 connection.close(); 
@@ -236,7 +241,7 @@ public class UsersAction extends ActionSupport{
         	Statement statement = connection.createStatement();
             StrongPasswordEncryptor passwordEncryptor = new StrongPasswordEncryptor();
             String encryptedPassword = passwordEncryptor.encryptPassword(this.passwordForm);
-            statement.executeUpdate("UPDATE user set user_password='" + encryptedPassword + "',user_email='" + this.emailForm + "',user_role_code='" 
+            statement.executeUpdate("UPDATE aliada.user set user_password='" + encryptedPassword + "',user_email='" + this.emailForm + "',user_role_code='" 
             + this.roleForm + "',user_type_code='" + this.typeForm + "',organisationId='" + this.organisationForm + "' where user_name='" + this.usernameForm + "'");
             clearErrorsAndMessages();
             addActionMessage(getText("user.edit.ok"));

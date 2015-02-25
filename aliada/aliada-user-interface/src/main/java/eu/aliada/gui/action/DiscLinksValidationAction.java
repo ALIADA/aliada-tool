@@ -29,6 +29,11 @@ import eu.aliada.shared.rdfstore.RDFStoreDAO;
 
 public class DiscLinksValidationAction extends ActionSupport{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	private List<Triples> discovLinks;
 	private List<String> val;
 
@@ -86,7 +91,7 @@ public class DiscLinksValidationAction extends ActionSupport{
 	            connection = new DBConnectionManager().getConnection();
 	            Statement statement = connection.createStatement();
 	            ResultSet rs = statement
-	                    .executeQuery("SELECT * FROM linksdiscovery_job_instances ORDER BY job_id DESC LIMIT 1");
+	                    .executeQuery("SELECT * FROM aliada.linksdiscovery_job_instances ORDER BY job_id DESC LIMIT 1");
 	            if (rs.next()) {
 	            	this.sparqlEndpointURI = rs.getString("output_uri");
 	                this.graphName = rs.getString("output_graph");

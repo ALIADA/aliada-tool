@@ -37,5 +37,5 @@ public interface MessageCatalog {
 	String _00039_INSERT_LINKING_CRONTAB_FILE = LT + MODULE_NAME + "-00039> : Inserting linking process %d in crontab file.";
 	String _00040_EXECUTING_CRONTAB = LT + MODULE_NAME + "-00040> : Executing crontab command.";	
 	String _00041_STOPPED = LT + MODULE_NAME + "-00041> : LinksDiscovery programming has finished.";	
-	String _00042_INSERT_SUBJOB_DDBB = LT + MODULE_NAME + "-00042> : Inserting job %d - subjob %d into the DDBB.";
+	String _00042_UPDATE_SUBJOB_DDBB = LT + MODULE_NAME + "-00042> : Updating job %d - subjob %d in DDBB.";
 }

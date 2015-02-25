@@ -25,10 +25,15 @@ import eu.aliada.shared.log.Log;
  * @since 1.0
  */
 public class RDFValidationAction extends ActionSupport {
-    private String sparqlEndpoint;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
+	private String sparqlEndpoint;
     private String graphUri;
 
-    private final Log logger = new Log(InstitutionConfigurationAction.class);
+    private final Log logger = new Log(RDFValidationAction.class);
     /**
      * File validation process.
      * @return String
@@ -43,8 +48,8 @@ public class RDFValidationAction extends ActionSupport {
             Statement statement;
             try {
                 statement = connection.createStatement();
-                ResultSet rs = statement.executeQuery("SELECT public_sparql_endpoint_uri, graph_uri FROM organisation o "
-                		+ "INNER JOIN graph g ON o.organisationId=g.organisationId WHERE graph_uri='" + importedFile.getGraph() + "'");
+                ResultSet rs = statement.executeQuery("SELECT public_sparql_endpoint_uri, graph_uri FROM aliada.organisation o INNER JOIN aliada.dataset d "
+                		+ "ON o.organisationId=d.organisationId INNER JOIN aliada.subset s ON d.datasetId=s.datasetId WHERE graph_uri='" + importedFile.getGraph() + "'");
                 if (rs.next()) {
                     setSparqlEndpoint(rs.getString("public_sparql_endpoint_uri"));
                     setGraphUri(rs.getString("graph_uri"));

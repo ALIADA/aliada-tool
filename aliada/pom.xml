@@ -18,9 +18,9 @@
 	<url>http://aliada-project.eu</url>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<maven.compiler.source>1.7</maven.compiler.source>
-		<maven.compiler.target>1.7</maven.compiler.target>
-		<java.version>1.7</java.version>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
+		<java.version>1.8</java.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<slf4j.version>1.7.5</slf4j.version>
@@ -60,7 +60,7 @@
 					<contextReloadable>true</contextReloadable>
 					<contextFile>tomcat/context.xml</contextFile>
 					<systemProperties>
-						<log4j.configuration>file://${project.build.directory}/tomcat/conf/log4j.xml</log4j.configuration>
+						<log4j.configuration>file:///${project.build.directory}/tomcat/conf/log4j.xml</log4j.configuration>
 					</systemProperties>
 				</configuration>
 				<dependencies>

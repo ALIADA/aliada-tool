@@ -142,7 +142,7 @@ public class ManagingAction extends ActionSupport {
 						} else if (CheckImportError.getCount() == 0) {
 							statement = connection.createStatement();
 							rs = statement
-									.executeQuery("select organisation_path FROM organisation");
+									.executeQuery("select organisation_path FROM aliada.organisation");
 							rs.next();
 							String filePath = rs.getString(1);
 							rs.close();

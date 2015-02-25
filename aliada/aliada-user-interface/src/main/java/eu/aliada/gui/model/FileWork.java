@@ -18,6 +18,7 @@ public class FileWork {
     private String filename;
     private String profile;
     private String template;
+    private String dataset;
     private String graph;
     private String status;
     private int jobId;
@@ -105,6 +106,22 @@ public class FileWork {
         this.template = template;
     }
     /**
+     * @return Returns the dataset.
+     * @exception
+     * @since 1.0
+     */
+    public String getDataset() {
+		return dataset;
+	}
+    /**
+     * @param dataset The dataset to set.
+     * @exception
+     * @since 1.0
+     */
+	public void setDataset(final String dataset) {
+		this.dataset = dataset;
+	}
+	/**
      * @return Returns the graph.
      * @exception
      * @since 1.0

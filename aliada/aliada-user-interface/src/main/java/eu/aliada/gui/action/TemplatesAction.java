@@ -29,7 +29,12 @@ import eu.aliada.shared.log.Log;
  * @since 1.0
  */
 public class TemplatesAction extends ActionSupport {
-    private static final int NOTEMPLATESELECTED = -1;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
+	private static final int NOTEMPLATESELECTED = -1;
     private HashMap<Integer, String> templates;
     private HashMap<String, Boolean> tags;
     private HashMap<Integer, String> types;
@@ -173,11 +178,10 @@ public class TemplatesAction extends ActionSupport {
      */
     public String addTemplate() {
         Connection connection = null;
-        int id;
         try {
             connection = new DBConnectionManager().getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(
-                    "INSERT INTO template VALUES (default,'" + this.templateName
+                    "INSERT INTO aliada.template VALUES (default,'" + this.templateName
                             + "', '" + this.templateDescription + "', '" + this.fileType + "')",
                     PreparedStatement.RETURN_GENERATED_KEYS);
             preparedStatement.executeUpdate();
@@ -192,7 +196,7 @@ public class TemplatesAction extends ActionSupport {
             while (iterator.hasNext()) {
                 statement = connection.createStatement();
                 statement
-                        .executeUpdate("INSERT INTO template_xml_tag VALUES ('"
+                        .executeUpdate("INSERT INTO aliada.template_xml_tag VALUES ('"
                                 + idTemplate + "', '" + iterator.next() + "')");
                 statement.close();
             }
@@ -221,7 +225,7 @@ public class TemplatesAction extends ActionSupport {
             connection = new DBConnectionManager().getConnection();
             Statement statement = connection.createStatement();
             statement
-                    .executeUpdate("DELETE tags.* FROM template_xml_tag tags INNER JOIN template temp ON tags.template_id=temp.template_id  WHERE temp.template_name='"
+                    .executeUpdate("DELETE tags.* FROM aliada.template_xml_tag tags INNER JOIN template temp ON tags.template_id=temp.template_id  WHERE temp.template_name='"
                             + getSelectedTemplate() + "'");
             statement.close();
             statement = connection.createStatement();
@@ -303,7 +307,7 @@ public class TemplatesAction extends ActionSupport {
             connection = new DBConnectionManager().getConnection();
             Statement statement = connection.createStatement();
             statement
-                    .executeUpdate("UPDATE template set template_description='"
+                    .executeUpdate("UPDATE aliada.template set template_description='"
                             + this.templateDescription + "', file_type_code="
                             + this.fileType + " where template_id="
                             + idTemplate + "");
@@ -317,7 +321,7 @@ public class TemplatesAction extends ActionSupport {
             while (iterator.hasNext()) {
                 statement = connection.createStatement();
                 statement
-                        .executeUpdate("INSERT IGNORE INTO template_xml_tag VALUES ('"
+                        .executeUpdate("INSERT IGNORE INTO aliada.template_xml_tag VALUES ('"
                                 + idTemplate + "', '" + iterator.next() + "')");
                 statement.close();
             }

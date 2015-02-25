@@ -24,6 +24,8 @@ $(function(){
 		$("#cleanGraphPanel").hide();
 		$("#templateSelect").hide();
 		$("#templateProperty").show();
+		$("#datasetSelect").hide();
+		$("#datasetProperty").show();
 		$("#graphSelect").hide();
 		$("#graphProperty").show();
 	} 
@@ -78,6 +80,12 @@ $(function(){
 	      }
    		});   
 	};
+	$("#datasetSelect").on("change", function(){
+		var d = $("#datasetSelect").val();
+		console.log(d);
+		$("#graphSelect").show();
+	});
+	
 	$("#checkRDFButton").on("click",function(){
 		$("#rdfizePanel").hide();		
 		$("#checkInfo").show("fast");
@@ -125,8 +133,8 @@ $(function(){
 				<tr class="backgroundGreen center">
 					<th><label class="bold"><html:text name="conversion.input"/></label></th>
 					<th><label class="bold"><html:text name="conversion.template"/></label></th>
+					<th><label class="bold"><html:text name="conversion.dataset"/></label></th>
 					<th><label class="bold"><html:text name="conversion.graph"/></label></th>
-					<th><label class="bold"><html:text name="Subset"/></label></th>
 				</tr>
 				<tr>
 					<td>
@@ -136,6 +144,11 @@ $(function(){
 						<html:select id="templateSelect" name="selectedTemplate"
 							cssClass="inputForm" list="templates" />
 						<span id="templateProperty" class="displayNo"><html:property  value="importedFile.getTemplate()" /></span>					
+					</td>
+					<td>
+						<html:select id="datasetSelect" name="selectedDataset"
+							cssClass="inputForm" list="datasets" />					
+						<span id="datasetProperty" class="displayNo"><html:property  value="importedFile.getDataset()" /></span>					
 					</td>
 					<td>
 						<html:select id="graphSelect" name="selectedGraph"
@@ -154,13 +167,12 @@ $(function(){
 			</div>
 			<div id="cleanGraphPanel">
 				<label class="row label"><html:text name="conversion.cleanSelect"/></label>
-				
-				<%-- <html:submit action="cleanGraph" cssClass="submitButton button"
-					key="conversion.clean" /> --%>
 			<div class="row">
 				<html:select id="graphToClean" cssClass="inputForm" list="graphs" />
 			</div>
 			<div class="row">
+				<%-- <html:submit action="cleanGraph" cssClass="submitButton button"
+					key="conversion.clean" /> --%>
 				<html:submit onclick="return confirmBox();" cssClass="submitButton button"
 					key="conversion.clean" />
 			</div>

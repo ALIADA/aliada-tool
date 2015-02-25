@@ -36,12 +36,18 @@ import eu.aliada.shared.rdfstore.RDFStoreDAO;
  * @since 1.0
  */
 public class ConversionAction extends ActionSupport {
-    private FileWork importedFile;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private FileWork importedFile;
     private HashMap<Integer, String> templates;
+    private HashMap<Integer, String> datasets;
     private HashMap<Integer, String> graphs;
     private String selectedTemplate;
     private int showCheckButton;
     private int showRdfizerButton;
+    private String selectedDataset;
     private String selectedGraph;
     
     private final Log logger = new Log(ConversionAction.class);
@@ -66,8 +72,8 @@ public class ConversionAction extends ActionSupport {
             setShowCheckButton(0);
             setShowRdfizerButton(1); 
         }
+        getDatasetsDb();
         getGraphsDb();
-//        session.setAttribute("rdfizerStatus", null);
         return getTemplatesDb();
     }
     /**
@@ -81,16 +87,46 @@ public class ConversionAction extends ActionSupport {
         if (session.getAttribute("importedFile") != null) {
             setImportedFile((FileWork) session.getAttribute("importedFile"));
             importedFile.setTemplate(getTemplateNameFromCode(getSelectedTemplate()));
+            importedFile.setDataset(getDatasetDesc(getSelectedDataset()));
             importedFile.setGraph(getGraphUri(getSelectedGraph()));
             String format = null;
+            String namespace = "http://";
             try {
                 format = getFormat(importedFile.getProfile());
                 Connection connection = null;
                 connection = new DBConnectionManager().getConnection();
                 Statement statement = connection.createStatement();
-                ResultSet rs = statement
-                        .executeQuery("select aliada_ontology,sparql_endpoint_uri,sparql_endpoint_login,sparql_endpoint_password,graph_uri,dataset_base from organisation "
-                        		+ "o INNER JOIN graph g ON o.organisationId=g.organisationId WHERE g.graph_uri='" + importedFile.getGraph() + "'");
+                ResultSet rs = statement.executeQuery("SELECT d.domain_name, d.uri_id_part, d.uri_concept_part, s.uri_concept_part "
+                		+ "FROM aliada.dataset d INNER JOIN aliada.subset s ON d.datasetId=s.datasetId WHERE s.graph_uri='" + importedFile.getGraph() + "';");
+                if (rs.next()) {
+                	// The field namespace
+                	String domain_name = rs.getNString(1);
+                	String uri_id_part = rs.getNString(2);
+                	String d_uri_concept_part = rs.getNString(3);
+                	String s_uri_concept_part = rs.getNString(4);
+      
+                	if (!domain_name.isEmpty()) {
+                	namespace = namespace.concat(domain_name + "/");
+                	}
+                	if (!uri_id_part.isEmpty()) {
+                	namespace = namespace.concat(uri_id_part + "/");
+                	}
+                	if (!d_uri_concept_part.isEmpty()) {
+                	namespace = namespace.concat(d_uri_concept_part + "/");
+                	}
+                	if (!s_uri_concept_part.isEmpty()) {
+                	namespace = namespace.concat(s_uri_concept_part);
+                	}
+
+                }
+                rs.close();
+                statement.close();
+                
+                statement = connection.createStatement();
+                rs = statement
+                        .executeQuery("select aliada_ontology,sparql_endpoint_uri,sparql_endpoint_login,sparql_endpoint_password,graph_uri"
+                        		+ " from aliada.organisation o INNER JOIN aliada.dataset d ON o.organisationId=d.organisationId "
+                        		+ "INNER JOIN aliada.subset s ON d.datasetId=s.datasetId WHERE s.graph_uri='" + importedFile.getGraph() + "'");
                 if (rs.next()) {
                     PreparedStatement preparedStatement = connection
                             .prepareStatement(
@@ -99,7 +135,7 @@ public class ConversionAction extends ActionSupport {
                                     PreparedStatement.RETURN_GENERATED_KEYS);
                     preparedStatement.setString(1, importedFile.getFile().getAbsolutePath());
                     preparedStatement.setString(2, format);
-                    preparedStatement.setString(3, rs.getString("dataset_base"));
+                    preparedStatement.setString(3, namespace);
                     preparedStatement.setString(4, rs.getString("graph_uri"));
                     preparedStatement.setString(5, rs.getString("aliada_ontology"));
                     preparedStatement.setString(6, rs.getString("sparql_endpoint_uri"));
@@ -118,14 +154,16 @@ public class ConversionAction extends ActionSupport {
                         session.setAttribute("rdfizerStatus", "running");
 					
                         //If it's properly created  => change STATUS RUNNINGRDFIZER
+ 
                         Statement updateStatement = connection.createStatement();
-                        updateStatement.executeUpdate("UPDATE aliada.user_session set status='runningRdfizer', job_id=" + addedId 
-                        		+ ", template=" + getSelectedTemplate() + ", graph=" + getSelectedGraph() + " where file_name='" + importedFile.getFilename() + "'");
+                        updateStatement.executeUpdate("UPDATE aliada.user_session set status='runningRdfizer', job_id=" + addedId + ", "
+                        		+ "template=" + getSelectedTemplate() + ", graph=" + getSelectedGraph() + " where file_name='" + importedFile.getFilename() + "'");
                         updateStatement.close();
 						
                     } catch (IOException e) {
                         logger.error(MessageCatalog._00012_IO_EXCEPTION, e);
                         getTemplatesDb();
+                        getDatasetsDb();
                         getGraphsDb();
                         rs2.close();
                         preparedStatement.close();
@@ -139,19 +177,23 @@ public class ConversionAction extends ActionSupport {
                     connection.close();
                     session.setAttribute("rdfizerJobId", addedId);
                     setShowCheckButton(1);
+                    getDatasetsDb();
                     getGraphsDb();
                     return getTemplatesDb();                
                 }
             } catch (SQLException e) {
                 logger.error(MessageCatalog._00011_SQL_EXCEPTION, e);
+                getDatasetsDb();
                 getGraphsDb();
                 getTemplatesDb();
                 return ERROR;
             }
+            getDatasetsDb();
             getGraphsDb();
             return getTemplatesDb();
         } else {
             logger.error(MessageCatalog._00033_CONVERSION_ERROR_NO_FILE_IMPORTED);
+            getDatasetsDb();
             getGraphsDb();
             getTemplatesDb();
             return ERROR;
@@ -168,15 +210,28 @@ public class ConversionAction extends ActionSupport {
         connection = new DBConnectionManager().getConnection();
         Statement statement;
         String graphToCleanId = ServletActionContext.getRequest().getParameter("graphToCleanId");
+        String seu, sel, sep , graphUri , linksGraphUri = "";
         try {
             statement = connection.createStatement();
             ResultSet rs = statement
-                    .executeQuery("select sparql_endpoint_uri,sparql_endpoint_login,sparql_endpoint_password,graph_uri from organisation "
-                    		+ "o INNER JOIN graph g ON o.organisationId=g.organisationId WHERE g.graphId='" + graphToCleanId + "'");
+                    .executeQuery("select sparql_endpoint_uri,sparql_endpoint_login,sparql_endpoint_password,graph_uri, links_graph_uri "
+                    		+ "from aliada.dataset d INNER JOIN aliada.subset s ON d.datasetId=s.datasetId WHERE s.subsetId='" + graphToCleanId + "'");
             if (rs.next()) {
+            	seu = rs.getString("sparql_endpoint_uri");
+            	sel = rs.getString("sparql_endpoint_login");
+            	sep = rs.getString("sparql_endpoint_password");
+            	graphUri = rs.getString("graph_uri");
+            	linksGraphUri = rs.getString("links_graph_uri");
                 RDFStoreDAO store = new RDFStoreDAO();
-                if (!store.clearGraphBySparql(rs.getString("sparql_endpoint_uri"), rs.getString("sparql_endpoint_login"),
-                		rs.getString("sparql_endpoint_password"), rs.getString("graph_uri"))) {
+                if (!store.clearGraphBySparql(seu, sel, sep, graphUri)) {
+                    logger.error(MessageCatalog._00032_CONVERSION_ERROR_CLEARING_GRAPH);
+                    rs.close();
+                    statement.close();
+                    connection.close();
+                    execute();
+                    return ERROR;
+                }
+                if (!store.clearGraphBySparql(seu, sel, sep, linksGraphUri)) {
                     logger.error(MessageCatalog._00032_CONVERSION_ERROR_CLEARING_GRAPH);
                     rs.close();
                     statement.close();
@@ -240,7 +295,7 @@ public class ConversionAction extends ActionSupport {
         connection = new DBConnectionManager().getConnection();
         Statement statement = connection.createStatement();
         ResultSet rs = statement
-                .executeQuery("select metadata_name from t_metadata_scheme JOIN profile ON t_metadata_scheme.metadata_code=profile.metadata_scheme_code "
+                .executeQuery("select metadata_name from aliada.t_metadata_scheme JOIN aliada.profile ON t_metadata_scheme.metadata_code=profile.metadata_scheme_code "
                 		+ "WHERE profile.profile_name= '" + profile + "'");
         if (rs.next()) {
             format = rs.getString(1);
@@ -265,6 +320,7 @@ public class ConversionAction extends ActionSupport {
         conn.setRequestMethod("PUT");
         if (conn.getResponseCode() != HttpURLConnection.HTTP_NO_CONTENT) {
             setShowRdfizerButton(1);
+            getDatasetsDb();
             getGraphsDb();
             getTemplatesDb();  
             throw new ConnectException("Failed : HTTP error code : "
@@ -289,6 +345,7 @@ public class ConversionAction extends ActionSupport {
         conn.setRequestMethod("PUT");
         if (conn.getResponseCode() != HttpURLConnection.HTTP_CREATED) {
             setShowRdfizerButton(1);
+            getDatasetsDb();
             getGraphsDb();
             getTemplatesDb();  
             throw new ConnectException("Failed : HTTP error code : "
@@ -334,6 +391,34 @@ public class ConversionAction extends ActionSupport {
         return SUCCESS;
     }
     /**
+     * Gets the available datasets from the DB.
+     * @return String
+     * @see
+     * @since 1.0
+     */
+    public String getDatasetsDb() {
+        String username = (String) ServletActionContext.getRequest().getSession().getAttribute("logedUser");
+        Connection connection = null;
+        try {
+            connection = new DBConnectionManager().getConnection();
+            Statement statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery("SELECT datasetId, dataset_desc FROM aliada.organisation o INNER JOIN aliada.dataset d ON o.organisationId"
+            		+ "=d.organisationId INNER JOIN aliada.user u ON o.organisationId=u.organisationId where u.user_name='" + username + "';");
+            datasets = new HashMap<Integer, String>();
+            while (rs.next()) {
+                datasets.put(rs.getInt("datasetId"),
+                        rs.getString("dataset_desc"));
+            }
+            rs.close();
+            statement.close();
+            connection.close();
+        } catch (SQLException e) {
+            logger.error(MessageCatalog._00011_SQL_EXCEPTION, e);
+            return ERROR;
+        }
+        return SUCCESS;
+    }
+    /**
      * Gets the available graphs from the DB.
      * @return String
      * @see
@@ -345,11 +430,19 @@ public class ConversionAction extends ActionSupport {
         try {
             connection = new DBConnectionManager().getConnection();
             Statement statement = connection.createStatement();
-            ResultSet rs = statement.executeQuery("SELECT graphId, graph_uri FROM graph g INNER JOIN user u ON g.organisationId = u.organisationId "
-            		+ "WHERE u.user_name='" + username + "';");
+            
+//            if (getSelectedDataset() == null) {
+//            	setSelectedDataset("1");
+//            }
+//            ResultSet rs = statement.executeQuery("SELECT subsetId, graph_uri FROM aliada.dataset d INNER JOIN aliada.subset s "
+//            		+ "ON d.datasetId=s.datasetId where d.datasetId ='" + getSelectedDataset() + "';");
+            
+            ResultSet rs = statement.executeQuery("SELECT subsetId, graph_uri FROM aliada.organisation o INNER JOIN aliada.dataset d "
+            		+ "ON o.organisationId=d.organisationId INNER JOIN aliada.subset s ON d.datasetId=s.datasetId INNER JOIN aliada.user "
+            		+ "u ON u.organisationId=d.organisationId where u.user_name='" + username + "';");
             graphs = new HashMap<Integer, String>();
             while (rs.next()) {
-                graphs.put(rs.getInt("graphId"),
+                graphs.put(rs.getInt("subsetId"),
                         rs.getString("graph_uri"));
             }
             rs.close();
@@ -361,7 +454,32 @@ public class ConversionAction extends ActionSupport {
         }
         return SUCCESS;
     }
-    
+    /**
+     * Gets the dataset_desc from a dataset code.
+     * @param datasetCode The dataset code
+     * @return String
+     * @see
+     * @since 1.0
+     */
+    public String getDatasetDesc(final String datasetCode) {
+        Connection connection = null;
+        String datasetDesc = "";
+        try {
+            connection = new DBConnectionManager().getConnection();
+            Statement statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery("SELECT dataset_desc FROM aliada.dataset WHERE datasetId='" + datasetCode + "';");
+            if (rs.next()) {
+            	datasetDesc = rs.getString("dataset_desc");
+            }
+            rs.close();
+            statement.close();
+            connection.close();
+        } catch (SQLException e) {
+            logger.error(MessageCatalog._00011_SQL_EXCEPTION, e);
+            return "";
+        }
+        return datasetDesc;
+    }
     /**
      * Gets the graph uri from a graph code.
      * @param graphCode The graph code
@@ -375,7 +493,7 @@ public class ConversionAction extends ActionSupport {
         try {
             connection = new DBConnectionManager().getConnection();
             Statement statement = connection.createStatement();
-            ResultSet rs = statement.executeQuery("SELECT graph_uri FROM graph WHERE graphId='" + graphCode + "';");
+            ResultSet rs = statement.executeQuery("SELECT graph_uri FROM aliada.subset WHERE subsetId='" + graphCode + "';");
             if (rs.next()) {
                 graphUri = rs.getString("graph_uri");
             }
@@ -482,6 +600,22 @@ public class ConversionAction extends ActionSupport {
         this.showRdfizerButton = showRdfizerButton;
     }
     /**
+     * @return Returns the datasets.
+     * @exception
+     * @since 1.0
+     */
+    public HashMap<Integer, String> getDatasets() {
+		return datasets;
+	}
+    /**
+     * @param datasets The datasets to set.
+     * @exception
+     * @since 1.0
+     */
+	public void setDatasets(final HashMap<Integer, String> datasets) {
+		this.datasets = datasets;
+	}
+	/**
      * @return Returns the graphs.
      * @exception
      * @since 1.0
@@ -498,6 +632,22 @@ public class ConversionAction extends ActionSupport {
         this.graphs = graphs;
     }
     /**
+     * @return Returns the selectedDataset.
+     * @exception
+     * @since 1.0
+     */
+    public String getSelectedDataset() {
+		return selectedDataset;
+	}
+    /**
+     * @param selectedDataset The selectedDataset to set.
+     * @exception
+     * @since 1.0
+     */
+	public void setSelectedDataset(final String selectedDataset) {
+		this.selectedDataset = selectedDataset;
+	}
+	/**
      * @return Returns the selectedGraph.
      * @exception
      * @since 1.0

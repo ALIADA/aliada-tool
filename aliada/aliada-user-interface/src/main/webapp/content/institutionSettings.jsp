@@ -54,8 +54,10 @@ function confirmBox(){
 			key="templates" />
 		<html:submit action="showUsers" property="usersButton"
 			cssClass="submitButton button" key="users" />
-		<%-- <html:submit action="manage" cssClass="fright submitButton button"
-			key="next" /> --%>
+		<html:submit action="showDatasets" cssClass="submitButton button"
+			key="datasets" />
+		<html:submit action="showExternalDatasets" cssClass="submitButton button"
+			key="datasetsReload" />
 		<html:submit action="manage" cssClass="submitButton button fright"
 			key="back" />
 	</div>

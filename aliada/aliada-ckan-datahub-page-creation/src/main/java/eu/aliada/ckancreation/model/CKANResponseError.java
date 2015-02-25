@@ -25,12 +25,36 @@ public class CKANResponseError {
 	/** Contains the error message. */
 	private String[] name;
 
+	/**
+	 * Returns the message that indicates the exception, if an error occurred.
+	 * 
+	 * @return The message that indicates the exception, if an error occurred.
+	 * @since 2.0
+	 */
 	public String getMessage() { return message; }
+	/**
+	 * Sets the message that indicates the exception, if an error occurred.
+	 * 
+	 * @param message The message that indicates the exception, if an error occurred.
+	 * @since 2.0
+	 */
 	public void setMessage(String message) { this.message = message; }
 
+	/**
+	 * Returns the message that indicates the exception, if an error occurred.
+	 * 
+	 * @return The message that indicates the exception, if an error occurred.
+	 * @since 2.0
+	 */
 	public String[] getName() {
 		return this.name;
 	}
+	/**
+	 * Sets the message that indicates the exception, if an error occurred.
+	 * 
+	 * @param name The message that indicates the exception, if an error occurred.
+	 * @since 2.0
+	 */
 	public void setName(String[] name) {
 		this.name = name;
 	}

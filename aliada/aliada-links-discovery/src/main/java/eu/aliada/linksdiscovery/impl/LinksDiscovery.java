@@ -422,27 +422,26 @@ public class LinksDiscovery {
 		dbConn.updateJobStartDate(jobConf.getId());
 		//Get files and other parameters to generate linking processes (subjobs)
 		LOGGER.debug(MessageCatalog._00035_GET_LINKING_CONFIG_FILES);
-		final SubjobConfiguration[] subjobConf = dbConn.getSubjobConfigurations();
+		final SubjobConfiguration[] subjobConf = dbConn.getSubjobConfigurations(jobConf.getId());
 		//Generate initial crontab file with previous scheduled jobs
 		LOGGER.debug(MessageCatalog._00036_CREATE_CRONTAB_FILE);
 		final String crontabFilename  = createCrontabFile(jobConf.getTmpDir(), jobConf.getClientAppBinUser());
 		if (crontabFilename != null){
 			//For each linking process to schedule with crontab
 			for (int i=0; i<subjobConf.length;i++){
-				final int subjobId = i + 1 ;
 				//Generate XML config file for SILK
-				LOGGER.debug(MessageCatalog._00037_CREATE_LINKING_XML_CONFIG_FILE, subjobId);
+				LOGGER.debug(MessageCatalog._00037_CREATE_LINKING_XML_CONFIG_FILE, subjobConf[i].getId());
 				final String linkingXMLConfigFilename = createLinkingXMLConfigFile(subjobConf[i].getLinkingXMLConfigFilename(), subjobConf[i].getDs(), subjobConf[i].getName(), jobConf);
 				if(linkingXMLConfigFilename != null){
 					//Generate properties file to be used by scheduled subjob
-					LOGGER.debug(MessageCatalog._00038_CREATE_LINKING_PROP_FILE, subjobId);
+					LOGGER.debug(MessageCatalog._00038_CREATE_LINKING_PROP_FILE, subjobConf[i].getId());
 					final String linkingPropConfigFilename = createLinkingPropConfigFile(jobConf.getTmpDir(), ddbbParams);
 					if (linkingPropConfigFilename != null){
-						LOGGER.debug(MessageCatalog._00039_INSERT_LINKING_CRONTAB_FILE, subjobId);
-						if(insertLinkingProcessInCrontabFile(crontabFilename, jobConf.getClientAppBinDir(), jobConf.getId(), subjobId, linkingPropConfigFilename, subjobConf[i].isLinkingReloadTarget())){
+						LOGGER.debug(MessageCatalog._00039_INSERT_LINKING_CRONTAB_FILE, subjobConf[i].getId());
+						if(insertLinkingProcessInCrontabFile(crontabFilename, jobConf.getClientAppBinDir(), jobConf.getId(), subjobConf[i].getId(), linkingPropConfigFilename, subjobConf[i].isLinkingReloadTarget())){
 							//Insert job-subjob in DDBB
-							LOGGER.debug(MessageCatalog._00042_INSERT_SUBJOB_DDBB, jobConf.getId(), subjobId);
-							dbConn.insertSubjobToDB(jobConf.getId(), subjobId, subjobConf[i], linkingXMLConfigFilename,jobConf);
+							LOGGER.debug(MessageCatalog._00042_UPDATE_SUBJOB_DDBB, jobConf.getId(), subjobConf[i].getId());
+							dbConn.updateSubjobConfigFile(jobConf.getId(), subjobConf[i].getId(), linkingXMLConfigFilename);
 						}
 					}
 				}

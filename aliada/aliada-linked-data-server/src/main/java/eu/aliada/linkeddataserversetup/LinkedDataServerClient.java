@@ -26,8 +26,8 @@ public class LinkedDataServerClient {
 	/** For logging. */
 	private static final Log LOGGER = new Log(LinkedDataServerClient.class);
 	/** URL of the REST service to test URL. */
-	//protected static final String ALIADA_LINKEDDATASERVER_URL = "http://localhost:8889/lds/";
-	protected static final String ALIADA_LINKEDDATASERVER_URL = "http://aliada.scanbit.net:8080/aliada-linked-data-server-1.0/";
+	protected static final String ALIADA_LINKEDDATASERVER_URL = "http://localhost:8889/lds/";
+	//protected static final String ALIADA_LINKEDDATASERVER_URL = "http://aliada.scanbit.net:8080/aliada-linked-data-server-1.0/";
 
 	/**
 	 * Implementation of a Linked Data Server REST service client application.

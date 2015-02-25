@@ -7,6 +7,7 @@ package eu.aliada.linkeddataserversetup;
 
 import eu.aliada.linkeddataserversetup.impl.LinkedDataServerSetup;
 import eu.aliada.linkeddataserversetup.model.JobConfiguration;
+import eu.aliada.linkeddataserversetup.model.Subset;
 import eu.aliada.shared.log.Log;
 
 import java.util.Random;
@@ -65,13 +66,15 @@ public class EncodeParamsTest {
 		job.setStoreSqlPort(1111);
 		job.setSqlLogin("sql_login");
 		job.setSqlPassword("sql_password");
-		job.setGraph("http://biblioteca.artium.org");
-		job.setDatasetBase("http://aliada.scanbit.net:8890");
+		job.setUriDocPart("doc");
+		job.setUriIdPart("id");
+		job.setUriDefPart("def");
+		job.setDomainName("data.artium.org");
+		job.setOntologyUri("http://aliada-project.eu/2014/aliada-ontology#");
+		job.setUriConceptPart("collections");
 		job.setListeningHost("*ini*");
 		job.setVirtualHost("*ini*");
 		job.setIsqlCommandPath("isql");
-		job.setIsqlCommandsFilename("isql_id_rewrite_rules_html_artium.sql");
-		job.setIsqlCommandsFilenameDefault("src/test/resources/isql_id_rewrite_rules_html_default.sql");
 		return job;
 	}
 

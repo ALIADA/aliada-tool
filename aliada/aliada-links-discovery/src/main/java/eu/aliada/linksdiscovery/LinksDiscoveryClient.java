@@ -28,8 +28,9 @@ public class LinksDiscoveryClient {
 	/** For logging. */
 	private static final Log LOGGER = new Log(LinksDiscoveryClient.class);
 	/** URL of the REST service to test URL. */
-//	protected static final String ALIADA_LINKSDISCOVERYSERVICE_URL = "http://localhost:8890/links-discovery/";
-	protected static final String ALIADA_LINKSDISCOVERYSERVICE_URL = "http://aliada.scanbit.net:8080/aliada-links-discovery-1.0/";
+	protected static final String ALIADA_LINKSDISCOVERYSERVICE_URL = "http://localhost:8890/links-discovery/";
+//	protected static final String ALIADA_LINKSDISCOVERYSERVICE_URL = "http://aliada.scanbit.net:8080/aliada-links-discovery-1.0/";
+//	protected static final String ALIADA_LINKSDISCOVERYSERVICE_URL = "http://aliada.szepmuveszeti.hu/aliada-links-discovery-1.0/";
 
 	/**
 	 * Implementation of a Links Discovery REST service client application.
