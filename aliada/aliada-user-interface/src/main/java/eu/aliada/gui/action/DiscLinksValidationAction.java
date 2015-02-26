@@ -127,6 +127,7 @@ public class DiscLinksValidationAction extends ActionSupport{
 				rdfStoreDAO.executeDelete(sparqlEndpointURI, graphName, user, password, str);
 			} catch (Exception e) {
 				e.printStackTrace();
+				addActionError(getText("links.not.delete"));
 			}
     	}
     	
@@ -145,6 +146,7 @@ public class DiscLinksValidationAction extends ActionSupport{
     		discovLinks.add(t);
     	}
     	
+    	addActionMessage(getText("links.delete.ok"));
     	return SUCCESS;
     }
     

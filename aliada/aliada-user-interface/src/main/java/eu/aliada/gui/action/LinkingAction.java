@@ -237,6 +237,7 @@ public class LinkingAction extends ActionSupport {
      */
     private void createJobLinking() {
         int addedId = 0;
+        String ou, ol, op, og, td = "";
         if (fileToLink.getGraph() != null) {
             Connection connection = null;
             connection = new DBConnectionManager().getConnection();
@@ -249,6 +250,11 @@ public class LinkingAction extends ActionSupport {
                         		+ "INNER JOIN aliada.dataset d ON o.organisationId=d.organisationId INNER JOIN aliada.subset s ON d.datasetId=s.datasetId "
                         		+ "WHERE s.graph_uri='" + fileToLink.getGraph() + "'");
                 if (rs.next()) {
+                	ou = rs.getString("sparql_endpoint_uri");
+                	ol = rs.getString("sparql_endpoint_login");
+                	op = rs.getString("sparql_endpoint_password");
+                	og = rs.getString("links_graph_uri");
+                	td = rs.getString("tmp_dir");
                     PreparedStatement preparedStatement;
                     preparedStatement = connection
                             .prepareStatement(
@@ -259,11 +265,11 @@ public class LinkingAction extends ActionSupport {
                     preparedStatement.setString(2, rs.getString("sparql_endpoint_login"));
                     preparedStatement.setString(3, rs.getString("sparql_endpoint_password"));
                     preparedStatement.setString(4, rs.getString("graph_uri"));
-                    preparedStatement.setString(5, rs.getString("sparql_endpoint_uri"));
-                    preparedStatement.setString(6, rs.getString("sparql_endpoint_login"));
-                    preparedStatement.setString(7, rs.getString("sparql_endpoint_password"));
-                    preparedStatement.setString(8, rs.getString("links_graph_uri"));
-                    preparedStatement.setString(9, rs.getString("tmp_dir"));
+                    preparedStatement.setString(5, ou);
+                    preparedStatement.setString(6, ol);
+                    preparedStatement.setString(7, op);
+                    preparedStatement.setString(8, og);
+                    preparedStatement.setString(9, td);
                     preparedStatement.setString(10, rs.getString("linking_client_app_bin_dir"));
                     preparedStatement.setString(11, rs.getString("linking_client_app_user"));
                     preparedStatement.executeUpdate();
@@ -273,7 +279,43 @@ public class LinkingAction extends ActionSupport {
                     }
                     rs2.close();
                     preparedStatement.close();
+                    
+                    statement = connection.createStatement();
+                    String name;
+                    if (dataset != null) {
+            			for (int i = 0; i < dataset.size(); i++) {
+            				name = "ALIADA_" + dataset.get(i);
+		                    rs = statement
+		                            .executeQuery("select external_dataset_linkingfile, external_dataset_linkingnumthreads,"
+		                            		+ " external_dataset_linkingreloadsource, external_dataset_linkingreloadtarget "
+		                            		+ "from aliada.t_external_dataset where external_dataset_name='" + dataset.get(i) + "'");
+		                    while (rs.next()) {
+		                        preparedStatement = connection
+		                                .prepareStatement(
+		                                        "INSERT INTO aliada.linksdiscovery_subjob_instances (job_id, name, config_file, "
+		                                        + "num_threads, reload_source, reload_target, output_uri, output_login, output_password, "
+		                                        + "output_graph, tmp_dir) VALUES (?,?,?,?,?,?,?,?,?,?,?)");
+		                        preparedStatement.setString(1, String.valueOf(addedId));
+		                        preparedStatement.setString(2, name);
+		                        preparedStatement.setString(3, rs.getString("external_dataset_linkingfile"));
+		                        preparedStatement.setString(4, rs.getString("external_dataset_linkingnumthreads"));
+		                        preparedStatement.setString(5, rs.getString("external_dataset_linkingreloadsource"));
+		                        preparedStatement.setString(6, rs.getString("external_dataset_linkingreloadtarget"));
+		                        preparedStatement.setString(7, ou);
+		                        preparedStatement.setString(8, ol);
+		                        preparedStatement.setString(9, op);
+		                        preparedStatement.setString(10, og);
+		                        preparedStatement.setString(11, td);
+		                        preparedStatement.executeUpdate();
+		                    }
+            			}
+                    }
+                    
+                    rs.close();
+                    preparedStatement.close();
+                    statement.close();
                     connection.close();
+                    
                     URL url;
                     HttpURLConnection conn = null;
                     try {
