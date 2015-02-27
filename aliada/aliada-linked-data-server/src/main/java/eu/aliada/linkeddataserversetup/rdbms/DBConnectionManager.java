@@ -144,7 +144,7 @@ public class DBConnectionManager {
 				jobConf.setDomainName(resultSet.getString("domain_name"));
 				jobConf.setUriIdPart(resultSet.getString("uri_id_part"));
 				jobConf.setUriDocPart(resultSet.getString("uri_doc_part"));
-				jobConf.setUriDefPart(resultSet.getString("uri_def_art"));
+				jobConf.setUriDefPart(resultSet.getString("uri_def_part"));
 				jobConf.setUriConceptPart(resultSet.getString("uri_concept_part"));
 				jobConf.setListeningHost(resultSet.getString("listening_host"));
 				jobConf.setVirtualHost(resultSet.getString("virtual_host"));
