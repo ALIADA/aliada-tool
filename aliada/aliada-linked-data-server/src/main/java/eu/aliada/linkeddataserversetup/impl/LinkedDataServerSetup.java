@@ -232,6 +232,11 @@ public class LinkedDataServerSetup {
 			createVirtualPath = 1;
 			uriDocConceptParent = uriDocConcept.substring(0, uriDocConcept.lastIndexOf("/"));
 		}
+		//Add a "/" at the beginning and end of the Document concept part
+		String uriDocSlash = "/" + uriDocPart;
+		if (!uriDocSlash.endsWith("/")) {
+			uriDocSlash = uriDocSlash + "/";
+		}
 		if(isqlCommandsFilenameExists){
 			//Compose ISQL command execution statement
 			final String isqlCommand = String.format(ISQL_COMMAND_FORMAT,
@@ -239,7 +244,7 @@ public class LinkedDataServerSetup {
 					jobConf.getStoreSqlPort(), jobConf.getSqlLogin(),
 					jobConf.getSqlPassword(), isqlCommandsFilename,
 					jobConf.getListeningHost(), jobConf.getVirtualHost(),
-					uriIdPart, "/" + uriDocPart, uriDefPart, graphsSelectEncoded,
+					uriIdPart, uriDocSlash, uriDefPart, graphsSelectEncoded,
 					graphsEncoded, domainNameEncoded, rulesNamesSuffix,
 					uriDocConcept, DATASET_INDEX_PAGE, ontologyEncoded, 
 					uriIdPartEncoded, createVirtualPath, urrlListSubset,
@@ -299,6 +304,11 @@ public class LinkedDataServerSetup {
 			createVirtualPath = 1;
 			uriDocConceptParent = uriDocConceptSubset.substring(0, uriDocConceptSubset.lastIndexOf("/"));
 		}
+		//Add a "/" at the beginning and end of the Document concept part
+		String uriDocSlash = "/" + uriDocPart;
+		if (!uriDocSlash.endsWith("/")) {
+			uriDocSlash = uriDocSlash + "/";
+		}
 		//If the URI Concept part of the subset is empty, its corresponding URL Rewrite rules will not be created
 		if((isqlCommandsFilename != null) && (uriDocConceptSubset.length() > 0)){
 			//Compose Rules Names suffix for the subset, adding the subset concept part of the URI
@@ -310,7 +320,7 @@ public class LinkedDataServerSetup {
 					jobConf.getStoreSqlPort(), jobConf.getSqlLogin(),
 					jobConf.getSqlPassword(), isqlCommandsFilename,
 					jobConf.getListeningHost(), jobConf.getVirtualHost(),
-					uriIdPart,  "/" + uriDocPart, uriDefPart, graphsSelectEncoded,
+					uriIdPart,  uriDocSlash, uriDefPart, graphsSelectEncoded,
 					graphsEncoded, domainNameEncoded, rulesNamesSuffixSubset,
 					uriDocConceptSubset, DATASET_INDEX_PAGE, ontologyEncoded, 
 					uriIdPartEncoded, createVirtualPath, urrlListSubset,
