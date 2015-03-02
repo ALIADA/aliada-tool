@@ -56,4 +56,5 @@ public interface MessageCatalog {
 	String _00049_DEBUG_TRIPLES = LT + MODULE_NAME + "-00049> : *** TRIPLES ***\n%s";
 	String _00050_RDFSTORE_FAILURE = LT + MODULE_NAME + "-00050> : RDF Store failure has been detected. See below for further details.";
 	String _00051_IO_FAILURE = LT + MODULE_NAME + "-00051> : I/O failure has been detected. See below for further details.";
+	String _00052_CLASSIFIER_LOAD_FAILURE = LT + MODULE_NAME + "-00052> : Unable to load the classifier %s. See below for further details.";
 }

@@ -1,14 +1,17 @@
 package eu.aliada.rdfizer.pipeline.nlp;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verifyZeroInteractions;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import eu.aliada.rdfizer.datasource.Cache;
 
 /**
  * NLP Service test case.
@@ -27,6 +30,8 @@ public class NERServiceTestCase {
 	@Before
 	public void setUp() {
 		service = new NERService();
+		service.cache = new Cache();
+		service.classifierFilePath = "../src/site/nlp/english.all.7class.distsim.crf.ser.gz";
 	}
 
 	/**
@@ -36,11 +41,7 @@ public class NERServiceTestCase {
 	 */
 	@Test
 	public void nullText() throws Exception {
-		final EntityDetectionListener listener = mock(EntityDetectionListener.class);
-
-		service.detectEntities(null, listener);
-
-		verifyZeroInteractions(listener);
+		assertTrue(service.detectEntities(null).isEmpty());
 	}
 
 	/**
@@ -52,12 +53,9 @@ public class NERServiceTestCase {
 	public void emptyText() throws Exception {
 		final String[] emptyTexts = { "", "    ", "\t\t\t\n" };
 
-		final EntityDetectionListener listener = mock(EntityDetectionListener.class);
 		for (final String text : emptyTexts) {
-			service.detectEntities(text, listener);
+			assertTrue(service.detectEntities(text).isEmpty());
 		}
-
-		verifyZeroInteractions(listener);
 	}
 
 	/**
@@ -75,19 +73,16 @@ public class NERServiceTestCase {
 		check.add("PERSON: William Blake");
 		check.add("PERSON: Johnny Depp");
 		check.add("LOCATION: Machine");
-		check.add("PERSON: Blake");
 		check.add("PERSON: Gary Farmer");
 		check.add("PERSON: Blake");
+				
+		Map<String, String> result = service.detectEntities(text);
 		
-		final EntityDetectionListener listener = new EntityDetectionListener() {
-			@Override
-			public void onEntityDetected(final String tag, final String entity) {
-				check.remove(tag + ": " + entity);
-			}
-		};
-		service.detectEntities(text, listener);
+		for(Entry<String, String> entry : result.entrySet()) {
+			check.remove(entry.getValue()+": " + entry.getKey());
+		}
 		
-		assertEquals(0, check.size());
+		assertEquals(check.toString(), 0, check.size());
 		
 	}
 }

@@ -9,13 +9,20 @@ import java.text.Normalizer;
 import java.text.Normalizer.Form;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
+
+import javax.xml.xpath.XPathExpressionException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.w3c.dom.Node;
 
 import eu.aliada.rdfizer.datasource.Cache;
 import eu.aliada.rdfizer.datasource.rdbms.JobInstance;
+import eu.aliada.rdfizer.pipeline.format.xml.ImmutableNodeList;
+import eu.aliada.rdfizer.pipeline.format.xml.XPath;
+import eu.aliada.rdfizer.pipeline.nlp.NERService;
 import eu.aliada.shared.ID;
 import eu.aliada.shared.Strings;
 import eu.aliada.shared.rdfstore.RDFStoreDAO;
@@ -33,6 +40,12 @@ public class Function {
 	private Cache cache;
 	
 	private RDFStoreDAO rdfStore = new RDFStoreDAO();
+	
+	@Autowired
+	private XPath xpath;
+	
+	@Autowired
+	private NERService ner;
 	
 	/**
 	 * Returns a new generated UID.
@@ -137,5 +150,23 @@ public class Function {
 			exception.printStackTrace();
 			return null;
 		}
+	}
+	
+	/**
+	 * Extracts a set of named entities from the input data.
+	 * 
+	 * @param tag the target tag.
+	 * @param code the subfield code.
+	 * @param record the MARC record.
+	 * @return a map of named entities from the input data.
+	 * @throws XPathExpressionException in case of XPATH failure.
+	 */
+	public Map<String, String> ner(final String tag, final String code, final Object record) throws XPathExpressionException {
+		final ImmutableNodeList list = xpath.dfs(tag, code, record);
+		final StringBuilder builder = new StringBuilder();
+		for (final Node node : list) {
+			builder.append(node.getTextContent()).append("\n");
+		}
+		return ner.detectEntities(builder.toString());
 	}
 }

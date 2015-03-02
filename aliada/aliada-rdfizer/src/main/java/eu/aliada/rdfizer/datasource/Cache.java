@@ -10,6 +10,7 @@ import static eu.aliada.shared.Strings.*;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentMap;
+import java.util.regex.Pattern;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -50,6 +51,9 @@ public class Cache {
 			.maximumWeightedCapacity(50)
 			.build();
 	
+	final Map<String, Pattern> startPatterns = new HashMap<String, Pattern>();
+	final Map<String, Pattern> endPatterns = new HashMap<String, Pattern>();
+	
 	@Autowired
 	AliadaRDFStoreDAO rdfStore;
 	
@@ -72,6 +76,26 @@ public class Cache {
 		}
 		return uri != null ? uri : DEFAULT_ALIADA_CLASS;
 	}
+	
+	public Pattern getStartPattern(final String regex) {
+		Pattern p = startPatterns.get(regex);
+		if (p == null) {
+			p = Pattern.compile("<(" + regex + ")>");
+			startPatterns.put(regex, p);
+		}
+		
+		return p;
+	}
+	
+	public Pattern getEndPattern(final String regex) {
+		Pattern p = endPatterns.get(regex);
+		if (p == null) {
+			p = Pattern.compile("</(" + regex + ")>");
+			endPatterns.put(regex, p);
+		}
+		
+		return p;
+	}	
 	
 	/**
 	 * Returns the ALIADA event type class corresponding to the given CIDOC-CRM class.
