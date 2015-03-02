@@ -293,9 +293,9 @@ public class UsersAction extends ActionSupport{
             connection = new DBConnectionManager().getConnection();
             Statement statement = connection.createStatement();
             ResultSet rs = statement
-                    .executeQuery("select organisation_name from aliada.organisation where organisationId='" + code + "'");
+                    .executeQuery("select org_name from aliada.organisation where organisationId='" + code + "'");
             if (rs.next()) {
-                String organisationName = rs.getString("organisation_Name");
+                String organisationName = rs.getString("org_Name");
                 connection.close();
                 return organisationName;
             }
@@ -372,7 +372,7 @@ public class UsersAction extends ActionSupport{
             ResultSet rs = statement.executeQuery("select * from aliada.organisation");
             while (rs.next()) {
                 int code = rs.getInt("organisationId");
-                String name = rs.getString("organisation_name");
+                String name = rs.getString("org_name");
                 this.organisations.put(code, name);
             }
             rs.close();
