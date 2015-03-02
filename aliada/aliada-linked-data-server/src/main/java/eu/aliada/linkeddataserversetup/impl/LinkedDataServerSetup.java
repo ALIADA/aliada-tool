@@ -33,7 +33,7 @@ public class LinkedDataServerSetup {
 	/** For logging. */
 	private static final Log LOGGER = new Log(LinkedDataServerSetup.class);
 	/** Format for the ISQL command to execute */
-	private static final String ISQL_COMMAND_FORMAT = "%s %s:%d %s %s %s -u lhost='%s' vhost='%s' uri_id='%s' uri_doc_slash='%s' uri_def='%s' graphs_select_encoded='%s' graphs_encoded='%s' domain_name_encoded='%s' rules_suffix='%s' uri_doc_concept='%s' dataset_page='%s' aliada_ont_encoded='%s' uri_id_encoded='%s'";
+	private static final String ISQL_COMMAND_FORMAT = "%s %s:%d %s %s %s -u lhost='%s' vhost='%s' uri_id='%s' uri_doc_slash='%s' uri_def='%s' graphs_select_encoded='%s' graphs_encoded='%s' domain_name_encoded='%s' rules_suffix='%s' uri_doc_concept='%s' dataset_page='%s' aliada_ont_encoded='%s' uri_id_encoded='%s' create_virtual_path=%d urrl_list_subset=%d rules_suffix_dataset='%s' uri_doc_concept_parent='%s'";
 	/** Dataset Index HTML Page*/
 	private static final String DATASET_INDEX_PAGE = "dataset.html"; 
 	/* Input parameters for URL rewrite rules */
@@ -221,6 +221,17 @@ public class LinkedDataServerSetup {
 				isqlCommandsFilenameExists = true;
 			}
 		}
+		//Variables for creating rules for Document listing with extension 
+		int createVirtualPath = 0;
+		final int urrlListSubset = 0; //It is not a subset
+		final String rulesNamessuffixDataset = rulesNamesSuffix;
+		String uriDocConceptParent = "";
+		if(uriDocConcept.contains("/")) {
+			//If the Concept part contains an /, a parent virtual path must also be created
+			//for the Document listing with extension
+			createVirtualPath = 1;
+			uriDocConceptParent = uriDocConcept.substring(0, uriDocConcept.lastIndexOf("/"));
+		}
 		if(isqlCommandsFilenameExists){
 			//Compose ISQL command execution statement
 			final String isqlCommand = String.format(ISQL_COMMAND_FORMAT,
@@ -231,7 +242,8 @@ public class LinkedDataServerSetup {
 					uriIdPart, "/" + uriDocPart, uriDefPart, graphsSelectEncoded,
 					graphsEncoded, domainNameEncoded, rulesNamesSuffix,
 					uriDocConcept, DATASET_INDEX_PAGE, ontologyEncoded, 
-					uriIdPartEncoded);
+					uriIdPartEncoded, createVirtualPath, urrlListSubset,
+					rulesNamessuffixDataset, uriDocConceptParent);
 			//Execute ISQL command
 			try {
 				LOGGER.debug(MessageCatalog._00040_EXECUTING_ISQL);
@@ -276,6 +288,17 @@ public class LinkedDataServerSetup {
 			}
 		} 
 		
+		//Variables for creating rules for Document listing with extension 
+		int createVirtualPath = 0;
+		final int urrlListSubset = 1; //It is a subset
+		final String rulesNamessuffixDataset = rulesNamesSuffix;
+		String uriDocConceptParent = "";
+		if(subset.getUriConceptPart().contains("/")) {
+			//If the Concept part of the subset contains an /, a parent virtual path must also be created
+			//for the Document listing with extension
+			createVirtualPath = 1;
+			uriDocConceptParent = uriDocConceptSubset.substring(0, uriDocConceptSubset.lastIndexOf("/"));
+		}
 		//If the URI Concept part of the subset is empty, its corresponding URL Rewrite rules will not be created
 		if((isqlCommandsFilename != null) && (uriDocConceptSubset.length() > 0)){
 			//Compose Rules Names suffix for the subset, adding the subset concept part of the URI
@@ -290,7 +313,8 @@ public class LinkedDataServerSetup {
 					uriIdPart,  "/" + uriDocPart, uriDefPart, graphsSelectEncoded,
 					graphsEncoded, domainNameEncoded, rulesNamesSuffixSubset,
 					uriDocConceptSubset, DATASET_INDEX_PAGE, ontologyEncoded, 
-					uriIdPartEncoded);
+					uriIdPartEncoded, createVirtualPath, urrlListSubset,
+					rulesNamessuffixDataset, uriDocConceptParent);
 			//Execute ISQL command
 			try {
 				LOGGER.debug(MessageCatalog._00040_EXECUTING_ISQL);

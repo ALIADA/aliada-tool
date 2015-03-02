@@ -73,12 +73,62 @@ public class ExternalDatasetsAction extends ActionSupport{
      */
     public String reloadExternalDatasets() {
     	
-//    	if (val != null) {
-//    		}
+    	cleanReloadDataset();
+    	
+    	String extDataset;
+    	Connection connection = null;
+    		if (val != null) {
+    			for (int i = 0; i < val.size(); i++) {
+    				extDataset = val.get(i);
+    				try {
+    		            connection = new DBConnectionManager().getConnection();
+    		            Statement updateStatement = connection.createStatement();
+                        updateStatement.executeUpdate("UPDATE aliada.t_external_dataset set external_dataset_linkingreloadtarget='1' "
+                        		+ "where external_dataset_name='" + extDataset + "'");
+                        updateStatement.close();
+    		            connection.close();
+    		        } catch (SQLException e) {
+    		            logger.error(MessageCatalog._00011_SQL_EXCEPTION, e);
+    		            addActionError(getText("datasets.not.reload"));
+    		            return ERROR;
+    		        }
+    			}
+    		}
     		
+    	showExternalDatasets();
+    	addActionMessage(getText("datasets.reload.ok"));
+    
     	return SUCCESS;
     }
     /**
+     * Update the datasets reload to 0.
+     * @see
+     * @since 1.0
+     */
+    public void cleanReloadDataset() {
+    	String datasetName = "";
+    	Connection connection = null;
+        try {
+            connection = new DBConnectionManager().getConnection();
+            Statement statement = connection.createStatement();
+        	Statement updateStatement = connection.createStatement();
+            ResultSet rs = statement
+                    .executeQuery("select * from aliada.t_external_dataset");
+            while (rs.next()) {
+            	datasetName = rs.getString("external_dataset_name"); 
+                updateStatement.executeUpdate("UPDATE aliada.t_external_dataset set external_dataset_linkingreloadtarget='0' "
+                		+ "where external_dataset_name='" + datasetName + "'");
+            }
+            connection.close();
+            rs.close();
+            updateStatement.close();
+            statement.close();
+            connection.close();
+        } catch (SQLException e) {
+            logger.error(MessageCatalog._00011_SQL_EXCEPTION, e);
+        }
+	}
+	/**
      * @return Returns the externalDatasets.
      * @exception
      * @since 1.0
