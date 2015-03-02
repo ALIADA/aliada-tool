@@ -211,12 +211,17 @@ public class LinkingAction extends ActionSupport {
         setFileToLink((FileWork) session.getAttribute("importedFile"));
         createJobLinking();
         createJobLDS();
-		
-        //If it's properly rdfizered => change status
+        
         Connection connection = null;
         Statement updateStatement = null;
+        
         try {
         	connection = new DBConnectionManager().getConnection();
+        	updateStatement = connection.createStatement();
+        	
+        	updateStatement.execute("UPDATE aliada.t_external_dataset SET external_dataset_linkingreloadtarget = 0");
+        	updateStatement.close();
+        	//If it's properly rdfizered => change status
         	updateStatement = connection.createStatement();
         	updateStatement.executeUpdate("UPDATE aliada.user_session set status='finishedLinking' where file_name='" + fileToLink.getFilename() + "'");
         	updateStatement.close();
