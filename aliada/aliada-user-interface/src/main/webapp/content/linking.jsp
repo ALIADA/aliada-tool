@@ -227,7 +227,7 @@
 	<div class="row">
 		<html:form>
 			<html:submit id="linkingNextButton" disabled="true" action="finishFileWork" cssClass="fleft mediumButton button" key="linking.addNew"/>
-			<html:submit id="publishButton" disabled="true" onClick="return false;" cssClass="fright submitButton button" key="publish"/>
+			<html:submit id="publishButton" disabled="true" action="publish" cssClass="fright submitButton button" key="publish"/>
 		</html:form>
 	</div>
 </div>
