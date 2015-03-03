@@ -167,7 +167,7 @@ public class LinkingAction extends ActionSupport {
                 ResultSet rs = statement
                         .executeQuery("select ckan_api_url, ckan_api_key, o.tmp_dir, store_ip, store_sql_port, "
                         		+ "sql_login, sql_password,isql_command_path, virtuoso_http_server_root, aliada_ontology, "
-                        		+ "org_name, org_description,org_home_page, org_image_url, d.datasetId, l.job_id "
+                        		+ "org_name, org_description,org_home_page, d.datasetId, l.job_id, o.organisationId "
                         		+ "from aliada.organisation o "
                         		+ "INNER JOIN aliada.dataset d ON o.organisationId = d.organisationId "
                         		+ "INNER JOIN aliada.subset s ON d.datasetId = s.datasetId "
@@ -178,7 +178,7 @@ public class LinkingAction extends ActionSupport {
                             .prepareStatement(
                                     "INSERT INTO aliada.ckancreation_job_instances (ckan_api_url, ckan_api_key, tmp_dir, store_ip,"
                                     + " store_sql_port, sql_login, sql_password, isql_command_path, virtuoso_http_server_root,"
-                                    + " aliada_ontology, org_name, org_description, org_home_page, org_image_url, datasetId, job_id) "
+                                    + " aliada_ontology, org_name, org_description, org_home_page, datasetId, job_id, organisationId) "
                                     + "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
                                     PreparedStatement.RETURN_GENERATED_KEYS);
                     preparedStatement.setString(1, rs.getString("ckan_api_url"));
@@ -194,9 +194,9 @@ public class LinkingAction extends ActionSupport {
                     preparedStatement.setString(11, rs.getString("org_name"));
                     preparedStatement.setString(12, rs.getString("org_description"));
                     preparedStatement.setString(13, rs.getString("org_home_page"));
-                    preparedStatement.setString(14, rs.getString("org_image_url"));
-                    preparedStatement.setInt(15, rs.getInt("datasetId"));
-                    preparedStatement.setInt(16, rs.getInt("job_id"));
+                    preparedStatement.setInt(14, rs.getInt("datasetId"));
+                    preparedStatement.setInt(15, rs.getInt("job_id"));
+                    preparedStatement.setInt(16, rs.getInt("organisationId"));
                     preparedStatement.executeUpdate();
                     ResultSet rs2 = preparedStatement.getGeneratedKeys();
                     if (rs2.next()) {
