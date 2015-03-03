@@ -32,6 +32,7 @@ public interface MessageCatalog {
 	String _00036_GET_ISQL_COMMANDS_FILE = LT + MODULE_NAME + "-00036> : Getting ISQL commands file.";
 	String _00037_ENCODE_PARAMS = LT + MODULE_NAME + "-00037> : Encode params for ISQL commands.";
 	String _00038_ENCODING_ERROR = LT + MODULE_NAME + "-00038> : Encoding error. See below for further details..";
+	String _00039_INPUT_PARAMS_ERROR = LT + MODULE_NAME + "-00039> : Input parameters not correct for job %d.";
 	String _00040_EXECUTING_ISQL = LT + MODULE_NAME + "-00040> : Executing ISQL command.";	
 	String _00041_STOPPED = LT + MODULE_NAME + "-00041> : LinkedDataServer programming has finished.";	
 	String _00057_UPDATING_JOB_DDBB = LT + MODULE_NAME + "-00057> : Updating job %d in DDBB.";	

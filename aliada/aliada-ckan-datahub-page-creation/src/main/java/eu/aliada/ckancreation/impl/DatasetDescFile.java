@@ -180,8 +180,10 @@ public class DatasetDescFile {
 	 */
 	protected String removeLeadingTralingSlashes(final String path){
 		String cleanPath = "";
+		//Remove leading and trailing spaces
+		cleanPath = path.trim();
 		//Remove leading slashes
-		cleanPath = path.replaceFirst("^/+", "");
+		cleanPath = cleanPath.replaceFirst("^/+", "");
 		//Remove trailing slashes
 		cleanPath = cleanPath.replaceFirst("/+$", "");
 		return cleanPath;
