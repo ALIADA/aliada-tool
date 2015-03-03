@@ -72,10 +72,10 @@ public class ImageAction extends ActionSupport implements ServletRequestAware{
         try {
             connection = new DBConnectionManager().getConnection();
             Statement statement = connection.createStatement();
-            ResultSet rs = statement.executeQuery("SELECT organisation_logo FROM aliada.organisation o INNER JOIN aliada.user u ON o.organisationId = u.organisationId "
+            ResultSet rs = statement.executeQuery("SELECT org_logo FROM aliada.organisation o INNER JOIN aliada.user u ON o.organisationId = u.organisationId "
             		+ "WHERE u.user_name='" + userName + "';");
-            if (rs.next() && rs.getBlob("organisation_logo") != null) {
-                Blob logo = rs.getBlob("organisation_logo");
+            if (rs.next() && rs.getBlob("org_logo") != null) {
+                Blob logo = rs.getBlob("org_logo");
                 int blobLength = (int) logo.length();
                 blobAsBytes = logo.getBytes(1, blobLength);
                 //release the blob and free up memory. (since JDBC 4.0)

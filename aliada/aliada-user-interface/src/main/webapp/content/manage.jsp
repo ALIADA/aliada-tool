@@ -1,7 +1,19 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@ taglib uri="/struts-tags" prefix="html" %>
 <script>
+
 $(function(){
+
+	/* var publish = $("#publish").val();
+	console.log(publish);
+	if (publish == 1) {
+		console.log("Publish -- OK");
+		alert("The publication was finished correctly.");
+	} else if (publish == 2) {
+		console.log("Publish -- ERROR");
+		alert("The publication was finished wrong.");
+	} */
+	
 	var areFiles = $("#areFiles").val();
 	var enableErrorLogButton= $("#enableErrorLogButton").val();
 	var enableNextButton = $("#enableNextButton").val();
@@ -68,6 +80,8 @@ $(function(){
 <!--<html:hidden id="areFiles" name="areFiles" value="importedFiles" />-->
 <html:hidden id="enableErrorLogButton" name="enableErrorLogButton" value="%{enableErrorLogButton}" />
 <html:hidden id="enableNextButton" name="enableNextButton" value="%{enableNextButton}" />
+<!-- Publication is OK -->
+<html:hidden id="publish" name="publish" value="%{#session['publish']}" />
 <ul class="breadcrumb">
 	<span class="breadCrumb"><html:text name="home"/></span>
 	<li><span class="breadcrumb activeGreen"><html:text name="manage.title"/></span></li>

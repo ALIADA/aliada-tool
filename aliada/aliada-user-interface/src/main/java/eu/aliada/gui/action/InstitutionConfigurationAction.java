@@ -40,7 +40,7 @@ public class InstitutionConfigurationAction extends ActionSupport {
     private File organisationLogo;
     private String organisationCatalogUrl;     
         
-    private static final String DEFAULTLOGOPATH = "webapps/aliada-user-interface-1.0/images/aliada.png";
+    private static final String DEFAULTLOGOPATH = "webapps/aliada-user-interface-2.0/images/aliada.png";
 
     private final Log logger = new Log(InstitutionConfigurationAction.class);
 
@@ -56,11 +56,11 @@ public class InstitutionConfigurationAction extends ActionSupport {
             Statement statement = connection.createStatement();
             ResultSet rs = statement.executeQuery("SELECT * FROM aliada.organisation o INNER JOIN aliada.user u ON o.organisationId = "
             		+ "u.organisationId WHERE u.user_name='" + userName + "';");
-            if (rs.next() && rs.getString("organisation_name") != null) {
-                setOrganisationName(rs.getString("organisation_name"));
+            if (rs.next() && rs.getString("org_name") != null) {
+                setOrganisationName(rs.getString("org_name"));
                // readFile(rs);
                 setOrganisationCatalogUrl(rs
-                        .getString("organisation_catalog_url"));
+                        .getString("org_catalog_url"));
             }
             statement.close();
             connection.close();
@@ -84,7 +84,7 @@ public class InstitutionConfigurationAction extends ActionSupport {
 //            ResultSet rs = statement.executeQuery("SELECT * FROM organisation WHERE organisation_name='"+getOrganisation_name()+"'");
 //            if(!rs.next()){
             PreparedStatement preparedStatement = connection
-                    .prepareStatement("UPDATE aliada.organisation  SET organisation_logo = ?, organisation_catalog_url =? WHERE organisation_name = ?");
+                    .prepareStatement("UPDATE aliada.organisation  SET org_logo = ?, org_catalog_url =? WHERE org_name = ?");
             if (this.organisationLogo != null) {
                 fis = new FileInputStream(this.organisationLogo);
                 preparedStatement.setBinaryStream(1, fis,

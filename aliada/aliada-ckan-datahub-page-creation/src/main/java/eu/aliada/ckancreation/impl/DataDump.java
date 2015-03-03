@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.nio.file.Files;
-import java.nio.file.Path;
 
 import eu.aliada.ckancreation.model.JobConfiguration;
 import eu.aliada.ckancreation.model.DumpFileInfo;
