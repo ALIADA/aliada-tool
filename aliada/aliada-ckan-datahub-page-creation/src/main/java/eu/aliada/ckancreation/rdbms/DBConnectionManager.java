@@ -9,11 +9,17 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.sql.Blob;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import eu.aliada.ckancreation.log.MessageCatalog;
 import eu.aliada.ckancreation.model.Job;
@@ -116,6 +122,7 @@ public class DBConnectionManager {
 	public JobConfiguration getJobConfiguration(final Integer jobId) {
 		JobConfiguration jobConf = null;
 		int datasetId = -1;
+		int organisationId = -1;
 		try {
 			final Statement sta = getConnection().createStatement();
 			String sql = "SELECT * FROM ckancreation_job_instances WHERE job_id=" + jobId;
@@ -140,6 +147,7 @@ public class DBConnectionManager {
 				jobConf.setOrgHomePage(resultSet.getString("org_home_page"));
 				jobConf.setOrgImageURL(resultSet.getString("org_image_url"));
 				datasetId = resultSet.getInt("datasetId");
+				organisationId = resultSet.getInt("organisationId");
 		    }
 			resultSet.close();
 			//Get dataset related information 
@@ -172,6 +180,28 @@ public class DBConnectionManager {
 				subset.setLinksGraph(resultSet.getString("links_graph_uri"));
 				subset.setDescription(resultSet.getString("subset_desc"));
 				jobConf.setSubset(subset);
+			}
+			resultSet.close();
+			//Get organisation LOGO from BLOB object in organisation table 
+			sql = "SELECT organisation_logo FROM organisation WHERE organisationId=" + organisationId;
+			resultSet = sta.executeQuery(sql);
+            if (resultSet.next() && resultSet.getBlob("organisation_logo") != null) {
+                final Blob logo = resultSet.getBlob("organisation_logo");
+                final int blobLength = (int) logo.length();
+                byte[] blobAsBytes = null;
+                blobAsBytes = logo.getBytes(1, blobLength);
+            	//Compose initial logo file name 
+            	final String orgImagePathInit = jobConf.getTmpDir() + File.separator + "orgLogo"  + "_" + System.currentTimeMillis()  + ".jpeg";
+                try {
+	                FileOutputStream fos = new FileOutputStream(orgImagePathInit);
+	                fos.write(blobAsBytes);
+	                fos.close();
+	                jobConf.setOrgImagePath(orgImagePathInit);
+                } catch (IOException exception) {
+        			LOGGER.error(MessageCatalog._00034_FILE_CREATION_FAILURE, exception, orgImagePathInit);
+                }
+                //release the blob and free up memory. (since JDBC 4.0)
+                logo.free();
 			}
 			resultSet.close();
 			sta.close();

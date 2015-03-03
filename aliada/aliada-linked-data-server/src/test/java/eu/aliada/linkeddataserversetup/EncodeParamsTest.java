@@ -7,7 +7,6 @@ package eu.aliada.linkeddataserversetup;
 
 import eu.aliada.linkeddataserversetup.impl.LinkedDataServerSetup;
 import eu.aliada.linkeddataserversetup.model.JobConfiguration;
-import eu.aliada.linkeddataserversetup.model.Subset;
 import eu.aliada.shared.log.Log;
 
 import java.util.Random;

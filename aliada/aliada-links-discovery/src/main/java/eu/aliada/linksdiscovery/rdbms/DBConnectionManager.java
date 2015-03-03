@@ -258,8 +258,6 @@ public class DBConnectionManager {
     		preparedStatement = getConnection().prepareStatement("UPDATE linksdiscovery_subjob_instances SET config_file = ? WHERE job_id = ? AND subjob_id= ?");
     		// (config_file, job_id, subjob_id)
     		// parameters start with 1
-    		final java.util.Date today = new java.util.Date();
-    		final java.sql.Timestamp todaySQL = new java.sql.Timestamp(today.getTime());
     		preparedStatement.setString(1, linkingXMLConfigFilename);
     		preparedStatement.setInt(2, jobId);
     		preparedStatement.setInt(3, subjobId);
