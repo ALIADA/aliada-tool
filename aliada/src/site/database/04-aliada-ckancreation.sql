@@ -23,5 +23,8 @@ CREATE TABLE `aliada`.`ckancreation_job_instances` (
 FOREIGN KEY (datasetId) 
 REFERENCES dataset(datasetId) 
 ON DELETE CASCADE,
+FOREIGN KEY (organisationId) 
+REFERENCES organisation(organisationId) 
+ON DELETE CASCADE,
 PRIMARY KEY ( `job_id` )
 ) ENGINE = InnoDB ;
