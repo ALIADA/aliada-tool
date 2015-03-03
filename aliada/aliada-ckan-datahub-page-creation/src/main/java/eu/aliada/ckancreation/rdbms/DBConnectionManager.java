@@ -183,10 +183,10 @@ public class DBConnectionManager {
 			}
 			resultSet.close();
 			//Get organisation LOGO from BLOB object in organisation table 
-			sql = "SELECT organisation_logo FROM organisation WHERE organisationId=" + organisationId;
+			sql = "SELECT org_logo FROM organisation WHERE organisationId=" + organisationId;
 			resultSet = sta.executeQuery(sql);
-            if (resultSet.next() && resultSet.getBlob("organisation_logo") != null) {
-                final Blob logo = resultSet.getBlob("organisation_logo");
+            if (resultSet.next() && resultSet.getBlob("org_logo") != null) {
+                final Blob logo = resultSet.getBlob("org_logo");
                 final int blobLength = (int) logo.length();
                 byte[] blobAsBytes = null;
                 blobAsBytes = logo.getBytes(1, blobLength);
