@@ -119,4 +119,8 @@
         	$s $predicate $s1 . 
 		#end	
 	#end	
+#end
+
+#macro (ner $tag $code $record $subject)
+	
 #end	

@@ -152,8 +152,10 @@ public class Function {
 		}
 	}
 	
+	
 	/**
 	 * Extracts a set of named entities from the input data.
+	 * The context object is supposed to be a MARC record, so the tag/code input values are trasformed in a MARCXML XPATH.  
 	 * 
 	 * @param tag the target tag.
 	 * @param code the subfield code.
@@ -161,7 +163,7 @@ public class Function {
 	 * @return a map of named entities from the input data.
 	 * @throws XPathExpressionException in case of XPATH failure.
 	 */
-	public Map<String, String> ner(final String tag, final String code, final Object record) throws XPathExpressionException {
+	public Map<String, String> marcner(final String tag, final String code, final Object record) throws XPathExpressionException {
 		final ImmutableNodeList list = xpath.dfs(tag, code, record);
 		final StringBuilder builder = new StringBuilder();
 		for (final Node node : list) {
