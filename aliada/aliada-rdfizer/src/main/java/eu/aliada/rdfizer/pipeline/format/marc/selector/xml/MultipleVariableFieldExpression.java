@@ -31,6 +31,7 @@ import eu.aliada.rdfizer.pipeline.format.xml.XPath;
  * <ul>
  * 	<li>245(1-2)a</li>
  * 	<li>856(3-2)a-u</li>
+ *  <li>856()a-u</li>
  * </ul>
  * 
  * @author Emiliano Cammilletti

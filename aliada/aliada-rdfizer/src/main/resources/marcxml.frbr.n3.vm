@@ -2,7 +2,7 @@
 #set($expression_s = "#uri('F2_Expression' $frbr.expressionID)")
 #set($manifestation_s = "#uri('F3_Manifestation_Product_Type' $frbr.manifestationID)")
 #set($is_a = "#rdf('type')")
-#set($P1_is_identified_by = "#ecrm('P1_is_identified_by')")
+#set($P1_is_identified_by = "#ecrm('P1_is_identified_by')")	
 #set($P3_has_note = "#ecrm('P3_has_note')")
 #set($P2_has_type = "#ecrm('P2_has_type')")
 #set($P149_is_identified_by = "#ecrm('P149_is_identified_by')")
@@ -10,13 +10,52 @@
 #set($CLP2_should_have_type = "#efrbroo('CLP2_should_have_type')")
 #set($E35_Title = "#ecrm('E35_Title')")
 #set($P102_has_title = "#ecrm('P102_has_title')")
+#set($E90_Symbolic_Object = "#ecrm('E90_Symbolic_Object')")
+#set($F13_Identifier = "#ecrm('F13_Identifier')")
+#set($F27_Work_Conception = "#efrbroo('F27_Work_Conception')")
+#set($R16i_was_initiated_by = "#efrbroo('R16i_was_initiated_by')")
+#set($E53_Place = "#ecrm('E53_Place')")
+#set($E27_Site = "#ecrm('E27_Site')")
+#set($P129_is_about = "#ecrm('P129_is_about')")
+#set($E47_Spatial_Coordinates = "#ecrm('E47_Spatial_Coordinates')")
+#set($P59i_is_located_on_or_within = "#ecrm('P59i_is_located_on_or_within')")
+#set($P87_is_identified_by = "#ecrm('P87_is_identified_by')")
+#set($F4_Manifestation_Singleton = "#efrbroo('F4_Manifestation_Singleton')")
+#set($P104_is_subject_to = "#ecrm('P104_is_subject_to')")
+#set($P74_has_current_or_former_residence  = "#ecrm('P74_has_current_or_former_residence')")
+#set($E44_Place_Appellation  = "#ecrm('E44_Place_Appellation')")
+#set($P14i_performed  = "#ecrm('P14i_performed')")
+#set($P103_was_intended_for  = "#ecrm('P103_was_intended_for')")
+
+
+
 $work_s $is_a #efrbroo('F1_Work') . 
 $expression_s $is_a #efrbroo('F2_Expression') . 
 $expression_s $is_a #ecrm('E33_Linguistic_Object') . 
 $manifestation_s $is_a #efrbroo('F3_Manifestation_Product_Type') . 
 $work_s #efrbroo('R40_has_representative_expression') $expression_s . 
 $expression_s #efrbroo('R4_carriers_provided_by') $manifestation_s . 
+
+
+
 ## WORK
+
+##Control Field Mapping
+#set($value006 = $xpath.cf("006",$root))
+#if($value006)
+$value006.substring(0,1) $is_a #efrbroo('F18_Serial_Work') .
+#simplest_mapping_of_string ($work_s $xpath.cf("006",$root).substring(0,5) "E55_Type" $E55_Type $P103_was_intended_for)
+#simplest_mapping_of_string ($work_s $xpath.cf("006",$root).substring(1,4) "E55_Type" $E55_Type $P2_has_type)
+#simplest_mapping_of_string ($work_s $xpath.cf("006",$root).substring(3,4) "E55_Type" $E55_Type $P2_has_type)
+#simplest_mapping_of_string ($work_s $xpath.cf("006",$root).substring(4,5) "E55_Type" $E55_Type $P103_was_intended_for)
+#simplest_mapping_of_string ($work_s $xpath.cf("006",$root).substring(6,7) "E55_Type" $E55_Type $P2_has_type)
+#simplest_mapping_of_string ($work_s $xpath.cf("006",$root).substring(7,10) "E55_Type" $E55_Type $P2_has_type)
+#simplest_mapping_of_string ($work_s $xpath.cf("006",$root).substring(8,10) "E55_Type" $E55_Type $P2_has_type)
+#simplest_mapping_of_string ($work_s $xpath.cf("006",$root).substring(13,14) "E55_Type" $E55_Type $P2_has_type)
+#simplest_mapping_of_string ($work_s $xpath.cf("006",$root).substring(15,16) "E55_Type" $E55_Type $P2_has_type)
+#simplest_mapping_of_string ($work_s $xpath.cf("006",$root).substring(16,17) "E55_Type" $E55_Type $P2_has_type)
+#end
+##Data field mapping
 #simplest_mapping_with_repeatable_tag ($work_s "100" "k" $root "E55_Type" $E55_Type $P2_has_type)
 #simplest_mapping_with_repeatable_tag ($work_s "100" "n" $root "E35_Title" $E35_Title $P102_has_title)
 #simplest_mapping_with_repeatable_tag ($work_s "100" "p" $root "E55_Type" $E55_Type $CLP2_should_have_type)
@@ -51,6 +90,35 @@ $expression_s #efrbroo('R4_carriers_provided_by') $manifestation_s .
 #simplest_mapping_with_repeatable_tag ($work_s "600" "n" $root "E35_Title" $E35_Title $P102_has_title)
 #simplest_mapping_with_repeatable_tag ($work_s "600" "p" $root "E35_Title" $E35_Title $P102_has_title)
 #simplest_mapping_with_repeatable_tag ($work_s "600" "t" $root "E35_Title" $E35_Title $P102_has_title)
+#simplest_mapping_with_repeatable_tag ($work_s "600" "k" $root "E55_Type" $E55_Type $P2_has_type)
+
+#defined_mapping_with_no_repeatable_tag_to_date_relation( "100" "f" $root $F27_Work_Conception "F27_Work_Conception" $R16i_was_initiated_by $work_s) 
+#defined_mapping_with_no_repeatable_tag_to_date_relation( "110" "f" $root $F27_Work_Conception "F27_Work_Conception" $R16i_was_initiated_by $work_s) 
+#defined_mapping_with_no_repeatable_tag_to_date_relation( "111" "f" $root $F27_Work_Conception "F27_Work_Conception" $R16i_was_initiated_by $work_s) 
+#defined_mapping_with_no_repeatable_tag_to_date_relation( "130" "d" $root $F27_Work_Conception "F27_Work_Conception" $R16i_was_initiated_by $work_s) 
+#defined_mapping_with_no_repeatable_tag_to_date_relation( "130" "f" $root $F27_Work_Conception "F27_Work_Conception" $R16i_was_initiated_by $work_s) 
+#defined_mapping_with_no_repeatable_tag_to_date_relation( "240" "d" $root $F27_Work_Conception "F27_Work_Conception" $R16i_was_initiated_by $work_s) 
+#defined_mapping_with_no_repeatable_tag_to_date_relation( "240" "f" $root $F27_Work_Conception "F27_Work_Conception" $R16i_was_initiated_by $work_s) 
+#defined_mapping_with_no_repeatable_tag_to_date_relation( "243" "d" $root $F27_Work_Conception "F27_Work_Conception" $R16i_was_initiated_by $work_s) 
+#defined_mapping_with_no_repeatable_tag_to_date_relation( "243" "f" $root $F27_Work_Conception "F27_Work_Conception" $R16i_was_initiated_by $work_s) 
+#defined_mapping_with_no_repeatable_tag_to_date_relation( "245" "f" $root $F27_Work_Conception "F27_Work_Conception" $R16i_was_initiated_by $work_s) 
+#defined_mapping_with_no_repeatable_tag_to_date_relation( "245" "g" $root $F27_Work_Conception "F27_Work_Conception" $R16i_was_initiated_by $work_s) 
+
+#mapping_with_not_repeatable_tag_three_entities($xpath.df("130","r",$root) $work_s "F13_Identifier" "E90_Symbolic_Object" $F13_Identifier $E90_Symbolic_Object $P1_is_identified_by "#efrbroo('R8_consists_of')")
+#mapping_with_not_repeatable_tag_three_entities($xpath.df("130","s",$root) $expression_s "F13_Identifier" "E90_Symbolic_Object" $F13_Identifier $E90_Symbolic_Object $P1_is_identified_by "#efrbroo('R8_consists_of')")
+#mapping_with_not_repeatable_tag_three_entities($xpath.df("240","r",$root) $work_s "F13_Identifier" "E90_Symbolic_Object" $F13_Identifier $E90_Symbolic_Object $P1_is_identified_by "#efrbroo('R8_consists_of')")
+#mapping_with_not_repeatable_tag_three_entities($xpath.df("240","s",$root) $expression_s "F13_Identifier" "E90_Symbolic_Object" $F13_Identifier $E90_Symbolic_Object $P1_is_identified_by "#efrbroo('R8_consists_of')")
+#mapping_with_not_repeatable_tag_three_entities($xpath.df("243","r",$root) $work_s "F13_Identifier" "E90_Symbolic_Object" $F13_Identifier $E90_Symbolic_Object $P1_is_identified_by "#efrbroo('R8_consists_of')")
+#mapping_with_not_repeatable_tag_three_entities($xpath.df("243","s",$root) $expression_s "F13_Identifier" "E90_Symbolic_Object" $F13_Identifier $E90_Symbolic_Object $P1_is_identified_by "#efrbroo('R8_consists_of')")
+
+#mapping_with_repeatable_tag_four_entities($xpath.dfs("255","c",$root) $work_s "E27_Site" "E53_Place" "E47_Spatial_Coordinates" "#ecrm('E27_Site')" "#ecrm('E53_Place')" "#ecrm('E47_Spatial_Coordinates')" "#ecrm('P129_is_about')" "#ecrm('P59i_is_located_on_or_within')" "#ecrm('P87_is_identified_by')" )
+#mapping_with_repeatable_tag_four_entities($xpath.dfs("255","d",$root) $work_s "E27_Site" "E53_Place" "E47_Spatial_Coordinates" "#ecrm('E27_Site')" "#ecrm('E53_Place')" "#ecrm('E47_Spatial_Coordinates')" "#ecrm('P129_is_about')" "#ecrm('P59i_is_located_on_or_within')" "#ecrm('P87_is_identified_by')" )
+#mapping_with_repeatable_tag_four_entities($xpath.dfs("255","e",$root) $work_s "E27_Site" "E53_Place" "E47_Spatial_Coordinates" "#ecrm('E27_Site')" "#ecrm('E53_Place')" "#ecrm('E47_Spatial_Coordinates')" "#ecrm('P129_is_about')" "#ecrm('P59i_is_located_on_or_within')" "#ecrm('P87_is_identified_by')" )
+#mapping_with_repeatable_tag_four_entities($xpath.dfs("255","g",$root) $work_s "E27_Site" "E53_Place" "E47_Spatial_Coordinates" "#ecrm('E27_Site')" "#ecrm('E53_Place')" "#ecrm('E47_Spatial_Coordinates')" "#ecrm('P129_is_about')" "#ecrm('P59i_is_located_on_or_within')" "#ecrm('P87_is_identified_by')" )
+#defined_mapping_with_repeatable_tag_to_date_relation( "600" "f" $root $F27_Work_Conception "F27_Work_Conception" $R16i_was_initiated_by $work_s) 
+#mapping_with_repeatable_tag_three_entities($xpath.dfs("600","r",$root) $expression_s "F13_Identifier" "E90_Symbolic_Object" $F13_Identifier $E90_Symbolic_Object $P1_is_identified_by "#efrbroo('R8_consists_of')")
+
+
 ## MANIFESTATION
 #set($controlNumber = $xpath.cf("001",$root))
 #if ($controlNumber)
@@ -59,6 +127,17 @@ $expression_s #efrbroo('R4_carriers_provided_by') $manifestation_s .
     $id_s $P3_has_note "$controlNumber" . 
     $manifestation_s $P149_is_identified_by $id_s .
 #end	
+
+##Control Field Mapping
+#set($cf006 = $xpath.cf("006",$root))
+#if($cf006)
+	#simplest_mapping_of_string ($manifestation_s $cf006.substring(4,5) "E55_Type" $E55_Type "#ecrm('CLP2_should_have_type')")
+	#simplest_mapping_of_string ($F4_Manifestation_Singleton $cf006.substring(4,5) "E55_Type" $E55_Type $P2_has_type)
+	#simplest_mapping_of_string ($manifestation_s $cf006.substring(5,6) "E55_Type" $E55_Type "#ecrm('CLP2_should_have_type')")
+	#simplest_mapping_of_string ($manifestation_s $cf006.substring(5,6) "E55_Type" $E55_Type "#ecrm('CLP2_should_have_type')")
+	#simplest_mapping_of_string ($F4_Manifestation_Singleton $cf006.substring(5,6) "E55_Type" $E55_Type $P2_has_type)
+#end
+
 #simplest_mapping_with_no_repeatable_tag ($manifestation_s "130" "h" $root "E55_Type" $E55_Type $CLP2_should_have_type)
 #simplest_mapping_with_no_repeatable_tag ($manifestation_s "210" "a" $root "E35_Title" $E35_Title $P102_has_title)
 #simplest_mapping_with_no_repeatable_tag ($manifestation_s "222" "a" $root "E35_Title" $E35_Title $P102_has_title)
@@ -106,6 +185,22 @@ $expression_s #efrbroo('R4_carriers_provided_by') $manifestation_s .
 #simplest_mapping_with_repeatable_tag ($manifestation_s "533" "7" $root "E55_Type" $E55_Type $CLP2_should_have_type)
 #simplest_mapping_with_repeatable_tag ($manifestation_s "600" "h" $root "E55_Type" $E55_Type $CLP2_should_have_type)
 ## EXPRESSION
+
+##Control Field Mapping
+#set($value006 = $xpath.cf("006",$root))
+#if($value006)
+#simplest_mapping_of_string ($expression_s $xpath.cf("006",$root).substring(0,1) "E55_Type" $E55_Type $P2_has_type)
+#simplest_mapping_of_string ($expression_s $xpath.cf("006",$root).substring(1,2) "E55_Type" $E55_Type $P2_has_type)
+#simplest_mapping_of_string ($expression_s $xpath.cf("006",$root).substring(2,3) "E55_Type" $E55_Type $P2_has_type)
+#simplest_mapping_of_string ($expression_s $xpath.cf("006",$root).substring(8,9) "E55_Type" $E55_Type $P2_has_type)
+#end
+#set($value008 = $xpath.cf("008",$root))
+#if($value008)
+
+#end
+
+## End Control Field Mapping
+
 #simplest_mapping_with_no_repeatable_tag($expression_s "100" "l" $root "E56_Language" "#ecrm('E56_Language')" "#ecrm('P72_has_language')")
 #simplest_mapping_with_no_repeatable_tag($expression_s "110" "l" $root "E56_Language" "#ecrm('E56_Language')" "#ecrm('P72_has_language')")
 #simplest_mapping_with_no_repeatable_tag($expression_s "111" "l" $root "E56_Language" "#ecrm('E56_Language')" "#ecrm('P72_has_language')")
@@ -114,6 +209,12 @@ $expression_s #efrbroo('R4_carriers_provided_by') $manifestation_s .
 #simplest_mapping_with_no_repeatable_tag($expression_s "240" "l" $root "E56_Language" "#ecrm('E56_Language')" "#ecrm('P72_has_language')")
 #simplest_mapping_with_no_repeatable_tag($expression_s "243" "l" $root "E56_Language" "#ecrm('E56_Language')" "#ecrm('P72_has_language')")
 #simplest_mapping_with_no_repeatable_tag($expression_s "600" "l" $root "E56_Language" "#ecrm('E56_Language')" "#ecrm('P72_has_language')")
+
+
+#simplest_mapping_with_repeatable_tag ($expression_s "516" "a" $root "E55_Type" $E55_Type $P2_has_type)
+
+
+
 ##260
 #set($tagValues = $xpath.dfs("260","b",$root))
 #foreach($tagValue in $tagValues)
@@ -175,6 +276,15 @@ $expression_s #efrbroo('R4_carriers_provided_by') $manifestation_s .
 #simplest_mapping_with_no_repeatable_tag ($expression_s "256" "a" $root "E54_Dimension" "#ecrm('E54_Dimension')" "#ecrm('P43_has_dimension')")
 #simplest_mapping_with_no_repeatable_tag ($expression_s "306" "a" $root "E54_Dimension" "#ecrm('E54_Dimension')" "#ecrm('P43_has_dimension')")
 #simplest_mapping_with_no_repeatable_tag ($expression_s "600" "a" $root "E55_Type" $E55_Type $P2_has_type)
+
+#mapping_with_not_repeatable_tag_three_entities($xpath.df("130","o",$root) $expression_s "F13_Identifier" "E90_Symbolic_Object" $F13_Identifier "#ecrm('E90_Symbolic_Object')" $P1_is_identified_by "#efrbroo('R8_consists_of')")
+#mapping_with_not_repeatable_tag_three_entities($xpath.df("240","o",$root) $expression_s "F13_Identifier" "E90_Symbolic_Object" $F13_Identifier "#ecrm('E90_Symbolic_Object')" $P1_is_identified_by "#efrbroo('R8_consists_of')")
+#mapping_with_not_repeatable_tag_three_entities($xpath.df("243","o",$root) $expression_s "F13_Identifier" "E90_Symbolic_Object" $F13_Identifier "#ecrm('E90_Symbolic_Object')" $P1_is_identified_by "#efrbroo('R8_consists_of')")
+#mapping_with_not_repeatable_tag_three_entities($xpath.df("245","s",$root) $expression_s "F13_Identifier" "E90_Symbolic_Object" $F13_Identifier "#ecrm('E90_Symbolic_Object')" $P1_is_identified_by "#efrbroo('R8_consists_of')")
+
+#mapping_with_repeatable_tag_three_entities($xpath.dfs("600","o",$root) $expression_s "F13_Identifier" "E90_Symbolic_Object" $F13_Identifier "#ecrm('E90_Symbolic_Object')" $P1_is_identified_by "#efrbroo('R8_consists_of')")
+#mapping_with_repeatable_tag_three_entities($xpath.dfs("600","s",$root) $expression_s "F13_Identifier" "E90_Symbolic_Object" $F13_Identifier "#ecrm('E90_Symbolic_Object')" $P1_is_identified_by "#efrbroo('R8_consists_of')")
+
 ## PERSON
 #if ($frbr.personID && !$frbr.personID.isEmpty())
 	#foreach($entry in $frbr.personID.entrySet())
@@ -183,8 +293,8 @@ $expression_s #efrbroo('R4_carriers_provided_by') $manifestation_s .
 		#if ($uris && !$uris.isEmpty())
 			#foreach($uri in $uris)
         		#set($person_s = "#uri('E21_Person' $uri)")
-        		$person_s $is_a #ecrm('E21_Person') . 
-        		#simplest_mapping_with_no_repeatable_tag ($person_s $tag "a" $root "E82_Actor_Appellation" "#ecrm('E82_Actor_Appellation')" "#ecrm('P131_is_identified_by')")
+        		$person_s $is_a #ecrm('E21_Person') .
+				#simplest_mapping_with_no_repeatable_tag ($person_s $tag "a" $root "E82_Actor_Appellation" "#ecrm('E82_Actor_Appellation')" "#ecrm('P131_is_identified_by')")
         		#simplest_mapping_with_no_repeatable_tag ($person_s $tag "q" $root "E82_Actor_Appellation" "#ecrm('E82_Actor_Appellation')" "#ecrm('P131_is_identified_by')")
         		#simplest_mapping_with_no_repeatable_tag ($person_s $tag "u" $root "E82_Actor_Appellation" "#ecrm('E74_Group')" "#ecrm('P107i_is_current_or_former_member_of')")
         		#simplest_mapping_with_repeatable_tag ($person_s $tag "j" $root "E82_Actor_Appellation" "#ecrm('E82_Actor_Appellation')" "#ecrm('P131_is_identified_by')")
@@ -193,6 +303,19 @@ $expression_s #efrbroo('R4_carriers_provided_by') $manifestation_s .
     	#end	
 	#end	
 #end	
+#mapping_with_not_repeatable_tag_three_entities($xpath.df("100","b",$root) $persons_s "F13_Identifier" "E90_Symbolic_Object" $F13_Identifier $E90_Symbolic_Object $P1_is_identified_by "#efrbroo('R8_consists_of')")
+#defined_mapping_with_no_repeatable_tag_to_date_relation( "100" "d" $root "#ecrm('E67_Birth')" "E67_Brth" "#ecrm('P98i_was_born')" $person_s) 
+#mapping_with_not_repeatable_tag_three_entities($xpath.df("100","d",$root) $persons_s "F13_Identifier" "E90_Symbolic_Object" $F13_Identifier $E90_Symbolic_Object $P1_is_identified_by "#efrbroo('R8_consists_of')")
+#mapping_with_not_repeatable_tag_four_entities($xpath.df("100","d",$root) $persons_s "E69_Death" "E52_Time-Span" "E50_Date" "#ecrm('E69_Death')" "#ecrm('E52_Time-Span')" "#ecrm('E50_Date')" "#ecrm('P100i_died_in')" "#ecrm('P4_has_time-span')" "#ecrm('P78_is_identified_by')" )
+#simplest_mapping_with_repeatable_tag ($person_s "600" "a" $root "E82_Actor_Appellation" "#ecrm('E82_Actor_Appellation')" "#ecrm('P131_is_identified_by')")
+#simplest_mapping_with_repeatable_tag ($person_s "600" "j" $root "E82_Actor_Appellation" "#ecrm('E82_Actor_Appellation')" "#ecrm('P131_is_identified_by')")
+#simplest_mapping_with_repeatable_tag ($person_s "600" "q" $root "E82_Actor_Appellation" "#ecrm('E82_Actor_Appellation')" "#ecrm('P131_is_identified_by')")
+#mapping_with_repeatable_tag_three_entities($xpath.dfs("600","b",$root) $persons_s "F13_Identifier" "E90_Symbolic_Object" $F13_Identifier $E90_Symbolic_Object $P1_is_identified_by "#efrbroo('R8_consists_of')")
+#mapping_with_repeatable_tag_four_entities($xpath.dfs("600","d",$root) $persons_s "E67_Birth" "E52_Time-Span" "E50_Date" "#ecrm('E67_Birth')" "#ecrm('E52_Time-Span')" "#ecrm('E50_Date')" "#ecrm('P98i_was_born')" "#ecrm('P4_has_time-span')" "#ecrm('P78_is_identified_by')" )
+#mapping_with_repeatable_tag_four_entities($xpath.dfs("600","d",$root) $persons_s "E69_Death" "E52_Time-Span" "E50_Date" "#ecrm('E69_Death')" "#ecrm('E52_Time-Span')" "#ecrm('E50_Date')" "#ecrm('P100i_died_in')" "#ecrm('P4_has_time-span')" "#ecrm('P78_is_identified_by')" )
+#mapping_with_repeatable_tag_three_entities($xpath.dfs("600","d",$root) $persons_s "F13_Identifier" "E90_Symbolic_Object" $F13_Identifier $E90_Symbolic_Object $P1_is_identified_by "#efrbroo('R8_consists_of')")
+
+
 ## CORPORATE BODY
 #if ($frbr.corporateBodyID && !$frbr.corporateBodyID.isEmpty())
 	#foreach($entry in $frbr.corporateBodyID.entrySet())
@@ -210,3 +333,108 @@ $expression_s #efrbroo('R4_carriers_provided_by') $manifestation_s .
     	#end	
 	#end	
 #end	
+
+#mapping_with_not_repeatable_tag_three_entities($xpath.dfs("100","b",$root) $corporate_s "F13_Identifier" "E90_Symbolic_Object" $F13_Identifier "#ecrm('E90_Symbolic_Object')" $P1_is_identified_by "#efrbroo('R8_consists_of')")
+#simplest_mapping_with_no_repeatable_tag ($corporate_s "110" "c" $root "E53_Place" $E53_Place $P74_has_current_or_former_residence)
+#mapping_with_not_repeatable_tag_four_entities($xpath.df("110","c",$root) $corporate_s "E7_Activity" "E53_Place" "E44_Place_Appellation" "#ecrm('E7_Activity')" $E53_Place $E44_Place_Appellation "#ecrm('P14i_performed')" "#ecrm('P7_took_place_at')" $P87_is_identified_by)
+#mapping_with_not_repeatable_tag_three_entities($xpath.df("110","c",$root) $corporate_s "E53_Place" "E44_Place_Appellation" $E53_Place $E44_Place_Appellation "#ecrm('P14i_performed')" $P87_is_identified_by)
+#mapping_with_not_repeatable_tag_three_entities($xpath.df("110","c",$root) $corporate_s "E53_Place" "E44_Place_Appellation" $E53_Place $E44_Place_Appellation "#ecrm('P74_has_current_or_former_residence')" $P87_is_identified_by)
+#mapping_with_not_repeatable_tag_three_entities($xpath.df("110","c",$root) $corporate_s "F13_Identifier" "E44_Place_Appellation" $F13_Identifier $E44_Place_Appellation $P1_is_identified_by "#efrbroo('R8_consists_of')")
+#mapping_with_repeatable_tag_four_entities($xpath.dfs("255","c",$root) $corporate_s "E27_Site" "E53_Place" "E47_Spatial_Coordinates" "#ecrm('E27_Site')" "#ecrm('E53_Place')" "#ecrm('E47_Spatial_Coordinates')" "#ecrm('P129_is_about')" "#ecrm('P59i_is_located_on_or_within')" "#ecrm('P87_is_identified_by')" )
+#mapping_with_not_repeatable_tag_four_entities($xpath.df("100","d",$root) $corporate_s "E7_Activity" "E52_Time-Span" "E50_Date" "#ecrm('E7_Activity')" "#ecrm('E52_Time-Span')" "#ecrm('E50_Date')" "#ecrm(' P14i_performed')" "#ecrm('P4_has_time-span')" "#ecrm('P78_is_identified_by')" )
+#mapping_with_not_repeatable_tag_three_entities($xpath.df("110","d",$root)  $corporate_s "F13_Identifier" "E50_Date" $F13_Identifier $E50_Date $P1_is_identified_by "#efrbroo('R8_consists_of')")
+#mapping_with_not_repeatable_tag_four_entities($xpath.df("110","d",$root) $corporate_s "E66_Formation" "E52_Time-Span" "E50_Date" "#ecrm('E66_Formation')" "#ecrm('E52_Time-Span')" "#ecrm('E50_Date')" "#ecrm('P95i_was_formed_by')" "#ecrm('P4_has_time-span')" "#ecrm('P78_is_identified_by')" )
+#mapping_with_not_repeatable_tag_four_entities($xpath.df("111","c",$root) $corporate_s "E7_Activity" "E53_Place" "E44_Place_Appellation" "#ecrm('E7_Activity')" $E53_Place $E44_Place_Appellation "#ecrm('P14i_performed')" "#ecrm('P7_took_place_at')" $P87_is_identified_by)
+#mapping_with_not_repeatable_tag_three_entities($xpath.df("111","c",$root) $corporate_s "E53_Place" "E44_Place_Appellation" $E53_Place $E44_Place_Appellation $P74_has_current_or_former_residence $P87_is_identified_by)
+#mapping_with_not_repeatable_tag_three_entities($xpath.df("111","c",$root)  $corporate_s "F13_Identifier" "E44_Place_Appellation" $F13_Identifier $E44_Place_Appellation $P1_is_identified_by "#efrbroo('R8_consists_of')")
+#mapping_with_not_repeatable_tag_four_entities($xpath.df("111","d",$root) $corporate_s "E66_Formation" "E52_Time-Span" "E50_Date" "#ecrm('E66_Formation')" "#ecrm('E52_Time-Span')" "#ecrm('E50_Date')" "#ecrm('P95i_was_formed_by')" "#ecrm('P4_has_time-span')" "#ecrm('P78_is_identified_by')" )
+#mapping_with_not_repeatable_tag_four_entities($xpath.df("111","d",$root) $corporate_s "E7_Activity" "E52_Time-Span" "E50_Date" "#ecrm('E7_Activity')" "#ecrm('E52_Time-Span')" "#ecrm('E50_Date')" "#ecrm('P1_is_identified_ by')" "#ecrm('P4_has_time-span')" "#ecrm('P78_is_identified_by')" )
+#mapping_with_not_repeatable_tag_three_entities($xpath.df("111","d",$root)  $corporate_s "F13_Identifier" "E50_Date" $F13_Identifier $E50_Date $P1_is_identified_by "#efrbroo('R8_consists_of')")
+
+#mapping_with_repeatable_tag_three_entities($xpath.dfs("533","c",$root) $corporate_s "F32_Carrier_Production_Event" "F3_Manifestation_Product_Type" "#efrbroo('F32_Carrier_Production_Event')" "#efrbroo('F3_Manifestation_Product_Type')" $P14i_performed "#efrbroo('R26_produced_things_of_type')")
+#mapping_with_repeatable_tag_three_entities($xpath.dfs("533","c",$root) $corporate_s "F28_Expression_Creation" "F4_Manifestation_Singleton" "#efrbroo('F28_Expression_Creation')" "#efrbroo('F4_Manifestation_Singleton')" $P14i_performed "#efrbroo('R18_created')")
+#mapping_with_repeatable_tag_three_entities($xpath.dfs("533","c",$root) $corporate_s "E12 Production" "F4_Manifestation_Singleton" "#efrbroo('E12 Production')" "#efrbroo('F4_Manifestation_Singleton')" $P14i_performed "#ecrm('P108_has_produced')")
+#mapping_with_repeatable_tag_four_entities($xpath.dfs("533","c",$root) $corporate_s "F30_Publication_Event" "F24_Publication_Expression" "F3_Manifestation_Product_Type" "#efrbroo('F30_Publication_Event')" "#efrbroo('F24_Publication_Expression')" "#efrbroo('F3_Manifestation_Product_Type')" $P14i_performed "#ecrm('R24_created')" "#ecrm('CLR6_should_carry')" )
+#simplest_mapping_with_repeatable_tag ($corporate_s "600" "u" $root "E74_Group" "#ecrm('E74_Group')" "#ecrm('P107i_is_current_or_former_member_of')")
+##Place
+#if ($frbr.placeID && !$frbr.placeID.isEmpty())
+	#foreach($entry in $frbr.placeID.entrySet())
+		#set($tag = $entry.getKey())
+		#set($uris = $entry.getValue())
+		#if ($uris && !$uris.isEmpty())
+			  #simplest_mapping_with_repeatable_tag($E53_Place $tag "z" $root "E44_Place_Appellation" "#ecrm('$E44_Place_Appellation')" $P87_is_identified_by)
+			#if($tag == "650")
+			  #simplest_mapping_with_repeatable_tag($E53_Place $tag "c" $root "E44_Place_Appellation" "#ecrm('$E44_Place_Appellation')" $P87_is_identified_by)
+			#end
+			#if($tag == "651")
+			  #simplest_mapping_with_repeatable_tag($E53_Place $tag "a" $root "E44_Place_Appellation" "#ecrm('$E44_Place_Appellation')" $P87_is_identified_by)
+			#end
+    	#end	
+	#end	
+#end	
+#simplest_mapping_with_repeatable_tag($E53_Place "522" "a" $root "E44_Place_Appellation" "#ecrm('$E44_Place_Appellation')" $P87_is_identified_by)
+
+
+##Concept
+#if ($frbr.conceptID && !$frbr.conceptID.isEmpty())
+	#foreach($entry in $frbr.conceptID.entrySet())
+		#set($tag = $entry.getKey())
+		#set($uris = $entry.getValue())
+		#if ($uris && !$uris.isEmpty())
+			#foreach($uri in $uris) 
+        		#set($concept_s = "#uri('F6_Concept' $uri)")
+        		$concept_s $is_a #efrbroo('F6_Concept') .
+				#simplest_mapping_with_repeatable_tag($concept_s $tag "x" $root "E41_Appellation" "#ecrm('$E41_Appellation')" $P1_is_identified_by)
+				#if($tag == "655")
+					#simplest_mapping_with_repeatable_tag($concept_s $tag "a" $root "E41_Appellation" "#ecrm('$E41_Appellation')" $P1_is_identified_by)
+				#end
+				#if($tag == "600")
+					#simplest_mapping_with_repeatable_tag("#ecrm('$E4_Period')" "600" "y" $root "E41_Appellation" "#ecrm('$E41_Appellation')" $P87_is_identified_by)
+					#simplest_mapping_with_repeatable_tag($E53_Place "600" "z" $root "E44_Place_Appellation" "#ecrm('$E44_Place_Appellation')" $P87_is_identified_by)
+				#end	
+			#end	
+    	#end	
+	#end	
+#end	
+
+##Item
+#if ($frbr.itemID && !$frbr.itemID.isEmpty())
+	#foreach($entry in $frbr.itemID.entrySet())
+		#set($tag = $entry.getKey())
+		#set($uris = $entry.getValue())
+		#if ($uris && !$uris.isEmpty())
+			#foreach($uri in $uris) 
+        		#set($item_s = "#uri('F5_Item' $uri)")
+        		$item_s $is_a #efrbroo('F5_Item') .
+				#simplest_mapping_with_repeatable_tag($item_s $tag "a" $root "E39_Actor" "#ecrm('$E39_Actor')" "#ecrm('P49_has_former_or_current_keeper')")
+				#simplest_mapping_with_repeatable_tag($item_s $tag "b" $root "E39_Actor" "#ecrm('$E39_Actor')" "#ecrm('P49_has_former_or_current_keeper')")
+				#simplest_mapping_with_repeatable_tag($item_s $tag "m" $root "E42_Identifier" "#ecrm('$E42_Identifier')" $P1_is_identified_by)
+			#end	
+    	#end	
+	#end	
+#end	
+#simplest_mapping_with_repeatable_tag($F4_Manifestation_Singleton "355" "a" $root "E30_Right" "#ecrm('$E30_Right')" $P104_is_subject_to)
+#simplest_mapping_with_repeatable_tag($F4_Manifestation_Singleton "355" "b" $root "E30_Right" "#ecrm('$E30_Right')" $P104_is_subject_to)
+#simplest_mapping_with_repeatable_tag($F4_Manifestation_Singleton "355" "c" $root "E30_Right" "#ecrm('$E30_Right')" $P104_is_subject_to)
+#simplest_mapping_with_repeatable_tag($F4_Manifestation_Singleton "355" "d" $root "E30_Right" "#ecrm('$E30_Right')" $P104_is_subject_to)
+#simplest_mapping_with_repeatable_tag($F4_Manifestation_Singleton "355" "e" $root "E30_Right" "#ecrm('$E30_Right')" $P104_is_subject_to)
+#simplest_mapping_with_repeatable_tag($F4_Manifestation_Singleton "355" "f" $root "E30_Right" "#ecrm('$E30_Right')" $P104_is_subject_to)
+#simplest_mapping_with_repeatable_tag($F4_Manifestation_Singleton "355" "g" $root "E30_Right" "#ecrm('$E30_Right')" $P104_is_subject_to)
+#simplest_mapping_with_repeatable_tag($F4_Manifestation_Singleton "355" "h" $root "E30_Right" "#ecrm('$E30_Right')" $P104_is_subject_to)
+#simplest_mapping_with_repeatable_tag($F4_Manifestation_Singleton "355" "6" $root "E30_Right" "#ecrm('$E30_Right')" $P104_is_subject_to)
+#simplest_mapping_with_repeatable_tag($F4_Manifestation_Singleton "355" "8" $root "E30_Right" "#ecrm('$E30_Right')" $P104_is_subject_to)
+#simplest_mapping_with_no_repeatable_tag($F4_Manifestation_Singleton "357" "a" $root "E30_Right" "#ecrm('$E30_Right')" $P104_is_subject_to)
+#simplest_mapping_with_no_repeatable_tag($F4_Manifestation_Singleton "357" "b" $root "E30_Right" "#ecrm('$E30_Right')" $P104_is_subject_to)
+#simplest_mapping_with_no_repeatable_tag($F4_Manifestation_Singleton "357" "c" $root "E30_Right" "#ecrm('$E30_Right')" $P104_is_subject_to)
+#simplest_mapping_with_no_repeatable_tag($F4_Manifestation_Singleton "357" "g" $root "E30_Right" "#ecrm('$E30_Right')" $P104_is_subject_to)
+#simplest_mapping_with_no_repeatable_tag($F4_Manifestation_Singleton "357" "6" $root "E30_Right" "#ecrm('$E30_Right')" $P104_is_subject_to)
+#simplest_mapping_with_no_repeatable_tag($F4_Manifestation_Singleton "357" "8" $root "E30_Right" "#ecrm('$E30_Right')" $P104_is_subject_to)
+#simplest_mapping_with_repeatable_tag($F4_Manifestation_Singleton "506" "a" $root "E30_Right" "#ecrm('$E30_Right')" $P104_is_subject_to)
+#simplest_mapping_with_repeatable_tag($F4_Manifestation_Singleton "506" "b" $root "E30_Right" "#ecrm('$E30_Right')" $P104_is_subject_to)
+#simplest_mapping_with_repeatable_tag($F4_Manifestation_Singleton "506" "c" $root "E30_Right" "#ecrm('$E30_Right')" $P104_is_subject_to)
+#simplest_mapping_with_repeatable_tag($F4_Manifestation_Singleton "506" "d" $root "E30_Right" "#ecrm('$E30_Right')" $P104_is_subject_to)
+#simplest_mapping_with_repeatable_tag($F4_Manifestation_Singleton "506" "e" $root "E30_Right" "#ecrm('$E30_Right')" $P104_is_subject_to)
+#simplest_mapping_with_repeatable_tag($F4_Manifestation_Singleton "490" "l" $root "E42_Identifier" "#ecrm('$E42_Identifier')" $P1_is_identified_by)
+
+##Event
+#simplest_mapping_with_repeatable_tag("#ecrm('$E4_Period')" "518" "a" $root "E41_Appellation" "#ecrm('$E41_Appellation')" $P87_is_identified_by)

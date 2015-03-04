@@ -73,8 +73,7 @@ public class AllMultipleMatches<K> implements Expression<Map<String, List<String
 						String attrName = attr.getNodeName();
 						String attrValue = attr.getNodeValue();
 						if ((attrName.equals(XML_ATTRIBUTE_IND1) && isAttributeValuePresent(
-								attrValue, indicators))
-								|| indicators[0].trim().length() == 0) {
+								attrValue, indicators)) || indicators[0].trim().length() == 0) {
 							putValue(
 									result,
 									tag,

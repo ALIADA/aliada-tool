@@ -29,8 +29,12 @@ public final class FrbrDocument implements Serializable {
 	private final Map<String, List<String>> familyID;
 	private final Map<String, List<String>> corporateBodyID;
 	private final Map<String, List<String>> itemID;
+	private final Map<String, List<String>> conceptID;
+	private final Map<String, List<String>> eventID;
+	private final Map<String, List<String>> placeID;
+	private final Map<String, List<String>> recordID;
 	
-	
+
 	/**
 	 * Builds a new {@link FrbrDocument} with the given DOM {@link Document}.
 	 * 
@@ -51,7 +55,11 @@ public final class FrbrDocument implements Serializable {
 			final Map<String, List<String>> personURI, 
 			final Map<String, List<String>> familyURI,
 			final Map<String, List<String>> corporateBodyURI,
-			final Map<String, List<String>> itemURI) {
+			final Map<String, List<String>> itemURI,
+			final Map<String, List<String>> conceptURI,
+			final Map<String, List<String>> eventURI,
+			final Map<String, List<String>> placeURI,
+			final Map<String, List<String>> recordURI) {
 		this.document = document;
 		this.workID = workURI;
 		this.expressionID = expressionURI;
@@ -60,6 +68,19 @@ public final class FrbrDocument implements Serializable {
 		this.familyID = familyURI;
 		this.corporateBodyID = corporateBodyURI;
 		this.itemID = itemURI;
+		this.conceptID = conceptURI;
+		this.eventID = eventURI;
+		this.placeID = placeURI;
+		this.recordID = recordURI;
+	}
+	
+	/**
+	 * Return a map with tag as key and a List of String which represent the URIs.
+	 * 
+	 * @return the itemURI
+	 */
+	public  Map<String, List<String>> getItemID() {
+		return itemID;
 	}
 	
 	/**
@@ -131,12 +152,36 @@ public final class FrbrDocument implements Serializable {
 		return corporateBodyID;
 	}
 
+
 	/**
 	 * Return a map with tag as key and a List of String which represent the URIs.
-	 * 
-	 * @return the itemURI
+	 * @return the conceptID
 	 */
-	public  Map<String, List<String>> getItemID() {
-		return itemID;
+	public Map<String, List<String>> getConceptID() {
+		return conceptID;
+	}
+	
+	/**
+	 * Return a map with tag as key and a List of String which represent the URIs.
+	 * @return the eventID
+	 */
+	public Map<String, List<String>> getEventID() {
+		return eventID;
+	}
+	
+	/**
+	 * Return a map with tag as key and a List of String which represent the URIs.
+	 * @return the placeID
+	 */
+	public Map<String, List<String>> getPlaceID() {
+		return placeID;
+	}
+	
+	/**
+	 * Return a map with tag as key and a List of String which represent the URIs.
+	 * @return the recordID
+	 */
+	public Map<String, List<String>> getRecordID() {
+		return recordID;
 	}
 }
