@@ -32,6 +32,7 @@ public class RDFValidationAction extends ActionSupport {
 	
 	private String sparqlEndpoint;
     private String graphUri;
+    private String linksGraphUri;
 
     private final Log logger = new Log(RDFValidationAction.class);
     /**
@@ -48,11 +49,12 @@ public class RDFValidationAction extends ActionSupport {
             Statement statement;
             try {
                 statement = connection.createStatement();
-                ResultSet rs = statement.executeQuery("SELECT public_sparql_endpoint_uri, graph_uri FROM aliada.organisation o INNER JOIN aliada.dataset d "
+                ResultSet rs = statement.executeQuery("SELECT public_sparql_endpoint_uri, graph_uri, links_graph_uri FROM aliada.organisation o INNER JOIN aliada.dataset d "
                 		+ "ON o.organisationId=d.organisationId INNER JOIN aliada.subset s ON d.datasetId=s.datasetId WHERE graph_uri='" + importedFile.getGraph() + "'");
                 if (rs.next()) {
                     setSparqlEndpoint(rs.getString("public_sparql_endpoint_uri"));
                     setGraphUri(rs.getString("graph_uri"));
+                    setLinksGraphUri(rs.getString("links_graph_uri"));
                 }
                 rs.close();
                 statement.close();
@@ -100,4 +102,21 @@ public class RDFValidationAction extends ActionSupport {
     public void setGraphUri(final String graphUri) {
         this.graphUri = graphUri;
     }
+    /**
+     * @return Returns the linksGraphUri.
+     * @exception
+     * @since 1.0
+     */
+	public String getLinksGraphUri() {
+		return linksGraphUri;
+	}
+	/**
+     * @param linksGraphUri The linksGraphUri to set.
+     * @exception
+     * @since 1.0
+     */
+	public void setLinksGraphUri(final String linksGraphUri) {
+		this.linksGraphUri = linksGraphUri;
+	}
+    
 }

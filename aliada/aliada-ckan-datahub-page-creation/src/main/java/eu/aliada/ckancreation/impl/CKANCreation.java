@@ -6,7 +6,7 @@
 package eu.aliada.ckancreation.impl;
 
 import java.io.*;
-import java.sql.SQLException;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map;
@@ -19,9 +19,6 @@ import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Response;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.JsonGenerationException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 
 import eu.aliada.ckancreation.model.Organization;
 import eu.aliada.ckancreation.model.CKANOrgResponse;
@@ -575,6 +572,29 @@ public class CKANCreation {
 	}
 	
 	/**
+	 * It copies the organisation image file to the dataset web root.
+	 *
+	 * @return true if the organisation image has been copied correctly. False otherwise.  					
+	 * @since 2.0
+	 */
+	public boolean copyOrgImageToWebServerPath() {
+		boolean success = false;
+		try {
+			//Move the organization image file from TMP folder to the definitive folder
+			File orgImageInitFile= new File(jobConf.getOrgImagePath());
+			final String definitiveFileName = dataFolderName + File.separator + orgImageInitFile.getName();
+			final File definitiveFile = new File (definitiveFileName);
+			Files.move(orgImageInitFile.toPath(), definitiveFile.toPath(), java.nio.file.StandardCopyOption.REPLACE_EXISTING);
+			jobConf.setOrgImagePath(definitiveFileName);
+			String orgImageURL = dataFolderURL + "/" + definitiveFile.getName();
+			jobConf.setOrgImageURL(orgImageURL);
+			success = true;
+		} catch (IOException exception) {
+			LOGGER.error(MessageCatalog._00035_FILE_ACCESS_FAILURE, exception, jobConf.getOrgImagePath());
+		}
+		return success;
+	}
+	/**
 	 * It creates a new Dataset in CKAN Datahub. Removes it first if it already exists.
 	 * It also updates the organization information in CKAN Datahub.
 	 *
@@ -590,6 +610,21 @@ public class CKANCreation {
 		final int numTriples = calculateDatasetNumTriples(jobConf.getPublicSparqlEndpointUri(), jobConf.getSubsets());
 		jobConf.setNumTriples(numTriples);
 		//ORGANIZATION
+		//Copy organisation image file to dataset web root
+		copyOrgImageToWebServerPath();
+		try {
+			//Move the generated dump file from TMP folder to the definitive folder
+			File orgImageInitFile= new File(jobConf.getOrgImagePath());
+			final String definitiveFileName = dataFolderName + File.separator + orgImageInitFile.getName();
+			final File definitiveFile = new File (definitiveFileName);
+			Files.move(orgImageInitFile.toPath(), definitiveFile.toPath(), java.nio.file.StandardCopyOption.REPLACE_EXISTING);
+			jobConf.setOrgImagePath(definitiveFileName);
+			String orgImageURL = dataFolderURL + "/" + definitiveFile.getName();
+			jobConf.setOrgImageURL(orgImageURL);
+    	} catch (IOException exception) {
+			LOGGER.error(MessageCatalog._00035_FILE_ACCESS_FAILURE, exception, jobConf.getOrgImagePath());
+    	}
+		
 		final CKANOrgResponse cOrgResponse = updateOrganization();
 		//DATASET
 		if(cOrgResponse.getSuccess() == "true"){

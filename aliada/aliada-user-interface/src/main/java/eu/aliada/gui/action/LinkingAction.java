@@ -147,6 +147,124 @@ public class LinkingAction extends ActionSupport {
         return SUCCESS;
     }
     /**
+     * Calls to the publication module.
+     * @return String
+     * @see
+     * @since 1.0
+     */
+    public String publish() {
+        HttpSession session = ServletActionContext.getRequest().getSession();
+        
+        // New publication
+        session.setAttribute("publish", 2);
+
+        int addedId = 0;
+            Connection connection = null;
+            connection = new DBConnectionManager().getConnection();
+            Statement statement;
+            try {
+                statement = connection.createStatement();
+                ResultSet rs = statement
+                        .executeQuery("select ckan_api_url, ckan_api_key, o.tmp_dir, store_ip, store_sql_port, "
+                        		+ "sql_login, sql_password,isql_command_path, virtuoso_http_server_root, aliada_ontology, "
+                        		+ "org_name, org_description,org_home_page, d.datasetId, l.job_id, o.organisationId "
+                        		+ "from aliada.organisation o "
+                        		+ "INNER JOIN aliada.dataset d ON o.organisationId = d.organisationId "
+                        		+ "INNER JOIN aliada.subset s ON d.datasetId = s.datasetId "
+                        		+ "INNER JOIN aliada.linksdiscovery_job_instances l ON l.input_graph = s.graph_uri "
+                        		+ "ORDER BY l.job_id DESC LIMIT 1;");
+                if (rs.next()) {
+                    PreparedStatement preparedStatement = connection
+                            .prepareStatement(
+                                    "INSERT INTO aliada.ckancreation_job_instances (ckan_api_url, ckan_api_key, tmp_dir, store_ip,"
+                                    + " store_sql_port, sql_login, sql_password, isql_command_path, virtuoso_http_server_root,"
+                                    + " aliada_ontology, org_name, org_description, org_home_page, datasetId, job_id, organisationId) "
+                                    + "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+                                    PreparedStatement.RETURN_GENERATED_KEYS);
+                    preparedStatement.setString(1, rs.getString("ckan_api_url"));
+                    preparedStatement.setString(2, rs.getString("ckan_api_key"));
+                    preparedStatement.setString(3, rs.getString("tmp_dir"));
+                    preparedStatement.setString(4, rs.getString("store_ip"));
+                    preparedStatement.setInt(5, rs.getInt("store_sql_port"));
+                    preparedStatement.setString(6, rs.getString("sql_login"));
+                    preparedStatement.setString(7, rs.getString("sql_password"));
+                    preparedStatement.setString(8, rs.getString("isql_command_path"));
+                    preparedStatement.setString(9, rs.getString("virtuoso_http_server_root"));
+                    preparedStatement.setString(10, rs.getString("aliada_ontology"));
+                    preparedStatement.setString(11, rs.getString("org_name"));
+                    preparedStatement.setString(12, rs.getString("org_description"));
+                    preparedStatement.setString(13, rs.getString("org_home_page"));
+                    preparedStatement.setInt(14, rs.getInt("datasetId"));
+                    preparedStatement.setInt(15, rs.getInt("job_id"));
+                    preparedStatement.setInt(16, rs.getInt("organisationId"));
+                    preparedStatement.executeUpdate();
+                    ResultSet rs2 = preparedStatement.getGeneratedKeys();
+                    if (rs2.next()) {
+                        addedId = (int) rs2.getInt(1);
+                    }
+                    rs2.close();
+                    preparedStatement.close();          
+                    URL url;
+                    HttpURLConnection conn = null;
+                    try {
+					    url = new URL("http://aliada:8080/aliada-ckan-datahub-page-creation-2.0/jobs/");
+                        conn = (HttpURLConnection) url.openConnection();
+                        conn.setDoOutput(true);
+                        conn.setRequestMethod("POST");
+                        conn.setRequestProperty("Content-Type",
+                                "application/x-www-form-urlencoded");
+                        String param = "jobid=" + addedId;
+                        conn.setDoOutput(true);
+                        DataOutputStream wr = new DataOutputStream(conn.getOutputStream());
+                        wr.writeBytes(param);
+                        wr.flush();
+                        wr.close();
+                        if (conn.getResponseCode() != HttpURLConnection.HTTP_CREATED) {
+                            throw new ConnectException("Failed : HTTP error code : "
+                                    + conn.getResponseCode());
+                        } 
+                        conn.disconnect();
+                    } catch (MalformedURLException e) {
+                        logger.error(MessageCatalog._00014_MALFORMED_URL_EXCEPTION, e);
+                    } catch (IOException e) {
+                        logger.error(MessageCatalog._00012_IO_EXCEPTION, e);
+                    }
+                }
+                rs.close();
+                statement.close();
+                connection.close();  
+                } catch (SQLException e) {
+                    logger.error(MessageCatalog._00011_SQL_EXCEPTION, e);
+            }
+               
+        List<FileWork> importedFiles = (List<FileWork>) session.getAttribute("importedFiles");
+        FileWork importedFile = (FileWork) session.getAttribute("importedFile");
+        for (FileWork file : importedFiles) {
+            if (file.equals(importedFile)) {
+                file.setStatus("finishedLinked");
+            }
+        }
+        session.setAttribute("importedFiles", importedFiles);
+       
+    	setFileToLink((FileWork) session.getAttribute("importedFile"));
+    	
+    	//Delete file
+		    try {
+		        connection = new DBConnectionManager().getConnection();
+		        statement = connection.createStatement();
+		        statement.executeUpdate("DELETE FROM aliada.user_session where file_name='" + fileToLink.getFilename() + "'");
+		        statement.close();
+		        connection.close();
+		    } catch (SQLException e) {
+		        logger.error(MessageCatalog._00011_SQL_EXCEPTION, e);
+		      }
+        
+		//Publication success
+		session.setAttribute("publish", 1);
+		    
+        return SUCCESS;
+    }
+    /**
      * Loads the datasets from the database.
      * @return String
      * @see
@@ -211,12 +329,17 @@ public class LinkingAction extends ActionSupport {
         setFileToLink((FileWork) session.getAttribute("importedFile"));
         createJobLinking();
         createJobLDS();
-		
-        //If it's properly rdfizered => change status
+        
         Connection connection = null;
         Statement updateStatement = null;
+        
         try {
         	connection = new DBConnectionManager().getConnection();
+        	updateStatement = connection.createStatement();
+        	
+        	updateStatement.execute("UPDATE aliada.t_external_dataset SET external_dataset_linkingreloadtarget = 0");
+        	updateStatement.close();
+        	//If it's properly rdfizered => change status
         	updateStatement = connection.createStatement();
         	updateStatement.executeUpdate("UPDATE aliada.user_session set status='finishedLinking' where file_name='" + fileToLink.getFilename() + "'");
         	updateStatement.close();
@@ -237,6 +360,7 @@ public class LinkingAction extends ActionSupport {
      */
     private void createJobLinking() {
         int addedId = 0;
+        String ou, ol, op, og, td = "";
         if (fileToLink.getGraph() != null) {
             Connection connection = null;
             connection = new DBConnectionManager().getConnection();
@@ -249,6 +373,11 @@ public class LinkingAction extends ActionSupport {
                         		+ "INNER JOIN aliada.dataset d ON o.organisationId=d.organisationId INNER JOIN aliada.subset s ON d.datasetId=s.datasetId "
                         		+ "WHERE s.graph_uri='" + fileToLink.getGraph() + "'");
                 if (rs.next()) {
+                	ou = rs.getString("sparql_endpoint_uri");
+                	ol = rs.getString("sparql_endpoint_login");
+                	op = rs.getString("sparql_endpoint_password");
+                	og = rs.getString("links_graph_uri");
+                	td = rs.getString("tmp_dir");
                     PreparedStatement preparedStatement;
                     preparedStatement = connection
                             .prepareStatement(
@@ -259,11 +388,11 @@ public class LinkingAction extends ActionSupport {
                     preparedStatement.setString(2, rs.getString("sparql_endpoint_login"));
                     preparedStatement.setString(3, rs.getString("sparql_endpoint_password"));
                     preparedStatement.setString(4, rs.getString("graph_uri"));
-                    preparedStatement.setString(5, rs.getString("sparql_endpoint_uri"));
-                    preparedStatement.setString(6, rs.getString("sparql_endpoint_login"));
-                    preparedStatement.setString(7, rs.getString("sparql_endpoint_password"));
-                    preparedStatement.setString(8, rs.getString("links_graph_uri"));
-                    preparedStatement.setString(9, rs.getString("tmp_dir"));
+                    preparedStatement.setString(5, ou);
+                    preparedStatement.setString(6, ol);
+                    preparedStatement.setString(7, op);
+                    preparedStatement.setString(8, og);
+                    preparedStatement.setString(9, td);
                     preparedStatement.setString(10, rs.getString("linking_client_app_bin_dir"));
                     preparedStatement.setString(11, rs.getString("linking_client_app_user"));
                     preparedStatement.executeUpdate();
@@ -273,11 +402,47 @@ public class LinkingAction extends ActionSupport {
                     }
                     rs2.close();
                     preparedStatement.close();
+                    
+                    statement = connection.createStatement();
+                    String name;
+                    if (dataset != null) {
+            			for (int i = 0; i < dataset.size(); i++) {
+            				name = "ALIADA_" + dataset.get(i);
+		                    rs = statement
+		                            .executeQuery("select external_dataset_linkingfile, external_dataset_linkingnumthreads,"
+		                            		+ " external_dataset_linkingreloadsource, external_dataset_linkingreloadtarget "
+		                            		+ "from aliada.t_external_dataset where external_dataset_name='" + dataset.get(i) + "'");
+		                    while (rs.next()) {
+		                        preparedStatement = connection
+		                                .prepareStatement(
+		                                        "INSERT INTO aliada.linksdiscovery_subjob_instances (job_id, name, config_file, "
+		                                        + "num_threads, reload_source, reload_target, output_uri, output_login, output_password, "
+		                                        + "output_graph, tmp_dir) VALUES (?,?,?,?,?,?,?,?,?,?,?)");
+		                        preparedStatement.setString(1, String.valueOf(addedId));
+		                        preparedStatement.setString(2, name);
+		                        preparedStatement.setString(3, rs.getString("external_dataset_linkingfile"));
+		                        preparedStatement.setString(4, rs.getString("external_dataset_linkingnumthreads"));
+		                        preparedStatement.setString(5, rs.getString("external_dataset_linkingreloadsource"));
+		                        preparedStatement.setString(6, rs.getString("external_dataset_linkingreloadtarget"));
+		                        preparedStatement.setString(7, ou);
+		                        preparedStatement.setString(8, ol);
+		                        preparedStatement.setString(9, op);
+		                        preparedStatement.setString(10, og);
+		                        preparedStatement.setString(11, td);
+		                        preparedStatement.executeUpdate();
+		                    }
+            			}
+                    }
+                    
+                    rs.close();
+                    preparedStatement.close();
+                    statement.close();
                     connection.close();
+                    
                     URL url;
                     HttpURLConnection conn = null;
                     try {
-					    url = new URL("http://aliada:8080/aliada-links-discovery-1.0/jobs/");
+					    url = new URL("http://aliada:8080/aliada-links-discovery-2.0/jobs/");
 //                        url = new URL("http://localhost:8890/links-discovery");
                         
 						conn = (HttpURLConnection) url.openConnection();
@@ -331,7 +496,7 @@ public class LinkingAction extends ActionSupport {
                 statement = connection.createStatement();
                 ResultSet rs = statement
                         .executeQuery("select store_ip,store_sql_port,sql_login, sql_password, isql_command_path, "
-                        		+ "virtuoso_http_server_root, o.aliada_ontology, s.datasetId from aliada.organisation o "
+                        		+ "o.virtuoso_http_server_root, o.aliada_ontology, s.datasetId from aliada.organisation o "
                         		+ "INNER JOIN aliada.dataset d ON o.organisationId=d.organisationId "
                         		+ "INNER JOIN aliada.subset s ON d.datasetId=s.datasetId INNER JOIN aliada.rdfizer_job_instances r "
                         		+ "WHERE s.graph_uri='" + fileToLink.getGraph() + "' ORDER BY r.job_id DESC LIMIT 1");
@@ -359,7 +524,7 @@ public class LinkingAction extends ActionSupport {
                     URL url;
                     HttpURLConnection conn = null;
                     try {
-					    url = new URL("http://aliada:8080/aliada-linked-data-server-1.0/jobs/");
+					    url = new URL("http://aliada:8080/aliada-linked-data-server-2.0/jobs/");
 //                        url = new URL("http://localhost:8889/lds");
                         conn = (HttpURLConnection) url.openConnection();
                         conn.setDoOutput(true);

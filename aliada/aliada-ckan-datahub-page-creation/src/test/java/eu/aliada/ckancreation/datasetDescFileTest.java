@@ -5,12 +5,10 @@
 // Responsible: ALIADA Consortiums
 package eu.aliada.ckancreation;
 
-import eu.aliada.ckancreation.impl.CKANCreation;
 import eu.aliada.ckancreation.impl.DatasetDescFile;
 import eu.aliada.ckancreation.model.DumpFileInfo;
 import eu.aliada.ckancreation.model.JobConfiguration;
 import eu.aliada.ckancreation.model.Subset;
-import eu.aliada.ckancreation.rdbms.DBConnectionManager;
 import eu.aliada.shared.log.Log;
 
 import java.util.ArrayList;

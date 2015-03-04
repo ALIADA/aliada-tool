@@ -1,0 +1,45 @@
+CREATE PROCEDURE DB.DBA.associate_list_ext_rules_to_virtpath (IN create_virtual_path INTEGER, IN urrl_list_subset INTEGER, IN rules_suffix_dataset VARCHAR, IN rules_suffix VARCHAR, IN vhost VARCHAR, IN lhost VARCHAR, IN uri_doc_concept_parent VARCHAR)
+{
+  DECLARE urrl_inx INTEGER;
+  DECLARE urrl_member_1, urrl_member_2, urrl_member_3 VARCHAR;
+  DECLARE urrl_list VARCHAR;
+  IF (urrl_list_subset > 0)
+    {
+     urrl_list := sprintf('http_rule_list_%s_Doc', rules_suffix_dataset);
+    }
+  ELSE
+    {
+     urrl_list := sprintf('http_rule_list_%s_Root', rules_suffix_dataset);
+    }
+
+  urrl_member_1:= sprintf ('http_rule_%s_Doc_list_extension_n3', rules_suffix);
+  urrl_member_2 := sprintf ('http_rule_%s_Doc_list_extension_xml', rules_suffix);
+  urrl_member_3 := sprintf ('http_rule_%s_Doc_list_extension_json', rules_suffix);
+  IF(create_virtual_path > 0)
+    {
+--Create new Virtual Path, including the List with extension rules
+      DECLARE lpath, ppath, rules_list, uri_doc_concept_parent_noslash, rules_list_name VARCHAR;
+      lpath := sprintf('/%s',uri_doc_concept_parent);
+      ppath := sprintf('/DAV/home/%s/',uri_doc_concept_parent);
+      uri_doc_concept_parent_noslash := REPLACE(uri_doc_concept_parent, '/', '');
+      rules_list_name := sprintf('http_rule_list_%s%s_Doc', rules_suffix_dataset, uri_doc_concept_parent_noslash);
+      DB.DBA.VHOST_REMOVE (lhost=>lhost, vhost=>vhost, lpath=>lpath);
+
+      DB.DBA.VHOST_DEFINE (lhost=>lhost, vhost=>vhost, lpath=>lpath, ppath=>ppath, is_dav=>1, def_page=>'', vsp_user=>'dba', ses_vars=>0, opts=>vector ('browse_sheet', '', 'url_rewrite', rules_list_name), is_default_host=>0);
+
+      DB.DBA.URLREWRITE_CREATE_RULELIST (rules_list_name, 1, 
+  vector (urrl_member_1, urrl_member_2, urrl_member_3));
+    }
+  ELSE
+    {
+--Add List rules with extension, to existing virtual path
+      SELECT MAX(URRL_INX) INTO urrl_inx FROM DB.DBA.URL_REWRITE_RULE_LIST WHERE URRL_LIST=urrl_list;
+      urrl_inx := urrl_inx + 1;
+      INSERT INTO DB.DBA.URL_REWRITE_RULE_LIST (URRL_LIST, URRL_INX, URRL_MEMBER) VALUES (urrl_list, urrl_inx, urrl_member_1);
+      urrl_inx := urrl_inx + 1;
+      INSERT INTO DB.DBA.URL_REWRITE_RULE_LIST (URRL_LIST, URRL_INX, URRL_MEMBER) VALUES (urrl_list, urrl_inx, urrl_member_2);
+      urrl_inx := urrl_inx + 1;
+      INSERT INTO DB.DBA.URL_REWRITE_RULE_LIST (URRL_LIST, URRL_INX, URRL_MEMBER) VALUES (urrl_list, urrl_inx, urrl_member_3);
+    }
+};
+

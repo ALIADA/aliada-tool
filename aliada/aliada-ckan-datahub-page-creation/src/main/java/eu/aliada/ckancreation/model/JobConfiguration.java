@@ -46,6 +46,8 @@ public class JobConfiguration {
 	private String orgTitle;
 	/** The organization description. */
 	private String orgDescription;
+	/** The organization image file path. */
+	private String orgImagePath;
 	/** The organization image URL. */
 	private String orgImageURL;
 	/** The organization home page. */
@@ -349,6 +351,25 @@ public class JobConfiguration {
 	 */
 	public void setOrgDescription(final String orgDescription) {
 		this.orgDescription = orgDescription;
+	}
+	
+	/**
+	 * Returns the organization image Path.
+	 * 
+	 * @return The organization image Path.
+	 * @since 2.0
+	 */
+	public String getOrgImagePath() {
+		return orgImagePath;
+	}
+	/**
+	 * Sets the organization image Path.
+	 * 
+	 * @param orgImagePath Organization image Path.
+	 * @since 2.0
+	 */
+	public void setOrgImagePath(final String orgImagePath) {
+		this.orgImagePath = orgImagePath;
 	}
 	
 	/**

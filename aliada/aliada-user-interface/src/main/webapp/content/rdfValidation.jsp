@@ -45,6 +45,35 @@
 		        }
 		    });  
 		}
+	    var getResultsLinks = function(query){
+			var form = $("#formGetResultsLinks");
+			console.log(form);
+			form.get(0).query.value = query;
+		    var postData = form.serializeArray();
+		    console.log(postData);
+		    var formURL = form.attr("action");
+		    console.log(formURL);
+		      $.ajax(
+		    {
+		        url : formURL,
+		        type: "GET",
+		        data : postData,
+				dataType: 'html', 
+			    success:function(data, textStatus, jqXHR) 
+		        {
+					$("#queryResults").empty();
+					$("#queryResults").append(data);
+		        },
+		        error: function(jqXHR, textStatus, errorThrown) 
+		        {
+		            console.log("Error");    
+		        },
+		        comepleted: function(jqXHR, textStatus, errorThrown) 
+		        {
+		            console.log("Ajax called");   
+		        }
+		    });  
+		}
 		$(function(){
 			var queryAuthors = "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> PREFIX ecrm:   <http://erlangen-crm.org/current/> PREFIX efrbroo: <http://erlangen-crm.org/efrbroo/> select ?actor ?name where { {?actor rdf:type ecrm:E39_Actor} UNION {?actor rdf:type ecrm:E21_Person} UNION {?actor rdf:type efrbroo:F10_Person} . ?actor ecrm:P131_is_identified_by ?apel. ?apel ecrm:P3_has_note ?name }";
 			var queryObjects = "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> PREFIX ecrm:   <http://erlangen-crm.org/current/> PREFIX efrbroo: <http://erlangen-crm.org/efrbroo/> select ?object ?name where { ?object rdf:type ecrm:E19_Physical_Object . OPTIONAL {?object ecrm:P1_is_identified_by ?apel. ?apel ecrm:P3_has_note ?name }}";
@@ -65,7 +94,7 @@
 				getResults(queryWorks);
 			});				
 			$("#querySameAs").on("click",function(e){
-				getResults(querySameAs);
+				getResultsLinks(querySameAs);
 			});	
 		});
 	</script>
@@ -88,6 +117,13 @@
 		</ul>
 		<form id="formGetResults" name="formGetResults" action=<html:property value="sparqlEndpoint"/> method="get" >
 				<input type="hidden" name="default-graph-uri" id="default-graph-uri" value="<html:property value="graphUri"/>"/>
+				<input type="hidden" name="query" id="query" value=""/>
+				<input type="hidden" name="format" id="format" value="text/html">
+				<input type="hidden" name="timeout" id="timeout" value="0" /> 
+				<input type="hidden" name="debug" id="debug" value="1"/>
+		</form>	
+		<form id="formGetResultsLinks" name="formGetResults" action=<html:property value="sparqlEndpoint"/> method="get" >
+				<input type="hidden" name="default-graph-uri" id="default-graph-uri" value="<html:property value="linksGraphUri"/>"/>
 				<input type="hidden" name="query" id="query" value=""/>
 				<input type="hidden" name="format" id="format" value="text/html">
 				<input type="hidden" name="timeout" id="timeout" value="0" /> 

@@ -13,14 +13,17 @@ CREATE TABLE `aliada`.`ckancreation_job_instances` (
 `org_name`  VARCHAR( 245 ) default NULL,
 `org_description`  VARCHAR( 245 ) default NULL,
 `org_home_page`  VARCHAR( 245 ) default NULL,
-`org_image_url`  VARCHAR( 245 ) default NULL,
 `datasetId` int(11) NOT NULL,
+`organisationId` int(11) NOT NULL,
 `ckan_org_url`  VARCHAR( 245 ) default NULL,
 `ckan_dataset_url`  VARCHAR( 245 ) default NULL,
 `start_date` DATETIME default NULL,
 `end_date` DATETIME default NULL ,
 FOREIGN KEY (datasetId) 
 REFERENCES dataset(datasetId) 
+ON DELETE CASCADE,
+FOREIGN KEY (organisationId) 
+REFERENCES organisation(organisationId) 
 ON DELETE CASCADE,
 PRIMARY KEY ( `job_id` )
 ) ENGINE = InnoDB ;

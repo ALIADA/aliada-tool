@@ -10,6 +10,8 @@
 	 
 	 if(rdfizerStatus == "finishedRdfizer"){
 		 
+		 $("#linkingPanelCheck").hide();
+		 
 		 $("#checkLinkingButton").removeClass("buttonGreen");
     	 $("#checkLinkingButton").addClass("button");
 		 $('#checkLinkingButton').prop("disabled",true);
@@ -20,19 +22,22 @@
 		 
 	 } else if (rdfizerStatus == "finishedLinking") {
 		 
-  	     $("#startLinkingButton").removeClass("buttonGreen");
-    	 $("#startLinkingButton").addClass("button");
-		 $('#startLinkingButton').prop("disabled",true);
+		 $("#linkingPanel").hide();
+		 $("#linkingPanelCheck").show();
 		 
-		 $("#checkLinkingButton").removeClass("button");
-  	   	 $("#checkLinkingButton").addClass("buttonGreen");
-  	     $("#checkLinkingButton").prop("disabled",false);
+  	     $("#startLinkingButtonCheck").removeClass("buttonGreen");
+    	 $("#startLinkingButtonCheck").addClass("button");
+		 $('#startLinkingButtonCheck').prop("disabled",true);
+		 
+		 $("#checkLinkingButtonCheck").removeClass("button");
+  	   	 $("#checkLinkingButtonCheck").addClass("buttonGreen");
+  	     $("#checkLinkingButtonCheck").prop("disabled",false);
 	 }
 	 
 	 var checkLinking = function(){
 			console.log("checking Linking");
 			var linkingJobId = $("#linkingJobId").val();
-			var urlPath = "/aliada-links-discovery-1.0/jobs/"+linkingJobId;
+			var urlPath = "/aliada-links-discovery-2.0/jobs/"+linkingJobId;
 		    $.ajax({
 		      type: "GET",
 		      url: urlPath,
@@ -87,7 +92,7 @@
 		var checkLDS = function(){
 			console.log("checking lds");
 			var ldsJobId = $("#ldsJobId").val();
-			var urlPath = "/aliada-linked-data-server-1.0/jobs/"+ldsJobId;
+			var urlPath = "/aliada-linked-data-server-2.0/jobs/"+ldsJobId;
 		    $.ajax({
 		      type: "GET",
 		      url: urlPath,
@@ -122,9 +127,9 @@
 	    	});   
 		};
 	
-	$("#checkLinkingButton").on("click",function(){
+	$("#checkLinkingButtonCheck").on("click",function(){
 		console.log("Checking");
-		$("#linkingPanel").hide();		
+		$("#linkingPanelCheck").hide();		
 		$("#checkInfo").show("fast");
 		$('#checkLinkingButton').hide();
 		$('#progressBarLinking').show();
@@ -158,7 +163,22 @@
 		<html:actionerror/>
 		<div class="row">
 			<html:submit id="startLinkingButton" action="startLinking" cssClass="submitButton buttonGreen" key="linkSubmit"/>
-			<html:submit id="checkLinkingButton" disabled="true" onClick="return false;" cssClass="submitButton button" key="check"/>
+			<html:submit id="checkLinkingButton" onClick="return false;" cssClass="submitButton button" key="check"/>
+		</div>
+	</html:form>
+</div>
+<div id="linkingPanelCheck" class="content centered form">	
+	<html:form>
+		<h3 class="bigLabel"><html:text name="linking.importedFile"/></h3>
+		<html:property value="fileToLink.getFilename()"/>
+		<h3 class="mediumLabel"><html:text name="linking.datasets"/></h3>		
+			<html:iterator value="dataset" var="data">
+	         	<ul><html:text name="data"/></ul>
+	      	</html:iterator> 
+		<html:actionerror/>
+		<div class="row">
+			<html:submit id="startLinkingButtonCheck" action="startLinking" cssClass="submitButton buttonGreen" key="linkSubmit"/>
+			<html:submit id="checkLinkingButtonCheck" onClick="return false;" cssClass="submitButton button" key="check"/>
 		</div>
 	</html:form>
 </div>
@@ -207,7 +227,7 @@
 	<div class="row">
 		<html:form>
 			<html:submit id="linkingNextButton" disabled="true" action="finishFileWork" cssClass="fleft mediumButton button" key="linking.addNew"/>
-			<html:submit id="publishButton" disabled="true" onClick="return false;" cssClass="fright submitButton button" key="publish"/>
+			<html:submit id="publishButton" disabled="true" action="publish" cssClass="fright submitButton button" key="publish"/>
 		</html:form>
 	</div>
 </div>

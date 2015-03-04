@@ -493,5 +493,11 @@
 			</result>
 		</action>
 		
+		<action name="publish" method="publish" class="eu.aliada.gui.action.LinkingAction">
+			<result name="success" type="redirectAction">
+         		<param name="actionName">manage</param>
+         	</result>
+		</action>
+		
 	</package>
 </struts>

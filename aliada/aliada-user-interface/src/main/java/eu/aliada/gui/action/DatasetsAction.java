@@ -58,7 +58,6 @@ public class DatasetsAction  extends ActionSupport{
 	private String datasetSourceURLForm;
 	private String licenseCkanIdForm;
 	private String licenseURLForm;
-	private String virtuosoHttpServerRootForm;
 	private String isqlCommandsFileGlobalForm;
 	private String isqlCommandsFileSubsetDefaultForm;
 	
@@ -145,7 +144,6 @@ public class DatasetsAction  extends ActionSupport{
                 this.datasetSourceURLForm = rs.getString("dataset_source_url");
                 this.licenseCkanIdForm = rs.getString("license_ckan_id");
                 this.licenseURLForm = rs.getString("license_url");
-                this.virtuosoHttpServerRootForm = rs.getString("virtuoso_http_server_root");
                 this.isqlCommandsFileGlobalForm = rs.getString("isql_commands_file_global");
                 this.isqlCommandsFileSubsetDefaultForm = rs.getString("isql_commands_file_subset_default");
                 statement.close();
@@ -205,7 +203,6 @@ public class DatasetsAction  extends ActionSupport{
                 this.datasetSourceURLForm = rs.getString("dataset_source_url");
                 this.licenseCkanIdForm = rs.getString("license_ckan_id");
                 this.licenseURLForm = rs.getString("license_url");
-                this.virtuosoHttpServerRootForm = rs.getString("virtuoso_http_server_root");
                 this.isqlCommandsFileGlobalForm = rs.getString("isql_commands_file_global");
                 this.isqlCommandsFileSubsetDefaultForm = rs.getString("isql_commands_file_subset_default");
                 statement.close();
@@ -260,8 +257,7 @@ public class DatasetsAction  extends ActionSupport{
                     + this.datasetLongDescForm + "',dataset_source_url='"
                     + this.datasetSourceURLForm + "',license_ckan_id='"
                     + this.licenseCkanIdForm + "',license_url='"
-                    + this.licenseURLForm + "',virtuoso_http_server_root='"
-                    + this.virtuosoHttpServerRootForm + "',isql_commands_file_global='"
+                    + this.licenseURLForm + "',isql_commands_file_global='"
                     + this.isqlCommandsFileGlobalForm + "',isql_commands_file_subset_default='"
                     + this.isqlCommandsFileSubsetDefaultForm + "' where datasetId='"
                     + session.getAttribute("DatasetId") + "'");
@@ -333,7 +329,7 @@ public class DatasetsAction  extends ActionSupport{
              		+ "public_sparql_endpoint_uri, dataset_author,"
              		+ "ckan_dataset_name, dataset_long_desc, "
              		+ "dataset_source_url, license_ckan_id,"
-             		+ "license_url, virtuoso_http_server_root,"
+             		+ "license_url,"
              		+ "isql_commands_file_global, isql_commands_file_subset_default) VALUES (" + organisationId + ",'"
                      + this.datasetDescForm + "', '" + this.domainNameForm + "', '"
                      + this.uriIdPartForm + "', '" + this.uriDocPartForm + "', '"
@@ -343,7 +339,7 @@ public class DatasetsAction  extends ActionSupport{
                      + this.sparqlEndpointPasswordForm + "', '" + this.publicSparqlEndpointURIForm + "', '"
                      + this.datasetAuthorForm + "', '" + this.ckanDatasetNameForm + "', '" + this.datasetLongDescForm + "', '"
                      + this.datasetSourceURLForm + "', '" + this.licenseCkanIdForm + "', '" 
-                     + this.licenseURLForm + "', '" + this.virtuosoHttpServerRootForm + "', '" 
+                     + this.licenseURLForm + "', '" 
                      + this.isqlCommandsFileGlobalForm + "', '" + this.isqlCommandsFileSubsetDefaultForm + "')");
              statement.close();
              connection.close();
@@ -740,23 +736,6 @@ public class DatasetsAction  extends ActionSupport{
      */
 	public void setLicenseURLForm(final String licenseURLForm) {
 		this.licenseURLForm = licenseURLForm;
-	}
-	/**
-     * @return Returns the virtuosoHttpServerRootForm.
-     * @exception
-     * @since 1.0
-     */
-	public String getVirtuosoHttpServerRootForm() {
-		return virtuosoHttpServerRootForm;
-	}
-	/**
-     * @param virtuosoHttpServerRootForm
-     *            The virtuosoHttpServerRootForm to set.
-     * @exception
-     * @since 1.0
-     */
-	public void setVirtuosoHttpServerRootForm(final String virtuosoHttpServerRootForm) {
-		this.virtuosoHttpServerRootForm = virtuosoHttpServerRootForm;
 	}
 	/**
      * @return Returns the isqlCommandsFileGlobalForm.

@@ -33,7 +33,7 @@ public class LinkedDataServerSetup {
 	/** For logging. */
 	private static final Log LOGGER = new Log(LinkedDataServerSetup.class);
 	/** Format for the ISQL command to execute */
-	private static final String ISQL_COMMAND_FORMAT = "%s %s:%d %s %s %s -u lhost='%s' vhost='%s' uri_id='%s' uri_doc_slash='%s' uri_def='%s' graphs_select_encoded='%s' graphs_encoded='%s' domain_name_encoded='%s' rules_suffix='%s' uri_doc_concept='%s' dataset_page='%s' aliada_ont_encoded='%s' uri_id_encoded='%s'";
+	private static final String ISQL_COMMAND_FORMAT = "%s %s:%d %s %s %s -u lhost='%s' vhost='%s' uri_id='%s' uri_doc_slash='%s' uri_def='%s' graphs_select_encoded='%s' graphs_encoded='%s' domain_name_encoded='%s' rules_suffix='%s' uri_doc_concept='%s' dataset_page='%s' aliada_ont_encoded='%s' uri_id_encoded='%s' create_virtual_path=%d urrl_list_subset=%d rules_suffix_dataset='%s' uri_doc_concept_parent='%s'";
 	/** Dataset Index HTML Page*/
 	private static final String DATASET_INDEX_PAGE = "dataset.html"; 
 	/* Input parameters for URL rewrite rules */
@@ -67,8 +67,10 @@ public class LinkedDataServerSetup {
 	 */
 	protected String removeLeadingTralingSlashes(final String path){
 		String cleanPath = "";
+		//Remove leading and trailing spaces
+		cleanPath = path.trim();
 		//Remove leading slashes
-		cleanPath = path.replaceFirst("^/+", "");
+		cleanPath = cleanPath.replaceFirst("^/+", "");
 		//Remove trailing slashes
 		cleanPath = cleanPath.replaceFirst("/+$", "");
 		return cleanPath;
@@ -89,7 +91,9 @@ public class LinkedDataServerSetup {
 			//Remove leading/trailing slashes of URI Document section
 			if(jobConf.getUriDocPart() != null) {
 				uriDocPart = removeLeadingTralingSlashes(jobConf.getUriDocPart());
-			} 
+			} else {
+				uriDocPart = "";
+			}
 			//Remove leading/trailing slashes of URI identifier section
 			if(jobConf.getUriIdPart() != null) {
 				uriIdPart = removeLeadingTralingSlashes(jobConf.getUriIdPart());
@@ -133,10 +137,13 @@ public class LinkedDataServerSetup {
 				uriDocConcept = removeLeadingTralingSlashes(jobConf.getUriDocPart());
 			} 
 			if(jobConf.getUriConceptPart() != null) {
-				if(uriDocConcept.length() > 0){
-					uriDocConcept = uriDocConcept + "/" + removeLeadingTralingSlashes(jobConf.getUriConceptPart());
-				} else {
-					uriDocConcept = removeLeadingTralingSlashes(jobConf.getUriConceptPart());
+				final String datasetConceptPart = removeLeadingTralingSlashes(jobConf.getUriConceptPart());
+				if(datasetConceptPart.length() > 0){
+					if(uriDocConcept.length() > 0){
+						uriDocConcept = uriDocConcept + "/" + datasetConceptPart;
+					} else {
+						uriDocConcept = datasetConceptPart;
+					}
 				}
 			}
 			//Compose rules name suffix
@@ -144,10 +151,14 @@ public class LinkedDataServerSetup {
 			rulesNamesSuffix = rulesNamesSuffix.replace(":", "");
 			rulesNamesSuffix = rulesNamesSuffix.replace("/", "");
 			rulesNamesSuffix = rulesNamesSuffix.replace(".", "");
+			//Check that we have the parameter values
 			if((uriIdPart != null) && (uriDefPart!= null) && (graphsEncoded.length() > 0) && (domainNameEncoded != null) &&
 					(ontologyEncoded != null) && (uriDocConcept != null) && (rulesNamesSuffix.length() > 0)) {
-				if((ontologyEncoded.length() > 0) && (ontologyEncoded.length() > 0) && (ontologyEncoded.length() > 0) && (uriDocConcept.length() > 0) && (domainNameEncoded.length() > 0)) {
-					encoded = true;
+				if((uriIdPart.length() > 0) && (uriDefPart.length() > 0) && (ontologyEncoded.length() > 0) && (uriDocConcept.length() > 0) && (domainNameEncoded.length() > 0)) {
+					//Check that Identifier, Ontology and Document parts do not contain "/"
+					if(!(uriIdPart.contains("/")) && !(uriDefPart.contains("/")) && !(uriDocPart.contains("/"))) {
+						encoded = true;
+					}
 				}
 			}
 		} catch (UnsupportedEncodingException exception){
@@ -221,6 +232,22 @@ public class LinkedDataServerSetup {
 				isqlCommandsFilenameExists = true;
 			}
 		}
+		//Variables for creating rules for Document listing with extension 
+		int createVirtualPath = 0;
+		final int urrlListSubset = 0; //It is not a subset
+		final String rulesNamessuffixDataset = rulesNamesSuffix;
+		String uriDocConceptParent = "";
+		if(uriDocConcept.contains("/")) {
+			//If the Concept part contains an /, a parent virtual path must also be created
+			//for the Document listing with extension
+			createVirtualPath = 1;
+			uriDocConceptParent = uriDocConcept.substring(0, uriDocConcept.lastIndexOf("/"));
+		}
+		//Add a "/" at the beginning and end of the Document concept part
+		String uriDocSlash = "/" + uriDocPart;
+		if (!uriDocSlash.endsWith("/")) {
+			uriDocSlash = uriDocSlash + "/";
+		}
 		if(isqlCommandsFilenameExists){
 			//Compose ISQL command execution statement
 			final String isqlCommand = String.format(ISQL_COMMAND_FORMAT,
@@ -228,10 +255,12 @@ public class LinkedDataServerSetup {
 					jobConf.getStoreSqlPort(), jobConf.getSqlLogin(),
 					jobConf.getSqlPassword(), isqlCommandsFilename,
 					jobConf.getListeningHost(), jobConf.getVirtualHost(),
-					uriIdPart, "/" + uriDocPart, uriDefPart, graphsSelectEncoded,
+					uriIdPart, uriDocSlash, uriDefPart, graphsSelectEncoded,
 					graphsEncoded, domainNameEncoded, rulesNamesSuffix,
 					uriDocConcept, DATASET_INDEX_PAGE, ontologyEncoded, 
-					uriIdPartEncoded);
+					uriIdPartEncoded, createVirtualPath, urrlListSubset,
+					rulesNamessuffixDataset, uriDocConceptParent);
+			LOGGER.debug(isqlCommand);
 			//Execute ISQL command
 			try {
 				LOGGER.debug(MessageCatalog._00040_EXECUTING_ISQL);
@@ -276,6 +305,22 @@ public class LinkedDataServerSetup {
 			}
 		} 
 		
+		//Variables for creating rules for Document listing with extension 
+		int createVirtualPath = 0;
+		final int urrlListSubset = 1; //It is a subset
+		final String rulesNamessuffixDataset = rulesNamesSuffix;
+		String uriDocConceptParent = "";
+		if(subset.getUriConceptPart().contains("/")) {
+			//If the Concept part of the subset contains an /, a parent virtual path must also be created
+			//for the Document listing with extension
+			createVirtualPath = 1;
+			uriDocConceptParent = uriDocConceptSubset.substring(0, uriDocConceptSubset.lastIndexOf("/"));
+		}
+		//Add a "/" at the beginning and end of the Document concept part
+		String uriDocSlash = "/" + uriDocPart;
+		if (!uriDocSlash.endsWith("/")) {
+			uriDocSlash = uriDocSlash + "/";
+		}
 		//If the URI Concept part of the subset is empty, its corresponding URL Rewrite rules will not be created
 		if((isqlCommandsFilename != null) && (uriDocConceptSubset.length() > 0)){
 			//Compose Rules Names suffix for the subset, adding the subset concept part of the URI
@@ -287,10 +332,12 @@ public class LinkedDataServerSetup {
 					jobConf.getStoreSqlPort(), jobConf.getSqlLogin(),
 					jobConf.getSqlPassword(), isqlCommandsFilename,
 					jobConf.getListeningHost(), jobConf.getVirtualHost(),
-					uriIdPart,  "/" + uriDocPart, uriDefPart, graphsSelectEncoded,
+					uriIdPart,  uriDocSlash, uriDefPart, graphsSelectEncoded,
 					graphsEncoded, domainNameEncoded, rulesNamesSuffixSubset,
 					uriDocConceptSubset, DATASET_INDEX_PAGE, ontologyEncoded, 
-					uriIdPartEncoded);
+					uriIdPartEncoded, createVirtualPath, urrlListSubset,
+					rulesNamessuffixDataset, uriDocConceptParent);
+			LOGGER.debug(isqlCommand);
 			//Execute ISQL command
 			try {
 				LOGGER.debug(MessageCatalog._00040_EXECUTING_ISQL);
@@ -428,10 +475,12 @@ public class LinkedDataServerSetup {
 					executeSubsetIsqlCommands(jobConf, subset);
 				}
 			}
+			//Create Dataset default HTML page
+			createDatasetDefaultPage(jobConf);
+		} else {
+			LOGGER.error(MessageCatalog._00039_INPUT_PARAMS_ERROR, jobConf.getId());
 		}
 		
-		//Create Dataset default HTML page
-		createDatasetDefaultPage(jobConf);
 
 		//Update job end_date of DDBB
 		LOGGER.debug(MessageCatalog._00057_UPDATING_JOB_DDBB, jobConf.getId());

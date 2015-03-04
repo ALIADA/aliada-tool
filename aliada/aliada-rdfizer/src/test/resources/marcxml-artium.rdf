@@ -6,7 +6,7 @@
      xmlns:owl="http://www.w3.org/2oo2/07/owl#"
      xmlns:xsd="http://www.w3.org/2oo1/XMLSchema#"
      xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-	 xmlns:ecrm "http://erlangen-crm.org/current/>
+	 xmlns:ecrm="http://erlangen-crm.org/current/">
 
 	 <!-- MANIFESTATION CREATION. 
 	 ISBN: marc:datafield tag="020" marc:subfield code="a":978-84-234-1398-0 ISBN 
