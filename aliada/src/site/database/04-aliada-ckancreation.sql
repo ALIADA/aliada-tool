@@ -13,7 +13,6 @@ CREATE TABLE `aliada`.`ckancreation_job_instances` (
 `org_name`  VARCHAR( 245 ) default NULL,
 `org_description`  VARCHAR( 245 ) default NULL,
 `org_home_page`  VARCHAR( 245 ) default NULL,
-`org_image_url`  VARCHAR( 245 ) default NULL,
 `datasetId` int(11) NOT NULL,
 `organisationId` int(11) NOT NULL,
 `ckan_org_url`  VARCHAR( 245 ) default NULL,

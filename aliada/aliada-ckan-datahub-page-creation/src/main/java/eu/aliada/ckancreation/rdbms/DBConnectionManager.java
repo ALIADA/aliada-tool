@@ -145,7 +145,6 @@ public class DBConnectionManager {
 				jobConf.setOrgTitle(resultSet.getString("org_name").toUpperCase());
 				jobConf.setOrgDescription(resultSet.getString("org_description"));
 				jobConf.setOrgHomePage(resultSet.getString("org_home_page"));
-				jobConf.setOrgImageURL(resultSet.getString("org_image_url"));
 				datasetId = resultSet.getInt("datasetId");
 				organisationId = resultSet.getInt("organisationId");
 		    }
