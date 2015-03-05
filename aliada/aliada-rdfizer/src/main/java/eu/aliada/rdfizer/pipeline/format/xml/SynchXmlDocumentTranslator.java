@@ -13,8 +13,6 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.io.Writer;
-import java.math.BigDecimal;
-import java.sql.Timestamp;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Message;
@@ -33,14 +31,10 @@ import eu.aliada.rdfizer.Constants;
 import eu.aliada.rdfizer.Function;
 import eu.aliada.rdfizer.datasource.Cache;
 import eu.aliada.rdfizer.datasource.rdbms.JobInstance;
-import eu.aliada.rdfizer.datasource.rdbms.JobInstanceRepository;
-import eu.aliada.rdfizer.datasource.rdbms.JobStats;
-import eu.aliada.rdfizer.datasource.rdbms.JobStatsRepository;
 import eu.aliada.rdfizer.framework.MainSubjectDetectionRule;
 import eu.aliada.rdfizer.framework.UnableToProceedWithConversionException;
 import eu.aliada.rdfizer.log.MessageCatalog;
 import eu.aliada.rdfizer.mx.InMemoryJobResourceRegistry;
-import eu.aliada.rdfizer.mx.ManagementRegistrar;
 import eu.aliada.rdfizer.rest.JobResource;
 import eu.aliada.shared.log.Log;
 
@@ -100,12 +94,6 @@ public class SynchXmlDocumentTranslator implements Processor, ApplicationContext
 	@Autowired
 	protected InMemoryJobResourceRegistry jobRegistry;
 	
-	@Autowired
-	protected JobInstanceRepository jobInstanceRepository;
-	
-	@Autowired
-	protected JobStatsRepository jobStatsRepository;
-	
 	@Override
 	public final void process(final Exchange exchange) throws Exception {
 		final long begin = System.currentTimeMillis();
@@ -124,7 +112,6 @@ public class SynchXmlDocumentTranslator implements Processor, ApplicationContext
 		// the conversion chain for this record must stop here
 		if (in.getBody() instanceof NullObject) {
 			incrementJobStatsAndElapsed(jobId, null, 0);
-			checkForCompleteness(jobId);
 			return;
 		}
 		
@@ -154,6 +141,7 @@ public class SynchXmlDocumentTranslator implements Processor, ApplicationContext
 						
 			in.setBody(triples);
 			in.setHeader(Constants.GRAPH_ATTRIBUTE_NAME, graphName(configuration));
+
 		} catch (final ResourceNotFoundException exception) {
 			log.error(MessageCatalog._00040_TEMPLATE_NOT_FOUND, exception, format);
 		} finally {
@@ -164,8 +152,6 @@ public class SynchXmlDocumentTranslator implements Processor, ApplicationContext
 				velocityContext.remove(Constants.ROOT_ELEMENT_ATTRIBUTE_NAME);
 				velocityContext.remove(Constants.JOB_CONFIGURATION_ATTRIBUTE_NAME);
 			}
-			
-			checkForCompleteness(jobId);
 		}
 	}
 
@@ -207,78 +193,6 @@ public class SynchXmlDocumentTranslator implements Processor, ApplicationContext
 	 */
 	protected String templateName(final String format) {
 		return new StringBuilder(format).append(".n3.vm").toString();
-	}
-	
-	/**
-	 * Updates the processed records on the management interface of the given job. 
-	 * 
-	 * @param jobId the job identifier.
-	 */
-	void checkForCompleteness(final Integer jobId) {
-		final JobResource job = jobRegistry.getJobResource(jobId);
-		if (job != null && job.isCompleted()) {
-			markJobAsCompleted(job);
-			persistJobStats(job);
-			unregisterJobFromMxSystem(job);
-			removeFromInMemoryCache(job);
-		}
-	}
-	
-	/**
-	 * Marks a given job as completed.
-	 * 
-	 * @param job the job.
-	 */
-	void markJobAsCompleted(final JobResource job) {
-		final JobInstance instance = cache.getJobInstance(job.getID());
-		instance.setEndDate(new Timestamp(System.currentTimeMillis()));
-		jobInstanceRepository.save(instance);		
-	
-		log.info(MessageCatalog._00048_JOB_COMPLETED, job.getID());
-	}
-	
-	/**
-	 * Records the stats of a given (completed) job.
-	 * 
-	 * @param job the job.
-	 */
-	void persistJobStats(final JobResource job) {
-		final JobStats stats = new JobStats();
-		stats.setId(job.getID());
-		stats.setTotalRecordsCount(job.getTotalRecordsCount());
-		stats.setTotalTriplesProduced(job.getOutputStatementsCount());
-		stats.setRecordsThroughput(
-				job.getRecordsThroughput() > 0 
-					? BigDecimal.valueOf(job.getRecordsThroughput())
-					: BigDecimal.ZERO);
-		stats.setTriplesThroughput(
-				job.getStatementsThroughput() > 0
-					? BigDecimal.valueOf(job.getStatementsThroughput())
-					: BigDecimal.ZERO);		
-		jobStatsRepository.save(stats);		
-	}	
-	
-	/**
-	 * Unregisters a job from managemenent (sub)system.
-	 * 
-	 * @param job the job.
-	 */
-	void unregisterJobFromMxSystem(final JobResource job) {
-		ManagementRegistrar.unregister(
-				ManagementRegistrar.createJobObjectName(
-						job.getFormat(), 
-						job.getID()));
-		
-		jobRegistry.removeJob(job.getID());
-	}
-	
-	/**
-	 * Removes a job from local in memory cache.
-	 * 
-	 * @param job the job.
-	 */
-	void removeFromInMemoryCache(final JobResource job) {
-		cache.removeJobInstance(job.getID());		
 	}
 
 	/**

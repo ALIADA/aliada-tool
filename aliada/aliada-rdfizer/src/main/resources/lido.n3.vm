@@ -65,8 +65,8 @@ $main_subject #ecrm("P70i_is_documented_in") $document_s .
         #if($coordinates)
     		#set($lat_lon = $function.asList($coordinates.textContent.trim().split(" ")))
 			#if($lat_lon && $lat_lon.size() == 2)
-				$address_s #wgs("lat") $lat_lon.get(0) .
-				$address_s #wgs("long") $lat_lon.get(1) . 
+				$address_s #wgs("lat") "$lat_lon.get(0)"^^<http://www.w3.org/2001/XMLSchema#double> .
+				$address_s #wgs("long") "$lat_lon.get(1)"^^<http://www.w3.org/2001/XMLSchema#double> . 
 			#end	
         #end	
 ##		
