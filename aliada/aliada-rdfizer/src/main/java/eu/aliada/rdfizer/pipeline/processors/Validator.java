@@ -71,13 +71,13 @@ public class Validator implements Processor {
 		
 		schema = ModelFactory.createDefaultModel();
 				
-		RDFDataMgr.read(schema, getClass().getResourceAsStream("aliada-ontology.owl"), Lang.RDFXML);
-        RDFDataMgr.read(schema, getClass().getResourceAsStream("efrbroo.owl"), Lang.RDFXML);
-        RDFDataMgr.read(schema, getClass().getResourceAsStream("current.owl"), Lang.RDFXML);
-        RDFDataMgr.read(schema, getClass().getResourceAsStream("wgs84_pos.owl"), Lang.RDFXML);
-        RDFDataMgr.read(schema, getClass().getResourceAsStream("time.owl"), Lang.RDFXML);
-        RDFDataMgr.read(schema, getClass().getResourceAsStream("skos-xl.owl"), Lang.RDFXML);
-        RDFDataMgr.read(schema, getClass().getResourceAsStream("0.1.owl"), Lang.RDFXML);		
+		RDFDataMgr.read(schema, getClass().getResourceAsStream("/aliada-ontology.owl"), Lang.RDFXML);
+        RDFDataMgr.read(schema, getClass().getResourceAsStream("/efrbroo.owl"), Lang.RDFXML);
+        RDFDataMgr.read(schema, getClass().getResourceAsStream("/current.owl"), Lang.RDFXML);
+        RDFDataMgr.read(schema, getClass().getResourceAsStream("/wgs84_pos.owl"), Lang.RDFXML);
+        RDFDataMgr.read(schema, getClass().getResourceAsStream("/time.owl"), Lang.RDFXML);
+        RDFDataMgr.read(schema, getClass().getResourceAsStream("/skos-xl.owl"), Lang.RDFXML);
+        RDFDataMgr.read(schema, getClass().getResourceAsStream("/0.1.owl"), Lang.RDFXML);		
         
         reasoner = ReasonerRegistry.getOWLMicroReasoner().bindSchema(schema);
 	}
@@ -93,38 +93,49 @@ public class Validator implements Processor {
 		}
 		
 		final JobResource resource = jobRegistry.getJobResource(jobId);
-		int currentSize = resource.incrementValidationRecordSet();
-		if (currentSize < triggerSize) {
-			collectSample(jobId, exchange.getIn().getBody(String.class));
-			log.info(MessageCatalog._00054_RECORD_ADDED_TO_VALIDATION_SAMPLE, jobId, currentSize, triggerSize);
-			exchange.getIn().setBody(null);
-		} else if (resource.hasntBeenValidated()) {
-			log.info(MessageCatalog._00055_VALIDATING, jobId);
-			
-			collectSample(jobId, exchange.getIn().getBody(String.class));
-			
-			final InfModel infmodel = ModelFactory.createInfModel(reasoner, samples.get(jobId));
-	        final ValidityReport validity = infmodel.validate();
-	        if (!validity.isClean()) {
-	        	log.info(MessageCatalog._00057_VALIDATION_KO, jobId);
-	        	for (final Iterator<ValidityReport.Report> iterator = validity.getReports(); iterator.hasNext(); ) {
-	        		final ValidityReport.Report report = iterator.next();
-	        		validationMessageRepository.save(new ValidationMessage(jobId, report.getType(), report.getDescription()));
-		        	log.info(MessageCatalog._00058_VALIDATION_MSG, jobId, report.getDescription(), report.getType());
-	        	}
-		        resource.setRunning(false);
-		        exchange.getIn().setBody(null);
-	        } else {
-		        log.info(MessageCatalog._00056_VALIDATION_OK, jobId);
+		if (resource.hasntBeenValidated()) {
+			int currentSize = resource.incrementValidationRecordSet();
+			if (currentSize < triggerSize || resource.getTotalRecordsCount() == 1) {
+				collectSample(jobId, exchange.getIn().getBody(String.class));
+				log.info(MessageCatalog._00054_RECORD_ADDED_TO_VALIDATION_SAMPLE, jobId, currentSize + 1, triggerSize);
+				
+				if (resource.getTotalRecordsCount() == 1) {
+					validate(resource, exchange);
+				} else {
+					exchange.getIn().setBody(null);				
+				}
+			} else if (resource.hasntBeenValidated()) {
+				validate(resource, exchange);
+			} 
+		}
+	}
+	
+	public void validate(final JobResource resource, final Exchange exchange) {
+		log.info(MessageCatalog._00055_VALIDATING, resource.getID());
 
-		        resource.markAsValidated();
-		        
-		        final StringWriter writer = new StringWriter();
-		        samples.get(jobId).write(writer,"N-TRIPLES");
-		        
-		        exchange.getIn().setBody(writer.toString());
-	        }
-		} 
+		resource.markAsValidated();
+
+		collectSample(resource.getID(), exchange.getIn().getBody(String.class));
+		
+		final InfModel infmodel = ModelFactory.createInfModel(reasoner, samples.get(resource.getID()));
+        final ValidityReport validity = infmodel.validate();
+        if (!validity.isClean()) {
+        	log.info(MessageCatalog._00057_VALIDATION_KO, resource.getID());
+        	for (final Iterator<ValidityReport.Report> iterator = validity.getReports(); iterator.hasNext(); ) {
+        		final ValidityReport.Report report = iterator.next();
+        		validationMessageRepository.save(new ValidationMessage(resource.getID(), report.getType(), report.getDescription()));
+	        	log.info(MessageCatalog._00058_VALIDATION_MSG, resource.getID(), report.getDescription(), report.getType());
+        	}
+	        resource.setRunning(false);
+	        exchange.getIn().setBody(null);
+        } else {
+	        log.info(MessageCatalog._00056_VALIDATION_OK, resource.getID());
+	        
+	        final StringWriter writer = new StringWriter();
+	        samples.get(resource.getID()).write(writer,"N-TRIPLES");
+	        
+	        exchange.getIn().setBody(writer.toString());
+        }		
 	}
 	
 	synchronized void collectSample(final Integer jobId, final String triples) {

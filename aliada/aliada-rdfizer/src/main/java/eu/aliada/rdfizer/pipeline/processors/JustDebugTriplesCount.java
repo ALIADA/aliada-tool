@@ -13,7 +13,7 @@ import eu.aliada.rdfizer.pipeline.format.xml.NullObject;
  * @author Andrea Gazzarini
  * @since 1.0
  */
-public class JustDebug implements Processor {
+public class JustDebugTriplesCount implements Processor {
 
 	@SuppressWarnings("rawtypes")
 	@Override
@@ -24,13 +24,9 @@ public class JustDebug implements Processor {
 		}
 
 		if (o != null && o instanceof Collection) {
-			Collection c = (Collection) o;
-			
-			for (Object object : c) {
-				System.out.println(object);
-			}
+			System.out.println(((Collection)o).size());
 		} else {
-			System.out.println(o);
+			System.out.println("1");
 		}
 	}
 }

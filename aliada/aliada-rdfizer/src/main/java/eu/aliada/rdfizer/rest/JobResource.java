@@ -28,7 +28,7 @@ public class JobResource implements Job {
 
 	private JobInstance configuration;
 	
-	private AtomicInteger validationRecordSetCount = new AtomicInteger();
+	private AtomicInteger validationRecordSetCount = new AtomicInteger(-1);
 	
 	private int totalRecordsCount = -1;
 	private final AtomicInteger totalProcessedRecordsCount = new AtomicInteger();
@@ -165,10 +165,10 @@ public class JobResource implements Job {
 		return validationRecordSetCount.incrementAndGet();
 	}
 
-	private boolean validated;
+	private boolean validated ;
 	
 	public boolean hasntBeenValidated() {
-		return validated;
+		return !validated;
 	}
 	
 	public void markAsValidated() {

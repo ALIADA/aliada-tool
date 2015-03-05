@@ -11,7 +11,9 @@
 	<bean id="startup_listener" class="eu.aliada.rdfizer.listeners.PipelineStartupListener" />
 	<bean id="shutdown_listener" class="eu.aliada.rdfizer.listeners.PipelineShutdownListener" />
 	<bean id="debugger" class="eu.aliada.rdfizer.pipeline.processors.JustDebug"/> 
+	<bean id="count-debugger" class="eu.aliada.rdfizer.pipeline.processors.JustDebugTriplesCount"/>
 	<bean id="add-2-rdf-store" class="eu.aliada.rdfizer.pipeline.processors.RESTSparqlInsertProcessor"/>
+	<bean id="check-job-completeness" class="eu.aliada.rdfizer.pipeline.processors.CheckJobCompleteness"/>
 	<bean id="xpath" class="eu.aliada.rdfizer.pipeline.format.xml.XPath"/> 
 	<bean id="rdf-sample-validation" class="eu.aliada.rdfizer.pipeline.processors.Validator">
 		<constructor-arg value="1"/>
@@ -28,6 +30,9 @@
 		<constructor-arg value="record"/>
 	</bean>		
 	<camelContext xmlns="http://camel.apache.org/schema/spring" trace="true" >
+		<properties>
+        	<property key="CamelLogDebugBodyMaxChars" value="500"/>
+   		</properties>
 		<route>
 			<from uri="file:{{lido.input.dir}}?move=../.done&amp;preMove=.working" />
 			<setHeader headerName="format">
@@ -76,6 +81,7 @@
 			<process ref="string-to-xml"/>
 			<process ref="xml-to-rdf"/>
 			<process ref="rdf-sample-validation"/>
+			<process ref="check-job-completeness"/>
 			<to uri="seda:triples-channel?size=250&amp;blockWhenFull=true" />
 		</route>
 		<route>
@@ -84,11 +90,13 @@
 			<process ref="detect-frbr-entities"/>
 			<process ref="marcxml-to-rdf-using-frbr"/>
 			<process ref="rdf-sample-validation"/>
+			<process ref="check-job-completeness"/>
 			<to uri="seda:triples-channel?size=250&amp;blockWhenFull=true" />
 		</route>
 		<route>
 			<from uri="seda:triples-channel?size=250&amp;blockWhenFull=true" />
 			<process ref="add-2-rdf-store"/>
+			<process ref="count-debugger"/>
 		</route>
 	</camelContext>
 </beans>
