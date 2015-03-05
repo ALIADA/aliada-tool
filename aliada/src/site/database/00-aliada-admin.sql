@@ -49,8 +49,7 @@ CREATE TABLE IF NOT EXISTS `dataset` (
   `dataset_source_url` varchar(245) DEFAULT NULL,
   `license_ckan_id` varchar(245) DEFAULT NULL,
   `license_url` varchar(245) DEFAULT NULL,
-  `isql_commands_file_global` varchar(245) DEFAULT NULL,
-  `isql_commands_file_subset_default` varchar(245) DEFAULT NULL
+  `isql_commands_file_dataset` varchar(245) DEFAULT NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -76,8 +75,9 @@ CREATE TABLE IF NOT EXISTS `organisation` (
   `sql_login` varchar(32) DEFAULT NULL,
   `sql_password` varchar(32) DEFAULT NULL,
   `isql_command_path` varchar(245) DEFAULT NULL,
-  `isql_commands_file_global` varchar(245) DEFAULT NULL,
-  `isql_commands_file_subset_default` varchar(245) DEFAULT NULL,
+  `isql_commands_file_dataset_default` varchar(245) DEFAULT NULL,
+  `isql_commands_file_subset_default` varchar(245) DEFAULT NULL
+  `isql_commands_file_graph_dump` varchar(245) DEFAULT NULL,
   `virtuoso_http_server_root`  VARCHAR( 245 ) default NULL,
   `ckan_api_url` varchar(245) DEFAULT NULL,
   `ckan_api_key` varchar(245) DEFAULT NULL,
