@@ -87,7 +87,7 @@ public class PublishAction extends ActionSupport {
                 ResultSet rs = statement
                         .executeQuery("select ckan_api_url, ckan_api_key, o.tmp_dir, store_ip, store_sql_port, "
                         		+ "sql_login, sql_password,isql_command_path, virtuoso_http_server_root, aliada_ontology, "
-                        		+ "org_name, org_description,org_home_page, d.datasetId, l.job_id, o.organisationId, d.isql_commands_file_graph_dump "
+                        		+ "org_name, org_description,org_home_page, d.datasetId, l.job_id, o.organisationId, o.isql_commands_file_graph_dump "
                         		+ "from aliada.organisation o "
                         		+ "INNER JOIN aliada.dataset d ON o.organisationId = d.organisationId "
                         		+ "INNER JOIN aliada.subset s ON d.datasetId = s.datasetId "
