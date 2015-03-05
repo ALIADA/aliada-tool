@@ -1,0 +1,2945 @@
+<?xml version="1.0"?>
+
+
+<!DOCTYPE rdf:RDF [
+    <!ENTITY owl "http://www.w3.org/2002/07/owl#" >
+    <!ENTITY swrl "http://www.w3.org/2003/11/swrl#" >
+    <!ENTITY efrbroo "http://erlangen-crm.org/efrbroo/" >
+    <!ENTITY swrlb "http://www.w3.org/2003/11/swrlb#" >
+    <!ENTITY ecrm "http://erlangen-crm.org/current/" >
+    <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
+    <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
+    <!ENTITY protege "http://protege.stanford.edu/plugins/owl/protege#" >
+    <!ENTITY xsp "http://www.owl-ontologies.com/2005/08/07/xsp.owl#" >
+]>
+
+
+<rdf:RDF xmlns="http://erlangen-crm.org/efrbroo/"
+     xml:base="http://erlangen-crm.org/efrbroo/"
+     xmlns:efrbroo="http://erlangen-crm.org/efrbroo/"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:swrl="http://www.w3.org/2003/11/swrl#"
+     xmlns:protege="http://protege.stanford.edu/plugins/owl/protege#"
+     xmlns:ecrm="http://erlangen-crm.org/current/"
+     xmlns:xsp="http://www.owl-ontologies.com/2005/08/07/xsp.owl#"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:swrlb="http://www.w3.org/2003/11/swrlb#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+    <owl:Ontology rdf:about="http://erlangen-crm.org/efrbroo/">
+        <rdfs:label xml:lang="en">Erlangen FRBRoo</rdfs:label>
+        <owl:versionInfo rdf:datatype="&xsd;string">EFRBRoo 121016 / FRBRoo 1.0.2 / ECRM current / CIDOC-CRM 5.0.4</owl:versionInfo>
+        <rdfs:comment xml:lang="en">Changelog:
+121016 (Justyna Walkowska)
+- R4 has been disconnected from P128
+- R11 has been disconnected from R16 and P33
+- R26 has been disconnected from both P2 and P108
+120219 (Judith Merges)
+- Initial version</rdfs:comment>
+        <rdfs:comment xml:lang="en">Erlangen FRBRoo - An OWL DL 0.1 implementation of the FRBRoo originally created by Judith Merges at the Friedrich-Alexander-University of Erlangen-Nuremberg, Department of Computer Science, Chair of Computer Science 8 (Artificial Intelligence). It is based on the official definition of the FRBRoo (http://www.cidoc-crm.org/docs/frbr_oo/frbr_docs/FRBRoo_V1.0.2.pdf). This implementation is currently under development by the Erlangen CRM community (http://groups.google.com/group/erlangen-crm).The Erlangen FRBRoo implementation is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License.</rdfs:comment>
+    </owl:Ontology>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Annotation properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://erlangen-crm.org/current/P106_has_component -->
+
+    <owl:ObjectProperty rdf:about="&ecrm;P106_has_component"/>
+    
+
+
+    <!-- http://erlangen-crm.org/current/P106_is_composed_of -->
+
+    <owl:ObjectProperty rdf:about="&ecrm;P106_is_composed_of"/>
+    
+
+
+    <!-- http://erlangen-crm.org/current/P108_has_produced -->
+
+    <owl:ObjectProperty rdf:about="&ecrm;P108_has_produced"/>
+    
+
+
+    <!-- http://erlangen-crm.org/current/P128_carries -->
+
+    <owl:ObjectProperty rdf:about="&ecrm;P128_carries"/>
+    
+
+
+    <!-- http://erlangen-crm.org/current/P128i_is_carried_by -->
+
+    <owl:ObjectProperty rdf:about="&ecrm;P128i_is_carried_by"/>
+    
+
+
+    <!-- http://erlangen-crm.org/current/P130_shows_features_of -->
+
+    <owl:ObjectProperty rdf:about="&ecrm;P130_shows_features_of"/>
+    
+
+
+    <!-- http://erlangen-crm.org/current/P140_assigned_attribute_to -->
+
+    <owl:ObjectProperty rdf:about="&ecrm;P140_assigned_attribute_to"/>
+    
+
+
+    <!-- http://erlangen-crm.org/current/P141_assigned -->
+
+    <owl:ObjectProperty rdf:about="&ecrm;P141_assigned"/>
+    
+
+
+    <!-- http://erlangen-crm.org/current/P148_has_component -->
+
+    <owl:ObjectProperty rdf:about="&ecrm;P148_has_component"/>
+    
+
+
+    <!-- http://erlangen-crm.org/current/P14_carried_out_by -->
+
+    <owl:ObjectProperty rdf:about="&ecrm;P14_carried_out_by"/>
+    
+
+
+    <!-- http://erlangen-crm.org/current/P15_was_influenced_by -->
+
+    <owl:ObjectProperty rdf:about="&ecrm;P15_was_influenced_by"/>
+    
+
+
+    <!-- http://erlangen-crm.org/current/P16_used_specific_object -->
+
+    <owl:ObjectProperty rdf:about="&ecrm;P16_used_specific_object"/>
+    
+
+
+    <!-- http://erlangen-crm.org/current/P2_has_type -->
+
+    <owl:ObjectProperty rdf:about="&ecrm;P2_has_type"/>
+    
+
+
+    <!-- http://erlangen-crm.org/current/P37_assigned -->
+
+    <owl:ObjectProperty rdf:about="&ecrm;P37_assigned"/>
+    
+
+
+    <!-- http://erlangen-crm.org/current/P94_has_created -->
+
+    <owl:ObjectProperty rdf:about="&ecrm;P94_has_created"/>
+    
+
+
+    <!-- http://erlangen-crm.org/current/P9_consists_of -->
+
+    <owl:ObjectProperty rdf:about="&ecrm;P9_consists_of"/>
+    
+
+
+    <!-- http://erlangen-crm.org/efrbroo/CLP104_subject_to -->
+
+    <owl:ObjectProperty rdf:about="&efrbroo;CLP104_subject_to">
+        <rdfs:label xml:lang="en">subject to</rdfs:label>
+        <rdfs:comment xml:lang="en">Scope note:
+This property associates a publication, i.e. an instance of F3 Manifestation Product Type, with an instance of E30 Right, which applies to all exemplars of that publication, as long as they are recognised as exemplars of that publication.
+
+The rights covered by this property may include: acquisition or access authorisation; terms of availability; access restrictions on the Manifestation Product Type; etc.
+
+Examples:
+The publication entitled ‘Recent poems’ by the author named ‘Stephen Spender’, released by the publisher named ‘Anvil Press Poetry’ in 1978 and identified by ISBN ‘0856460516’ (F3) CLP104 subject to Availability restricted to Anvil Press Poetry subscribers (E30) [P3 has note “This edition […] is available only to Anvil Press Poetry subscribers” (E62)]
+		</rdfs:comment>
+        <rdfs:range rdf:resource="&ecrm;E30_Right"/>
+        <rdfs:domain rdf:resource="&efrbroo;F3_Manifestation_Product_Type"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://erlangen-crm.org/efrbroo/CLP104i_applies_to -->
+
+    <owl:ObjectProperty rdf:about="&efrbroo;CLP104i_applies_to">
+        <rdfs:label xml:lang="en">applies to</rdfs:label>
+        <owl:inverseOf rdf:resource="&efrbroo;CLP104_subject_to"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://erlangen-crm.org/efrbroo/CLP105_right_held_by -->
+
+    <owl:ObjectProperty rdf:about="&efrbroo;CLP105_right_held_by">
+        <rdfs:label xml:lang="en">right held by</rdfs:label>
+        <rdfs:comment xml:lang="en">Scope note:
+This property associates a publication, i.e. an instance of F3 Manifestation Product Type, with an instance of E39 Actor, who holds an instance of E30 Right on all exemplars of that publication, as long as they are recognised as exemplars of that publication.
+
+Examples:
+The publication entitled ‘Recent poems’ by the author named ‘Stephen Spender’, released by the publisher named ‘Anvil Press Poetry’ in 1978 and identified by ISBN ‘0856460516’ (F3) CLP105 right held by Anvil Press Poetry (F11)
+		</rdfs:comment>
+        <rdfs:range rdf:resource="&ecrm;E39_Actor"/>
+        <rdfs:domain rdf:resource="&efrbroo;F3_Manifestation_Product_Type"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://erlangen-crm.org/efrbroo/CLP105i_right_on -->
+
+    <owl:ObjectProperty rdf:about="&efrbroo;CLP105i_right_on">
+        <rdfs:label xml:lang="en">right on</rdfs:label>
+        <owl:inverseOf rdf:resource="&efrbroo;CLP105_right_held_by"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://erlangen-crm.org/efrbroo/CLP2_should_have_type -->
+
+    <owl:ObjectProperty rdf:about="&efrbroo;CLP2_should_have_type">
+        <rdfs:label xml:lang="en">should have type</rdfs:label>
+        <rdfs:comment xml:lang="en">Scope note:
+This property associates a publication, i.e. an instance of F3 Manifestation Product Type, with an instance of E55 Type, which all exemplars of that publication should belong to, as long as they are recognised as exemplars of that publication. Typically, this property is observed on one exemplar of a publication, and extrapolated to all other exemplars of the same publication. This logical inference is an induction along the path that can be modelled as: F3 Manifestation Product Type R7B has example F5 Item P41B was classified by E17 Type Assignment P42 assigned E55 Type.
+
+It can happen that a given exemplar, or subset of exemplars, originally produced, or intended to be produced, with that characteristic, accidentally lacks it. This fact should be recorded as a property of F5 Item, and not of F3 Manifestation Product Type.
+
+Examples:
+The sound recording entitled ‘The Glory (????) of the human voice’, identified by label and label number ‘RCA Victor Gold Seal GD61175’, containing recordings of musical works performed by Florence Foster Jenkins (F3) CLP2 should have type sound recording (E55)
+
+The sound recording entitled ‘The Glory (????) of the human voice’, identified by label and label number ‘RCA Victor Gold Seal GD61175’, containing recordings of musical works performed by Florence Foster Jenkins (F3) CLP2 should have type kind of sound: monaural (E55)
+		</rdfs:comment>
+        <rdfs:range rdf:resource="&ecrm;E55_Type"/>
+        <rdfs:domain rdf:resource="&efrbroo;F3_Manifestation_Product_Type"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://erlangen-crm.org/efrbroo/CLP2i_should_be_type_of -->
+
+    <owl:ObjectProperty rdf:about="&efrbroo;CLP2i_should_be_type_of">
+        <rdfs:label xml:lang="en">should be type of</rdfs:label>
+        <owl:inverseOf rdf:resource="&efrbroo;CLP2_should_have_type"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://erlangen-crm.org/efrbroo/CLP43_should_have_dimension -->
+
+    <owl:ObjectProperty rdf:about="&efrbroo;CLP43_should_have_dimension">
+        <rdfs:label xml:lang="en">should have dimension</rdfs:label>
+        <rdfs:comment xml:lang="en">Scope note:
+This property associates a publication, i.e. an instance of F3 Manifestation Product Type, with an instance of E54 Dimension, which all exemplars of that publication should have, as long as they are recognised as exemplars of that publication. Typically, this property is observed on one exemplar of a publication, and extrapolated to all other exemplars of the same publication. This logical inference is an induction along the path that can be modelled as: F3 Manifestation Product Type R7B has example F5 Item P39B was measured by E16 Measurement P40 observed dimension E54 Dimension.
+
+It can happen that a given exemplar, or subset of exemplars, originally produced, or intended to be produced, with that characteristic, accidentally lacks it. This fact should be recorded as a property of F5 Item, and not of F3 Manifestation Product Type.
+
+Examples:
+The publication entitled ‘Functional Requirements for Bibliographic Records: final report’, published by K. G. Saur in 1998, identified by ISBN ‘3-598-11382-X’ (F3) CLP43 should have dimension height of the individual copy of ‘Functional Requirements for Bibliographic Records: final report’ that I have at hand and that I observed while describing it (E54) P3 has note “24 cm” (E62) [or, alternatively: P90 has value “24” (E60) and P91 has unit “cm” (E58)]
+
+The jigsaw puzzle entitled ‘Map of the New York city subway system’, designed by Stephen J. Voorhies and released around 1954 by the Union Dimes Savings Bank (F3) CLP43 should have dimension length and height of the exemplar held and catalogued by the Library of Congress (E54) P3 has note “46 x 29 cm” (E62)
+		</rdfs:comment>
+        <rdfs:range rdf:resource="&ecrm;E54_Dimension"/>
+        <rdfs:domain rdf:resource="&efrbroo;F3_Manifestation_Product_Type"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://erlangen-crm.org/efrbroo/CLP43i_should_be_dimension_of -->
+
+    <owl:ObjectProperty rdf:about="&efrbroo;CLP43i_should_be_dimension_of">
+        <rdfs:label xml:lang="en">should be dimension of</rdfs:label>
+        <owl:inverseOf rdf:resource="&efrbroo;CLP43_should_have_dimension"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://erlangen-crm.org/efrbroo/CLP45_should_consist_of -->
+
+    <owl:ObjectProperty rdf:about="&efrbroo;CLP45_should_consist_of">
+        <rdfs:label xml:lang="en">should consist of</rdfs:label>
+        <rdfs:comment xml:lang="en">Scope note:
+This property associates a publication, i.e. an instance of F3 Manifestation Product Type, with an instance of E57 Material, which all exemplars of that publication should consist of, as long as they are recognised as exemplars of that publication. Typically, this property is observed on one exemplar of a publication, and extrapolated to all other exemplars of the same publication. This logical inference is an induction along the path that can be modelled as: F3 Manifestation Product Type R7B has example F5 Item P41B was classified by E17 Type Assignment P42 assigned E57 Material.
+
+It can happen that a given exemplar, or subset of exemplars, originally produced, or intended to be produced, with that characteristic, accidentally lacks it. This fact should be recorded as a property of F5 Item, and not of F3 Manifestation Product Type.
+
+Examples:
+The jigsaw puzzle entitled ‘Map of the New York city subway system’, designed by Stephen J. Voorhies and released around 1954 by the Union Dimes Savings Bank (F3) CLP45 should consist of Cardboard (E57)
+		</rdfs:comment>
+        <rdfs:range rdf:resource="&ecrm;E57_Material"/>
+        <rdfs:domain rdf:resource="&efrbroo;F3_Manifestation_Product_Type"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://erlangen-crm.org/efrbroo/CLP45i_should_be_incorporated_in -->
+
+    <owl:ObjectProperty rdf:about="&efrbroo;CLP45i_should_be_incorporated_in">
+        <rdfs:label xml:lang="en">should be incorporated in</rdfs:label>
+        <owl:inverseOf rdf:resource="&efrbroo;CLP45_should_consist_of"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://erlangen-crm.org/efrbroo/CLP46_should_be_composed_of -->
+
+    <owl:ObjectProperty rdf:about="&efrbroo;CLP46_should_be_composed_of">
+        <rdfs:label xml:lang="en">should be composed of</rdfs:label>
+        <rdfs:comment xml:lang="en">Scope note:
+This property associates an instance of F3 Manifestation Product Type which prescribes that all its Items will contain as parts an Item of another instance of F3 Manifestation Product Type with that instance of F3 Manifestation Product Type.
+
+Examples:
+The publication product identified by ISBN ‘0618260587’ and consisting of a 3-volume edition of J.R.R. Tolkien’s ‘The Lord of the rings’ (F3) CLP46 should be composed of The publication product identified by ISBN ‘0618260595’ and consisting of an edition of J.R.R Tolkien’s ‘The two towers’ (F3)
+
+The publication product issued by Deutsche Grammophon in 1998 and consisting of a recording of Richard Wagner’s ‘Der fliegende Holländer’ as performed in 1991 by Plácido Domingo, Cheryl Studer et al., and conducted by Giuseppe Sinopoli (F3) CLP46 should be composed of The publication product consisting of printed programme notes and libretto with French and English translations (F3)
+		</rdfs:comment>
+        <rdfs:range rdf:resource="&efrbroo;F3_Manifestation_Product_Type"/>
+        <rdfs:domain rdf:resource="&efrbroo;F3_Manifestation_Product_Type"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://erlangen-crm.org/efrbroo/CLP46i_may_form_part_of -->
+
+    <owl:ObjectProperty rdf:about="&efrbroo;CLP46i_may_form_part_of">
+        <rdfs:label xml:lang="en">may form part of</rdfs:label>
+        <owl:inverseOf rdf:resource="&efrbroo;CLP46_should_be_composed_of"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://erlangen-crm.org/efrbroo/CLR6_should_carry -->
+
+    <owl:ObjectProperty rdf:about="&efrbroo;CLR6_should_carry">
+        <rdfs:label xml:lang="en">should carry</rdfs:label>
+        <rdfs:comment xml:lang="en">Scope note:
+This property associates a publication, i.e. an instance of F3 Manifestation Product Type, with an instance of F24 Publication Expression, which all exemplars of that publication should carry, as long as they are recognised as complete exemplars of that publication. Typically, this property is observed on one exemplar of a publication, and extrapolated to all other exemplars of the same publication. This logical inference is an induction along the path that can be modelled as: F3 Manifestation Product Type R7B has example F5 Item R6 carries F24 Publication Expression.
+
+It can happen that a given exemplar, or a subset of exemplars, originally produced, or intended to be produced with that characteristic, accidentally lacks part of the publication expression. This fact should be recorded as a property of F5 Item, and not of F3 Manifestation Product Type.
+
+Examples:
+The publication, dated 1972, entitled ‘The complete poems of Stephen Crane, edited with an introduction by Joseph Katz’ (ISBN ‘0-8014-9130-4’) (F3) CLP128 should carry The overall content of the book identified by ISBN ‘0-8014-9130-4’, i.e.: the text of Stephen Crane’s complete poems as edited by Joseph Katz, the numbering system introduced by Joseph Katz in order to identify each individual poem by Stephen Crane, page numbers, the text of Joseph Katz’s dedication, preface, acknowledgements, and introduction, the table of contents, the index of first lines, the statements found on title page, back of title page (including CIP bibliographic record), cover front, back front, and spine, and the layout of the publication, and the occasional statement ‘[NO STANZA BREAK]’ (F24)
+		</rdfs:comment>
+        <rdfs:range rdf:resource="&efrbroo;F24_Publication_Expression"/>
+        <rdfs:domain rdf:resource="&efrbroo;F3_Manifestation_Product_Type"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://erlangen-crm.org/efrbroo/CLR6i_should_be_carried_by -->
+
+    <owl:ObjectProperty rdf:about="&efrbroo;CLR6i_should_be_carried_by">
+        <rdfs:label xml:lang="en">should be carried by</rdfs:label>
+        <owl:inverseOf rdf:resource="&efrbroo;CLR6_should_carry"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://erlangen-crm.org/efrbroo/R10_has_member -->
+
+    <owl:ObjectProperty rdf:about="&efrbroo;R10_has_member">
+        <rdfs:label xml:lang="en">has member</rdfs:label>
+        <rdfs:comment xml:lang="en">Scope note:
+This property associates an instance of F15 Complex Work with an instance of F1 Work that forms part of it. The Work becomes complex by the fact that it has other instances of Work as members.
+
+Examples:
+Dante’s textual work entitled ‘Divina Commedia’ (F15) R10 has member Dante’s textual work entitled ‘Inferno’ (F15)
+
+Dante’s textual work entitled ‘Inferno’ (F15) R10 has member The abstract content of the pseudo-old French text of Émile Littré’s translation entitled ‘L’Enfer mis en vieux langage françois et en vers’ [a 19th century translation of Dante’s ‘Inferno’ into old French] published in Paris in 1879 (F14)
+
+Giovanni Battista Piranesi’s graphic work entitled ‘Carceri’ (F15) R10 has member Giovanni Battista Piranesi’s graphic work entitled ‘Carcere XVI: the pier with chains’ (F15)
+
+Giovanni Battista Piranesi’s graphic work entitled ‘Carcere XVI: the pier with chains’ (F15) R10 has member The abstract content of Giovanni Battista Piranesi’s graphic work entitled ‘Carcere XVI: the pier with chains: 2nd state’ (F14)
+		</rdfs:comment>
+        <rdfs:subPropertyOf rdf:resource="&ecrm;P148_has_component"/>
+        <rdfs:domain rdf:resource="&efrbroo;F15_Complex_Work"/>
+        <rdfs:range rdf:resource="&efrbroo;F1_Work"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://erlangen-crm.org/efrbroo/R10i_is_member_of -->
+
+    <owl:ObjectProperty rdf:about="&efrbroo;R10i_is_member_of">
+        <rdfs:label xml:lang="en">is member of</rdfs:label>
+        <owl:inverseOf rdf:resource="&efrbroo;R10_has_member"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://erlangen-crm.org/efrbroo/R11_has_issuing_rule -->
+
+    <owl:ObjectProperty rdf:about="&efrbroo;R11_has_issuing_rule">
+        <rdfs:label xml:lang="en">has issuing rule</rdfs:label>
+        <rdfs:comment xml:lang="en">Scope note:
+This property associates an instance of F18 Serial Work with the instance of E29 Design or Procedure that specifies the issuing policy planned by this Work, such as sequencing pattern, expected frequency and expected regularity.
+
+Examples:
+The serial entitled ‘Quarterly journal of pure and applied mathematics’, identified by ISSN ‘1549-6724’ (F18) R11 has issuing rule To be issued every three months, on a regular basis, with each issue being numbered according to the pattern ‘Vol. 1, no. 1 (2005)’ that was observed by the Library of Congress’s cataloguers on an exemplar of the first issue (E29)
+		</rdfs:comment>
+        <rdfs:range rdf:resource="&ecrm;E29_Design_or_Procedure"/>
+        <rdfs:domain rdf:resource="&efrbroo;F18_Serial_Work"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://erlangen-crm.org/efrbroo/R11i_is_issuing_rule_of -->
+
+    <owl:ObjectProperty rdf:about="&efrbroo;R11i_is_issuing_rule_of">
+        <rdfs:label xml:lang="en">is issuing rule of</rdfs:label>
+        <owl:inverseOf rdf:resource="&efrbroo;R11_has_issuing_rule"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://erlangen-crm.org/efrbroo/R12_is_realised_in -->
+
+    <owl:ObjectProperty rdf:about="&efrbroo;R12_is_realised_in">
+        <rdfs:label xml:lang="en">is realised in</rdfs:label>
+        <rdfs:comment xml:lang="en">Scope note:
+This property associates an instance of F20 Performance Work with an instance of F25 Performance Plan that consists of signs (words, figures, etc.) which express the directions the instance of F20 Performance Work consists of.
+
+Examples:
+The concept of Sergei Radlov’s mise-en-scène of a Yiddish translation of the textual work entitled ‘King Lear’ in Moscow in 1935 (F20) R12 is realised in The set of instructions for the production of a Yiddish translation of the textual work entitled ‘King Lear’, as directed by Sergei Radlov in Moscow in 1935 (F25)
+
+The concept of Pina Bausch’s choreography of the ballet entitled ‘Rite of spring’ in Wuppertal in 1975 (F20) R12 is realised in The set of instructions for the production of the ballet entitled ‘Rite of spring’, as choreographed by Pina Bausch in Wuppertal in 1975 (F25)
+
+The concept of Bruno Walter’s performance of Gustav Mahler’s 9th symphony in 1961 (F20) R12 is realised in The set of instructions by Bruno Walter for performing Gustav Mahler’s 9th symphony, delivered by him to the Columbia Symphony Orchestra during rehearsals in Hollywood in 1961 (as partially documented in the CD entitled ‘Bruno Walter conducts and talks about Mahler symphony No. 9: rehearsal &amp; performance’) (F25)
+
+The concept of the “performance handbook” for Luigi Nono’s musical work entitled ‘À Pierre’ (F20) R12 is realised in The set of instructions contained in the performance handbook for Luigi Nono’s musical work entitled ‘À Pierre’ (F25)
+		</rdfs:comment>
+        <rdfs:domain rdf:resource="&efrbroo;F20_Performance_Work"/>
+        <rdfs:range rdf:resource="&efrbroo;F25_Performance_Plan"/>
+        <rdfs:subPropertyOf rdf:resource="&efrbroo;R3_is_realised_in"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://erlangen-crm.org/efrbroo/R12i_realises -->
+
+    <owl:ObjectProperty rdf:about="&efrbroo;R12i_realises">
+        <rdfs:label xml:lang="en">realises</rdfs:label>
+        <owl:inverseOf rdf:resource="&efrbroo;R12_is_realised_in"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://erlangen-crm.org/efrbroo/R13_is_realised_in -->
+
+    <owl:ObjectProperty rdf:about="&efrbroo;R13_is_realised_in">
+        <rdfs:label xml:lang="en">is realised in</rdfs:label>
+        <rdfs:comment xml:lang="en">Scope note:
+This property associates an instance of F21 Recording Work with an instance of F26 Recording realising the instance of F21 Recording work. This is a shortcut of the more elaborated path through R22 was realised through, F29 Recording Event and R21 created, which should be used when information about the recording event is available.
+
+Examples:
+The concept of the third alternate take of the musical work entitled ‘Blue Hawaii’ as performed by Elvis Presley in Hollywood, Calif., Radio Recorders, on March 22nd, 1961 (F21) R13 is realised in The set of signs that make up the third alternate take of the musical work entitled ‘Blue Hawaii’ as performed by Elvis Presley in Hollywood, Calif., Radio Recorders, on March 22nd, 1961 (F26)
+		</rdfs:comment>
+        <rdfs:domain rdf:resource="&efrbroo;F21_Recording_Work"/>
+        <rdfs:range rdf:resource="&efrbroo;F26_Recording"/>
+        <rdfs:subPropertyOf rdf:resource="&efrbroo;R3_is_realised_in"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://erlangen-crm.org/efrbroo/R13i_realises -->
+
+    <owl:ObjectProperty rdf:about="&efrbroo;R13i_realises">
+        <rdfs:label xml:lang="en">realises</rdfs:label>
+        <owl:inverseOf rdf:resource="&efrbroo;R13_is_realised_in"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://erlangen-crm.org/efrbroo/R14_incorporates -->
+
+    <owl:ObjectProperty rdf:about="&efrbroo;R14_incorporates">
+        <rdfs:label xml:lang="en">incorporates</rdfs:label>
+        <rdfs:comment xml:lang="en">Scope note:
+This property associates an instance of F22 Self-Contained Expression with an instance of F2 Expression that was included in it and that is a realisation of an independent work. The incorporated expression may be self-contained or fragmentary.
+
+This property makes it possible to recognise the autonomous status of the incorporated expression, which was created in a distinct context, and can be incorporated in many distinct self-contained expressions, and to highlight the difference between structural and accidental whole-part relationships between conceptual entities.
+
+It accounts for many cultural facts that are quite frequent and significant: the inclusion of a poem in an anthology, the re-use of an operatic aria in a new opera, the use of a reproduction of a painting for a book cover or a CD booklet, the integration of textual quotations, the presence of lyrics in a song that sets those lyrics to music, the presence of the text of a play in a movie based on that play, etc.
+
+Examples:
+The text of the present version of the FRBROO definition (F22) R14 incorporates The beginning of the Scope Note for E4 Period in the CIDOC CRM definition, version 4.4 (F23)
+
+The text of the anthology entitled ‘American Women Poets of the Nineteenth Century: An Anthology’, edited by Cheryl Walker and published by Rutgers University Press in July 1992 (F22) R14 incorporates The text of the poem entitled ‘Acquainted with Grief’ and authored by Helen Hunt Jackson
+
+The sonic content of the CD entitled ‘Great moments of Lucia Popp’ issued by EMI Music International in 1996 and identified by UPC/EAN ‘0724356577022’ (F24) R14 incorporates The recorded performance of Mozart’s aria entitled ‘Der Hölle Rache’ (also known as ‘The Queen of the Night’s Aria’) by Lucia Popp accompanied by the Philharmonia orchestra conducted by Otto Klemperer in London, Kingsway Hall, between March 24, 1964 and April 10, 1964 (F26)
+
+The set of instructions for the production of ‘King Lear’, directed by Sergei Radlov in Moscow in 1935 (F25) R14 incorporates The Yiddish text of ‘King Lear’ as translated by Shmuel Galkin (F22)
+
+The set of instructions for the production of ‘King Lear’, directed by Sergei Radlov in Moscow in 1935 (F25) R14 incorporates the musical content of the score of the incidental music composed by Lev Pulver (F22)
+
+The set of instructions for the production of ‘King Lear’, directed by Sergei Radlov in Moscow in 1935 (F25) R14 incorporates The visual items (E36) shown in Alexander Tyschler’s scene settings and the models built by him for these settings (F22 and E36)
+
+The set of instructions for the production of the ballet ‘Rite of spring’, as choreographed by Pina Bausch in Wuppertal in 1975 (F25) R14 incorporates the musical score of Igor Stravinsky’s musical work ‘Rite of spring’ (F22)
+		</rdfs:comment>
+        <rdfs:subPropertyOf rdf:resource="&ecrm;P106_has_component"/>
+        <rdfs:subPropertyOf rdf:resource="&ecrm;P148_has_component"/>
+        <rdfs:domain rdf:resource="&efrbroo;F22_Self-Contained_Expression"/>
+        <rdfs:range rdf:resource="&efrbroo;F2_Expression"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://erlangen-crm.org/efrbroo/R14i_is_incorporated_in -->
+
+    <owl:ObjectProperty rdf:about="&efrbroo;R14i_is_incorporated_in">
+        <rdfs:label xml:lang="en">is incorporated in</rdfs:label>
+        <owl:inverseOf rdf:resource="&efrbroo;R14_incorporates"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://erlangen-crm.org/efrbroo/R15_has_fragment -->
+
+    <owl:ObjectProperty rdf:about="&efrbroo;R15_has_fragment">
+        <rdfs:label xml:lang="en">has fragment</rdfs:label>
+        <rdfs:comment xml:lang="en">Scope note:
+This property associates the fragment of an expression and the expression of which it is a fragment.
+
+Examples:
+The ancient Greek text of the four stanzas from an ode by Sappho that were quoted by Pseudo-Longinus in his textual work entitled ‘On the sublime’ (F23) R15B is fragment of The complete ancient Greek text, now irremediably lost, of Sappho’s ode currently identified as Sappho’s poem #2 (F22)
+
+The statement ‘fasc. 111’ (abridgement for ‘fascicle no. 111’) indicating the sequential position of the publication identified by ISBN ‘2-7018-0037-4’ within the series entitled ‘Bibliothèque des Écoles françaises d’Athènes et de Rome’ and identified by ISSN ‘0257-4101’ (F23) R15B is fragment of The overall content of the publication identified by ISBN ‘2-7018-0037-4’ (F24)
+		</rdfs:comment>
+        <rdfs:subPropertyOf rdf:resource="&ecrm;P106_is_composed_of"/>
+        <rdfs:range rdf:resource="&efrbroo;F23_Expression_Fragment"/>
+        <rdfs:domain rdf:resource="&efrbroo;F2_Expression"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://erlangen-crm.org/efrbroo/R15i_is_fragment_of -->
+
+    <owl:ObjectProperty rdf:about="&efrbroo;R15i_is_fragment_of">
+        <rdfs:label xml:lang="en">is fragment of</rdfs:label>
+        <owl:inverseOf rdf:resource="&efrbroo;R15_has_fragment"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://erlangen-crm.org/efrbroo/R16_initiated -->
+
+    <owl:ObjectProperty rdf:about="&efrbroo;R16_initiated">
+        <rdfs:label xml:lang="en">initiated</rdfs:label>
+        <rdfs:comment xml:lang="en">Scope note:
+This property associates the first conception of a work and the work itself that ensued from a given initial idea.
+
+It is usually not recorded in cataloguing practice as it is only exceptionally documented in real life but is required in this semantic model as it marks the origin of the causality chain that results in a work’s coming into existence.
+
+Examples:
+The creative spark that motivated Richard Wagner, during a stormy sea crossing in July/August 1839, to compose an opera (F27) R16 initiated Richard Wagner’s opera entitled ‘Der fliegende Holländer’ (F15)
+
+The creative spark that motivated Oscar Wilde, by May 1897, to write a poem inspired by his stay in the Reading prison in 1895-1897 (F27) R16 initiated Oscar Wilde’s poem entitled ‘The ballad of the Reading gaol’ (F15)
+		</rdfs:comment>
+        <rdfs:subPropertyOf rdf:resource="&ecrm;P94_has_created"/>
+        <rdfs:range rdf:resource="&efrbroo;F1_Work"/>
+        <rdfs:domain rdf:resource="&efrbroo;F27_Work_Conception"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://erlangen-crm.org/efrbroo/R16i_was_initiated_by -->
+
+    <owl:ObjectProperty rdf:about="&efrbroo;R16i_was_initiated_by">
+        <rdfs:label xml:lang="en">was initiated by</rdfs:label>
+        <owl:inverseOf rdf:resource="&efrbroo;R16_initiated"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://erlangen-crm.org/efrbroo/R17_created -->
+
+    <owl:ObjectProperty rdf:about="&efrbroo;R17_created">
+        <rdfs:label xml:lang="en">created</rdfs:label>
+        <rdfs:comment xml:lang="en">Scope note:
+This property associates the expression that was first externalised during a particular creation event with that particular creation event.
+
+Examples:
+Richard Wagner’s writing the original manuscript of his opera entitled ‘Der fliegende Holländer’ (F28) R17 created the notational content of the original manuscript of Richard Wagner’s opera entitled ‘Der fliegende Holländer’ (F22)
+
+Oscar Wilde’s writing the original manuscript of his poem entitled ‘The ballad of the Reading gaol’ (F28) R17 created the English text of Oscar Wilde’s poem entitled ‘The ballad of the Reading gaol’ (F22)
+		</rdfs:comment>
+        <rdfs:subPropertyOf rdf:resource="&ecrm;P94_has_created"/>
+        <rdfs:domain rdf:resource="&efrbroo;F28_Expression_Creation"/>
+        <rdfs:range rdf:resource="&efrbroo;F2_Expression"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://erlangen-crm.org/efrbroo/R17i_was_created_by -->
+
+    <owl:ObjectProperty rdf:about="&efrbroo;R17i_was_created_by">
+        <rdfs:label xml:lang="en">was created by</rdfs:label>
+        <owl:inverseOf rdf:resource="&efrbroo;R17_created"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://erlangen-crm.org/efrbroo/R18_created -->
+
+    <owl:ObjectProperty rdf:about="&efrbroo;R18_created">
+        <rdfs:label xml:lang="en">created</rdfs:label>
+        <rdfs:comment xml:lang="en">Scope note:
+This property associates an instance of F28 Expression Creation with the first physical objects in which the resulting instance of F2 Expression was embodied.
+
+Examples:
+Emily Dickinson’s creating the text of one of the several extant versions of her poem known as ‘Safe in their alabaster chambers’ (F28) R18 created The manuscript now identified as ‘Massachusetts Cambridge Harvard University Houghton Library bMS Am 1118.3 (203c, 203d)’ (F4)
+
+Emily Dickinson’s creating the text of another one of the several extant versions of her poem known as ‘Safe in their alabaster chambers’ (F28) R18 created The manuscript now identified as ‘Massachusetts Cambridge Harvard University Houghton Library bMS Am 1118.5 (74c)’ (F4)
+
+The recording of the third alternate take of the musical work entitled ‘Blue Hawaii’ performed by Elvis Presley in Hollywood, Calif., Radio Recorders, on March 22nd, 1961 (F28) R18 created The master tape of the 3rd alternate take of the musical work entitled ‘Blue Hawaii’ performed by Elvis Presley in Hollywood, Calif., Radio Recorders, on March 22nd, 1961 (F4) (each individual take is a distinct expression)
+
+The resource (a drawing) held by the New York Public Library and identified by call number ‘*MGZGB Far P Cop 1’ (F4) R18B was created by The creation, by the artist named ‘Peter Farmer’, of a costume design for the character named ‘War’ in the Act III Masque of the seasons, in the Festival Ballet of London production of the choreographic work entitled ‘Coppélia’, with choreography by Jack Carter after Petipa (F28)
+		</rdfs:comment>
+        <rdfs:subPropertyOf rdf:resource="&ecrm;P108_has_produced"/>
+        <rdfs:domain rdf:resource="&efrbroo;F28_Expression_Creation"/>
+        <rdfs:range rdf:resource="&efrbroo;F4_Manifestation_Singleton"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://erlangen-crm.org/efrbroo/R18i_was_created_by -->
+
+    <owl:ObjectProperty rdf:about="&efrbroo;R18i_was_created_by">
+        <rdfs:label xml:lang="en">was created by</rdfs:label>
+        <owl:inverseOf rdf:resource="&efrbroo;R18_created"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://erlangen-crm.org/efrbroo/R19_created_a_realisation_of -->
+
+    <owl:ObjectProperty rdf:about="&efrbroo;R19_created_a_realisation_of">
+        <rdfs:label xml:lang="en">created a realisation of</rdfs:label>
+        <rdfs:comment xml:lang="en">Scope note:
+This property associates an instance of F28 Expression Creation with the corresponding instance of F14 Individual Work or an instance of F15 Complex Work of which the corresponding instance of F14 Individual Work is a member.
+
+Examples:
+Giovanni Battista Piranesi’s creating the image identified as ‘Carcere XVI: the pier with chains: 2nd state’ (F28) R19 created a realisation of The concept of Giovanni Battista Piranesi’s graphic work entitled ‘Carcere XVI: the pier with chains: 2nd state’ (F14)
+
+Recording Glenn Gould’s performance of Johann Sebastian Bach’s musical work entitled ‘Toccata in C minor BWV 911’ on May 15 &amp; 16, 1979, in Toronto, Eaton’s Auditorium (F29) R19 created a realisation of The concept of the recorded performance of Johann Sebastian Bach’s musical work entitled ‘Toccata in C minor BWV 911’ by Glenn Gould on May 15 &amp; 16, 1979, in Toronto, Eaton’s Auditorium (F21)
+		</rdfs:comment>
+        <rdfs:subPropertyOf rdf:resource="&ecrm;P16_used_specific_object"/>
+        <rdfs:range rdf:resource="&efrbroo;F1_Work"/>
+        <rdfs:domain rdf:resource="&efrbroo;F28_Expression_Creation"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://erlangen-crm.org/efrbroo/R19i_was_realised_through -->
+
+    <owl:ObjectProperty rdf:about="&efrbroo;R19i_was_realised_through">
+        <rdfs:label xml:lang="en">was realised through</rdfs:label>
+        <owl:inverseOf rdf:resource="&efrbroo;R19_created_a_realisation_of"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://erlangen-crm.org/efrbroo/R1_is_logical_successor_of -->
+
+    <owl:ObjectProperty rdf:about="&efrbroo;R1_is_logical_successor_of">
+        <rdfs:label xml:lang="en">is logical successor of</rdfs:label>
+        <rdfs:comment xml:lang="en">Scope note:
+This property associates an instance of F1 Work which logically continues the content of another instance of F1 Work with the latter.
+Examples:
+Albrecht Dürer’s woodcut from ‘The Large Woodcut Passion’ entitled ‘The Agony in the Garden’ (F1, conceived ca 1496-98) R1 is logical successor of Albrecht Dürer’s woodcut from ‘The Large Woodcut Passion’ entitled ‘The Last Supper’ (F1, dated 1510)
+
+The first ‘Star wars’ trilogy (1977-1983) R1 is logical successor of The second ‘Star wars’ trilogy (1999-2005) [Note that the logical order does not follow, in this case, the chronological order]
+		</rdfs:comment>
+        <rdfs:subPropertyOf rdf:resource="&ecrm;P130_shows_features_of"/>
+        <rdfs:range rdf:resource="&efrbroo;F1_Work"/>
+        <rdfs:domain rdf:resource="&efrbroo;F1_Work"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://erlangen-crm.org/efrbroo/R1i_has_successor -->
+
+    <owl:ObjectProperty rdf:about="&efrbroo;R1i_has_successor">
+        <rdfs:label xml:lang="en">has successor</rdfs:label>
+        <owl:inverseOf rdf:resource="&efrbroo;R1_is_logical_successor_of"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://erlangen-crm.org/efrbroo/R20_recorded -->
+
+    <owl:ObjectProperty rdf:about="&efrbroo;R20_recorded">
+        <rdfs:label xml:lang="en">recorded</rdfs:label>
+        <rdfs:comment xml:lang="en">Scope note:
+This property associates an instance of F29 Recording Event with the instance of E5 Event which was captured.
+
+Examples:
+The making of the recording of the third alternate take of the musical work entitled ‘Blue Hawaii’ as performed by Elvis Presley in Hollywood, Calif., Radio Recorders, on March 22nd, 1961 (F29) R20 recorded Elvis Presley’s performance of the musical work entitled ‘Blue Hawaii’ in Hollywood, Calif., Radio Recorders, on March 22nd, 1961 (F31)
+		</rdfs:comment>
+        <rdfs:range rdf:resource="&ecrm;E5_Event"/>
+        <rdfs:subPropertyOf rdf:resource="&ecrm;P15_was_influenced_by"/>
+        <rdfs:subPropertyOf rdf:resource="&ecrm;P9_consists_of"/>
+        <rdfs:domain rdf:resource="&efrbroo;F29_Recording_Event"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://erlangen-crm.org/efrbroo/R20i_was_recorded_through -->
+
+    <owl:ObjectProperty rdf:about="&efrbroo;R20i_was_recorded_through">
+        <rdfs:label xml:lang="en">was recorded through</rdfs:label>
+        <owl:inverseOf rdf:resource="&efrbroo;R20_recorded"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://erlangen-crm.org/efrbroo/R21_created -->
+
+    <owl:ObjectProperty rdf:about="&efrbroo;R21_created">
+        <rdfs:label xml:lang="en">created</rdfs:label>
+        <rdfs:comment xml:lang="en">Scope note:
+This property associates an instance of F29 Recording Event with the instance of F26 Recording that was created.
+
+Examples:
+The making of the recording of the third alternate take of the musical work entitled ‘Blue Hawaii’ as performed by Elvis Presley in Hollywood, Calif., Radio Recorders, on March 22nd, 1961 (F29) R21 created The set of signs that make up the third alternate take of the musical work entitled ‘Blue Hawaii’ as performed by Elvis Presley in Hollywood, Calif., Radio Recorders, on March 22nd, 1961 (F26)
+		</rdfs:comment>
+        <rdfs:range rdf:resource="&efrbroo;F26_Recording"/>
+        <rdfs:domain rdf:resource="&efrbroo;F29_Recording_Event"/>
+        <rdfs:subPropertyOf rdf:resource="&efrbroo;R17_created"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://erlangen-crm.org/efrbroo/R21i_was_created_through -->
+
+    <owl:ObjectProperty rdf:about="&efrbroo;R21i_was_created_through">
+        <rdfs:label xml:lang="en">was created through</rdfs:label>
+        <owl:inverseOf rdf:resource="&efrbroo;R21_created"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://erlangen-crm.org/efrbroo/R22_created_a_realisation_of -->
+
+    <owl:ObjectProperty rdf:about="&efrbroo;R22_created_a_realisation_of">
+        <rdfs:label xml:lang="en">created a realisation of</rdfs:label>
+        <rdfs:comment xml:lang="en">Scope note:
+This property associates an instance of F29 Recording Event with the instance of F21 Recording Work it realised.
+
+Examples:
+The making of the recording of the third alternate take of the musical work entitled ‘Blue Hawaii’ as performed by Elvis Presley in Hollywood, Calif., Radio Recorders, on March 22nd, 1961 (F29) R22 created a realisation of the concept of the third alternate take of the musical work entitled ‘Blue Hawaii’ as performed by Elvis Presley in Hollywood, Calif.
+		</rdfs:comment>
+        <rdfs:range rdf:resource="&efrbroo;F21_Recording_Work"/>
+        <rdfs:domain rdf:resource="&efrbroo;F29_Recording_Event"/>
+        <rdfs:subPropertyOf rdf:resource="&efrbroo;R19_created_a_realisation_of"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://erlangen-crm.org/efrbroo/R22i_was_realised_through -->
+
+    <owl:ObjectProperty rdf:about="&efrbroo;R22i_was_realised_through">
+        <rdfs:label xml:lang="en">was realised through</rdfs:label>
+        <owl:inverseOf rdf:resource="&efrbroo;R22_created_a_realisation_of"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://erlangen-crm.org/efrbroo/R23_created_a_realisation_of -->
+
+    <owl:ObjectProperty rdf:about="&efrbroo;R23_created_a_realisation_of">
+        <rdfs:label xml:lang="en">created a realisation of</rdfs:label>
+        <rdfs:comment xml:lang="en">Scope note:
+This property associates an instance of F30 Publication Event with the instance of F19 Publication Work it realised.
+
+Examples:
+Establishing in 1972 the layout, features, and prototype for the publication of Stephen Crane’s complete poems (F30) R23 created a realisation of Cornell University Press’s concepts for an edition of Stephen Crane’s complete poems (F19)
+		</rdfs:comment>
+        <rdfs:range rdf:resource="&efrbroo;F19_Publication_Work"/>
+        <rdfs:domain rdf:resource="&efrbroo;F30_Publication_Event"/>
+        <rdfs:subPropertyOf rdf:resource="&efrbroo;R19_created_a_realisation_of"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://erlangen-crm.org/efrbroo/R23i_was_realised_through -->
+
+    <owl:ObjectProperty rdf:about="&efrbroo;R23i_was_realised_through">
+        <rdfs:label xml:lang="en">was realised through</rdfs:label>
+        <owl:inverseOf rdf:resource="&efrbroo;R23_created_a_realisation_of"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://erlangen-crm.org/efrbroo/R24_created -->
+
+    <owl:ObjectProperty rdf:about="&efrbroo;R24_created">
+        <rdfs:label xml:lang="en">created</rdfs:label>
+        <rdfs:comment xml:lang="en">Scope note:
+This property associates the instance of F24 Publication Expression that was created during a particular F30 Publication Event.
+
+Examples:
+Establishing in 1972 the layout, features, and prototype for the publication of Stephen Crane’s complete poems (F30) R24 created The set of signs and instructions as to manufacturing established by Cornell University Press for a publication of Stephen Crane’s complete poems (F24)
+		</rdfs:comment>
+        <rdfs:range rdf:resource="&efrbroo;F24_Publication_Expression"/>
+        <rdfs:domain rdf:resource="&efrbroo;F30_Publication_Event"/>
+        <rdfs:subPropertyOf rdf:resource="&efrbroo;R17_created"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://erlangen-crm.org/efrbroo/R24i_was_created_through -->
+
+    <owl:ObjectProperty rdf:about="&efrbroo;R24i_was_created_through">
+        <rdfs:label xml:lang="en">was created through</rdfs:label>
+        <owl:inverseOf rdf:resource="&efrbroo;R24_created"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://erlangen-crm.org/efrbroo/R25_performed -->
+
+    <owl:ObjectProperty rdf:about="&efrbroo;R25_performed">
+        <rdfs:label xml:lang="en">performed</rdfs:label>
+        <rdfs:comment xml:lang="en">Scope note:
+This property associates an instance of F31 Performance with the instance of F25 Performance Plan to which all those participating in the performance were supposed to conform.
+
+Examples:
+Performing the first performance of a Yiddish translation of ‘King Lear’, as directed by Sergei Radlov, in Moscow, at the Moscow State Jewish Theatre, on February 10, 1935 (F31) R25 performed the set of instructions for the production of a Yiddish translation of ‘King Lear’, directed by Sergei Radlov in Moscow in 1935 (F25)
+
+Performing the ballet ‘Rite of spring’, as choreographed by Pina Bausch, in Avignon, at the Popes’ Palace, on July 7, 1995 (F31) R25 performed the set of instructions for the production of the ballet ‘Rite of spring’, as choreographed by Pina Bausch (F25)
+		</rdfs:comment>
+        <rdfs:subPropertyOf rdf:resource="&ecrm;P33_used_specific_technique"/>
+        <rdfs:range rdf:resource="&efrbroo;F25_Performance_Plan"/>
+        <rdfs:domain rdf:resource="&efrbroo;F31_Performance"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://erlangen-crm.org/efrbroo/R25i_was_performed_in -->
+
+    <owl:ObjectProperty rdf:about="&efrbroo;R25i_was_performed_in">
+        <rdfs:label xml:lang="en">was performed in</rdfs:label>
+        <owl:inverseOf rdf:resource="&efrbroo;R25_performed"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://erlangen-crm.org/efrbroo/R26_produced_things_of_type -->
+
+    <owl:ObjectProperty rdf:about="&efrbroo;R26_produced_things_of_type">
+        <rdfs:label xml:lang="en">produced things of type</rdfs:label>
+        <rdfs:comment xml:lang="en">Scope note:
+This property associates an instance of F32 Carrier Production Event with the instance of F3 Manifestation Product Type it produced items of.
+
+Examples:
+The production of copies of the publication entitled ‘Codex Manesse: die Miniaturen der großen Heidelberger Liederhandschrift, herausgegeben und erläutert von Ingo F. Walther unter Mitarbeit von Gisela Siebert’, 3rd edition, Insel-Verlag, 1988 (F32) R26 produced things of type The publication identified as ‘Codex Manesse: die Miniaturen der großen Heidelberger Liederhandschrift, herausgegeben und erläutert von Ingo F. Walther unter Mitarbeit von Gisela Siebert’, 3rd edition, Insel-Verlag, 1988 (F3)
+
+The production of copies of the publication entitled ‘Ordnance Survey Explorer Map 213, Aberystwyth &amp; Cwm Rheidol’, ISBN ‘0-319-23640-4’ (folded), 1:25,000 scale, released in May 2005 (F32) R26 produced things of type The publication identified by ISBN ‘0-319-23640-4’ (F3)
+
+The production of copies of the sound recording entitled ‘The Glory (????) of the human voice’, RCA Victor Gold Seal GD61175, containing recordings of musical works performed by Florence Foster Jenkins (F32) R26 produced things of type The publication entitled ‘The Glory (????) of the human voice’ and identified by the label and label number ‘RCA Victor Gold Seal GD61175’ (F3)
+
+The production of a second print run, in 1978, of the publication titled ‘The complete poems of Stephen Crane, edited with an introduction by Joseph Katz’ (identified by ISBN ‘0-8014-9130-4’) (F32) R26 produced things of type The publication, dated 1972, titled ‘The complete poems of Stephen Crane, edited with an introduction by Joseph Katz’ (identified by ISBN ‘0-8014-9130-4’) (F3)
+		</rdfs:comment>
+        <rdfs:domain rdf:resource="&efrbroo;F32_Carrier_Production_Event"/>
+        <rdfs:range rdf:resource="&efrbroo;F3_Manifestation_Product_Type"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://erlangen-crm.org/efrbroo/R26i_was_produced_by -->
+
+    <owl:ObjectProperty rdf:about="&efrbroo;R26i_was_produced_by">
+        <rdfs:label xml:lang="en">was produced by</rdfs:label>
+        <owl:inverseOf rdf:resource="&efrbroo;R26_produced_things_of_type"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://erlangen-crm.org/efrbroo/R27_used_as_source_material -->
+
+    <owl:ObjectProperty rdf:about="&efrbroo;R27_used_as_source_material">
+        <rdfs:label xml:lang="en">used as source material</rdfs:label>
+        <rdfs:comment xml:lang="en">Scope note:
+This property associates an instance of F32 Carrier Production Event with the set of signs provided by the publisher to be carried by all of the produced items.
+
+Examples:
+The production of copies of the publication identified by ISBN ‘1-86197-612-7’ (F32) R27 used as source material The final set of signs sent by the publisher named ‘Profile Books’ to its printer for the production of copies of the publication identified by ISBN ‘1-86197-612-7’ (F24)
+		</rdfs:comment>
+        <rdfs:subPropertyOf rdf:resource="&ecrm;P16_used_specific_object"/>
+        <rdfs:range rdf:resource="&efrbroo;F24_Publication_Expression"/>
+        <rdfs:domain rdf:resource="&efrbroo;F32_Carrier_Production_Event"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://erlangen-crm.org/efrbroo/R27i_was_used_by -->
+
+    <owl:ObjectProperty rdf:about="&efrbroo;R27i_was_used_by">
+        <rdfs:label xml:lang="en">was used by</rdfs:label>
+        <owl:inverseOf rdf:resource="&efrbroo;R27_used_as_source_material"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://erlangen-crm.org/efrbroo/R28_produced -->
+
+    <owl:ObjectProperty rdf:about="&efrbroo;R28_produced">
+        <rdfs:label xml:lang="en">produced</rdfs:label>
+        <rdfs:comment xml:lang="en">Scope note:
+This property associates an instance of F32 Carrier Production Event with any one of the produced items (i.e., the instances of F5 Item).
+
+Examples:
+The production of copies of the publication entitled ‘Codex Manesse: die Miniaturen der großen Heidelberger Liederhandschrift, herausgegeben und erläutert von Ingo F. Walther unter Mitarbeit von Gisela Siebert’, 3rd edition, Insel-Verlag, 1988 (F32) R28 produced The National Library of France’s holding identified by shelf mark ‘C-1604(2)’ (F5)
+
+The production of copies of the publication entitled ‘Ordnance Survey Explorer Map 213, Aberystwyth &amp; Cwm Rheidol’, ISBN 0-319-23640-4 (folded), 1:25,000 scale, released in May 2005 (F32) R28 produced The National Library of Wales’ holding identified by holding information ‘MAP, STORFA/STACK ; FLAT MAP, C16 (20/1), Sheet 213, c.135/5/2’ (F5)
+
+The production of copies of the sound recording entitled ‘The Glory (????) of the human voice’, RCA Victor Gold Seal GD61175 (F32) R28 produced The London Public Library’s holding identified by call number ‘R J416.Gl’ (F5)
+
+The second print run, occurring in 1978, of the publication dated of 1972 and entitled ‘The complete poems of Stephen Crane, edited with an introduction by Joseph Katz’ (identified by ISBN ‘0-8014-9130-4’) (F32) R28 produced Universitätsbibliothek Passau’s holding identified by call number ‘00/HT 4801.978 K2’ (F5)
+		</rdfs:comment>
+        <rdfs:subPropertyOf rdf:resource="&ecrm;P108_has_produced"/>
+        <rdfs:domain rdf:resource="&efrbroo;F32_Carrier_Production_Event"/>
+        <rdfs:range rdf:resource="&efrbroo;F5_Item"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://erlangen-crm.org/efrbroo/R28i_was_produced_by -->
+
+    <owl:ObjectProperty rdf:about="&efrbroo;R28i_was_produced_by">
+        <rdfs:label xml:lang="en">was produced by</rdfs:label>
+        <owl:inverseOf rdf:resource="&efrbroo;R28_produced"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://erlangen-crm.org/efrbroo/R29_reproduced -->
+
+    <owl:ObjectProperty rdf:about="&efrbroo;R29_reproduced">
+        <rdfs:label xml:lang="en">reproduced</rdfs:label>
+        <rdfs:comment xml:lang="en">Scope note:
+This property associates an instance of F33 Reproduction Event with an instance of E84 Information Carrier it reproduces.
+
+Examples:
+Making a photocopy of an exemplar of Eran Guter’s dissertation entitled ‘Where languages end: Ludwig Wittgenstein at the crossroads of music, language, and the world’ (F33) R29 reproduced One of the original exemplars of Eran Guter’s dissertation (E84)
+		</rdfs:comment>
+        <rdfs:range rdf:resource="&ecrm;E84_Information_Carrier"/>
+        <rdfs:subPropertyOf rdf:resource="&ecrm;P16_used_specific_object"/>
+        <rdfs:domain rdf:resource="&efrbroo;F33_Reproduction_Event"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://erlangen-crm.org/efrbroo/R29i_was_reproduced_by -->
+
+    <owl:ObjectProperty rdf:about="&efrbroo;R29i_was_reproduced_by">
+        <rdfs:label xml:lang="en">was reproduced by</rdfs:label>
+        <owl:inverseOf rdf:resource="&efrbroo;R29_reproduced"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://erlangen-crm.org/efrbroo/R2_is_derivative_of -->
+
+    <owl:ObjectProperty rdf:about="&efrbroo;R2_is_derivative_of">
+        <rdfs:label xml:lang="en">is derivative of</rdfs:label>
+        <rdfs:comment xml:lang="en">Scope note:
+This property associates an instance of F1 Work which modifies the content of another instance of F1 Work with the latter. The property R2.1 has type of this property allows for specifying the kind of derivation, such as adaptation, summarisation etc.
+
+Examples:
+William Schuman’s orchestration of Charles Ives’s ‘Variations on America’ (F15) R2 is derivative of Charles Ives’s ‘Variations on America’ (F15) R2.1 has type orchestration (E55)
+
+Charles Ives’s musical work entitled ‘Variations on America’ (F15) R2 is derivative of The musical work titled ‘America’ (F15) R2.1 has type variations (E55)
+
+The musical work entitled ‘America’ (F15) R2 is derivative of The musical work entitled ‘God save the King’ (F15) R2.1 has type same tune with different lyrics (E55)
+		</rdfs:comment>
+        <rdfs:subPropertyOf rdf:resource="&ecrm;P130_shows_features_of"/>
+        <rdfs:domain rdf:resource="&efrbroo;F1_Work"/>
+        <rdfs:range rdf:resource="&efrbroo;F1_Work"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://erlangen-crm.org/efrbroo/R2i_has_derivative -->
+
+    <owl:ObjectProperty rdf:about="&efrbroo;R2i_has_derivative">
+        <rdfs:label xml:lang="en">has derivative</rdfs:label>
+        <owl:inverseOf rdf:resource="&efrbroo;R2_is_derivative_of"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://erlangen-crm.org/efrbroo/R30_produced -->
+
+    <owl:ObjectProperty rdf:about="&efrbroo;R30_produced">
+        <rdfs:label xml:lang="en">produced</rdfs:label>
+        <rdfs:comment xml:lang="en">Scope note:
+This property associates an instance of F33 Reproduction Event with an instance of E84 Information Carrier it produces.
+
+Examples:
+Making a photocopy of an exemplar of Eran Guter’s dissertation entitled ‘Where languages end: Ludwig Wittgenstein at the crossroads of music, language, and the world’ (F33) R30 produced The New York Public Library holding identified by call number ‘JMD 04-1060’ (E84)
+		</rdfs:comment>
+        <rdfs:range rdf:resource="&ecrm;E84_Information_Carrier"/>
+        <rdfs:subPropertyOf rdf:resource="&ecrm;P108_has_produced"/>
+        <rdfs:domain rdf:resource="&efrbroo;F33_Reproduction_Event"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://erlangen-crm.org/efrbroo/R30i_was_produced_by -->
+
+    <owl:ObjectProperty rdf:about="&efrbroo;R30i_was_produced_by">
+        <rdfs:label xml:lang="en">was produced by</rdfs:label>
+        <owl:inverseOf rdf:resource="&efrbroo;R30_produced"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://erlangen-crm.org/efrbroo/R31_is_reproduction_of -->
+
+    <owl:ObjectProperty rdf:about="&efrbroo;R31_is_reproduction_of">
+        <rdfs:label xml:lang="en">is reproduction of</rdfs:label>
+        <rdfs:comment xml:lang="en">Scope note:
+This property associates an instance of E84 Information Carrier which is a reproduction of another instance of E84 Information Carrier with the latter. It is considered that a reproduction of multiple originals resulting in a single product requires a merging of those objects prior to the reproduction. Therefore an Information Carrier is regarded to be a reproduction of one and only one original. This property is a shortcut of the more fully developed path from E84 Information Carrier through R30 produced (was produced by), F33 Reproduction Event R29 reproduced (was reproduced by) to E84 Information Carrier.
+
+Examples:
+The New York Public Library holding identified by call number ‘JMD 04-1060’ (E84) R31 is reproduction of One of the original exemplars of Eran Guter’s dissertation (E84)
+		</rdfs:comment>
+        <rdfs:domain rdf:resource="&ecrm;E84_Information_Carrier"/>
+        <rdfs:range rdf:resource="&ecrm;E84_Information_Carrier"/>
+        <rdfs:subPropertyOf rdf:resource="&ecrm;P130_shows_features_of"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://erlangen-crm.org/efrbroo/R31i_has_reproduction -->
+
+    <owl:ObjectProperty rdf:about="&efrbroo;R31i_has_reproduction">
+        <rdfs:label xml:lang="en">has reproduction</rdfs:label>
+        <owl:inverseOf rdf:resource="&efrbroo;R31_is_reproduction_of"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://erlangen-crm.org/efrbroo/R3_is_realised_in -->
+
+    <owl:ObjectProperty rdf:about="&efrbroo;R3_is_realised_in">
+        <rdfs:label xml:lang="en">is realised in</rdfs:label>
+        <rdfs:comment xml:lang="en">Scope note:
+This property associates an instance of F22 Self-Contained Expression with an instance of F1 Work.
+
+This property expresses the association that exists between an expression (F22) and the work that this expression conveys. The semantics of the association will be different depending on what specific subtype of F1 Work the work is an instance of. If the work is an instance of F14 Individual Work, the F22 Self-Contained Expression completely conveys the individual work. If the work is an instance of F15 Complex work, the F22 Self-Contained Expression conveys an alternative member of the complex work.
+
+Our factual knowledge of how a given work is realised into an expression is often limited and this property makes it possible to express the association between instances of F22 Self-Contained Expression and the work it conveys without using the more developed paths.
+
+Examples:
+Dante’s work entitled ‘Inferno’ (F15) R3 is realised in The Italian text of Dante’s ‘Inferno’ as found in the authoritative critical edition La Commedia secondo l’antica vulgata a cura di Giorgio Petrocchi, Milano: Mondadori, 1966-67 (= Le Opere di Dante Alighieri, Edizione Nazionale a cura della Società Dantesca Italiana, VII, 1-4) (F22)
+		</rdfs:comment>
+        <rdfs:subPropertyOf rdf:resource="&ecrm;P130_shows_features_of"/>
+        <rdfs:domain rdf:resource="&efrbroo;F1_Work"/>
+        <rdfs:range rdf:resource="&efrbroo;F22_Self-Contained_Expression"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://erlangen-crm.org/efrbroo/R3i_realises -->
+
+    <owl:ObjectProperty rdf:about="&efrbroo;R3i_realises">
+        <rdfs:label xml:lang="en">realises</rdfs:label>
+        <owl:inverseOf rdf:resource="&efrbroo;R3_is_realised_in"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://erlangen-crm.org/efrbroo/R40_has_representative_expression -->
+
+    <owl:ObjectProperty rdf:about="&efrbroo;R40_has_representative_expression">
+        <rdfs:label xml:lang="en">has representative expression</rdfs:label>
+        <rdfs:comment xml:lang="en">Scope note:
+This property identifies an instance of F2 Expression that has been chosen as the most characteristic expression of the instance of F1 Work of which it is an expression.
+Typically, any expression that is not regarded as “representative” for the work it expresses, would require a uniform title, with qualifiers specifying the differences between that expression and a representative expression, although this may not always be done in practice. The title of a Work may not be one taken from a representative expression.
+A given work can have more than one representative expression, provided the differences between these expressions are not deemed “substantial.” If the anticipated needs of users are not considered to call for bibliographic distinctions between variant expressions of a work, then even expressions that differ significantly from each other can be regarded as equally representative for the work. (See FRBR: Final Report, p. 19-20).
+A given expression can be deemed representative for a work with regard to some of its aspects (e.g., the text contained in an edition the title proper of which reads ‘The tragicall historie of HAMLET Prince of Denmarke’, and the language of that text), and not representative for it with regard to some other aspects (e.g., the title proper ‘The tragicall historie of HAMLET Prince of Denmarke’ itself, which, being different from the title that is regarded as “representative” for Shakespeare’s work, will require the use of a uniform title).
+R40 has representative expression is a shortcut of the more developed path F1 Work R50B was assigned by F42 Representative Expression Assignment R51 assigned F2 Expression.
+
+Examples:
+Walt Whitman’s textual work titled ‘Leaves of Grass’ (F15) R40 has representative expression the linguistic, English content of the 1892 edition, known as the deathbed edition, of Walt Whitman’s textual work titled ‘Leaves of Grass’ (F2)
+
+Beethoven’s 5th symphony (F15) R40 has representative expression the notational content of the 1809 edition of Beethoven’s 5th symphony (F2)
+
+Beethoven’s 5th symphony (F15) R40 has representative expression the sonic content of the recorded performance of Beethoven’s 5th symphony by the Berliner Philharmoniker conducted by Herbert von Karajan in Berlin in November 1982 (F2)
+
+The series titled ‘Nancy Drew Mysteries’ (F18) R40 has representative expression The overall content provided by publisher named ‘Armada’ in one volume belonging to that series, including, among other elements, the series title page, which states that the title of the series reads ‘Nancy Drew Mysteries’ (F24)
+
+The periodical titled ‘The New Courier’, released by UNESCO, and described by the National Library of France in a bibliographic record that contains the following statement: “Notice réd. d’après le n° d’octobre 2002” (i.e., “description based on the issue dated October 2002”) (F18) R40 has representative expression The overall content of the October 2002 issue of UNESCO’s periodical titled ‘The New Courier’ (F24)
+		</rdfs:comment>
+        <rdfs:subPropertyOf rdf:resource="&ecrm;P130_shows_features_of"/>
+        <rdfs:domain rdf:resource="&efrbroo;F1_Work"/>
+        <rdfs:range rdf:resource="&efrbroo;F2_Expression"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://erlangen-crm.org/efrbroo/R40i_is_representative_expression_for -->
+
+    <owl:ObjectProperty rdf:about="&efrbroo;R40i_is_representative_expression_for">
+        <rdfs:label xml:lang="en">is representative expression for</rdfs:label>
+        <owl:inverseOf rdf:resource="&efrbroo;R40_has_representative_expression"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://erlangen-crm.org/efrbroo/R41_has_representative_manifestation_product_type -->
+
+    <owl:ObjectProperty rdf:about="&efrbroo;R41_has_representative_manifestation_product_type">
+        <rdfs:label xml:lang="en">has representative manifestation product type</rdfs:label>
+        <rdfs:comment xml:lang="en">Scope note:
+This property identifies an instance of F3 Manifestation Product Type that has been chosen as the most characteristic Manifestation Product Type of the instance of F2 Expression of which it is a manifestation.
+Identifying an instance of F3 Manifestation Product Type that is representative for an instance of F2 Expression makes it possible in turn to identify an instance of F2 Expression that is representative for an instance of F1 Work, and to decide what should be regarded as the title of the work.
+The title of an Expression may not be one taken from a representative Manifestation Product Type or Manifestation Singleton.
+A given expression can have more than one Representative Manifestation Product Type.
+R41 has representative manifestation product type is a shortcut of the more developed path F2 Expression R48B was assigned by F41 Representative Manifestation Assignment R49 assigned F3 Manifestation Product Type.
+
+Examples:
+The original, English text of Virginia Woolf’s textual work entitled ‘Mrs Dalloway’ (F22) R41 has representative manifestation product type the first edition, dated 1925, of Virginia Woolf’s textual work entitled ‘Mrs Dalloway’ (F3)
+		</rdfs:comment>
+        <rdfs:domain rdf:resource="&efrbroo;F2_Expression"/>
+        <rdfs:range rdf:resource="&efrbroo;F3_Manifestation_Product_Type"/>
+        <rdfs:subPropertyOf rdf:resource="&efrbroo;R4_carriers_provided_by"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://erlangen-crm.org/efrbroo/R41i_is_representative_manifestation_product_type_for -->
+
+    <owl:ObjectProperty rdf:about="&efrbroo;R41i_is_representative_manifestation_product_type_for">
+        <rdfs:label xml:lang="en">is representative manifestation product type for</rdfs:label>
+        <owl:inverseOf rdf:resource="&efrbroo;R41_has_representative_manifestation_product_type"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://erlangen-crm.org/efrbroo/R42_is_representative_manifestation_singleton_for -->
+
+    <owl:ObjectProperty rdf:about="&efrbroo;R42_is_representative_manifestation_singleton_for">
+        <rdfs:label xml:lang="en">is representative manifestation singleton for</rdfs:label>
+        <rdfs:comment xml:lang="en">Scope note:
+This property identifies an instance of Manifestation Singleton that has been declared as the unique representative for an instance of F2 Expression by some bibliographic agency.
+This property identifies an instance of F4 Manifestation Singleton that has been chosen as the most characteristic Manifestation Singleton of the instance of F2 Expression of which it is a manifestation.
+Identifying an instance of F4 Manifestation Singleton that is representative for an instance of F2 Expression makes it possible in turn to identify an instance of F2 Expression that is representative for an instance of F1 Work, and to decide what should be regarded as the title of the work.
+The title of an Expression may not be one taken from a representative Manifestation Product Type or Manifestation Singleton.
+A given expression can have more than one representative Manifestation Singleton.
+It is a shortcut for the more developed path: F2 Expression R48B was assigned by F41 Representative Manifestation Assignment R53 assigned F4 Manifestation Singleton.
+
+Examples:
+The musical text of Stanislas Champein’s opera ‘Vichnou’ (F22) R42 has representative manifestation singleton The manuscript identified by shelfmark ‘MS-8282’ within the collections of the National Library of France, Department for Music (F4) [explanation: the BnF’s Department for Music holds 3 manuscript scores (identified by shelfmarks ‘MS-8282’, ‘MS-13778’, and ‘MS-17321’) for this opera; the title inscribed on MS-8282 is ‘Vichnou’, while MS-13778 and MS-17321 are titled ‘Vistnou’; the authorised form chosen by cataloguers and reference tools such as the Grove Dictionary for Opera is ‘Vichnou’, while ‘Vistnou’ is recorded in the BnF’s authority file only as a cross reference]
+		</rdfs:comment>
+        <rdfs:subPropertyOf rdf:resource="&ecrm;P128_carries"/>
+        <rdfs:range rdf:resource="&efrbroo;F2_Expression"/>
+        <rdfs:domain rdf:resource="&efrbroo;F4_Manifestation_Singleton"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://erlangen-crm.org/efrbroo/R42i_has_representative_manifestation_singleton -->
+
+    <owl:ObjectProperty rdf:about="&efrbroo;R42i_has_representative_manifestation_singleton">
+        <rdfs:label xml:lang="en">has representative manifestation singleton</rdfs:label>
+        <owl:inverseOf rdf:resource="&efrbroo;R42_is_representative_manifestation_singleton_for"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://erlangen-crm.org/efrbroo/R43_carried_out_by -->
+
+    <owl:ObjectProperty rdf:about="&efrbroo;R43_carried_out_by">
+        <rdfs:label xml:lang="en">carried out by</rdfs:label>
+        <rdfs:comment xml:lang="en">Scope note:
+This property associates a bibliographic agency (represented by one or more of its cataloguers) and the assigning of which Manifestation (i.e., which instance of F3 Manifestation Product Type or F4 Manifestation Singleton) is representative for a given expression.
+In cataloguing practice, such a relationship is usually just implicit. However, it can become explicit, for example when a bibliographic agency creates an authority record for a given work and fills the “Source” field with information about the publication that contains the expression that was used by the bibliographic agency to establish the uniform title for the work realised in that expression.
+
+Examples:
+Assigning the manuscript identified by shelfmark ‘MS-8282’ within the collections of the National Library of France, Department for Music, as representative for the musical text of Stanislas Champein’s opera ‘Vichnou’ (F41) R43 carried out by The National Library of France, identified by code ‘FRBNF’ at the beginning of field 001 in the INTERMARC authority record for the author/title heading for Stanislas Champein’s opera ‘Vichnou’ (F44)
+
+The assignment of the book that was published at some time between 1991 and 2004 and the title proper of which reads ‘The astādhyāyī of Pānini with translation and explanatory notes’ as being a representative instance of F3 Manifestation Product Type for texts that constitute bilingual editions in Sanskrit and English of Pānini’s ‘Astādhyāyī’ (F41) R43 carried out by The bibliographic agency identified, in field 040 of a MARC21 authority record for the author/title heading ‘Pānini. Astādhyāyī. English &amp; Sanskrit’, by the code ‘DLC’ (i.e., the Library of Congress) (F44)
+
+		</rdfs:comment>
+        <rdfs:subPropertyOf rdf:resource="&ecrm;P14_carried_out_by"/>
+        <rdfs:domain rdf:resource="&efrbroo;F41_Representative_Manifestation_Assignment"/>
+        <rdfs:range rdf:resource="&efrbroo;F44_Bibliographic_Agency"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://erlangen-crm.org/efrbroo/R43i_performed -->
+
+    <owl:ObjectProperty rdf:about="&efrbroo;R43i_performed">
+        <rdfs:label xml:lang="en">performed</rdfs:label>
+        <owl:inverseOf rdf:resource="&efrbroo;R43_carried_out_by"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://erlangen-crm.org/efrbroo/R44_carried_out_by -->
+
+    <owl:ObjectProperty rdf:about="&efrbroo;R44_carried_out_by">
+        <rdfs:label xml:lang="en">carried out by</rdfs:label>
+        <rdfs:comment xml:lang="en">Scope note:
+This property associates a bibliographic agency (represented by one or more of its cataloguers) and the assigning of which expression is representative for a given Work.
+In cataloguing practice, such a relationship is usually just implicit. However, it can become explicit, for example when a bibliographic agency creates an authority record for a given work and fills the “Source” field with information about the publication that contains the expression that was used by the bibliographic agency to establish the uniform title for the work realised in that expression.
+
+Examples:
+Assigning the musical text contained in the manuscript identified by shelfmark ‘MS-8282’ within the collections of the National Library of France, Department for Music, as representative for Stanislas Champein’s opera ‘Vichnou’ (F41) R44 carried out by The National Library of France, identified by code ‘FRBNF’ at the beginning of field 001 in the INTERMARC authority record for the author/title heading for Stanislas Champein’s opera ‘Vichnou’ (F44)
+
+The assignment of the Sanskrit text contained in the book that was published in 1973 under the title ‘Pāṇinīyaṃ Sabdānuśāsanam’ as being a representative instance of F2 Expression for the textual work of Pānini titled ‘Astādhyāyī’ (F42) R44 carried out by The bibliographic agency identified, in field 040 of a MARC21 authority record for the author/title heading ‘Pānini. Astādhyāyī’, by the code ‘DLC’ (i.e., the Library of Congress) (F44)
+		</rdfs:comment>
+        <rdfs:subPropertyOf rdf:resource="&ecrm;P14_carried_out_by"/>
+        <rdfs:domain rdf:resource="&efrbroo;F42_Representative_Expression_Assignment"/>
+        <rdfs:range rdf:resource="&efrbroo;F44_Bibliographic_Agency"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://erlangen-crm.org/efrbroo/R44i_performed -->
+
+    <owl:ObjectProperty rdf:about="&efrbroo;R44i_performed">
+        <rdfs:label xml:lang="en">performed</rdfs:label>
+        <owl:inverseOf rdf:resource="&efrbroo;R44_carried_out_by"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://erlangen-crm.org/efrbroo/R45_assigned_to -->
+
+    <owl:ObjectProperty rdf:about="&efrbroo;R45_assigned_to">
+        <rdfs:label xml:lang="en">assigned to</rdfs:label>
+        <rdfs:comment xml:lang="en">Scope note:
+This property identifies the entity to which an actor, such as a bibliographic agency, assigned an instance of F13 Identifier.
+
+Examples:
+Assigning the uniform title ‘The Adoration of the Shepherds (Coventry)’ (F40) R45 assigned to The anonymous textual work otherwise simply known as ‘The Adoration of the Shepherds’ (F15) [assignment of an Identifier to a Work]
+
+Assigning the uniform title ‘Rite of spring (Choreographic Work: Bausch)’ (F40) R45 assigned to Pina Bausch’s choreographic work initially simply titled ‘Rite of spring’ (F15) [assignment of an Identifier to a Work]
+
+Assigning the uniform title ‘King Kong (1933)’ (F40) R45 assigned to The motion picture directed in 1933 by Merian C. Cooper and Ernest B. Schoedsack and simply titled ‘King Kong’ (F15) [assignment of an Identifier to a Work]
+
+Assigning the personal name heading ‘Guillaume, de Machaut, ca. 1300-1377’ (F40) R45 assigned to Guillaume de Machaut (F10) [assignment of an Identifier to a Person]
+
+Assigning the corporate name heading ‘Univerza v Ljubljani. Oddelek za bibliotekarstvo’ (F40) R45 assigned to The Department for library science of the University of Ljubljana (F11) [assignment of an Identifier to a Corporate Body]
+		</rdfs:comment>
+        <rdfs:range rdf:resource="&ecrm;E1_CRM_Entity"/>
+        <rdfs:subPropertyOf rdf:resource="&ecrm;P140_assigned_attribute_to"/>
+        <rdfs:domain rdf:resource="&efrbroo;F40_Identifier_Assignment"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://erlangen-crm.org/efrbroo/R45i_was_assigned_by -->
+
+    <owl:ObjectProperty rdf:about="&efrbroo;R45i_was_assigned_by">
+        <rdfs:label xml:lang="en">was assigned by</rdfs:label>
+        <owl:inverseOf rdf:resource="&efrbroo;R45_assigned_to"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://erlangen-crm.org/efrbroo/R46_assigned -->
+
+    <owl:ObjectProperty rdf:about="&efrbroo;R46_assigned">
+        <rdfs:label xml:lang="en">assigned</rdfs:label>
+        <rdfs:comment xml:lang="en">Scope note:
+This property associates the instance of F13 Identifier assigned to an instance of E1 CRM Entity and the event of assigning it.
+
+Examples:
+Assigning a uniform title to the anonymous textual work known as ‘The Adoration of the Shepherds’, a title shared by another, distinct anonymous textual work (F40) R46 assigned Uniform title ‘The Adoration of the Shepherds (Coventry)’ (F13)
+
+Assigning a uniform title to Pina Bausch’s choreographic work initially simply entitled ‘Rite of spring’ (F40) R46 assigned Uniform title ‘Rite of spring (Choreographic Work: Bausch)’ (F13)
+
+Assigning a uniform title to the motion picture directed in 1933 by Merian C. Cooper and Ernest B. Schoedsack and entitled ‘King Kong’ (F40) R46 assigned Uniform title ‘King Kong (1933)’ (F13)
+
+Assigning a personal name heading to Guillaume de Machaut (F40) R46 assigned ‘Guillaume, de Machaut, ca. 1300-1377’ (F13)
+
+Assigning a corporate name heading to The Department for library science of the University of Ljubljana (F40) R46 assigned ‘Univerza v Ljubljani. Oddelek za bibliotekarstvo’ (F13)
+
+Assigning a subject heading (in an authority record) to the concept of knowledge representation (F40) R46 assigned ‘Conceptual structures (Information theory)’ (F13)
+
+Assigning a subject heading (in a bibliographic record) to the concept of the appreciation of Victor Hugo’s works in Germany between 1870 and 1914 (F40) R46 assigned ‘Hugo, Victor, 1802-1885 – Appreciation – Germany – 1870-1914’ (F13)
+		</rdfs:comment>
+        <rdfs:subPropertyOf rdf:resource="&ecrm;P37_assigned"/>
+        <rdfs:range rdf:resource="&efrbroo;F13_Identifier"/>
+        <rdfs:domain rdf:resource="&efrbroo;F40_Identifier_Assignment"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://erlangen-crm.org/efrbroo/R46i_was_assigned_by -->
+
+    <owl:ObjectProperty rdf:about="&efrbroo;R46i_was_assigned_by">
+        <rdfs:label xml:lang="en">was assigned by</rdfs:label>
+        <owl:inverseOf rdf:resource="&efrbroo;R46_assigned"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://erlangen-crm.org/efrbroo/R47_used_constituent -->
+
+    <owl:ObjectProperty rdf:about="&efrbroo;R47_used_constituent">
+        <rdfs:label xml:lang="en">used constituent</rdfs:label>
+        <rdfs:comment xml:lang="en">Scope note:
+This property associates the event of assigning an instance of F13 Identifier to an entity with  the elements that an actor used to compose that identifier.
+
+Examples:
+Assigning a uniform title to the anonymous textual work known as ‘The Adoration of the Shepherds’, a title shared by another, distinct anonymous textual work (F40) R47 used constituent ‘Coventry’ (E48 Place Name – i.e., the name of an F9 Place)
+
+Assigning a uniform title to Pina Bausch’s choreographic work initially simply entitled ‘Rite of spring’ (F40) R47 used constituent ‘(Choreographic Work: Bausch)’ (F12), which in turn is composed of ‘Choreographic Work’ (F12 Name for an E55 Type), and ‘Bausch’ (F12 Name for an F10 Person)
+
+Assigning a uniform title to the motion picture directed in 1933 by Merian C. Cooper and Ernest B. Schoedsack and entitled ‘King Kong’ (F40) R47 used constituent ‘1933’ (E50 Date, subclass of E41 Appellation)
+
+Assigning the personal name heading ‘Guillaume, de Machaut, ca. 1300-1377’ to Guillaume de Machaut (F40) R47 used constituent ‘Guillaume, de Machaut’ (F12 Name for an F10 Person), and ‘ca. 1300-1377’ (E49 Time Apellation for an E52 Time-Span [P79 beginning is qualified by E62 String “ca.”])
+
+Assigning the corporate name heading ‘Univerza v Ljubljani. Oddelek za bibliotekarstvo’ to The Department for library science of the University of Ljubljana (F40) R47 used constituent ‘Univerza v Ljubljani’ (F13 Identifier for an F11 Corporate Body), and ‘Oddelek za bibliotekarstvo’ (F13 Identifier for an F11 Corporate Body)
+		</rdfs:comment>
+        <rdfs:range rdf:resource="&ecrm;E90_Symbolic_Object"/>
+        <rdfs:subPropertyOf rdf:resource="&ecrm;P16_used_specific_object"/>
+        <rdfs:domain rdf:resource="&efrbroo;F40_Identifier_Assignment"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://erlangen-crm.org/efrbroo/R47i_was_used_in -->
+
+    <owl:ObjectProperty rdf:about="&efrbroo;R47i_was_used_in">
+        <rdfs:label xml:lang="en">was used in</rdfs:label>
+        <owl:inverseOf rdf:resource="&efrbroo;R47_used_constituent"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://erlangen-crm.org/efrbroo/R48_assigned_to -->
+
+    <owl:ObjectProperty rdf:about="&efrbroo;R48_assigned_to">
+        <rdfs:label xml:lang="en">assigned to</rdfs:label>
+        <rdfs:comment xml:lang="en">Scope note:
+This property associates the event of assigning a representative instance of F3 Manifestation Product Type or F4 Manifestation Singleton with the expression to which it was assigned.
+
+Examples:
+Assigning the manuscript held by the National Library of France and identified by shelf mark ‘MS-8282’ as a representative Manifestation Singleton (F36) R48 assigned to The musical text of Stanislas Champein’s opera ‘Vichnou’ (F22)
+		</rdfs:comment>
+        <rdfs:subPropertyOf rdf:resource="&ecrm;P140_assigned_attribute_to"/>
+        <rdfs:range rdf:resource="&efrbroo;F2_Expression"/>
+        <rdfs:domain rdf:resource="&efrbroo;F41_Representative_Manifestation_Assignment"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://erlangen-crm.org/efrbroo/R48i_was_assigned_by -->
+
+    <owl:ObjectProperty rdf:about="&efrbroo;R48i_was_assigned_by">
+        <rdfs:label xml:lang="en">was assigned by</rdfs:label>
+        <owl:inverseOf rdf:resource="&efrbroo;R48_assigned_to"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://erlangen-crm.org/efrbroo/R49_assigned -->
+
+    <owl:ObjectProperty rdf:about="&efrbroo;R49_assigned">
+        <rdfs:label xml:lang="en">assigned</rdfs:label>
+        <rdfs:comment xml:lang="en">Scope note:
+This property associates the event of assigning a representative instance of F3 Manifestation Product Type with the F3 Manifestation Product Type which has been assigned.
+
+Examples:
+Assigning a representative manifestation for the English text of Virginia Woolf’s novel entitled ‘The hours’ on the original manuscript and ‘Mrs Dalloway’ on the first printed edition (F41) R49 assigned The first printed edition, entitled ‘Mrs Dalloway’ (F3)
+		</rdfs:comment>
+        <rdfs:subPropertyOf rdf:resource="&ecrm;P141_assigned"/>
+        <rdfs:range rdf:resource="&efrbroo;F3_Manifestation_Product_Type"/>
+        <rdfs:domain rdf:resource="&efrbroo;F41_Representative_Manifestation_Assignment"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://erlangen-crm.org/efrbroo/R49i_was_assigned_by -->
+
+    <owl:ObjectProperty rdf:about="&efrbroo;R49i_was_assigned_by">
+        <rdfs:label xml:lang="en">was assigned by</rdfs:label>
+        <owl:inverseOf rdf:resource="&efrbroo;R49_assigned"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://erlangen-crm.org/efrbroo/R4_carriers_provided_by -->
+
+    <owl:ObjectProperty rdf:about="&efrbroo;R4_carriers_provided_by">
+        <rdfs:label xml:lang="en">carriers provided by</rdfs:label>
+        <rdfs:comment xml:lang="en">Scope note:
+This property associates a publication, i.e. an instance of F3 Manifestation Product Type, with an instance of F2 Expression, which all exemplars of that publication should carry, as long as they are recognised as complete exemplars of that publication. Typically, this property is observed on one exemplar of a publication, and extrapolated to all other exemplars of the same publication. This property is a shortcut of: F2 Expression R14B is incorporated in F24 Publication Expression CLR6B should be carried by F3 Manifestation Product Type.
+
+Examples:
+The text of Marin Mersenne’s ‘Harmonie universelle’ (F22) R4 carriers provided by Publication identified by ISBN ‘2-222-00835-2’ (F3)
+
+A recording of the Atrium Musicæ Ensemble’s performance of a fragment of Euripides’ textual and musical work entitled ‘Orestes’ (F26) R4 carriers provided by The CD entitled ‘Musique de la Grèce antique = Ancient Greek music = Griechische Musik der Antike’, released in 2000 and identified by UPC/EAN ‘794881601622’ (F3)
+		</rdfs:comment>
+        <rdfs:domain rdf:resource="&efrbroo;F2_Expression"/>
+        <rdfs:range rdf:resource="&efrbroo;F3_Manifestation_Product_Type"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://erlangen-crm.org/efrbroo/R4i_comprises_carriers_of -->
+
+    <owl:ObjectProperty rdf:about="&efrbroo;R4i_comprises_carriers_of">
+        <rdfs:label xml:lang="en">comprises carriers of</rdfs:label>
+        <owl:inverseOf rdf:resource="&efrbroo;R4_carriers_provided_by"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://erlangen-crm.org/efrbroo/R50_assigned_to -->
+
+    <owl:ObjectProperty rdf:about="&efrbroo;R50_assigned_to">
+        <rdfs:label xml:lang="en">assigned to</rdfs:label>
+        <rdfs:comment xml:lang="en">Scope note:
+This property associates the event of assigning a representative instance of F2 Expression with the instance of F15 Complex Work to which it was assigned.
+
+Examples:
+Assigning the English text entitled ‘Murders in the rue Morgue’, with that particular formulation of its title, as a representative expression (F42) R50 assigned to Edgar Allan Poe’s textual work known, accordingly, as ‘Murders in the rue Morgue’ (F15)
+
+Assigning the Sanskrit text entitled ‘Astādhyāyī’, with that particular formulation of its title, as a representative expression (F42) R50 assigned to Pānini’s textual work known, accordingly, as ‘Astādhyāyī’ (F15)
+		</rdfs:comment>
+        <rdfs:subPropertyOf rdf:resource="&ecrm;P140_assigned_attribute_to"/>
+        <rdfs:range rdf:resource="&efrbroo;F15_Complex_Work"/>
+        <rdfs:domain rdf:resource="&efrbroo;F42_Representative_Expression_Assignment"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://erlangen-crm.org/efrbroo/R50i_was_assigned_by -->
+
+    <owl:ObjectProperty rdf:about="&efrbroo;R50i_was_assigned_by">
+        <rdfs:label xml:lang="en">was assigned by</rdfs:label>
+        <owl:inverseOf rdf:resource="&efrbroo;R50_assigned_to"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://erlangen-crm.org/efrbroo/R51_assigned -->
+
+    <owl:ObjectProperty rdf:about="&efrbroo;R51_assigned">
+        <rdfs:label xml:lang="en">assigned</rdfs:label>
+        <rdfs:comment xml:lang="en">Scope note:
+This property associates the event of assigning a representative instance of F2 Expression with the F2 Expression which has been assigned.
+
+Examples:
+Assigning a representative expression to Edgar Allan Poe’s textual work known as ‘Murders in the rue Morgue’ in English or ‘Double meurtre dans la rue Morgue’ in French (F42) R51 assigned The English text entitled, in English, ‘Murders in the rue Morgue’, with that particular formulation of its title (F22)
+
+Assigning a representative, although fragmentary, expression to Sappho’s ode referred to as Sappho’s Poem #2 (F42) R51 assigned The ancient Greek text of four stanzas quoted in the treatise entitled ‘On the sublime’ attributed to an unidentified author referred to as ‘Pseudo-Longinus’ (F23)
+		</rdfs:comment>
+        <rdfs:subPropertyOf rdf:resource="&ecrm;P141_assigned"/>
+        <rdfs:range rdf:resource="&efrbroo;F2_Expression"/>
+        <rdfs:domain rdf:resource="&efrbroo;F42_Representative_Expression_Assignment"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://erlangen-crm.org/efrbroo/R51i_was_assigned_by -->
+
+    <owl:ObjectProperty rdf:about="&efrbroo;R51i_was_assigned_by">
+        <rdfs:label xml:lang="en">was assigned by</rdfs:label>
+        <owl:inverseOf rdf:resource="&efrbroo;R51_assigned"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://erlangen-crm.org/efrbroo/R52_used_rule -->
+
+    <owl:ObjectProperty rdf:about="&efrbroo;R52_used_rule">
+        <rdfs:label xml:lang="en">used rule</rdfs:label>
+        <rdfs:comment xml:lang="en">Scope note:
+This property associates the event of assigning an instance of F13 Identifier with the instructions followed by an actor, such as a Bibliographic Agency, in creating that identifier.
+
+Examples:
+Assigning the uniform title ‘Bach, Johann Sebastian, 1685-1750. Concertos, violins (2), string orchestra, BWV 1043, D minor’ to Johann Sebastian Bach’s Double Concerto in D minor, BWV 1043 (F40) R52 used rule AACR2R 25.25-25.35F1 (F43)
+
+Assigning the uniform title ‘Bach, Johann Sebastian [Konzerte, Vl 1 2 Orch BWV 1043]’ to Johann Sebastian Bach’s Double Concerto in D minor, BWV 1043 (F40) R52 used rule RAK-Musik (Revidierte Ausgabe 2003), Chapter 6 (F43)
+
+Assigning the uniform title ‘Bach, Johann Sebastian (1685-1750). – [Concertos. Violons (2), orchestre à cordes. BWV 1043. Ré mineur]’ to Johann Sebastian Bach’s Double Concerto in D minor, BWV 1043 (F40) R52 used rule AFNOR Z 44-079 (F43)
+
+Assigning the personal name heading ‘Guillaume de Machaut (1300?-1377)’ (F40) R52 used rule AFNOR Z 44-061 (F43)
+
+Assigning the personal name heading ‘Guillaume, de Machaut, ca. 1300-1377’ (F40) R52 used rule AACR2R 22 (F43)
+		</rdfs:comment>
+        <rdfs:subPropertyOf rdf:resource="&ecrm;P33_used_specific_technique"/>
+        <rdfs:domain rdf:resource="&efrbroo;F40_Identifier_Assignment"/>
+        <rdfs:range rdf:resource="&efrbroo;F43_Identifier_Rule"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://erlangen-crm.org/efrbroo/R52i_was_the_rule_used_in -->
+
+    <owl:ObjectProperty rdf:about="&efrbroo;R52i_was_the_rule_used_in">
+        <rdfs:label xml:lang="en">was the rule used in</rdfs:label>
+        <owl:inverseOf rdf:resource="&efrbroo;R52_used_rule"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://erlangen-crm.org/efrbroo/R53_assigned -->
+
+    <owl:ObjectProperty rdf:about="&efrbroo;R53_assigned">
+        <rdfs:label xml:lang="en">assigned</rdfs:label>
+        <rdfs:comment xml:lang="en">Scope note:
+This property associates the event of assigning a representative instance of F4 Manifestation Singleton with the F4 Manifestation Singleton which has been assigned.
+
+Examples:
+Assigning a representative manifestation to the musical text of Stanislas Champein’s opera ‘Vichnou’ (F41) R53 assigned The manuscript identified by shelfmark ‘MS-8282’ within the collections of the National Library of France, Department for Music [explanation: the BnF’s Department for Music holds 3 manuscript scores (identified by shelfmarks ‘MS-8282’, ‘MS-13778’, and ‘MS-17321’) for this opera; the title inscribed on MS-8282 is ‘Vichnou’, while MS-13778 and MS-17321 are entitled ‘Vistnou’; the authorised form chosen by cataloguers and reference tools such as the Grove Dictionary for Opera is ‘Vichnou’, while ‘Vistnou’ is recorded in the BnF’s authority file only as a cross reference]
+		</rdfs:comment>
+        <rdfs:subPropertyOf rdf:resource="&ecrm;P141_assigned"/>
+        <rdfs:domain rdf:resource="&efrbroo;F41_Representative_Manifestation_Assignment"/>
+        <rdfs:range rdf:resource="&efrbroo;F4_Manifestation_Singleton"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://erlangen-crm.org/efrbroo/R53i_was_assigned_by -->
+
+    <owl:ObjectProperty rdf:about="&efrbroo;R53i_was_assigned_by">
+        <rdfs:label xml:lang="en">was assigned by</rdfs:label>
+        <owl:inverseOf rdf:resource="&efrbroo;R53_assigned"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://erlangen-crm.org/efrbroo/R5_has_component -->
+
+    <owl:ObjectProperty rdf:about="&efrbroo;R5_has_component">
+        <rdfs:label xml:lang="en">has component</rdfs:label>
+        <rdfs:comment xml:lang="en">Scope note:
+This property associates an F2 Expression X with a structural component Y that conveys in itself the complete concept of a work that is member of (R10) the overall work realized by X.
+
+It does not cover the relationship that exists between pre-existing expressions that are re-used in a new, larger expression and that new, larger expression. Such a relationship is modelled by R14 incorporates.
+
+Examples:
+The Italian text of Dante’s textual work entitled ‘Divina Commedia’ (F22) R5 has component  The Italian text of Dante’s textual work entitled ‘Inferno’ (F22)
+
+The musical notation of Mozart’s Singspiel entitled ‘Die Zauberflöte’ (F22) R5 has component  The musical notation of Mozart’s aria entitled ‘Der Hölle Rache’, also known as ‘The Queen of the Night’s Aria’ (F22)
+
+The visual content of the map entitled ‘Wales – The Midlands – South West England’, scale 1:400,000, issued by Michelin in 2005 (F22) R5 has component The visual content of the inset entitled ‘Liverpool’, scale 1:200,000, set within the compass of the map titled ‘Wales – The Midlands – South West England’, scale 1:400,000, issued by Michelin in 2005 (F22)
+		</rdfs:comment>
+        <rdfs:subPropertyOf rdf:resource="&ecrm;P148_has_component"/>
+        <rdfs:range rdf:resource="&efrbroo;F22_Self-Contained_Expression"/>
+        <rdfs:domain rdf:resource="&efrbroo;F2_Expression"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://erlangen-crm.org/efrbroo/R5i_is_component_of -->
+
+    <owl:ObjectProperty rdf:about="&efrbroo;R5i_is_component_of">
+        <rdfs:label xml:lang="en">is component of</rdfs:label>
+        <owl:inverseOf rdf:resource="&efrbroo;R5_has_component"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://erlangen-crm.org/efrbroo/R6_carries -->
+
+    <owl:ObjectProperty rdf:about="&efrbroo;R6_carries">
+        <rdfs:label xml:lang="en">carries</rdfs:label>
+        <rdfs:comment xml:lang="en">Scope note:
+This property associates an instance of F5 Item with the unique instance of F24 Publication Expression it carries.
+
+Examples:
+The British Library’s holding identified by shelfmark ‘DSC 9078.177 vol 19’ (F5) R6 carries The entire content (text, layout, publisher logo, etc.) of the publication entitled ‘Functional Requirements for Bibliographic Records: final report’, issued by publisher named ‘K. G. Saur’ in 1998 (F24)
+		</rdfs:comment>
+        <rdfs:subPropertyOf rdf:resource="&ecrm;P128_carries"/>
+        <rdfs:range rdf:resource="&efrbroo;F24_Publication_Expression"/>
+        <rdfs:domain rdf:resource="&efrbroo;F5_Item"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://erlangen-crm.org/efrbroo/R6i_is_carried_by -->
+
+    <owl:ObjectProperty rdf:about="&efrbroo;R6i_is_carried_by">
+        <rdfs:label xml:lang="en">is carried by</rdfs:label>
+        <owl:inverseOf rdf:resource="&efrbroo;R6_carries"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://erlangen-crm.org/efrbroo/R7_is_example_of -->
+
+    <owl:ObjectProperty rdf:about="&efrbroo;R7_is_example_of">
+        <rdfs:label xml:lang="en">is example of</rdfs:label>
+        <rdfs:comment xml:lang="en">Scope note:
+This property associates a publication with one of its exemplars.
+
+It is a shortcut of the more developed path: F5 Item R28B was produced by F32 Carrier Production R26 produced things of type (was produced by): F3 Manifestation Product Type.
+
+Examples:
+The item held by the National Library of France and identified by shelf mark ‘Res 8 P 10’ (F5) R7 is example of  The edition of Amerigo Vespucci’s textual and cartographic work entitled ‘Mundus novus’ issued in Paris ca. 1503-1504 (F3)
+		</rdfs:comment>
+        <rdfs:subPropertyOf rdf:resource="&ecrm;P2_has_type"/>
+        <rdfs:range rdf:resource="&efrbroo;F3_Manifestation_Product_Type"/>
+        <rdfs:domain rdf:resource="&efrbroo;F5_Item"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://erlangen-crm.org/efrbroo/R7i_has_example -->
+
+    <owl:ObjectProperty rdf:about="&efrbroo;R7i_has_example">
+        <rdfs:label xml:lang="en">has example</rdfs:label>
+        <owl:inverseOf rdf:resource="&efrbroo;R7_is_example_of"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://erlangen-crm.org/efrbroo/R8_consists_of -->
+
+    <owl:ObjectProperty rdf:about="&efrbroo;R8_consists_of">
+        <rdfs:label xml:lang="en">consists of</rdfs:label>
+        <rdfs:comment xml:lang="en">Scope note:
+This property associates an instance of F13 Identifier with any one of the meaningful parts it is composed of, which are themselves instances of F12 Name. In particular, date expressions (i.e. instances of E50 Date) are regarded as names.
+
+Examples:
+Uniform title ‘The Adoration of the Shepherds (Coventry)’ (F13) R8 consists of ‘The Adoration of the Shepherds’ (E35 Title), and R8 consists of ‘Coventry’ (E48 Place Name – i.e., the name of an F9 Place)
+
+Uniform title ‘Rite of spring (Choreographic Work : Bausch)’ (F13) R8 consists of ‘Rite of spring’ (E35 Title), R8 consists of ‘Choreographic Work’ (F12 Name for an E55 Type), and R8 consists of ‘Bausch’ (F12 Name for an F10 Person)
+
+Uniform title ‘King Kong (1933)’ (F13) R8 consists of ‘King Kong’ (E35 Title), and R8 consists of ‘1933’ (E50 Date, subclass of E41 Appellation)
+
+Personal name heading ‘Guillaume, de Machaut, ca. 1300-1377’ (F13 Identifier for an F10 Person) R8 consists of ‘Guillaume, de Machaut’ (F12 Name for an F10 Person), and R8 consists of ‘ca. 1300-1377’ (E49 Time Apellation for an E52 Time-Span [P79 beginning is qualified by E62 String “ca.”])
+
+Corporate name heading ‘Univerza v Ljubljani. Oddelek za bibliotekarstvo’ (F13 Identifier for a F11 Corporate Body) R8 consists of ‘Univerza v Ljubljani’ (F13 Identifier for a F11 Corporate Body), and R8 consists of ‘Oddelek za bibliotekarstvo’ (F12 Name for a F11 Corporate Body)
+
+ISBN ‘978-002-002-0’ (F47) R8 consists of Prefix ‘978’ for the Nigerian ISBN Agency (F12 Name for a F11 Corporate Body), and R8 consists of code ‘002’ for the Nigerian Institute of International Affairs (F12 Name for a F11 Corporate Body), and R8 consists of code ‘002’ for the publication entitled ‘Nigeria’s international economic relations’ (F12 Name for a F3 Manifestation Product Type)
+		</rdfs:comment>
+        <rdfs:subPropertyOf rdf:resource="&ecrm;P106_is_composed_of"/>
+        <rdfs:range rdf:resource="&efrbroo;F12_Name"/>
+        <rdfs:domain rdf:resource="&efrbroo;F13_Identifier"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://erlangen-crm.org/efrbroo/R8i_forms_part_of -->
+
+    <owl:ObjectProperty rdf:about="&efrbroo;R8i_forms_part_of">
+        <rdfs:label xml:lang="en">forms part of</rdfs:label>
+        <owl:inverseOf rdf:resource="&efrbroo;R8_consists_of"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://erlangen-crm.org/efrbroo/R9_is_realised_in -->
+
+    <owl:ObjectProperty rdf:about="&efrbroo;R9_is_realised_in">
+        <rdfs:label xml:lang="en">is realised in</rdfs:label>
+        <rdfs:comment xml:lang="en">Scope note:
+This property associates an F14 Individual Work with the unique F22 Self-Contained Expression that completely conveys it.
+
+It is a short cut for the more developed path: F14 Individual Work R19B was realised through F28 Expression Creation R17 created F22 Self-Contained Expression.
+
+Examples:
+Abstract content of Giovanni Battista Piranesi’s graphic work entitled ‘Carcere XVI: the pier with chains: 2nd state’ (F14) R9 is realised in Giovanni Battista Piranesi’s graphic work entitled ‘Carcere XVI: the pier with chains: 2nd state’ (F22)
+
+Abstract content of the English text of the 1855 edition of Walt Whitman’s textual work entitled ‘Leaves of Grass’ (F14) R9 is realised in the English text of the 1855 edition of Walt Whitman’s textual work entitled ‘Leaves of Grass’ (F22)
+		</rdfs:comment>
+        <rdfs:domain rdf:resource="&efrbroo;F14_Individual_Work"/>
+        <rdfs:range rdf:resource="&efrbroo;F22_Self-Contained_Expression"/>
+        <rdfs:subPropertyOf rdf:resource="&efrbroo;R3_is_realised_in"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://erlangen-crm.org/efrbroo/R9i_realises -->
+
+    <owl:ObjectProperty rdf:about="&efrbroo;R9i_realises">
+        <rdfs:label xml:lang="en">realises</rdfs:label>
+        <owl:inverseOf rdf:resource="&efrbroo;R9_is_realised_in"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Data properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://erlangen-crm.org/efrbroo/CLP57_should_have_number_of_parts -->
+
+    <owl:DatatypeProperty rdf:about="&efrbroo;CLP57_should_have_number_of_parts">
+        <rdfs:label xml:lang="en">should have number of parts</rdfs:label>
+        <rdfs:comment xml:lang="en">Scope note:
+This property associates a publication, i.e. an instance of F3 Manifestation Product Type, with an instance of E60 Number, which denotes the number of physical units all exemplars of that publication should consist of, as long as they are recognised as complete exemplars of that publication. Typically, this property is observed on one exemplar of a publication, and extrapolated to all other exemplars of the same publication. This logical inference is an induction along the path that can be modelled as: F3 Manifestation Product Type R7B has example F5 Item P57has number of parts E60 Number.
+
+It can happen that a given exemplar, or subset of exemplars, originally produced, or intended to be produced, with that characteristic, accidentally lacks it. This fact should be recorded as a property of F5 Item, and not of F3 Manifestation Product Type.
+
+Examples:
+The jigsaw puzzle entitled ‘Map of the New York city subway system’, designed by Stephen J. Voorhies and released around 1954 by the Union Dimes Savings Bank (F3) CLP57 should have number of parts 76 (E60) [Number of physical units of the exemplar held by the Library of Congress, as observed by a cataloguer from the Library of Congress when he/she catalogued that particular exemplar and recorded the statement: ‘1 jigsaw puzzle (ca. 76 pieces)’]
+
+The publication entitled ‘History of costume: in slides, notes, and commentaries’ by Jeanne Button, Patricia Quinn Stuart, and Stephen Sbarge, released by Slide Presentations (New York) ca. 1975 (F3) CLP57 should have number of parts 1,491 (E60) [Number of physical units of the exemplar held by the Gelman Library of the George Washington University, as observed by a cataloguer from the Gelman Library of the George Washington University when he/she catalogued that particular exemplar and recorded the statement: ‘1,491 slides in 14 slide trays + 6 ring binders in cases (30 x 29 cm.)’]
+		</rdfs:comment>
+        <rdfs:domain rdf:resource="&efrbroo;F3_Manifestation_Product_Type"/>
+        <rdfs:range rdf:resource="&xsd;positiveInteger"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://erlangen-crm.org/current/E12_Production -->
+
+    <owl:Class rdf:about="&ecrm;E12_Production"/>
+    
+
+
+    <!-- http://erlangen-crm.org/current/E13_Attribute_Assignment -->
+
+    <owl:Class rdf:about="&ecrm;E13_Attribute_Assignment"/>
+    
+
+
+    <!-- http://erlangen-crm.org/current/E15_Identifier_Assignment -->
+
+    <rdf:Description rdf:about="&ecrm;E15_Identifier_Assignment">
+        <owl:equivalentClass rdf:resource="&efrbroo;F40_Identifier_Assignment"/>
+    </rdf:Description>
+    
+
+
+    <!-- http://erlangen-crm.org/current/E18_Physical_Thing -->
+
+    <rdf:Description rdf:about="&ecrm;E18_Physical_Thing">
+        <owl:equivalentClass rdf:resource="&efrbroo;F7_Object"/>
+    </rdf:Description>
+    
+
+
+    <!-- http://erlangen-crm.org/current/E21_Person -->
+
+    <rdf:Description rdf:about="&ecrm;E21_Person">
+        <owl:equivalentClass rdf:resource="&efrbroo;F10_Person"/>
+    </rdf:Description>
+    
+
+
+    <!-- http://erlangen-crm.org/current/E24_Physical_Man-Made_Thing -->
+
+    <owl:Class rdf:about="&ecrm;E24_Physical_Man-Made_Thing"/>
+    
+
+
+    <!-- http://erlangen-crm.org/current/E28_Conceptual_Object -->
+
+    <rdf:Description rdf:about="&ecrm;E28_Conceptual_Object">
+        <owl:equivalentClass rdf:resource="&efrbroo;F6_Concept"/>
+    </rdf:Description>
+    
+
+
+    <!-- http://erlangen-crm.org/current/E29_Design_or_Procedure -->
+
+    <owl:Class rdf:about="&ecrm;E29_Design_or_Procedure"/>
+    
+
+
+    <!-- http://erlangen-crm.org/current/E30_Right -->
+
+    <owl:Class rdf:about="&ecrm;E30_Right">
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&efrbroo;CLP104i_applies_to"/>
+                <owl:cardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:cardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://erlangen-crm.org/current/E40_Legal_Body -->
+
+    <owl:Class rdf:about="&ecrm;E40_Legal_Body"/>
+    
+
+
+    <!-- http://erlangen-crm.org/current/E41_Appellation -->
+
+    <rdf:Description rdf:about="&ecrm;E41_Appellation">
+        <owl:equivalentClass rdf:resource="&efrbroo;F12_Name"/>
+    </rdf:Description>
+    
+
+
+    <!-- http://erlangen-crm.org/current/E42_Identifier -->
+
+    <rdf:Description rdf:about="&ecrm;E42_Identifier">
+        <owl:equivalentClass rdf:resource="&efrbroo;F13_Identifier"/>
+    </rdf:Description>
+    
+
+
+    <!-- http://erlangen-crm.org/current/E4_Period -->
+
+    <rdf:Description rdf:about="&ecrm;E4_Period">
+        <owl:equivalentClass rdf:resource="&efrbroo;F8_Event"/>
+    </rdf:Description>
+    
+
+
+    <!-- http://erlangen-crm.org/current/E53_Place -->
+
+    <rdf:Description rdf:about="&ecrm;E53_Place">
+        <owl:equivalentClass rdf:resource="&efrbroo;F9_Place"/>
+    </rdf:Description>
+    
+
+
+    <!-- http://erlangen-crm.org/current/E54_Dimension -->
+
+    <owl:Class rdf:about="&ecrm;E54_Dimension">
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&efrbroo;CLP43i_should_be_dimension_of"/>
+                <owl:cardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:cardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://erlangen-crm.org/current/E55_Type -->
+
+    <owl:Class rdf:about="&ecrm;E55_Type"/>
+    
+
+
+    <!-- http://erlangen-crm.org/current/E5_Event -->
+
+    <owl:Class rdf:about="&ecrm;E5_Event"/>
+    
+
+
+    <!-- http://erlangen-crm.org/current/E65_Creation -->
+
+    <owl:Class rdf:about="&ecrm;E65_Creation"/>
+    
+
+
+    <!-- http://erlangen-crm.org/current/E72_Legal_Object -->
+
+    <owl:Class rdf:about="&ecrm;E72_Legal_Object"/>
+    
+
+
+    <!-- http://erlangen-crm.org/current/E73_Information_Object -->
+
+    <owl:Class rdf:about="&ecrm;E73_Information_Object"/>
+    
+
+
+    <!-- http://erlangen-crm.org/current/E74_Group -->
+
+    <owl:Class rdf:about="&ecrm;E74_Group"/>
+    
+
+
+    <!-- http://erlangen-crm.org/current/E7_Activity -->
+
+    <owl:Class rdf:about="&ecrm;E7_Activity"/>
+    
+
+
+    <!-- http://erlangen-crm.org/current/E84_Information_Carrier -->
+
+    <owl:Class rdf:about="&ecrm;E84_Information_Carrier">
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&efrbroo;R30i_was_produced_by"/>
+                <owl:maxCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:maxCardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&efrbroo;R31_is_reproduction_of"/>
+                <owl:maxCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:maxCardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://erlangen-crm.org/current/E89_Propositional_Object -->
+
+    <owl:Class rdf:about="&ecrm;E89_Propositional_Object"/>
+    
+
+
+    <!-- http://erlangen-crm.org/efrbroo/F10_Person -->
+
+    <owl:Class rdf:about="&efrbroo;F10_Person">
+        <rdfs:label xml:lang="en">person</rdfs:label>
+        <rdfs:comment xml:lang="en">Scope note:
+This class comprises real persons who live or are assumed to have lived. [Beginning of scope note for E21 Person in CIDOC CRM version 5.0.1] F10 Person covers the notion of persona.
+
+Examples:
+Margaret Atwood
+
+Hans Christian Andersen
+
+Queen Victoria
+		</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://erlangen-crm.org/efrbroo/F11_Corporate_Body -->
+
+    <owl:Class rdf:about="&efrbroo;F11_Corporate_Body">
+        <rdfs:label xml:lang="en">corporate body</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&ecrm;E74_Group"/>
+        <rdfs:comment xml:lang="en">Scope note:
+This class comprises organisations and groups of two or more people and/or organisations acting as a unit.
+
+To be considered an F11 Corporate Body a gathering of people needs to bear a name and exhibit organisational characteristics sufficient to allow the body as a whole to participate in the creation, modification or production of an E73 Information Object. Groups such as conferences, congresses, expeditions, exhibitions, festivals, fairs, etc. are modelled as F11 Corporate Bodies when they are named and can take collective action, such as approving a report or publishing their proceedings.
+
+Examples:
+The International Machaut Society
+
+The British Library
+
+The Jackson Five
+
+The Regional Municipality of Ottawa-Carleton
+
+Symposium on Glaucoma
+		</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://erlangen-crm.org/efrbroo/F12_Name -->
+
+    <owl:Class rdf:about="&efrbroo;F12_Name">
+        <rdfs:label xml:lang="en">name</rdfs:label>
+        <rdfs:comment xml:lang="en">Scope note:
+This class comprises all sequences of signs of any nature, either meaningful or not, that are used or can be used to refer to and identify a specific instance of some class within a certain context. Instances of E41 Appellation do not identify things by their meaning even if they happen to have one, but by convention, tradition, or agreement. Instances of E41 Appellation are cultural constructs; as such, they have a context, a history, and a use in time and space by some group of users. [Beginning of Scope Note for E41 Appellation in CIDOC CRM version 5.0.1]
+
+Examples:
+‘杜甫’ (E82) [the name of a Chinese poet of the 8th century, in Chinese characters]
+
+‘Du Fu’ (E82) [Pinyin romanised form of the name of a Chinese poet of the 8th century]
+
+‘Tu Fu’ (E82) [another romanised form of the name of a Chinese poet of the 8th century]	
+
+‘Thơ Ðô Phủ’ (E82) [Vietnamese form of the name of a Chinese poet of the 8th century]
+
+‘جامعة صفاقس’ (E82) [Arabic name of the Sfax University (Tunisia), in Arabic script]
+
+‘Ğāmi ‘at `Ṣafāqis’ (E82) [Arabic name of the Sfax University (Tunisia), transliterated]
+
+‘Université de Sfax’ (E82) [French name of the Sfax University (Tunisia)]
+
+‘Murders in the rue Morgue’ (E35) [English title of a textual work]
+
+‘Poe, Edgar Allan, 1809-1849. Murders in the rue Morgue’ (F13) [controlled author/title heading for a textual work]
+
+‘modelling’ [not the activity, just the written signs that represent its English name in British spelling]
+
+‘modeling’ [not the activity, just the written signs that represent its English name in American spelling]	
+		</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://erlangen-crm.org/efrbroo/F13_Identifier -->
+
+    <owl:Class rdf:about="&efrbroo;F13_Identifier">
+        <rdfs:label xml:lang="en">identifier</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&efrbroo;F12_Name"/>
+        <rdfs:comment xml:lang="en">Scope note:
+This class comprises strings or codes assigned to instances of E1 CRM Entity in order to identify them uniquely and permanently within the context of one or more organisations. Such codes are often known as inventory numbers, registration codes, etc. and are typically composed of alphanumeric sequences. The class E42 Identifier is not normally used for machine-generated identifiers used for automated processing unless these are also used by human agents. [Adapted from the Scope Note of CIDOC CRM E42 Identifier ver. 5.0.1]
+
+F13 Identifier covers the notion of “controlled access points” in library practice – both preferred forms and cross references. A cross reference may not identify uniquely an entity, but can be shared by two entities; however, as it displays the same structural characteristics as preferred controlled access points, it is still regarded in the model as an instance of F13 Identifier.
+
+Examples:
+ISSN ‘0041-5278’ (F13)
+
+ISRC ‘FIFIN8900116’ (F13)
+
+Shelf mark ‘Res 8 P 10’ (E42)
+
+‘Guillaume de Machaut (1300?-1377)’ (F13) [a controlled personal name heading that follows the French rules]
+
+‘Guillaume, de Machaut, ca. 1300-1377’ (F13) [a controlled personal name heading that follows the AACR rules]
+
+‘Rite of spring (Choreographic work: Bausch)’ (F13)
+		</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://erlangen-crm.org/efrbroo/F14_Individual_Work -->
+
+    <owl:Class rdf:about="&efrbroo;F14_Individual_Work">
+        <rdfs:label xml:lang="en">individual work</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&efrbroo;F1_Work"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&efrbroo;R9_is_realised_in"/>
+                <owl:cardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:cardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:comment xml:lang="en">Scope note:
+This class comprises works that are realised by one and only one self-contained expression, i.e., works representing the concept as expressed by precisely this expression, and that do not have other works as parts.
+
+Inherent to the notion of work is the completion of recognisable outcomes of the work. These outcomes, i.e. the Self-Contained Expressions, are regarded as the symbolic equivalents of Individual Works, which form the atoms of a complex work. Normally creators would characterise an outcome of a work as finished. In other cases, one could recognise an outcome of a work as complete from the elaboration or logical coherence of its content, or if there is any historical knowledge about the creator deliberately or accidentally never finishing (completing) that particular expression. In all those cases, one would regard the corresponding expression as equivalent to one Individual Work.
+
+Examples:
+Abstract content of Giovanni Battista Piranesi’s ‘Carcere XVI: the pier with chains: 1st state’
+
+Abstract content of Giovanni Battista Piranesi’s ‘Carcere XVI: the pier with chains: 2nd state’ [explanation: these are two states of the same etching, but with so many and so significant differences between them that they can scarcely be recognised as conveying the same work; more generally speaking, each individual state of an etching, as a Self-Contained Expression, conveys its own F14 Individual Work (even if the differences are not so blatant as in the case of ‘Carcere XVI’), and is regarded as part of the larger, abstract F15 Complex Work that encompasses all distinct states of the same etching]
+
+Abstract content of the recording made of performances of Johann Sebastian Bach’s ‘Toccata in C minor BWV 911’ by Glenn Gould on May 15 &amp; 16, 1979, in Toronto, Eaton’s Auditorium		
+		</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://erlangen-crm.org/efrbroo/F15_Complex_Work -->
+
+    <owl:Class rdf:about="&efrbroo;F15_Complex_Work">
+        <rdfs:label xml:lang="en">complex work</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&efrbroo;F1_Work"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&efrbroo;R10_has_member"/>
+                <owl:minCardinality rdf:datatype="&xsd;nonNegativeInteger">2</owl:minCardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:comment xml:lang="en">Scope note:
+This class comprises works that have more than one work as members.
+
+The members of a Complex Work may constitute components of the overall concept or be alternatives to other members of the work. In practice, no clear line can be drawn between parallel and subsequent processes in the evolution of a work. One part may not be finished when another is already revised. An initially monolithic work may be taken up and evolve in pieces. The member relationship of Work is based on the conceptual relationship, and should not be confused with the internal structural parts of an individual expression. The fact that an expression may contain parts from other work(s) does not make the expressed work complex. For instance, an anthology for which only one version exists is not a complex work.
+
+The boundaries of a Complex Work have nothing to do with the value of the intellectual achievement but only with the dominance of a concept. Thus, derivations such as translations are regarded as belonging to the same Complex Work, even though in addition they constitute an Individual Work themselves. In contrast, a Work that significantly takes up and merges concepts of other works so that it is no longer dominated by the initial concept is regarded as a new work. In cataloguing practice, detailed rules are established prescribing which kinds of derivation should be regarded as crossing the boundaries of a complex work. Adaptation and derivation graphs allow the recognition of distinct sub-units, i.e. a complex work contained in a larger complex work.
+
+As a Complex Work can be taken up by any creator who acquires the spirit of its concept, it is never finished in an absolute sense.
+Examples:
+Work entitled ‘La Porte de l’Enfer’ by Auguste Rodin
+
+Work entitled ‘Hamlet’ by William Shakespeare
+
+Work entitled ‘Der Ring der Nibelungen’ by Richard Wagner
+
+Work entitled ‘Carceri d’invenzione’ by Giovanni Battista Piranesi
+
+Work entitled ‘Mass in B minor BWV 232’ by Johann Sebastian Bach
+		</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://erlangen-crm.org/efrbroo/F16_Container_Work -->
+
+    <owl:Class rdf:about="&efrbroo;F16_Container_Work">
+        <rdfs:label xml:lang="en">container work</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&efrbroo;F1_Work"/>
+        <rdfs:comment xml:lang="en">Scope note:
+This class comprises works whose essence is to enhance or add value to expressions from one or more other works without altering them, by the selection, arrangement and/or addition of features of different form, such as layout to words, recitation and movement to texts, instrumentation to musical scores etc. This does not make the contents of the incorporated expressions part of the Container Work, but only part of the resulting expression. Container Work may include the addition of new, original parts to the incorporated expressions, such as introductions, graphics, etc.
+
+A new version of a container work does not make the resulting complex work a Container Work as well. The inclusion of expressions from a complex work in a Container Work does not make the Container Work itself complex.
+
+Examples:
+The aggregation and arrangement concept of the anthology entitled ‘American Women Poets of the Nineteenth Century: An Anthology’, edited by Cheryl Walker and published by Rutgers University Press in July 1992 [an F17 Aggregation Work]
+
+The concept for the layout created by printer Guido Morris for the text of Michael Hamburger’s English translation of 12 poems by Georg Trakl for publication in 1952 [an F19 Publication Work]
+
+The concept by the publisher named ‘Dell’ of issuing together, in 2002, three novels entitled ‘The Partner’, ‘The Street Lawyer’, and ‘A time to kill’, by the author named ‘John Grisham’, with just the statement ‘Three #1 bestsellers by John Grisham’ as a collective title [an F19 Publication Work]
+
+The concept of Sergei Radlov’s mise-en-scène of a Yiddish translation of the textual work entitled ‘King Lear’ in Moscow in 1935 [an F20 Performance Work]
+
+The concept of putting together the English text of ‘King Lear’ and a Spanish translation thereof in a bilingual edition of ‘King Lear’ [an F17 Aggregation Work]		
+		</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://erlangen-crm.org/efrbroo/F17_Aggregation_Work -->
+
+    <owl:Class rdf:about="&efrbroo;F17_Aggregation_Work">
+        <rdfs:label xml:lang="en">aggregation work</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&efrbroo;F14_Individual_Work"/>
+        <rdfs:subClassOf rdf:resource="&efrbroo;F16_Container_Work"/>
+        <rdfs:comment xml:lang="en">Scope note:
+This class comprises works whose essence is the selection and/or arrangement of expressions of one or more other works. This does not make the contents of the aggregated expressions part of this work, but only part of the resulting expression. F17 Aggregation Work may include additional original parts.
+
+An expression of a work may include expressions of other works within it. For instance, an anthology of poems is regarded as a work in its own right that makes use of expressions of the individual poems that have been selected and ordered as part of an intellectual process.
+
+A new version of an aggregate work does not make the resulting complex work an aggregate work as well. The inclusion of expressions from a complex work in an aggregation work does not make the aggregation work itself complex.
+
+Examples:
+The aggregation and arrangement concept of the anthology entitled ‘American Women Poets of the Nineteenth Century: An Anthology’, edited by Cheryl Walker and published by Rutgers University Press in July 1992
+
+The aggregation and arrangement concept of the Web site named ‘IFLANET’
+
+The aggregation and arrangement concept of the collection of articles entitled ‘Marij Kogoj (1892-1992): zbornik referatov s kolokvija ob stoletnici skladateljevega rojstva 7.10.1992 v Ljubljani = Marij Kogoj (1892-1992): proceedings from the colloquium held in Ljubljana at the centenary of the composer’s birth on October 7th, 1992’ and edited by a person named ‘Ivan Klemenčič’
+		</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://erlangen-crm.org/efrbroo/F18_Serial_Work -->
+
+    <owl:Class rdf:about="&efrbroo;F18_Serial_Work">
+        <rdfs:label xml:lang="en">serial work</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&efrbroo;F15_Complex_Work"/>
+        <rdfs:subClassOf rdf:resource="&efrbroo;F19_Publication_Work"/>
+        <rdfs:comment xml:lang="en">Scope note:
+This class comprises works that are, or have been, planned to result in sequences of manifestations with common features. Whereas a work can acquire new members over the time it evolves Expressions and Manifestations are identified with a certain state achieved at a particular point in time. Therefore there is in general no single expression or manifestation representing a complete serial work, unless the serial work is ended.
+
+Serial Works may or may not have a plan for an overall expression.
+
+The retrospective reprinting of all issues of a Serial Work at once, in the form of a monograph, is regarded to be another member of a Complex Work, which contains the Serial Work and the Individual Work realised in the monograph. This does not make the monograph part of the Serial Work.
+
+Examples:
+The periodical entitled ‘The UNESCO Courier’, ISSN ‘0041-5278’
+
+The periodical entitled ‘Courrier de l’UNESCO’, ISSN ‘0304-3118’ [French edition of the periodical titled ‘The UNESCO Courier’, ISSN ‘0041-5278’]
+
+The series entitled ‘L’évolution de l’humanité’, ISSN ‘0755-1843’ [a monograph series comprising volumes that were published from 1920 on, and some of which were reprinted, with different physical features and rearranged in a different order, from 1968 on, in a distinct series also entitled ‘L’évolution de l’humanité’, ISSN ‘0755-1770’]		
+		</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://erlangen-crm.org/efrbroo/F19_Publication_Work -->
+
+    <owl:Class rdf:about="&efrbroo;F19_Publication_Work">
+        <rdfs:label xml:lang="en">publication work</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&efrbroo;F16_Container_Work"/>
+        <rdfs:comment xml:lang="en">Scope note:
+This class comprises works that have been planned to result in a manifestation product type and that pertain to the rendering of expressions from other works.
+
+Examples:
+The concept of publishing Stephen Crane’s complete poems (as edited by Joseph Katz), which includes the idea that every time a stanza jumps over a page change, the statement ‘[NO STANZA BREAK]’ should be printed as a warning for readers that the new page continues the same stanza
+
+The concept, on behalf of publisher named ‘Verlag Neue Kunsthandlung’, of issuing together, around 1925, three formerly independent publications (‘Emil Orlik’ by Max Osborn – vol. 2 within the series named ‘Graphiker der Gegenwart’, published in 1920; ‘Anders Zorn’ by Paul Friedrich – vol. 10 within the series named ‘Graphiker der Gegenwart’, published in 1924; and ‘Max Slevogt’ by Julius Elias – vol. 11 within the series named ‘Graphiker der Gegenwart’, published in 1923) as one, new publication, entitled ‘102 Bilder aus der Sammlung Graphiker der Gegenwart’
+
+The concept, on behalf of publisher named ‘Dell’, of issuing together in 2002 three novels, titled ‘The partner’, ‘The street lawyer’, and ‘A time to kill’, by author named ‘John Grisham’, with just the statement ‘Three #1 bestsellers by John Grisham’ as a collective title
+		</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://erlangen-crm.org/efrbroo/F1_Work -->
+
+    <owl:Class rdf:about="&efrbroo;F1_Work">
+        <rdfs:label xml:lang="en">work</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&ecrm;E89_Propositional_Object"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&efrbroo;R19i_was_realised_through"/>
+                <owl:cardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:cardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&efrbroo;R16i_was_initiated_by"/>
+                <owl:someValuesFrom rdf:resource="&efrbroo;F27_Work_Conception"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:comment xml:lang="en">Scope note:
+This class comprises the sums of concepts which appear in the course of the coherent evolution of an original idea into one or more expressions that are dominated by the original idea. The substance of Work is concepts. A Work may be elaborated by one or more Actors simultaneously or over time. A Work may have members that constitute components of the overall concept or that are alternatives to other members of the work. Members of a work may or may not represent the concept of the Work as a whole; for instance a translation reinterprets the whole, a volume of a trilogy represents a part of the concept.
+
+A Work can be either individual or complex. If it is individual its concept is completely realised in a single F22 Self-Contained Expression. If it is complex its concept is embedded in an F15 Complex Work. An F15 Complex Work consists of members that are either F15 Complex Works themselves or F14 Individual Works. The member relationship of Work is based on the members respecting the same concept, and should not be confused with the structural parts of an expression, that might be taken from other work(s).
+
+A Work is the product of an intellectual process of one or more persons, yet only indirect evidence about it is at our hands. This can be contextual information such as the existence of an order for a work, reflections of the creators themselves that are documented somewhere, and finally the expressions of the work created. As ideas normally take shape during discussion, elaboration and implementation, it is not reasonable to assume that a work starts with a complete concept. Moreover, it can be very difficult or impossible to define the whole of the concept of a work at some given time. The only objective evidence for such a notion can be based on a stage of expressions at a given time. In this sense, self-contained expressions serve as a kind of “snap-shots” of a work.
+
+A Work may aggregate expressions of other works into a new expression. For instance, an anthology of poems is regarded as a work in its own right that makes use of expressions of the individual poems that have been selected and ordered as part of an intellectual process. This does not make the contents of the aggregated expressions part of this work, but only parts of the resulting expression.
+
+Examples:
+Abstract content of Giovanni Battista Piranesi’s ‘Carcere XVI: the pier with chains: 1st state’ (F14)
+
+‘La Porte de l’Enfer’ by Auguste Rodin conceived between 1880 and 1917 (F15)
+
+‘Hamlet’ by William Shakespeare (F15)
+		</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://erlangen-crm.org/efrbroo/F20_Performance_Work -->
+
+    <owl:Class rdf:about="&efrbroo;F20_Performance_Work">
+        <rdfs:label xml:lang="en">performance work</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&efrbroo;F16_Container_Work"/>
+        <rdfs:comment xml:lang="en">Scope note:
+This class comprises the sets of concepts for rendering a particular or a series of like performances.
+
+F20 Performance Work is declared as a subclass of F16 Container Work. This implies that the incorporated expressions (such as the text of the staged play, the text of the argument for the ballet, the recorded music to be used for the ballet, or the content of the musical score to be used for a concert, etc.) are not by themselves a part of the expression of this F1 Work. Rather, an expression (F25 Performance Plan) of the instructions the stage production, choreography or musical performance consists of incorporates (R14) that textual or musical content. In other words, the text of ‘Hamlet’ is not a component of the concepts that underlie a given mise-en-scène of ‘Hamlet’, but any staging directions (F25 Performance Plan) that convey a given director’s vision of ‘Hamlet’ must necessarily incorporate the text of ‘Hamlet’.
+
+Examples:
+The conceptual content of Sergei Radlov’s mise-en-scène of a Yiddish translation of the textual work entitled ‘King Lear’ in Moscow in 1935
+
+The conceptual content of Pina Bausch’s choreography of the ballet entitled ‘Rite of spring’ in Wuppertal in 1975
+
+The conceptual content of Bruno Walter’s performance of Gustav Mahler’s 9th symphony in 1961
+
+The conceptual content of the “performance handbook” for Luigi Nono’s musical work entitled ‘À Pierre’
+		</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://erlangen-crm.org/efrbroo/F21_Recording_Work -->
+
+    <owl:Class rdf:about="&efrbroo;F21_Recording_Work">
+        <rdfs:label xml:lang="en">recording work</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&efrbroo;F1_Work"/>
+        <rdfs:comment xml:lang="en">Scope note:
+This class comprises works that conceptualise the capturing of features of perdurants. The characteristics of the manifestation of a recording work are those of the product of the capture process. The characteristics of any other works recorded are distinct from those of the recording work itself. In the case where the recorded perdurant expresses some Work, the respective instance of F21 is also an F16 Container Work
+
+Examples:
+The concept of recording the Swedish 17th century warship Vasa in August 1959 to April 1961
+
+The concept of documenting the Live Aid concerts July 13, 1985, London, Philadelphia, Sydney and Moscow
+		</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://erlangen-crm.org/efrbroo/F22_Self-Contained_Expression -->
+
+    <owl:Class rdf:about="&efrbroo;F22_Self-Contained_Expression">
+        <rdfs:label xml:lang="en">self-contained expression</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&efrbroo;F2_Expression"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&efrbroo;R9i_realises"/>
+                <owl:cardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:cardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&efrbroo;R3i_realises"/>
+                <owl:cardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:cardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:comment xml:lang="en">Scope note:
+This class comprises the immaterial realisations of individual works at a particular time that are regarded as a complete whole. The quality of wholeness reflects the intention of its creator that this expression should convey the concept of the work. Such a whole can in turn be part of a larger whole.
+
+Inherent to the notion of work is the completion of recognisable outcomes of the work. These outcomes, i.e. the Self-Contained Expressions, are regarded as the symbolic equivalents of Individual Works, which form the atoms of a complex work. A Self-Contained Expression may contain expressions or parts of expressions from other work, such as citations or items collected in anthologies. Even though they are incorporated in the Self-Contained Expression, they are not regarded as becoming members of the expressed container work by their inclusion in the expression, but are rather regarded as foreign or referred elements.
+
+F22 Self-Contained Expression can be distinguished from F23 Expression Fragment in that an F23 Expression Fragment was not intended by its creator to make sense by itself. Normally creators would characterise an outcome of a work as finished. In other cases, one could recognise an outcome of a work as complete from the elaboration or logical coherence of its content, or if there is any historical knowledge about the creator deliberately or accidentally never finishing (completing) that particular expression. In all those cases, one would regard an expression as self-contained.
+
+Examples:
+The Italian text of Dante’s ‘Inferno’ as found in the authoritative critical edition La Commedia secondo l’antica vulgata a cura di Giorgio Petrocchi, Milano: Mondadori, 1966-67 (= Le Opere di Dante Alighieri, Edizione Nazionale a cura della Società Dantesca Italiana, VII, 1-4)
+
+The musical notation of Franz Schubert’s lied known as ‘Ave Maria’
+
+The musical notation of Franz Schubert’s lieder cycle entitled ‘Seven Songs after Walter Scott’s The Lady of the Lake’, of which ‘Ave Maria’ is a distinct part
+
+The musical notation of Franz Liszt’s piano transcription of Franz Schubert’s lied known as ‘Ave Maria’
+		</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://erlangen-crm.org/efrbroo/F23_Expression_Fragment -->
+
+    <owl:Class rdf:about="&efrbroo;F23_Expression_Fragment">
+        <rdfs:label xml:lang="en">expression fragment</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&efrbroo;F2_Expression"/>
+        <rdfs:comment xml:lang="en">Scope note:
+This class comprises parts of Expressions and these parts are not Self-contained Expressions themselves.
+
+The existence of an instance of F23 Expression Fragment can be due to accident, such as loss of material over time, e.g. the only remaining manuscript of an antique text being partially eaten by worms, or due to deliberate isolation, such as excerpts taken from a text by the compiler of a collection of excerpts.
+
+An F23 Expression Fragment is only identified with respect to its occurrence in a known or assumed whole. The size of an instance of F23 Expression Fragment ranges from more than 99% of an instance of F22 Self-Contained Expression to tiny bits (a few words from a text, one bar from a musical composition, one detail from a still image, a two-second clip from a movie, etc.).
+
+Examples:
+The only remnants of Sappho’s poems	
+
+The words ‘Beati pauperes spiritu’ (excerpted from Matthew’s Gospel 5,3 in Latin translation)		
+		</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://erlangen-crm.org/efrbroo/F24_Publication_Expression -->
+
+    <owl:Class rdf:about="&efrbroo;F24_Publication_Expression">
+        <rdfs:label xml:lang="en">publication expression</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&efrbroo;F22_Self-Contained_Expression"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&efrbroo;CLR6i_should_be_carried_by"/>
+                <owl:maxCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:maxCardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&efrbroo;R24i_was_created_through"/>
+                <owl:someValuesFrom rdf:resource="&efrbroo;F30_Publication_Event"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:comment xml:lang="en">Scope note:	
+This class comprises complete sets of signs present in publications, reflecting publishers’ final decisions as to both content and layout of the publications.
+
+Examples:
+The text, its layout and the textual and graphic (Saur’s logo on p. [i]) content of front and back cover, spine (spine title), and p. [i-iv] of the publication entitled ‘Functional Requirements for Bibliographic Records: final report’, published by K. G. Saur in 1998, identified by ISBN ‘3-598-11382-X’
+
+The overall content of the book identified by ISBN ‘0-8014-9130-4’: the text of Stephen Crane’s complete poems as edited by Joseph Katz, the numbering system introduced by Joseph Katz in order to identify each individual poem by Stephen Crane, page numbers, the text of Joseph Katz’s dedication, preface, acknowledgements, and introduction, the table of contents, the index of first lines, the statements found on title page, back of title page (including CIP bibliographic record), cover front, back front, and spine, and the layout of the publication; for one of Stephen Crane’s longer poems, printed on p. 142-143, a statement reads at bottom of p. 142: ‘[NO STANZA BREAK]’: obviously, this statement does not belong to the Self-Contained Expression intended by Stephen Crane, and presumably not to the one intended by editor Joseph Katz either, but was more probably added by the publishing team, due to characteristics of the layout of the publication: a cautious reader can easily interpret ‘[NO STANZA BREAK]’ as non-belonging to the poem itself, but an OCR process would not make the distinction between the text of the poem and the statement made by the publisher; ‘[NO STANZA BREAK]’ belongs to the Publication Expression, although it does not belong to the Self-Contained Expression intended by Stephen Crane and Joseph Katz
+
+The overall content of the LP sound recording identified by label and label number ‘CBS 34-61237’: a recorded performance of Terry Riley’s musical work ‘In C’, the text of liner notes by Paul Williams translated into French by Bernard Weinberg, technical statements such as ‘Stereo,’ publisher’s logo, series logo, title and statement of responsibility on front, back, and spine of the cover and on the recording itself, duration statement, cover art by G. Joly, overall layout, etc.; a special, shunting sound was added at the end of side one and beginning of side two, as Terry Riley’s work is in the form of a continuous musical flow without any interruption and the technical possibilities of vinyl LPs did not allow the complete performance to be contained on just one side: that special, shunting sound was not intended in Riley’s score nor in the performance but was added by the publisher (with or without Riley’s consent, this detail is not documented), and as such it is part of the Publication Expression although it is not part of the composer’s and the performers’ Self-Contained Expression (this shunting sound was no longer needed in subsequent releases on CD)
+
+The overall content of the DVD entitled ‘The Aviator (2-Disc Full Screen Edition)’, released in 2004: Martin Scorsese’s movie itself; layout of the box and the two DVDs contained in the box; pictures on the DVDs themselves; English, Spanish, and French subtitles; English and French audio tracks; and bonuses: commentaries by director Martin Scorsese, editor Thelma Schoonmaker, and producer Michael Mann; a deleted scene (‘Howard Tells Ava About His Car Accident’); and featurettes ‘A Life Without Limits: The Making of The Aviator’; ‘The Role of Howard Hughes in Aviation History’; ‘Modern Marvels: Howard Hughes, A Documentary by the History Channel’; ‘The Visual Effects of The Aviator’; ‘The Affliction of Howard Hughes: Obsessive Compulsive Disorder’; ‘The Age of Glamour: The Hair And Makeup of The Aviator’; ‘Costuming The Aviator: The Work of Sandy Powell’; ‘Constructing The Aviator: The Work of Dante Ferretti’; ‘An evening with Leonardo DiCaprio and Alan Alda’; ‘OCD Panel Discussion With Leonardo DiCaprio, Martin Scorsese, and Howard Hughes’ Widow Terry Moore’; ‘Still Gallery’; ‘Scoring The Aviator: The Work Of Howard Shore’; and ‘The Wainwright Family – Loudon, Rufus and Martha’
+		</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://erlangen-crm.org/efrbroo/F25_Performance_Plan -->
+
+    <owl:Class rdf:about="&efrbroo;F25_Performance_Plan">
+        <rdfs:label xml:lang="en">performance plan</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&ecrm;E29_Design_or_Procedure"/>
+        <rdfs:subClassOf rdf:resource="&efrbroo;F22_Self-Contained_Expression"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&efrbroo;R12i_realises"/>
+                <owl:cardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:cardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:comment xml:lang="en">Scope note:
+This class comprises sets of directions to which individual performances of theatrical, choreographic, or musical works and their combinations should conform.
+
+In the case of theatrical performances, such directions incorporate, but are not limited nor reducible to, the text of a given version of the play performed (e.g., a translated text, some passages of which are deliberately omitted, with some rephrased lines, etc.).
+
+In the case of choreographic performances, such directions may incorporate, but are neither limited nor reducible to, the notation of choreographic movements in systems such as labanotation.
+
+In the case of musical performances, such directions may incorporate, but are neither limited nor reducible to, the musical score. In case of electronic music, they may incorporate software instructions.
+
+These directions may or may not completely determine the form of the intended performance. Depending on the nature of the directions, the form of the intended performance, such as the sets of movements or the sound characteristics, may or may not be predictable from the directions.
+
+Note that a performance plan may be more or less elaborate, and may even foresee just improvisation.
+
+Examples:			
+The set of instructions for the production of a Yiddish translation of the textual work entitled ‘King Lear’, as directed by Sergei Radlov in Moscow in 1935
+
+The set of instructions for the production of the ballet entitled ‘Rite of spring’, as choreographed by Pina Bausch in Wuppertal in 1975
+
+The set of instructions by Bruno Walter for performing Gustav Mahler’s 9th symphony, delivered by him to the Columbia Symphony Orchestra during rehearsals in Hollywood in 1961 (as partially documented in the CD entitled ‘Bruno Walter conducts and talks about Mahler symphony No. 9: rehearsal &amp; performance’)
+
+The set of instructions contained in the “performance handbook” for Luigi Nono’s musical work entitled ‘À Pierre’
+		</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://erlangen-crm.org/efrbroo/F26_Recording -->
+
+    <owl:Class rdf:about="&efrbroo;F26_Recording">
+        <rdfs:label xml:lang="en">recording</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&efrbroo;F22_Self-Contained_Expression"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&efrbroo;R13i_realises"/>
+                <owl:maxCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:maxCardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&efrbroo;R21i_was_created_through"/>
+                <owl:someValuesFrom rdf:resource="&efrbroo;F29_Recording_Event"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:comment xml:lang="en">Scope note:
+This class comprises expressions which are created in instances of F29 Recording Event. A recording is intended to convey (and preserve) the content of one or more events.
+
+Examples:
+The set of signs that make up the third alternate take of the musical work entitled ‘Blue Hawaii’ as performed by Elvis Presley in Hollywood, Calif., Radio Recorders, on March 22nd, 1961
+		</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://erlangen-crm.org/efrbroo/F27_Work_Conception -->
+
+    <owl:Class rdf:about="&efrbroo;F27_Work_Conception">
+        <rdfs:label xml:lang="en">work conception</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&ecrm;E65_Creation"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&efrbroo;R16_initiated"/>
+                <owl:maxCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:maxCardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:comment xml:lang="en">Scope note:
+This class comprises the births of original ideas. It marks the initiation of the creation of a work. This class should be used where there is historical evidence of the initiation before the appearance of physical evidence for the F1 Work. This does not always correlate with the date assigned in common library practice to the work; which is usually a later event.
+
+Examples:
+Richard Wagner’s having the initial idea of composing the opera entitled ‘Der fliegende Holländer’ during a stormy sea crossing in July/August 1839
+
+Oscar Wilde’s having by May 1897 the initial idea of writing his poem entitled ‘The ballad of the Reading gaol’, inspired by his stay in the Reading prison from November 20, 1895 to May 18, 1897, and the execution of Charles Thomas Woolridge on July 7, 1896
+		</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://erlangen-crm.org/efrbroo/F28_Expression_Creation -->
+
+    <owl:Class rdf:about="&efrbroo;F28_Expression_Creation">
+        <rdfs:label xml:lang="en">expression creation</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&ecrm;E12_Production"/>
+        <rdfs:subClassOf rdf:resource="&ecrm;E65_Creation"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&efrbroo;R19_created_a_realisation_of"/>
+                <owl:someValuesFrom rdf:resource="&efrbroo;F1_Work"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&efrbroo;R18_created"/>
+                <owl:someValuesFrom rdf:resource="&efrbroo;F4_Manifestation_Singleton"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&efrbroo;R17_created"/>
+                <owl:cardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:cardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:comment xml:lang="en">Scope note:
+This class comprises activities that result in instances of F2 Expression coming into existence. This class characterises the externalisation of an Individual Work.
+
+Although F2 Expression is an abstract entity, a conceptual object, the creation of an expression inevitably also affects the physical world: when you scribble the first draft of a poem on a sheet of paper, you produce an F4 Manifestation Singleton; F28 Expression Creation is a subclass of E12 Production because the recording of the expression causes a physical modification of the carrying E18 Physical Thing. The work becomes manifest by being expressed on a physical carrier different from the creator’s mind. The spatio-temporal circumstances under which the expression is created are necessarily the same spatio-temporal circumstances under which the first F4 Manifestation Singleton is produced. The mechanisms through which oral tradition (of myths, tales, music, etc.) operates are not further investigated in this model. As far as bibliographic practice is concerned, only those instances of F2 Expression that are externalised on physical carriers other than both the creator’s mind and the auditor’s mind are taken into account (for a discussion of the modelling of oral traditions, see: Nicolas, Yann. ‘Folklore Requirements for Bibliographic Records: oral traditions and FRBR.’ In: Cataloging &amp; Classification Quarterly (2005). Vol. 39, No. 3-4. P. 179-195).
+
+Examples:
+The creation of the original manuscript score of ‘Uwertura tragiczna’ by Andrzej Panufnik in 1942 in Warsaw
+
+The reconstruction from memory of the manuscript score of ‘Uwertura tragiczna’ by Andrzej Panufnik in 1945 after the original score was destroyed during the war
+
+The recording of the third alternate take of ‘Blue Hawaii’ performed by Elvis Presley in Hollywood, Calif., Radio Recorders, on March 22nd, 1961 [each individual take is a distinct instance of F2 Expression]
+		</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://erlangen-crm.org/efrbroo/F29_Recording_Event -->
+
+    <owl:Class rdf:about="&efrbroo;F29_Recording_Event">
+        <rdfs:label xml:lang="en">recording event</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&efrbroo;F28_Expression_Creation"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&efrbroo;R21_created"/>
+                <owl:someValuesFrom rdf:resource="&efrbroo;F26_Recording"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&efrbroo;R22_created_a_realisation_of"/>
+                <owl:maxCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:maxCardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&efrbroo;R20_recorded"/>
+                <owl:someValuesFrom rdf:resource="&ecrm;E5_Event"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:comment xml:lang="en">Scope note:
+This class comprises activities that intend to convey (and preserve) the content of events in a recording, such as a live recording of a performance, a documentary, or other capture of a perdurant. Such activities may follow the directions of a recording plan. They may include postproduction.
+
+Examples:
+The making of the recording of the third alternate take of the musical work titled ‘Blue Hawaii’ as performed by Elvis Presley in Hollywood, Calif., Radio Recorders, on March 22nd, 1961
+		</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://erlangen-crm.org/efrbroo/F2_Expression -->
+
+    <owl:Class rdf:about="&efrbroo;F2_Expression">
+        <rdfs:label xml:lang="en">expression</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&ecrm;E73_Information_Object"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&efrbroo;R17i_was_created_by"/>
+                <owl:someValuesFrom rdf:resource="&efrbroo;F28_Expression_Creation"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:comment xml:lang="en">Scope note:
+This class comprises the intellectual or artistic realisations of works in the form of identifiable immaterial objects, such as texts, poems, jokes, musical or choreographic notations, movement pattern, sound pattern, images, multimedia objects, or any combination of such forms that have objectively recognisable structures. The substance of F2 Expression is signs.
+
+Expressions cannot exist without a physical carrier, but do not depend on a specific physical carrier and can exist on one or more carriers simultaneously. Carriers may include human memory.
+
+Inasmuch as the form of F2 Expression is an inherent characteristic of the F2 Expression, any change in form (e.g., from alpha-numeric notation to spoken word, a poem created in capitals and rendered in lower case) is a new F2 Expression. Similarly, changes in the intellectual conventions or instruments that are employed to express a work (e.g., translation from one language to another) result in the creation of a new F2 Expression. Thus, if a text is revised or modified, the resulting F2 Expression is considered to be a new F2 Expression. Minor changes, such as corrections of spelling and punctuation, etc., are normally considered variations within the same F2 Expression. On a practical level, the degree to which distinctions are made between variant expressions of a work will depend to some extent on the nature of the F1 Work itself, and on the anticipated needs of users.
+
+The genre of the work may provide an indication of which features are essential to the expression. In some cases, aspects of physical form, such as typeface and page layout, are not integral to the intellectual or artistic realisation of the work as such, and therefore are not distinctive criteria for the respective expressions. For another work features such as layout may be essential. For instance, the author or a graphic designer may wrap a poem around an image.
+
+An expression of a work may include expressions of other works within it. For instance, an anthology of poems is regarded as a work in its own right that makes use of expressions of the individual poems that have been selected and ordered as part of an intellectual process. This does not make the contents of the aggregated expressions part of this work, but only parts of the resulting expression.
+
+If an instance of F2 Expression is of a specific form, such as text, image, etc., it may be simultaneously instantiated in the specific classes representing these forms in CIDOC CRM. Thereby one can make use of the more specific properties of these classes, such as language (which is applicable to linguistic objects only).
+
+Examples:
+The Italian text of Dante’s ‘Divina Commedia’ as found in the authoritative critical edition ‘La Commedia secondo l’antica vulgata a cura di Giorgio Petrocchi’, Milano: Mondadori, 1966-67 (= Le Opere di Dante Alighieri, Edizione Nazionale a cura della Società Dantesca Italiana, VII, 1-4) (F22)
+
+The Italian text of Dante’s ‘Inferno’ as found in the same edition (F22)
+
+Nel mezzo del cammin di nostra vita	
+mi ritrovai per una selva oscura	
+ché la diritta via era smarrita [the Italian text of the first stanza of Dante’s ‘Inferno’ and ‘Divina Commedia’] (F23)
+
+The signs which make up Christian Morgenstern’s ‘Fisches Nachtgesang’ [a poem consisting simply of “-” and “˘” signs, arranged in a determined combination] (F22)
+		</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://erlangen-crm.org/efrbroo/F30_Publication_Event -->
+
+    <owl:Class rdf:about="&efrbroo;F30_Publication_Event">
+        <rdfs:label xml:lang="en">publication event</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&efrbroo;F28_Expression_Creation"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&efrbroo;R23_created_a_realisation_of"/>
+                <owl:maxCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:maxCardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&efrbroo;R24_created"/>
+                <owl:someValuesFrom rdf:resource="&efrbroo;F24_Publication_Expression"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:comment xml:lang="en">Scope note:
+This class comprises the activities of publishing. Such an event includes the creation of an F24 Publication Expression and setting up the means of production. The end of this event is regarded as the date of publication, regardless of whether the carrier production is started. Publishing can be either physical or electronic. Electronic publishing is regarded as making an instance of F24 Publication Expression available in electronic form on a public network. Electronic Publishing does not mean producing a physical F5 Item by partially electronic means. Making an electronic file available on a physical carrier can be regarded as equivalent to setting up the means of production; downloading the file is regarded as the electronic equivalent of F32 Carrier Production Event.
+
+Examples:
+Publishing Amerigo Vespucci’s ‘Mundus novus’ in Paris ca. 1503-1504
+
+Establishing in 1972 the layout, features, and prototype for the publication of ‘The complete poems of Stephen Crane, edited with an introduction by Joseph Katz’ (ISBN ‘0-8014-9130-4’), which served for a second print run in 1978
+
+Making available online the article by Allen Renear, Christopher Phillippe, Pat Lawton, and David Dubin, entitled ‘An XML document corresponds to which FRBR Group 1 entity?’ http://conferences.idealliance.org/extreme/html/2003/Lawton01/EML2003Lawton01.html
+		</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://erlangen-crm.org/efrbroo/F31_Performance -->
+
+    <owl:Class rdf:about="&efrbroo;F31_Performance">
+        <rdfs:label xml:lang="en">performance</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&ecrm;E7_Activity"/>
+        <rdfs:comment xml:lang="en">Scope note:
+This class comprises activities that follow the directions of a performance plan, such as a theatrical play, an expression of a choreographic work or a musical work; i.e., they are intended to communicate directly or indirectly to an audience.
+
+Such activities can be identified at various levels of granularity, and can be contiguous or not. Any individual performance (with or without intermissions) is a single instance of F31 Performance. In addition, a complete run of performances can also be seen as an instance of F31 Performance, with individual performances as parts. A complete run of performances may comprise an original run plus any of its extensions and tours.
+
+Note that a performance plan may be more or less elaborate, and may even foresee just improvisation.
+
+Examples:
+Performing the first performance of a Yiddish translation of the textual work entitled ‘King Lear’, as directed by Sergei Radlov, in Moscow, at the Moscow State Jewish Theatre, on February 10, 1935 [individual performance]
+
+Performing the ballet entitled ‘Rite of spring’, as choreographed by Pina Bausch, in Avignon, at the Popes’ Palace, on July 7, 1995 [individual performance]
+
+Performing the operatic work entitled ‘Dido and Aeneas’, as directed by Edward Gordon Craig and conducted by Martin Shaw, in London, Hampstead Conservatoire, on May 17, 18, and 19, 1900 [run of performances]
+		</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://erlangen-crm.org/efrbroo/F32_Carrier_Production_Event -->
+
+    <owl:Class rdf:about="&efrbroo;F32_Carrier_Production_Event">
+        <rdfs:label xml:lang="en">carrier production event</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&ecrm;E12_Production"/>
+        <rdfs:comment xml:lang="en">Scope note:	
+This class comprises activities that result in instances of F5 Item coming into existence. The creation of a new copy of a file on an electronic carrier is also regarded as a Carrier Production Event.
+
+Typically, the production of copies of a publication (no matter whether it is a book, a sound recording, a DVD, a cartographic resource, etc.) strives to produce items all as similar as possible to a prototype that displays all the features that all the copies of the publication should also display, which is reflected in property R27 used as source material F24 Publication Expression.
+
+Examples:
+The printing of copies of the 3rd edition of ‘Codex Manesse: die Miniaturen der großen Heidelberger Liederhandschrift, herausgegeben und erläutert von Ingo F. Walther unter Mitarbeit von Gisela Siebert’, Insel-Verlag, 1988 [a fac-simile edition of an illuminated mediaeval manuscript]
+
+The printing of copies of the ‘Ordnance Survey Explorer Map 213, Aberystwyth &amp; Cwm Rheidol’, ISBN 0-319-23640-4 (folded), 1:25,000 scale, released in May 2005 [a cartographic resource]
+
+The production of copies of the sound recording titled ‘The Glory (????) of the human voice’, RCA Victor Gold Seal GD61175, containing recordings of musical works performed by Florence Foster Jenkins [a sound recording; the question marks in parentheses belong to the original title]
+
+My clicking now on the link http://cidoc.ics.forth.gr/docs/cidoc_crm_version_4.0.pdf, and thus downloading on my PC a reproduction of the electronic file titled ‘Definition of the CIDOC Conceptual Reference Model… version 4.0’ that is stored on the ICS FORTH’s servers in Heraklion, Crete
+
+The second print run, in 1978, of ‘The complete poems of Stephen Crane, edited with an introduction by Joseph Katz’ (ISBN ‘0-8014-9130-4’), a publication dated 1972 [publication of a printed text]
+		</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://erlangen-crm.org/efrbroo/F33_Reproduction_Event -->
+
+    <owl:Class rdf:about="&efrbroo;F33_Reproduction_Event">
+        <rdfs:label xml:lang="en">reproduction event</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&ecrm;E12_Production"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&efrbroo;R29_reproduced"/>
+                <owl:someValuesFrom rdf:resource="&ecrm;E84_Information_Carrier"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&efrbroo;R30_produced"/>
+                <owl:someValuesFrom rdf:resource="&ecrm;E84_Information_Carrier"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:comment xml:lang="en">Scope note:
+This class comprises activities that consist in making copies, more or less mechanically, of an instance of E84 Information Carrier (such as an F5 Item or an F4 Manifestation Singleton which is also instance of E84 Information Carrier), preserving the expression carried by it. A Reproduction Event results in new instances of E84 Information Carrier coming into existence. In general, the copy will have different attributes from the original and they are therefore not regarded as siblings.
+
+This class makes it possible to account for the legal distinction between private copying for the purpose of “fair use,” and mass production for the purpose of dissemination.
+
+It can prove difficult to determine where to draw the line between F33 Reproduction Event and F32 Carrier Production Event in cases where multiple copies are produced. In this case, the copies, but not the original, may be regarded as instances of F5 Item. It is the existence of an explicit production plan that makes the difference. As a consequence, F33 Reproduction Event and F32 Carrier Production Event are not declared as disjoint, which makes it possible to account for such situations that could be regarded as instances of both Production Event and Reproduction Event.
+
+Examples:
+My photocopying now for my own private use an exemplar of the article entitled ‘Federal Court’s Ruling Against Photocopying Chain Will Not Destroy “Fair Use”’ by Kenneth D. Crews, issued in ‘Chronicle of higher education’, 17 April 1991, A48
+
+The BnF’s producing in 1997 the microfilm identified by call number ‘Microfilm M-12169’ of the exemplar identified by shelf mark ‘Res 8 P 10’ of Amerigo Vespucci’s ‘Mundus novus’ published in Paris ca. 1503-1504
+
+The BnF’s reproducing in 2001 the exemplar identified by call number ‘NC His Master’s Voice HC 20’ of a 78 rpm phonogram released by Gramophone in 1932, as part of the CD identified by call number ‘SDCR 2120’
+
+The BnF’s making in 2003 a digitisation, identified by call number ‘IFN 7701015’, of the collection of drawings (held by the BnF) that were made by Étienne-Louis Boullée in 1784 for his project of a ‘Newton Cenotaph’
+		</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://erlangen-crm.org/efrbroo/F3_Manifestation_Product_Type -->
+
+    <owl:Class rdf:about="&efrbroo;F3_Manifestation_Product_Type">
+        <rdfs:label xml:lang="en">manifestation product type</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&ecrm;E55_Type"/>
+        <rdfs:subClassOf rdf:resource="&ecrm;E72_Legal_Object"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&efrbroo;CLP43_should_have_dimension"/>
+                <owl:someValuesFrom rdf:resource="&ecrm;E54_Dimension"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&efrbroo;CLR6_should_carry"/>
+                <owl:cardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:cardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:comment xml:lang="en">Scope note:
+This class comprises the definitions of publication products.
+
+An instance of F3 Manifestation Product Type is the “species”, and all copies of a given object are “specimens” of it. An instance of F3 Manifestation Product Type defines all of the features or traits that instances of F5 Item normally display in order that they may be recognised as copies of a particular publication. However, due to production problems or subsequent events, one or more instances of F5 Item may not exhibit all these features or traits; yet such instances still retain their relationship to the same instance of F3 Manifestation Product Type.
+
+The features that characterise a given instance of F3 Manifestation Product Type include: one instance of F24 Publication Expression, containing one or more than one instance of F2 Expression, reflecting the authors’ content of the manifestation and all additional input by the publisher; and the appropriate types of physical features for that form of the object. For example, hardcover and paperback are two distinct publications (i.e. two distinct instances of F3 Manifestation Product Type) even though authorial and editorial content are otherwise identical in both publications. The activity of cataloguing aims at the most accurate listing of features or traits of an instance of F3 Manifestation Product Type that are sufficient to distinguish it from another instance of F3 Manifestation Product Type. In this sense, it may be said that a typical bibliographic record for a publication (not a manuscript) reflects the notion of F3 Manifestation Product Type.
+
+Examples:
+The publication product containing the text entitled ‘Harmonie universelle’ (authored by the person named ‘Marin Mersenne’), issued in 1636 in Paris by the publisher named ‘Sébastien Cramoisy’
+
+The publication product containing a modern reprint of Marin Mersenne’s ‘Harmonie universelle’, issued in 1986 in Paris by the publisher named ‘Les éditions du CNRS’, and identified by ISBN ‘2-222-00835-2’
+
+The publication product containing the third edition of the combination of texts and graphics titled ‘Codex Manesse: die Miniaturen der großen Heidelberger Liederhandschrift, herausgegeben und erläutert von Ingo F. Walther unter Mitarbeit von Gisela Siebert’, issued by the publisher named ‘Insel-Verlag’ in 1988
+
+The publication product containing the cartographic resource titled ‘Ordnance Survey Explorer Map 213, Aberystwyth &amp; Cwm Rheidol’, issued in May 2005 by the publisher named ‘Ordnance Survey’ and identified by ISBN ‘0-319-23640-4’ (folded), 1:25,000 scale
+
+The publication product containing the recordings of musical works performed by the person named ‘Florence Foster Jenkins’ gathered under the title ‘The Glory (????) of the human voice’, identified by label and label number ‘RCA Victor Gold Seal GD61175’ (Note: the four question marks within parentheses belong to the title itself)
+		</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://erlangen-crm.org/efrbroo/F40_Identifier_Assignment -->
+
+    <owl:Class rdf:about="&efrbroo;F40_Identifier_Assignment">
+        <rdfs:label xml:lang="en">Identifier Assignment</rdfs:label>
+        <rdfs:comment xml:lang="en">Scope note:
+This class comprises activities that result in the allocation of an identifier to any E1 CRM Entity. An F40 Identifier Assignment may include the creation of the identifier from multiple constituents. The syntax of the identifier and the kinds of constituents to be used in constructing it may be declared in a rule. The construction of controlled access points for the names of persons, families and corporate bodies following specific cataloguing rules is a typical library application. F40 Identifier Assignment also includes the assignment of uniform titles as controlled access points for works or expressions
+
+Examples:
+
+Assigning the name heading &#39;William, Prince, Duke of Cambridge, 1982-&#39; as a controlled access point for a personal name using the Anglo-American Cataloguing Rules, 2nd edition
+
+Assigning the name heading &#39;Library and Archives Canada&#39; as an authorised controlled access point for a corporate body name using the Anglo-American Cataloguing Rules, 2nd edition
+
+Assigning the name heading &#39;Bibliothèque et Archives Canada&#39; as an authorised controlled access point for a corporate body name using the Règles de catalogage anglo-américaines, 2e édition
+
+Assigning the author-title heading ‘Goethe, Johann Wolfgang von, 1749-1832. Faust. 1. Theil.’ as a uniform title for a work
+
+Assigning the title heading ‘Bible. English. American Standard’ as a uniform title for an expression
+		</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://erlangen-crm.org/efrbroo/F41_Representative_Manifestation_Assignment -->
+
+    <owl:Class rdf:about="&efrbroo;F41_Representative_Manifestation_Assignment">
+        <rdfs:label xml:lang="en">Representative Manifestation Assignment</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&ecrm;E13_Attribute_Assignment"/>
+        <rdfs:comment xml:lang="en">Scope note:
+This class comprises activities through which an Agency declares (implicitly or explicitly) that a given instance of F3 Manifestation Product Type or F4 Manifestation Singleton is representative for a given F2 Expression, i.e., that some features found on that instance of F3 Manifestation Product Type or F4 Manifestation Singleton (most prominently, information about the title) can be inferred to also apply to that instance of F2 Expression, no matter within which manifestation it is embodied.
+The reasoning behind is that the Work title is known through the title of an Expression that is deemed representative of the Work, and the title of the representative Expression is known through the title proper of a Manifestation that is deemed representative of the Expression representative of the Work.
+
+Examples:
+
+By using the title proper ‘Mrs Dalloway’ found on the first edition of a novel by Virginia Woolf as the basis for a uniform title for that novel, rather than the title proper ‘The hours’ found on the manuscripts held by the British Library, an Agency implicitly states that the printed edition (instance of F3 Manifestation Product Type) is representative for the instance of F2 Expression that is representative for the F1 Work, whereas the hand-written instances of F4 Manifestation Singleton are not
+
+By not using the title proper ‘The tragicall historie of HAMLET Prince of Denmarke’ found on an instance of F3 Manifestation Product Type as the basis for a uniform title heading for a work by Shakespeare, an Agency explicitly states that that instance of F3 Manifestation Product Type is not representative (at least, as far as title information is concerned) for an F2 Expression of Shakespeare’s F1 Work ‘Hamlet’
+
+Selecting the manuscript identified by shelfmark ‘MS-8282’ within the collections of the National Library of France, Department for Music, as representative for the musical text of Stanislas Champein’s opera ‘Vichnou’ [explanation: the BnF’s Department for Music holds 3 manuscript scores (identified by shelfmarks ‘MS-8282’, ‘MS-13778’, and ‘MS-17321’) for this opera; the title inscribed on MS-8282 is ‘Vichnou’, while MS-13778 and MS-17321 are entitled ‘Vistnou’; the authorised form chosen by cataloguers and reference tools such as the Grove Dictionary for Opera is ‘Vichnou’, while ‘Vistnou’ is recorded in the BnF’s authority file only as a cross reference]
+		</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://erlangen-crm.org/efrbroo/F42_Representative_Expression_Assignment -->
+
+    <owl:Class rdf:about="&efrbroo;F42_Representative_Expression_Assignment">
+        <rdfs:label xml:lang="en">Representative Expression Assignment</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&ecrm;E13_Attribute_Assignment"/>
+        <rdfs:comment xml:lang="en">Scope note:
+This class comprises activities through which an Agency declares (implicitly or explicitly) that a given instance of F2 Expression is representative for a given F15 Complex Work, i.e., that some attributes of that instance of F2 Expression (most prominently, information about the title) can be inferred to also apply to that instance of F15 Complex Work, no matter in which particular expression it is realised.
+The reasoning behind this is that the Work title is known through the title of an Expression that is deemed representative of the Work, and the title of the representative Expression is known through the title of a Manifestation that is deemed representative of the Expression that is representative of the Work.
+For instance, by using the qualified uniform title ‘Poe, Edgar Allan, 1809-1849. Murders in the rue Morgue (French)’ for the French rendition of Poe’s ‘Murders in the rue Morgue’ by Baudelaire, an Agency implicitly states that the French text does not constitute a representative F2 Expression for Poe’s F1 Work, however the original English text does constitute a representative F2 Expression for Poe’s F1 Work.
+
+Examples:
+Choosing the English text entitled ‘Murders in the rue Morgue’, with that particular formulation of its title, as representative for the complex work Edgar Allan Poe’s ‘Murders in the rue Morgue’
+		</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://erlangen-crm.org/efrbroo/F43_Identifier_Rule -->
+
+    <owl:Class rdf:about="&efrbroo;F43_Identifier_Rule">
+        <rdfs:label xml:lang="en">Identifier Rule</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&ecrm;E29_Design_or_Procedure"/>
+        <rdfs:subClassOf rdf:resource="&efrbroo;F2_Expression"/>
+        <rdfs:comment xml:lang="en">Scope note:
+This class comprises sets of instructions relating to the formulation of a unique identifier
+
+Examples:
+AACR2R 25.25-25.35F1
+
+RAK-Musik (Revidierte Ausgabe 2003), Chapter 6
+
+AFNOR Z 44-079
+		</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://erlangen-crm.org/efrbroo/F44_Bibliographic_Agency -->
+
+    <owl:Class rdf:about="&efrbroo;F44_Bibliographic_Agency">
+        <rdfs:label xml:lang="en">Bibliographic Agency</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&ecrm;E40_Legal_Body"/>
+        <rdfs:comment xml:lang="en">Scope note:
+This class comprises agents who create the bibliographic description of publications and perform the authority control associated with such descriptions, for the description of copies of such publications actually held by libraries, and for the description of unique documents (manuscripts, objects…) held by libraries.
+The activity of creating such descriptions implies that one has to make decisions (as to the uniform title for a work, as to whether an arrangement still belongs to the same work or is definitely a new work, etc.). Since such decisions always are debatable and different agencies can make different decisions about the same real-world entities, it is important to document which agency made which decision.
+
+Examples:
+The National Library of France, identified in bibliographic and authority records by the code ‘FRBNF’ at the beginning of INTERMARC field 001
+		</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://erlangen-crm.org/efrbroo/F4_Manifestation_Singleton -->
+
+    <owl:Class rdf:about="&efrbroo;F4_Manifestation_Singleton">
+        <rdfs:label xml:lang="en">manifestation singleton</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&ecrm;E24_Physical_Man-Made_Thing"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&efrbroo;R18i_was_created_by"/>
+                <owl:maxCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:maxCardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:comment xml:lang="en">Scope note:
+This class comprises physical objects that each carry an instance of F2 Expression, and that were produced as unique objects, with no siblings intended in the course of their production. It should be noted that if all but one copy of a given publication are destroyed, then that copy does not become an instance of F4 Manifestation Singleton, because it was produced together with sibling copies, even though it now happens to be unique. Examples of instances of F4 Manifestation Singleton include manuscripts, preparatory sketches and the final clean draft sent by an author or a composer to a publisher.
+
+Examples:
+The manuscript known as ‘The Book of Kells’
+
+The manuscript score of Charles Racquet’s ‘Organ fantasy’, included in Marin Mersenne’s personal copy of his own ‘Harmonie universelle’ [Marin Mersenne planned a second edition of his ‘Harmonie universelle’ after it had been first published in 1636, and he asked the composer Charles Racquet to compose his organ fantasy especially for that planned second edition; but Mersenne died before he could finish and publish the second edition and Racquet’s score remained until the 20th century as a manuscript addition to Mersenne’s copy, held in Paris by the Library of the Conservatoire national des arts et métiers]
+
+Marin Mersenne’s personal copy, held in Paris by the Library of the Conservatoire national des arts et métiers, of his own ‘Harmonie universelle’, containing all of his manuscript additions for a planned second edition that never took place before his death, but that served as a basis for the modern reprint published in 1986
+		</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://erlangen-crm.org/efrbroo/F5_Item -->
+
+    <owl:Class rdf:about="&efrbroo;F5_Item">
+        <rdfs:label xml:lang="en">item</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&ecrm;E84_Information_Carrier"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&efrbroo;R7_is_example_of"/>
+                <owl:cardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:cardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&efrbroo;R6_carries"/>
+                <owl:cardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:cardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:comment xml:lang="en">Scope note:
+This class comprises physical objects (printed books, scores, CDs, DVDs, CD-ROMS, etc.) that carry a F24 Publication Expression and were produced by an industrial process involving a F3 Manifestation Product Type.
+
+Examples:
+Marin Mersenne’s personal copy of his own ‘Harmonie universelle’ without any manuscript addition and without Charles Racquet’s manuscript score, as a mere witness of the 1st edition of ‘Harmonie universelle’, Paris, 1636 [the same physical object can be regarded at the same time as an instance of F5 Item inasmuch as it is a witness of a publication, and as an instance of F4 Manifestation Singleton inasmuch as it contains manuscript annotations and additions and as it served as the basis for a subsequent production process]
+
+Any other copy of the original edition of Marin Mersenne’s ‘Harmonie universelle’, Paris, 1636
+
+Any copy of the modern reprint publication of Marin Mersenne’s ‘Harmonie universelle’, Paris, 1986, ISBN ‘2-222-00835-2’
+		</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://erlangen-crm.org/efrbroo/F6_Concept -->
+
+    <owl:Class rdf:about="&efrbroo;F6_Concept">
+        <rdfs:label xml:lang="en">concept</rdfs:label>
+        <rdfs:comment xml:lang="en">Scope note:
+An abstract notion or idea. [FRBRER] Includes fields of knowledge, disciplines, schools of thought, etc. Includes philosophies, religions, political ideologies, etc. Includes theories, processes, techniques, practices, etc. [Definition from the FRAD draft model, unchanged]
+
+This class comprises non-material products of our minds and other human produced data that have become objects of a discourse about their identity, circumstances of creation or historical implication. The production of such information may have been supported by the use of technical devices such as cameras or computers.
+
+Characteristically, instances of this class are created, invented or thought by someone, and then may be documented or communicated between persons. Instances of E28 Conceptual Object have the ability to exist on more than one particular carrier at the same time, such as paper, electronic signals, marks, audio media, paintings, photos, human memories, etc.
+
+They cannot be destroyed. They exist as long as they can be found on at least one carrier or in at least one human memory. Their existence ends when the last carrier and the last memory are lost. [Scope note for E28 Conceptual Object in CIDOC CRM version 5.0.1]
+
+Examples:
+Mankind [as a concept]
+
+Natural history of whales
+
+Cultural history of Wales
+
+The appreciation of Victor Hugo’s works in Germany between 1870 and 1914
+		</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://erlangen-crm.org/efrbroo/F7_Object -->
+
+    <owl:Class rdf:about="&efrbroo;F7_Object">
+        <rdfs:label xml:lang="en">object</rdfs:label>
+        <rdfs:comment xml:lang="en">Scope note:
+This class comprises all persistent physical items with a relatively stable form, man-made or natural.
+
+[This is the beginning of scope note for E18 Physical Object in CIDOC CRM version 5.0.1]
+
+Examples:
+Buckingham Palace
+The Lusitania
+Apollo 11
+The Eiffel Tower
+		</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://erlangen-crm.org/efrbroo/F8_Event -->
+
+    <owl:Class rdf:about="&efrbroo;F8_Event">
+        <rdfs:label xml:lang="en">event</rdfs:label>
+        <rdfs:comment xml:lang="en">Scope note:
+This class comprises sets of coherent phenomena or cultural manifestations bounded in time and space.
+
+It is the social or physical coherence of these phenomena that identify an E4 Period and not the associated spatio-temporal bounds. These bounds are a mere approximation of the actual process of growth, spread and retreat. Consequently, different periods can overlap and coexist in time and space, such as when a nomadic culture exists in the same area as a sedentary culture.
+
+Typically this class is used to describe prehistoric or historic periods such as the ‘Neolithic Period’, the ‘Ming Dynasty’ or the ‘McCarthy Era’. There are however no assumptions about the scale of the associated phenomena. In particular all events are seen as synthetic processes consisting of coherent phenomena. Therefore E4 Period is a superclass of E5 Event. For example, a modern clinical E67 Birth can be seen as both an atomic E5 Event and as an E4 Period that consists of multiple activities performed by multiple instances of E39 Actor.
+
+There are two different conceptualisations of “artistic style”, defined either by physical features or by historical context. For example, ‘Impressionism’ can be viewed as a period lasting from approximately 1870 to 1905 during which paintings with particular characteristics were produced by a group of artists that included (among others) Monet, Renoir, Pissarro, Sisley and Degas. Alternatively, it can be regarded as a style applicable to all paintings sharing the characteristics of the works produced by the Impressionist painters, regardless of historical context. The first interpretation is an E4 Period, and the second defines morphological object types that fall under E55 Type.
+
+Another specific case of an E4 Period is the set of activities and phenomena associated with a settlement, such as the populated period of Nineveh.
+
+[This is the Scope note for E4 Period in CIDOC CRM version 5.0.1]
+
+[Note that in CIDOC CRM, E12 Production, E13 Attribute Assignment, and E65 Creation are indirect subclasses of E4 Period = F8 Event; as a consequence, F8 Event is an indirect superclass of: F27 Work Conception, F28 Expression Creation, F40 Identifier Assignment, F41 Representative Manifestation Assignment, F42 Representative Expression Assignment, F32 Carrier Production Event, F33 Reproduction Event, and F30 Publication Event]
+
+Examples:
+The battle of Trafalgar
+
+Printing for the publisher named ‘Doubleday’ in 2003 all the copies of the first print run of the novel entitled ‘Da Vinci Code’ (F32)
+
+Having the initial idea that eventually resulted in the existence of the opera entitled ‘Der fliegende Holländer’ (F27)
+
+Creating for Mozart’s 41st symphony the uniform title that was thereafter consistently used to refer unambiguously to that symphony everywhere in the Library of Congress’s catalogue (F40)
+		</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://erlangen-crm.org/efrbroo/F9_Place -->
+
+    <owl:Class rdf:about="&efrbroo;F9_Place">
+        <rdfs:label xml:lang="en">place</rdfs:label>
+        <rdfs:comment xml:lang="en">Scope note:
+This class comprises extents in space, in particular on the surface of the earth, in the pure sense of physics: independent from temporal phenomena and matter. The instances of E53 Place are usually determined by reference to the position of immobile objects such as buildings, cities, mountains, rivers, or dedicated geodetic marks. A Place can be determined by combining a frame of reference and a location with respect to this frame. It may be identified by one or more instances of E44 Place Appellation.
+
+It is sometimes argued that instances of E53 Place are best identified by global coordinates or absolute reference systems. However, relative references are often more relevant in the context of cultural documentation and tend to be more precise. In particular, we are often interested in position in relation to large, mobile objects, such as ships. For example, the Place at which Nelson died is known with reference to a large mobile object – H.M.S Victory. A resolution of this Place in terms of absolute coordinates would require knowledge of the movements of the vessel and the precise time of death, either of which may be revised, and the result would lack historical and cultural relevance.
+
+Any object can serve as a frame of reference for E53 Place determination. The model foresees the notion of a section of an E19 Physical Object as a valid E53 Place determination. [Scope Note for E53 Place in CIDOC CRM version 5.0.1]
+
+Note that Places may be determined by the location of historical or contemporary objects, geographic features, events or geo-political units.
+
+Examples:
+The area referred to as ‘Lutèce’
+The area referred to as ‘verso of the title page of the Library of Congress’s copy of the 1st edition of the novel entitled ‘Da Vinci Code’
+		</rdfs:comment>
+    </owl:Class>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 3.2.0.1502) http://owlapi.sourceforge.net -->
+

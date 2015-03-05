@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+<beans 
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:context="http://www.springframework.org/schema/context"
 	xsi:schemaLocation="  
        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
@@ -11,6 +13,9 @@
 	<bean id="debugger" class="eu.aliada.rdfizer.pipeline.processors.JustDebug"/> 
 	<bean id="add-2-rdf-store" class="eu.aliada.rdfizer.pipeline.processors.RESTSparqlInsertProcessor"/>
 	<bean id="xpath" class="eu.aliada.rdfizer.pipeline.format.xml.XPath"/> 
+	<bean id="rdf-sample-validation" class="eu.aliada.rdfizer.pipeline.processors.Validator">
+		<constructor-arg value="1"/>
+	</bean>
 	<bean id="function" class="eu.aliada.rdfizer.Function"/>
 	<bean id="string-to-xml" class="eu.aliada.rdfizer.pipeline.format.xml.XmlRecordToDocumentTranslator" />
 	<bean id="xml-to-rdf" class="eu.aliada.rdfizer.pipeline.format.xml.SynchXmlDocumentTranslator"/>
@@ -70,6 +75,7 @@
 			<from uri="seda:lido-record-channel?concurrentConsumers=2&amp;size=1000&amp;blockWhenFull=true" />
 			<process ref="string-to-xml"/>
 			<process ref="xml-to-rdf"/>
+			<process ref="rdf-sample-validation"/>
 			<to uri="seda:triples-channel?size=250&amp;blockWhenFull=true" />
 		</route>
 		<route>
@@ -77,6 +83,7 @@
 			<process ref="string-to-xml"/>
 			<process ref="detect-frbr-entities"/>
 			<process ref="marcxml-to-rdf-using-frbr"/>
+			<process ref="rdf-sample-validation"/>
 			<to uri="seda:triples-channel?size=250&amp;blockWhenFull=true" />
 		</route>
 		<route>

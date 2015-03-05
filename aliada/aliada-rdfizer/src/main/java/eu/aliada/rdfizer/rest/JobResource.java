@@ -28,6 +28,8 @@ public class JobResource implements Job {
 
 	private JobInstance configuration;
 	
+	private AtomicInteger validationRecordSetCount = new AtomicInteger();
+	
 	private int totalRecordsCount = -1;
 	private final AtomicInteger totalProcessedRecordsCount = new AtomicInteger();
 	private final AtomicInteger totalOutputStatementsCount = new AtomicInteger();
@@ -153,4 +155,24 @@ public class JobResource implements Job {
 				? totalOutputStatementsCount.doubleValue() / ((elapsed.get()))
 				: 0;		
 	}
+	
+	/**
+	 * Incremements the validation record set and returns the actual value.
+	 * 
+	 * @return the actual size of the validation set.
+	 */
+	public int incrementValidationRecordSet() {
+		return validationRecordSetCount.incrementAndGet();
+	}
+
+	private boolean validated;
+	
+	public boolean hasntBeenValidated() {
+		return validated;
+	}
+	
+	public void markAsValidated() {
+		validated = true;
+	}
+	
 }
