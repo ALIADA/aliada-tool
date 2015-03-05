@@ -32,7 +32,7 @@ public interface MessageCatalog {
 	String _00034_FILE_CREATION_FAILURE = LT + MODULE_NAME + "-00034> : Could not create file %s.";
 	String _00035_FILE_ACCESS_FAILURE = LT + MODULE_NAME + "-00035> : Could not access file %s.";
 	String _00036_GET_ORGANIZATION_CKAN_FAILURE = LT + MODULE_NAME + "-00036> : Error getting organization from CKAN: %s";
-	String _00037_CREATE_ORGANIZATION_CKAN_FAILURE = LT + MODULE_NAME + "-00037> : Error creating organization in CKAN: %s";
+	String _00037_UPDATE_ORGANIZATION_CKAN_FAILURE = LT + MODULE_NAME + "-00037> : Error updating organization in CKAN: %s";
 	String _00038_CREATE_DATASET_CKAN_FAILURE = LT + MODULE_NAME + "-00038> : Error creating dataset in CKAN: %s";
 	String _00039_CREATE_RESOURCE_CKAN_FAILURE = LT + MODULE_NAME + "-00039> : Error creating dataset in CKAN: %s";
 	String _00040_EXECUTING_ISQL = LT + MODULE_NAME + "-00040> : Executing ISQL command.";	
