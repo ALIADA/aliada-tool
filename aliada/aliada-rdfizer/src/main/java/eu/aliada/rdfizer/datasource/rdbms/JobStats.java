@@ -6,6 +6,8 @@
 package eu.aliada.rdfizer.datasource.rdbms;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -46,6 +48,9 @@ public class JobStats {
     
     @Column(name = "status_code", nullable = true)
     private int statusCode;
+    
+    @Transient
+    private List<ValidationMessage> validationMessages = new ArrayList<ValidationMessage>();
     
 	@Transient
 	@XmlTransient
@@ -207,6 +212,12 @@ public class JobStats {
 	public void setStatusCode(int statusCode) {
 		this.statusCode = statusCode;
 	}
-	
-	
+
+	public List<ValidationMessage> getValidationMessages() {
+		return validationMessages;
+	}
+
+	public void setValidationMessages(List<ValidationMessage> validationMessages) {
+		this.validationMessages = validationMessages;
+	}
 }

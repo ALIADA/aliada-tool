@@ -9,6 +9,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  * RDF-izer (Error) Validation message entity.
@@ -20,8 +21,13 @@ import javax.persistence.Table;
 @Table(name = "rdfizer_validation_messages")
 public class ValidationMessage {
     @Id
-    @Column(name = "job_id", nullable = false)
+    @Column(name = "id", nullable = false)
+    @XmlTransient
     private Integer id;
+
+    @XmlTransient
+    @Column(name = "job_id", nullable = false)
+    private Integer jobId;
     
     @Column(name = "message_type", nullable = false)
     private String messageType;

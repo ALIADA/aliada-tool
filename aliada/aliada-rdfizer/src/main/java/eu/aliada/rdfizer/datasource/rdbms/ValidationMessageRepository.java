@@ -4,6 +4,8 @@
 // Component: aliada-rdfizer
 // Responsible: ALIADA Consortium
 package eu.aliada.rdfizer.datasource.rdbms;
+import java.util.List;
+
 import org.springframework.data.repository.PagingAndSortingRepository;
 
 /**
@@ -14,5 +16,5 @@ import org.springframework.data.repository.PagingAndSortingRepository;
  * @since 1.0
  */
 public interface ValidationMessageRepository extends PagingAndSortingRepository<ValidationMessage, Integer> {
-	// No need of other methods at the moment
+	List<ValidationMessage> findByJobId(Integer jobid);
 }
