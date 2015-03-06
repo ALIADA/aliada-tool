@@ -6,7 +6,6 @@
 package eu.aliada.rdfizer.pipeline.processors;
 
 import java.io.StringReader;
-import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -50,8 +49,6 @@ public class Validator implements Processor {
 	@Autowired
 	protected InMemoryJobResourceRegistry jobRegistry;
 	
-	final int triggerSize;
-	
 	final Map<Integer, Model> samples = new HashMap<Integer, Model>();
 	
 	final Model schema;
@@ -62,13 +59,8 @@ public class Validator implements Processor {
 	
 	/**
 	 * Builds a new {@link Validator} with the given rule for determining the sample size.
-	 * 
-	 * @param sampleSetSize the validation sample size.
 	 */
-	public Validator(final int sampleSetSize) {
-		triggerSize = sampleSetSize;
-		log.info(MessageCatalog._00053_VALIDATION_SAMPLE_SIZE, triggerSize);
-		
+	public Validator() {
 		schema = ModelFactory.createDefaultModel();
 				
 		RDFDataMgr.read(schema, getClass().getResourceAsStream("/aliada-ontology.owl"), Lang.RDFXML);
@@ -92,6 +84,8 @@ public class Validator implements Processor {
 			throw new IllegalArgumentException(String.valueOf(jobId));
 		}
 		
+		final Integer triggerSize = exchange.getIn().getHeader(Constants.SAMPLE_SIZE, Integer.class);
+		
 		final JobResource resource = jobRegistry.getJobResource(jobId);
 		if (resource.hasntBeenValidated()) {
 			int currentSize = resource.incrementValidationRecordSet();
@@ -99,7 +93,7 @@ public class Validator implements Processor {
 				collectSample(jobId, exchange.getIn().getBody(String.class));
 				log.info(MessageCatalog._00054_RECORD_ADDED_TO_VALIDATION_SAMPLE, jobId, currentSize + 1, triggerSize);
 				
-				if (resource.getTotalRecordsCount() == 1) {
+				if (triggerSize == 1) {
 					validate(resource, exchange);
 				} else {
 					exchange.getIn().setBody(null);				
@@ -110,14 +104,14 @@ public class Validator implements Processor {
 		}
 	}
 	
-	public void validate(final JobResource resource, final Exchange exchange) {
+	public void validate(final JobResource resource, final Exchange exchange) throws RDFOutputValidationException {
 		log.info(MessageCatalog._00055_VALIDATING, resource.getID());
 
 		resource.markAsValidated();
 
 		collectSample(resource.getID(), exchange.getIn().getBody(String.class));
 		
-		final InfModel infmodel = ModelFactory.createInfModel(reasoner, samples.get(resource.getID()));
+		final InfModel infmodel = ModelFactory.createInfModel(reasoner, samples.remove(resource.getID()));
         final ValidityReport validity = infmodel.validate();
         if (!validity.isClean()) {
         	log.info(MessageCatalog._00057_VALIDATION_KO, resource.getID());
@@ -127,14 +121,9 @@ public class Validator implements Processor {
 	        	log.info(MessageCatalog._00058_VALIDATION_MSG, resource.getID(), report.getDescription(), report.getType());
         	}
 	        resource.setRunning(false);
-	        exchange.getIn().setBody(null);
+	        exchange.setProperty(Exchange.ROUTE_STOP, Boolean.TRUE); 
         } else {
 	        log.info(MessageCatalog._00056_VALIDATION_OK, resource.getID());
-	        
-	        final StringWriter writer = new StringWriter();
-	        samples.get(resource.getID()).write(writer,"N-TRIPLES");
-	        
-	        exchange.getIn().setBody(writer.toString());
         }		
 	}
 	

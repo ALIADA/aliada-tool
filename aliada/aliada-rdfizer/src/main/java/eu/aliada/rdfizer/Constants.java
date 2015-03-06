@@ -22,4 +22,5 @@ public interface Constants {
 	String FUNCTION_ATTRIBUTE_NAME = "function";
 	String FRBR_DATA_ATTRIBUTE_NAME = "frbr";
 	String GRAPH_ATTRIBUTE_NAME = "graphName";
+	String SAMPLE_SIZE = "ss";
 }
