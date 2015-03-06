@@ -95,5 +95,8 @@
 		<put-attribute name="body" value="/content/ldsInfo.jsp" />
 	</definition>
 	
+	<definition name="/publish.tiles" extends="baseLayout">
+		<put-attribute name="body" value="/content/publish.jsp" />
+	</definition>	
 
 </tiles-definitions>

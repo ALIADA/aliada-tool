@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+<beans 
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:context="http://www.springframework.org/schema/context"
 	xsi:schemaLocation="  
        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
@@ -9,8 +11,11 @@
 	<bean id="startup_listener" class="eu.aliada.rdfizer.listeners.PipelineStartupListener" />
 	<bean id="shutdown_listener" class="eu.aliada.rdfizer.listeners.PipelineShutdownListener" />
 	<bean id="debugger" class="eu.aliada.rdfizer.pipeline.processors.JustDebug"/> 
+	<bean id="count-debugger" class="eu.aliada.rdfizer.pipeline.processors.JustDebugTriplesCount"/>
 	<bean id="add-2-rdf-store" class="eu.aliada.rdfizer.pipeline.processors.RESTSparqlInsertProcessor"/>
+	<bean id="check-job-completeness" class="eu.aliada.rdfizer.pipeline.processors.CheckJobCompleteness"/>
 	<bean id="xpath" class="eu.aliada.rdfizer.pipeline.format.xml.XPath"/> 
+	<bean id="rdf-sample-validation" class="eu.aliada.rdfizer.pipeline.processors.Validator"/>
 	<bean id="function" class="eu.aliada.rdfizer.Function"/>
 	<bean id="string-to-xml" class="eu.aliada.rdfizer.pipeline.format.xml.XmlRecordToDocumentTranslator" />
 	<bean id="xml-to-rdf" class="eu.aliada.rdfizer.pipeline.format.xml.SynchXmlDocumentTranslator"/>
@@ -18,11 +23,27 @@
 	<bean id="detect-frbr-entities" class="eu.aliada.rdfizer.pipeline.format.marc.frbr.FrbrEntitiesDetector" />	
 	<bean id="count-lido-records" class="eu.aliada.rdfizer.pipeline.format.xml.RecordCounter">
 		<constructor-arg value="lido"/>
+	</bean>
+	<bean id="run-lido-validation" class="eu.aliada.rdfizer.pipeline.format.xml.CaptureValidationSampleAndRunValidation">
+		<constructor-arg value="lido"/>
+		<constructor-arg value="1"/>
+		<property name="producer" ref="lido-validation-channel-producer"/>
 	</bean>	
+	<bean id="run-marcxml-validation" class="eu.aliada.rdfizer.pipeline.format.xml.CaptureValidationSampleAndRunValidation">
+		<constructor-arg value="record"/>
+		<constructor-arg value="1"/>
+		<property name="producer" ref="marcxml-validation-channel-producer"/>
+	</bean>		
+	
 	<bean id="count-marcxml-records" class="eu.aliada.rdfizer.pipeline.format.xml.RecordCounter">
 		<constructor-arg value="record"/>
 	</bean>		
 	<camelContext xmlns="http://camel.apache.org/schema/spring" trace="true" >
+		<properties>
+        	<property key="CamelLogDebugBodyMaxChars" value="500"/>
+   		</properties>	
+		<template id="lido-validation-channel-producer" defaultEndpoint="direct:lido-validation-channel"/>
+		<template id="marcxml-validation-channel-producer" defaultEndpoint="direct:marcxml-validation-channel"/>
 		<route>
 			<from uri="file:{{lido.input.dir}}?move=../.done&amp;preMove=.working" />
 			<setHeader headerName="format">
@@ -48,6 +69,7 @@
 				<when>
 					<simple>${header.format} == 'lido'</simple>
 					<process ref="count-lido-records"/>
+					<process ref="run-lido-validation"/>
 					<split streaming="true">
 						<tokenize token="lido" xml="true" />
 						<to uri="seda:lido-record-channel?concurrentConsumers=2&amp;size=1000&amp;blockWhenFull=true" />
@@ -56,6 +78,7 @@
 				<when>
 					<simple>${in.header.format} == 'marcxml'</simple>
 					<process ref="count-marcxml-records"/>
+					<process ref="run-marcxml-validation"/>
 					<split streaming="true">
 						<tokenize token="record" xml="true" />
 						<to uri="seda:marcxml-record-channel?concurrentConsumers=2&amp;size=1000&amp;blockWhenFull=true" />
@@ -67,9 +90,23 @@
 			</choice>	
 		</route>
 		<route>
+			<from uri="direct:lido-validation-channel"/>
+			<process ref="string-to-xml"/>
+			<process ref="xml-to-rdf"/>
+			<process ref="rdf-sample-validation"/>
+		</route>
+		<route>
+			<from uri="direct:marcxml-validation-channel"/>
+			<process ref="string-to-xml"/>
+			<process ref="detect-frbr-entities"/>
+			<process ref="marcxml-to-rdf-using-frbr"/>
+			<process ref="rdf-sample-validation"/>
+		</route>		
+		<route>
 			<from uri="seda:lido-record-channel?concurrentConsumers=2&amp;size=1000&amp;blockWhenFull=true" />
 			<process ref="string-to-xml"/>
 			<process ref="xml-to-rdf"/>
+			<process ref="check-job-completeness"/>
 			<to uri="seda:triples-channel?size=250&amp;blockWhenFull=true" />
 		</route>
 		<route>
@@ -77,6 +114,7 @@
 			<process ref="string-to-xml"/>
 			<process ref="detect-frbr-entities"/>
 			<process ref="marcxml-to-rdf-using-frbr"/>
+			<process ref="check-job-completeness"/>
 			<to uri="seda:triples-channel?size=250&amp;blockWhenFull=true" />
 		</route>
 		<route>

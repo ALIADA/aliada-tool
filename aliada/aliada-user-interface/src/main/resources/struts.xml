@@ -493,10 +493,9 @@
 			</result>
 		</action>
 		
-		<action name="publish" method="publish" class="eu.aliada.gui.action.LinkingAction">
-			<result name="success" type="redirectAction">
-         		<param name="actionName">manage</param>
-         	</result>
+		<action name="publish" method="publish" class="eu.aliada.gui.action.PublishAction">
+			<result name="success" type="tiles">/publish.tiles</result>
+			<result name="error" type="tiles">/publish.tiles</result>
 		</action>
 		
 	</package>

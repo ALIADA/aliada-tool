@@ -146,124 +146,7 @@ public class LinkingAction extends ActionSupport {
         
         return SUCCESS;
     }
-    /**
-     * Calls to the publication module.
-     * @return String
-     * @see
-     * @since 1.0
-     */
-    public String publish() {
-        HttpSession session = ServletActionContext.getRequest().getSession();
-        
-        // New publication
-        session.setAttribute("publish", 2);
-
-        int addedId = 0;
-            Connection connection = null;
-            connection = new DBConnectionManager().getConnection();
-            Statement statement;
-            try {
-                statement = connection.createStatement();
-                ResultSet rs = statement
-                        .executeQuery("select ckan_api_url, ckan_api_key, o.tmp_dir, store_ip, store_sql_port, "
-                        		+ "sql_login, sql_password,isql_command_path, virtuoso_http_server_root, aliada_ontology, "
-                        		+ "org_name, org_description,org_home_page, d.datasetId, l.job_id, o.organisationId "
-                        		+ "from aliada.organisation o "
-                        		+ "INNER JOIN aliada.dataset d ON o.organisationId = d.organisationId "
-                        		+ "INNER JOIN aliada.subset s ON d.datasetId = s.datasetId "
-                        		+ "INNER JOIN aliada.linksdiscovery_job_instances l ON l.input_graph = s.graph_uri "
-                        		+ "ORDER BY l.job_id DESC LIMIT 1;");
-                if (rs.next()) {
-                    PreparedStatement preparedStatement = connection
-                            .prepareStatement(
-                                    "INSERT INTO aliada.ckancreation_job_instances (ckan_api_url, ckan_api_key, tmp_dir, store_ip,"
-                                    + " store_sql_port, sql_login, sql_password, isql_command_path, virtuoso_http_server_root,"
-                                    + " aliada_ontology, org_name, org_description, org_home_page, datasetId, job_id, organisationId) "
-                                    + "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
-                                    PreparedStatement.RETURN_GENERATED_KEYS);
-                    preparedStatement.setString(1, rs.getString("ckan_api_url"));
-                    preparedStatement.setString(2, rs.getString("ckan_api_key"));
-                    preparedStatement.setString(3, rs.getString("tmp_dir"));
-                    preparedStatement.setString(4, rs.getString("store_ip"));
-                    preparedStatement.setInt(5, rs.getInt("store_sql_port"));
-                    preparedStatement.setString(6, rs.getString("sql_login"));
-                    preparedStatement.setString(7, rs.getString("sql_password"));
-                    preparedStatement.setString(8, rs.getString("isql_command_path"));
-                    preparedStatement.setString(9, rs.getString("virtuoso_http_server_root"));
-                    preparedStatement.setString(10, rs.getString("aliada_ontology"));
-                    preparedStatement.setString(11, rs.getString("org_name"));
-                    preparedStatement.setString(12, rs.getString("org_description"));
-                    preparedStatement.setString(13, rs.getString("org_home_page"));
-                    preparedStatement.setInt(14, rs.getInt("datasetId"));
-                    preparedStatement.setInt(15, rs.getInt("job_id"));
-                    preparedStatement.setInt(16, rs.getInt("organisationId"));
-                    preparedStatement.executeUpdate();
-                    ResultSet rs2 = preparedStatement.getGeneratedKeys();
-                    if (rs2.next()) {
-                        addedId = (int) rs2.getInt(1);
-                    }
-                    rs2.close();
-                    preparedStatement.close();          
-                    URL url;
-                    HttpURLConnection conn = null;
-                    try {
-					    url = new URL("http://aliada:8080/aliada-ckan-datahub-page-creation-2.0/jobs/");
-                        conn = (HttpURLConnection) url.openConnection();
-                        conn.setDoOutput(true);
-                        conn.setRequestMethod("POST");
-                        conn.setRequestProperty("Content-Type",
-                                "application/x-www-form-urlencoded");
-                        String param = "jobid=" + addedId;
-                        conn.setDoOutput(true);
-                        DataOutputStream wr = new DataOutputStream(conn.getOutputStream());
-                        wr.writeBytes(param);
-                        wr.flush();
-                        wr.close();
-                        if (conn.getResponseCode() != HttpURLConnection.HTTP_CREATED) {
-                            throw new ConnectException("Failed : HTTP error code : "
-                                    + conn.getResponseCode());
-                        } 
-                        conn.disconnect();
-                    } catch (MalformedURLException e) {
-                        logger.error(MessageCatalog._00014_MALFORMED_URL_EXCEPTION, e);
-                    } catch (IOException e) {
-                        logger.error(MessageCatalog._00012_IO_EXCEPTION, e);
-                    }
-                }
-                rs.close();
-                statement.close();
-                connection.close();  
-                } catch (SQLException e) {
-                    logger.error(MessageCatalog._00011_SQL_EXCEPTION, e);
-            }
-               
-        List<FileWork> importedFiles = (List<FileWork>) session.getAttribute("importedFiles");
-        FileWork importedFile = (FileWork) session.getAttribute("importedFile");
-        for (FileWork file : importedFiles) {
-            if (file.equals(importedFile)) {
-                file.setStatus("finishedLinked");
-            }
-        }
-        session.setAttribute("importedFiles", importedFiles);
-       
-    	setFileToLink((FileWork) session.getAttribute("importedFile"));
-    	
-    	//Delete file
-		    try {
-		        connection = new DBConnectionManager().getConnection();
-		        statement = connection.createStatement();
-		        statement.executeUpdate("DELETE FROM aliada.user_session where file_name='" + fileToLink.getFilename() + "'");
-		        statement.close();
-		        connection.close();
-		    } catch (SQLException e) {
-		        logger.error(MessageCatalog._00011_SQL_EXCEPTION, e);
-		      }
-        
-		//Publication success
-		session.setAttribute("publish", 1);
-		    
-        return SUCCESS;
-    }
+    
     /**
      * Loads the datasets from the database.
      * @return String
@@ -496,7 +379,8 @@ public class LinkingAction extends ActionSupport {
                 statement = connection.createStatement();
                 ResultSet rs = statement
                         .executeQuery("select store_ip,store_sql_port,sql_login, sql_password, isql_command_path, "
-                        		+ "o.virtuoso_http_server_root, o.aliada_ontology, s.datasetId from aliada.organisation o "
+                        		+ "o.virtuoso_http_server_root, o.aliada_ontology, s.datasetId, o.isql_commands_file_dataset_default, "
+                        		+ "o.isql_commands_file_subset_default from aliada.organisation o "
                         		+ "INNER JOIN aliada.dataset d ON o.organisationId=d.organisationId "
                         		+ "INNER JOIN aliada.subset s ON d.datasetId=s.datasetId INNER JOIN aliada.rdfizer_job_instances r "
                         		+ "WHERE s.graph_uri='" + fileToLink.getGraph() + "' ORDER BY r.job_id DESC LIMIT 1");
@@ -504,7 +388,8 @@ public class LinkingAction extends ActionSupport {
                     PreparedStatement preparedStatement = connection
                             .prepareStatement(
                                     "INSERT INTO aliada.linkeddataserver_job_instances (store_ip,store_sql_port,sql_login,sql_password,"
-                                    + "isql_command_path,virtuoso_http_server_root,aliada_ontology,datasetId) VALUES(?,?,?,?,?,?,?,?)",
+                                    + "isql_command_path,virtuoso_http_server_root,aliada_ontology,datasetId,isql_commands_file_dataset_default,isql_commands_file_subset_default)"
+                                    + " VALUES(?,?,?,?,?,?,?,?,?,?)",
                                     PreparedStatement.RETURN_GENERATED_KEYS);
                     preparedStatement.setString(1, rs.getString("store_ip"));
                     preparedStatement.setInt(2, rs.getInt("store_sql_port"));
@@ -514,6 +399,8 @@ public class LinkingAction extends ActionSupport {
                     preparedStatement.setString(6, rs.getString("virtuoso_http_server_root"));
                     preparedStatement.setString(7, rs.getString("aliada_ontology"));
                     preparedStatement.setString(8, rs.getString("datasetId"));
+                    preparedStatement.setString(9, rs.getString("isql_commands_file_dataset_default"));
+                    preparedStatement.setString(10, rs.getString("isql_commands_file_subset_default"));
                     preparedStatement.executeUpdate();
                     ResultSet rs2 = preparedStatement.getGeneratedKeys();
                     if (rs2.next()) {

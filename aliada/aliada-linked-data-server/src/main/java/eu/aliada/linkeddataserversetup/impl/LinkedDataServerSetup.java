@@ -168,46 +168,39 @@ public class LinkedDataServerSetup {
 	}
 
 	/**
-	 * Get the appropiate ISQL commands file for the subset.
+	 * Get the appropiate ISQL commands file.
 	 * The ISQL commands are for creating rewrite rules in Virtuoso for
 	 * dereferencing the dataset URI-s. 
 	 *
-	 * @param jobConf	the {@link eu.aliada.linkeddataserversetup.model.JobConfiguration}
-	 *               	that contains the default ISQL commands file names for the subsets.  
-	 * @param subset	the {@link eu.aliada.linkeddataserversetup.model.Subset}
-	 *               	that contains the specific ISQL commands file name for this subset. 
+	 * @param isqlCommandsFilename			the specific ISQL commands file name. 
+	 * @param isqlCommandsFilenameDefault	the default ISQL commands file name.  
 	 * @return the name of the commands file to use.
 	 * @since 2.0
 	 */
-	public String getIsqlCommandsFileSubset(final JobConfiguration jobConf, final Subset subset){
-		String isqlCommandsFilename;
-		isqlCommandsFilename = subset.getIsqlCommandsSubsetFilename();
+	public String getIsqlCommandsFile(final String isqlCommandsFilename, final String isqlCommandsFilenameDefault){
+		String fileNameToUse = null;
 		//Check if isqlCommandsFilename exists
-		boolean isqlCommandsFilenameExists = false;
 		if(isqlCommandsFilename != null){
 			final File isqlFile = new File(isqlCommandsFilename);
 			if (isqlFile.exists()){
-				isqlCommandsFilenameExists = true;
+				fileNameToUse = isqlCommandsFilename;
 			}
 		}
-		if (!isqlCommandsFilenameExists){
+		if (fileNameToUse == null){
 			//If there is not a ISQL command file specifically for this subset, 
 			//use the default one
-			isqlCommandsFilename = jobConf.getIsqlCommandsSubsetFilenameDefault();
 			//Check if default isqlCommandsFilename exists
-			isqlCommandsFilenameExists = false;
-			if(isqlCommandsFilename != null){
-				final File isqlFile = new File(isqlCommandsFilename);
+			if(isqlCommandsFilenameDefault != null){
+				final File isqlFile = new File(isqlCommandsFilenameDefault);
 				if (isqlFile.exists()){
-					isqlCommandsFilenameExists = true;
+					fileNameToUse = isqlCommandsFilenameDefault;
 				}
 			}
-			if (!isqlCommandsFilenameExists){
-				LOGGER.error(MessageCatalog._00031_FILE_NOT_FOUND, isqlCommandsFilename);
-				isqlCommandsFilename = null;
+			if (fileNameToUse == null){
+				LOGGER.error(MessageCatalog._00031_FILE_NOT_FOUND, isqlCommandsFilenameDefault);
 			}
 		}
-		return isqlCommandsFilename;
+		return fileNameToUse;
 	}
 
 	/**
@@ -221,17 +214,9 @@ public class LinkedDataServerSetup {
 	 */
 	public boolean executeGlobalIsqlCommands(final JobConfiguration jobConf) {
 		boolean success = false;
-		//Get global ISQL commands file for rewriting rules in Virtuoso
+		//Get dataset ISQL commands file for rewriting rules in Virtuoso
 		LOGGER.debug(MessageCatalog._00036_GET_ISQL_COMMANDS_FILE);
-		final String isqlCommandsFilename = jobConf.getIsqlCommandsGlobalFilename();
-		//Check if file exists
-		boolean isqlCommandsFilenameExists = false;
-		if(isqlCommandsFilename != null){
-			final File isqlFile = new File(isqlCommandsFilename);
-			if (isqlFile.exists()){
-				isqlCommandsFilenameExists = true;
-			}
-		}
+		final String isqlCommandsFilename = getIsqlCommandsFile(jobConf.getIsqlCommandsDatasetFilename(), jobConf.getIsqlCommandsDatasetFilenameDefault());
 		//Variables for creating rules for Document listing with extension 
 		int createVirtualPath = 0;
 		final int urrlListSubset = 0; //It is not a subset
@@ -248,7 +233,7 @@ public class LinkedDataServerSetup {
 		if (!uriDocSlash.endsWith("/")) {
 			uriDocSlash = uriDocSlash + "/";
 		}
-		if(isqlCommandsFilenameExists){
+		if(isqlCommandsFilename != null){
 			//Compose ISQL command execution statement
 			final String isqlCommand = String.format(ISQL_COMMAND_FORMAT,
 					jobConf.getIsqlCommandPath(), jobConf.getStoreIp(),
@@ -294,7 +279,7 @@ public class LinkedDataServerSetup {
 		
 		//Get global ISQL commands file for rewriting rules in Virtuoso
 		LOGGER.debug(MessageCatalog._00036_GET_ISQL_COMMANDS_FILE);
-		final String isqlCommandsFilename = getIsqlCommandsFileSubset(jobConf, subset);
+		final String isqlCommandsFilename = getIsqlCommandsFile(subset.getIsqlCommandsSubsetFilename(), jobConf.getIsqlCommandsSubsetFilenameDefault());
 
 		//Compose URI document part + URI Concept part + Subset URI Concept part
 		String uriDocConceptSubset = "";

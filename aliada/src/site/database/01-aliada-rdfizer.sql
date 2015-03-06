@@ -19,5 +19,14 @@ CREATE TABLE `aliada`.`rdfizer_job_stats` (
 `total_triples_produced`  INT NOT NULL,
 `records_throughput`  DECIMAL NOT NULL,
 `triples_throughput`  DECIMAL NOT NULL,
+`status_code`  INT NOT NULL DEFAULT 0,
 PRIMARY KEY ( `job_id` )
+) ENGINE = InnoDB ;
+
+CREATE TABLE `aliada`.`rdfizer_validation_messages` (
+`id` INT NOT NULL ,
+`job_id` INT NOT NULL ,
+`message_type`  VARCHAR(245) NOT NULL,
+`description`  VARCHAR (1000) NOT NULL,
+PRIMARY KEY ( `id` )
 ) ENGINE = InnoDB ;

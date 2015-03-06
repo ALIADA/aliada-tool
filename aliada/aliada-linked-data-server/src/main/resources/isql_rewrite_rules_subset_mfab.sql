@@ -207,16 +207,17 @@ NULL,
 
 DB.DBA.URLREWRITE_CREATE_REGEX_RULE ( 
 'http_rule_$u{rules_suffix}_Doc_extension_opac', 1, 
-'($u{uri_doc_slash})([^#]*)\\.(opac)', 
-vector ('par_1', 'par_2', 'par_3'),
-3, 
-'/describe/?uri=http%%3A%%2F%%2F$u{domain_name_encoded}%%2F$u{uri_id_encoded}%%2F%s$u{graphs_encoded}', 
-vector ('par_2'), 
+'($u{uri_doc_slash})([^#]*)/([^#/]*)_([^#/_]*)\\.(opac)', 
+vector ('par_1', 'par_2', 'par_3', 'par_4', 'par_5'),
+4, 
+'http://www.szepmuveszeti.hu/adatlap/%s', 
+vector ('par_4'), 
 NULL, 
 NULL, 
 2, 
 303, 
 '' 
 );
+
 
 associate_list_ext_rules_to_virtpath ($u{create_virtual_path}, $u{urrl_list_subset}, '$u{rules_suffix_dataset}', '$u{rules_suffix}', '$u{vhost}', '$u{lhost}', '$u{uri_doc_concept_parent}');

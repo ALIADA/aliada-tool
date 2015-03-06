@@ -26,10 +26,15 @@
 	<dependencies>
 		<!-- Spring -->
 		<dependency>
+			<groupId>xml-apis</groupId>
+			<artifactId>xml-apis</artifactId>
+			<version>1.4.01</version>
+		</dependency>
+		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context-support</artifactId>
 			<version>${spring-framework.version}</version>
-		</dependency>			
+		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-web</artifactId>
@@ -59,7 +64,7 @@
 			<groupId>org.apache.camel</groupId>
 			<artifactId>camel-velocity</artifactId>
 			<version>${camel.version}</version>
-		</dependency>		
+		</dependency>
 		<dependency>
 			<groupId>org.apache.camel</groupId>
 			<artifactId>camel-spring</artifactId>
@@ -69,7 +74,7 @@
 			<groupId>info.freelibrary</groupId>
 			<artifactId>freelib-marc4j</artifactId>
 			<version>2.6.3</version>
-		</dependency>	
+		</dependency>
 		<dependency>
 			<groupId>org.springframework.data</groupId>
 			<artifactId>spring-data-jpa</artifactId>

@@ -423,43 +423,48 @@ public class LinksDiscovery {
 		//Get files and other parameters to generate linking processes (subjobs)
 		LOGGER.debug(MessageCatalog._00035_GET_LINKING_CONFIG_FILES);
 		final SubjobConfiguration[] subjobConf = dbConn.getSubjobConfigurations(jobConf.getId());
-		//Generate initial crontab file with previous scheduled jobs
-		LOGGER.debug(MessageCatalog._00036_CREATE_CRONTAB_FILE);
-		final String crontabFilename  = createCrontabFile(jobConf.getTmpDir(), jobConf.getClientAppBinUser());
-		if (crontabFilename != null){
-			//For each linking process to schedule with crontab
-			for (int i=0; i<subjobConf.length;i++){
-				//Generate XML config file for SILK
-				LOGGER.debug(MessageCatalog._00037_CREATE_LINKING_XML_CONFIG_FILE, subjobConf[i].getId());
-				final String linkingXMLConfigFilename = createLinkingXMLConfigFile(subjobConf[i].getLinkingXMLConfigFilename(), subjobConf[i].getDs(), subjobConf[i].getName(), jobConf);
-				if(linkingXMLConfigFilename != null){
-					//Generate properties file to be used by scheduled subjob
-					LOGGER.debug(MessageCatalog._00038_CREATE_LINKING_PROP_FILE, subjobConf[i].getId());
-					final String linkingPropConfigFilename = createLinkingPropConfigFile(jobConf.getTmpDir(), ddbbParams);
-					if (linkingPropConfigFilename != null){
-						LOGGER.debug(MessageCatalog._00039_INSERT_LINKING_CRONTAB_FILE, subjobConf[i].getId());
-						if(insertLinkingProcessInCrontabFile(crontabFilename, jobConf.getClientAppBinDir(), jobConf.getId(), subjobConf[i].getId(), linkingPropConfigFilename, subjobConf[i].isLinkingReloadTarget())){
-							//Insert job-subjob in DDBB
-							LOGGER.debug(MessageCatalog._00042_UPDATE_SUBJOB_DDBB, jobConf.getId(), subjobConf[i].getId());
-							dbConn.updateSubjobConfigFile(jobConf.getId(), subjobConf[i].getId(), linkingXMLConfigFilename);
+		if(subjobConf.length > 0) {
+			//Generate initial crontab file with previous scheduled jobs
+			LOGGER.debug(MessageCatalog._00036_CREATE_CRONTAB_FILE);
+			final String crontabFilename  = createCrontabFile(jobConf.getTmpDir(), jobConf.getClientAppBinUser());
+			if (crontabFilename != null){
+				//For each linking process to schedule with crontab
+				for (int i=0; i<subjobConf.length;i++){
+					//Generate XML config file for SILK
+					LOGGER.debug(MessageCatalog._00037_CREATE_LINKING_XML_CONFIG_FILE, subjobConf[i].getId());
+					final String linkingXMLConfigFilename = createLinkingXMLConfigFile(subjobConf[i].getLinkingXMLConfigFilename(), subjobConf[i].getDs(), subjobConf[i].getName(), jobConf);
+					if(linkingXMLConfigFilename != null){
+						//Generate properties file to be used by scheduled subjob
+						LOGGER.debug(MessageCatalog._00038_CREATE_LINKING_PROP_FILE, subjobConf[i].getId());
+						final String linkingPropConfigFilename = createLinkingPropConfigFile(jobConf.getTmpDir(), ddbbParams);
+						if (linkingPropConfigFilename != null){
+							LOGGER.debug(MessageCatalog._00039_INSERT_LINKING_CRONTAB_FILE, subjobConf[i].getId());
+							if(insertLinkingProcessInCrontabFile(crontabFilename, jobConf.getClientAppBinDir(), jobConf.getId(), subjobConf[i].getId(), linkingPropConfigFilename, subjobConf[i].isLinkingReloadTarget())){
+								//Insert job-subjob in DDBB
+								LOGGER.debug(MessageCatalog._00042_UPDATE_SUBJOB_DDBB, jobConf.getId(), subjobConf[i].getId());
+								dbConn.updateSubjobConfigFile(jobConf.getId(), subjobConf[i].getId(), linkingXMLConfigFilename);
+							}
 						}
 					}
 				}
+				// Execute system command "crontab contrabfilename"
+				final String command = String.format(CRONTAB_COMMAND, jobConf.getClientAppBinUser(), crontabFilename);
+				try {
+					LOGGER.debug(MessageCatalog._00040_EXECUTING_CRONTAB);
+					Process proc = Runtime.getRuntime().exec(command);
+					proc.waitFor();
+				} catch (Exception exception) {
+					LOGGER.error(MessageCatalog._00033_EXTERNAL_PROCESS_START_FAILURE, exception, command);
+				}
+				//Remove crontab file
+				File cronFile = new File(crontabFilename);
+				if (cronFile.exists()) {
+					cronFile.delete();
+				}
 			}
-			// Execute system command "crontab contrabfilename"
-			final String command = String.format(CRONTAB_COMMAND, jobConf.getClientAppBinUser(), crontabFilename);
-			try {
-				LOGGER.debug(MessageCatalog._00040_EXECUTING_CRONTAB);
-				Process proc = Runtime.getRuntime().exec(command);
-				proc.waitFor();
-			} catch (Exception exception) {
-				LOGGER.error(MessageCatalog._00033_EXTERNAL_PROCESS_START_FAILURE, exception, command);
-			}
-			//Remove crontab file
-			File cronFile = new File(crontabFilename);
-			if (cronFile.exists()) {
-				cronFile.delete();
-			}
+		} else {
+			//There are no subjobs to process, so the job is already finished
+			dbConn.updateJobEndDate(jobConf.getId());
 		}
 		final Job job = dbConn.getJob(jobConf.getId());
 		LOGGER.debug(MessageCatalog._00041_STOPPED);

@@ -35,8 +35,12 @@ public class JobConfiguration {
 	private String virtualHost;
 	/** Full path to the ISQL command. */
 	private String isqlCommandPath;
+	/** Full path of the ISQL commands global file to execute.
+	 *  If the isql_commands_file_dataset is null or it does not exist, 
+	 *  this one will be used. */
+	private String isqlCommandsDatasetFilenameDefault;
 	/** Full path of the ISQL commands global file to execute. */
-	private String isqlCommandsGlobalFilename;
+	private String isqlCommandsDatasetFilename;
 	/** Full path of the ISQL commands default file to execute for every subset. 
 	 *  If the isql_commands_file_subset is null or it does not exist, 
 	 *  this one will be used. */
@@ -239,6 +243,30 @@ public class JobConfiguration {
 	}		
 
 	/**
+	 * Returns the path of the default file containing the ISQL commands for URL 
+	 * rewriting in Virtuoso for a dataset. It contains the default mapping for HTML rendering.
+	 * 
+	 * @return The path of the default file containing the ISQL commands for URL 
+	 *         rewriting in Virtuoso for a dataset.  It contains the default mapping for HTML 
+	 *         rendering.
+	 * @since 2.0
+	 */
+	public String getIsqlCommandsDatasetFilenameDefault() {
+		return isqlCommandsDatasetFilenameDefault;
+	}
+	/**
+	 * Sets the path of the default file containing the ISQL commands for URL 
+	 * rewriting in Virtuoso for a dataset. It contains the default mapping for HTML rendering.
+	 * 
+	 * @param isqlCommandsDatasetFilenameDefault The path of the default file containing 
+	 *        the ISQL commands for URL rewriting in Virtuoso for a dataset.
+	 * @since 2.0
+	 */
+	public void setIsqlCommandsDatasetFilenameDefault(String isqlCommandsDatasetFilenameDefault) {
+		this.isqlCommandsDatasetFilenameDefault = isqlCommandsDatasetFilenameDefault;
+	}		
+
+	/**
 	 * Returns the path of the file containing the ISQL commands for URL 
 	 * rewriting in Virtuoso.
 	 * 
@@ -246,19 +274,19 @@ public class JobConfiguration {
 	 *         rewriting in Virtuoso.
 	 * @since 2.0
 	 */
-	public String getIsqlCommandsGlobalFilename() {
-		return isqlCommandsGlobalFilename;
+	public String getIsqlCommandsDatasetFilename() {
+		return isqlCommandsDatasetFilename;
 	}
 	/**
 	 * Sets the path of the file containing the ISQL commands for URL 
 	 * rewriting in Virtuoso.
 	 * 
-	 * @param isqlCommandsGlobalFilename The path of the file containing 
+	 * @param isqlCommandsDatasetFilename The path of the file containing 
 	 *        the ISQL commands for URL rewriting in Virtuoso.
 	 * @since 2.0
 	 */
-	public void setIsqlCommandsGlobalFilename(final String isqlCommandsGlobalFilename) {
-		this.isqlCommandsGlobalFilename = isqlCommandsGlobalFilename;
+	public void setIsqlCommandsDatasetFilename(final String isqlCommandsDatasetFilename) {
+		this.isqlCommandsDatasetFilename = isqlCommandsDatasetFilename;
 	}		
 
 	/**

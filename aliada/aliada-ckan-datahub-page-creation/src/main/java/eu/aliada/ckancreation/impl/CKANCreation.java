@@ -390,7 +390,7 @@ public class CKANCreation {
 			dbConn.updateCkanOrgUrl(jobConf.getId(), this.ckanOrgUrl);
 			LOGGER.debug(MessageCatalog._00042_CKAN_ORG_UPDATED);
 		} else {
-			LOGGER.error(MessageCatalog._00037_CREATE_ORGANIZATION_CKAN_FAILURE, cOrgResponse.getError().getMessage());
+			LOGGER.error(MessageCatalog._00037_UPDATE_ORGANIZATION_CKAN_FAILURE, cOrgResponse.getError().getMessage());
 		}
 		return cOrgResponse;
 	}
@@ -582,7 +582,7 @@ public class CKANCreation {
 		try {
 			//Move the organization image file from TMP folder to the definitive folder
 			File orgImageInitFile= new File(jobConf.getOrgImagePath());
-			final String definitiveFileName = dataFolderName + File.separator + orgImageInitFile.getName();
+			final String definitiveFileName = dataFolderName + File.separator + "orgLogo.jpeg";
 			final File definitiveFile = new File (definitiveFileName);
 			Files.move(orgImageInitFile.toPath(), definitiveFile.toPath(), java.nio.file.StandardCopyOption.REPLACE_EXISTING);
 			jobConf.setOrgImagePath(definitiveFileName);

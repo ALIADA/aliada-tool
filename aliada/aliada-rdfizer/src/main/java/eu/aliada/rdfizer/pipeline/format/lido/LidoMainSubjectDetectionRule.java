@@ -43,7 +43,7 @@ public class LidoMainSubjectDetectionRule implements MainSubjectDetectionRule<El
 			if (isNullOrEmpty(lidoRecId)) {
 				throw new UnableToProceedWithConversionException("Unable to find a record ID.");
 			}
-			final StringBuilder builder = new StringBuilder(configuration.getNamespace()).append("id/resource/");
+			final StringBuilder builder = new StringBuilder(configuration.getNamespace());
 			String clazzURI = null;
 			/*
 			 * The class will always be the same for all LIDO objects. 
