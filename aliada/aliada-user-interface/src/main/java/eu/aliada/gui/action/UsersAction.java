@@ -81,6 +81,10 @@ public class UsersAction extends ActionSupport{
             addActionError(getText("err.user.deletion"));
             getUsersDb();
             return ERROR;
+        } else if (getSelectedUser().equalsIgnoreCase("admin")) {
+        	addActionError(getText("err.user.deletion"));
+            getUsersDb();
+            return ERROR;
         } else {
             Connection connection = null;
             try {
@@ -111,41 +115,48 @@ public class UsersAction extends ActionSupport{
      * @since 1.0
      */
     public String showEdit() {
-        Connection connection = null;
-        HttpSession session = ServletActionContext.getRequest().getSession();
-        try {
-            connection = new DBConnectionManager().getConnection();
-            Statement statement = connection.createStatement();
-            if (session.getAttribute("userToUpdate") != null) {
-                setSelectedUser((String) ServletActionContext.getRequest().getSession().getAttribute("userToUpdate"));
-            }
-            ResultSet rs = statement.executeQuery("select * from aliada.user where user_name='" + getSelectedUser() + "'");
-            if (rs.next()) {
-                this.usernameForm = getSelectedUser();
-                this.passwordForm = rs.getString("user_password");
-                this.emailForm = rs.getString("user_email");
-                this.typeForm = rs.getInt("user_type_code");
-                this.roleForm = rs.getInt("user_role_code"); 
-                this.organisationForm = rs.getInt("organisationId"); 
-                statement.close();
-                connection.close();
-                getUsersDb();
-                session.setAttribute("userToUpdate", getSelectedUser());
-                this.showEditForm = true;
-                return SUCCESS;
-            } else {
-                clearErrorsAndMessages();
-                addActionError(getText("err.not.selected.user"));
-                statement.close();
-                connection.close();
-                getUsersDb();
-                return ERROR;
-            }
-        } catch (SQLException e) {
-            logger.error(MessageCatalog._00011_SQL_EXCEPTION, e);
+    	if (getSelectedUser().equalsIgnoreCase("admin")) {
+        	clearErrorsAndMessages();
+        	addActionError(getText("err.not.allow.edit"));
             getUsersDb();
-            return ERROR;
-        }        
+            return ERROR;          	
+        } else {
+	        Connection connection = null;
+	        HttpSession session = ServletActionContext.getRequest().getSession();
+	        try {
+	            connection = new DBConnectionManager().getConnection();
+	            Statement statement = connection.createStatement();
+	            if (session.getAttribute("userToUpdate") != null) {
+	                setSelectedUser((String) ServletActionContext.getRequest().getSession().getAttribute("userToUpdate"));
+	            }
+		            ResultSet rs = statement.executeQuery("select * from aliada.user where user_name='" + getSelectedUser() + "'");
+		            if (rs.next()) {
+		                this.usernameForm = getSelectedUser();
+		                this.passwordForm = rs.getString("user_password");
+		                this.emailForm = rs.getString("user_email");
+		                this.typeForm = rs.getInt("user_type_code");
+		                this.roleForm = rs.getInt("user_role_code"); 
+		                this.organisationForm = rs.getInt("organisationId"); 
+		                statement.close();
+		                connection.close();
+		                getUsersDb();
+		                session.setAttribute("userToUpdate", getSelectedUser());
+		                this.showEditForm = true;
+		                return SUCCESS;
+		            } else {
+		                clearErrorsAndMessages();
+		                addActionError(getText("err.not.selected.user"));
+		                statement.close();
+		                connection.close();
+		                getUsersDb();
+		                return ERROR;
+		            }
+	        } catch (SQLException e) {
+	            logger.error(MessageCatalog._00011_SQL_EXCEPTION, e);
+	            getUsersDb();
+	            return ERROR;
+	        }  
+        }
     }
     
     /**

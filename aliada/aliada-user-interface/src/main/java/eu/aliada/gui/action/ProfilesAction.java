@@ -154,39 +154,48 @@ public class ProfilesAction extends ActionSupport {
      * @since 1.0
      */
     public String showEditProfile() {
-        Connection connection = null;
-        try {
-            connection = new DBConnectionManager().getConnection();
-            Statement statement = connection.createStatement();
-            ResultSet rs = statement
-                    .executeQuery("select * from aliada.profile where profile_name='"
-                            + this.selectedProfile + "'");
-            if (rs.next()) {
-                this.nameForm = rs.getString("profile_name");
-                this.profileTypeForm = rs.getInt("profile_type_code");
-                this.descriptionForm = rs.getString("profile_description");
-                this.schemeForm = rs.getInt("metadata_scheme_code");
-                this.fileTypeForm = rs.getInt("file_type_code");
-                this.fileFormatForm = rs.getInt("file_format_code");
-                this.characterSetForm = rs.getInt("character_set_code");
-                statement.close();
-                rs.close();
-                connection.close();
-                showProfiles();
-                this.showEditProfileForm = true;
-                return SUCCESS;
-            } else {
-                addActionError(getText("profile.not.selected"));
-                statement.close();
-                rs.close();
-                connection.close();
-                showProfiles();
-                return ERROR;
-            }
-        } catch (SQLException e) {
-            logger.error(MessageCatalog._00011_SQL_EXCEPTION, e);
-            showProfiles();
-            return ERROR;
+    	if (getSelectedProfile().equalsIgnoreCase("MARC BIB") 
+    			|| getSelectedProfile().equalsIgnoreCase("MARC AUT")
+    			|| getSelectedProfile().equalsIgnoreCase("LIDO")) {
+		        	clearErrorsAndMessages();
+		        	addActionError(getText("err.not.allow.edit"));
+		        	showProfiles();
+		            return ERROR;          	
+        } else {
+	        Connection connection = null;
+	        try {
+	            connection = new DBConnectionManager().getConnection();
+	            Statement statement = connection.createStatement();
+	            ResultSet rs = statement
+	                    .executeQuery("select * from aliada.profile where profile_name='"
+	                            + this.selectedProfile + "'");
+	            if (rs.next()) {
+	                this.nameForm = rs.getString("profile_name");
+	                this.profileTypeForm = rs.getInt("profile_type_code");
+	                this.descriptionForm = rs.getString("profile_description");
+	                this.schemeForm = rs.getInt("metadata_scheme_code");
+	                this.fileTypeForm = rs.getInt("file_type_code");
+	                this.fileFormatForm = rs.getInt("file_format_code");
+	                this.characterSetForm = rs.getInt("character_set_code");
+	                statement.close();
+	                rs.close();
+	                connection.close();
+	                showProfiles();
+	                this.showEditProfileForm = true;
+	                return SUCCESS;
+	            } else {
+	                addActionError(getText("profile.not.selected"));
+	                statement.close();
+	                rs.close();
+	                connection.close();
+	                showProfiles();
+	                return ERROR;
+	            }
+	        } catch (SQLException e) {
+	            logger.error(MessageCatalog._00011_SQL_EXCEPTION, e);
+	            showProfiles();
+	            return ERROR;
+	        }
         }
     }
 
@@ -229,27 +238,35 @@ public class ProfilesAction extends ActionSupport {
      * @since 1.0
      */
     public String deleteProfile() {
-        Connection connection = null;
-        try {
-            connection = new DBConnectionManager().getConnection();
-            Statement statement = connection.createStatement();
-            int correct = statement
-                    .executeUpdate("DELETE FROM aliada.profile WHERE profile_name='"
-                            + getSelectedProfile() + "'");
-            statement.close();
-            connection.close();
-            if (correct == 0) {
-                addActionError(getText("profile.not.selected"));
-            } else {
-                addActionMessage(getText("profile.delete.ok"));
-            }
-        } catch (SQLException e) {
-            logger.error(MessageCatalog._00011_SQL_EXCEPTION, e);
-            showProfiles();
-            return ERROR;
-        }
-        showProfiles();
-        return SUCCESS;
+    	if (getSelectedProfile().equalsIgnoreCase("LIDO") 
+    			|| getSelectedProfile().equalsIgnoreCase("MARC AUT") 
+    			|| getSelectedProfile().equalsIgnoreCase("MARC BIB")) {
+		    		addActionError(getText("err.profile.deletion"));
+		    		showProfiles();
+			        return SUCCESS;
+    	} else {
+	        Connection connection = null;
+	        try {
+	            connection = new DBConnectionManager().getConnection();
+	            Statement statement = connection.createStatement();
+	            int correct = statement
+	                    .executeUpdate("DELETE FROM aliada.profile WHERE profile_name='"
+	                            + getSelectedProfile() + "'");
+	            statement.close();
+	            connection.close();
+	            if (correct == 0) {
+	                addActionError(getText("profile.not.selected"));
+	            } else {
+	                addActionMessage(getText("profile.delete.ok"));
+	            }
+	        } catch (SQLException e) {
+	            logger.error(MessageCatalog._00011_SQL_EXCEPTION, e);
+	            showProfiles();
+	            return ERROR;
+	        }
+	        showProfiles();
+	        return SUCCESS;
+    	}
     }
 
     /**
