@@ -44,6 +44,9 @@ public class JobStats {
     @Column(name = "triples_throughput", nullable = false)
     private BigDecimal triplesThroughput;
     
+    @Column(name = "status_code", nullable = true)
+    private int statusCode;
+    
 	@Transient
 	@XmlTransient
     private JobInstance instance;
@@ -195,4 +198,15 @@ public class JobStats {
 	public String getFormat() {
 		return instance != null ? instance.getFormat() : "Unknown";
 	}
+
+	@XmlElement(name = "status-code")
+	public int getStatusCode() {
+		return statusCode;
+	}
+
+	public void setStatusCode(int statusCode) {
+		this.statusCode = statusCode;
+	}
+	
+	
 }
