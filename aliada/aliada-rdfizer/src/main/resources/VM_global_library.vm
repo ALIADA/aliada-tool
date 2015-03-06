@@ -150,7 +150,7 @@
 		$ts_uri $P78_is_identified_by $date_uri .
 		$ts_uri $is_a $E52_Time_Span .
 		$bh_uri $is_a $object_rel_date .
-		$entity $predicate $bh_uri .
+		$entity $predicate $bh_uri . 
 	#end	
 #end	
 
