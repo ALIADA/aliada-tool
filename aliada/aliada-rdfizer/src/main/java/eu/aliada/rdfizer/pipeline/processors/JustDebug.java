@@ -22,7 +22,7 @@ public class JustDebug implements Processor {
 		if (o instanceof NullObject) {
 			return;
 		}
-		
+
 		if (o != null && o instanceof Collection) {
 			Collection c = (Collection) o;
 			

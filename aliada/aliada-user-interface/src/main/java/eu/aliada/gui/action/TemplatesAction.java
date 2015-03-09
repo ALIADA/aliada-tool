@@ -220,32 +220,41 @@ public class TemplatesAction extends ActionSupport {
      * @since 1.0
      */
     public String deleteTemplate() {
-        Connection connection = null;
-        try {
-            connection = new DBConnectionManager().getConnection();
-            Statement statement = connection.createStatement();
-            statement
-                    .executeUpdate("DELETE tags.* FROM aliada.template_xml_tag tags INNER JOIN template temp ON tags.template_id=temp.template_id  WHERE temp.template_name='"
-                            + getSelectedTemplate() + "'");
-            statement.close();
-            statement = connection.createStatement();
-            int correct = statement
-                    .executeUpdate("DELETE FROM aliada.template WHERE template_name='"
-                            + getSelectedTemplate() + "'");
-            statement.close();
-            connection.close();
-            if (correct == 0) {
-                addActionError(getText("template.not.selected"));                
-            } else {
-                addActionMessage(getText("template.delete.ok"));
-            }
-        } catch (SQLException e) {
-            getTemplatesDb();
-            logger.error(MessageCatalog._00011_SQL_EXCEPTION, e);
-            return ERROR;
-        }
-        getTemplatesDb();
-        return SUCCESS;
+    	if (getSelectedTemplate().equalsIgnoreCase("Authorities") 
+    			|| getSelectedTemplate().equalsIgnoreCase("MARC BIB") 
+    			|| getSelectedTemplate().equalsIgnoreCase("LIDO")) {
+		    		addActionError(getText("err.template.deletion")); 
+		    		getTemplatesDb();
+		    		return SUCCESS;
+    	} else {
+	        Connection connection = null;
+	        try {
+	            connection = new DBConnectionManager().getConnection();
+	            Statement statement = connection.createStatement();
+	            statement
+	                    .executeUpdate("DELETE tags.* FROM aliada.template_xml_tag tags "
+	                    		+ "INNER JOIN template temp ON tags.template_id=temp.template_id  WHERE temp.template_name='"
+	                            + getSelectedTemplate() + "'");
+	            statement.close();
+	            statement = connection.createStatement();
+	            int correct = statement
+	                    .executeUpdate("DELETE FROM aliada.template WHERE template_name='"
+	                            + getSelectedTemplate() + "'");
+	            statement.close();
+	            connection.close();
+	            if (correct == 0) {
+	                addActionError(getText("template.not.selected"));                
+	            } else {
+	                addActionMessage(getText("template.delete.ok"));
+	            }
+	        } catch (SQLException e) {
+	            getTemplatesDb();
+	            logger.error(MessageCatalog._00011_SQL_EXCEPTION, e);
+	            return ERROR;
+	        }
+	        getTemplatesDb();
+	        return SUCCESS;
+	    }
     }
 
     /**
@@ -255,41 +264,51 @@ public class TemplatesAction extends ActionSupport {
      * @since 1.0
      */
     public String showEditTemplate() {
-        Connection connection = null;
-        try {
-            connection = new DBConnectionManager().getConnection();
-            Statement statement = connection.createStatement();
-            ResultSet rs = statement
-                    .executeQuery("select * from aliada.template where template_name='"
-                            + this.selectedTemplate + "'");
-            if (rs.next()) {
-                int idTemplate = rs.getInt("template_id");
-                this.templateName = rs.getString("template_name");
-                this.templateDescription = rs.getString("template_description");
-                this.fileType = rs.getInt("file_type_code");
-                statement.close();
-                rs.close();
-                connection.close();
-                getTemplatesDb();
-                getTagsDb(idTemplate);
-                setShowEditTemplateForm(true);
-                ServletActionContext.getRequest().getSession()
-                        .setAttribute("selectedTemplateId", idTemplate);
-                return SUCCESS;
-            } else {
-                addActionError(getText("template.not.selected"));
-                statement.close();
-                rs.close();
-                connection.close();
-                getTemplatesDb();
-                getTagsDb(NOTEMPLATESELECTED);
-                return ERROR;
-            }
-        } catch (SQLException e) {
-            logger.error(MessageCatalog._00011_SQL_EXCEPTION, e);
-            getTemplatesDb();
-            getTagsDb(NOTEMPLATESELECTED);
-            return ERROR;
+    	if (getSelectedTemplate().equalsIgnoreCase("MARC BIB") 
+    			|| getSelectedTemplate().equalsIgnoreCase("LIDO")
+    			|| getSelectedTemplate().equalsIgnoreCase("Authorities")) {
+		        	clearErrorsAndMessages();
+		        	addActionError(getText("err.not.allow.edit"));
+		            getTemplatesDb();
+		            getTagsDb(NOTEMPLATESELECTED);
+		            return ERROR;          	
+        } else {
+	        Connection connection = null;
+	        try {
+	            connection = new DBConnectionManager().getConnection();
+	            Statement statement = connection.createStatement();
+	            ResultSet rs = statement
+	                    .executeQuery("select * from aliada.template where template_name='"
+	                            + this.selectedTemplate + "'");
+	            if (rs.next()) {
+	                int idTemplate = rs.getInt("template_id");
+	                this.templateName = rs.getString("template_name");
+	                this.templateDescription = rs.getString("template_description");
+	                this.fileType = rs.getInt("file_type_code");
+	                statement.close();
+	                rs.close();
+	                connection.close();
+	                getTemplatesDb();
+	                getTagsDb(idTemplate);
+	                setShowEditTemplateForm(true);
+	                ServletActionContext.getRequest().getSession()
+	                        .setAttribute("selectedTemplateId", idTemplate);
+	                return SUCCESS;
+	            } else {
+	                addActionError(getText("template.not.selected"));
+	                statement.close();
+	                rs.close();
+	                connection.close();
+	                getTemplatesDb();
+	                getTagsDb(NOTEMPLATESELECTED);
+	                return ERROR;
+	            }
+	        } catch (SQLException e) {
+	            logger.error(MessageCatalog._00011_SQL_EXCEPTION, e);
+	            getTemplatesDb();
+	            getTagsDb(NOTEMPLATESELECTED);
+	            return ERROR;
+	        }
         }
     }
 

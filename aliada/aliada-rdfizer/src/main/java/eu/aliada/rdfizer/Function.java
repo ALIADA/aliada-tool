@@ -137,6 +137,7 @@ public class Function {
 	}
 	
 	public String getOntologyTypeURI(final Integer id, final String term) {
+		if (true) return "IMAGE";
 		try {
 			JobInstance instance = cache.getJobInstance(id);
 			if (instance != null) {

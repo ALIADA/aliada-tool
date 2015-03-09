@@ -28,8 +28,7 @@ public class DataDump {
 	private static final Log LOGGER  = new Log(DataDump.class);
 	private final JobConfiguration jobConf;
 	/** Format for the ISQL command to execute */
-	// isql host:port user pass exec="dump_one_graph_nt ('graphURI', 'filePathName', 'maxSize');" 
-	private static final String ISQL_COMMAND_FORMAT = "%s %s:%d %s %s exec=\"dump_one_graph_nt('%s', '%s', %d);\"";
+	private static final String ISQL_COMMAND_FORMAT = "%s %s:%d %s %s %s -u graph_uri='%s' dump_file_path='%s' file_length_limit='%d'";
 	/** Dump file maximum length **/
 	private static final int FILE_LENGTH_LIMIT = 1000000000; 
 	/** Dump file format **/
@@ -157,21 +156,25 @@ public class DataDump {
     	dumpFilePathInit = dumpFilePathInit.replace("\\", "/");
 		//Compose ISQL command execution statement
     	final String isqlCommand = String.format(ISQL_COMMAND_FORMAT,
-				jobConf.getIsqlCommandPath(), jobConf.getStoreIp(),
-				jobConf.getStoreSqlPort(), jobConf.getSqlLogin(),
-				jobConf.getSqlPassword(), graphURI,
-				dumpFilePathInit,
-				FILE_LENGTH_LIMIT);
-		//Execute ISQL command
+			jobConf.getIsqlCommandPath(), jobConf.getStoreIp(),
+			jobConf.getStoreSqlPort(), jobConf.getSqlLogin(),
+			jobConf.getSqlPassword(), jobConf.getIsqlCommandsGraphDumpFilename(), 
+			graphURI, dumpFilePathInit, FILE_LENGTH_LIMIT);   	
+    	//Execute ISQL command
 		try {
 			LOGGER.debug(MessageCatalog._00040_EXECUTING_ISQL);
+			LOGGER.debug(isqlCommand);
 			final Process commandProcess = Runtime.getRuntime().exec(isqlCommand);
 			final BufferedReader stdInput = new BufferedReader(new InputStreamReader(commandProcess.getInputStream()));
-			String comOutput = "";
+			final BufferedReader stdError = new BufferedReader(new InputStreamReader(commandProcess.getErrorStream()));
+		 	String comOutput = "";
 			while ((comOutput = stdInput.readLine()) != null) {
 				LOGGER.debug(comOutput);
 			}
-			dumpFilesInfo = getGraphDumpsNames(graphURI, dataDumpsPath, dataDumpsUrl, dumpFileNameInit);
+	        while ((comOutput = stdError.readLine()) != null) {
+				LOGGER.debug(comOutput);
+            }
+ 			dumpFilesInfo = getGraphDumpsNames(graphURI, dataDumpsPath, dataDumpsUrl, dumpFileNameInit);
 		} catch (IOException exception) {
 			LOGGER.error(MessageCatalog._00033_EXTERNAL_PROCESS_START_FAILURE, exception, isqlCommand);
 		}

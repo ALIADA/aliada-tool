@@ -1,3 +1,11 @@
+----------------------------------------------------------------
+--Input arguments
+----------------------------------------------------------------
+--$u{graph_uri}: URI of the graph to dump
+--$u{dump_file_path}: Initial filename where to dump the graph
+--$u{file_length_limit}: Dump file size limit. If exceeded, dump is partitioned in several files
+----------------------------------------------------------------
+
 CREATE PROCEDURE dump_one_graph_nt 
   ( IN  srcgraph           VARCHAR  , 
     IN  out_file           VARCHAR  , 
@@ -16,10 +24,6 @@ CREATE PROCEDURE dump_one_graph_nt
     file_len     := 0;
     file_idx     := 1;
     file_name    := sprintf ('%s%06d.nt', out_file, file_idx);
-    string_to_file ( file_name || '.graph', 
-                     srcgraph, 
-                     -2
-                   );
     string_to_file ( file_name, 
                      sprintf ( '# Dump of graph <%s>, as of %s\n', 
                                srcgraph, 
@@ -69,3 +73,5 @@ CREATE PROCEDURE dump_one_graph_nt
 	file_delete (file_name);
       }
   }
+  
+dump_one_graph_nt ('$u{graph_uri}', '$u{dump_file_path}', $u{file_length_limit});

@@ -61,7 +61,8 @@ public class XPath {
 	 * @throws XPathExpressionException in case of XPATH failure.
 	 */
 	public Node one(final String expression, final Object context) throws XPathExpressionException {
-		return (Node) xpath(expression).evaluate(context, XPathConstants.NODE);
+		Object obj = xpath(expression).evaluate(context, XPathConstants.NODE);
+		return obj == null ? null : new ImmutableNode((Node) obj);
 	}	
 	
 	/**

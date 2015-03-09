@@ -219,4 +219,4 @@ NULL,
 '' 
 );
 
-DB.DBA.associate_list_ext_rules_to_virtpath ($u{create_virtual_path}, $u{urrl_list_subset}, '$u{rules_suffix_dataset}', '$u{rules_suffix}', '$u{vhost}', '$u{lhost}', '$u{uri_doc_concept_parent}');
+associate_list_ext_rules_to_virtpath ($u{create_virtual_path}, $u{urrl_list_subset}, '$u{rules_suffix_dataset}', '$u{rules_suffix}', '$u{vhost}', '$u{lhost}', '$u{uri_doc_concept_parent}');

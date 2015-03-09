@@ -5,21 +5,21 @@
 	#end	
 #end
 ## Generates ALIADA resource prefix
-#macro (prefix)${configuration.namespace}id/resource#end	
+#macro (prefix)${configuration.namespace}#end	
 
 #macro (value $expression)$xpath.val($expression,$root)#end
 
 ## Creates a new URI with an auto-increment local identifier.
-#macro (new_uri $kind)<#prefix/$kind/#newId>#end
+#macro (new_uri $kind)<#prefix$kind/#newId>#end
  
 ## Creates a new URI with the given literal as local name. Normalization applies.
-#macro (uri $kind $literal)<#prefix/$kind/$function.normalize(${literal})>#end
+#macro (uri $kind $literal)<#prefix$kind/$function.normalize(${literal})>#end
 
 ## Creates a new URI with the given literal as local name. Strong normalization applies.
-#macro (uri_with_strong_normalization $kind $literal)<#prefix/$kind/$function.normalizeStrong(${literal})>#end
+#macro (uri_with_strong_normalization $kind $literal)<#prefix$kind/$function.normalizeStrong(${literal})>#end
 
 ## Creates a URI with an ending fragment (the literal argument). Makes no normalization on that value. 
-#macro (uri_with_fragment $kind $literal)<#prefix/$kind/$function.uuid($literal)>#end
+#macro (uri_with_fragment $kind $literal)<#prefix$kind/$function.uuid($literal)>#end
 
 ## Creates a new (monotonically incremented) id
 #macro (newId)$function.id#end
@@ -124,3 +124,129 @@
 #macro (ner $tag $code $record $subject)
 	
 #end	
+
+#macro(simplest_mapping_of_string $s $tagValue $type $kind $predicate $concept) 
+	#if($tagValue) 
+		#set($text = $tagValue)
+    	#set($s1 = "#uri_with_strong_normalization(${type} ${text})")
+			$s1 $is_a $kind . 
+    	#if($concept) 
+			$s1 $P2_has_type $concept .
+		#end
+    	$s1 $P3_has_note "$text" . 
+    	$s $predicate $s1 . 
+	#end	
+#end	
+
+## Create correlate triples for Generic Entity (that has) P4 has time-span E52 Time-Span P78 is identified by E50 Date between a Generic Entity($entity) with a generic predicate($property)
+#macro(defined_mapping_with_no_repeatable_tag_to_date_relation $tag $subfield $record $object_rel_date $object_rel_string_date $predicate $entity) 
+	#set($tagValue = $xpath.df($tag,$subfield,$record))
+	#if($tagValue) 
+		#set($date_uri = "#uri('E50_Date' $tagValue.textContent)")
+		#set($E52_Time_Span = "#ecrm('E52_Time-Span')")
+		#set ($ts_uri = "#new_uri('E52_Time-Span')")
+		#set ($bh_uri = "#new_uri($object_rel_string_date)")
+		#set($P78_is_identified_by = "#ecrm('P78_is_identified_by')")
+		#set($P4_has_time_span = "#ecrm('P4_has_time-span')")
+		$date_uri $is_a #ecrm('E50_Date') .
+		$date_uri $P3_has_note "$tagValue.textContent" .
+		$bh_uri $P4_has_time_span $ts_uri .
+		$ts_uri $P78_is_identified_by $date_uri .
+		$ts_uri $is_a $E52_Time_Span .
+		$bh_uri $is_a $object_rel_date .
+		$entity $predicate $bh_uri . 
+	#end	
+#end	
+
+## Create correlate triples for Generic Entity (that has) P4 has time-span E52 Time-Span P78 is identified by E50 Date between a Generic Entity($entity) with a generic predicate($property)
+#macro(defined_mapping_with_repeatable_tag_to_date_relation $tag $subfield $record $object_rel_date $object_rel_string_date $predicate $entity) 
+	#set($tagValues = $xpath.dfs($tag,$subfield,$record))
+   #foreach($tagValue in $tagValues) 
+	#if($tagValue) 
+		#set($date_uri = "#uri('E50_Date' $tagValue.textContent)")
+		#set($E52_Time_Span = "#ecrm('E52_Time-Span')")
+		#set ($ts_uri = "#new_uri('E52_Time-Span')")
+		#set ($bh_uri = "#new_uri($object_rel_string_date)")
+		#set($P78_is_identified_by = "#ecrm('P78_is_identified_by')")
+		#set($P4_has_time_span = "#ecrm('P4_has_time-span')")
+		$date_uri $is_a #ecrm('E50_Date') .
+		$date_uri $P3_has_note "$tagValue.textContent" .
+		$bh_uri $P4_has_time_span $ts_uri .
+		$ts_uri $P78_is_identified_by $date_uri .
+		$ts_uri $is_a $E52_Time_Span .
+		$bh_uri $is_a $object_rel_date .
+		$entity $predicate $bh_uri .
+	#end	
+   #end
+#end
+
+##F1 Work P1 is identified by F50 Controlled Access Point R8 consists of E90 Symbolic Object (4)
+#macro(mapping_with_not_repeatable_tag_three_entities $tagValue $entityFirst $entity1 $entity2 $typeUri1 $typeUri2 $predicateFirst $predicate1)
+  #if($tagValue) 	
+  #if($tagValue.textContent)
+	#set($value = "#uri($entity2 $tagValue.textContent)")
+	#set($ent1 = "#new_uri($entity1)")
+	$ent1 $is_a  $typeUri1 .
+	$value $is_a $typeUri2 .
+	$value $P3_has_note "$tagValue.textContent" .
+	$ent1 $predicate1 $value .
+	$entityFirst $predicateFirst $ent1 .
+  #end
+ #end
+#end
+
+##F1 Work P129 is about E27 Site3 is located in or within E53 Place P87 is identified by E47 Spatial Coordinates
+#macro(mapping_with_not_repeatable_tag_four_entities $tagValue $entityFirst $entity1 $entity2 $entity3 $typeUri1 $typeUri2 $typeUri3 $predicateFirst $predicate1 $predicate2)
+  #if($tagValue) 	
+   #if($tagValue.textContent)
+	#set($value = "#uri($entity3 $tagValue.textContent)")
+	#set($ent2 = "#new_uri($entity2)")
+	#set($ent1 = "#new_uri($entity1)")
+	$ent2 $is_a $typeUri2 .
+	$ent1 $is_a  $typeUri1 .
+	$value $is_a $typeUri3 .
+	$value $P3_has_note "$tagValue.textContent" .
+	$ent1 $predicate1 $ent2 .
+	$ent2 $predicate2 $value .
+	$entityFirst $predicateFirst $ent1 .
+  #end
+ #end
+#end
+
+
+##F1 Work P1 is identified by F50 Controlled Access Point R8 consists of E90 Symbolic Object (4)
+#macro(mapping_with_repeatable_tag_three_entities $tagValues $entityFirst $entity1 $entity2 $typeUri1 $typeUri2 $predicateFirst $predicate1)
+  #if($tagValues) 	
+   #foreach($tagValue in $tagValues) 
+    #if($tagValue.textContent)
+		#set($value = "#uri($entity2 $tagValue.textContent)")
+		#set($ent1 = "#new_uri($entity1)")
+		$ent1 $is_a  $typeUri1 .
+		$value $is_a $typeUri2 .
+		$value $P3_has_note "$tagValue.textContent" .
+		$ent1 $predicate1 $value .
+		$entityFirst $predicateFirst $ent1 .
+	#end  
+  #end
+ #end
+#end
+
+##F1 Work P129 is about E27 Site3 is located in or within E53 Place P87 is identified by E47 Spatial Coordinates
+#macro(mapping_with_repeatable_tag_four_entities $tagValues $entityFirst $entity1 $entity2 $entity3 $typeUri1 $typeUri2 $typeUri3 $predicateFirst $predicate1 $predicate2)
+  #if($tagValues) 	
+   #foreach($tagValue in $tagValues) 
+     #if($tagValue.textContent)
+		#set($value = "#uri($entity3 $tagValue.textContent)")
+		#set($ent2 = "#new_uri($entity2)")
+		#set($ent1 = "#new_uri($entity1)")
+		$ent2 $is_a $typeUri2 .
+		$ent1 $is_a  $typeUri1 .
+		$value $is_a $typeUri3 .
+		$value $P3_has_note "$tagValue.textContent" .
+		$ent1 $predicate1 $ent2 .
+		$ent2 $predicate2 $value .
+		$entityFirst $predicateFirst $ent1 .
+    #end
+  #end
+ #end
+#end

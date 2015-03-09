@@ -49,7 +49,20 @@ public class FrbrEntitiesDetector implements Processor {
 	
 	@Autowired
 	ItemDetector itemDetector;
-		
+	
+	@Autowired
+	ItemDetector conceptDetector;
+	
+	@Autowired
+	ItemDetector eventDetector;
+	
+	@Autowired
+	ItemDetector placeDetector;
+	
+	@Autowired
+	ItemDetector recordetector;
+	
+	
 	@Autowired
 	private Cache cache;
 
@@ -87,7 +100,11 @@ public class FrbrEntitiesDetector implements Processor {
 				personDetector.detect(target),
 				familyDetector.detect(target),
 				corporateBodyDetector.detect(target),
-				itemDetector.detect(target)
+				itemDetector.detect(target),
+				conceptDetector.detect(target),
+				eventDetector.detect(target),
+				placeDetector.detect(target),
+				recordetector.detect(target)
 				);
 	}
 }

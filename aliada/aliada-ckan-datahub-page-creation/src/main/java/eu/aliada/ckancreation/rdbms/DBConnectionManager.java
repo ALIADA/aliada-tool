@@ -139,13 +139,13 @@ public class DBConnectionManager {
 				jobConf.setSqlLogin(resultSet.getString("sql_login"));
 				jobConf.setSqlPassword(resultSet.getString("sql_password"));
 				jobConf.setIsqlCommandPath(resultSet.getString("isql_command_path"));
+				jobConf.setIsqlCommandsGraphDumpFilename(resultSet.getString("isql_commands_file_graph_dump"));
 				jobConf.setVirtHttpServRoot(resultSet.getString("virtuoso_http_server_root"));
 				jobConf.setOntologyUri(resultSet.getString("aliada_ontology"));
 				jobConf.setOrgName(resultSet.getString("org_name"));
 				jobConf.setOrgTitle(resultSet.getString("org_name").toUpperCase());
 				jobConf.setOrgDescription(resultSet.getString("org_description"));
 				jobConf.setOrgHomePage(resultSet.getString("org_home_page"));
-				jobConf.setOrgImageURL(resultSet.getString("org_image_url"));
 				datasetId = resultSet.getInt("datasetId");
 				organisationId = resultSet.getInt("organisationId");
 		    }

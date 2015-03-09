@@ -6,8 +6,6 @@
 package eu.aliada.linkeddataserversetup;
 
 import eu.aliada.linkeddataserversetup.impl.LinkedDataServerSetup;
-import eu.aliada.linkeddataserversetup.model.JobConfiguration;
-import eu.aliada.linkeddataserversetup.model.Subset;
 import eu.aliada.shared.log.Log;
 
 import java.util.Random;
@@ -34,53 +32,13 @@ public class GetIsqlCommandsFileTest {
     @Test
     public void testGetIsqlCommandsFile() {
 		final LinkedDataServerSetup ldsSetup = new LinkedDataServerSetup();
-		final JobConfiguration jobConf = newJobConfiguration();
-		final Subset subset = newSubset();
-		final String result = ldsSetup.getIsqlCommandsFileSubset(jobConf, subset);
+		final String fileName = "src/test/resources/isql_id_rewrite_rules_global_default.sql";
+		final String defaultFileName = "src/test/resources/isql_id_rewrite_rules_global.sql";
+		final String result = ldsSetup.getIsqlCommandsFile(fileName, defaultFileName);
         if (result != null) {
         	LOGGER.info("OK");
         } else {
         	LOGGER.info("NOK");
         }
     }
-    
-	/**
-	 * Returns a random identifier (as integer).
-	 * 
-	 * @return a random identifier (as integer).
-     * @since 1.0
-	 */
-	public static Integer randomIdentifier() {
-		return RANDOMIZER.nextInt();
-	}
-
-	/**
-	 * Creates a dummy job configuration. 
-	 * 
-	 * @return a dummy job configuration.
-     * @since 1.0
-	 */
-	public static JobConfiguration newJobConfiguration() {
-		final JobConfiguration job = new JobConfiguration();
-		job.setId(randomIdentifier());
-		job.setStoreIp("aliada.scanbit.net");
-		job.setStoreSqlPort(1111);
-		job.setSqlLogin("sql_login");
-		job.setSqlPassword("sql_password");
-		job.setIsqlCommandPath("isql");
-		job.setIsqlCommandsSubsetFilenameDefault("src/test/resources/isql_id_rewrite_rules_html_default.sql");
-		return job;
-	}
-
-	/**
-	 * Creates a dummy subset. 
-	 * 
-	 * @return a dummy subset.
-     * @since 1.0
-	 */
-	public static Subset newSubset() {
-		final Subset subset = new Subset();
-		subset.setIsqlCommandsSubsetFilename("isql_id_rewrite_rules_html_artium.sql");
-		return subset;
-	}
 }

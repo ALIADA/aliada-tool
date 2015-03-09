@@ -129,6 +129,8 @@ public class DBConnectionManager {
 				jobConf.setSqlLogin(resultSet.getString("sql_login"));
 				jobConf.setSqlPassword(resultSet.getString("sql_password"));
 				jobConf.setIsqlCommandPath(resultSet.getString("isql_command_path"));
+				jobConf.setIsqlCommandsDatasetFilenameDefault(resultSet.getString("isql_commands_file_dataset_default"));
+				jobConf.setIsqlCommandsSubsetFilenameDefault(resultSet.getString("isql_commands_file_subset_default"));
 				jobConf.setVirtHttpServRoot(resultSet.getString("virtuoso_http_server_root"));
 				jobConf.setOntologyUri(resultSet.getString("aliada_ontology"));
 				datasetId = resultSet.getInt("datasetId");
@@ -148,8 +150,7 @@ public class DBConnectionManager {
 				jobConf.setUriConceptPart(resultSet.getString("uri_concept_part"));
 				jobConf.setListeningHost(resultSet.getString("listening_host"));
 				jobConf.setVirtualHost(resultSet.getString("virtual_host"));
-				jobConf.setIsqlCommandsGlobalFilename(resultSet.getString("isql_commands_file_global"));
-				jobConf.setIsqlCommandsSubsetFilenameDefault(resultSet.getString("isql_commands_file_subset_default"));
+				jobConf.setIsqlCommandsDatasetFilename(resultSet.getString("isql_commands_file_dataset"));
 			}
 			resultSet.close();
 			//Get subsets related information 

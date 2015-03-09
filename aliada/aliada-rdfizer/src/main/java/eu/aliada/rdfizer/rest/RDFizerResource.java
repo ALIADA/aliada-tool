@@ -51,6 +51,7 @@ import eu.aliada.rdfizer.datasource.rdbms.JobInstance;
 import eu.aliada.rdfizer.datasource.rdbms.JobInstanceRepository;
 import eu.aliada.rdfizer.datasource.rdbms.JobStats;
 import eu.aliada.rdfizer.datasource.rdbms.JobStatsRepository;
+import eu.aliada.rdfizer.datasource.rdbms.ValidationMessageRepository;
 import eu.aliada.rdfizer.log.MessageCatalog;
 import eu.aliada.rdfizer.mx.InMemoryJobResourceRegistry;
 import eu.aliada.rdfizer.mx.ManagementRegistrar;
@@ -89,6 +90,9 @@ public class RDFizerResource implements RDFizer {
 	@Autowired
 	protected JobInstanceRepository jobInstanceRepository;
 
+	@Autowired
+	protected ValidationMessageRepository validationMessageRepository;
+	
 	@Autowired
 	protected JobStatsRepository jobStatsRepository;
 
@@ -170,6 +174,8 @@ public class RDFizerResource implements RDFizer {
 				return Response.status(Status.NOT_FOUND).build();											
 			}
 			stats.setInstance(instance);
+			
+			stats.setValidationMessages(validationMessageRepository.findByJobId(id));
 			return Response.ok().entity(stats).build();
 		}
 	}

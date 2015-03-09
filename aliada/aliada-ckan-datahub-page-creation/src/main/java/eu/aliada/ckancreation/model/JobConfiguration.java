@@ -34,6 +34,8 @@ public class JobConfiguration {
 	private String sqlPassword;
 	/** Full path to the ISQL command. */
 	private String isqlCommandPath;
+	/** The path of the file containing the ISQL commands for graph dump. */
+	private String isqlCommandsGraphDumpFilename;
 	/** Aliada Ontology URI. */
 	private String ontologyUri;
 	/** Virtuoso HTTP Server Root physical path. */
@@ -256,6 +258,29 @@ public class JobConfiguration {
 	 */
 	public void setIsqlCommandPath(final String isqlCommandPath) {
 		this.isqlCommandPath = isqlCommandPath;
+	}		
+
+	/**
+	 * Returns the path of the file containing the ISQL commands for 
+	 * graph dump.
+	 * 
+	 * @return The path of the file containing the ISQL commands for 
+	 *         graph dump.
+	 * @since 2.0
+	 */
+	public String getIsqlCommandsGraphDumpFilename() {
+		return isqlCommandsGraphDumpFilename;
+	}
+	/**
+	 * Sets the path of the file containing the ISQL commands for 
+	 * graph dump.
+	 * 
+	 * @param isqlCommandsGraphDumpFilename The path of the file containing 
+	 *        the ISQL commands for graph dump.
+	 * @since 2.0
+	 */
+	public void setIsqlCommandsGraphDumpFilename(final String isqlCommandsGraphDumpFilename) {
+		this.isqlCommandsGraphDumpFilename = isqlCommandsGraphDumpFilename;
 	}		
 
 	/**
