@@ -42,20 +42,22 @@
         #set($repositoryNames = $xpath.many("legalBodyName/appellationValue",$legalBody))
 		#foreach($repositoryName in $repositoryNames)
     		#set($value = $function.escape($repositoryName.gmant))
-			#set($lang = $xpath.one("@lang", $repositoryName))
-        	#set($repository_appellation = "#uri('E82_Actor_Appellation' $value)")
-        	$repository_appellation $is_a #ecrm("E82_Actor_Appellation") .
-         	#if($lang)
-	        	$repository_appellation $P3_has_note "$value"@$lang.textContent .
-	        #else
-	        	$repository_appellation $P3_has_note "$value" .
-        	#end
-        	#if(!$actor || $actor == "")
-        		#set($actor = "#uri('E39_Actor' $value)")
-        		$actor $is_a #ecrm("E39_Actor") .
-	        	$owner_s $owner_p $actor .
-        	#end
-        	$actor #ecrm("P131_is_identified_by") $repository_appellation .
+			#if($value)
+				#set($lang = $xpath.one("@lang", $repositoryName))
+	        	#set($repository_appellation = "#uri('E82_Actor_Appellation' $value)")
+	        	$repository_appellation $is_a #ecrm("E82_Actor_Appellation") .
+	         	#if($lang)
+		        	$repository_appellation $P3_has_note "$value"@$lang.textContent .
+		        #else
+		        	$repository_appellation $P3_has_note "$value" .
+	        	#end
+	        	#if($actor == "")
+	        		#set($actor = "#uri('E39_Actor' $value)")
+	        		$actor $is_a #ecrm("E39_Actor") .
+		        	$owner_s $owner_p $actor .
+	        	#end
+	        	$actor #ecrm("P131_is_identified_by") $repository_appellation .
+	        #end	
         #end		
         ## LEGAL BODY NAME END
     	## LEGAL BODY WEBLINK BEGIN
@@ -70,8 +72,8 @@
             $information_object_s $is_a #ecrm("E73_Information_Object") .
             $information_object_s $P2_has_type $web_resource_s . 
             $information_object_s #ecrm("P149_is_identified_by") $conceptual_appellation_s . 
-        	#if($actor)
-        		$actor #ecrm("P129i_is_subject_of") $information_object_s .
+        	#if($actor != "")
+				$actor #ecrm("P129i_is_subject_of") $information_object_s .
         	#end
         #end			
         ## LEGAL BODY WEBLINK END
@@ -83,7 +85,7 @@
 			$id_s $is_a #ecrm('E42_Identifier') .
 			$id_s $P3_has_note "$value" . 
 			$id_s $P2_has_type #aliada('LocalIdentifier') .
-        	#if($actor)
+        	#if($actor != "")
 				$actor #ecrm('P48_has_preferred_identifier') $id_s .
         	#end
 		#end	
@@ -250,7 +252,7 @@
 #macro (wk_exp_ner $tag $code $record $subject)
 	#foreach($entry in $function.mner($tag,$code,$record).entrySet()) 
 		#set($ne_s = "#uri_with_fragment('Concept' $entry.getKey())")
-		#set($coll_s = "#uri_with_fragment('Collection' entry.getValue())")
+		#set($coll_s = "#uri_with_fragment('Collection' $entry.getValue())")
 		$ne_s $is_a $Concept . 
 		$ne_s #skos('prefLabel') "$entry.getKey()" . 
 		$coll_s #skos('member') $ne_s .
@@ -263,7 +265,7 @@
 		#set($map = $function.ner($node.textContent))
 		#foreach($entry in $map.entrySet()) 
 			#set($ne_s = "#uri_with_fragment('Concept' $entry.getKey())")
-			#set($coll_s = "#uri_with_fragment('Collection' entry.getValue())")
+			#set($coll_s = "#uri_with_fragment('Collection' $entry.getValue())")
 			$ne_s $is_a $Concept . 
 			$ne_s #skos('prefLabel') "$entry.getKey()" . 
 			$coll_s #skos('member') $ne_s .

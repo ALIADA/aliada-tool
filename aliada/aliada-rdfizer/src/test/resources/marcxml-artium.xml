@@ -18,6 +18,9 @@
 		<marc:datafield tag="100" ind1="0" ind2=" ">
 			<marc:subfield code="a">Malagón.</marc:subfield>
 		</marc:datafield>
+		<marc:datafield tag="130" ind1="0" ind2=" ">
+			<marc:subfield code="a">This is the uniform title</marc:subfield>
+		</marc:datafield>		
 		<marc:datafield tag="245" ind1="1" ind2="1">
 			<marc:subfield code="a">¡Cabreaos! :</marc:subfield>
 			<marc:subfield code="b">se ríen por encima de nuestras posibilidades /</marc:subfield>

@@ -71,7 +71,7 @@ public class Function {
 	 * @return the normalized string.
 	 */
 	public String normalize(final String value) {
-		return Strings.toURILocalName(value).toLowerCase();
+		return value != null ? Strings.toURILocalName(value).toLowerCase() : UUID.randomUUID().toString();
 	}
 	
 	/**
@@ -142,7 +142,6 @@ public class Function {
 	private Map<String, String> typeCache = new HashMap<String, String>();
 	
 	public String getOntologyTypeURI(final Integer id, final String term) {
-		if (true)return "IMAGE";
 		String result = typeCache.get(term);
 		if (result == null) {
 			try {
@@ -155,7 +154,7 @@ public class Function {
 					}
 				}
 			} catch(Exception exception){
-				exception.printStackTrace();
+				// Ignore
 			}
 		}
 		return result;	
@@ -195,8 +194,7 @@ public class Function {
 		return ner.detectEntities(text.toString());
 	}
 	
-	public String escape(String textContent){
-		return FmtUtils.stringEsc(textContent);
+	public String escape(final String textContent){
+		return textContent != null ? FmtUtils.stringEsc(textContent) : null;
 	}
-	
 }

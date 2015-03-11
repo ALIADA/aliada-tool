@@ -145,6 +145,10 @@ public class Validator implements Processor {
 			samples.put(jobId, sample);
 		}
 		
-		sample.read(new StringReader(triples), "http://example.org", "N-TRIPLES");
+		try {
+			sample.read(new StringReader(triples), "http://example.org", "N-TRIPLES");
+		} catch (final Exception exception) {
+			log.info(MessageCatalog._00059_UNABLE_TO_PARSE_SAMPLE, exception, triples);
+		}
 	}
 }  
