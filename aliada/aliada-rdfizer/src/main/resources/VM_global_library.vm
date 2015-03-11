@@ -58,6 +58,20 @@
 	        	#end
 	        	$actor #ecrm("P131_is_identified_by") $repository_appellation .
 	        #end	
+			#set($lang = $xpath.one("@lang", $repositoryName))
+        	#set($repository_appellation = "#uri('E82_Actor_Appellation' $value)")
+        	$repository_appellation $is_a #ecrm("E82_Actor_Appellation") .
+         	#if($lang)
+	        	$repository_appellation $P3_has_note "$value"@$lang.textContent .
+	        #else
+	        	$repository_appellation $P3_has_note "$value" .
+        	#end
+        	#if($actor == "")
+        		#set($actor = "#uri('E39_Actor' $value)")
+        		$actor $is_a #ecrm("E39_Actor") .
+	        	$owner_s $owner_p $actor .
+        	#end
+        	$actor #ecrm("P131_is_identified_by") $repository_appellation .
         #end		
         ## LEGAL BODY NAME END
     	## LEGAL BODY WEBLINK BEGIN

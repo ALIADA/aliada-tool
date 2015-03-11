@@ -781,7 +781,7 @@
 <!-- E  N  D   R U L E S   F O R   I  T  E  M    E N T I T Y  -->	
 
 
-<!-- S T A R T    R U L E S    F O R    I  T  E  M    C  O  N C  E  P  T  -->
+<!-- S T A R T    R U L E S    F O R    C  O  N C  E  P  T    E  N  T  I  T  Y -->
 
 	<bean id="concept-term"
 		class="eu.aliada.rdfizer.pipeline.format.marc.selector.AllMultipleMatches">
