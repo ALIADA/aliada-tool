@@ -8,6 +8,7 @@ package eu.aliada.rdfizer;
 import java.text.Normalizer;
 import java.text.Normalizer.Form;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -136,21 +137,26 @@ public class Function {
 		return Strings.isNotNullAndNotEmpty(value);
 	}
 	
+	private Map<String, String> typeCache = new HashMap<String, String>();
+	
 	public String getOntologyTypeURI(final Integer id, final String term) {
-		if (true) return "IMAGE";
-		try {
-			JobInstance instance = cache.getJobInstance(id);
-			if (instance != null) {
-				final String [] uris = rdfStore.getOntologyTypeURI(instance.getSparqlEndpointUrl(), instance.getSparqlUsername(), instance.getSparqlPassword(), term);
-				if (uris != null && uris.length > 0) {
-					return uris[0];
+		if (true)return "IMAGE";
+		String result = typeCache.get(term);
+		if (result == null) {
+			try {
+				JobInstance instance = cache.getJobInstance(id);
+				if (instance != null) {
+					final String [] uris = rdfStore.getOntologyTypeURI(instance.getSparqlEndpointUrl(), instance.getSparqlUsername(), instance.getSparqlPassword(), term);
+					if (uris != null && uris.length > 0) {
+						typeCache.put(term, uris[0]);
+						return uris[0];
+					}
 				}
+			} catch(Exception exception){
+				exception.printStackTrace();
 			}
-			return null;
-		} catch(Exception exception){
-			exception.printStackTrace();
-			return null;
 		}
+		return result;	
 	}
 	
 	
@@ -161,10 +167,10 @@ public class Function {
 	 * @param tag the target tag.
 	 * @param code the subfield code.
 	 * @param record the MARC record.
-	 * @return a map of named entities from the input data.
+	 * @return a map of named entities from the input data (ENTITY->TYPE).
 	 * @throws XPathExpressionException in case of XPATH failure.
 	 */
-	public Map<String, String> marcner(final String tag, final String code, final Object record) throws XPathExpressionException {
+	public Map<String, String> mner(final String tag, final String code, final Object record) throws XPathExpressionException {
 		final ImmutableNodeList list = xpath.dfs(tag, code, record);
 		final StringBuilder builder = new StringBuilder();
 		for (final Node node : list) {
@@ -172,4 +178,18 @@ public class Function {
 		}
 		return ner.detectEntities(builder.toString());
 	}
+	
+	/**
+	 * Extracts a set of named entities from the input data.
+	 * The context object is supposed to be a MARC record, so the tag/code input values are trasformed in a MARCXML XPATH.  
+	 * 
+	 * @param tag the target tag.
+	 * @param code the subfield code.
+	 * @param record the MARC record.
+	 * @return a map of named entities from the input data (ENTITY->TYPE).
+	 * @throws XPathExpressionException in case of XPATH failure.
+	 */
+	public Map<String, String> ner(final String text) {
+		return ner.detectEntities(text.toString());
+	}	
 }
