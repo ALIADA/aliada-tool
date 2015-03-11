@@ -18,6 +18,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.Node;
 
+import com.hp.hpl.jena.sparql.util.FmtUtils;
+
 import eu.aliada.rdfizer.datasource.Cache;
 import eu.aliada.rdfizer.datasource.rdbms.JobInstance;
 import eu.aliada.rdfizer.pipeline.format.xml.ImmutableNodeList;
@@ -172,4 +174,8 @@ public class Function {
 		}
 		return ner.detectEntities(builder.toString());
 	}
+	public String escape(String textContent){
+		return FmtUtils.stringEsc(textContent);
+	}
+	
 }

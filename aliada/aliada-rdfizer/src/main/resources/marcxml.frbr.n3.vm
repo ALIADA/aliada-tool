@@ -217,7 +217,7 @@ $expression_s #efrbroo('R4_carriers_provided_by') $manifestation_s .
 ##260
 #set($tagValues = $xpath.dfs("260","b",$root))
 #foreach($tagValue in $tagValues)
-	#set($value = $tagValue.textContent)
+	#set($value = $function.escape($tagValue.textContent))
 	#set($pub_exp_s = "#new_uri('F24_Publication_Expression')")
 	#set($lin_obj_s = "#new_uri('E33_Linguistic_Object')")
 	$pub_exp_s $is_a #efrbroo("F24_Publication_Expression") . 
@@ -229,7 +229,7 @@ $expression_s #efrbroo('R4_carriers_provided_by') $manifestation_s .
 #end
 #set($tagValues = $xpath.dfs("260","b",$root))
 #foreach($tagValue in $tagValues)
-	#set($value = $tagValue.textContent)
+	#set($value = $function.escape($tagValue.textContent))
 	#set($publisher_appellation_s = "#uri_with_strong_normalization('E82_Actor_Appellation' $value)")
 	#set($publisher_actor_s = "#uri_with_strong_normalization('E39_Actor' $value)")
 	#set($pub_event_s = "#new_uri('F30_Publication_Event')")
@@ -251,7 +251,7 @@ $expression_s #efrbroo('R4_carriers_provided_by') $manifestation_s .
 #end	
 #set($tagValues = $xpath.dfs("260","c",$root))
 #foreach($tagValue in $tagValues)
-	#set($value = $tagValue.textContent)
+	#set($value = $function.escape($tagValue.textContent))
 	#set($pub_exp_s = "#new_uri('F24_Publication_Expression')")
 	#set($lin_obj_s = "#new_uri('E33_Linguistic_Object')")
 	#set($pub_exp_s = "#new_uri('F24_Publication_Expression')")
