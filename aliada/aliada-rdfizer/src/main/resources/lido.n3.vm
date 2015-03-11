@@ -23,19 +23,21 @@ $main_subject #ecrm("P70i_is_documented_in") $document_s .
 ## WORK TYPE BEGIN
 #set($objectWorkTypes = $xpath.many("descriptiveMetadata/objectClassificationWrap/objectWorkTypeWrap/objectWorkType/term",$root))
 #foreach($objectWorkType in $objectWorkTypes)
-    #ontologyTypeURI($main_subject $P2_has_type $objectWorkType.textContent)
+    #ontologyTypeURI($main_subject $P2_has_type $function.escape($objectWorkType.textContent))
 #end
 ## WORK TYPE END
 ## CLASSIFICATION BEGIN
 #set($classifications = $xpath.many("descriptiveMetadata/objectClassificationWrap/classificationWrap/classification/term",$root))
 #foreach($classification in $classifications)
-	#ontologyTypeURI($main_subject $P2_has_type $classification.textContent)
+	#ontologyTypeURI($main_subject $P2_has_type $function.escape($classification.textContent))
 #end
 ## CLASSIFICATION END
+#set($notes = $xpath.many("descriptiveMetadata/objectIdentificationWrap/objectDescriptionWrap/objectDescriptionSet/descriptiveNoteValue",$root))
+#mn_it_lido_ner($notes $main_subject)
 ## OBJECT ID BEGIN
 #set($titles = $xpath.many("descriptiveMetadata/objectIdentificationWrap/titleWrap/titleSet/appellationValue",$root))
 #foreach($title in $titles)
-	#set($value = $title.textContent)
+	#set($value = $function.escape($title.textContent))
 	#set($appellation_s = "#uri('E41_Appellation' $value)")
     $appellation_s $is_a $E41_Appellation .
     $appellation_s $P3_has_note "$value" .
@@ -52,7 +54,7 @@ $main_subject #ecrm("P70i_is_documented_in") $document_s .
     #if ($address)
 		#set($E53_Place = "#ecrm('E53_Place')")
 		#set($P87_is_identified_by = "#ecrm('P87_is_identified_by')")
-		#set($value = $address.textContent)
+		#set($value = $function.escape($address.textContent))
     	#set($address_name_s = "#uri_with_strong_normalization('E44_Place_Appellation' $value)")
     	#set($address_s = "#uri_with_strong_normalization('E53_Place' $value)") 	
     	$address_name_s $is_a #ecrm("E44_Place_Appellation") .
@@ -63,7 +65,7 @@ $main_subject #ecrm("P70i_is_documented_in") $document_s .
 ##  	
         #set($coordinates = $xpath.one("gml/Point/pos", $repositoryLocation))
         #if($coordinates)
-    		#set($lat_lon = $function.asList($coordinates.textContent.trim().split(" ")))
+    		#set($lat_lon = $function.asList($function.escape($coordinates.textContent.trim().split(" "))))
 			#if($lat_lon && $lat_lon.size() == 2)
 				$address_s #wgs("lat") "$lat_lon.get(0)"^^<http://www.w3.org/2001/XMLSchema#double> .
 				$address_s #wgs("long") "$lat_lon.get(1)"^^<http://www.w3.org/2001/XMLSchema#double> . 
@@ -74,7 +76,7 @@ $main_subject #ecrm("P70i_is_documented_in") $document_s .
 		#set($E44_Place_Appellation = "#ecrm('E44_Place_Appellation')")
 		#set($P89i_contains = "#ecrm('P89i_contains')")
 		#foreach ($place in $places)
-			#set($value = $place.textContent)
+			#set($value = $function.escape($place.textContent))
 			#set($place_appellation_s = "#uri('E44_Place_Appellation' $value)")
 			#set($place_s = "#uri('E53_Place' $value)")	
 			$place_appellation_s $is_a $E44_Place_Appellation .
@@ -91,14 +93,14 @@ $main_subject #ecrm("P70i_is_documented_in") $document_s .
 #foreach($objectMeasurementsSet in $objectMeasurementsSets)
 	#set($displayObjectMeasurements = $xpath.one("displayObjectMeasurements", $objectMeasurementsSet))
 	#if ($displayObjectMeasurements)
-		$main_subject $P3_has_note "$displayObjectMeasurements.textContent" . 
+		$main_subject $P3_has_note "$function.escape($displayObjectMeasurements.textContent)" . 
 	#end	
 	#set($E58_Measurement_Unit = "#ecrm('E58_Measurement_Unit')")
 	#set($E54_Dimension = "#ecrm('E54_Dimension')")
 	#set($measurementsSets = $xpath.many("objectMeasurements/measurementsSet", $objectMeasurementsSet))
 	#foreach($measurementsSet in $measurementsSets)
 		#set($measurementUnit = $xpath.one("measurementUnit", $measurementsSet))
-		#set($m_unit = $measurementUnit.textContent)
+		#set($m_unit = $function.escape($measurementUnit.textContent))
 		#if ($measurementUnit)
 			#set($unit_s = "#uri('E58_Measurement_Unit' $m_unit)")
 			$unit_s $is_a $E58_Measurement_Unit . 
@@ -107,12 +109,12 @@ $main_subject #ecrm("P70i_is_documented_in") $document_s .
 		#set($measurementType = $xpath.one("measurementType", $measurementsSet))
 		#set($measurementValue = $xpath.one("measurementValue", $measurementsSet))					
 		#if($measurementType && $measurementValue)
-			#set($m_type = $measurementType.textContent)
+			#set($m_type = $function.escape($measurementType.textContent))
 			#set($type_s = "#new_uri('E54_Dimension')")
 			$type_s $is_a $E54_Dimension . 
 			$type_s $P3_has_note "$m_type" . 
 			$type_s #ecrm("P91_has_unit") $unit_s . 
-			$type_s #ecrm("P90_has_value") "$measurementValue.textContent" .
+			$type_s #ecrm("P90_has_value") "$function.escape($measurementValue.textContent)" .
 			$main_subject #ecrm("P43_has_dimension") $type_s .	
 		#end	
 	#end	
@@ -134,14 +136,14 @@ $main_subject #ecrm("P70i_is_documented_in") $document_s .
 		#set($displaysActorInRole = $xpath.many("displayActorInRole", $actor))
 		#if($event_type_s)
     		#foreach($displayLabel in $displaysActorInRole)
-				$event_type_s $P3_has_note "$displayLabel.textContent" . 
+				$event_type_s $P3_has_note "$function.escape($displayLabel.textContent)" . 
     		#end	
 		#end	
 		#set($actorInRole = $xpath.one("actorInRole", $actor))
 		#set($actor = $xpath.one("actorInRole/actor", $actor))
 		#set($actor_identifiers = $xpath.many("actorID[@type='local']", $actor))
 		#foreach($actor_identifier in $actor_identifiers)
-			#set($value = $actor_identifier.textContent)
+			#set($value = $function.escape($actor_identifier.textContent))
 			#set($id_s = "#uri('E42_Identifier' $value)")
 			#if(!$author_s || $author_s == "")
 				#set($author_s = "#uri('E39_Actor' $value)")
@@ -154,7 +156,7 @@ $main_subject #ecrm("P70i_is_documented_in") $document_s .
 		#end	
 		#set($actor_identifiers = $xpath.many("actorID[@type='URI' and @source='VIAF']", $actor))
 		#foreach($actor_identifier in $actor_identifiers)
-			#set($value = $actor_identifier.textContent)
+			#set($value = $function.escape($actor_identifier.textContent))
 			#set($id_s = "#uri_with_fragment('E42_Identifier' $value)")
 			#if(!$author_s || $author_s == "")
 				#set($author_s = "#uri_with_fragment('E39_Actor' $value)")
@@ -169,7 +171,7 @@ $main_subject #ecrm("P70i_is_documented_in") $document_s .
  			$event_type_s #ecrm('P11_had_participant') $author_s .
     		#set($actor_names = $xpath.many("nameActorSet/appellationValue[@pref='preferred']", $actor))
     		#foreach($actor_name in $actor_names)
-    			#set($value = $actor_name.textContent)
+    			#set($value = $function.escape($actor_name.textContent))
     			#set($actor_name_s = "#uri('E82_Actor_Appellation' $value)")
     			$actor_name_s $is_a #ecrm("E82_Actor_Appellation") . 
     			$actor_name_s $P3_has_note "$value" .
@@ -177,7 +179,7 @@ $main_subject #ecrm("P70i_is_documented_in") $document_s .
     		#end 	
     		#set($actor_nationalities = $xpath.many("nationalityActor/term",$actor))
     		#foreach($nationality in $actor_nationalities)
-    			#set($value = $nationality.textContent)
+    			#set($value = $function.escape($nationality.textContent))
     			#set($nationality_s = "#uri('E82_Actor_Appellation' $value)")
     			#set($group_s = "#uri('E74_Group' $value)")
     			$nationality_s $is_a #ecrm('E82_Actor_Appellation') . 
@@ -205,7 +207,7 @@ $main_subject #ecrm("P70i_is_documented_in") $document_s .
 			#end
     		#set($actor_roles = $xpath.many("roleActor/term",$actorInRole))
     		#foreach($actor_role in $actor_roles)
-    			#set($value = $actor_role.textContent)
+    			#set($value = $function.escape($actor_role.textContent))
     			$author_s $P3_has_note "$value" .
     		#end
 		#end	
@@ -217,7 +219,7 @@ $main_subject #ecrm("P70i_is_documented_in") $document_s .
 		#set($displayDate = $xpath.many("displayDate", $date))
 		#if($event_type_s)
     		#foreach($displayLabel in $displayDate)
-				$event_type_s $P3_has_note "$displayLabel.textContent" . 
+				$event_type_s $P3_has_note "$function.escape($displayLabel.textContent)" . 
     		#end	
 		#end
 		#set($earliest_date = $xpath.value("date/earliestDate",$date))
@@ -243,7 +245,7 @@ $main_subject #ecrm("P70i_is_documented_in") $document_s .
 		#set($displayMaterialsTech = $xpath.many("displayMaterialsTech", $material))
 		#if($event_type_s)
     		#foreach($displayMaterial in $displayMaterialsTech)
-				$event_type_s $P3_has_note "$displayMaterial.textContent" . 
+				$event_type_s $P3_has_note "$function.escape($displayMaterial.textContent)" . 
     		#end	
 		#end
 	#end	
@@ -254,7 +256,7 @@ $main_subject #ecrm("P70i_is_documented_in") $document_s .
 ## RIGHT WORK START
 #set($credit_lines = $xpath.many("administrativeMetadata/rightsWorkWrap/rightsWorkSet/creditLine", $root))
 #foreach($credit_line in $credit_lines)
-	#set($value = $credit_line.textContent)
+	#set($value = $function.escape($credit_line.textContent))
 	#set($credit_line_s = "#uri('E30_Right' $value)")
 	$credit_line_s $is_a #ecrm('E30_Right') . 
 	$credit_line_s $P3_has_note "$value" . 
@@ -267,7 +269,7 @@ $main_subject #ecrm("P70i_is_documented_in") $document_s .
 	#set($recordID = $xpath.one("recordID", $recordWrap))
 	#if($recordID)
 		## RECORD ID START
-		#set($value = $recordID.textContent)
+		#set($value = $function.escape($recordID.textContent))
 		#set($record_document_s = "#uri('E31_Document' $value)")
 		#set($record_identifier_s = "#uri('E42_Identifier' $value)")
 		$record_identifier_s $is_a #ecrm('E42_Identifier') . 
@@ -294,8 +296,8 @@ $main_subject #ecrm("P70i_is_documented_in") $document_s .
 		## INFO LINK START
 		#set($recordInfoLinks = $xpath.many("recordInfoSet/recordInfoLink",$recordWrap))
 		#foreach($recordInfoLink in $recordInfoLinks)
-			#set($value = $recordInfoLink.textContent)
-			#set($link_s = "#uri('E36_Visual_Item' $recordID.textContent)")
+			#set($value = $function.escape($recordInfoLink.textContent))
+			#set($link_s = "#uri('E36_Visual_Item' $function.escape($recordID.textContent))")
 			$link_s $is_a #ecrm('E36_Visual_Item') . 
 			$link_s $P2_has_type #aliada('HTMLrepresentation') . 
 			$link_s $P3_has_note "$value" . 
@@ -311,7 +313,7 @@ $main_subject #ecrm("P70i_is_documented_in") $document_s .
 	#set($resourceID = $xpath.one("resourceID", $resource))
 	#if($resourceID)
 		## RESOURCE ID START
-		#set($resource_id = $resourceID.textContent)
+		#set($resource_id = $function.escape($resourceID.textContent))
 		#set($resource_id_s = "#uri('E36_Visual_Item' $resource_id)")
 		#set($resource_identifier_s = "#uri('E42_Identifier' $resource_id)")
 		$resource_identifier_s $is_a #ecrm('E42_Identifier') . 
@@ -323,7 +325,7 @@ $main_subject #ecrm("P70i_is_documented_in") $document_s .
 		## RESOURCE REPRESENTATION START
 		#set($linkResources = $xpath.many("resourceRepresentation/linkResource",$resource))
 		#foreach($linkResource in $linkResources)
-			#set($linkResourceText = $linkResource.textContent)
+			#set($linkResourceText = $function.escape($linkResource.textContent))
 			#set($uri = "#uri('E75_Conceptual_Object_Appellation' $resource_id)")
 			$uri $is_a #ecrm('E75_Conceptual_Object_Appellation') . 
 			$uri $P3_has_note "$linkResourceText" . 
@@ -337,7 +339,7 @@ $main_subject #ecrm("P70i_is_documented_in") $document_s .
 		## RESOURCE TYPE START
 		#set($resourceType = $xpath.one("resourceType", $resource))
 		#if($resourceType)
-			$resource_id_s $P2_has_type #aliada($resourceType.textContent) . 
+			$resource_id_s $P2_has_type #aliada($function.escape($resourceType.textContent)) . 
 		#end 	
 		## RESOURCE TYPE END
 		## RIGHTS RESOURCES START
@@ -348,7 +350,7 @@ $main_subject #ecrm("P70i_is_documented_in") $document_s .
 			$resource_id_s #ecrm('P104_is_subject_to') $right_s . 
 			#set($creditLine = $xpath.one("creditLine", $rightsResource))
 			#if($creditLine)
-				$right_s $P3_has_note "$creditLine.textContent" .
+				$right_s $P3_has_note "$function.escape($creditLine.textContent)" .
 			#end	
 			#set($rightsTypes = $xpath.many("rightsType", $rightsResource))
 			#foreach($rightsType in $rightsTypes)
@@ -356,14 +358,14 @@ $main_subject #ecrm("P70i_is_documented_in") $document_s .
 				#if ($conceptID)
 					#set($term = $xpath.one("term",$rightsType))			
 					#if ($term)
-						#set($termText = $term.textContent)
+						#set($termText = $function.escape($term.textContent))
 						#set($type_s = "#uri('E55_Type' $termText)")
 						$type_s $is_a #ecrm('E55_Type') . 
 						$right_s $P2_has_type $type_s . 
 						#set($conceptual_appellation_s = "#uri('E75_Conceptual_Object_Appellation' $termText)")
 						#set($information_object_s = "#uri('E73_Information_Object' $termText)")
 						$conceptual_appellation_s $is_a #ecrm('E75_Conceptual_Object_Appellation') . 
-						$conceptual_appellation_s $P3_has_note "$conceptID.textContent" . 
+						$conceptual_appellation_s $P3_has_note "$function.escape($conceptID.textContent)" . 
 						$information_object_s $is_a #ecrm('E73_Information_Object') . 
 						$information_object_s $P2_has_type #aliadaconcept('web_resource') . 
 						$information_object_s #ecrm('P149_is_identified_by') $conceptual_appellation_s . 
