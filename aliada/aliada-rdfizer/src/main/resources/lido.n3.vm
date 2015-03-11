@@ -23,19 +23,21 @@ $main_subject #ecrm("P70i_is_documented_in") $document_s .
 ## WORK TYPE BEGIN
 #set($objectWorkTypes = $xpath.many("descriptiveMetadata/objectClassificationWrap/objectWorkTypeWrap/objectWorkType/term",$root))
 #foreach($objectWorkType in $objectWorkTypes)
-    #ontologyTypeURI($main_subject $P2_has_type $function.escape($function.escape($objectWorkType.textContent)))
+    #ontologyTypeURI($main_subject $P2_has_type $function.escape($objectWorkType.textContent))
 #end
 ## WORK TYPE END
 ## CLASSIFICATION BEGIN
 #set($classifications = $xpath.many("descriptiveMetadata/objectClassificationWrap/classificationWrap/classification/term",$root))
 #foreach($classification in $classifications)
-	#ontologyTypeURI($main_subject $P2_has_type $function.escape($function.escape($classification.textContent)))
+	#ontologyTypeURI($main_subject $P2_has_type $function.escape($classification.textContent))
 #end
 ## CLASSIFICATION END
+#set($notes = $xpath.many("descriptiveMetadata/objectIdentificationWrap/objectDescriptionWrap/objectDescriptionSet/descriptiveNoteValue",$root))
+#mn_it_lido_ner($notes $main_subject)
 ## OBJECT ID BEGIN
 #set($titles = $xpath.many("descriptiveMetadata/objectIdentificationWrap/titleWrap/titleSet/appellationValue",$root))
 #foreach($title in $titles)
-	#set($value = $function.escape($function.escape($title.textContent)))
+	#set($value = $function.escape($title.textContent))
 	#set($appellation_s = "#uri('E41_Appellation' $value)")
     $appellation_s $is_a $E41_Appellation .
     $appellation_s $P3_has_note "$value" .

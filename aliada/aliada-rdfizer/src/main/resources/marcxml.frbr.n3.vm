@@ -1,3 +1,4 @@
+#set($Concept = "#skos('Concept')")
 #set($work_s = "#uri('F1_Work' $frbr.workID)")
 #set($expression_s = "#uri('F2_Expression' $frbr.expressionID)")
 #set($manifestation_s = "#uri('F3_Manifestation_Product_Type' $frbr.manifestationID)")
@@ -30,7 +31,9 @@
 
 
 $work_s $is_a #efrbroo('F1_Work') . 
+$work_s $is_a #ecrm("E89_PropositionalObject") . 
 $expression_s $is_a #efrbroo('F2_Expression') . 
+$expression_s $is_a #efrbroo('E89_PropositionalObject') .
 $expression_s $is_a #ecrm('E33_Linguistic_Object') . 
 $manifestation_s $is_a #efrbroo('F3_Manifestation_Product_Type') . 
 $work_s #efrbroo('R40_has_representative_expression') $expression_s . 
@@ -116,7 +119,8 @@ $expression_s #efrbroo('R4_carriers_provided_by') $manifestation_s .
 #mapping_with_repeatable_tag_four_entities($xpath.dfs("255","g",$root) $work_s "E27_Site" "E53_Place" "E47_Spatial_Coordinates" "#ecrm('E27_Site')" "#ecrm('E53_Place')" "#ecrm('E47_Spatial_Coordinates')" "#ecrm('P129_is_about')" "#ecrm('P59i_is_located_on_or_within')" "#ecrm('P87_is_identified_by')" )
 #defined_mapping_with_repeatable_tag_to_date_relation( "600" "f" $root $F27_Work_Conception "F27_Work_Conception" $R16i_was_initiated_by $work_s) 
 #mapping_with_repeatable_tag_three_entities($xpath.dfs("600","r",$root) $expression_s "F13_Identifier" "E90_Symbolic_Object" $F13_Identifier $E90_Symbolic_Object $P1_is_identified_by "#efrbroo('R8_consists_of')")
-
+#wk_exp_ner("522" "a" $root $work_s)
+#wk_exp_ner("525" "a" $root $work_s)
 
 ## MANIFESTATION
 #set($controlNumber = $xpath.cf("001",$root))
@@ -208,11 +212,10 @@ $expression_s #efrbroo('R4_carriers_provided_by') $manifestation_s .
 #simplest_mapping_with_no_repeatable_tag($expression_s "240" "l" $root "E56_Language" "#ecrm('E56_Language')" "#ecrm('P72_has_language')")
 #simplest_mapping_with_no_repeatable_tag($expression_s "243" "l" $root "E56_Language" "#ecrm('E56_Language')" "#ecrm('P72_has_language')")
 #simplest_mapping_with_no_repeatable_tag($expression_s "600" "l" $root "E56_Language" "#ecrm('E56_Language')" "#ecrm('P72_has_language')")
-
-
 #simplest_mapping_with_repeatable_tag ($expression_s "516" "a" $root "E55_Type" $E55_Type $P2_has_type)
 
-
+#wk_exp_ner("520" "a" $root $expression_s)
+#wk_exp_ner("520" "b" $root $expression_s)
 
 ##260
 #set($tagValues = $xpath.dfs("260","b",$root))

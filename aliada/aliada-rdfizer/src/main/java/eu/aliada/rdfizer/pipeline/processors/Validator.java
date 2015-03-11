@@ -30,6 +30,7 @@ import eu.aliada.rdfizer.datasource.rdbms.ValidationMessage;
 import eu.aliada.rdfizer.datasource.rdbms.ValidationMessageRepository;
 import eu.aliada.rdfizer.log.MessageCatalog;
 import eu.aliada.rdfizer.mx.InMemoryJobResourceRegistry;
+import eu.aliada.rdfizer.pipeline.format.xml.NullObject;
 import eu.aliada.rdfizer.rest.JobResource;
 import eu.aliada.shared.log.Log;
 
@@ -82,6 +83,12 @@ public class Validator implements Processor {
 		if (configuration == null) {
 			log.error(MessageCatalog._00038_UNKNOWN_JOB_ID, jobId);
 			throw new IllegalArgumentException(String.valueOf(jobId));
+		}
+		
+		// Sanity check: if previous processor didn't put a valid data object in the body
+		// the conversion chain for this record must stop here
+		if (exchange.getIn().getBody() instanceof NullObject) {
+			return;
 		}
 		
 		final Integer triggerSize = exchange.getIn().getHeader(Constants.SAMPLE_SIZE, Integer.class);
@@ -138,6 +145,10 @@ public class Validator implements Processor {
 			samples.put(jobId, sample);
 		}
 		
-		sample.read(new StringReader(triples), "http://example.org", "N-TRIPLES");
+		try {
+			sample.read(new StringReader(triples), "http://example.org", "N-TRIPLES");
+		} catch (final Exception exception) {
+			log.info(MessageCatalog._00059_UNABLE_TO_PARSE_SAMPLE, exception, triples);
+		}
 	}
 }  

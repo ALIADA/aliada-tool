@@ -63,5 +63,6 @@ public interface MessageCatalog {
 	String _00056_VALIDATION_OK = LT + MODULE_NAME + "-00056> : Job id %s has been successfully validated...";
 	String _00057_VALIDATION_KO = LT + MODULE_NAME + "-00057> : Job id %s validation detected one or more violations (see below or in the database)";
 	String _00058_VALIDATION_MSG = LT + MODULE_NAME + "-00058> : Job id %s validation failure: %s (Type = %s)";
+	String _00059_UNABLE_TO_PARSE_SAMPLE = LT + MODULE_NAME + "-00059> : Unable to parse sample triple \n %s";
 	
 }

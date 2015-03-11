@@ -34,6 +34,7 @@ import com.hp.hpl.jena.query.ResultSet;
 import com.hp.hpl.jena.rdf.model.Resource;
 import com.hp.hpl.jena.graph.Triple;
 import com.hp.hpl.jena.rdf.model.ResourceFactory;
+import com.hp.hpl.jena.sparql.engine.http.QueryEngineHTTP;
 
 import eu.aliada.shared.log.Log;
 import eu.aliada.shared.log.MessageCatalog;
@@ -312,25 +313,36 @@ public class RDFStoreDAO {
 						"where {?type a <http://www.w3.org/2004/02/skos/core#Concept> . " +
 						"?type <http://www.w3.org/2004/02/skos/core#prefLabel> ?label . " +
 						"FILTER regex(str(?label), \"^" + typeLabel + "$\")}";
-	  	ArrayList<String> typesList = new ArrayList<String>();
-	 	try {
+		final ArrayList<String> typesList = new ArrayList<String>();
+		QueryExecution qexec = null;
+		try {
 	        // Execute the query and obtain results
-	        QueryExecution qexec = QueryExecutionFactory.sparqlService(
-	        		sparqlEndpointURI, 
+	  		qexec = QueryExecutionFactory.sparqlService(
+	  				sparqlEndpointURI, 
 	        		QueryFactory.create(query), 
 					auth(sparqlEndpointURI, user, password));
-            ResultSet results = qexec.execSelect() ;
-            while (results.hasNext())
-            {
-            	QuerySolution soln = results.nextSolution() ;
-            	Resource resType = soln.getResource("type");
-        		String type = resType.getURI();
+            
+	        if (qexec instanceof QueryEngineHTTP) {
+	        	((QueryEngineHTTP)qexec).setTimeout(1000L, 1000L);
+	        }
+	        
+	        final ResultSet results = qexec.execSelect() ;
+            while (results.hasNext()) {
+            	final QuerySolution soln = results.nextSolution() ;
+            	final Resource resType = soln.getResource("type");
+        		final String type = resType.getURI();
         		typesList.add(type);
             }
-	        qexec.close() ;
-	      } catch (Exception exception) {
-			LOGGER.error(MessageCatalog._00035_SPARQL_FAILED, exception, query);
-		}
+	  	} catch (Exception exception) {
+	  		LOGGER.error(MessageCatalog._00035_SPARQL_FAILED, exception, query);
+	  	} finally {
+	  		try {
+				qexec.close();
+			} catch (Exception e) {
+				// Ignore
+			}
+	  	}
+	 	
 		if (typesList.isEmpty()) {
 			return new String[0];
 		}
