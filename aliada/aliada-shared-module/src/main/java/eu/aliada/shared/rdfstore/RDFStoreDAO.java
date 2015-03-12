@@ -222,8 +222,8 @@ public class RDFStoreDAO {
 		//Execute SPARQL
 		//done = executeUpdateQuerySparqlEndpoint(sparqlEndpointURI, user, password, loadDataSPARQL);
 		try {
-			FileInputStream fTriples = new FileInputStream(triplesFilename);
-			BufferedReader inTriples = new BufferedReader(new InputStreamReader(fTriples));
+			final FileInputStream fTriples = new FileInputStream(triplesFilename);
+			final BufferedReader inTriples = new BufferedReader(new InputStreamReader(fTriples));
 			String line;
 			String triples = "";
 			int numTriples = 0;
@@ -455,6 +455,33 @@ public class RDFStoreDAO {
 				auth(sparqlEndpointURI, user, password))
 			.execute();
 	}	
+
+	/**
+	 * It executes a SELECT SPARQL query on the SPARQL endpoint.
+	 *
+	 * @param sparqlEndpointURI		the SPARQL endpoint URI.  
+	 * @param graphName 			the graphName, null in case of default graph.
+	 * @param user					the user name for the SPARQl endpoint.
+	 * @param password				the password for the SPARQl endpoint.
+	 * @param query					the query to use to look for the resources.
+	 * @return the {@link com.hp.hpl.jena.query.ResultSet} of the SELECT SPARQL query.
+	 * @since 2.0
+	 */
+	public ResultSet executeSelect(final String sparqlEndpointURI, final String graphName, final String user, final String password, final String query) {
+		ResultSet results = null;
+	 	try {
+	        // Execute the query and obtain results
+	        QueryExecution qexec = QueryExecutionFactory.sparqlService(
+	        		sparqlEndpointURI, 
+	        		QueryFactory.create(query), 
+					auth(sparqlEndpointURI, user, password));
+            results = qexec.execSelect() ;
+	        qexec.close() ;
+	      } catch (Exception exception) {
+			LOGGER.error(MessageCatalog._00035_SPARQL_FAILED, exception, query);
+		}
+	 	return results;
+	}
 
 	/**
 	 * Builds a SPARQL INSERT with the given data.
