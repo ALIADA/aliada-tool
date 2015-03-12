@@ -7,15 +7,10 @@ package eu.aliada.rdfizer.pipeline.format.lido;
  
 import static eu.aliada.shared.Strings.isNullOrEmpty;
 
-import java.util.List;
-
 import javax.xml.xpath.XPathExpressionException;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.w3c.dom.Attr;
 import org.w3c.dom.Element;
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.Node;
 
 import eu.aliada.rdfizer.datasource.Cache;
 import eu.aliada.rdfizer.datasource.rdbms.JobInstance;

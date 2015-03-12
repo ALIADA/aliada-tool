@@ -70,10 +70,10 @@ public class NERService {
 			return EMPTY_MAP;
 		}
 		
-		String labeledText = classifiers.get().classifyWithInlineXML(text);
-		Set<String> tags = classifiers.get().labels();
-		String background = classifiers.get().backgroundSymbol();
-		StringBuilder tagPattern = new StringBuilder();
+		final String labeledText = classifiers.get().classifyWithInlineXML(text);
+		final Set<String> tags = classifiers.get().labels();
+		final String background = classifiers.get().backgroundSymbol();
+		final StringBuilder tagPattern = new StringBuilder();
 		
 		if (tags == null || tags.isEmpty()) {
 			return EMPTY_MAP;
@@ -83,9 +83,11 @@ public class NERService {
 			if (background.equals(tag)) {
 				continue;
 			}
+			
 			if (tagPattern.length() > 0) {
 				tagPattern.append('|');
 			}
+			
 			tagPattern.append(tag);
 		}
 
@@ -116,7 +118,6 @@ public class NERService {
 			}
 			m = startPattern.matcher(finalText);
 		}
-		
 		return result;
 	}
 }

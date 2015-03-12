@@ -111,7 +111,13 @@ public class Validator implements Processor {
 		}
 	}
 	
-	public void validate(final JobResource resource, final Exchange exchange) throws RDFOutputValidationException {
+	/**
+	 * Validates the collected sample.
+	 * 
+	 * @param resource the Job resource representation (i.e. the sample owner).
+	 * @param exchange the current exchange.
+	 */
+	public void validate(final JobResource resource, final Exchange exchange) {
 		log.info(MessageCatalog._00055_VALIDATING, resource.getID());
 
 		resource.markAsValidated();
@@ -134,6 +140,12 @@ public class Validator implements Processor {
         }		
 	}
 	
+	/**
+	 * Collects the given triples sample.
+	 * 
+	 * @param jobId the job identifier.
+	 * @param triples the sample triples.
+	 */
 	synchronized void collectSample(final Integer jobId, final String triples) {
 		if (triples == null) {
 			return;

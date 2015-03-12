@@ -31,12 +31,7 @@ import eu.aliada.rdfizer.rest.JobResource;
 import eu.aliada.shared.log.Log;
 
 /**
- * A simple processor that sizes the (XML) incoming stream.
- * This is important as first step of each processing because we need to know in advance how many
- * records compose a job.
- * 
- * At the end of the counting job, this processor updates the management interface of the 
- * target job, so monitoring can be done in a more efficient way.
+ * A processor that captures and collect the (XML) incoming stream.
  * 
  * @author Andrea Gazzarini
  * @since 1.0
