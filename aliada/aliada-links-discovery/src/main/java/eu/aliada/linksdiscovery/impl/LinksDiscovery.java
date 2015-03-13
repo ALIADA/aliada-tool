@@ -17,6 +17,8 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.File;
 import java.io.IOException;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.util.Calendar;
 
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -106,7 +108,7 @@ public class LinksDiscovery {
 			final BufferedWriter out = new BufferedWriter(fstream);
 			// Execute system command "crontab -l"
 			final String command = String.format(CRONTAB_LIST_COMMAND, cronUser);
-/*	    	try {
+	    	try {
 		    	String line = null;
 		    	final Process crontabList = Runtime.getRuntime().exec(command);
 		    	final BufferedReader stdInput = new BufferedReader(new InputStreamReader(crontabList.getInputStream()));
@@ -117,7 +119,7 @@ public class LinksDiscovery {
 	    	} catch (IOException exception) {
 		    	crontabFilename = null;
 		    	LOGGER.error(MessageCatalog._00033_EXTERNAL_PROCESS_START_FAILURE, exception, command);
-		    }*/
+		    }
 	    	out.close();
 		} catch (IOException exception) {
 			LOGGER.error(MessageCatalog._00034_FILE_CREATION_FAILURE, exception, crontabFilename);
