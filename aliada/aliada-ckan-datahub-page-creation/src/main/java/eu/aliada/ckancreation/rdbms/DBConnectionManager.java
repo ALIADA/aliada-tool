@@ -18,8 +18,6 @@ import java.sql.SQLException;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.sql.Blob;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import eu.aliada.ckancreation.log.MessageCatalog;
 import eu.aliada.ckancreation.model.Job;
@@ -53,7 +51,7 @@ public class DBConnectionManager {
 	 * Constructor. 
 	 * Creates the DDBB connection.
 	 *
-	 * @since 1.0
+	 * @since 2.0
 	 */
 	public DBConnectionManager() {
 		getNewConnection();
@@ -82,7 +80,7 @@ public class DBConnectionManager {
 	/**
 	 * Closes the DDBB connection.
 	 *
-	 * @since 1.0
+	 * @since 2.0
 	 */
 	public void closeConnection() {
 		try {
@@ -96,7 +94,7 @@ public class DBConnectionManager {
 	 * Returns the DDBB connection.
 	 *
 	 * @return	the DDBB connection.
-	 * @since 1.0
+	 * @since 2.0
 	 */
 	public Connection getConnection() {
 		try {

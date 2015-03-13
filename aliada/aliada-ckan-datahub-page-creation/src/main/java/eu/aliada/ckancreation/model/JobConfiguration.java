@@ -150,7 +150,7 @@ public class JobConfiguration {
 	 * Returns the path of the temporary directory for creating temporary files.
 	 * 
 	 * @return The path of the temporary directory for creating temporary files.
-	 * @since 1.0
+	 * @since 2.0
 	 */
 	public String getTmpDir() {
 		return tmpDir;
@@ -159,7 +159,7 @@ public class JobConfiguration {
 	 * Sets the path of the temporary directory for creating temporary files.
 	 * 
 	 * @param tmpDir The path of the temporary directory for creating temporary files.
-	 * @since 1.0
+	 * @since 2.0
 	 */
 	public void setTmpDir(final String tmpDir) {
 		this.tmpDir = tmpDir;
@@ -287,7 +287,7 @@ public class JobConfiguration {
 	 * Returns the Aliada ontology URI.
 	 * 
 	 * @return The Aliada ontology URI.
-	 * @since 1.0
+	 * @since 2.0
 	 */
 	public String getOntologyUri() {
 		return ontologyUri;
@@ -296,7 +296,7 @@ public class JobConfiguration {
 	 * Sets the Aliada ontology URI.
 	 * 
 	 * @param ontologyUri The Aliada ontology URI.
-	 * @since 1.0
+	 * @since 2.0
 	 */
 	public void setOntologyUri(final String ontologyUri) {
 		this.ontologyUri = ontologyUri;
@@ -496,7 +496,7 @@ public class JobConfiguration {
 	 * Returns the dataset short description.
 	 * 
 	 * @return The dataset short description.
-	 * @since 1.0
+	 * @since 2.0
 	 */
 	public String getDatasetDesc() {
 		return datasetDesc;
@@ -505,7 +505,7 @@ public class JobConfiguration {
 	 * Sets the dataset short description.
 	 * 
 	 * @param datasetDesc The dataset short description.
-	 * @since 1.0
+	 * @since 2.0
 	 */
 	public void setDatasetDesc(final String datasetDesc) {
 		this.datasetDesc = datasetDesc;
@@ -515,7 +515,7 @@ public class JobConfiguration {
 	 * Returns the dataset long description.
 	 * 
 	 * @return The dataset long description.
-	 * @since 1.0
+	 * @since 2.0
 	 */
 	public String getDatasetLongDesc() {
 		return datasetLongDesc;
@@ -524,7 +524,7 @@ public class JobConfiguration {
 	 * Sets the dataset long description.
 	 * 
 	 * @param datasetLongDesc The dataset long description.
-	 * @since 1.0
+	 * @since 2.0
 	 */
 	public void setDatasetLongDesc(final String datasetLongDesc) {
 		this.datasetLongDesc = datasetLongDesc;
@@ -534,7 +534,7 @@ public class JobConfiguration {
 	 * Returns the dataset Public Sparql endpoint.
 	 * 
 	 * @return The dataset Public Sparql endpoint.
-	 * @since 1.0
+	 * @since 2.0
 	 */
 	public String getPublicSparqlEndpointUri() {
 		return publicSparqlEndpointUri;
@@ -543,7 +543,7 @@ public class JobConfiguration {
 	 * Sets the dataset Public Sparql endpoint.
 	 * 
 	 * @param publicSparqlEndpointUri The dataset Public Sparql endpoint.
-	 * @since 1.0
+	 * @since 2.0
 	 */
 	public void setPublicSparqlEndpointUri(final String publicSparqlEndpointUri) {
 		this.publicSparqlEndpointUri = publicSparqlEndpointUri;
@@ -611,7 +611,7 @@ public class JobConfiguration {
 	 * entry in the request headers. i.e. Name-based virtual hosting.
 	 * 
 	 * @return The address of the virtual host.
-	 * @since 1.0
+	 * @since 2.0
 	 */
 	public String getVirtualHost() {
 		return virtualHost;
@@ -621,7 +621,7 @@ public class JobConfiguration {
 	 * entry in the request headers. i.e. Name-based virtual hosting.
 	 * 
 	 * @param virtualHost The address of the virtual host.
-	 * @since 1.0
+	 * @since 2.0
 	 */
 	public void setVirtualHost(final String virtualHost) {
 		this.virtualHost = virtualHost;

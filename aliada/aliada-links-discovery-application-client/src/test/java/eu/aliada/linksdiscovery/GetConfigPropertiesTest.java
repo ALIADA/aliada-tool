@@ -1,8 +1,8 @@
 // ALIADA - Automatic publication under Linked Data paradigm
 //          of library and museum data
 //
-// Component: aliada-links-discovery
-// Responsible: ALIADA Consortiums
+// Component: aliada-links-discovery-application-client
+// Responsible: ALIADA Consortium
 package eu.aliada.linksdiscovery;
 
 import eu.aliada.linksdiscovery.impl.LinkingProcess;

@@ -1,7 +1,7 @@
 // ALIADA - Automatic publication under Linked Data paradigm
 //          of library and museum data
 //
-// Component: aliada-links-discovery
+// Component: aliada-ckan-datahub-page-creation
 // Responsible: ALIADA Consortiums
 package eu.aliada.ckancreation;
 
@@ -20,7 +20,7 @@ import org.junit.Test;
  * Test {@link CKANCreation} class functions
  * 
  * @author Idoia Murua
- * @since 1.0
+ * @since 2.0
  */
 public class calculateDatasetNumTriplesTest {
 	/** For creating random variable values. */
@@ -31,7 +31,7 @@ public class calculateDatasetNumTriplesTest {
     /**
      * Test the calculateDatasetNumTriples method.
      * 
-     * @since 1.0
+     * @since 2.0
      */
     @Test
     public void testCalculateDatasetNumTriples() {
@@ -53,7 +53,7 @@ public class calculateDatasetNumTriplesTest {
 	 * Returns a random identifier (as integer).
 	 * 
 	 * @return a random identifier (as integer).
-     * @since 1.0
+     * @since 2.0
 	 */
 	public static Integer randomIdentifier() {
 		return RANDOMIZER.nextInt();
@@ -63,7 +63,7 @@ public class calculateDatasetNumTriplesTest {
 	 * Creates a dummy job configuration. 
 	 * 
 	 * @return a dummy job configuration.
-     * @since 1.0
+     * @since 2.0
 	 */
 	public static JobConfiguration newJobConfiguration() {
 		final JobConfiguration job = new JobConfiguration();
@@ -85,7 +85,7 @@ public class calculateDatasetNumTriplesTest {
 	 * Creates a dummy subset list. 
 	 * 
 	 * @return a dummy subset list.
-     * @since 1.0
+     * @since 2.0
 	 */
 	public static  ArrayList<Subset> newSubsetList() {
 		ArrayList<Subset> subsetsList = new ArrayList<Subset>();

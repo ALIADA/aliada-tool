@@ -24,7 +24,7 @@ public class DumpFileInfo {
 	 * Returns the file path of the graph dump.
 	 * 
 	 * @return The file path of the graph dump.
-	 * @since 1.0
+	 * @since 2.0
 	 */
 	public String getDumpFilePath() {
 		return dumpFilePath;
@@ -33,7 +33,7 @@ public class DumpFileInfo {
 	 * Sets the file path of the graph dump.
 	 * 
 	 * @param dumpFilePath The file path of the graph dump.
-	 * @since 1.0
+	 * @since 2.0
 	 */
 	public void setDumpFilePath(final String dumpFilePath) {
 		this.dumpFilePath = dumpFilePath;
@@ -43,7 +43,7 @@ public class DumpFileInfo {
 	 * Returns the file URL of the graph dump.
 	 * 
 	 * @return The file URL of the graph dump.
-	 * @since 1.0
+	 * @since 2.0
 	 */
 	public String getDumpFileUrl() {
 		return dumpFileUrl;
@@ -52,7 +52,7 @@ public class DumpFileInfo {
 	 * Sets the file URL of the graph dump.
 	 * 
 	 * @param dumpFileUrl The file URL of the graph dump.
-	 * @since 1.0
+	 * @since 2.0
 	 */
 	public void setDumpFileUrl(final String dumpFileUrl) {
 		this.dumpFileUrl = dumpFileUrl;

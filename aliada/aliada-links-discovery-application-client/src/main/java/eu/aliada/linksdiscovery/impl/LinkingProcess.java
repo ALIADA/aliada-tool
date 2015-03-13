@@ -1,14 +1,14 @@
 // ALIADA - Automatic publication under Linked Data paradigm
 //          of library and museum data
 //
-// Component: aliada-links-discovery
+// Component: aliada-links-discovery-application-client
 // Responsible: ALIADA Consortium
 package eu.aliada.linksdiscovery.impl;
 
 import eu.aliada.linksdiscovery.log.MessageCatalog;
-import eu.aliada.shared.rdfstore.RDFStoreDAO;
+import eu.aliada.linksdiscovery.model.JobConfiguration;
+import eu.aliada.linksdiscovery.model.SubjobConfiguration;
 import eu.aliada.shared.log.Log;
-import de.fuberlin.wiwiss.silk.Silk;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -18,9 +18,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
 import java.util.Properties;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -28,18 +26,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
-import java.util.Iterator;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
-
 
 /**
  * Links discovery process which uses SILK library for discovering links. 
@@ -68,37 +54,18 @@ public class LinkingProcess {
 	private String dbUsername;
 	/** DDBB connection password. */
 	private String dbPassword;
-	/** DDBB connection driver class namee. */
+	/** DDBB connection driver class name. */
 	private String dbDriverClassName;
 	/** DDBB connection URL. */
 	private String dbURL;
 	/** DDBB connection. */
 	private Connection conn;
+	/** Subjob name, which includes external dataset name. */
+	private String subjobName;
 	/** XML configuration file name for SILK. */
 	private String linkingXMLConfigFilename;
-	/** XML configuration file for SILK. */
-	private File linkingXMLConfigFile;
-	/** Number of threads for the SILK process. */
-	private int linkingNumThreads;
-	/** reloadSource parameter for SILK. */
-	private boolean linkingReloadSource;
-	/** reloadTarget parameter for SILK. */
-	private boolean linkingReloadTarget;
-	/* SPARQL endpoint parameters of the RDF Store*/
-	/** The URI of the SPARQL endpoint where to upload 
-	 * the files containing the triples of the generated links*/
-	private String outputURI;
-	/** The login of the SPARQL endpoint. */
-	private String outputLogin;
-	/** The password of the SPARQL endpoint. */
-	private String outputPassword;
-	/** The URI of the dataset graph to be accessed through 
-	 * the SPARQL endpoint. */
-	private String outputGraph;
 	/** Temporary folder */
 	private String tmpDir;
-	/** Names of the files containing the links */
-	private ArrayList<String> triplesFilenames;
 
 	/**
 	 * Gets the properties from a properties file.
@@ -170,15 +137,55 @@ public class LinkingProcess {
 
 
 	/**
+	 * Gets the job configuration from the DB.
+	 *
+	 * @param jobId	the job identification.
+	 * @return	the {@link eu.aliada.linksdiscovery.model.JobConfiguration}
+	 * 			which contains the configuration of the job.
+	 * @since 1.0
+	 */
+	public JobConfiguration getJobConfiguration(final Integer jobId) {
+		JobConfiguration job = null;
+		try {
+			final Statement sta = conn.createStatement();
+			final String sql = "SELECT * FROM linksdiscovery_job_instances WHERE job_id=" + jobId;
+			final ResultSet resultSet = sta.executeQuery(sql);
+			while (resultSet.next()) {
+				job = new JobConfiguration();
+				job.setId(jobId);
+				job.setInputURI(resultSet.getString("input_uri"));
+				job.setInputLogin(resultSet.getString("input_login"));
+				job.setInputPassword(resultSet.getString("input_password"));
+				job.setInputGraph(resultSet.getString("input_graph"));
+				job.setOutputURI(resultSet.getString("output_uri"));
+				job.setOutputLogin(resultSet.getString("output_login"));
+				job.setOutputPassword(resultSet.getString("output_password"));
+				job.setOutputGraph(resultSet.getString("output_graph"));
+				job.setTmpDir(resultSet.getString("tmp_dir"));
+				job.setClientAppBinDir(resultSet.getString("client_app_bin_dir"));
+				job.setClientAppBinUser(resultSet.getString("client_app_user"));
+		    }
+			resultSet.close();
+			sta.close();
+		} catch (SQLException exception) {
+			LOGGER.error(MessageCatalog._00024_DATA_ACCESS_FAILURE, exception);
+			return null;
+		}
+		return job;
+	}
+
+	/**
 	 * Gets the subjob configuration from the DDBB.
 	 *
 	 * @param jobId		the job identification.
 	 * @param subjobId	the subjob identification.
-	 * @return true if the subjob configuration has been obtained. False otherwise.
+	 * @return	the {@link eu.aliada.linksdiscovery.model.SubjobConfiguration}
+	 *			which contain the configuration of the subjob.
 	 * @since 1.0
 	 */
-	public boolean getSubjobConfiguration(final int jobId, final int subjobId) {
+	public SubjobConfiguration getSubjobConfiguration(final int jobId, final int subjobId) {
 		//Get subjob properties from DDBB
+		SubjobConfiguration subjobConf = null;
 		boolean found = false;
 		try {
 			final Statement sta = conn.createStatement();
@@ -186,41 +193,37 @@ public class LinkingProcess {
 			final ResultSet resultSet = sta.executeQuery(sql);
 			while (resultSet.next()) {
 				found = true;
+				subjobName = resultSet.getString("name");
 	    		linkingXMLConfigFilename = resultSet.getString("config_file");
-	    		linkingNumThreads = resultSet.getInt("num_threads");
-	    		linkingReloadSource = resultSet.getBoolean("reload_source");
-	    		linkingReloadTarget = resultSet.getBoolean("reload_target");
 	    		tmpDir = resultSet.getString("tmp_dir");
-	    		outputURI = resultSet.getString("output_uri");
-	    		outputLogin = resultSet.getString("output_login");
-	    		outputPassword = resultSet.getString("output_password");
-	    		outputGraph = resultSet.getString("output_graph");
-	    		//Verify that the XML configuration file for SILK really exists
-	    		try{
-	    			linkingXMLConfigFile = new File(linkingXMLConfigFilename);
-	    			if (!linkingXMLConfigFile.exists()){
-	    				LOGGER.error(MessageCatalog._00031_FILE_NOT_FOUND, linkingXMLConfigFilename);
-	    				resultSet.close();
-	    				sta.close();
-	    				return false;
-	    			}
-	    		}catch (Exception exception) {
-    				LOGGER.error(MessageCatalog._00031_FILE_NOT_FOUND, exception, linkingXMLConfigFilename);
-    				resultSet.close();
-    				sta.close();
-	    			return false;
-	    		}
+				subjobConf = new SubjobConfiguration();
+				subjobConf.setId(resultSet.getInt("subjob_id"));
+				subjobConf.setName(resultSet.getString("name"));
+				subjobConf.setLinkingXMLConfigFilename(resultSet.getString("config_file"));
+				subjobConf.setDs("ALIADA_ds");
+				subjobConf.setLinkingNumThreads(resultSet.getInt("num_threads"));
+				final int reloadSource = resultSet.getInt("reload_source");
+				if(reloadSource == 1) {
+					subjobConf.setLinkingReloadSource(true);
+				} else {
+					subjobConf.setLinkingReloadSource(false);
+				}
+				final int reloadTarget = resultSet.getInt("reload_target");
+				if(reloadTarget == 1) {
+					subjobConf.setLinkingReloadTarget(true);
+				} else {
+					subjobConf.setLinkingReloadTarget(false);
+				}
 		    }
 			resultSet.close();
 			sta.close();
 		} catch (SQLException exception) {
 			LOGGER.error(MessageCatalog._00024_DATA_ACCESS_FAILURE, exception);
-			return false;
 		}
 		if(!found){
 			LOGGER.error(MessageCatalog._00067_SUBJOB_CONFIGURATION_NOT_FOUND, jobId, subjobId);
 		}
-		return found;
+		return subjobConf;
 	}
     
 	/**
@@ -338,92 +341,6 @@ public class LinkingProcess {
 			}
 		}
   		return true;
-	}
-
-	/**
-	 * Obtain triples generated output files names from XML config file,
-	 * generated by SILK.
-	 *
-	 * @return	triples generated output files names from XML config file,
-	 * 			generated by SILK.
-	 * @since 1.0
-	 */
-	public ArrayList<String> getTriplesFilenames(){
-		//Obtain triples generated output files names from XML config file 
-		triplesFilenames = new ArrayList<String>();
-		try {
-			//Read XML file
-			final DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-			final DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-			final Document doc = dBuilder.parse(linkingXMLConfigFile);		 
-			doc.getDocumentElement().normalize();
-	
-			//Get <Output> nodes
-			final NodeList outputList = doc.getElementsByTagName("Output");
-			for (int outputInd = 0; outputInd < outputList.getLength(); outputInd++) {
-				final Node outputNode = outputList.item(outputInd);
-				if (outputNode.getNodeType() == Node.ELEMENT_NODE) {
-					final Element outputElem = (Element) outputNode;
-					final String typeValue = outputElem.getAttribute("type");
-					//Check if <Output type="file"> 
-					if("file".equalsIgnoreCase(typeValue)){
-						//Get <Param> nodes
-						final NodeList paramList = outputElem.getElementsByTagName("Param");
-						for (int paramInd = 0; paramInd < paramList.getLength(); paramInd++) {
-							final Node paramNode = paramList.item(paramInd);
-							if (paramNode.getNodeType() == Node.ELEMENT_NODE) {
-								final Element paramElem = (Element) paramNode;
-								final String nameValue = paramElem.getAttribute("name");
-								//Check if <Param name="file" ...>
-								if("file".equalsIgnoreCase(nameValue)){
-									//Get the name of the file
-									triplesFilenames.add(paramElem.getAttribute("value"));
-								}
-							}
-						}
-					}
-
-				}
-			}
-	
-		} catch (ParserConfigurationException exception) {
-			LOGGER.error(MessageCatalog._00062_XML_FILE_PARSING_FAILURE, exception, linkingXMLConfigFilename);
-		} catch (SAXException exception) {
-			LOGGER.error(MessageCatalog._00062_XML_FILE_PARSING_FAILURE, exception, linkingXMLConfigFilename);
-		} catch (IOException exception) {
-			LOGGER.error(MessageCatalog._00062_XML_FILE_PARSING_FAILURE, exception, linkingXMLConfigFilename);
-		}
-		
-		return triplesFilenames;
-	}
-
-	/**
-	 * Gets the number of links generated by SILK.
-	 * This number is obtained by counting the number of triples generated 
-	 * in the SILK outputs files.
-	 *
-	 * @return	the number of links generated by SILK.
-	 * @since 1.0
-	 */
-	public int getNumLinks(){
-		int numLinks = 0;
-		getTriplesFilenames();
-		for (final Iterator<String> iter = triplesFilenames.iterator(); iter.hasNext();  ) {
-			final String triplesFilename = iter.next();
-			try{
-				final BufferedReader bufferReader = new BufferedReader(new FileReader(triplesFilename));
-				while (bufferReader.readLine() != null) {
-				   numLinks++;
-				}
-				LOGGER.info(MessageCatalog._00061_NUM_GENERATED_LINKS, numLinks);
-				bufferReader.close();
-			} catch(FileNotFoundException exception) {
-				LOGGER.error(MessageCatalog._00031_FILE_NOT_FOUND, triplesFilename);
-		   	} catch(IOException exception) {
-				LOGGER.error(MessageCatalog._00032_BAD_FILE, exception, triplesFilename);
-		    }
-		}
-		return numLinks;
 	}
 
 	/**
@@ -552,7 +469,14 @@ public class LinkingProcess {
 			}
 			//Get subjob properties from DDBB
 			lProcess.LOGGER.debug(MessageCatalog._00064_GET_PROPERTIES_FROM_DDBB, job, subjob);
-			if(!lProcess.getSubjobConfiguration(job, subjob)){
+			final JobConfiguration jobConf = lProcess.getJobConfiguration(job);
+			if(jobConf == null){
+				lProcess.closeDDBBConnection();
+				lProcess.LOGGER.info(MessageCatalog._00059_STOPPING);
+				System.exit(2);
+			}
+			final SubjobConfiguration subjobConf = lProcess.getSubjobConfiguration(job, subjob);
+			if(subjobConf == null){
 				lProcess.closeDDBBConnection();
 				lProcess.LOGGER.info(MessageCatalog._00059_STOPPING);
 				System.exit(2);
@@ -564,25 +488,19 @@ public class LinkingProcess {
 				lProcess.LOGGER.info(MessageCatalog._00059_STOPPING);
 				System.exit(2);
 			}
-			//Execute SILK
-			lProcess.LOGGER.info(MessageCatalog._00053_SILK_STARTING, lProcess.linkingXMLConfigFile, lProcess.linkingNumThreads, lProcess.linkingReloadSource, lProcess.linkingReloadTarget);
-			try {
-				Silk.executeFile(lProcess.linkingXMLConfigFile, (String) null, lProcess.linkingNumThreads, lProcess.linkingReloadSource, lProcess.linkingReloadTarget);
-			} catch (Exception exception){
-				lProcess.LOGGER.error(MessageCatalog._00054_SILK_EXCEPTION, exception);
-			}
-			lProcess.LOGGER.info(MessageCatalog._00055_SILK_FINISHED, lProcess.linkingXMLConfigFile, lProcess.linkingNumThreads, lProcess.linkingReloadSource, lProcess.linkingReloadTarget);
-			//Check the number of generated links
-			lProcess.LOGGER.debug(MessageCatalog._00060_VALIDATING_NUM_GENERATED_LINKS, lProcess.linkingXMLConfigFile);
-			final int numLinks = lProcess.getNumLinks();
-			//Upload generated links to RDF store
-			final RDFStoreDAO rdfstoreDAO = new RDFStoreDAO();
-			lProcess.LOGGER.debug(MessageCatalog._00068_UPLOADING_GENERATED_LINKS);
-			for (final Iterator<String> iter = lProcess.triplesFilenames.iterator(); iter.hasNext();  ) {
-				final String triplesFilename = iter.next();
-				if(!rdfstoreDAO.loadDataIntoGraphBySparql(triplesFilename, lProcess.outputURI, lProcess.outputLogin, lProcess.outputPassword, lProcess.outputGraph)) {
-					lProcess.LOGGER.error(MessageCatalog._00069_TRIPLES_FILE_UPLOAD_ERROR, triplesFilename);
-				}
+			int numLinks = 0;
+			//Check if the external dataset is one of the ones that do not provide a SPARQL endpoint.
+			if(lProcess.subjobName.toUpperCase().contains("LOBID") || 
+					lProcess.subjobName.toUpperCase().contains("VIAF") ||
+					lProcess.subjobName.toUpperCase().contains("CONGRESS") ||
+					lProcess.subjobName.toUpperCase().contains("OPEN")) {
+				//Search using the specific API provided
+				final SpecificAPIDataset specificAPIDataset = new SpecificAPIDataset();
+				numLinks = specificAPIDataset.searchProcess(jobConf, subjobConf);
+			} else {
+				//Provides a SPARQL endpoint, so SILK is used 
+				final SPARQLDataset sparqlDataset = new SPARQLDataset();
+				numLinks = sparqlDataset.searchProcess(jobConf, subjobConf);
 			}
 			//Update subjob end_date, num_links of DDBB
 			lProcess.LOGGER.debug(MessageCatalog._00056_UPDATING_SUBJOB_DDBB, job, subjob);

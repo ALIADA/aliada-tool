@@ -1,7 +1,7 @@
 // ALIADA - Automatic publication under Linked Data paradigm
 //          of library and museum data
 //
-// Component: aliada-linked-data-server
+// Component: aliada-ckan-datahub-page-creation
 // Responsible: ALIADA Consortium
 package eu.aliada.ckancreation.model;
 

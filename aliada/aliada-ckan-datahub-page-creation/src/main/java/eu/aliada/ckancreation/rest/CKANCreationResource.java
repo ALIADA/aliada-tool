@@ -32,7 +32,7 @@ import eu.aliada.shared.log.Log;
  * REST services definition for aliada-ckan-datahub-page-creation.
  *
  * @author Idoia Murua
- * @since 1.0
+ * @since 2.0
  */
 @Path("/")
 public class CKANCreationResource {
@@ -52,7 +52,7 @@ public class CKANCreationResource {
 	 * 
 	 * @param id the job identifier associated with this instance.
 	 * @return a response which includes the info of the new job.
-	 * @since 1.0
+	 * @since 2.0
 	 */
 	@POST
 	@Path("/jobs")
@@ -98,7 +98,7 @@ public class CKANCreationResource {
 	 * 
 	 * @param id the job identifier associated with this instance.
 	 * @return a response which includes the info of the job.
-	 * @since 1.0
+	 * @since 2.0
 	 */
 	@GET
 	@Path("/jobs/{jobid}")

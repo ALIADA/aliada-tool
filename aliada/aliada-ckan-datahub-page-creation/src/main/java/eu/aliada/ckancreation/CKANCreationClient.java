@@ -57,7 +57,7 @@ public class CKANCreationClient {
 	 * GET /links-discovery/jobs/<jobid>
 	 *
 	 * @param jobid the job identifier.
-	 * @since 1.0
+	 * @since 2.0
 	 */
 	public void getJob(final Integer jobid){
 		//Convert integer to string

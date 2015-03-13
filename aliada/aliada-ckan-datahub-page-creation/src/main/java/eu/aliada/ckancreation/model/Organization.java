@@ -11,6 +11,12 @@ import java.util.HashMap;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 
+/**
+ * Organization information.
+ * 
+ * @author Idoia Murua
+ * @since 2.0
+ */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Organization {
 

@@ -1,7 +1,7 @@
 // ALIADA - Automatic publication under Linked Data paradigm
 //          of library and museum data
 //
-// Component: aliada-links-discovery
+// Component: aliada-links-discovery-application-client
 // Responsible: ALIADA Consortium
 package eu.aliada.linksdiscovery.log;
 
@@ -43,4 +43,11 @@ public interface MessageCatalog {
 	String _00067_SUBJOB_CONFIGURATION_NOT_FOUND = LT + MODULE_NAME + "-00067> : Unable to find a configuration for creating a subjob with job_id %s, subjob_id %d.";	
 	String _00068_UPLOADING_GENERATED_LINKS = LT + MODULE_NAME + "-00068> : Uploading the generated links in triples files to the RDF store.";
 	String _00069_TRIPLES_FILE_UPLOAD_ERROR = LT + MODULE_NAME + "-00069> : The triples file %s with the generated links could not be uploaded.";
+
+
+	String _00080_RDFSTORE_FAILURE = LT + MODULE_NAME + "-00080> : RDF Store failure has been detected. See below for further details.";
+	String _00082_OBJECT_CONVERSION_FAILURE = LT + MODULE_NAME + "-00082> : Error converting object.";
+	String _00083_SPECIFICAPI_STARTING = LT + MODULE_NAME + "-00083> : Starting search in %s external dataset.";
+	String _00084_SPECIFICAPI_FINISHED = LT + MODULE_NAME + "-00084> : Finished search in %s external dataset.";
+
 }

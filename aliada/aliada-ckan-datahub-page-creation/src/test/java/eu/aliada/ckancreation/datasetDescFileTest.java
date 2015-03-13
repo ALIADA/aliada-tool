@@ -1,7 +1,7 @@
 // ALIADA - Automatic publication under Linked Data paradigm
 //          of library and museum data
 //
-// Component: aliada-links-discovery
+// Component: aliada-ckan-datahub-page-creation
 // Responsible: ALIADA Consortiums
 package eu.aliada.ckancreation;
 
@@ -20,7 +20,7 @@ import org.junit.Test;
  * Test {@link DatasetDescFile} class functions
  * 
  * @author Idoia Murua
- * @since 1.0
+ * @since 2.0
  */
 public class datasetDescFileTest {
 	/** For creating random variable values. */
@@ -31,7 +31,7 @@ public class datasetDescFileTest {
     /**
      * Test the encodeParams method.
      * 
-     * @since 1.0
+     * @since 2.0
      */
     @Test
     public void testdDatasetDescFile() {
@@ -55,7 +55,7 @@ public class datasetDescFileTest {
 	 * Returns a random identifier (as integer).
 	 * 
 	 * @return a random identifier (as integer).
-     * @since 1.0
+     * @since 2.0
 	 */
 	public static Integer randomIdentifier() {
 		return RANDOMIZER.nextInt();
@@ -65,7 +65,7 @@ public class datasetDescFileTest {
 	 * Creates a dummy job configuration. 
 	 * 
 	 * @return a dummy job configuration.
-     * @since 1.0
+     * @since 2.0
 	 */
 	public static ArrayList<DumpFileInfo> newDatasetDumpFileInfoList() {
 		final ArrayList<DumpFileInfo> datasetDumpFileInfoList = new ArrayList<DumpFileInfo>();  
@@ -84,7 +84,7 @@ public class datasetDescFileTest {
 	 * Creates a dummy job configuration. 
 	 * 
 	 * @return a dummy job configuration.
-     * @since 1.0
+     * @since 2.0
 	 */
 	public static JobConfiguration newJobConfiguration() {
 		final JobConfiguration job = new JobConfiguration();

@@ -14,8 +14,6 @@ import eu.aliada.linksdiscovery.model.SubjobConfiguration;
 import eu.aliada.linksdiscovery.rdbms.DBConnectionManager;
 
 import java.io.BufferedWriter;
-import java.io.InputStreamReader;
-import java.io.BufferedReader;
 import java.io.FileWriter;
 import java.io.File;
 import java.io.IOException;
@@ -108,7 +106,7 @@ public class LinksDiscovery {
 			final BufferedWriter out = new BufferedWriter(fstream);
 			// Execute system command "crontab -l"
 			final String command = String.format(CRONTAB_LIST_COMMAND, cronUser);
-	    	try {
+/*	    	try {
 		    	String line = null;
 		    	final Process crontabList = Runtime.getRuntime().exec(command);
 		    	final BufferedReader stdInput = new BufferedReader(new InputStreamReader(crontabList.getInputStream()));
@@ -119,7 +117,7 @@ public class LinksDiscovery {
 	    	} catch (IOException exception) {
 		    	crontabFilename = null;
 		    	LOGGER.error(MessageCatalog._00033_EXTERNAL_PROCESS_START_FAILURE, exception, command);
-		    }
+		    }*/
 	    	out.close();
 		} catch (IOException exception) {
 			LOGGER.error(MessageCatalog._00034_FILE_CREATION_FAILURE, exception, crontabFilename);
@@ -418,6 +416,7 @@ public class LinksDiscovery {
 	 */
 	public Job programLinkingProcesses(final JobConfiguration jobConf, final DBConnectionManager dbConn, final DDBBParams ddbbParams) {
 		LOGGER.debug(MessageCatalog._00030_STARTING);
+		boolean crontabModified = false; //To check whether the crontab must be executed 
 		//Update job start-date in DDBB
 		dbConn.updateJobStartDate(jobConf.getId());
 		//Get files and other parameters to generate linking processes (subjobs)
@@ -430,31 +429,49 @@ public class LinksDiscovery {
 			if (crontabFilename != null){
 				//For each linking process to schedule with crontab
 				for (int i=0; i<subjobConf.length;i++){
-					//Generate XML config file for SILK
-					LOGGER.debug(MessageCatalog._00037_CREATE_LINKING_XML_CONFIG_FILE, subjobConf[i].getId());
-					final String linkingXMLConfigFilename = createLinkingXMLConfigFile(subjobConf[i].getLinkingXMLConfigFilename(), subjobConf[i].getDs(), subjobConf[i].getName(), jobConf);
+					String linkingXMLConfigFilename = null;
+					//Check if the external dataset is one of the ones that do not provide a SPARQL endpoint.
+					if(subjobConf[i].getName().toUpperCase().contains("LOBID") || 
+							subjobConf[i].getName().toUpperCase().contains("VIAF") ||
+							subjobConf[i].getName().toUpperCase().contains("CONGRESS") ||
+							subjobConf[i].getName().toUpperCase().contains("OPEN")) {
+						linkingXMLConfigFilename = ""; //No XML config file needed
+					} else {
+						//Provides a SPARQL endpoint, so search programming a generic subprocess 
+						//Generate XML config file for SILK
+						LOGGER.debug(MessageCatalog._00037_CREATE_LINKING_XML_CONFIG_FILE, subjobConf[i].getId());
+						linkingXMLConfigFilename = createLinkingXMLConfigFile(
+								subjobConf[i].getLinkingXMLConfigFilename(), subjobConf[i].getDs(), subjobConf[i].getName(), 
+								jobConf);
+					}
 					if(linkingXMLConfigFilename != null){
 						//Generate properties file to be used by scheduled subjob
 						LOGGER.debug(MessageCatalog._00038_CREATE_LINKING_PROP_FILE, subjobConf[i].getId());
 						final String linkingPropConfigFilename = createLinkingPropConfigFile(jobConf.getTmpDir(), ddbbParams);
 						if (linkingPropConfigFilename != null){
 							LOGGER.debug(MessageCatalog._00039_INSERT_LINKING_CRONTAB_FILE, subjobConf[i].getId());
-							if(insertLinkingProcessInCrontabFile(crontabFilename, jobConf.getClientAppBinDir(), jobConf.getId(), subjobConf[i].getId(), linkingPropConfigFilename, subjobConf[i].isLinkingReloadTarget())){
+							if(insertLinkingProcessInCrontabFile(crontabFilename, jobConf.getClientAppBinDir(), 
+									jobConf.getId(), subjobConf[i].getId(), linkingPropConfigFilename, 
+									subjobConf[i].isLinkingReloadTarget())){
+								crontabModified = true;
 								//Insert job-subjob in DDBB
 								LOGGER.debug(MessageCatalog._00042_UPDATE_SUBJOB_DDBB, jobConf.getId(), subjobConf[i].getId());
 								dbConn.updateSubjobConfigFile(jobConf.getId(), subjobConf[i].getId(), linkingXMLConfigFilename);
 							}
 						}
 					}
+					
 				}
-				// Execute system command "crontab contrabfilename"
-				final String command = String.format(CRONTAB_COMMAND, jobConf.getClientAppBinUser(), crontabFilename);
-				try {
-					LOGGER.debug(MessageCatalog._00040_EXECUTING_CRONTAB);
-					Process proc = Runtime.getRuntime().exec(command);
-					proc.waitFor();
-				} catch (Exception exception) {
-					LOGGER.error(MessageCatalog._00033_EXTERNAL_PROCESS_START_FAILURE, exception, command);
+				if(crontabModified) {
+					// Execute system command "crontab contrabfilename"
+					final String command = String.format(CRONTAB_COMMAND, jobConf.getClientAppBinUser(), crontabFilename);
+					try {
+						LOGGER.debug(MessageCatalog._00040_EXECUTING_CRONTAB);
+						Process proc = Runtime.getRuntime().exec(command);
+						proc.waitFor();
+					} catch (Exception exception) {
+						LOGGER.error(MessageCatalog._00033_EXTERNAL_PROCESS_START_FAILURE, exception, command);
+					}
 				}
 				//Remove crontab file
 				File cronFile = new File(crontabFilename);

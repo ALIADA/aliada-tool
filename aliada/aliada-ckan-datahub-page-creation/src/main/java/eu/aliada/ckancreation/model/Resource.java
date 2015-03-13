@@ -9,6 +9,12 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 
+/**
+ * Resource information.
+ * 
+ * @author Idoia Murua
+ * @since 2.0
+ */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Resource {
 	/** The resource name. */
