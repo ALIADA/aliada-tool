@@ -418,7 +418,7 @@ public class RDFStoreDAO {
             	final QuerySolution soln = results.nextSolution() ;
             	final Resource sourceResType = soln.getResource("source");
             	final Resource targetResType = soln.getResource("target");
-            	final Resource relResType = soln.getResource("res");
+            	final Resource relResType = soln.getResource("rel");
         		final Triple triple = new Triple(sourceResType.asNode(), relResType.asNode(), targetResType.asNode());
         		linksList.add(triple);
             }
