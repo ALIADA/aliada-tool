@@ -21,6 +21,7 @@ import com.opensymphony.xwork2.ActionSupport;
 import eu.aliada.gui.log.MessageCatalog;
 import eu.aliada.gui.rdbms.DBConnectionManager;
 import eu.aliada.shared.log.Log;
+import eu.aliada.shared.rdfstore.RDFStoreDAO;
 
 /**
  * This class is the subsets administration.
@@ -148,36 +149,67 @@ public class SubsetsAction  extends ActionSupport{
     public String showEditSubset() {
     	HttpSession session = ServletActionContext.getRequest().getSession();
         Connection connection = null;
-        try {
-            connection = new DBConnectionManager().getConnection();
-            Statement statement = connection.createStatement();
-            ResultSet rs = statement
-                    .executeQuery("select * from aliada.subset where subset_desc='" + this.selectedSubset + "'");
-            if (rs.next()) {
-            	int subsetId = rs.getInt("subsetId");
-            	this.dataID = rs.getInt("datasetId");
-                this.subsetDescForm = rs.getString("subset_desc");
-                this.uriConceptPartForm = rs.getString("uri_concept_part");
-                this.graphUriForm = rs.getString("graph_uri");
-                this.linksGraphUriForm = rs.getString("links_graph_uri");
-                this.isqlCommandsFileSubsetForm = rs.getString("isql_commands_file_subset");
-                statement.close();
-                rs.close();
-                connection.close();
-                session.setAttribute("SubsetId", subsetId);
-                showSubsets();
-                this.showEditSubsetForm = true;
-                return SUCCESS;
-            } else {
-                addActionError(getText("subset.not.selected"));
-                statement.close();
-                rs.close();
-                connection.close();
-                showSubsets();
-                return ERROR;
-            }
-        } catch (SQLException e) {
-            logger.error(MessageCatalog._00011_SQL_EXCEPTION, e);
+        if (this.selectedSubset != null) {
+	        try {
+	            connection = new DBConnectionManager().getConnection();
+	            Statement statement = connection.createStatement();
+	            ResultSet rs = statement
+	                    .executeQuery("select * from aliada.subset where subset_desc='" + this.selectedSubset + "'");
+	            if (rs.next()) {
+	            	int subsetId = rs.getInt("subsetId");
+	            	this.dataID = rs.getInt("datasetId");
+	                this.subsetDescForm = rs.getString("subset_desc");
+	                this.uriConceptPartForm = rs.getString("uri_concept_part");
+	                this.graphUriForm = rs.getString("graph_uri");
+	                this.isqlCommandsFileSubsetForm = rs.getString("isql_commands_file_subset");
+	                statement.close();
+	                rs.close();
+	                connection.close();
+	                session.setAttribute("SubsetId", subsetId);
+	                showSubsets();
+	                setShowEditSubsetForm(true);
+	                return SUCCESS;
+	            } else {
+	            	addActionError(getText("subset.not.selected"));
+	                statement.close();
+	                rs.close();
+	                connection.close();
+	                showSubsets();
+	                return ERROR;
+	            }
+	        } catch (SQLException e) {
+	            logger.error(MessageCatalog._00011_SQL_EXCEPTION, e);
+	            showSubsets();
+	            return ERROR;
+	        }
+        } else if (getActionErrors().size() > 0) {
+        	int SubId = (int) session.getAttribute("SubsetId");
+        	try {
+	            connection = new DBConnectionManager().getConnection();
+	            Statement statement = connection.createStatement();
+	            ResultSet rs = statement
+	                    .executeQuery("select * from aliada.subset where subsetId='" + SubId + "'");
+	            if (rs.next()) {
+	            	this.dataID = rs.getInt("datasetId");
+	                this.subsetDescForm = rs.getString("subset_desc");
+	                this.uriConceptPartForm = rs.getString("uri_concept_part");
+	                this.graphUriForm = rs.getString("graph_uri");
+	                this.isqlCommandsFileSubsetForm = rs.getString("isql_commands_file_subset");
+	                statement.close();
+	                rs.close();
+	                connection.close();
+	            }
+        	 } catch (SQLException e) {
+ 	            logger.error(MessageCatalog._00011_SQL_EXCEPTION, e);
+ 	            showSubsets();
+ 	            return ERROR;
+ 	        }
+            showSubsets();
+            setShowEditSubsetForm(true);
+        	return SUCCESS;
+        } else {
+        	clearErrorsAndMessages();
+        	addActionError(getText("subset.not.selected"));
             showSubsets();
             return ERROR;
         }
@@ -193,15 +225,72 @@ public class SubsetsAction  extends ActionSupport{
     public String editSubset() {
     	HttpSession session = ServletActionContext.getRequest().getSession();
         Connection connection = null;
+        int datasetId = (int) session.getAttribute("DatasetId");
+        int subsetId = (int) session.getAttribute("SubsetId");
+        
+        if (this.subsetDescForm.trim().isEmpty()) {
+        	clearErrorsAndMessages();
+       	    addActionError(getText("descS.not.null"));
+            showSubsets();
+            return ERROR;            	 
+        }
+        
         try {
             connection = new DBConnectionManager().getConnection();
+            int di = 0;
+            String sd = "", ucp = "", gu = "", lgu = "", icfs = "";
             Statement statement = connection.createStatement();
+            ResultSet rs = statement
+                    .executeQuery("select datasetId, subset_desc, uri_concept_part, graph_uri, links_graph_uri, isql_commands_file_subset "
+                    		+ "from aliada.subset where subsetId='" + subsetId + "'");
+            if (rs.next()) {
+            	di = rs.getInt("datasetId");
+            	sd = rs.getString("subset_desc");
+            	ucp = rs.getString("uri_concept_part");
+            	gu = rs.getString("graph_uri");
+            	lgu = rs.getString("links_graph_uri");
+            	icfs = rs.getString("isql_commands_file_subset");
+            }
+            
+            if (this.dataID == di && this.subsetDescForm.equalsIgnoreCase(sd) && this.uriConceptPartForm.equalsIgnoreCase(ucp)
+            		&& this.graphUriForm.equalsIgnoreCase(gu) && this.isqlCommandsFileSubsetForm.equalsIgnoreCase(icfs)) {
+            	rs.close();
+            	statement.close();
+            	connection.close();
+           	    addActionError(getText("data.not.change"));
+                showSubsets();
+                return ERROR; 
+            }
+            
+            if (!gu.equalsIgnoreCase(this.graphUriForm)) {
+            	String seu = "", sel = "", sep = "";
+	             rs = statement
+	                     .executeQuery("select sparql_endpoint_uri, sparql_endpoint_login, sparql_endpoint_password from dataset where datasetId='" + datasetId + "'");
+	             if (rs.next()) {
+	            	 seu = rs.getString("sparql_endpoint_uri");
+	            	 sel = rs.getString("sparql_endpoint_login");
+	            	 sep = rs.getString("sparql_endpoint_password");
+	             }
+	             rs.close();
+	             RDFStoreDAO store = new RDFStoreDAO();
+	             logger.debug(MessageCatalog._00074_REMOVING_A_GRAPH, gu);
+	             store.removeGraphBySparql(seu, sel, sep, gu);
+	             logger.debug(MessageCatalog._00074_REMOVING_A_GRAPH, lgu);
+	             store.removeGraphBySparql(seu, sel, sep, lgu);
+	             lgu = this.graphUriForm + "/links";
+	             logger.debug(MessageCatalog._00072_CREATING_A_NEW_GRAPH, this.graphUriForm);
+	             store.createGraphBySparql(seu, sel, sep, this.graphUriForm);
+	             logger.debug(MessageCatalog._00073_CREATING_A_NEW_LINKS_GRAPH, lgu);
+	             store.createGraphBySparql(seu, sel, sep, lgu);
+            }
+            
+            statement = connection.createStatement();
             statement.executeUpdate("UPDATE aliada.subset set datasetId='"
                     + this.dataID + "',subset_desc='"
                     + this.subsetDescForm + "',uri_concept_part='"
                     + this.uriConceptPartForm + "',graph_uri='"
                     + this.graphUriForm + "',links_graph_uri='"
-                    + this.linksGraphUriForm + "',isql_commands_file_subset='"
+                    + lgu + "',isql_commands_file_subset='"
                     + this.isqlCommandsFileSubsetForm + "' where subsetId='"
                     + session.getAttribute("SubsetId") + "'");
             statement.close();
@@ -223,10 +312,32 @@ public class SubsetsAction  extends ActionSupport{
      * @since 1.0
      */
     public String deleteSubset() {
+    	String seu = "", sel = "", sep = "", gu = "", lgu = "";
         Connection connection = null;
         try {
             connection = new DBConnectionManager().getConnection();
             Statement statement = connection.createStatement();
+            
+            statement = connection.createStatement();
+            ResultSet rs = statement
+                    .executeQuery("select sparql_endpoint_uri, sparql_endpoint_login, sparql_endpoint_password, graph_uri, links_graph_uri"
+                    		+ " from dataset d Inner JOIN subset s on d.datasetId = s.datasetId where subset_desc = '" + getSelectedSubset() + "'");
+            if (rs.next()) {
+           	 seu = rs.getString("sparql_endpoint_uri");
+           	 sel = rs.getString("sparql_endpoint_login");
+           	 sep = rs.getString("sparql_endpoint_password");
+           	 gu = rs.getString("graph_uri");
+           	 lgu = rs.getString("links_graph_uri");
+            }
+            rs.close();
+            if (!gu.trim().isEmpty() && !lgu.trim().isEmpty()) {
+	            RDFStoreDAO store = new RDFStoreDAO();
+	            logger.debug(MessageCatalog._00074_REMOVING_A_GRAPH, gu);
+	            store.removeGraphBySparql(seu, sel, sep, gu);
+	            logger.debug(MessageCatalog._00074_REMOVING_A_GRAPH, lgu);
+	            store.removeGraphBySparql(seu, sel, sep, lgu);
+            }
+            
             int correct = statement
                     .executeUpdate("DELETE FROM aliada.subset WHERE subset_desc='" + getSelectedSubset() + "'");
             statement.close();
@@ -253,18 +364,49 @@ public class SubsetsAction  extends ActionSupport{
      * @since 1.0
      */
     public String addSubset() {
+    	
+    	 String linksGraphUri = "";
+    	 if (!this.graphUriForm.isEmpty()) {
+    		 linksGraphUri = this.graphUriForm + "/links";
+    	 }
+    	 
+    	 if (this.subsetDescForm.trim().isEmpty()) {
+        	 addActionError(getText("descS.not.null"));
+             showSubsets();
+             return ERROR;            	 
+         }
+    	 
     	 Connection connection = null;
     	 HttpSession session = ServletActionContext.getRequest().getSession();
      	 int datasetId = (int) session.getAttribute("DatasetId");
          try {
         	 connection = new DBConnectionManager().getConnection();
+        	 Statement statement = connection.createStatement();
+        	 
+        	 if (!this.graphUriForm.trim().isEmpty()) {
+            	 String seu = "", sel = "", sep = "";
+	             ResultSet rs = statement
+	                     .executeQuery("select sparql_endpoint_uri, sparql_endpoint_login, sparql_endpoint_password from dataset where datasetId='" + datasetId + "'");
+	             if (rs.next()) {
+	            	 seu = rs.getString("sparql_endpoint_uri");
+	            	 sel = rs.getString("sparql_endpoint_login");
+	            	 sep = rs.getString("sparql_endpoint_password");
+	             }
+	             rs.close();
+	             RDFStoreDAO store = new RDFStoreDAO();
+	             logger.debug(MessageCatalog._00072_CREATING_A_NEW_GRAPH, this.graphUriForm);
+	             store.createGraphBySparql(seu, sel, sep, this.graphUriForm);
+	             logger.debug(MessageCatalog._00073_CREATING_A_NEW_LINKS_GRAPH, linksGraphUri);
+	             store.createGraphBySparql(seu, sel, sep, linksGraphUri);
+             }
              
-             Statement statement = connection.createStatement();
+             statement = connection.createStatement();
              statement.executeUpdate("INSERT INTO aliada.subset (datasetId, subset_desc, uri_concept_part, "
              		+ "graph_uri, links_graph_uri, isql_commands_file_subset) VALUES (" + datasetId + ",'"
                      + this.subsetDescForm + "', '" + this.uriConceptPartForm + "', '"
-                     + this.graphUriForm + "', '" + this.linksGraphUriForm + "', '"
+                     + this.graphUriForm + "', '" + linksGraphUri + "', '"
                      + this.isqlCommandsFileSubsetForm + "')");
+             
              statement.close();
              connection.close();
              addActionMessage(getText("subset.save.ok"));
@@ -274,6 +416,9 @@ public class SubsetsAction  extends ActionSupport{
              logger.error(MessageCatalog._00011_SQL_EXCEPTION, e);
              return ERROR;
          }
+         
+         
+         
     }
 
     /**
@@ -284,6 +429,29 @@ public class SubsetsAction  extends ActionSupport{
      * @since 1.0
      */
     public String showAddSubset() {
+    	String isqlCommFileSubset = "";
+    	Connection connection = new DBConnectionManager().getConnection();
+    	String usernameLogged = (String) ServletActionContext.getRequest().getSession().getAttribute("logedUser");
+     	Statement statement;
+		try {
+			statement = connection.createStatement();
+			 ResultSet rs = statement
+	                 .executeQuery("select isql_commands_file_subset_default from aliada.organisation o "
+	                 		+ "INNER JOIN aliada.user u ON u.organisationId=o.organisationId "
+	                 		+ "where u.user_name='" + usernameLogged + "'");
+	         if (rs.next()) {
+	             isqlCommFileSubset = rs.getString("isql_commands_file_subset_default");
+	         }
+	         rs.close();
+	         statement.close();
+	         connection.close();
+		} catch (SQLException e) {
+			logger.error(MessageCatalog._00011_SQL_EXCEPTION, e);
+            return ERROR;
+		}
+		
+		setIsqlCommandsFileSubsetForm(isqlCommFileSubset);
+		
     	getDatasetsDb();
         showSubsets();
         setShowAddSubsetForm(true);

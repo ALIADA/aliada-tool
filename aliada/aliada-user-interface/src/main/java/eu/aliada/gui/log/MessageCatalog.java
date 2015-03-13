@@ -52,7 +52,12 @@ public interface MessageCatalog {
     String _00050_LINKING_JOB = LT + MODULE_NAME + "-00040> : Link discovery started";
     
     String _00060_CONVERSION_TEMPLATE_ADDED = LT + MODULE_NAME + "-00060> : Added template";
-
+    
+    String _00070_EXECUTING_ISQL = LT + MODULE_NAME + "-00070> : Executing ISQL command.";
+    String _00071_EXTERNAL_PROCESS_START_FAILURE = LT + MODULE_NAME + "-00071> : Could not launch the external process %s.";
+    String _00072_CREATING_A_NEW_GRAPH = LT + MODULE_NAME + "-00072> : Creating a new graph - %s";
+    String _00073_CREATING_A_NEW_LINKS_GRAPH = LT + MODULE_NAME + "-00073> : Creating a new links graph - %s";
+    String _00074_REMOVING_A_GRAPH = LT + MODULE_NAME + "-00074> : Removing a graph - %s";
     
     String _00100_EXCEPTION = LT + MODULE_NAME + "-00100> : Exception. See below for further details.";
     String _00101_TRANSFORMATION_EXCEPTION = LT + MODULE_NAME + "-00101> : Transformation exception. See below for further details.";

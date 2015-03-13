@@ -281,12 +281,14 @@
 		
 		<action name="showEditDatasetForm" method="showEditDataset"
 			class="eu.aliada.gui.action.DatasetsAction">
+			<interceptor-ref name="retrieveStack"/>
 			<result name="success" type="tiles">/datasets.tiles</result>
 			<result name="error" type="tiles">/datasets.tiles</result>
 		</action>
-		
+	
 		<action name="showEditSubsetForm" method="showEditSubset"
 			class="eu.aliada.gui.action.SubsetsAction">
+			<interceptor-ref name="retrieveStack"/>
 			<result name="success" type="tiles">/subsets.tiles</result>
 			<result name="error" type="tiles">/subsets.tiles</result>
 		</action>
@@ -304,9 +306,10 @@
 		
 		<action name="editDataset" method="editDataset"
 			class="eu.aliada.gui.action.DatasetsAction">
+			<interceptor-ref name="storeStack"/>
 			<result name="success" type="tiles">/datasets.tiles</result>
 			<result name="error"  type="redirectAction">
-         		<param name="actionName">showDatasets</param>
+         		<param name="actionName">showEditDatasetForm</param>
          	</result>
          	<result name="input"  type="redirectAction">
          		<param name="actionName">showEditDatasetForm</param>
@@ -315,9 +318,10 @@
 		
 		<action name="editSubset" method="editSubset"
 			class="eu.aliada.gui.action.SubsetsAction">
+			<interceptor-ref name="storeStack"/>
 			<result name="success" type="tiles">/subsets.tiles</result>
 			<result name="error"  type="redirectAction">
-         		<param name="actionName">showSubsets</param>
+         		<param name="actionName">showEditSubsetForm</param>
          	</result>
          	<result name="input"  type="redirectAction">
          		<param name="actionName">showEditSubsetForm</param>

@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="/struts-tags" prefix="html"%>
+<%@ taglib prefix="sj" uri="/struts-jquery-tags"%>
 <script>
 $(function(){
 	var areSubsets = $("#areSubsets").val();	
@@ -54,7 +55,7 @@ $(function(){
 			<html:submit action="deleteSubset" cssClass="submitButton button"
 				key="delete" />
 		</div>
-		<html:submit action="configure" cssClass="submitButton button fright"
+		<html:submit action="showDatasets" cssClass="submitButton button fright"
 			key="back" />
 	</div>
 </html:form>
@@ -92,6 +93,13 @@ $(function(){
 	</div>
 </html:form>
 
+		<sj:dialog 
+	    	id="haveCharConcept" 
+	    	openTopics="haveCharConcept"
+	    	autoOpen="false" 
+	    	title="Debes saber que...">
+	    		Puede contener "/" y puede ser un campo vacío.
+	    </sj:dialog>	
 	
 <html:form id="subsetAddForm" class="row">
 	<div id="addSubsetPanel" class="displayNo">
@@ -101,6 +109,10 @@ $(function(){
 		</div>
 		<div class="row label">
 			<html:text name="uriConceptPartForm"/>
+			<sj:a id="conceptDialoglink"
+		     	onClickTopics="haveCharConcept">
+		    		<img alt="help" src="images/info.png"></img>
+	    	</sj:a>
 			<html:textfield key="uriConceptPartForm" maxLength="128" cssClass="inputForm frigth input" />
 		</div>
 		<div class="row label">
@@ -108,13 +120,10 @@ $(function(){
 			<html:textfield key="graphUriForm" maxLength="128" cssClass="inputForm frigth input" />
 		</div>
 		<div class="row label">
-			<html:text name="linksGraphUriForm"/>
-			<html:textfield key="linksGraphUriForm" maxLength="128" cssClass="inputForm frigth input" />
-		</div>
-		<div class="row label">
 			<html:text name="isqlCommandsFileSubsetForm"/>
 			<html:textfield key="isqlCommandsFileSubsetForm" maxLength="128" cssClass="inputForm frigth input" />
 		</div>
+		<html:actionerror/>
 		<div class="buttons row">
 			<html:submit action="addSubset" cssClass="submitButton button"
 				key="save" />
@@ -144,13 +153,10 @@ $(function(){
 			<html:textfield key="graphUriForm" maxLength="128" cssClass="inputForm frigth input" />
 		</div>
 		<div class="row label">
-			<html:text name="linksGraphUriForm"/>
-			<html:textfield key="linksGraphUriForm" maxLength="128" cssClass="inputForm frigth input" />
-		</div>
-		<div class="row label">
 			<html:text name="isqlCommandsFileSubsetForm"/>
 			<html:textfield key="isqlCommandsFileSubsetForm" maxLength="128" cssClass="inputForm frigth input" />
 		</div>
+		<html:actionerror/>
 		<div class="buttons row">
 			<html:submit action="editSubset" cssClass="submitButton button"
 				key="save" />

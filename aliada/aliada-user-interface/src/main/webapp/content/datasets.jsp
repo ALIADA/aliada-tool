@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="/struts-tags" prefix="html"%>
+<%@ taglib prefix="sj" uri="/struts-jquery-tags"%>
 <script>
 $(function(){
 	var areDatasets = $("#areDatasets").val();	
@@ -87,6 +88,10 @@ $(function(){
 			<html:property value="uriConceptPartForm" />
 		</div>
 		<div class="row">
+			<label class="label"><html:text name="uriSetPartForm"/></label>
+			<html:property value="uriSetPartForm" />
+		</div>
+		<div class="row">
 			<label class="label"><html:text name="listeningHostForm"/></label>
 			<html:property value="listeningHostForm" />
 		</div>
@@ -135,12 +140,8 @@ $(function(){
 			<html:property value="licenseURLForm" />
 		</div>
 		<div class="row">
-			<label class="label"><html:text name="isqlCommandsFileGlobalForm"/></label>
-			<html:property value="isqlCommandsFileGlobalForm" />
-		</div>
-		<div class="row">
-			<label class="label"><html:text name="isqlCommandsFileSubsetDefaultForm"/></label>
-			<html:property value="isqlCommandsFileSubsetDefaultForm" />
+			<label class="label"><html:text name="isqlCommandsFileDatasetForm"/></label>
+			<html:property value="isqlCommandsFileDatasetForm" />
 		</div>
 		<div class="buttons row">
 			<html:submit action="showDatasets" cssClass="submitButton button"
@@ -148,45 +149,141 @@ $(function(){
 		</div>
 	</div>
 </html:form>
-
+		
+		<sj:dialog 
+	    	id="domName" 
+	    	openTopics="domName"
+	    	autoOpen="false" 
+	    	title="Debes saber que...">
+	    		Este dominio será configurado por el administrador de sistemas de la organización para que exista y corresponda con el puerto indicado más adelante. E.g.: data.artium.org, data.szepmuveszeti.hu .
+	    </sj:dialog>
+	    
+	    <sj:dialog 
+	    	id="listHost" 
+	    	openTopics="listHost"
+	    	autoOpen="false" 
+	    	title="Debes saber que...">
+	    		Nunca puede ser el mismo puerto que el empleado para Virtuoso en el fichero "virtuoso.ini" (8890 por defecto).
+	    </sj:dialog>
+		
+		<sj:dialog 
+	    	id="virtHost" 
+	    	openTopics="virtHost"
+	    	autoOpen="false" 
+	    	title="Debes saber que...">
+	    		Este valor será igual que el nombre del dominio.
+	    </sj:dialog>
+	    
+	    <sj:dialog 
+	    	id="noHaveChar" 
+	    	openTopics="noHaveChar"
+	    	autoOpen="false" 
+	    	title="Debes saber que...">
+	    		No puede contener "/".
+	    </sj:dialog>
+	    
+	    <sj:dialog 
+	    	id="noHaveCharDoc" 
+	    	openTopics="noHaveCharDoc"
+	    	autoOpen="false" 
+	    	title="Debes saber que...">
+	    		No puede contener "/". Puede ser un campo vacío, en cuyo caso la Uri del concepto no puede ser vacía.
+	    </sj:dialog>
+	    
+	    <sj:dialog 
+	    	id="haveCharConcept" 
+	    	openTopics="haveCharConcept"
+	    	autoOpen="false" 
+	    	title="Debes saber que...">
+	    		Puede contener "/". Puede ser un campo vacío, en cuyo caso la Uri de los documentos no puede ser vacía.
+	    </sj:dialog>
+		
+		<sj:dialog 
+	    	id="ckanId" 
+	    	openTopics="ckanId"
+	    	autoOpen="false" 
+	    	title="Debes saber que...">
+	    		Tipos de licencias para los datos publicados   <html:a href="http://opendefinition.org/licenses/" target="_blank"><img alt="help" src="images/link.png"></img></html:a>	
+	    </sj:dialog>
+	    
+	    <sj:dialog 
+	    	id="licenseUrl" 
+	    	openTopics="licenseUrl"
+	    	autoOpen="false" 
+	    	title="Debes saber que...">
+	    		Explicación de las licencias disponibles  <html:a href="https://creativecommons.org/licenses/" target="_blank"><img alt="help" src="images/link.png"></img></html:a>  	
+	    </sj:dialog>
 	
 <html:form id="datasetAddForm" class="row">
 	<div id="addDatasetPanel" class="displayNo">
+	
 		<div class="row label">
 			<html:text name="datasetDescForm"/>
 			<html:textfield key="datasetDescForm" maxLength="128" cssClass="inputForm frigth input"/>
 		</div>
 		<div class="row label">
 			<html:text name="domainNameForm"/>
+			<sj:a id="domainNameDialoglink"
+		     	onClickTopics="domName">
+		    		<img alt="help" src="images/info.png"></img>
+	    	</sj:a>
 			<html:textfield key="domainNameForm" maxLength="128"  cssClass="inputForm frigth input"/>
 		</div>
 		<div class="row label">
 			<html:text name="uriIdPartForm"/>
+			<sj:a id="idDialoglink"
+		     	onClickTopics="noHaveChar">
+		    		<img alt="help" src="images/info.png"></img>
+	    	</sj:a>
 			<html:textfield key="uriIdPartForm" maxLength="128" cssClass="inputForm frigth input" />
 		</div>
 		<div class="row label">
 			<html:text name="uriDocPartForm"/>
+			<sj:a id="docDialoglink"
+		     	onClickTopics="noHaveCharDoc">
+		    		<img alt="help" src="images/info.png"></img>
+	    	</sj:a>
 			<html:textfield key="uriDocPartForm" maxLength="128" cssClass="inputForm frigth input" />
 		</div>
 		<div class="row label">
 			<html:text name="uriDefPartForm"/>
+			<sj:a id="defDialoglink"
+		     	onClickTopics="noHaveChar">
+		    		<img alt="help" src="images/info.png"></img>
+	    	</sj:a>
 			<html:textfield key="uriDefPartForm" maxLength="128" cssClass="inputForm frigth input" />
 		</div>
 		<div class="row label">
 			<html:text name="uriConceptPartForm"/>
+			<sj:a id="conceptDialoglink"
+		     	onClickTopics="haveCharConcept">
+		    		<img alt="help" src="images/info.png"></img>
+	    	</sj:a>
 			<html:textfield key="uriConceptPartForm" maxLength="128" cssClass="inputForm frigth input" />
 		</div>
 		<div class="row label">
+			<html:text name="uriSetPartForm"/>
+			<sj:a id="setDialoglink"
+		     	onClickTopics="noHaveChar">
+		    		<img alt="help" src="images/info.png"></img>
+	    	</sj:a>
+			<html:textfield key="uriSetPartForm" maxLength="128" cssClass="inputForm frigth input" />
+		</div>
+		<div class="row label">
 			<html:text name="listeningHostForm"/>
+			<sj:a id="listeningHostDialoglink"
+		     	onClickTopics="listHost">
+		    		<img alt="help" src="images/info.png"></img>
+	    	</sj:a>
 			<html:textfield key="listeningHostForm" maxLength="128" cssClass="inputForm frigth input" />
 		</div>
 		<div class="row label">
 			<html:text name="virtualHostForm"/>
+			<sj:a id="virtualHostDialoglink"
+		     	onClickTopics="virtHost">
+		    		<img alt="help" src="images/info.png"></img>
+	    	</sj:a>
 			<html:textfield key="virtualHostForm" maxLength="128" cssClass="inputForm frigth input" />
-		</div>
-		<div class="row label">
-			<html:text name="sparqlEndpointURIForm"/>
-			<html:textfield key="sparqlEndpointURIForm" maxLength="128" cssClass="inputForm frigth input" />
 		</div>
 		<div class="row label">
 			<html:text name="sparqlEndpointLoginForm"/>
@@ -195,14 +292,6 @@ $(function(){
 		<div class="row label">
 			<html:text name="sparqlEndpointPasswordForm"/>
 			<html:textfield key="sparqlEndpointPasswordForm" maxLength="128" cssClass="inputForm frigth input" />
-		</div>
-		<div class="row label">
-			<html:text name="publicSparqlEndpointURIForm"/>
-			<html:textfield key="publicSparqlEndpointURIForm" maxLength="128" cssClass="inputForm frigth input" />
-		</div>
-		<div class="row label">
-			<html:text name="datasetAuthorForm"/>
-			<html:textfield key="datasetAuthorForm" maxLength="128" cssClass="inputForm frigth input" />
 		</div>
 		<div class="row label">
 			<html:text name="ckanDatasetNameForm"/>
@@ -218,20 +307,25 @@ $(function(){
 		</div>
 		<div class="row label">
 			<html:text name="licenseCkanIdForm"/>
+			<sj:a id="licenseCkanDialoglink"
+		     	onClickTopics="ckanId">
+		    		<img alt="help" src="images/info.png"></img>
+	    	</sj:a>
 			<html:textfield key="licenseCkanIdForm" maxLength="128" cssClass="inputForm frigth input" />
 		</div>
 		<div class="row label">
 			<html:text name="licenseURLForm"/>
+			<sj:a id="licenseUrlDialoglink"
+		     	onClickTopics="licenseUrl">
+		    		<img alt="help" src="images/info.png"></img>
+	    	</sj:a>
 			<html:textfield key="licenseURLForm" maxLength="128" cssClass="inputForm frigth input" />
 		</div>
 		<div class="row label">
-			<html:text name="isqlCommandsFileGlobalForm"/>
-			<html:textfield key="isqlCommandsFileGlobalForm" maxLength="128" cssClass="inputForm frigth input" />
+			<html:text name="isqlCommandsFileDatasetForm"/>
+			<html:textfield key="isqlCommandsFileDatasetForm" maxLength="128" cssClass="inputForm frigth input" />
 		</div>
-		<div class="row label">
-			<html:text name="isqlCommandsFileSubsetDefaultForm"/>
-			<html:textfield key="isqlCommandsFileSubsetDefaultForm" maxLength="128" cssClass="inputForm frigth input" />
-		</div>
+		<html:actionerror/>
 		<div class="buttons row">
 			<html:submit action="addDataset" cssClass="submitButton button"
 				key="save" />
@@ -268,6 +362,10 @@ $(function(){
 			<html:textfield key="uriConceptPartForm" maxLength="128" cssClass="inputForm frigth input" />
 		</div>
 		<div class="row label">
+			<html:text name="uriSetPartForm"/>
+			<html:textfield key="uriSetPartForm" maxLength="128" cssClass="inputForm frigth input" />
+		</div>
+		<div class="row label">
 			<html:text name="listeningHostForm"/>
 			<html:textfield key="listeningHostForm" maxLength="128" cssClass="inputForm frigth input" />
 		</div>
@@ -276,24 +374,12 @@ $(function(){
 			<html:textfield key="virtualHostForm" maxLength="128" cssClass="inputForm frigth input" />
 		</div>
 		<div class="row label">
-			<html:text name="sparqlEndpointURIForm"/>
-			<html:textfield key="sparqlEndpointURIForm" maxLength="128" cssClass="inputForm frigth input" />
-		</div>
-		<div class="row label">
 			<html:text name="sparqlEndpointLoginForm"/>
 			<html:textfield key="sparqlEndpointLoginForm" maxLength="128" cssClass="inputForm frigth input" />
 		</div>
 		<div class="row label">
 			<html:text name="sparqlEndpointPasswordForm"/>
 			<html:textfield key="sparqlEndpointPasswordForm" maxLength="128" cssClass="inputForm frigth input" />
-		</div>
-		<div class="row label">
-			<html:text name="publicSparqlEndpointURIForm"/>
-			<html:textfield key="publicSparqlEndpointURIForm" maxLength="128" cssClass="inputForm frigth input" />
-		</div>
-		<div class="row label">
-			<html:text name="datasetAuthorForm"/>
-			<html:textfield key="datasetAuthorForm" maxLength="128" cssClass="inputForm frigth input" />
 		</div>
 		<div class="row label">
 			<html:text name="ckanDatasetNameForm"/>
@@ -316,13 +402,10 @@ $(function(){
 			<html:textfield key="licenseURLForm" maxLength="128" cssClass="inputForm frigth input" />
 		</div>
 		<div class="row label">
-			<html:text name="isqlCommandsFileGlobalForm"/>
-			<html:textfield key="isqlCommandsFileGlobalForm" maxLength="128" cssClass="inputForm frigth input" />
+			<html:text name="isqlCommandsFileDatasetForm"/>
+			<html:textfield key="isqlCommandsFileDatasetForm" maxLength="128" cssClass="inputForm frigth input" />
 		</div>
-		<div class="row label">
-			<html:text name="isqlCommandsFileSubsetDefaultForm"/>
-			<html:textfield key="isqlCommandsFileSubsetDefaultForm" maxLength="128" cssClass="inputForm frigth input" />
-		</div>
+		<html:actionerror/>
 		<div class="buttons row">
 			<html:submit action="editDataset" cssClass="submitButton button"
 				key="save" />

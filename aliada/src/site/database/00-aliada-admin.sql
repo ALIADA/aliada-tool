@@ -328,6 +328,12 @@ ALTER TABLE `profile`
 --
 ALTER TABLE `subset`
   ADD PRIMARY KEY (`datasetId`,`subsetId`), ADD KEY `subsetId` (`subsetId`);
+  
+ALTER TABLE `subset`
+	ADD CONSTRAINT fk_name
+	    FOREIGN KEY (`datasetId`)
+	    REFERENCES `dataset` (`datasetId`)
+	    ON DELETE CASCADE;
 
 --
 -- Indices de la tabla `template`
