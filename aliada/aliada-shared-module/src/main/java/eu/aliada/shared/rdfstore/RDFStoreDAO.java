@@ -50,6 +50,8 @@ public class RDFStoreDAO {
 	private static final Log LOGGER = new Log(RDFStoreDAO.class);
 	/** HTTP authentication cache. */
 	private final Map<String, HttpAuthenticator> authCache = new HashMap<String, HttpAuthenticator>();
+	/** Maximum number of triples to in every SPARQL INSERT statement. */
+	private final int MAX_NUMBER_TRIPLES = 100;
 	
 	/**
 	 * It clears the graph in the RDF store using ISQL.
@@ -231,7 +233,7 @@ public class RDFStoreDAO {
 			    // Deal with the line
 				triples = triples + line;
 				numTriples++;
-				if(numTriples >= 10) {
+				if(numTriples >= MAX_NUMBER_TRIPLES) {
 					try {
 						LOGGER.debug(MessageCatalog._00049_DEBUG_TRIPLES, triples);
 						executeInsert(sparqlEndpointURI, graphUri, user, password, triples);
