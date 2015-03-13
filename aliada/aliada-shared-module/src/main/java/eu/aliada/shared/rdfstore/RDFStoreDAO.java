@@ -33,7 +33,6 @@ import com.hp.hpl.jena.query.QuerySolution;
 import com.hp.hpl.jena.query.ResultSet;
 import com.hp.hpl.jena.rdf.model.Resource;
 import com.hp.hpl.jena.graph.Triple;
-import com.hp.hpl.jena.rdf.model.ResourceFactory;
 import com.hp.hpl.jena.sparql.engine.http.QueryEngineHTTP;
 
 import eu.aliada.shared.log.Log;
@@ -404,9 +403,8 @@ public class RDFStoreDAO {
 	 * @since 2.0
 	 */
 	public Triple[] getDiscoveredLinks(final String sparqlEndpointURI, final String graphName, final String user, final String password) {
-		final String sameAs = "http://www.w3.org/2002/07/owl#sameAs";
 		final String query = "select * FROM <" + graphName + "> " + 
-						"where {?source <" + sameAs + "> ?target }";
+						"where {?source ?rel ?target }";
 	  	ArrayList<Triple> linksList = new ArrayList<Triple>();
 	 	try {
 	        // Execute the query and obtain results
@@ -420,8 +418,8 @@ public class RDFStoreDAO {
             	final QuerySolution soln = results.nextSolution() ;
             	final Resource sourceResType = soln.getResource("source");
             	final Resource targetResType = soln.getResource("target");
-        		Resource sameAsPred = ResourceFactory.createResource(sameAs);
-        		final Triple triple = new Triple(sourceResType.asNode(), sameAsPred.asNode(), targetResType.asNode());
+            	final Resource relResType = soln.getResource("res");
+        		final Triple triple = new Triple(sourceResType.asNode(), relResType.asNode(), targetResType.asNode());
         		linksList.add(triple);
             }
 	        qexec.close() ;
