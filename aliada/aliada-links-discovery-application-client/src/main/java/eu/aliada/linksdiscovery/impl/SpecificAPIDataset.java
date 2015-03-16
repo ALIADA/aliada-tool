@@ -47,9 +47,7 @@ public class SpecificAPIDataset {
 	protected final static String ECRM_NAMESPACE = "http://erlangen-crm.org/current/";
 	/** EFRBRoo namespace. */
 	protected final static String EFRBROO_NAMESPACE = "http://erlangen-crm.org/efrbroo/";
-	/** CIDOC-CRM P131 property. */
-	protected final static String ECRM_P131_PROP = "http://erlangen-crm.org/current/P131_is_identified_by";
-	/** CIDOC-CRM P131 property. */
+	/** owl:SameAs property. */
 	protected final static String SAMEAS_PROP = "http://www.w3.org/2002/07/owl#sameAs";
 	/** Maximum search results to use to generate the links. */
 	private static final int MAX_SEARCH_RESULTS  = 1;
@@ -125,7 +123,7 @@ public class SpecificAPIDataset {
 				+ " ?res skos:prefLabel ?text }"
 				+ "}";
 		//Properties
-		propertyNameVIAF = ECRM_P131_PROP;
+		propertyNameVIAF = SAMEAS_PROP;
 		propertyNameLOBID = SAMEAS_PROP;
 		propertyNameOpenLibr = SAMEAS_PROP;
 		propertyLCSubjectHead = SAMEAS_PROP;
