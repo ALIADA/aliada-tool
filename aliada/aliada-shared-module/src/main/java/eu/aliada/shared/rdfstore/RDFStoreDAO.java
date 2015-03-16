@@ -460,14 +460,13 @@ public class RDFStoreDAO {
 	 * It executes a SELECT SPARQL query on the SPARQL endpoint.
 	 *
 	 * @param sparqlEndpointURI		the SPARQL endpoint URI.  
-	 * @param graphName 			the graphName, null in case of default graph.
 	 * @param user					the user name for the SPARQl endpoint.
 	 * @param password				the password for the SPARQl endpoint.
 	 * @param query					the query to use to look for the resources.
 	 * @return the {@link com.hp.hpl.jena.query.ResultSet} of the SELECT SPARQL query.
 	 * @since 2.0
 	 */
-	public ResultSet executeSelect(final String sparqlEndpointURI, final String graphName, final String user, final String password, final String query) {
+	public ResultSet executeSelect(final String sparqlEndpointURI, final String user, final String password, final String query) {
 		ResultSet results = null;
 	 	try {
 	        // Execute the query and obtain results

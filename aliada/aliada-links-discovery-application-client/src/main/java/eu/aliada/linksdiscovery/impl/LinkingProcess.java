@@ -495,7 +495,7 @@ public class LinkingProcess {
 					lProcess.subjobName.toUpperCase().contains("CONGRESS") ||
 					lProcess.subjobName.toUpperCase().contains("OPEN")) {
 				//Search using the specific API provided
-				final SpecificAPIDataset specificAPIDataset = new SpecificAPIDataset();
+				final SpecificAPIDataset specificAPIDataset = new SpecificAPIDataset(jobConf.getInputGraph());
 				numLinks = specificAPIDataset.searchProcess(jobConf, subjobConf);
 			} else {
 				//Provides a SPARQL endpoint, so SILK is used 

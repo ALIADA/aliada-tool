@@ -72,38 +72,30 @@ public class SpecificAPIDataset {
 	 * 
 	 * @since 2.0
 	 */
-	public SpecificAPIDataset () {
+	public SpecificAPIDataset (final String inputGraphName) {
 		//Initialize some global variables
 		rdfstoreDAO = new RDFStoreDAO();
-		//Queries
-		queryVIAF = "PREFIX rdf: <" + RDF_NAMESPACE + ">"
+		final String queryStart = "PREFIX rdf: <" + RDF_NAMESPACE + ">"
+            	+ " PREFIX skos: <" + SKOS_NAMESPACE + ">"
             	+ " PREFIX ecrm: <" + ECRM_NAMESPACE + ">"
             	+ " PREFIX efrbroo: <" + EFRBROO_NAMESPACE + ">"
-            	+ " SELECT DISTINCT ?res ?text WHERE {" 
+            	+ " SELECT DISTINCT ?res ?text FROM <" + inputGraphName + "> WHERE {"; 
+		//Queries
+		queryVIAF = queryStart  
 				+ " {?res rdf:type ecrm:E39_Actor . ?res ecrm:P131_is_identified_by  ?apel . ?apel ecrm:P3_has_note ?text}" 
 				+ " UNION {?res rdf:type ecrm:E21_Person . ?res ecrm:P131_is_identified_by  ?apel . ?apel ecrm:P3_has_note ?text}" 
 				+ " UNION {?res rdf:type efrbroo:F10_Person . ?res ecrm:P131_is_identified_by  ?apel . ?apel ecrm:P3_has_note ?text}"
 				+ "}";	
-		queryLOBIDOrg = "PREFIX rdf: <" + RDF_NAMESPACE + ">"
-            	+ " PREFIX ecrm: <" + ECRM_NAMESPACE + ">"
-            	+ " PREFIX efrbroo: <" + EFRBROO_NAMESPACE + ">"
-            	+ " SELECT DISTINCT ?res ?text WHERE {" 
+		queryLOBIDOrg = queryStart
 				+ " {?res rdf:type ecrm:E39_Actor . ?res ecrm:P131_is_identified_by  ?apel . ?apel ecrm:P3_has_note ?text}" 
 				+ "}";	
-		queryLOBIDBibRes = "PREFIX rdf: <" + RDF_NAMESPACE + ">"
-            	+ " PREFIX ecrm: <" + ECRM_NAMESPACE + ">"
-            	+ " PREFIX efrbroo: <" + EFRBROO_NAMESPACE + ">"
-            	+ " SELECT DISTINCT ?res ?text WHERE {" 
+		queryLOBIDBibRes = queryStart
             	+ " ?res rdf:type efrbroo:F3_Manifestation_Product_Type . "
             	+ " ?res ecrm:P102_has_title ?apel . "
             	+ " ?apel ecrm:P3_has_note ?text "
             	+ "}";
 		queryOpenLibr = queryLOBIDBibRes;
-		queryLCSubjectHead = "PREFIX rdf: <" + RDF_NAMESPACE + ">"
-            	+ " PREFIX skos: <" + SKOS_NAMESPACE + ">"
-            	+ " PREFIX ecrm: <" + ECRM_NAMESPACE + ">"
-            	+ " PREFIX efrbroo: <" + EFRBROO_NAMESPACE + ">"
-            	+ " SELECT DISTINCT ?res ?text WHERE {" 
+		queryLCSubjectHead = queryStart
             	+ " {?obj rdf:type ecrm:E89_PropositionalObject . "
             	+ " ?obj ecrm:P129_is_about ?res . "
             	+ " ?res rdf:type skos:Concept . "
@@ -141,10 +133,10 @@ public class SpecificAPIDataset {
 	 * @return a list of the matched URIs.
 	 * @since 2.0
 	 */
-	public ResourceToLink[] getResourcesToLink(final String sparqlEndpointURI, final String graphName, final String user, final String password, final String query) {
+	public ResourceToLink[] getResourcesToLink(final String sparqlEndpointURI, final String user, final String password, final String query) {
 	  	ArrayList<ResourceToLink> resourcesList = new ArrayList<ResourceToLink>();
         // Execute the query and obtain results
-	  	ResultSet results = rdfstoreDAO.executeSelect(sparqlEndpointURI, graphName, user, password, query);
+	  	ResultSet results = rdfstoreDAO.executeSelect(sparqlEndpointURI, user, password, query);
 	 	if (results != null){
             while (results.hasNext())
             {
@@ -423,7 +415,7 @@ public class SpecificAPIDataset {
 		LOGGER.info(MessageCatalog._00083_SPECIFICAPI_STARTING, logExtDatasetName);
 		if((query!= null) && (propertyName!= null)) {
 			// Get the URIs of the resources to use to discover links towards external datasets.
-			ResourceToLink[] resToLink= getResourcesToLink(jobConf.getInputURI(), jobConf.getInputGraph(), jobConf.getInputLogin(), jobConf.getInputPassword(), query);
+			ResourceToLink[] resToLink= getResourcesToLink(jobConf.getInputURI(), jobConf.getInputLogin(), jobConf.getInputPassword(), query);
 			//For each resource to link, do a search in the external dataset
 			String triples = "";
 			int numInsertTriples = 0;
