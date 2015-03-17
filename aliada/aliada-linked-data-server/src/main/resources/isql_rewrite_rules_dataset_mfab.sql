@@ -1,5 +1,6 @@
 CREATE PROCEDURE associate_list_ext_rules_to_virtpath (IN create_virtual_path INTEGER, IN urrl_list_subset INTEGER, IN rules_suffix_dataset VARCHAR, IN rules_suffix VARCHAR, IN vhost VARCHAR, IN lhost VARCHAR, IN uri_doc_concept_parent VARCHAR)
 {
+--It associates LIST rules, with extension, to parent folder (if not existing, it creates the parent folder)
   DECLARE p_urrl_inx INTEGER;
   DECLARE urrl_member_1, urrl_member_2, urrl_member_3 VARCHAR;
   DECLARE p_urrl_list VARCHAR;
@@ -43,6 +44,16 @@ CREATE PROCEDURE associate_list_ext_rules_to_virtpath (IN create_virtual_path IN
     }
 };
 
+CREATE PROCEDURE replace_symbols_and_equal (IN p_rule_name VARCHAR)
+{
+--It replaces the '=' and '&' symbols in the rule definition of the rule specified as input parameter
+  DECLARE rule_def VARCHAR;
+  SELECT URR_TARGET_FORMAT INTO rule_def FROM DB.DBA.URL_REWRITE_RULE WHERE URR_RULE=p_rule_name;
+--Replace '=' and '&' symbols in rule definition
+  rule_def := REPLACE(rule_def, '%%3D', '=');
+  rule_def := REPLACE(rule_def, '%%26', '&'); 
+  UPDATE DB.DBA.URL_REWRITE_RULE SET URR_TARGET_FORMAT=rule_def WHERE URR_RULE=p_rule_name;
+};
 
 ----------------------------------------------------------------
 --Input arguments
@@ -483,4 +494,8 @@ NULL,
 '' 
 );
 
+
+replace_symbols_and_equal('http_rule_$u{rules_suffix}_Doc_no_extension_htmlvirtuoso');
+replace_symbols_and_equal('http_rule_$u{rules_suffix}_Doc_extension_html');
+replace_symbols_and_equal('http_rule_$u{rules_suffix}_Doc_extension_opac');
 associate_list_ext_rules_to_virtpath ($u{create_virtual_path}, $u{urrl_list_subset}, '$u{rules_suffix_dataset}', '$u{rules_suffix}', '$u{vhost}', '$u{lhost}', '$u{uri_doc_concept_parent}');

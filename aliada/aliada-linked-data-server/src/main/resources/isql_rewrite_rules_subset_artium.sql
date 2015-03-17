@@ -219,4 +219,8 @@ NULL,
 '' 
 );
 
+
+replace_symbols_and_equal('http_rule_$u{rules_suffix}_Doc_no_extension_htmlvirtuoso');
+replace_symbols_and_equal('http_rule_$u{rules_suffix}_Doc_extension_html');
+replace_symbols_and_equal('http_rule_$u{rules_suffix}_Doc_extension_opac');
 associate_list_ext_rules_to_virtpath ($u{create_virtual_path}, $u{urrl_list_subset}, '$u{rules_suffix_dataset}', '$u{rules_suffix}', '$u{vhost}', '$u{lhost}', '$u{uri_doc_concept_parent}');
