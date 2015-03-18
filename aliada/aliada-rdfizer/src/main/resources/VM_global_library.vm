@@ -5,21 +5,21 @@
 	#end	
 #end
 ## Generates ALIADA resource prefix
-#macro (prefix)${configuration.namespace}id/resource#end	
+#macro (prefix)${configuration.namespace}#end	
 
 #macro (value $expression)$xpath.val($expression,$root)#end
 
 ## Creates a new URI with an auto-increment local identifier.
-#macro (new_uri $kind)<#prefix/$kind/#newId>#end
+#macro (new_uri $kind)<#prefix$kind/#newId>#end
  
 ## Creates a new URI with the given literal as local name. Normalization applies.
-#macro (uri $kind $literal)<#prefix/$kind/$function.normalize(${literal})>#end
+#macro (uri $kind $literal)<#prefix$kind/$function.normalize(${literal})>#end
 
 ## Creates a new URI with the given literal as local name. Strong normalization applies.
-#macro (uri_with_strong_normalization $kind $literal)<#prefix/$kind/$function.normalizeStrong(${literal})>#end
+#macro (uri_with_strong_normalization $kind $literal)<#prefix$kind/$function.normalizeStrong(${literal})>#end
 
 ## Creates a URI with an ending fragment (the literal argument). Makes no normalization on that value. 
-#macro (uri_with_fragment $kind $literal)<#prefix/$kind/$function.uuid($literal)>#end
+#macro (uri_with_fragment $kind $literal)<#prefix$kind/$function.uuid($literal)>#end
 
 ## Creates a new (monotonically incremented) id
 #macro (newId)$function.id#end
