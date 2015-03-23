@@ -88,6 +88,13 @@ $main_subject #ecrm("P70i_is_documented_in") $document_s .
     #end    
 #end
 ## REPOSITORY LOCATION END
+## OBJECT DESCRIPTION BEGIN
+#set($descriptions = $xpath.many("descriptiveMetadata/objectIdentificationWrap/objectDescriptionWrap/objectDescriptionSet/descriptiveNoteValue",$root))
+#foreach($description in $descriptions)
+	#set($descval = $function.escape($description.textContent))
+	$main_subject $P3_has_note "$descval" .
+#end	
+## OBJECT DESCRIPTION END
 ## OBJECT MEASUREMENT START
 #set($objectMeasurementsSets = $xpath.many("descriptiveMetadata/objectIdentificationWrap/objectMeasurementsWrap/objectMeasurementsSet", $root))
 #foreach($objectMeasurementsSet in $objectMeasurementsSets)
