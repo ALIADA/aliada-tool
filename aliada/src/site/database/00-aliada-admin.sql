@@ -81,7 +81,10 @@ CREATE TABLE IF NOT EXISTS `organisation` (
   `virtuoso_http_server_root`  VARCHAR( 245 ) default NULL,
   `ckan_api_url` varchar(245) DEFAULT NULL,
   `ckan_api_key` varchar(245) DEFAULT NULL,
-  `ckan_org_url` varchar(245) DEFAULT NULL
+  `ckan_org_url` varchar(245) DEFAULT NULL,
+  `dataset_author` varchar(245) NOT NULL,
+  `isql_commands_file_dataset_creation` varchar(245) NOT NULL,
+  `aliada_tool_hostname` varchar(245) NOT NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -454,8 +457,9 @@ ALTER TABLE `template`
 --
 
 INSERT INTO `organisation` (`organisationId`,`org_name`,`org_path`,`org_catalog_url`, `org_description`,`org_home_page`, `aliada_ontology`,`tmp_dir`,`linking_client_app_bin_dir`,
-`linking_client_app_user`,`store_ip`,`store_sql_port`,`sql_login`,`sql_password`,`isql_command_path`,`isql_commands_file_dataset_default`,  `isql_commands_file_subset_default`, `isql_commands_file_graph_dump`, `virtuoso_http_server_root`, `ckan_api_url`,`ckan_api_key`) VALUES 
-(1,'artium','/usr/share/tomcat/upload/','http://aliada.artium.org', 'Basque Museum-Center of Contemporary Art', 'http://www.artium.org/', 'http://aliada-project.eu/2014/aliada-ontology#', '/home/aliada/tmp', '/home/aliada/links-discovery/bin/','linking','localhost',1111,'dba','dba','/home/virtuoso/bin/isql','/home/aliada/linked-data-server/config/isql_rewrite_rules_global.sql', '/home/aliada/linked-data-server/config/isql_rewrite_rules_subset_default.sql', '/home/aliada/ckan-datahub-page-creation/config/dump_one_graph_nt.sql', '/home/virtuoso/var/lib/virtuoso/vsp', 'http://datahub.io/api/action', '59465962-6eb1-4a06-8318-985fc4ffd1fc');
+`linking_client_app_user`,`store_ip`,`store_sql_port`,`sql_login`,`sql_password`,`isql_command_path`,`isql_commands_file_dataset_default`,  `isql_commands_file_subset_default`, 
+`isql_commands_file_graph_dump`, `virtuoso_http_server_root`, `ckan_api_url`,`ckan_api_key`,`dataset_author`,`isql_commands_file_dataset_creation`,`aliada_tool_hostname`) VALUES 
+(1,'artium','/usr/share/tomcat/upload/','http://aliada.artium.org', 'Basque Museum-Center of Contemporary Art', 'http://www.artium.org/', 'http://aliada-project.eu/2014/aliada-ontology#', '/home/aliada/tmp', '/home/aliada/links-discovery/bin/','linking','localhost',1111,'dba','dba','/home/virtuoso/bin/isql','/home/aliada/linked-data-server/config/isql_rewrite_rules_global.sql', '/home/aliada/linked-data-server/config/isql_rewrite_rules_subset_default.sql', '/home/aliada/ckan-datahub-page-creation/config/dump_one_graph_nt.sql', '/home/virtuoso/var/lib/virtuoso/vsp', 'http://datahub.io/api/action', '59465962-6eb1-4a06-8318-985fc4ffd1fc','Aliada Consortium','/home/aliada/bin/aliada_new_dataset.sql','aliada.scanbit.net');
 
 --
 -- Volcado de datos para la tabla `dataset`

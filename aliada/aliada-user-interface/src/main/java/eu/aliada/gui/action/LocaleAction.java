@@ -22,7 +22,7 @@ import eu.aliada.shared.log.Log;
 public class LocaleAction extends ActionSupport {
 
 	private static final long serialVersionUID = 1L;
-	private final Log logger = new Log(UsersAction.class);
+	private final Log logger = new Log(LocaleAction.class);
 
 	/**
 	 * @return Returns the result of the execution.

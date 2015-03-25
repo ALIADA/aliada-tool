@@ -64,6 +64,16 @@ public class DatasetsAction  extends ActionSupport{
 	private String licenseURLForm;
 	private String isqlCommandsFileDatasetForm;
 	
+	private String title;
+	private String message1;
+	private String message2;
+	private String message3;
+	private String message4;
+	private String message5;
+	private String message6;
+	private String message7;
+	private String message8;
+	
     private boolean showAddDatasetForm;
     private boolean showEditDatasetForm;
     private boolean showTheDataset;
@@ -79,6 +89,19 @@ public class DatasetsAction  extends ActionSupport{
      * @since 1.0
      */
     public String showDatasets() {
+    	
+    	ServletActionContext.getRequest().getSession().setAttribute("ConfOpc", 4);
+    	
+    	title = getText("dialog.title");
+    	message1 = getText("dataset.message1");
+    	message2 = getText("dataset.message2");
+    	message3 = getText("dataset.message3");
+    	message4 = getText("dataset.message4");
+    	message5 = getText("dataset.message5");
+    	message6 = getText("dataset.message6");
+    	message7 = getText("dataset.message7");
+    	message8 = getText("dataset.message8");
+    	
     	String usernameLogged = (String) ServletActionContext.getRequest().getSession().getAttribute("logedUser");
         Connection connection = null;
         try {
@@ -466,7 +489,7 @@ public class DatasetsAction  extends ActionSupport{
      */
     public String addDataset() {
     	
-    	 final String datasetAuthor = "Aliada Consortium";
+    	 String datasetAuthor = "", isqlCommandsFilename = "", aliadaToolHost = "";
     	 String sparqlEndpoint = "";
     	 String publicSparqlEndpoint = "";
     	 if (!this.virtualHostForm.isEmpty()) {
@@ -487,8 +510,10 @@ public class DatasetsAction  extends ActionSupport{
          	
          	Statement statement = connection.createStatement();
             ResultSet rs = statement
-                     .executeQuery("select u.organisationId, isql_command_path, store_ip, store_sql_port, sql_login, sql_password "
-                     		+ "from aliada.organisation o inner join aliada.user u ON o.organisationId = u.organisationId where user_name='" + usernameLogged + "'");
+                     .executeQuery("select u.organisationId, isql_command_path, store_ip, store_sql_port, "
+                     		+ "sql_login, sql_password, dataset_author, isql_commands_file_dataset_creation, "
+                     		+ "aliada_tool_hostname from aliada.organisation o inner join aliada.user u ON o.organisationId = u.organisationId "
+                     		+ "where user_name='" + usernameLogged + "'");
              if (rs.next()) {
                  organisationId = rs.getInt("organisationId");
                  icp = rs.getString("isql_command_path");
@@ -496,6 +521,9 @@ public class DatasetsAction  extends ActionSupport{
                  ssp = rs.getInt("store_sql_port");
                  sl = rs.getString("sql_login");
                  sp = rs.getString("sql_password");
+                 datasetAuthor = rs.getString("dataset_author");
+                 isqlCommandsFilename = rs.getString("isql_commands_file_dataset_creation");
+                 aliadaToolHost = rs.getString("aliada_tool_hostname");
              }
              if (this.datasetDescForm.trim().isEmpty()) {
             	 rs.close();
@@ -590,8 +618,6 @@ public class DatasetsAction  extends ActionSupport{
              }
              
              final String ISQL_COMMAND_FORMAT = "%s %s:%d %s %s %s -u lhost='%s' vhost='%s' aliada_tool_host='%s'";
-             final String isqlCommandsFilename = "/home/aliada/bin/aliada_new_dataset.sql";
-             final String aliadaToolHost = "aliada.scanbit.net";
              final String isqlCommand = String.format(ISQL_COMMAND_FORMAT, icp, si, ssp, sl, sp , 
             		 isqlCommandsFilename, this.listeningHostForm, this.virtualHostForm, aliadaToolHost);
              logger.debug(isqlCommand);
@@ -1184,5 +1210,157 @@ public class DatasetsAction  extends ActionSupport{
 	public void setAreDatasets(final boolean areDatasets) {
 		this.areDatasets = areDatasets;
 	}
-    
+	/**
+     * @return Returns the title.
+     * @exception
+     * @since 1.0
+     */
+	public String getTitle() {
+		return title;
+	}
+	/**
+     * @param title
+     *            The title to set.
+     * @exception
+     * @since 1.0
+     */
+	public void setTitle(final String title) {
+		this.title = title;
+	}
+	/**
+     * @return Returns the message1.
+     * @exception
+     * @since 1.0
+     */
+	public String getMessage1() {
+		return message1;
+	}
+	/**
+     * @param message1
+     *            The message1 to set.
+     * @exception
+     * @since 1.0
+     */
+	public void setMessage1(final String message1) {
+		this.message1 = message1;
+	}
+	/**
+     * @return Returns the message2.
+     * @exception
+     * @since 1.0
+     */
+	public String getMessage2() {
+		return message2;
+	}
+	/**
+     * @param message2
+     *            The message2 to set.
+     * @exception
+     * @since 1.0
+     */
+	public void setMessage2(final String message2) {
+		this.message2 = message2;
+	}
+	/**
+     * @return Returns the message3.
+     * @exception
+     * @since 1.0
+     */
+	public String getMessage3() {
+		return message3;
+	}
+	/**
+     * @param message3
+     *            The message3 to set.
+     * @exception
+     * @since 1.0
+     */
+	public void setMessage3(final String message3) {
+		this.message3 = message3;
+	}
+	/**
+     * @return Returns the message4.
+     * @exception
+     * @since 1.0
+     */
+	public String getMessage4() {
+		return message4;
+	}
+	/**
+     * @param message4
+     *            The message4 to set.
+     * @exception
+     * @since 1.0
+     */
+	public void setMessage4(final String message4) {
+		this.message4 = message4;
+	}
+	/**
+     * @return Returns the message5.
+     * @exception
+     * @since 1.0
+     */
+	public String getMessage5() {
+		return message5;
+	}
+	/**
+     * @param message5
+     *            The message5 to set.
+     * @exception
+     * @since 1.0
+     */
+	public void setMessage5(final String message5) {
+		this.message5 = message5;
+	}
+	/**
+     * @return Returns the message6.
+     * @exception
+     * @since 1.0
+     */
+	public String getMessage6() {
+		return message6;
+	}
+	/**
+     * @param message6
+     *            The message6 to set.
+     * @exception
+     * @since 1.0
+     */
+	public void setMessage6(final String message6) {
+		this.message6 = message6;
+	}
+	/**
+     * @return Returns the message7.
+     * @exception
+     * @since 1.0
+     */
+	public String getMessage7() {
+		return message7;
+	}
+	/**
+     * @param message7
+     *            The message7 to set.
+     * @exception
+     * @since 1.0
+     */
+	public void setMessage7(final String message7) {
+		this.message7 = message7;
+	}
+	/**
+     * @return Returns the message8.
+     * @exception
+     * @since 1.0
+     */
+	public String getMessage8() {
+		return message8;
+	}
+	/**
+     * @param message8
+     *            The message8 to set.
+     * @exception
+     * @since 1.0
+     */
+	public void setMessage8(final String message8) {
+		this.message8 = message8;
+	}
 }

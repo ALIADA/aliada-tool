@@ -42,8 +42,14 @@ $(function(){
 				<html:radio key="selectedProfile" cssClass="bold lPad10" list="{value}"/><br/>
 			</html:iterator>
 		</div>
-		<html:actionmessage />
-		<html:actionerror/>
+		
+		<html:if test="tab==1">
+		      <html:actionmessage/>
+		</html:if>
+		<html:if test="tab==1">
+		        <html:actionerror/>
+		</html:if>
+		
 		<html:submit action="showAddProfileForm" cssClass="submitButton button"
 			key="add" />
 		<div id="areProfilesButtons" class="displayInline">	
@@ -54,10 +60,6 @@ $(function(){
 			<html:submit action="deleteProfile" cssClass="submitButton button"
 				key="delete" />
 		</div>
-		<%-- <html:submit action="manage" cssClass="submitButton button fright"
-			key="back" /> --%>
-		<html:submit action="configure" cssClass="submitButton button fright"
-			key="back" />
 	</div>
 </html:form>
 

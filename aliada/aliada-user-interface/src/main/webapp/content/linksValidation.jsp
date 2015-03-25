@@ -42,8 +42,8 @@
 		<html:iterator value="discovLinks" var="dato">
 			<tr>
 				<td><html:checkbox id="%{value}" fieldValue="%{value}" name="val" value="false"/></td>
-				<td><html:property value="subject" /></td>
-				<td><html:property value="object" /></td>
+				<td><html:a href="%{subject}" target="_blank"><html:property value="subject" /></html:a></td>
+				<td><html:a href="%{object}" target="_blank"><html:property value="object" /></html:a></td>
 			</tr>
 		</html:iterator>
 	</table>

@@ -154,64 +154,64 @@ $(function(){
 	    	id="domName" 
 	    	openTopics="domName"
 	    	autoOpen="false" 
-	    	title="Debes saber que...">
-	    		Este dominio será configurado por el administrador de sistemas de la organización para que exista y corresponda con el puerto indicado más adelante. E.g.: data.artium.org, data.szepmuveszeti.hu .
+	    	title="%{title}">
+	    		<html:text name="message1"></html:text>
 	    </sj:dialog>
 	    
 	    <sj:dialog 
 	    	id="listHost" 
 	    	openTopics="listHost"
 	    	autoOpen="false" 
-	    	title="Debes saber que...">
-	    		Nunca puede ser el mismo puerto que el empleado para Virtuoso en el fichero "virtuoso.ini" (8890 por defecto).
+	    	title="%{title}">
+	    		<html:text name="message2"></html:text>
 	    </sj:dialog>
 		
 		<sj:dialog 
 	    	id="virtHost" 
 	    	openTopics="virtHost"
 	    	autoOpen="false" 
-	    	title="Debes saber que...">
-	    		Este valor será igual que el nombre del dominio.
+	    	title="%{title}">
+	    		<html:text name="message3"></html:text>
 	    </sj:dialog>
 	    
 	    <sj:dialog 
 	    	id="noHaveChar" 
 	    	openTopics="noHaveChar"
 	    	autoOpen="false" 
-	    	title="Debes saber que...">
-	    		No puede contener "/".
+	    	title="%{title}">
+	    		<html:text name="message4"></html:text>
 	    </sj:dialog>
 	    
 	    <sj:dialog 
 	    	id="noHaveCharDoc" 
 	    	openTopics="noHaveCharDoc"
 	    	autoOpen="false" 
-	    	title="Debes saber que...">
-	    		No puede contener "/". Puede ser un campo vacío, en cuyo caso la Uri del concepto no puede ser vacía.
+	    	title="%{title}">
+	    		<html:text name="message5"></html:text>
 	    </sj:dialog>
 	    
 	    <sj:dialog 
 	    	id="haveCharConcept" 
 	    	openTopics="haveCharConcept"
 	    	autoOpen="false" 
-	    	title="Debes saber que...">
-	    		Puede contener "/". Puede ser un campo vacío, en cuyo caso la Uri de los documentos no puede ser vacía.
+	    	title="%{title}">
+	    		<html:text name="message6"></html:text>
 	    </sj:dialog>
 		
 		<sj:dialog 
 	    	id="ckanId" 
 	    	openTopics="ckanId"
 	    	autoOpen="false" 
-	    	title="Debes saber que...">
-	    		Tipos de licencias para los datos publicados   <html:a href="http://opendefinition.org/licenses/" target="_blank"><img alt="help" src="images/link.png"></img></html:a>	
+	    	title="%{title}">
+	    		<html:text name="message7"></html:text>  <html:a href="http://opendefinition.org/licenses/" target="_blank"><img alt="help" src="images/link.png"></img></html:a>	
 	    </sj:dialog>
 	    
 	    <sj:dialog 
 	    	id="licenseUrl" 
 	    	openTopics="licenseUrl"
 	    	autoOpen="false" 
-	    	title="Debes saber que...">
-	    		Explicación de las licencias disponibles  <html:a href="https://creativecommons.org/licenses/" target="_blank"><img alt="help" src="images/link.png"></img></html:a>  	
+	    	title="%{title}">
+	    		<html:text name="message8"></html:text>  <html:a href="https://creativecommons.org/licenses/" target="_blank"><img alt="help" src="images/link.png"></img></html:a>  	
 	    </sj:dialog>
 	
 <html:form id="datasetAddForm" class="row">

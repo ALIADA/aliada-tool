@@ -97,8 +97,8 @@ $(function(){
 	    	id="haveCharConcept" 
 	    	openTopics="haveCharConcept"
 	    	autoOpen="false" 
-	    	title="Debes saber que...">
-	    		Puede contener "/" y puede ser un campo vacío.
+	    	title="%{title}">
+	    		<html:text name="message"></html:text>
 	    </sj:dialog>	
 	
 <html:form id="subsetAddForm" class="row">

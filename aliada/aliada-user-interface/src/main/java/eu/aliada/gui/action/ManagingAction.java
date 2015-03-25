@@ -351,6 +351,9 @@ public class ManagingAction extends ActionSupport {
 	 * @since 1.0
 	 */
 	public String getProfilesDb() {
+		
+		ServletActionContext.getRequest().getSession().setAttribute("ConfOpc", 0);
+		
 	    getFiles();
 		/*getFilesDb();*/
 		Connection connection = null;

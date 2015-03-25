@@ -3,11 +3,6 @@
    "http://struts.apache.org/dtds/xwork-validator-1.0.3.dtd">
 
 <validators>
-   <field name="organisationName">
-       <field-validator type="requiredstring">
-			<message key="name.required" />
-       </field-validator>
-   </field>
    <field name="organisationCatalogUrl">
        <field-validator type="requiredstring">
 			<message key="catalogue.required" />

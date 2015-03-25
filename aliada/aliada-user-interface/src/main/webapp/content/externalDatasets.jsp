@@ -4,11 +4,7 @@
 <script type="text/javascript" charset="UTF-8">	
 	$(function(){
 		$("#extdatasetsPanel :checkbox").on("change",function(){
-			if($("#extdatasetsPanel :checkbox:checked:checked").length == 0){
-				$("#removeButton").prop( "disabled", true);				
-			} else {
-				$("#removeButton").prop( "disabled", false);
-			}
+			$("#removeButton").prop( "disabled", false);
 		});
 	});
 </script>
@@ -24,17 +20,21 @@
 	<html:text name="description"/><br/>
 		<div class="fieldsNoBorder">
 			<html:iterator value="externalDatasets">
-				<html:checkbox id="%{value}" fieldValue="%{value}" name="val" value="false"/><html:property value="value"/><br/>
+				<html:checkbox id="%{value}" fieldValue="%{value}" name="val" value="%{selectedExternalDatasets.get(key)}"/><html:property value="value"/><br/>
 			</html:iterator>
 		</div>
-		<html:actionmessage />
-		<html:actionerror/>
+		
+		<html:if test="tab==5">
+		      <html:actionmessage/>
+		</html:if>
+		<html:if test="tab==5">
+		        <html:actionerror/>
+		</html:if>
+		
 		<div id="areExternalDatasetsButtons" class="displayInline">
 			<html:submit id="removeButton" action="reloadExternalDatasets" cssClass="submitButton button"
 				key="reload" disabled="true"/>
 		</div>
-		<html:submit action="configure" cssClass="submitButton button fright"
-			key="back" />
 	</div>
 </html:form>
 </div>

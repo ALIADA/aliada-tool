@@ -39,8 +39,8 @@ $(function(){
 			<th><label class="bold"><html:text name="organisationName"/></label></th>
 		</tr>
 		<html:iterator value="users" var="dato">
-			<tr>
-				<td><html:radio name="selectedUser" list="username" /></td>
+			<tr class="center">
+				<td class="fleft"><html:radio name="selectedUser" list="username" /></td>
 				<td><html:property value="email" /></td>
 				<td><html:property value="role" /></td>
 				<td><html:property value="type" /></td>
@@ -48,8 +48,13 @@ $(function(){
 			</tr>
 		</html:iterator>
 	</table>
-	<html:actionmessage />
-	<html:actionerror/>
+	
+	<html:if test="tab==3">
+		<html:actionmessage/>
+	</html:if>
+	<html:if test="tab==3">
+		<html:actionerror/>
+	</html:if>
 
 	<div id=usersButtons class="display buttons row">
 		<html:submit action="showAddForm" cssClass="submitButton button"
@@ -60,8 +65,6 @@ $(function(){
 			<html:submit action="deleteUser" cssClass="submitButton button"
 				key="delete" />
 		</div>
-		<html:submit action="configure" cssClass="submitButton button fright"
-			key="back" />
 	</div>
 </html:form>
 
@@ -69,33 +72,42 @@ $(function(){
 	<div id="addUserPanel" class="displayNo fields">
 		<h2 class="pageSubtitle"><html:text name="newUser"/></h2>
 		<table class="table">
-			<tr class="backgroundGreen center">
-				<th><label for="usernameForm" class="bold"><html:text name="username"/></label></th>
-				<th><label for="passwordForm" class="bold"><html:text name="userPassword"/></label></th>
-				<th><label for="emailForm" class="bold"><html:text name="email"/></label></th>
-				<th><label for="roleForm" class="bold"><html:text name="role"/></label></th>
-				<th><label for="typeForm" class="bold"><html:text name="type"/></label></th>
-				<th><label for="organisationForm" class="bold"><html:text name="organisationName"/></label></th>
-			</tr>
 			<tr>
+				<th class="backgroundGreen center"><label for="usernameForm" class="bold"><html:text name="username"/></label></th>
 				<td><html:textfield key="usernameForm" maxLength="20"
-						cssClass="tableInput input" /></td>
-				<td><html:password key="passwordForm" showPassword="true"
-						cssClass="tableInput input" /></td>
-				<td><html:textfield key="emailForm" maxLength="128"
-						cssClass="tableInput input" /></td>
-				<td><html:select key="roleForm"
-						cssClass="tableInput" list="roles" /></td>
-				<td><html:select key="typeForm"
-						cssClass="tableInput" list="types" /></td>
-				<td><html:select key="organisationForm"
-						cssClass="tableInput" list="organisations" /></td>
-			</tr> 
-			<tr>
-				<td><html:fielderror fieldName="usernameForm"/> </td>		
-				<td><html:fielderror fieldName="passwordForm"/> </td>
-				<td><html:fielderror fieldName="emailForm"/></td>
+						cssClass="tableInput input center" /></td>
+				<td><span class="red"><html:property
+						value="fieldErrors.usernameForm" /></span></td>
 			</tr>
+			<tr>
+				<th class="backgroundGreen center"><label for="passwordForm" class="bold"><html:text name="userPassword"/></label></th>
+				<td><html:password key="passwordForm" showPassword="true"
+						cssClass="tableInput input center" /></td>
+				<td><span class="red"><html:property
+						value="fieldErrors.passwordForm" /></span></td>
+			</tr>
+			<tr>			
+				<th class="backgroundGreen center"><label for="emailForm" class="bold"><html:text name="email"/></label></th>		
+				<td><html:textfield key="emailForm" maxLength="128"
+						cssClass="tableInput input center" /></td>
+				<td><span class="red"><html:property
+						value="fieldErrors.emailForm" /></span></td>
+			</tr>
+			<tr>			
+				<th class="backgroundGreen center"><label for="roleForm" class="bold"><html:text name="role"/></label></th>		
+				<td><html:select key="roleForm"
+						cssClass="tableInput center" list="roles" /></td>
+			</tr>
+			<tr>			
+				<th class="backgroundGreen center"><label for="typeForm" class="bold"><html:text name="type"/></label></th>	
+				<td><html:select key="typeForm"
+						cssClass="tableInput center" list="userTypes" /></td>
+			</tr>
+			<tr>		
+				<th class="backgroundGreen center"><label for="organisationForm" class="bold"><html:text name="organisationName"/></label></th>		
+				<td><html:select key="organisationForm"
+						cssClass="tableInput center" list="organisations" /></td>
+			</tr> 
 		</table>	
 		<div class="buttons row">
 			<html:submit action="addUser" cssClass="submitButton button"
@@ -110,33 +122,38 @@ $(function(){
 	<div id="editUserPanel" class="displayNo fields">
 		<h2 class="pageSubtitle"><html:text name="editUser"/></h2>
 		<table class="table">
-			<tr class="backgroundGreen center">
-				<th><label for="usernameForm" class="bold"><html:text name="username"/></label></th>
-				<th><label for="passwordForm" class="bold"><html:text name="userPassword"/></label></th>
-				<th><label for="emailForm" class="bold"><html:text name="email"/></label></th>
-				<th><label for="roleForm" class="bold"><html:text name="role"/></label></th>
-				<th><label for="typeForm" class="bold"><html:text name="type"/></label></th>
-				<th><label for="organisationForm" class="bold"><html:text name="organisationName"/></label></th>
-			</tr>
 			<tr>
-				<td><html:textfield key="usernameForm"
-						cssClass="tableInput input disabled" readonly="true" /></td>
-				<td><html:password key="passwordForm" showPassword="true"
-						cssClass="tableInput input"/></td>
-				<td><html:textfield key="emailForm" maxLength="128"
-						cssClass="tableInput input"/></td>
-				<td><html:select key="roleForm"
-						cssClass="tableInput" list="roles" /></td>
-				<td><html:select key="typeForm"
-						cssClass="tableInput" list="types" /></td>
-				<td><html:select key="organisationForm"
-						cssClass="tableInput" list="organisations" /></td>
-			</tr>
-			<tr>
-				<td><html:fielderror fieldName="usernameForm"/> </td>		
-				<td><html:fielderror fieldName="passwordForm"/> </td>
-				<td><html:fielderror fieldName="emailForm"/></td>
-			</tr>
+					<th class="backgroundGreen center"><label for="usernameForm" class="bold"><html:text name="username"/></label></th>
+					<td><html:textfield key="usernameForm" maxLength="20"
+							cssClass="tableInput input center disabled" readonly="true"/></td>
+				</tr>
+				<tr>
+					<th class="backgroundGreen center"><label for="passwordForm" class="bold"><html:text name="userPassword"/></label></th>
+					<td><html:password key="passwordForm" showPassword="true"
+							cssClass="tableInput input center" /></td>
+					<td><html:fielderror fieldName="passwordForm"/> </td>
+				</tr>
+				<tr>			
+					<th class="backgroundGreen center"><label for="emailForm" class="bold"><html:text name="email"/></label></th>		
+					<td><html:textfield key="emailForm" maxLength="128"
+							cssClass="tableInput input center" /></td>
+					<td><html:fielderror fieldName="emailForm"/></td>
+				</tr>
+				<tr>			
+					<th class="backgroundGreen center"><label for="roleForm" class="bold"><html:text name="role"/></label></th>		
+					<td><html:select key="roleForm"
+							cssClass="tableInput center" list="roles" /></td>
+				</tr>
+				<tr>			
+					<th class="backgroundGreen center"><label for="typeForm" class="bold"><html:text name="type"/></label></th>	
+					<td><html:select key="typeForm"
+							cssClass="tableInput center" list="userTypes" /></td>
+				</tr>
+				<tr>		
+					<th class="backgroundGreen center"><label for="organisationForm" class="bold"><html:text name="organisationName"/></label></th>		
+					<td><html:select key="organisationForm"
+							cssClass="tableInput center" list="organisations" /></td>
+			</tr> 
 		</table>
 		<div class="buttons row">
 			<html:submit action="editUser" cssClass="submitButton button"

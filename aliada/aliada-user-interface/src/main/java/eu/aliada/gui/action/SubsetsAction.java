@@ -49,6 +49,9 @@ public class SubsetsAction  extends ActionSupport{
 	private String linksGraphUriForm;
 	private String isqlCommandsFileSubsetForm;
 	
+	private String title;
+	private String message;
+	
     private boolean showAddSubsetForm;
     private boolean showEditSubsetForm;
     private boolean showTheSubset;
@@ -64,6 +67,10 @@ public class SubsetsAction  extends ActionSupport{
      * @since 1.0
      */
     public String showSubsets() {
+    	
+    	title = getText("dialog.title");
+    	message = getText("subset.message");
+    	
     	HttpSession session = ServletActionContext.getRequest().getSession();
     	int datasetId = (int) session.getAttribute("DatasetId");
         Connection connection = null;
@@ -749,6 +756,40 @@ public class SubsetsAction  extends ActionSupport{
      */
 	public void setAreSubsets(final boolean areSubsets) {
 		this.areSubsets = areSubsets;
+	}
+	/**
+     * @return Returns the title.
+     * @exception
+     * @since 1.0
+     */
+	public String getTitle() {
+		return title;
+	}
+	/**
+     * @param title
+     *            The title to set.
+     * @exception
+     * @since 1.0
+     */
+	public void setTitle(final String title) {
+		this.title = title;
+	}
+	/**
+     * @return Returns the message.
+     * @exception
+     * @since 1.0
+     */
+	public String getMessage() {
+		return message;
+	}
+	/**
+     * @param message
+     *            The message to set.
+     * @exception
+     * @since 1.0
+     */
+	public void setMessage(final String message) {
+		this.message = message;
 	}
     
 }

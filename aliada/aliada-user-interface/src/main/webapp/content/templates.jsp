@@ -44,8 +44,14 @@ $(function(){
 					<br>
 				</html:iterator>
 			</div>
-			<html:actionerror/>
-			<html:actionmessage/>
+			
+			<html:if test="tab==2">
+		      	<html:actionmessage/>
+			</html:if>
+			<html:if test="tab==2">
+		        <html:actionerror/>
+			</html:if>
+			
 			<html:submit action="showAddTemplateForm"
 				cssClass="submitButton button" key="add" />
 			<div id="areTemplatesButtons" class="displayInline">
@@ -55,11 +61,7 @@ $(function(){
 					key="edit" />
 				<html:submit action="deleteTemplate" cssClass="submitButton button"
 					key="delete" />
-			</div>	
-			<%-- <html:submit action="conversion" cssClass="submitButton button fright"
-				key="back" /> --%>
-			<html:submit action="configure" cssClass="submitButton button fright"
-			    key="back" />
+			</div>
 		</div>
 	</html:form>
 	

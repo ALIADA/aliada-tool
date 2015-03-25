@@ -110,58 +110,39 @@
 		</action>
 		
 		<action name="showTemplates" method="getTemplatesDb"
-			class="eu.aliada.gui.action.TemplatesAction">
-			<result name="success" type="tiles">/templates.tiles</result>
-			<result name="input" type="tiles">/templates.tiles</result>
+			class="eu.aliada.gui.action.ConfigurationAction">
+			<result name="success" type="tiles">/configuration.tiles</result>
+			<result name="input" type="tiles">/configuration.tiles</result>
 		</action>
 		
 		<action name="showTheTemplate" method="getTheTemplate"
-			class="eu.aliada.gui.action.TemplatesAction">
-			<result name="success" type="tiles">/templates.tiles</result>
-			<result name="error" type="tiles">/templates.tiles</result>
-		</action>
-		
-		<action name="showAddTemplateForm" method="showAddTemplate"
-			class="eu.aliada.gui.action.TemplatesAction">
-			<interceptor-ref name="retrieveStack"/>
-			<result name="success" type="tiles">/templates.tiles</result>
-			<result name="error" type="tiles">/templates.tiles</result>
-		</action>
-		
-		<action name="addTemplate" method="addTemplate"
-			class="eu.aliada.gui.action.TemplatesAction">
-			<interceptor-ref name="storeStack"/>
-			<result name="success" type="tiles">/templates.tiles</result>
-			<result name="error"  type="redirectAction">
-         		<param name="actionName">showAddTemplateForm</param>
-         	</result>
-         	<result name="input"  type="redirectAction">
-         		<param name="actionName">showAddTemplateForm</param>
-         	</result>
+			class="eu.aliada.gui.action.ConfigurationAction">
+			<result name="success" type="tiles">/configuration.tiles</result>
+			<result name="error" type="tiles">/configuration.tiles</result>
 		</action>
 		
 		<action name="deleteTemplate" method="deleteTemplate"
-			class="eu.aliada.gui.action.TemplatesAction">
-			<result name="success" type="tiles">/templates.tiles</result>
-			<result name="error" type="tiles">/templates.tiles</result>
+			class="eu.aliada.gui.action.ConfigurationAction">
+			<result name="success" type="tiles">/configuration.tiles</result>
+			<result name="error" type="tiles">/configuration.tiles</result>
 		</action>		
 		
 		<action name="showEditTemplateForm" method="showEditTemplate"
-			class="eu.aliada.gui.action.TemplatesAction">
-			<result name="success" type="tiles">/templates.tiles</result>
-			<result name="error" type="tiles">/templates.tiles</result>
+			class="eu.aliada.gui.action.ConfigurationAction">
+			<result name="success" type="tiles">/configuration.tiles</result>
+			<result name="error" type="tiles">/configuration.tiles</result>
 		</action>
 		
 		<action name="editTemplate" method="editTemplate"
-			class="eu.aliada.gui.action.TemplatesAction">
-			<result name="success" type="tiles">/templates.tiles</result>
+			class="eu.aliada.gui.action.ConfigurationAction">
+			<result name="success" type="tiles">/configuration.tiles</result>
 			<result name="error"  type="redirectAction">
          		<param name="actionName">showTemplates</param>
          	</result>
 		</action>
 		
 		<action name="configure" method="execute"
-			class="eu.aliada.gui.action.InstitutionConfigurationAction">
+			class="eu.aliada.gui.action.ConfigurationAction">
 			<result name="success" type="tiles">/configuration.tiles</result>
     		<result name="error" type="tiles">/welcome.tiles</result>
 			<result name="input" type="tiles">/configuration.tiles</result>
@@ -185,8 +166,8 @@
 		</action>
 				
 		<action name="showProfiles" method="showProfiles"
-			class="eu.aliada.gui.action.ProfilesAction">
-			<result name="success" type="tiles">/profiles.tiles</result>
+			class="eu.aliada.gui.action.ConfigurationAction">
+			<result name="success" type="tiles">/configuration.tiles</result>
 		</action>
 		
 		<action name="showDatasets" method="showDatasets" class="eu.aliada.gui.action.DatasetsAction">
@@ -197,14 +178,14 @@
             <result name="success" type="tiles">/subsets.tiles</result>
 		</action>
 		
-		<action name="showExternalDatasets" method="showExternalDatasets" class="eu.aliada.gui.action.ExternalDatasetsAction">
-            <result name="success" type="tiles">/externalDatasets.tiles</result>
+		<action name="showExternalDatasets" method="showExternalDatasets" class="eu.aliada.gui.action.ConfigurationAction">
+            <result name="success" type="tiles">/configuration.tiles</result>
 		</action>
 		
 		<action name="showTheProfile" method="getTheProfile"
-			class="eu.aliada.gui.action.ProfilesAction">
-			<result name="success" type="tiles">/profiles.tiles</result>
-			<result name="error" type="tiles">/profiles.tiles</result>
+			class="eu.aliada.gui.action.ConfigurationAction">
+			<result name="success" type="tiles">/configuration.tiles</result>
+			<result name="error" type="tiles">/configuration.tiles</result>
 		</action>
 		
 		<action name="showTheDataset" method="getTheDataset"
@@ -219,10 +200,17 @@
 			<result name="error" type="tiles">/subsets.tiles</result>
 		</action>
 		
-		<action name="showAddProfileForm" method="showAddProfile"
-			class="eu.aliada.gui.action.ProfilesAction">
+		<action name="showAddTemplateForm" method="showAddTemplate"
+			class="eu.aliada.gui.action.ConfigurationAction">
 			<interceptor-ref name="retrieveStack"/>
-			<result name="success" type="tiles">/profiles.tiles</result>
+			<result name="success" type="tiles">/configuration.tiles</result>
+			<result name="error" type="tiles">/configuration.tiles</result>
+		</action>
+		
+		<action name="showAddProfileForm" method="showAddProfile"
+			class="eu.aliada.gui.action.ConfigurationAction">
+			<interceptor-ref name="retrieveStack"/>
+			<result name="success" type="tiles">/configuration.tiles</result>
 		</action>
 		
 		<action name="showAddDatasetForm" method="showAddDataset"
@@ -237,10 +225,22 @@
 			<result name="success" type="tiles">/subsets.tiles</result>
 		</action>
 		
-		<action name="addProfile" method="addProfile"
-			class="eu.aliada.gui.action.ProfilesAction">
+		<action name="addTemplate" method="addTemplate"
+			class="eu.aliada.gui.action.ConfigurationAction">
 			<interceptor-ref name="storeStack"/>
-			<result name="success" type="tiles">/profiles.tiles</result>
+			<result name="success" type="tiles">/configuration.tiles</result>
+			<result name="error"  type="redirectAction">
+         		<param name="actionName">showAddTemplateForm</param>
+         	</result>
+         	<result name="input"  type="redirectAction">
+         		<param name="actionName">showAddTemplateForm</param>
+         	</result>
+		</action>
+		
+		<action name="addProfile" method="addProfile"
+			class="eu.aliada.gui.action.ConfigurationAction">
+			<interceptor-ref name="storeStack"/>
+			<result name="success" type="tiles">/configuration.tiles</result>
 			<result name="error"  type="redirectAction">
          		<param name="actionName">showAddProfileForm</param>
          	</result>
@@ -274,9 +274,9 @@
 		</action>
 		
 		<action name="showEditProfileForm" method="showEditProfile"
-			class="eu.aliada.gui.action.ProfilesAction">
-			<result name="success" type="tiles">/profiles.tiles</result>
-			<result name="error" type="tiles">/profiles.tiles</result>
+			class="eu.aliada.gui.action.ConfigurationAction">
+			<result name="success" type="tiles">/configuration.tiles</result>
+			<result name="error" type="tiles">/configuration.tiles</result>
 		</action>
 		
 		<action name="showEditDatasetForm" method="showEditDataset"
@@ -294,8 +294,8 @@
 		</action>
 		
 		<action name="editProfile" method="editProfile"
-			class="eu.aliada.gui.action.ProfilesAction">
-			<result name="success" type="tiles">/profiles.tiles</result>
+			class="eu.aliada.gui.action.ConfigurationAction">
+			<result name="success" type="tiles">/configuration.tiles</result>
 			<result name="error"  type="redirectAction">
          		<param name="actionName">showProfiles</param>
          	</result>
@@ -329,9 +329,9 @@
 		</action>
 		
 		<action name="deleteProfile" method="deleteProfile"
-			class="eu.aliada.gui.action.ProfilesAction">
-			<result name="success" type="tiles">/profiles.tiles</result>
-			<result name="error" type="tiles">/profiles.tiles</result>
+			class="eu.aliada.gui.action.ConfigurationAction">
+			<result name="success" type="tiles">/configuration.tiles</result>
+			<result name="error" type="tiles">/configuration.tiles</result>
 		</action>
 		
 		<action name="deleteDataset" method="deleteDataset"
@@ -357,7 +357,7 @@
 		</action>
 
 		<action name="editInstitution" method="editInstitution"
-			class="eu.aliada.gui.action.InstitutionConfigurationAction"> 
+			class="eu.aliada.gui.action.ConfigurationAction"> 
 			<interceptor-ref name="fileImageStack"/>
 			<result name="success" type="tiles">/configuration.tiles</result>
 			<result name="error" type="tiles">/configuration.tiles</result>
@@ -375,41 +375,41 @@
 		</action>
 		
 		<action name="showUsers" method="getUsersDb"
-			class="eu.aliada.gui.action.UsersAction">
-			<result name="success" type="tiles">/users.tiles</result>
+			class="eu.aliada.gui.action.ConfigurationAction">
+			<result name="success" type="tiles">/configuration.tiles</result>
 			<result name="error" type="tiles">/configuration.tiles</result>
 		</action>
 
 		<action name="showAddForm" method="showAddForm"
-			class="eu.aliada.gui.action.UsersAction">
-			<result name="success" type="tiles">/users.tiles</result>
-			<result name="error" type="tiles">/users.tiles</result>
+			class="eu.aliada.gui.action.ConfigurationAction">
+			<result name="success" type="tiles">/configuration.tiles</result>
+			<result name="error" type="tiles">/configuration.tiles</result>
 		</action>
 		
 		<action name="showAddFormStack" method="showAddForm"
-			class="eu.aliada.gui.action.UsersAction">
+			class="eu.aliada.gui.action.ConfigurationAction">
 			<interceptor-ref name="retrieveStack"/>
-			<result name="success" type="tiles">/users.tiles</result>
-			<result name="error" type="tiles">/users.tiles</result>
+			<result name="success" type="tiles">/configuration.tiles</result>
+			<result name="error" type="tiles">/configuration.tiles</result>
 		</action>
 
 		<action name="showEditForm" method="showEdit"
-			class="eu.aliada.gui.action.UsersAction">
-			<result name="success" type="tiles">/users.tiles</result>
-			<result name="error" type="tiles">/users.tiles</result>
+			class="eu.aliada.gui.action.ConfigurationAction">
+			<result name="success" type="tiles">/configuration.tiles</result>
+			<result name="error" type="tiles">/configuration.tiles</result>
 		</action>
 		
-		<action name="showEditFormStack" method="showEdit"
-			class="eu.aliada.gui.action.UsersAction">
+		<action name="showEditFormStack" method="showEditForm"
+			class="eu.aliada.gui.action.ConfigurationAction">
 			<interceptor-ref name="retrieveStack"/>
-			<result name="success" type="tiles">/users.tiles</result>
-			<result name="error" type="tiles">/users.tiles</result>
+			<result name="success" type="tiles">/configuration.tiles</result>
+			<result name="error" type="tiles">/configuration.tiles</result>
 		</action>
 
 		<action name="addUser" method="addUser"
-			class="eu.aliada.gui.action.UsersAction">
+			class="eu.aliada.gui.action.ConfigurationAction">
 			<interceptor-ref name="storeStack"/>
-			<result name="success" type="tiles">/users.tiles</result>
+			<result name="success" type="tiles">/configuration.tiles</result>
 			<result name="error"  type="redirectAction">
          		<param name="actionName">showAddFormStack</param>
          	</result>
@@ -419,9 +419,9 @@
 		</action>
 
 		<action name="editUser" method="editUser"
-			class="eu.aliada.gui.action.UsersAction">
+			class="eu.aliada.gui.action.ConfigurationAction">
 			<interceptor-ref name="storeStack"/>
-			<result name="success" type="tiles">/users.tiles</result>
+			<result name="success" type="tiles">/configuration.tiles</result>
 			<result name="error"  type="redirectAction">
          		<param name="actionName">showEditFormStack</param>
          	</result>
@@ -431,9 +431,9 @@
 		</action>
 
 		<action name="deleteUser" method="deleteUser"
-			class="eu.aliada.gui.action.UsersAction">
-			<result name="success" type="tiles">/users.tiles</result>
-			<result name="error" type="tiles">/users.tiles</result>
+			class="eu.aliada.gui.action.ConfigurationAction">
+			<result name="success" type="tiles">/configuration.tiles</result>
+			<result name="error" type="tiles">/configuration.tiles</result>
 		</action>
 		
 		<action name="rdfVal" class="eu.aliada.gui.action.RDFValidationAction">
@@ -453,9 +453,9 @@
 		</action>
 		
 		<action name="reloadExternalDatasets" method="reloadExternalDatasets"
-			class="eu.aliada.gui.action.ExternalDatasetsAction">
-			<result name="success" type="tiles">/externalDatasets.tiles</result>
-			<result name="error" type="tiles">/externalDatasets.tiles</result>
+			class="eu.aliada.gui.action.ConfigurationAction">
+			<result name="success" type="tiles">/configuration.tiles</result>
+			<result name="error" type="tiles">/configuration.tiles</result>
 		</action>
 		
 		<action name="locale" class="eu.aliada.gui.action.LocaleAction">
