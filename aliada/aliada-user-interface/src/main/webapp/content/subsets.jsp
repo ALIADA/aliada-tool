@@ -24,6 +24,11 @@ $(function(){
 		$("#subsetsPanel").hide();		
 	}
 });
+
+$.subscribe('closeDialog', function(event,data) { 
+	setTimeout(function () { $('#haveCharConcept').dialog("close"); }, 5000);
+});
+
 </script>
 <html:hidden id="areSubsets" name="areSubsets" value="%{areSubsets}" />
 <html:hidden id="showTheSubset" name="showTheSubset" value="%{showTheSubset}" />
@@ -96,6 +101,7 @@ $(function(){
 		<sj:dialog 
 	    	id="haveCharConcept" 
 	    	openTopics="haveCharConcept"
+	    	onOpenTopics="closeDialog"
 	    	autoOpen="false" 
 	    	title="%{title}">
 	    		<html:text name="message"></html:text>

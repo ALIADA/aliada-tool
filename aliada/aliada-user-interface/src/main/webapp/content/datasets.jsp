@@ -23,6 +23,39 @@ $(function(){
 	if((showAddDatasetForm == "true") || (showEditDatasetForm == "true") || (showTheDataset == "true")){
 		$("#datasetsPanel").hide();		
 	}
+	
+	$.subscribe('closeDialogDomName', function(event,data) { 
+		setTimeout(function () { $('#domName').dialog("close"); }, 5000);
+	});
+	
+	$.subscribe('closeDialogListHost', function(event,data) { 
+		setTimeout(function () { $('#listHost').dialog("close"); }, 5000);
+	});
+	
+	$.subscribe('closeDialogVirtHost', function(event,data) { 
+		setTimeout(function () { $('#virtHost').dialog("close"); }, 5000);
+	});
+	
+	$.subscribe('closeDialogNoHaveChar', function(event,data) { 
+		setTimeout(function () { $('#noHaveChar').dialog("close"); }, 5000);
+	});
+	
+	$.subscribe('closeDialogNoHaveCharDoc', function(event,data) { 
+		setTimeout(function () { $('#noHaveCharDoc').dialog("close"); }, 5000);
+	});
+	
+	$.subscribe('closeDialogHaveCharConcept', function(event,data) { 
+		setTimeout(function () { $('#haveCharConcept').dialog("close"); }, 5000);
+	});
+	
+	$.subscribe('closeDialogCkanId', function(event,data) { 
+		setTimeout(function () { $('#ckanId').dialog("close"); }, 5000);
+	});
+	
+	$.subscribe('closeDialogLicenseUrl', function(event,data) { 
+		setTimeout(function () { $('#licenseUrl').dialog("close"); }, 5000);
+	});
+	
 });
 </script>
 <html:hidden id="areDatasets" name="areDatasets" value="%{areDatasets}" />
@@ -153,6 +186,7 @@ $(function(){
 		<sj:dialog 
 	    	id="domName" 
 	    	openTopics="domName"
+	    	onOpenTopics="closeDialogDomName"
 	    	autoOpen="false" 
 	    	title="%{title}">
 	    		<html:text name="message1"></html:text>
@@ -161,6 +195,7 @@ $(function(){
 	    <sj:dialog 
 	    	id="listHost" 
 	    	openTopics="listHost"
+	    	onOpenTopics="closeDialogListHost"
 	    	autoOpen="false" 
 	    	title="%{title}">
 	    		<html:text name="message2"></html:text>
@@ -169,6 +204,7 @@ $(function(){
 		<sj:dialog 
 	    	id="virtHost" 
 	    	openTopics="virtHost"
+	    	onOpenTopics="closeDialogVirtHost"
 	    	autoOpen="false" 
 	    	title="%{title}">
 	    		<html:text name="message3"></html:text>
@@ -177,6 +213,7 @@ $(function(){
 	    <sj:dialog 
 	    	id="noHaveChar" 
 	    	openTopics="noHaveChar"
+	    	onOpenTopics="closeDialogNoHaveChar"
 	    	autoOpen="false" 
 	    	title="%{title}">
 	    		<html:text name="message4"></html:text>
@@ -185,6 +222,7 @@ $(function(){
 	    <sj:dialog 
 	    	id="noHaveCharDoc" 
 	    	openTopics="noHaveCharDoc"
+	    	onOpenTopics="closeDialogNoHaveCharDoc"
 	    	autoOpen="false" 
 	    	title="%{title}">
 	    		<html:text name="message5"></html:text>
@@ -193,6 +231,7 @@ $(function(){
 	    <sj:dialog 
 	    	id="haveCharConcept" 
 	    	openTopics="haveCharConcept"
+	    	onOpenTopics="closeDialogHaveCharConcept"
 	    	autoOpen="false" 
 	    	title="%{title}">
 	    		<html:text name="message6"></html:text>
@@ -201,6 +240,7 @@ $(function(){
 		<sj:dialog 
 	    	id="ckanId" 
 	    	openTopics="ckanId"
+	    	onOpenTopics="closeDialogCkanId"
 	    	autoOpen="false" 
 	    	title="%{title}">
 	    		<html:text name="message7"></html:text>  <html:a href="http://opendefinition.org/licenses/" target="_blank"><img alt="help" src="images/link.png"></img></html:a>	
@@ -209,6 +249,7 @@ $(function(){
 	    <sj:dialog 
 	    	id="licenseUrl" 
 	    	openTopics="licenseUrl"
+	    	onOpenTopics="closeDialogLicenseUrl"
 	    	autoOpen="false" 
 	    	title="%{title}">
 	    		<html:text name="message8"></html:text>  <html:a href="https://creativecommons.org/licenses/" target="_blank"><img alt="help" src="images/link.png"></img></html:a>  	

@@ -28,6 +28,12 @@ $(function(){
 		$("#datasetProperty").show();
 		$("#graphSelect").hide();
 		$("#graphProperty").show();
+		$("#datSelect").hide();
+		$("#both").hide();
+		$("#data").show();
+		$("#d").show();
+		$("#subs").show();
+		$("#s").show();
 	} 
 	var interval;
 	var checkRDF = function(){
@@ -123,6 +129,10 @@ $(function(){
 	<li><span class="breadcrumb activeGreen"><html:text name="conversion.title"/></span></li>
 	<li><span class="breadcrumb"><html:text name="linking.title"/></span></li>
 </ul>
+<%-- doubleselect style to show at the same line  --%>
+<style> 
+	.nobr br{display:none}  
+</style>
 <html:a id="rdfVal" disabled="true" action="rdfVal" cssClass="displayNo menuButton button fleft" key="rdfVal" target="_blank"><html:text name="rdfVal"/></html:a>
 <%--<html:a id="linksVal" disabled="true" action="linksVal" cssClass="displayNo menuButton button fright" key="linksVal" target="_blank"><html:text name="linksVal"/></html:a>--%>		
 <div class="form centered">
@@ -133,8 +143,9 @@ $(function(){
 				<tr class="backgroundGreen center">
 					<th><label class="bold"><html:text name="conversion.input"/></label></th>
 					<th><label class="bold"><html:text name="conversion.template"/></label></th>
-					<th><label class="bold"><html:text name="conversion.dataset"/></label></th>
-					<th><label class="bold"><html:text name="conversion.graph"/></label></th>
+					<th id="both"><label class="bold"><html:text name="conversion.select"/></label></th>
+					<th id="d" class="displayNo"><label class="bold"><html:text name="conversion.dataset"/></label></th>
+					<th id="s" class="displayNo"><label class="bold"><html:text name="conversion.graph"/></label></th>
 				</tr>
 				<tr>
 					<td>
@@ -146,14 +157,15 @@ $(function(){
 						<span id="templateProperty" class="displayNo"><html:property  value="importedFile.getTemplate()" /></span>					
 					</td>
 					<td>
-						<html:select id="datasetSelect" name="selectedDataset"
-							cssClass="inputForm" list="datasets" />					
-						<span id="datasetProperty" class="displayNo"><html:property  value="importedFile.getDataset()" /></span>					
+						<div id="datSelect" class="nobr">
+								<html:doubleselect cssClass="inputForm"
+								name="dat" list="datasetMap.keySet()" doubleCssClass="inputForm"
+								doubleName="sub" doubleList="datasetMap.get(top)" />
+						</div>
+						<span id="data" class="displayNo"><html:property  value="importedFile.getDataset()" /></span>
 					</td>
 					<td>
-						<html:select id="graphSelect" name="selectedGraph"
-							cssClass="inputForm" list="graphs" />					
-						<span id="graphProperty" class="displayNo"><html:property  value="importedFile.getGraph()" /></span>					
+						<span id="subs" class="displayNo"><html:property  value="importedFile.getGraph()" /></span>
 					</td>
 				</tr>			
 			</table>
@@ -162,8 +174,6 @@ $(function(){
 					key="RDF-ize"/>
 				<html:submit id="checkRDFButton" disabled="true" cssClass="submitButton button"
 					key="check" onClick="return false;"/>
-				<%-- <html:submit action="showTemplates" cssClass="submitButton button"
-					key="templates" /> --%>
 			</div>
 			<div id="cleanGraphPanel">
 				<label class="row label"><html:text name="conversion.cleanSelect"/></label>

@@ -107,11 +107,24 @@ public class ConfigurationAction extends ActionSupport {
     public String editInstitution() {
     	setTab(0);
     	ServletActionContext.getRequest().getSession().setAttribute("ConfOpc", 0);
+    	String user = (String) ServletActionContext.getRequest().getSession().getAttribute("logedUser");
         Connection connection;
         FileInputStream fis = null;
         try {
             connection = new DBConnectionManager().getConnection();
-            PreparedStatement preparedStatement;
+            Statement statement = connection.createStatement();
+        	if (this.organisationCatalogUrl.trim().isEmpty()) {
+        		ResultSet rs = statement.executeQuery("select org_catalog_url from aliada.organisation o "
+        				+ "INNER JOIN aliada.user u on o.organisationId=u.organisationId where u.user_name='" + user + "';");
+        		if (rs.next()) {
+        			setOrganisationCatalogUrl(rs.getString("org_catalog_url"));
+        		}
+        		statement.close();
+        		connection.close();
+        		addActionError(getText("catalogue.required"));
+        		return ERROR;
+        	}
+        	PreparedStatement preparedStatement;
             if (this.organisationLogo != null) {
             	preparedStatement = connection.prepareStatement("UPDATE aliada.organisation  SET org_logo = ?, org_catalog_url =? WHERE org_name = ?");
                 fis = new FileInputStream(this.organisationLogo);
@@ -1350,10 +1363,12 @@ public class ConfigurationAction extends ActionSupport {
 	public void setUserTypes(final HashMap<Integer, String> userTypes) {
 		this.userTypes = userTypes;
 	}
+	/** @return Returns the tab. */
 	public int getTab() {
 		return tab;
 	}
-	public void setTab(int tab) {
+	/** @param tab The tab to set. */
+	public void setTab(final int tab) {
 		this.tab = tab;
 	}
 }

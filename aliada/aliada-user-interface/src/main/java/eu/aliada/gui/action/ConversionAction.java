@@ -15,7 +15,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -47,8 +49,9 @@ public class ConversionAction extends ActionSupport {
     private String selectedTemplate;
     private int showCheckButton;
     private int showRdfizerButton;
-    private String selectedDataset;
-    private String selectedGraph;
+    private Map datasetMap;
+    private String dat;
+    private String sub;
     
     private final Log logger = new Log(ConversionAction.class);
     /**
@@ -72,7 +75,7 @@ public class ConversionAction extends ActionSupport {
             setShowCheckButton(0);
             setShowRdfizerButton(1); 
         }
-        getDatasetsDb();
+        getDatAndSubsets();
         getGraphsDb();
         return getTemplatesDb();
     }
@@ -87,8 +90,8 @@ public class ConversionAction extends ActionSupport {
         if (session.getAttribute("importedFile") != null) {
             setImportedFile((FileWork) session.getAttribute("importedFile"));
             importedFile.setTemplate(getTemplateNameFromCode(getSelectedTemplate()));
-            importedFile.setDataset(getDatasetDesc(getSelectedDataset()));
-            importedFile.setGraph(getGraphUri(getSelectedGraph()));
+            importedFile.setDataset(getDat());
+            importedFile.setGraph(getSub());
             String format = null;
             String namespace = "http://";
             try {
@@ -157,13 +160,13 @@ public class ConversionAction extends ActionSupport {
  
                         Statement updateStatement = connection.createStatement();
                         updateStatement.executeUpdate("UPDATE aliada.user_session set status='runningRdfizer', job_id=" + addedId + ", "
-                        		+ "template=" + getSelectedTemplate() + ", graph=" + getSelectedGraph() + " where file_name='" + importedFile.getFilename() + "'");
+                        		+ "template=" + getSelectedTemplate() + ", graph=" + getSubsetId(getSub()) + " where file_name='" + importedFile.getFilename() + "'");
                         updateStatement.close();
 						
                     } catch (IOException e) {
                         logger.error(MessageCatalog._00012_IO_EXCEPTION, e);
                         getTemplatesDb();
-                        getDatasetsDb();
+                        getDatAndSubsets();
                         getGraphsDb();
                         rs2.close();
                         preparedStatement.close();
@@ -177,23 +180,23 @@ public class ConversionAction extends ActionSupport {
                     connection.close();
                     session.setAttribute("rdfizerJobId", addedId);
                     setShowCheckButton(1);
-                    getDatasetsDb();
+                    getDatAndSubsets();
                     getGraphsDb();
                     return getTemplatesDb();                
                 }
             } catch (SQLException e) {
                 logger.error(MessageCatalog._00011_SQL_EXCEPTION, e);
-                getDatasetsDb();
+                getDatAndSubsets();
                 getGraphsDb();
                 getTemplatesDb();
                 return ERROR;
             }
-            getDatasetsDb();
+            getDatAndSubsets();
             getGraphsDb();
             return getTemplatesDb();
         } else {
             logger.error(MessageCatalog._00033_CONVERSION_ERROR_NO_FILE_IMPORTED);
-            getDatasetsDb();
+            getDatAndSubsets();
             getGraphsDb();
             getTemplatesDb();
             return ERROR;
@@ -320,7 +323,7 @@ public class ConversionAction extends ActionSupport {
         conn.setRequestMethod("PUT");
         if (conn.getResponseCode() != HttpURLConnection.HTTP_NO_CONTENT) {
             setShowRdfizerButton(1);
-            getDatasetsDb();
+            getDatAndSubsets();
             getGraphsDb();
             getTemplatesDb();  
             throw new ConnectException("Failed : HTTP error code : "
@@ -345,7 +348,7 @@ public class ConversionAction extends ActionSupport {
         conn.setRequestMethod("PUT");
         if (conn.getResponseCode() != HttpURLConnection.HTTP_CREATED) {
             setShowRdfizerButton(1);
-            getDatasetsDb();
+            getDatAndSubsets();
             getGraphsDb();
             getTemplatesDb();  
             throw new ConnectException("Failed : HTTP error code : "
@@ -391,23 +394,37 @@ public class ConversionAction extends ActionSupport {
         return SUCCESS;
     }
     /**
-     * Gets the available datasets from the DB.
+     * Gets the available datasets and subsets from the DB.
      * @return String
      * @see
      * @since 1.0
      */
-    public String getDatasetsDb() {
-        String username = (String) ServletActionContext.getRequest().getSession().getAttribute("logedUser");
+    public String getDatAndSubsets() {
+    	datasetMap = new HashMap();
+    	String username = (String) ServletActionContext.getRequest().getSession().getAttribute("logedUser");
         Connection connection = null;
         try {
-            connection = new DBConnectionManager().getConnection();
+        	connection = new DBConnectionManager().getConnection();
             Statement statement = connection.createStatement();
+            Statement statement1 = connection.createStatement();
             ResultSet rs = statement.executeQuery("SELECT datasetId, dataset_desc FROM aliada.organisation o INNER JOIN aliada.dataset d ON o.organisationId"
             		+ "=d.organisationId INNER JOIN aliada.user u ON o.organisationId=u.organisationId where u.user_name='" + username + "';");
-            datasets = new HashMap<Integer, String>();
+            ResultSet res;
             while (rs.next()) {
-                datasets.put(rs.getInt("datasetId"),
-                        rs.getString("dataset_desc"));
+            	int datId = rs.getInt("datasetId");
+            	String datDesc = rs.getString("dataset_desc");
+            	
+            	res = statement1.executeQuery("SELECT subsetId, graph_uri FROM aliada.subset s "
+            			+ "INNER JOIN aliada.dataset d ON s.datasetId=d.datasetId where s.datasetId='" + datId + "';");
+            	
+            	ArrayList<String> l = new ArrayList<String>();
+            	
+            	while (res.next()) {
+            		int subId = res.getInt("subsetId");
+            		String graphUri = res.getString("graph_uri");
+            		l.add(graphUri);
+            	}
+            	datasetMap.put(datDesc, l);
             }
             rs.close();
             statement.close();
@@ -415,8 +432,8 @@ public class ConversionAction extends ActionSupport {
         } catch (SQLException e) {
             logger.error(MessageCatalog._00011_SQL_EXCEPTION, e);
             return ERROR;
-        }
-        return SUCCESS;
+        }  	
+    	return SUCCESS;
     }
     /**
      * Gets the available graphs from the DB.
@@ -455,21 +472,21 @@ public class ConversionAction extends ActionSupport {
         return SUCCESS;
     }
     /**
-     * Gets the dataset_desc from a dataset code.
-     * @param datasetCode The dataset code
+     * Gets the graph Uri from a graph code.
+     * @param graphUri The graph Uri
      * @return String
      * @see
      * @since 1.0
      */
-    public String getDatasetDesc(final String datasetCode) {
+    public String getSubsetId(final String graphUri) {
         Connection connection = null;
-        String datasetDesc = "";
+        String graphId = "";
         try {
             connection = new DBConnectionManager().getConnection();
             Statement statement = connection.createStatement();
-            ResultSet rs = statement.executeQuery("SELECT dataset_desc FROM aliada.dataset WHERE datasetId='" + datasetCode + "';");
+            ResultSet rs = statement.executeQuery("SELECT subsetId FROM aliada.subset WHERE graph_uri='" + graphUri + "';");
             if (rs.next()) {
-            	datasetDesc = rs.getString("dataset_desc");
+                graphId = rs.getString("subsetId");
             }
             rs.close();
             statement.close();
@@ -478,33 +495,7 @@ public class ConversionAction extends ActionSupport {
             logger.error(MessageCatalog._00011_SQL_EXCEPTION, e);
             return "";
         }
-        return datasetDesc;
-    }
-    /**
-     * Gets the graph uri from a graph code.
-     * @param graphCode The graph code
-     * @return String
-     * @see
-     * @since 1.0
-     */
-    public String getGraphUri(final String graphCode) {
-        Connection connection = null;
-        String graphUri = "";
-        try {
-            connection = new DBConnectionManager().getConnection();
-            Statement statement = connection.createStatement();
-            ResultSet rs = statement.executeQuery("SELECT graph_uri FROM aliada.subset WHERE subsetId='" + graphCode + "';");
-            if (rs.next()) {
-                graphUri = rs.getString("graph_uri");
-            }
-            rs.close();
-            statement.close();
-            connection.close();
-        } catch (SQLException e) {
-            logger.error(MessageCatalog._00011_SQL_EXCEPTION, e);
-            return "";
-        }
-        return graphUri;
+        return graphId;
     }
 
     /**
@@ -631,36 +622,52 @@ public class ConversionAction extends ActionSupport {
     public void setGraphs(final HashMap<Integer, String> graphs) {
         this.graphs = graphs;
     }
+	/**
+     * @return Returns the dataset-subsets.
+     * @exception
+     * @since 1.0
+     */
+    public Map getDatasetMap() {
+		return datasetMap;
+	}
+    /**
+     * @param datasetMap The dataset-subsets to set.
+     * @exception
+     * @since 1.0
+     */
+	public void setDatasetMap(final Map datasetMap) {
+		this.datasetMap = datasetMap;
+	}
     /**
      * @return Returns the selectedDataset.
      * @exception
      * @since 1.0
      */
-    public String getSelectedDataset() {
-		return selectedDataset;
+	public String getDat() {
+		return dat;
 	}
     /**
-     * @param selectedDataset The selectedDataset to set.
+     * @param dat The selectedDataset to set.
      * @exception
      * @since 1.0
      */
-	public void setSelectedDataset(final String selectedDataset) {
-		this.selectedDataset = selectedDataset;
+	public void setDat(final String dat) {
+		this.dat = dat;
 	}
 	/**
-     * @return Returns the selectedGraph.
+     * @return Returns the selectedSubset.
      * @exception
      * @since 1.0
      */
-    public String getSelectedGraph() {
-        return selectedGraph;
-    }
+	public String getSub() {
+		return sub;
+	}
     /**
-     * @param selectedGraph The selectedGraph to set.
+     * @param sub The selectedSubset to set.
      * @exception
      * @since 1.0
      */
-    public void setSelectedGraph(final String selectedGraph) {
-        this.selectedGraph = selectedGraph;
-    }
+	public void setSub(final String sub) {
+		this.sub = sub;
+	}    
 }
