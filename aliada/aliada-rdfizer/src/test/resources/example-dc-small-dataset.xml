@@ -1,0 +1,105 @@
+<OAI-PMH 
+	xmlns="http://www.openarchives.org/OAI/2.0/" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/ http://www.openarchives.org/OAI/2.0/OAI-PMH.xsd">
+	<responseDate>2014-12-12T10:36:11Z</responseDate>
+	<request verb="ListRecords" metadataPrefix="oai_dc">http://aliada-project</request>
+	<ListRecords>
+		<record>
+			<header>
+				<identifier>oai:aliada-project:7111</identifier>
+				<datestamp>2014-03-31T08:28:40Z</datestamp>
+			</header>
+			<metadata>
+				<oai_dc:dc xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+					xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/"
+					xmlns:dc="http://purl.org/dc/elements/1.1/"
+					xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+					<dc:title>Jaime Davidovich</dc:title>
+					<dc:description><![CDATA[
+							<p>
+							<strong>Exposición</strong>
+							: Jaime Davidovich.
+							<a href="http://www.artium.org/Castellano/Exposiciones/Exposicion/tabid/176/language/es-ES/Default.aspx?pidExposicion=25" target="_blank">Morder la mano que te da de comer</a>
+							(2010)
+							</p>
+							<p>
+							Conversaciones con Jaime Davidovich donde analiza su producción artística entre 1968 y 1984, a modo de viaje que va desde su obra pictórica, pasando por la experimentación con el vídeo, hasta su encuentro con la televisión...
+							</p>
+					]]></dc:description> 
+					<dc:creator>Jaime Davidovich</dc:creator>
+					<dc:subject>Conversaciones con...</dc:subject>
+					<dc:source><![CDATA[
+				
+												<p />
+						<div class="media_embed" height="111px" width="200px">
+						<object data="http://www.ivoox.com/playerivoox_ee_2025617_1.html"
+												height="111px" id="player2025617" type="application/x-shockwave-flash"
+												width="200px">
+						<param name="movie" value="http://www.ivoox.com/playerivoox_ee_2025617_1.html" />
+						<param name="AllowScriptAccess" value="always" />
+						<param name="allowFullScreen" value="true" />
+						<param name="wmode" value="transparent" />
+						<embed allowfullscreen="true" allowscriptaccess="always" height="111px"
+												src="http://www.ivoox.com/playerivoox_ee_2025617_1.html" type="application/x-shockwave-flash"
+												width="200px" wmode="transparent" />
+						</object>
+						</div>
+
+					]]></dc:source>
+					<dc:identifier>Davidovich, Jaime</dc:identifier>
+				</oai_dc:dc>
+			</metadata>
+		</record>
+		<record>
+			<header>
+				<identifier>oai:aliada-project:7112</identifier>
+				<datestamp>2014-03-31T08:32:31Z</datestamp>
+			</header>
+			<metadata>
+				<oai_dc:dc xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+					xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/"
+					xmlns:dc="http://purl.org/dc/elements/1.1/"
+					xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+					<dc:title>Patti Smith</dc:title>
+					<dc:description><![CDATA[
+					<p>
+					<strong>Exposición</strong>
+					:
+					<em>Written Portrait</em>
+					<strong>(</strong>
+					2008)
+					</p>
+					<p>
+					<a
+											href="http://www.artium.org/Castellano/Exposiciones/Exposicion/tabid/176/language/es-ES/Default.aspx?pidExposicion=41"
+											target="_blank">
+					<em>Written Portrait</em>
+					</a>
+					comienza el recorrido a través de los dibujos más tempranos, a mediados de los sesenta, cuando da los primeros pasos creativos.
+					</p>
+					]]></dc:description> 
+					<dc:creator>Patti Smith</dc:creator>
+					<dc:subject>Visitas guiadas</dc:subject>
+					<dc:source><![CDATA[
+					<p />
+					<div class="media_embed" height="111px" width="200px">
+					<object data="http://www.ivoox.com/playerivoox_ee_1257565_1.html"
+											height="111px" id="player1257565" type="application/x-shockwave-flash"
+											width="200px">
+					<param name="movie" value="http://www.ivoox.com/playerivoox_ee_1257565_1.html" />
+					<param name="AllowScriptAccess" value="always" />
+					<param name="allowFullScreen" value="true" />
+					<param name="wmode" value="transparent" />
+					<embed allowfullscreen="true" allowscriptaccess="always" height="111px"
+											src="http://www.ivoox.com/playerivoox_ee_1257565_1.html" type="application/x-shockwave-flash"
+											width="200px" wmode="transparent" />
+					</object>
+					</div>
+					]]></dc:source>
+					<dc:identifier>Smith, Patti</dc:identifier>
+				</oai_dc:dc>
+			</metadata>
+		</record>
+	</ListRecords>
+</OAI-PMH>			

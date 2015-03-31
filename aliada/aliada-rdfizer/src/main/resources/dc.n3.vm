@@ -1,0 +1,19 @@
+## SHORTCUTS
+#set($is_a = "#rdf('type')")
+#set($E41_Appellation = "#ecrm('E41_Appellation')")
+#set($E39_Actor = "#ecrm('E39_Actor')")
+#set($P3_has_note = "#ecrm('P3_has_note')")
+#set($P2_has_type = "#ecrm('P2_has_type')")
+#set($identifier = $xpath.one("identifier",$root))
+#set($c = "#new_uri('Ε75_Conceptual_Object_Appellation')")
+#set($s = "#uri('E73_Information_Object' $identifier.textContent)")
+$c $is_a #ecrm('Ε75_Conceptual_Object_Appellation') . 
+$c $P2_has_type #aliadaconcept("ISMN") . 
+$c $P3_has_note "$identifier.textContent" . 
+$s $is_a rdf:type #ecrm('E73_Information_Object').
+$s #ecrm("P1_is_identified_by") $c . 
+#set($title = $xpath.one("title",$root))
+#set($title_s = "#uri('E73_Information_Object' $title.textContent)")
+$title_s $is_a #ecrm('E35_Title') . 
+$title_s $P3_has_note "$title.textContent")
+$s #ecrm('P102_has_title') $title_s .
