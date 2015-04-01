@@ -6,7 +6,7 @@
 #set($P2_has_type = "#ecrm('P2_has_type')")
 #set($Concept = "#skos('Concept')")
 #set($main_subject = "<${mainSubject}>")
-#set($lidoClass = $function.lidoClass($main_subject))
+#set($lidoClass = $function.lidoClass($cid, $main_subject))
 ## RECORD ID BEGIN
 #set($lidoRecID = $xpath.value("lidoRecID", $root))
 #set($appellation_s = "#uri('E41_Appellation' $lidoRecID)")
@@ -44,6 +44,19 @@ $main_subject #ecrm("P70i_is_documented_in") $document_s .
 	$main_subject #ecrm("P1_is_identified_by") $appellation_s .
 #end	
 ## OBJECT ID END
+##NEW!!!-BEGIN
+## OBJECT INSCRIPTIONS BEGIN
+#set($inscriptions = $xpath.many("descriptiveMetadata/objectIdentificationWrap/inscriptionsWrap/inscriptions/inscriptionDescription/descriptiveNoteValue",$root))
+#foreach($inscription in $inscriptions)
+	#set($inscval = $function.escape($inscription.textContent))
+	#set($P65_shows_visual_item = "#ecrm('P65_shows_visual_item')")
+   	#set($inscription_name_s = "#uri_with_strong_normalization('E36_Visual_Item' $inscval)")
+   	$inscription_name_s $is_a #ecrm("E36_Visual_Item") .
+	$inscription_name_s $P3_has_note "$inscval" .
+	$main_subject $P65_shows_visual_item $inscription_name_s .
+#end	
+## OBJECT INSCRIPTIONS END
+##NEW!!!-END
 ## REPOSITORY BEGIN
 #set($repository = $xpath.one("descriptiveMetadata/objectIdentificationWrap/repositoryWrap/repositorySet/repositoryName",$root))
 #legalBody($repository $main_subject "#ecrm('P50_has_current_keeper')")
@@ -61,7 +74,7 @@ $main_subject #ecrm("P70i_is_documented_in") $document_s .
     	$address_name_s $P3_has_note "$value" . 
     	$address_s $is_a $E53_Place .
     	$address_s $P87_is_identified_by $address_name_s . 
-    	$main_subject #ecrm("P55_has_current_location") $address_s .
+    	$main_subject #ecrm("P53_has_former_or_current_location") $address_s .
 ##  	
         #set($coordinates = $xpath.one("gml/Point/pos", $repositoryLocation))
         #if($coordinates)
@@ -88,6 +101,25 @@ $main_subject #ecrm("P70i_is_documented_in") $document_s .
     #end    
 #end
 ## REPOSITORY LOCATION END
+##NEW!!!-BEGIN
+## OBJECT DISPLAY STATE BEGIN
+#set($displayStates = $xpath.many("descriptiveMetadata/objectIdentificationWrap/displayStateEditionWrap/displayState",$root))
+#foreach($displayState in $displayStates)
+	#set($value = $function.escape($displayState.textContent))
+	$main_subject $P3_has_note "$value" .
+#end	
+## OBJECT DISPLAY STATE END
+##NEW!!!-END
+##NEW!!!-BEGIN
+## OBJECT DISPLAY EDITION BEGIN
+#set($displayEditions = $xpath.many("descriptiveMetadata/objectIdentificationWrap/displayStateEditionWrap/displayEdition",$root))
+#foreach($displayEdition in $displayEditions)
+	#set($value = $function.escape($displayEdition.textContent))
+	$main_subject $P3_has_note "$value" .
+#end	
+## OBJECT DISPLAY EDITION END
+##NEW!!!-END
+##NEW!!!-BEGIN
 ## OBJECT DESCRIPTION BEGIN
 #set($descriptions = $xpath.many("descriptiveMetadata/objectIdentificationWrap/objectDescriptionWrap/objectDescriptionSet/descriptiveNoteValue",$root))
 #foreach($description in $descriptions)
@@ -95,6 +127,7 @@ $main_subject #ecrm("P70i_is_documented_in") $document_s .
 	$main_subject $P3_has_note "$descval" .
 #end	
 ## OBJECT DESCRIPTION END
+##NEW!!!-END
 ## OBJECT MEASUREMENT START
 #set($objectMeasurementsSets = $xpath.many("descriptiveMetadata/objectIdentificationWrap/objectMeasurementsWrap/objectMeasurementsSet", $root))
 #foreach($objectMeasurementsSet in $objectMeasurementsSets)
@@ -125,6 +158,32 @@ $main_subject #ecrm("P70i_is_documented_in") $document_s .
 			$main_subject #ecrm("P43_has_dimension") $type_s .	
 		#end	
 	#end	
+##NEW!!!-BEGIN
+	#set($formatMeasurements = $xpath.many("objectMeasurements/formatMeasurements", $objectMeasurementsSet))
+	#foreach($formatMeasurement in $formatMeasurements)
+		#set($type_s = "#new_uri('E54_Dimension')")
+		$type_s $is_a $E54_Dimension . 
+		$type_s $P3_has_note "Format" . 
+		$type_s #ecrm("P90_has_value") "$function.escape($formatMeasurement.textContent)" .
+		$main_subject #ecrm("P43_has_dimension") $type_s .	
+	#end	
+	#set($shapeMeasurements = $xpath.many("objectMeasurements/shapeMeasurements", $objectMeasurementsSet))
+	#foreach($shapeMeasurement in $shapeMeasurements)
+		#set($type_s = "#new_uri('E54_Dimension')")
+		$type_s $is_a $E54_Dimension . 
+		$type_s $P3_has_note "Shape" . 
+		$type_s #ecrm("P90_has_value") "$function.escape($shapeMeasurement.textContent)" .
+		$main_subject #ecrm("P43_has_dimension") $type_s .	
+	#end	
+	#set($scaleMeasurements = $xpath.many("objectMeasurements/scaleMeasurements", $objectMeasurementsSet))
+	#foreach($scaleMeasurement in $scaleMeasurements)
+		#set($type_s = "#new_uri('E54_Dimension')")
+		$type_s $is_a $E54_Dimension . 
+		$type_s $P3_has_note "Scale" . 
+		$type_s #ecrm("P90_has_value") "$function.escape($scaleMeasurement.textContent)" .
+		$main_subject #ecrm("P43_has_dimension") $type_s .	
+	#end	
+##NEW!!!-END
 #end	
 ## OBJECT MEASUREMENT END
 ## EVENTS START
@@ -220,6 +279,19 @@ $main_subject #ecrm("P70i_is_documented_in") $document_s .
 		#end	
 	#end	
 	## EVENT ACTORS END
+##NEW!!!-BEGIN
+	## CULTURAL CONTEXT START
+	#set($cultures = $xpath.many("culture/term", $event))
+	#foreach($culture in $cultures)
+		#if($event_type_s)
+			#set($period_s = "#new_uri('E4_Period')")
+			$period_s $is_a #ecrm("E4_Period") . 
+			$period_s $P3_has_note "$function.escape($culture.textContent)" . 
+			$event_type_s #ecrm("P10_falls_within") $period_s . 
+		#end	
+	#end	
+	## CULTURAL CONTEXT END
+##NEW!!!-END
 	## EVENT DATE START
 	#set($dates = $xpath.many("eventDate", $event))
 	#foreach($date in $dates)
@@ -246,6 +318,58 @@ $main_subject #ecrm("P70i_is_documented_in") $document_s .
 		#end
 	#end	
 	## EVENT DATE END
+##NEW!!!-BEGIN
+	## EVENT PLACE START
+	#set($eventPlaces = $xpath.many("eventPlace", $event))
+	#foreach($eventPlace in $eventPlaces)
+		#set($displayPlace = $xpath.many("displayPlace", $eventPlace))
+		#if($event_type_s)
+    		#foreach($displayLabel in $displayPlace)
+				$event_type_s $P3_has_note "$function.escape($displayLabel.textContent)" . 
+    		#end	
+		#end
+		#set($place = $xpath.one("place", $eventPlace))
+		#if ($place)
+			#set($address = $xpath.one("namePlaceSet/appellationValue", $place))
+			#if ($address)
+				#set($E53_Place = "#ecrm('E53_Place')")
+				#set($P87_is_identified_by = "#ecrm('P87_is_identified_by')")
+				#set($value = $function.escape($address.textContent))
+				#set($address_name_s = "#uri_with_strong_normalization('E44_Place_Appellation' $value)")
+				#set($address_s = "#uri_with_strong_normalization('E53_Place' $value)") 	
+				$address_name_s $is_a #ecrm("E44_Place_Appellation") .
+				$address_name_s $P3_has_note "$value" . 
+				$address_s $is_a $E53_Place .
+				$address_s $P87_is_identified_by $address_name_s . 
+				$event_type_s #ecrm("P7_took_place_at") $address_s .
+		##  	
+				#set($coordinates = $xpath.one("gml/Point/pos", $place))
+				#if($coordinates)
+					#set($lat_lon = $function.asList($function.escape($coordinates.textContent.trim().split(" "))))
+					#if($lat_lon && $lat_lon.size() == 2)
+						$address_s #wgs("lat") "$lat_lon.get(0)"^^<http://www.w3.org/2001/XMLSchema#double> .
+						$address_s #wgs("long") "$lat_lon.get(1)"^^<http://www.w3.org/2001/XMLSchema#double> . 
+					#end	
+				#end	
+		##		
+				#set($places = $xpath.many("partOfPlace/namePlaceSet/appellationValue", $place))
+				#set($E44_Place_Appellation = "#ecrm('E44_Place_Appellation')")
+				#set($P89i_contains = "#ecrm('P89i_contains')")
+				#foreach ($place in $places)
+					#set($value = $function.escape($place.textContent))
+					#set($place_appellation_s = "#uri('E44_Place_Appellation' $value)")
+					#set($place_s = "#uri('E53_Place' $value)")	
+					$place_appellation_s $is_a $E44_Place_Appellation .
+					$place_appellation_s $P3_has_note "$value" . 
+					$place_s $is_a $E53_Place .
+					$place_s $P87_is_identified_by $place_appellation_s . 
+					$place_s $P89i_contains $address_s . 
+				#end
+			#end    
+		#end
+	#end
+	## EVENT PLACE END
+##NEW!!!-END
 	## EVENT MATERIALS TECH START
 	#set($materials = $xpath.many("eventMaterialsTech", $event))
 	#foreach($material in $materials)
