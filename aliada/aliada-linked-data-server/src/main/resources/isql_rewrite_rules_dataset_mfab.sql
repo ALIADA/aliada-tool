@@ -397,7 +397,7 @@ NULL,
 --Doc URI-s	
 DB.DBA.URLREWRITE_CREATE_REGEX_RULE ( 
 'http_rule_$u{rules_suffix}_Doc_no_extension_rdf', 1, 
-'($u{uri_doc_slash})([^.#]*)', 
+'($u{uri_doc_slash})([^#]*)', 
 vector ('par_1', 'par_2'),  
 2, 
 '/sparql?query=define%%20sql%%3Adescribe-mode%%20%%22LOD%%22%%20DESCRIBE%%20%%3Chttp%%3A%%2F%%2F$u{domain_name_encoded}%%2F$u{uri_id_encoded}%%2F%U%%3E%%20$u{graphs_select_encoded}&format=%U', 
@@ -411,7 +411,7 @@ NULL,
  
 DB.DBA.URLREWRITE_CREATE_REGEX_RULE ( 
 'http_rule_$u{rules_suffix}_Doc_no_extension_htmlvirtuoso', 1, 
-'($u{uri_doc_slash})([^.#]*)', 
+'($u{uri_doc_slash})([^#]*)', 
 vector ('par_1', 'par_2'),  
 2, 
 '/describe/?uri=http%%3A%%2F%%2F$u{domain_name_encoded}%%2F$u{uri_id_encoded}%%2F%s$u{graphs_encoded}', 
