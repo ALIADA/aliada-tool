@@ -17,3 +17,9 @@ $s #ecrm("P1_is_identified_by") $c .
 $title_s $is_a #ecrm('E35_Title') . 
 $title_s $P3_has_note "$title.textContent")
 $s #ecrm('P102_has_title') $title_s .
+## SUBJECT
+#set($subjects = $xpath.many("subject",$root))
+#foreach($subject in $subjects) 
+	#set($subject_s = "#uri('E1_CRM_Entity' $subject.textContent)")
+	$s #ecrm('P129_is_about') $subject_s . 
+#end
