@@ -44,7 +44,6 @@ $main_subject #ecrm("P70i_is_documented_in") $document_s .
 	$main_subject #ecrm("P1_is_identified_by") $appellation_s .
 #end	
 ## OBJECT ID END
-##NEW!!!-BEGIN
 ## OBJECT INSCRIPTIONS BEGIN
 #set($inscriptions = $xpath.many("descriptiveMetadata/objectIdentificationWrap/inscriptionsWrap/inscriptions/inscriptionDescription/descriptiveNoteValue",$root))
 #foreach($inscription in $inscriptions)
@@ -56,7 +55,6 @@ $main_subject #ecrm("P70i_is_documented_in") $document_s .
 	$main_subject $P65_shows_visual_item $inscription_name_s .
 #end	
 ## OBJECT INSCRIPTIONS END
-##NEW!!!-END
 ## REPOSITORY BEGIN
 #set($repository = $xpath.one("descriptiveMetadata/objectIdentificationWrap/repositoryWrap/repositorySet/repositoryName",$root))
 #legalBody($repository $main_subject "#ecrm('P50_has_current_keeper')")
@@ -101,7 +99,6 @@ $main_subject #ecrm("P70i_is_documented_in") $document_s .
     #end    
 #end
 ## REPOSITORY LOCATION END
-##NEW!!!-BEGIN
 ## OBJECT DISPLAY STATE BEGIN
 #set($displayStates = $xpath.many("descriptiveMetadata/objectIdentificationWrap/displayStateEditionWrap/displayState",$root))
 #foreach($displayState in $displayStates)
@@ -109,8 +106,6 @@ $main_subject #ecrm("P70i_is_documented_in") $document_s .
 	$main_subject $P3_has_note "$value" .
 #end	
 ## OBJECT DISPLAY STATE END
-##NEW!!!-END
-##NEW!!!-BEGIN
 ## OBJECT DISPLAY EDITION BEGIN
 #set($displayEditions = $xpath.many("descriptiveMetadata/objectIdentificationWrap/displayStateEditionWrap/displayEdition",$root))
 #foreach($displayEdition in $displayEditions)
@@ -118,8 +113,6 @@ $main_subject #ecrm("P70i_is_documented_in") $document_s .
 	$main_subject $P3_has_note "$value" .
 #end	
 ## OBJECT DISPLAY EDITION END
-##NEW!!!-END
-##NEW!!!-BEGIN
 ## OBJECT DESCRIPTION BEGIN
 #set($descriptions = $xpath.many("descriptiveMetadata/objectIdentificationWrap/objectDescriptionWrap/objectDescriptionSet/descriptiveNoteValue",$root))
 #foreach($description in $descriptions)
@@ -127,7 +120,6 @@ $main_subject #ecrm("P70i_is_documented_in") $document_s .
 	$main_subject $P3_has_note "$descval" .
 #end	
 ## OBJECT DESCRIPTION END
-##NEW!!!-END
 ## OBJECT MEASUREMENT START
 #set($objectMeasurementsSets = $xpath.many("descriptiveMetadata/objectIdentificationWrap/objectMeasurementsWrap/objectMeasurementsSet", $root))
 #foreach($objectMeasurementsSet in $objectMeasurementsSets)
@@ -158,7 +150,6 @@ $main_subject #ecrm("P70i_is_documented_in") $document_s .
 			$main_subject #ecrm("P43_has_dimension") $type_s .	
 		#end	
 	#end	
-##NEW!!!-BEGIN
 	#set($formatMeasurements = $xpath.many("objectMeasurements/formatMeasurements", $objectMeasurementsSet))
 	#foreach($formatMeasurement in $formatMeasurements)
 		#set($type_s = "#new_uri('E54_Dimension')")
@@ -183,7 +174,6 @@ $main_subject #ecrm("P70i_is_documented_in") $document_s .
 		$type_s #ecrm("P90_has_value") "$function.escape($scaleMeasurement.textContent)" .
 		$main_subject #ecrm("P43_has_dimension") $type_s .	
 	#end	
-##NEW!!!-END
 #end	
 ## OBJECT MEASUREMENT END
 ## EVENTS START
@@ -279,7 +269,6 @@ $main_subject #ecrm("P70i_is_documented_in") $document_s .
 		#end	
 	#end	
 	## EVENT ACTORS END
-##NEW!!!-BEGIN
 	## CULTURAL CONTEXT START
 	#set($cultures = $xpath.many("culture/term", $event))
 	#foreach($culture in $cultures)
@@ -291,7 +280,6 @@ $main_subject #ecrm("P70i_is_documented_in") $document_s .
 		#end	
 	#end	
 	## CULTURAL CONTEXT END
-##NEW!!!-END
 	## EVENT DATE START
 	#set($dates = $xpath.many("eventDate", $event))
 	#foreach($date in $dates)
@@ -318,7 +306,6 @@ $main_subject #ecrm("P70i_is_documented_in") $document_s .
 		#end
 	#end	
 	## EVENT DATE END
-##NEW!!!-BEGIN
 	## EVENT PLACE START
 	#set($eventPlaces = $xpath.many("eventPlace", $event))
 	#foreach($eventPlace in $eventPlaces)
@@ -369,18 +356,28 @@ $main_subject #ecrm("P70i_is_documented_in") $document_s .
 		#end
 	#end
 	## EVENT PLACE END
-##NEW!!!-END
 	## EVENT MATERIALS TECH START
 	#set($materials = $xpath.many("eventMaterialsTech", $event))
 	#foreach($material in $materials)
 		#set($displayMaterialsTech = $xpath.many("displayMaterialsTech", $material))
 		#if($event_type_s)
-    		#foreach($displayMaterial in $displayMaterialsTech)
+    			#foreach($displayMaterial in $displayMaterialsTech)
 				$event_type_s $P3_has_note "$function.escape($displayMaterial.textContent)" . 
-    		#end	
+    			#end	
 		#end
 	#end	
-	## EVENT MATERIALS TECH START
+	## EVENT MATERIALS TECH END
+	## EVENT DESCRIPTION SET START
+	#set($descriptionSets= $xpath.many("eventDescriptionSet", $event))
+	#foreach($descriptionSet in $descriptionSets)
+		#set($descriptions= $xpath.many("descriptiveNoteValue", $descriptionSet))
+		#if($event_type_s)
+    			#foreach($description in $descriptions)
+				$event_type_s $P3_has_note "$function.escape($description.textContent)" . 
+	    		#end	
+		#end
+	#end	
+	## EVENT DESCRIPTION SET END
 #end	
 ## EVENT TYPES END
 ## EVENTS END
