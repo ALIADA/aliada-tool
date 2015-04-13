@@ -116,6 +116,7 @@ $(function(){
 		$('#checkRDFButton').prop("disabled",false);
 		$('#backButton').prop("disabled",true);		
 	}
+	$('#datSelect').find('br').remove();
 }); 
 </script>
 
@@ -131,7 +132,10 @@ $(function(){
 </ul>
 <%-- doubleselect style to show at the same line  --%>
 <style> 
-	.nobr br{display:none}  
+	.nobr {
+		display: inline-block;
+		white-space: nowrap;
+		}  
 </style>
 <html:a id="rdfVal" disabled="true" action="rdfVal" cssClass="displayNo menuButton button fleft" key="rdfVal" target="_blank"><html:text name="rdfVal"/></html:a>
 <%--<html:a id="linksVal" disabled="true" action="linksVal" cssClass="displayNo menuButton button fright" key="linksVal" target="_blank"><html:text name="linksVal"/></html:a>--%>		
