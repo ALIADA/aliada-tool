@@ -10,6 +10,7 @@ import static eu.aliada.shared.Strings.isNullOrEmpty;
 import javax.xml.xpath.XPathExpressionException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.w3c.dom.Element;
 
 import eu.aliada.rdfizer.datasource.Cache;
@@ -24,6 +25,7 @@ import eu.aliada.rdfizer.pipeline.format.xml.XPath;
  * @author Andrea Gazzarini
  * @since 1.0
  */
+@Component("lido-subject-detection-rule")
 public class LidoMainSubjectDetectionRule implements MainSubjectDetectionRule<Element, String> {
 	@Autowired
 	private XPath xpath;

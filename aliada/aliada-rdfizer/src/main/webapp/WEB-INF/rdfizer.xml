@@ -61,16 +61,5 @@
 	
 	<!-- Supported formats (with their specific settings) -->
  	<import resource="marc-settings.xml" />
-	<import resource="lido-settings.xml" />
-	
-	 <!-- 
-	 	TODO: RDF Store connector (specific 2 Virtuoso or a generic one?)
-	  -->
-	 
-	 <!-- 
-	 	Shared processors 
-	  -->
 	<bean id="validate_input_path" class="eu.aliada.rdfizer.pipeline.processors.ValidateInputPath" />
-	
-
 </beans>

@@ -24,6 +24,9 @@
 	<bean id="count-lido-records" class="eu.aliada.rdfizer.pipeline.format.xml.RecordCounter">
 		<constructor-arg value="lido"/>
 	</bean>
+	<bean id="count-dc-records" class="eu.aliada.rdfizer.pipeline.format.xml.RecordCounter">
+		<constructor-arg value="record"/>
+	</bean>	
 	<bean id="run-dc-validation" class="eu.aliada.rdfizer.pipeline.format.xml.CaptureValidationSampleAndRunValidation">
 		<constructor-arg value="dc"/>
 		<constructor-arg value="1"/>
@@ -102,7 +105,7 @@
 					<process ref="count-dc-records"/>
 					<process ref="run-dc-validation"/>
 					<split streaming="true">
-						<tokenize token="metadata" xml="true" />
+						<tokenize token="record" xml="true" />
 						<to uri="seda:dc-record-channel?concurrentConsumers=2&amp;size=1000&amp;blockWhenFull=true" />
 					</split>
 				</when>				
@@ -154,7 +157,7 @@
 		</route>
 		<route>
 			<from uri="seda:triples-channel?size=250&amp;blockWhenFull=true" />
-			<process ref="add-2-rdf-store"/>
+			<process ref="debugger"/>
 		</route>
 	</camelContext>
 </beans>

@@ -134,7 +134,7 @@ de
 ]]></dc:description> 
 					<dc:creator>Andrés Serrano</dc:creator>
 					<dc:subject>Conversaciones con...</dc:subject>
-					<dc:source>
+					<dc:source><![CDATA[
 <p />
 <div class="media_embed" height="111px" width="200px">
 <object data="http://www.ivoox.com/playerivoox_ee_2046954_1.html"
@@ -185,7 +185,7 @@ indica, en primer lugar, el carácter transitorio de la exposición de Igasi Aba
 ]]></dc:description> 
 					<dc:creator>Ignasi Aballí</dc:creator>
 					<dc:subject>Visitas guiadas</dc:subject>
-					<dc:source>
+					<dc:source><![CDATA[
 <p />
 <div class="media_embed" height="111px" width="200px">
 <object data="http://www.ivoox.com/playerivoox_ee_2017153_1.html"
@@ -237,7 +237,7 @@ Visita guiada de la artista Regina José Galindo a su exposición en Artium
 ]]></dc:description> 
 					<dc:creator>Regina José Galindo</dc:creator>
 					<dc:subject>Visitas guiadas</dc:subject>
-					<dc:source>
+					<dc:source><![CDATA[
 <p />
 <div class="media_embed" height="111px" width="200px">
 <object data="http://www.ivoox.com/playerivoox_ee_2017352_1.html"
@@ -289,7 +289,7 @@ en Artium. Como es habitual en Ángel Marcos, su obra se desarrolla alrededor de
 ]]></dc:description> 
 					<dc:creator>Ángel Marcos</dc:creator>
 					<dc:subject>Visitas guiadas</dc:subject>
-					<dc:source>
+					<dc:source><![CDATA[
 <p />
 <div class="media_embed" height="111px" width="200px">
 <object data="http://www.ivoox.com/playerivoox_ee_2017510_1.html"
@@ -340,7 +340,7 @@ Santiago Sierra realiza un recorrido por la exposición
 ]]></dc:description> 
 					<dc:creator>Santiago Sierra</dc:creator>
 					<dc:subject>Visitas guiadas</dc:subject>
-					<dc:source>
+					<dc:source><![CDATA[
 <p />
 <div class="media_embed" height="111px" width="200px">
 <object data="http://www.ivoox.com/playerivoox_ee_2017682_1.html"
@@ -393,7 +393,7 @@ en Artium. La ciudad no debe ser leída tan solo como una situación espacial, s
 ]]></dc:description> 
 					<dc:creator>José Miguel García Cortés</dc:creator>
 					<dc:subject>Visitas guiadas</dc:subject>
-					<dc:source>
+					<dc:source><![CDATA[
 <p />
 <div class="media_embed" height="111px" width="200px">
 <object data="http://www.ivoox.com/playerivoox_ee_2017755_1.html"
@@ -443,7 +443,7 @@ Visita guiada a la exposición de Artium
 ]]></dc:description> 
 					<dc:creator>Carmelo Ortiz de Elgea</dc:creator>
 					<dc:subject>Visitas guiadas</dc:subject>
-					<dc:source>
+					<dc:source><![CDATA[
 <p />
 <div class="media_embed" height="111px" width="200px">
 <object data="http://www.ivoox.com/playerivoox_ee_2017379_1.html"
@@ -493,7 +493,7 @@ Visita guiada a la exposición de Artium
 ]]></dc:description> 
 					<dc:creator>José Luis Zumeta</dc:creator>
 					<dc:subject>Visitas guiadas</dc:subject>
-					<dc:source>
+					<dc:source><![CDATA[
 <p />
 <div class="media_embed" height="111px" width="200px">
 <object data="http://www.ivoox.com/playerivoox_ee_2017379_1.html"
@@ -543,7 +543,7 @@ un colectivo que estuvo formado por los artistas Juan Luis Moraza y Marisa Ferna
 ]]></dc:description> 
 					<dc:creator>CVA</dc:creator>
 					<dc:subject>Conversaciones con...</dc:subject>
-					<dc:source>
+					<dc:source><![CDATA[
 <p />
 <div class="media_embed" height="111px" width="200px">
 <object data="http://www.ivoox.com/playerivoox_ee_2016810_1.html"
@@ -597,7 +597,7 @@ Con una identidad muy marcada, esta obra muestra la visión de Pepo Salazar del 
 ]]></dc:description> 
 					<dc:creator>Pepo Salazar</dc:creator>
 					<dc:subject>Conversaciones con...</dc:subject>
-					<dc:source>
+					<dc:source><![CDATA[
 <p />
 <div class="media_embed" height="111px" width="200px">
 <object data="http://www.ivoox.com/playerivoox_ee_2035968_1.html"
@@ -653,7 +653,7 @@ es su casa, como era (es) la de sumadre. Se trata del primer legado que recibió
 ]]></dc:description> 
 					<dc:creator>Eduardo Sourrouille</dc:creator>
 					<dc:subject>Visitas guiadas</dc:subject>
-					<dc:source>
+					<dc:source><![CDATA[
 <p />
 <div class="media_embed" height="111px" width="200px">
 <object data="http://www.ivoox.com/playerivoox_ee_2036021_1.html"
@@ -705,7 +705,7 @@ Visita guiada de Pepo Salazar a su exposición Walk Among Us (Attack, Sustain, R
 ]]></dc:description> 
 					<dc:creator>Pepo Salazar</dc:creator>
 					<dc:subject>Visitas guiadas</dc:subject>
-					<dc:source>
+					<dc:source><![CDATA[
 <p />
 <div class="media_embed" height="111px" width="200px">
 <object data="http://www.ivoox.com/playerivoox_ee_2035968_1.html"
@@ -759,7 +759,7 @@ en ARTIUM. Comprometido con su tiempo, el trabajo de Francesc Torres está ligad
 ]]></dc:description> 
 					<dc:creator>Francesc Torres</dc:creator>
 					<dc:subject>Visitas guiadas</dc:subject>
-					<dc:source>
+					<dc:source><![CDATA[
 <p></p>
 <div></div>
 <p></p>
@@ -803,7 +803,7 @@ Escrito está. Poesía experimental en España (1963-1984)
 ]]></dc:description> 
 					<dc:creator>Fernando Millán</dc:creator>
 					<dc:subject>Visitas guiadas</dc:subject>
-					<dc:source>
+					<dc:source><![CDATA[
 <p />
 <div class="media_embed" height="111px" width="200px">
 <object data="http://www.ivoox.com/playerivoox_ee_2035916_1.html"
@@ -855,7 +855,7 @@ Visita guiada de Hannah Collins a su exposición en Artium
 ]]></dc:description> 
 					<dc:creator>Hannah Collins</dc:creator>
 					<dc:subject>Visitas guiadas</dc:subject>
-					<dc:source>
+					<dc:source><![CDATA[
 <p></p>
 <div></div>
 <p></p>
@@ -893,7 +893,7 @@ es una instalación que recoge parte de su trabajo artístico de los últimos oc
 ]]></dc:description> 
 					<dc:creator>Miguel Ángel Gaüeca</dc:creator>
 					<dc:subject>Visitas guiadas</dc:subject>
-					<dc:source>
+					<dc:source><![CDATA[
 <p />
 <div class="media_embed" height="111px" width="200px">
 <object data="http://www.ivoox.com/playerivoox_ee_2035825_1.html"
@@ -947,7 +947,7 @@ es una exploración de la mirada fotográfica que entra en cuestiones de identid
 ]]></dc:description> 
 					<dc:creator>Lluisa Ortínez</dc:creator>
 					<dc:subject>Visitas guiadas</dc:subject>
-					<dc:source>
+					<dc:source><![CDATA[
 <p />
 <div class="media_embed" height="111px" width="200px">
 <object data="http://www.ivoox.com/playerivoox_ee_2035848_1.html"
@@ -997,7 +997,7 @@ Visita guiada de Aitor Lajarín. El proyecto creado especialmente para ARTIUM gi
 ]]></dc:description> 
 					<dc:creator>Aitor Lajarín</dc:creator>
 					<dc:subject>Visitas guiadas</dc:subject>
-					<dc:source>
+					<dc:source><![CDATA[
 <p />
 <div class="media_embed" height="111px" width="200px">
 <object data="http://www.ivoox.com/playerivoox_ee_2025681_1.html"
@@ -1047,7 +1047,7 @@ Visita guiada de Jaime Davidovich. se plantea como una mirada a su producción a
 ]]></dc:description> 
 					<dc:creator>Jaime Davidovich</dc:creator>
 					<dc:subject>Visitas guiadas</dc:subject>
-					<dc:source>
+					<dc:source><![CDATA[
 <p></p>
 <div></div>
 <p></p>
@@ -1089,7 +1089,7 @@ Visita guiada de Patricia Piccini, una artista que se puede calificar como cread
 ]]></dc:description> 
 					<dc:creator>Patricia Piccinini</dc:creator>
 					<dc:subject>Visitas guiadas</dc:subject>
-					<dc:source>
+					<dc:source><![CDATA[
 <p />
 <div class="media_embed" height="111px" width="200px">
 <object data="http://www.ivoox.com/playerivoox_ee_2036240_1.html"
@@ -1139,7 +1139,7 @@ Visita guiada de Alfredo Álvarez Plágaro. Su trabajo presenta la peculiaridad 
 ]]></dc:description> 
 					<dc:creator>Alfredo Álvarez Plágaro</dc:creator>
 					<dc:subject>Visitas guiadas</dc:subject>
-					<dc:source>
+					<dc:source><![CDATA[
 <p />
 <div class="media_embed" height="111px" width="200px">
 <object data="http://www.ivoox.com/playerivoox_ee_2036462_1.html"
@@ -1189,7 +1189,7 @@ Conversaciones con la artista Azucena Vieites. La cultura del sampleo, las genea
 ]]></dc:description> 
 					<dc:creator>Azucena Vieites</dc:creator>
 					<dc:subject>Conversaciones con...</dc:subject>
-					<dc:source>
+					<dc:source><![CDATA[
 <p />
 <div class="media_embed" height="111px" width="200px">
 <object data="http://www.ivoox.com/playerivoox_ee_2047091_1.html"
@@ -1231,7 +1231,7 @@ Conversaciones con la artista Susana Talayero (Bilbao, 1961). Reside en Roma de 
 ]]></dc:description> 
 					<dc:creator>Susana Talayero</dc:creator>
 					<dc:subject>Conversaciones con...</dc:subject>
-					<dc:source>
+					<dc:source><![CDATA[
 <p />
 <div class="media_embed" height="111px" width="200px">
 <object data="http://www.ivoox.com/playerivoox_ee_2047079_1.html"
@@ -1282,7 +1282,7 @@ Visita guiada del artista Javier Pérez a su exposición en Artium Centro Museo 
 ]]></dc:description> 
 					<dc:creator>Javier Pérez</dc:creator>
 					<dc:subject>Visitas guiadas</dc:subject>
-					<dc:source>
+					<dc:source><![CDATA[
 <p />
 <div class="media_embed" height="111px" width="200px">
 <object data="http://www.ivoox.com/playerivoox_ee_2047025_1.html"
@@ -1333,7 +1333,7 @@ Visita guiada del artista Alfonso Gortázar a la exposición In Albis en Artium 
 ]]></dc:description> 
 					<dc:creator>Alfonso Gortázar</dc:creator>
 					<dc:subject>Visitas guiadas</dc:subject>
-					<dc:source>
+					<dc:source><![CDATA[
 <p />
 <div class="media_embed" height="111px" width="200px">
 <object data="http://www.ivoox.com/playerivoox_ee_2047009_1.html"
@@ -1375,7 +1375,7 @@ Conversaciones con el artista
 ]]></dc:description> 
 					<dc:creator>Darío Urzay</dc:creator>
 					<dc:subject>Conversaciones con...</dc:subject>
-					<dc:source>
+					<dc:source><![CDATA[
 <p />
 <div class="media_embed" height="111px" width="200px">
 <object data="http://www.ivoox.com/playerivoox_ee_2047176_1.html"
@@ -1425,7 +1425,7 @@ Visita guiada de Teresa Blanch, comisaria de la exposición Jana Sterbak. De la 
 ]]></dc:description> 
 					<dc:creator>Jana Sterbak</dc:creator>
 					<dc:subject>Visitas guiadas</dc:subject>
-					<dc:source>
+					<dc:source><![CDATA[
 <p />
 <div class="media_embed" height="111px" width="200px">
 <object data="http://www.ivoox.com/playerivoox_ee_2047001_1.html"
@@ -1457,7 +1457,7 @@ Visita guiada de Teresa Blanch, comisaria de la exposición Jana Sterbak. De la 
 					xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/"
 					xmlns:dc="http://purl.org/dc/elements/1.1/"
 					xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
-					<dc:title>Charles & Ray Eames</dc:title>
+					<dc:title>Charles &amp; Ray Eames</dc:title>
 					<dc:description><![CDATA[
 <p>
 <strong>Exposición</strong>
@@ -1475,9 +1475,9 @@ La obra de Charles y Ray Eames. Un legado de invención
 Visita guiada del comisario de la exposición Donald Albrecht en Artium. Charles y Ray Eames se encuentran entre los diseñadores americanos más importantes del siglo XX. Grabado en Artium el 22 de enero de 2003.
 </p>
 ]]></dc:description> 
-					<dc:creator>Charles & Ray Eames</dc:creator>
+					<dc:creator>Charles &amp; Ray Eames</dc:creator>
 					<dc:subject>Visitas guiadas</dc:subject>
-					<dc:source>
+					<dc:source><![CDATA[
 <p />
 <div class="media_embed" height="111px" width="200px">
 <object data="http://www.ivoox.com/playerivoox_ee_2046987_1.html"
@@ -1495,7 +1495,7 @@ Visita guiada del comisario de la exposición Donald Albrecht en Artium. Charles
 <div></div>
 <p></p>
 ]]></dc:source>
-					<dc:identifier>Eames, Charles & Ray</dc:identifier>
+					<dc:identifier>Eames, Charles &amp; Ray</dc:identifier>
 				</oai_dc:dc>
 			</metadata>
 		</record>
@@ -1521,7 +1521,7 @@ en la Fundación Bilbao Arte. Grabado en Artium el 30 de mayo de 2006.
 ]]></dc:description> 
 					<dc:creator>Itxaso Mendiluze</dc:creator>
 					<dc:subject>Conversaciones con...</dc:subject>
-					<dc:source>
+					<dc:source><![CDATA[
 <p />
 <div class="media_embed" height="111px" width="200px">
 <object data="http://www.ivoox.com/playerivoox_ee_2046971_1.html"
@@ -1571,7 +1571,7 @@ en Artium Centro Museo Vasco de Arte Contemporáneo de Vitoria-Gasteiz. Grabado 
 ]]></dc:description> 
 					<dc:creator>Perejaume</dc:creator>
 					<dc:subject>Visitas guiadas</dc:subject>
-					<dc:source>
+					<dc:source><![CDATA[
 <p />
 <div class="media_embed" height="111px" width="200px">
 <object data="http://www.ivoox.com/playerivoox_ee_2047346_1.html"
@@ -1621,7 +1621,7 @@ Visita guiada del fotografo Andrés Serrano (Nueva York, 1950) a su exposición 
 ]]></dc:description> 
 					<dc:creator>Andrés Serrano</dc:creator>
 					<dc:subject>Visitas guiadas</dc:subject>
-					<dc:source>
+					<dc:source><![CDATA[
 <p />
 <div class="media_embed" height="111px" width="200px">
 <object data="http://www.ivoox.com/playerivoox_ee_2046954_1.html"
@@ -1671,7 +1671,7 @@ Conversaciones con Susana Iturrioz, comisaria de la exposición Zhù yi! Fotogra
 ]]></dc:description> 
 					<dc:creator>Susana Iturrioz</dc:creator>
 					<dc:subject>Conversaciones con...</dc:subject>
-					<dc:source>
+					<dc:source><![CDATA[
 <p />
 <div class="media_embed" height="111px" width="200px">
 <object data="http://www.ivoox.com/playerivoox_ee_2046900_1.html"
@@ -1721,7 +1721,7 @@ De formación autodidacta, desde los inicios de su carrera artística  ha utiliz
 ]]></dc:description> 
 					<dc:creator>Diego Santomé</dc:creator>
 					<dc:subject>Conversaciones con...</dc:subject>
-					<dc:source>
+					<dc:source><![CDATA[
 <p />
 <div class="media_embed" height="111px" width="200px">
 <object data="http://www.ivoox.com/playerivoox_ee_2046894_1.html"
@@ -1771,7 +1771,7 @@ Visita guiada de Ángel Borrego. La vigilancia, los sistemas de control y sus re
 ]]></dc:description> 
 					<dc:creator>Ángel Borrego</dc:creator>
 					<dc:subject>Visitas guiadas</dc:subject>
-					<dc:source>
+					<dc:source><![CDATA[
 <p />
 <div class="media_embed" height="111px" width="200px">
 <object data="http://www.ivoox.com/playerivoox_ee_2046555_1.html"
@@ -1821,7 +1821,7 @@ Conversaciones con el fotógrafo Aitor Ortiz. Fotografía, arquitectura, escultu
 ]]></dc:description> 
 					<dc:creator>Aitor Ortiz</dc:creator>
 					<dc:subject>Conversaciones con...</dc:subject>
-					<dc:source>
+					<dc:source><![CDATA[
 <p />
 <div class="media_embed" height="111px" width="200px">
 <object data="http://www.ivoox.com/playerivoox_ee_2046864_1.html"
@@ -1861,7 +1861,7 @@ Conversaciones con la artista vitoriana Juncal Ballestín en Artium Centro Museo
 ]]></dc:description> 
 					<dc:creator>Juncal Ballestín</dc:creator>
 					<dc:subject>Conversaciones con...</dc:subject>
-					<dc:source>
+					<dc:source><![CDATA[
 <p />
 <div class="media_embed" height="111px" width="200px">
 <object data="http://www.ivoox.com/playerivoox_ee_2046860_1.html"
@@ -1904,7 +1904,7 @@ Visita guiada del artista Eugenio Ampudia a su exposición en Artium, Solo una i
 ]]></dc:description> 
 					<dc:creator>Eugenio Ampudia</dc:creator>
 					<dc:subject>Visitas guiadas</dc:subject>
-					<dc:source>
+					<dc:source><![CDATA[
 <p />
 <div class="media_embed" height="111px" width="200px">
 <object data="http://www.ivoox.com/playerivoox_ee_2046824_1.html"
@@ -1954,7 +1954,7 @@ Visita guiada del fotógrafo bilbaíno Aitor Ortiz a la exposición Muros de luz
 ]]></dc:description> 
 					<dc:creator>Aitor Ortiz</dc:creator>
 					<dc:subject>Visitas guiadas</dc:subject>
-					<dc:source>
+					<dc:source><![CDATA[
 <p />
 <div class="media_embed" height="111px" width="200px">
 <object data="http://www.ivoox.com/playerivoox_ee_2046864_1.html"
@@ -1994,7 +1994,7 @@ Conversaciones con el artista vitoriano Juan Luis Moraza en Artium Centro Museo 
 ]]></dc:description> 
 					<dc:creator>Juan Luis Moraza</dc:creator>
 					<dc:subject>Conversaciones con...</dc:subject>
-					<dc:source>
+					<dc:source><![CDATA[
 <p />
 <div class="media_embed" height="111px" width="200px">
 <object data="http://www.ivoox.com/playerivoox_ee_2046795_1.html"
@@ -2044,7 +2044,7 @@ Conversaciones con Jon Mikel Euba (Amorebieta, 1967), que pertenece a una genera
 ]]></dc:description> 
 					<dc:creator>Jon Mikel Euba</dc:creator>
 					<dc:subject>Conversaciones con...</dc:subject>
-					<dc:source>
+					<dc:source><![CDATA[
 <p />
 <div class="media_embed" height="111px" width="200px">
 <object data="http://www.ivoox.com/playerivoox_ee_2046716_1.html"
@@ -2094,7 +2094,7 @@ Visita guiada de Prudencio Irazábal (Puentelarrá, 1954) artista formado entre 
 ]]></dc:description> 
 					<dc:creator>Prudencio Irazábal</dc:creator>
 					<dc:subject>Visitas guiadas</dc:subject>
-					<dc:source>
+					<dc:source><![CDATA[
 <p />
 <div class="media_embed" height="111px" width="200px">
 <object data="http://www.ivoox.com/playerivoox_ee_2046752_1.html"
@@ -2146,7 +2146,7 @@ Visita guiada de Joan Fontcuberta por
 ]]></dc:description> 
 					<dc:creator>Joan Fontcuberta</dc:creator>
 					<dc:subject>Visitas guiadas</dc:subject>
-					<dc:source>
+					<dc:source><![CDATA[
 <p />
 <div class="media_embed" height="111px" width="200px">
 <object data="http://www.ivoox.com/playerivoox_ee_2046671_1.html"
@@ -2196,7 +2196,7 @@ Visita guiada de Naia del Castillo a su exposición en Artium, donde presenta un
 ]]></dc:description> 
 					<dc:creator>Naia del Castillo</dc:creator>
 					<dc:subject>Visitas guiadas</dc:subject>
-					<dc:source>
+					<dc:source><![CDATA[
 <p />
 <div class="media_embed" height="111px" width="200px">
 <object data="http://www.ivoox.com/playerivoox_ee_2046662_1.html"
@@ -2236,7 +2236,7 @@ Conversaciones con el artista bilbaíno Pablo Milicua en el Artium Centro Museo 
 ]]></dc:description> 
 					<dc:creator>Pablo Milicua</dc:creator>
 					<dc:subject>Conversaciones con...</dc:subject>
-					<dc:source>
+					<dc:source><![CDATA[
 <p />
 <div class="media_embed" height="111px" width="200px">
 <object data="http://www.ivoox.com/playerivoox_ee_2046623_1.html"
@@ -2288,7 +2288,7 @@ Visita guiada de la artista Maider López a su exposición en Artium. Una serie 
 ]]></dc:description> 
 					<dc:creator>Maider López</dc:creator>
 					<dc:subject>Visitas guiadas</dc:subject>
-					<dc:source>
+					<dc:source><![CDATA[
 <p />
 <div class="media_embed" height="111px" width="200px">
 <object data="http://www.ivoox.com/playerivoox_ee_2046610_1.html"
@@ -2352,7 +2352,7 @@ Conversaciones con el artista Ángel Borrego con motivo de su exposición en Art
 ]]></dc:description> 
 					<dc:creator>Ángel Borrego</dc:creator>
 					<dc:subject>Conversaciones con...</dc:subject>
-					<dc:source>
+					<dc:source><![CDATA[
 <p />
 <div class="media_embed" height="111px" width="200px">
 <object data="http://www.ivoox.com/playerivoox_ee_2046555_1.html"
