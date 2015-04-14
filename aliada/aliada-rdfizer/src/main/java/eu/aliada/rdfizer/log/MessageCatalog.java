@@ -20,7 +20,7 @@ public interface MessageCatalog {
 	String _00011_STOPPING = LT + MODULE_NAME + "-00011> : Shutdown procedure for RDF-izer has been initiated...";
 	String _00012_STOPPED = LT + MODULE_NAME + "-00012> : RDF-izer has been shutdown.";	
 	String _00020_WRONG_FILE_PERMISSIONS = LT + MODULE_NAME
-			+ "-00020> : Input file (%s) doesn't have right permission. As consequence of that it will be skept.";
+			+ "-00020> : Input file (%s) doesn't exist or it doesn't have right permissions. As consequence of that it will be skept.";
 	String _00021_BAD_MARCXML_FILE = LT + MODULE_NAME + "-00013> : Bad input file. Are you sure %s is a valid MARCXML file?";
 	String _00022_PIPELINE_STARTING = LT + MODULE_NAME + "-00022> : RDF-izer pipeline is starting...preliminary checks start...";
 	String _00023_PIPELINE_STARTED = LT + MODULE_NAME + "-00023> : RDF-izer pipeline configuration seems Ok. The pipeline is active.";

@@ -81,6 +81,9 @@ public class RDFizerResource implements RDFizer {
 	@Value(value = "${lido.input.dir}")
 	protected String lidoInputDir;
 	
+	@Value(value = "${dc.input.dir}")
+	protected String dcXmlInputDir;
+	
 	@Autowired
 	protected Cache cache;
 
@@ -311,6 +314,8 @@ public class RDFizerResource implements RDFizer {
 			return lidoInputDir;
 		} else if ("marcxml".equals(format)) {
 			return marcXmlInputDir;
+		} else if ("dc".equals(format)) {
+			return dcXmlInputDir;
 		}
 		return null;
 	}

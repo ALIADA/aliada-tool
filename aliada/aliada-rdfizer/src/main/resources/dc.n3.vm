@@ -1,0 +1,43 @@
+## SHORTCUTS
+#set($is_a = "#rdf('type')")
+#set($E41_Appellation = "#ecrm('E41_Appellation')")
+#set($E39_Actor = "#ecrm('E39_Actor')")
+#set($P3_has_note = "#ecrm('P3_has_note')")
+#set($P2_has_type = "#ecrm('P2_has_type')")
+#set($identifier = $xpath.one("header/identifier",$root))
+#set($c = "#new_uri('Ε75_Conceptual_Object_Appellation')")
+#set($s = "#uri('E73_Information_Object' $identifier.textContent)")
+$c $is_a #ecrm('Ε75_Conceptual_Object_Appellation') . 
+$c $P2_has_type #aliadaconcept("ISMN") . 
+$c $P3_has_note "$identifier.textContent" . 
+$s $is_a rdf:type #ecrm('E73_Information_Object').
+$s #ecrm("P1_is_identified_by") $c . 
+#set($title = $xpath.one("metadata/dc/title",$root))
+#set($title_s = "#uri('E73_Information_Object' $title.textContent)")
+$title_s $is_a #ecrm('E35_Title') . 
+$title_s $P3_has_note "$title.textContent")
+$s #ecrm('P102_has_title') $title_s .
+## SUBJECT
+#set($subjects = $xpath.many("metadata/dc/subject",$root))
+#foreach($subject in $subjects) 
+	#set($subject_s = "#uri('E1_CRM_Entity' $subject.textContent)")
+	$subject_s $is_a #ecrm('E1_CRM_Entity') . 
+	$subject_s $P3_has_note "$subject.textContent" . 
+	$s #ecrm('P129_is_about') $subject_s . 
+#end
+## COVERAGE 
+#set($coverages = $xpath.many("metadata/dc/coverage",$root))
+#foreach($coverage in $coverages) 
+	#set($coverage_s = "#uri('E1_CRM_Entity' $coverage.textContent)")
+	$coverage_s $is_a #ecrm('E1_CRM_Entity') . 
+	$coverage_s $P3_has_note "$coverage.textContent" . 
+	$s #ecrm('P129_is_about') $coverage_s . 
+#end
+## LANGUAGE
+#set($languages = $xpath.many("metadata/dc/language",$root))
+#foreach($language in $languages) 	
+	#set($lang_s = "#uri('Ε56_Language' $language.textContent)") . 
+	$lang_s $is_a #ecrm('Ε56_Language') . 
+	$lang_s $P3_has_note "$language.textContent" . 
+	$s #ecrm('P72_has_language') $lang_s . 
+#end
