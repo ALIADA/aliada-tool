@@ -17,8 +17,24 @@ $s #ecrm("P1_is_identified_by") $c .
 $title_s $is_a #ecrm('E35_Title') . 
 $title_s $P3_has_note "$title.textContent")
 $s #ecrm('P102_has_title') $title_s .
+#set($root = $xpath.one("metadata/dc", $root))
+## CREATOR 
+#set($creators = $xpath.many("creator",$root))
+#foreach($creator in $creators) 
+	#set($value = $creator.textContent)
+	#set($creator_actor_appellation_s = "#uri('E82_Actor_Appellation' $value)") . 	
+	#set($creator_actor_s = "#uri('E39_Actor' $value)") . 
+	#set($creator_s = "#uri('E65_Creation' $value)") . 	
+	$creator_actor_appellation_s $is_a #ecrm('E82_Actor_Appellation') . 
+	$creator_actor_appellation_s $P3_has_note "$value" . 
+	$creator_actor_s $is_a #ecrm('E39_Actor') . 
+	$creator_actor_s #ecrm('P131_is_identified_by') $creator_actor_appellation_s . 
+	$creator_s $is_a #ecrm('E65_Creation') . 
+	$creator_s #ecrm('P14_carried_out_by') $creator_actor_s . 
+	$s #ecrm('P94i_was_created_by') $creator_s . 	
+#end
 ## SUBJECT
-#set($subjects = $xpath.many("metadata/dc/subject",$root))
+#set($subjects = $xpath.many("subject",$root))
 #foreach($subject in $subjects) 
 	#set($subject_s = "#uri('E1_CRM_Entity' $subject.textContent)")
 	$subject_s $is_a #ecrm('E1_CRM_Entity') . 
@@ -26,7 +42,7 @@ $s #ecrm('P102_has_title') $title_s .
 	$s #ecrm('P129_is_about') $subject_s . 
 #end
 ## COVERAGE 
-#set($coverages = $xpath.many("metadata/dc/coverage",$root))
+#set($coverages = $xpath.many("coverage",$root))
 #foreach($coverage in $coverages) 
 	#set($coverage_s = "#uri('E1_CRM_Entity' $coverage.textContent)")
 	$coverage_s $is_a #ecrm('E1_CRM_Entity') . 
@@ -34,10 +50,29 @@ $s #ecrm('P102_has_title') $title_s .
 	$s #ecrm('P129_is_about') $coverage_s . 
 #end
 ## LANGUAGE
-#set($languages = $xpath.many("metadata/dc/language",$root))
+#set($languages = $xpath.many("language",$root))
 #foreach($language in $languages) 	
 	#set($lang_s = "#uri('Ε56_Language' $language.textContent)") . 
 	$lang_s $is_a #ecrm('Ε56_Language') . 
 	$lang_s $P3_has_note "$language.textContent" . 
 	$s #ecrm('P72_has_language') $lang_s . 
+#end
+## DESCRIPTION
+#set($descriptions = $xpath.many("description",$root))
+#foreach($description in $descriptions)
+	$s $P3_has_note "description.textContent" . 
+#end	
+## PUBLISHER
+#set($publishers = $xpath.many("publisher",$root))
+#foreach($publisher in $publishers) 
+	#set($publisher_s = "#uri('E12_Production' $publisher.textContent)") . 	
+	#set($publisher_actor_s = "#uri('E39_Actor' $publisher.textContent)") . 	
+	#set($publisher_actor_appellation_s = "#uri('E82_Actor_Appellation' $publisher.textContent)") . 	
+	$publisher_actor_appellation_s $is_a #ecrm('E82_Actor_Appellation') . 
+	$publisher_actor_appellation_s $P3_has_note "$publisher.textContent" . 
+	$publisher_actor_s $is_a #ecrm('E39_Actor') . 
+	$publisher_actor_s #ecrm('P131_is_identified_by') $publisher_actor_appellation_s . 
+	$publisher_s $is_a #ecrm('E12_Production') . 
+	$publisher_s #ecrm('P14_carried_out_by') $publisher_actor_s . 
+	$s #ecrm('P108i_was_produced_by') $publisher_s . 
 #end
