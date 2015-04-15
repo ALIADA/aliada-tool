@@ -10,21 +10,21 @@
 $c $is_a #ecrm('Ε75_Conceptual_Object_Appellation') . 
 $c $P2_has_type #aliadaconcept("ISMN") . 
 $c $P3_has_note "$identifier.textContent" . 
-$s $is_a rdf:type #ecrm('E73_Information_Object').
+$s $is_a #ecrm('E73_Information_Object') .
 $s #ecrm("P1_is_identified_by") $c . 
 #set($title = $xpath.one("metadata/dc/title",$root))
 #set($title_s = "#uri('E73_Information_Object' $title.textContent)")
 $title_s $is_a #ecrm('E35_Title') . 
-$title_s $P3_has_note "$title.textContent")
+$title_s $P3_has_note "$title.textContent") . 
 $s #ecrm('P102_has_title') $title_s .
 #set($root = $xpath.one("metadata/dc", $root))
 ## CREATOR 
 #set($creators = $xpath.many("creator",$root))
 #foreach($creator in $creators) 
 	#set($value = $creator.textContent)
-	#set($creator_actor_appellation_s = "#uri('E82_Actor_Appellation' $value)") . 	
-	#set($creator_actor_s = "#uri('E39_Actor' $value)") . 
-	#set($creator_s = "#uri('E65_Creation' $value)") . 	
+	#set($creator_actor_appellation_s = "#uri('E82_Actor_Appellation' $value)") 	
+	#set($creator_actor_s = "#uri('E39_Actor' $value)")
+	#set($creator_s = "#uri('E65_Creation' $value)")
 	$creator_actor_appellation_s $is_a #ecrm('E82_Actor_Appellation') . 
 	$creator_actor_appellation_s $P3_has_note "$value" . 
 	$creator_actor_s $is_a #ecrm('E39_Actor') . 
@@ -33,6 +33,61 @@ $s #ecrm('P102_has_title') $title_s .
 	$creator_s #ecrm('P14_carried_out_by') $creator_actor_s . 
 	$s #ecrm('P94i_was_created_by') $creator_s . 	
 #end
+## CONTRIBUTOR 
+#set($creators = $xpath.many("contributor",$root))
+#foreach($creator in $creators) 
+	#set($value = $creator.textContent)
+	#set($creator_actor_appellation_s = "#uri('E82_Actor_Appellation' $value)")
+	#set($creator_actor_s = "#uri('E39_Actor' $value)")
+	#set($creator_s = "#uri('E65_Creation' $value)")	
+	$creator_actor_appellation_s $is_a #ecrm('E82_Actor_Appellation') . 
+	$creator_actor_appellation_s $P3_has_note "$value" . 
+	$creator_actor_s $is_a #ecrm('E39_Actor') . 
+	$creator_actor_s #ecrm('P131_is_identified_by') $creator_actor_appellation_s . 
+	$creator_s $is_a #ecrm('E65_Creation') . 
+	$creator_s #ecrm('P14_carried_out_by') $creator_actor_s . 
+	$s #ecrm('P94i_was_created_by') $creator_s . 	
+#end
+## DATE
+#set($dates = $xpath.many("date",$root))
+#foreach($d in $dates) 
+	#set($date_s = "#new_uri('E50_Date')") 
+	$date_s $is_a #ecrm("E50_Date") . 
+	$date_s $P3_has_note "$d.textContent" . 
+	#set($time_span_s = "#new_uri('E52_Time-Span')") 
+	$time_span_s $is_a #ecrm("E52_Time-Span") . 
+	$time_span_s #ecrm("P78_is_identified_by") $date_s . 
+	#set($creation_s = "#new_uri('E65_Creation')") 
+	$creation_s $is_a #ecrm('E65_Creation') . 
+	$creation_s #ecrm("P4_has_time-span") $time_span_s . 
+	$s #ecrm("P94i_was_created_by") $creation_s . 
+#end
+## SOURCE
+#set($sources = $xpath.many("source",$root))
+#foreach($source in $sources) 
+    #set($c = "#new_uri('E24_Physical_Man-Made_Thing')")
+	$c $is_a #ecrm('E24_Physical_Man-Made_Thing') . 
+    $c $P2_has_type #aliadaconcept("URI") . 
+    $c $P3_has_note "$source.textContent" . 
+    $s #ecrm("P1_is_identified_by") $c . 	
+#end	
+## FORMAT
+#set($formats = $xpath.many("format",$root))
+#foreach($format in $formats) 
+	#set($c = "#new_uri('Ε55_Type')")
+	$c $is_a #ecrm('Ε55_Type') . 
+    $c $P2_has_type #aliadaconcept("Audio/IMTypes") . 
+    $c $P3_has_note "$format.textContent" . 
+    $s $P2_has_type $c . 	
+#end	
+## TYPE
+#set($types = $xpath.many("type",$root))
+#foreach($type in $types) 
+	#set($c = "#new_uri('Ε55_Type')")
+	$c $is_a #ecrm('Ε55_Type') . 
+    $c $P3_has_note "$format.textContent" . 
+    $s $P2_has_type $c . 	
+#end	
 ## SUBJECT
 #set($subjects = $xpath.many("subject",$root))
 #foreach($subject in $subjects) 
