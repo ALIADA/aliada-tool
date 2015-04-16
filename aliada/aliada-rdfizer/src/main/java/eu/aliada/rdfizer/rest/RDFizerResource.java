@@ -215,7 +215,7 @@ public class RDFizerResource implements RDFizer {
 				instance.setDatafile(file.getAbsolutePath());
 				instance.setFormat("marcxml");
 				instance.setNamespace("http://wecat.atcult.it/");
-				instance.setAliadaOntologyNamespace("http://aliada-project.eu/2014/aliada-ontology/");
+				instance.setAliadaOntologyNamespace("http://aliada-project.eu/2014/aliada-ontology#");
 				instance.setSparqlEndpointUrl("http://rdfstore:8080/openrdf-workbench");
 				instance.setSparqlPassword(" ");
 				instance.setSparqlUsername(" ");

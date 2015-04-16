@@ -163,11 +163,11 @@ $expression_s #efrbroo('R4_carriers_provided_by') $manifestation_s .
 #simplest_mapping_with_repeatable_tag ($manifestation_s "247" "n" $root "E35_Title" $E35_Title $P102_has_title)
 #simplest_mapping_with_repeatable_tag ($manifestation_s "247" "p" $root "E55_Type" $E55_Type $CLP2_should_have_type)
 #simplest_mapping_with_repeatable_tag ($manifestation_s "247" "x" $root "F13_Identifier" "#efrbroo('F13_Identifier')" $P1_is_identified_by)
-#simplest_mapping_with_no_repeatable_tag ($manifestation_s "300" "a" $root "E54_Dimension" "#ecrm('E54_Dimension')" "#efrbroo('CLP43_should_have_dimension')" "#aliadaconcept('Concept/MARC/5')")
-#simplest_mapping_with_no_repeatable_tag ($manifestation_s "300" "c" $root "E54_Dimension" "#ecrm('E54_Dimension')" "#efrbroo('CLP43_should_have_dimension')" "#aliadaconcept('Concept/MARC/6')")
+#simplest_mapping_with_no_repeatable_tag ($manifestation_s "300" "a" $root "E54_Dimension" "#ecrm('E54_Dimension')" "#efrbroo('CLP43_should_have_dimension')" "#aliadaconcept('MARC/5')")
+#simplest_mapping_with_no_repeatable_tag ($manifestation_s "300" "c" $root "E54_Dimension" "#ecrm('E54_Dimension')" "#efrbroo('CLP43_should_have_dimension')" "#aliadaconcept('MARC/6')")
 #simplest_mapping_with_no_repeatable_tag ($manifestation_s "300" "f" $root "E55_Type" $E55_Type $CLP2_should_have_type)
 #simplest_mapping_with_no_repeatable_tag ($manifestation_s "300" "g" $root "E54_Dimension" "#ecrm('E54_Dimension')" "#efrbroo('CLP43_should_have_dimension')")
-#simplest_mapping_with_no_repeatable_tag ($manifestation_s "340" "b" $root "E54_Dimension" "#ecrm('E54_Dimension')" "#efrbroo('CLP43_should_have_dimension')" "#aliadaconcept('Concept/MARC/6')")
+#simplest_mapping_with_no_repeatable_tag ($manifestation_s "340" "b" $root "E54_Dimension" "#ecrm('E54_Dimension')" "#efrbroo('CLP43_should_have_dimension')" "#aliadaconcept('MARC/6')")
 #simplest_mapping_with_repeatable_tag ($manifestation_s "505" "u" $root "F13_Identifier" "#efrbroo('F13_Identifier')" $P1_is_identified_by)
 #simplest_mapping_with_repeatable_tag ($manifestation_s "506" "a" $root "E30_Right" "#ecrm('E30_Right')" "#efrbroo('CLP104_is_subject')")
 #simplest_mapping_with_repeatable_tag ($manifestation_s "506" "b" $root "E30_Right" "#ecrm('E30_Right')" "#efrbroo('CLP104_is_subject')")
@@ -175,9 +175,9 @@ $expression_s #efrbroo('R4_carriers_provided_by') $manifestation_s .
 #simplest_mapping_with_repeatable_tag ($manifestation_s "506" "d" $root "E30_Right" "#ecrm('E30_Right')" "#efrbroo('CLP104_is_subject')")
 #simplest_mapping_with_repeatable_tag ($manifestation_s "506" "e" $root "E30_Right" "#ecrm('E30_Right')" "#efrbroo('CLP104_is_subject')")
 #simplest_mapping_with_repeatable_tag ($manifestation_s "506" "u" $root "F13_Identifier" "#efrbroo('F13_Identifier')" $P1_is_identified_by)
-#simplest_mapping_with_repeatable_tag ($manifestation_s "508" "a" $root "E33_Linguistic_Object" "#ecrm('E33_Linguistic_Object')" "#ecrm('P148_has_component')" "#aliadaconcept('Concept/MARC/1')")
+#simplest_mapping_with_repeatable_tag ($manifestation_s "508" "a" $root "E33_Linguistic_Object" "#ecrm('E33_Linguistic_Object')" "#ecrm('P148_has_component')" "#aliadaconcept('MARC/1')")
 #simplest_mapping_with_repeatable_tag ($manifestation_s "510" "x" $root "F13_Identifier" "#efrbroo('F13_Identifier')" $P1_is_identified_by)
-#simplest_mapping_with_repeatable_tag ($manifestation_s "511" "a" $root "E33_Linguistic_Object" "#ecrm('E33_Linguistic_Object')" "#ecrm('P148_has_component')" "#aliadaconcept('Concept/MARC/1')")
+#simplest_mapping_with_repeatable_tag ($manifestation_s "511" "a" $root "E33_Linguistic_Object" "#ecrm('E33_Linguistic_Object')" "#ecrm('P148_has_component')" "#aliadaconcept('MARC/1')")
 #simplest_mapping_with_repeatable_tag ($manifestation_s "514" "u" $root "F13_Identifier" "#efrbroo('F13_Identifier')" $P1_is_identified_by)
 #simplest_mapping_with_repeatable_tag ($manifestation_s "520" "u" $root "F13_Identifier" "#efrbroo('F13_Identifier')" $P1_is_identified_by)
 #simplest_mapping_with_repeatable_tag ($manifestation_s "524" "a" $root "E35_Title" $E35_Title $P102_has_title)
@@ -228,7 +228,7 @@ $expression_s #efrbroo('R4_carriers_provided_by') $manifestation_s .
 	$pub_exp_s #ecrm('P106_is_composed_of') $lin_obj_s . 
 	$lin_obj_s $is_a #ecrm("E33_Linguistic_Object") . 
 	$lin_obj_s $P3_has_note "$value" . 
-	$lin_obj_s $P2_has_type #aliadaconcept('Concept/MARC/3') . 
+	$lin_obj_s $P2_has_type #aliadaconcept('MARC/3') . 
 #end
 #set($tagValues = $xpath.dfs("260","b",$root))
 #foreach($tagValue in $tagValues)
@@ -250,7 +250,7 @@ $expression_s #efrbroo('R4_carriers_provided_by') $manifestation_s .
 	$publisher_appellation_s $P3_has_note "$value" .
 	$lin_obj_s $is_a #ecrm("E33_Linguistic_Object") . 
 	$lin_obj_s $P3_has_note "$value" . 
-	$lin_obj_s $P2_has_type #aliadaconcept('Concept/MARC/4') . 
+	$lin_obj_s $P2_has_type #aliadaconcept('MARC/4') . 
 #end	
 #set($tagValues = $xpath.dfs("260","c",$root))
 #foreach($tagValue in $tagValues)
@@ -265,15 +265,15 @@ $expression_s #efrbroo('R4_carriers_provided_by') $manifestation_s .
 	$pub_exp_s #ecrm('P106_is_composed_of') $lin_obj_s . 
 	$lin_obj_s $is_a #ecrm("E33_Linguistic_Object") . 
 	$lin_obj_s $P3_has_note "$value" . 
-	$lin_obj_s $P2_has_type #aliadaconcept('Concept/MARC/5') . 
+	$lin_obj_s $P2_has_type #aliadaconcept('MARC/5') . 
 	$pub_event_s $is_a #efrbroo("F30_Publication_Event") . 
 	$pub_event_s #efrbroo("R24_created") $pub_exp_s . 
 	$pub_event_s #ecrm('P4_has_time-span') $time_span_s . 
 	$time_span_s $is_a #ecrm("E52_Time-Span") . 
 	$time_span_s #ecrm('P82_at_some_time_within') "$value" . 
 #end	
-#simplest_mapping_with_repeatable_tag ($expression_s "242" "c" $root "E33_Linguistic_Object" "#ecrm('E33_Linguistic_Object')" "#ecrm('P148_has_component')" "#aliadaconcept('Concept/MARC/1')")
-#simplest_mapping_with_repeatable_tag ($expression_s "245" "c" $root "E33_Linguistic_Object" "#ecrm('E33_Linguistic_Object')" "#ecrm('P148_has_component')" "#aliadaconcept('Concept/MARC/1')")
+#simplest_mapping_with_repeatable_tag ($expression_s "242" "c" $root "E33_Linguistic_Object" "#ecrm('E33_Linguistic_Object')" "#ecrm('P148_has_component')" "#aliadaconcept('MARC/1')")
+#simplest_mapping_with_repeatable_tag ($expression_s "245" "c" $root "E33_Linguistic_Object" "#ecrm('E33_Linguistic_Object')" "#ecrm('P148_has_component')" "#aliadaconcept('MARC/1')")
 #simplest_mapping_with_no_repeatable_tag ($expression_s "254" "a" $root "E55_Type" $E55_Type $P2_has_type)
 #simplest_mapping_with_no_repeatable_tag ($expression_s "256" "a" $root "E54_Dimension" "#ecrm('E54_Dimension')" "#ecrm('P43_has_dimension')")
 #simplest_mapping_with_no_repeatable_tag ($expression_s "306" "a" $root "E54_Dimension" "#ecrm('E54_Dimension')" "#ecrm('P43_has_dimension')")

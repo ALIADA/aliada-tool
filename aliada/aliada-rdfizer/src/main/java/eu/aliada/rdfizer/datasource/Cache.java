@@ -150,8 +150,8 @@ public class Cache {
 		}
 		
 		prefix = instance.getAliadaOntologyNamespace();
-		if (!prefix.endsWith("/")) {
-			instance.setAliadaOntologyNamespace(prefix + "/");
+		if (!prefix.endsWith("#")) {
+			instance.setAliadaOntologyNamespace(prefix + "#");
 		}
 		
 		jobInstanceRepository.save(instance);

@@ -244,17 +244,17 @@ $main_subject #ecrm("P70i_is_documented_in") $document_s .
     			$group_s #ecrm('P131_is_identified_by') $nationality_s . 
     			$author_s #ecrm('P107i_is_current_or_former_member_of') $group_s . 
     		#end	
-			#set($earliest_date = $xpath.value("vitalDatesActor/earliestDate",$actor))
-			#set($latest_date = $xpath.value("vitalDatesActor/latestDate",$actor))
-			#if ($function.isNotNullAndNotEmpty($earliest_date) || $function.isNotNullAndNotEmpty($latest_date))
+			#set($earliest_date = $xpath.one("vitalDatesActor/earliestDate",$actor))
+			#set($latest_date = $xpath.one("vitalDatesActor/latestDate",$actor))
+			#if ($function.isNotNullAnrdfStoredNotEmpty("$function.escape($earliest_date.textContent)") || $function.isNotNullAnrdfStoredNotEmpty("$function.escape($latest_date.textContent)"))
 				#set($time_span_s = "#new_uri('E52_Time-Span')")
 				#set($time_span_event_s = "#new_uri('E5_Event')")
 				$time_span_s $is_a #ecrm("E52_Time-Span") . 
-				#if ($function.isNotNullAndNotEmpty($earliest_date))
-					$time_span_s #ecrm("P79_beginning_is_qualified_by") "$earliest_date" . 
+				#if ($function.isNotNullAnrdfStoredNotEmpty("$function.escape($earliest_date.textContent)"))
+					$time_span_s #ecrm("P79_beginning_is_qualified_by") "$function.escape($earliest_date.textContent)" . 
 				#end	
-				#if ($function.isNotNullAndNotEmpty($latest_date))
-					$time_span_s #ecrm("P80_end_is_qualified_by") "$latest_date" . 
+				#if ($function.isNotNullAnrdfStoredNotEmpty("$function.escape($latest_date.textContent)"))
+					$time_span_s #ecrm("P80_end_is_qualified_by") "$function.escape($latest_date.textContent)" . 
 				#end	
 				$time_span_event_s $is_a #ecrm("E5_Event") . 
 				$time_span_event_s $P2_has_type #aliada("Existance") . 
@@ -289,16 +289,16 @@ $main_subject #ecrm("P70i_is_documented_in") $document_s .
 				$event_type_s $P3_has_note "$function.escape($displayLabel.textContent)" . 
     		#end	
 		#end
-		#set($earliest_date = $xpath.value("date/earliestDate",$date))
-		#set($latest_date = $xpath.value("date/latestDate",$date))
-		#if ($function.isNotNullAndNotEmpty($earliest_date) || $function.isNotNullAndNotEmpty($latest_date))
+		#set($earliest_date = $xpath.one("date/earliestDate",$date))
+		#set($latest_date = $xpath.one("date/latestDate",$date))
+		#if ($function.isNotNullAnrdfStoredNotEmpty("$function.escape($earliest_date.textContent)") || $function.isNotNullAnrdfStoredNotEmpty("$function.escape($latest_date.textContent)"))
 			#set($time_span_s = "#new_uri('E52_Time-Span')")
 			$time_span_s $is_a #ecrm("E52_Time-Span") . 
-			#if ($function.isNotNullAndNotEmpty($earliest_date))
-				$time_span_s #ecrm("P79_beginning_is_qualified_by") "$earliest_date" . 
+			#if ($function.isNotNullAnrdfStoredNotEmpty("$function.escape($earliest_date.textContent)"))
+				$time_span_s #ecrm("P79_beginning_is_qualified_by") "$function.escape($earliest_date.textContent)" . 
 			#end	
-			#if ($function.isNotNullAndNotEmpty($latest_date))
-				$time_span_s #ecrm("P80_end_is_qualified_by") "$latest_date" . 
+			#if ($function.isNotNullAnrdfStoredNotEmpty("$function.escape($latest_date.textContent)"))
+				$time_span_s #ecrm("P80_end_is_qualified_by") "$function.escape($latest_date.textContent)" . 
 			#end	
 			#if($event_type_s)
 				$event_type_s #ecrm("P4_has_time-span") $time_span_s . 
@@ -465,7 +465,7 @@ $main_subject #ecrm("P70i_is_documented_in") $document_s .
 		#end 	
 		## RESOURCE REPRESENTATION END		
 		## RESOURCE TYPE START
-		#set($resourceType = $xpath.one("resourceType", $resource))
+		#set($resourceType = $xpath.one("resourceType/term", $resource))
 		#if($resourceType)
 			$resource_id_s $P2_has_type #aliada($function.escape($resourceType.textContent)) . 
 		#end 	
