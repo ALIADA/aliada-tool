@@ -14,7 +14,7 @@ import com.hp.hpl.jena.reasoner.ValidityReport;
 
 public class Main {
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) { 
 		Model schema = RDFDataMgr.loadModel("file://home/agazzarini/Desktop/Ontology/aliada-ontology.owl") ;
         RDFDataMgr.read(schema, "file:///home/agazzarini/Desktop/Ontology/efrbroo.owl") ;
         RDFDataMgr.read(schema, "file:///home/agazzarini/Desktop/Ontology/current.owl") ;
