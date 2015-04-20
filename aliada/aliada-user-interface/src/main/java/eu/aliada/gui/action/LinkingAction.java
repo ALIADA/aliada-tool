@@ -45,6 +45,7 @@ public class LinkingAction extends ActionSupport {
 	private HashMap<Integer, String> datasets;
 	private List<String> dataset;
     private FileWork fileToLink;
+	private String title;
 
     private final Log logger = new Log(LinkingAction.class);
     
@@ -118,7 +119,7 @@ public class LinkingAction extends ActionSupport {
      * @see
      * @since 1.0
      */
-    public String finishFileWork() {
+    public String addAnotherFileWork() {
         HttpSession session = ServletActionContext.getRequest().getSession();
         List<FileWork> importedFiles = (List<FileWork>) session.getAttribute("importedFiles");
         FileWork importedFile = (FileWork) session.getAttribute("importedFile");
@@ -130,19 +131,6 @@ public class LinkingAction extends ActionSupport {
         session.setAttribute("importedFiles", importedFiles);
        
     	setFileToLink((FileWork) session.getAttribute("importedFile"));
-    	
-    	//Delete file
-    	Connection connection = null;
-	    Statement statement = null;
-		    try {
-		        connection = new DBConnectionManager().getConnection();
-		        statement = connection.createStatement();
-		        statement.executeUpdate("DELETE FROM aliada.user_session where file_name='" + fileToLink.getFilename() + "'");
-		        statement.close();
-		        connection.close();
-		    } catch (SQLException e) {
-		        logger.error(MessageCatalog._00011_SQL_EXCEPTION, e);
-		      }
         
         return SUCCESS;
     }
@@ -212,6 +200,8 @@ public class LinkingAction extends ActionSupport {
         setFileToLink((FileWork) session.getAttribute("importedFile"));
         createJobLinking();
         createJobLDS();
+        
+        title = getText("dialog.publish.title");
         
         Connection connection = null;
         Statement updateStatement = null;
@@ -500,5 +490,23 @@ public class LinkingAction extends ActionSupport {
     public void setFileToLink(final FileWork fileToLink) {
         this.fileToLink = fileToLink;
     }
+    
+    /**
+     * @return Returns the title.
+     * @exception
+     * @since 1.0
+     */
+	public String getTitle() {
+		return title;
+	}
+	/**
+     * @param title
+     *            The title to set.
+     * @exception
+     * @since 1.0
+     */
+	public void setTitle(final String title) {
+		this.title = title;
+	}
 
 }

@@ -1,10 +1,12 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@ taglib uri="/struts-tags" prefix="html" %>
+<%@ taglib prefix="sj" uri="/struts-jquery-tags"%>
 <script>
  $(function(){
 	 var intervalLinking = 0;
 	 var intervalLDS = 0;
-	 var finished=false;
+	 var finishedLink = false;
+	 var finishedCreat = false;
 	 
 	 var rdfizerStatus = $("#rdfizerStatus").val();
 	 
@@ -38,6 +40,9 @@
 			console.log("checking Linking");
 			var linkingJobId = $("#linkingJobId").val();
 			var urlPath = "/aliada-links-discovery-2.0/jobs/"+linkingJobId;
+			var arrName = [];
+			var arrNumLinks = [];
+			var arrStatus = [];
 		    $.ajax({
 		      type: "GET",
 		      url: urlPath,
@@ -51,25 +56,36 @@
 			   	   var status = json.status;
 			   	   $("#datasetsInfo").empty();
 				   $.each(json.subjobs, function(idx, obj) {
+					   
+					   	arrName[idx] = obj.name;
+					   	arrNumLinks[idx] = obj.numLinks;
+					   	arrStatus[idx] = obj.status;
+					   	
+					   	console.log(idx);
 				   		console.log(obj.name);
 				   		console.log(obj.numLinks);
 				   		console.log(obj.status);
-				   		if(obj.status=="running"){
-				            $("#datasetsInfo").html(obj.name+': '+obj.numLinks+' <img src="images/loaderMini.gif"/>');				   			
+				   		
+				   		var d = "";
+				   		for (var x = 0; x < arrName.length; x++) {
+				   			if (arrStatus[x]=="running") {
+				   				d = d + arrName[x]+': '+arrNumLinks[x]+' <img src="images/loaderMini.gif"/></br>';
+				   			} else if (arrStatus[x]=="finished") {
+				   				d = d + arrName[x]+': '+arrNumLinks[x]+' <img src="images/fine.png"/></br>';
+				   			} else {
+				   				d = d + arrName[x]+': '+arrNumLinks[x]+' <img src="images/clock.png"/></br>';
+				   			}
 				   		}
-				   		else if(obj.status=="finished"){
-				            $("#datasetsInfo").html(obj.name+': '+obj.numLinks+' <img src="images/fine.png"/>');
-				   		}	
-				   		else{
-				            $("#datasetsInfo").html(obj.name+': '+obj.numLinks+' <img src="images/clock.png"/>');	
-				   		}
+				   		
+				   		$("#datasetsInfo").html(d);
+				   		
 				   });
 			   	   if(status=="finished"){
 			   		   console.log("interval linking stopped");
 			   		   clearInterval(intervalLinking);
 				       $("#progressBarLinking").hide();
 				       $("#fineLinkingImg").show();
-				       if(finished){
+				       if(finishedCreat){
 				    	   $("#publishButton").removeClass("button");
 				    	   $("#publishButton").addClass("buttonGreen");
 				    	   $("#publishButton").prop("disabled",false);
@@ -77,7 +93,7 @@
 				    	   $("#linkingNextButton").addClass("buttonGreen");
 				    	   $("#linkingNextButton").prop("disabled",false);
 				       }
-				       finished=true;
+				       finishedLink = true;
 			   	   }
 	               $("#startDate").text(sDate);
 	               $("#endDate").text(eDate);
@@ -107,7 +123,7 @@
 			   		   clearInterval(intervalLDS);
 				       $("#progressBarLDS").hide();
 				       $("#fineLDSImg").show();
-				       if(finished){
+				       if(finishedLink){
 				    	   $("#publishButton").removeClass("button");
 				    	   $("#publishButton").addClass("buttonGreen");
 				    	   $("#publishButton").prop("disabled",false);
@@ -115,7 +131,7 @@
 				    	   $("#linkingNextButton").addClass("buttonGreen");
 				    	   $("#linkingNextButton").prop("disabled",false);
 				       }
-				       finished=true;
+				       finishedCreat = true;
 			   	   }
 	               $("#startDateLDS").text(sDate);
 	               $("#endDateLDS").text(eDate);
@@ -137,8 +153,38 @@
 		$('#progressBarLDS').show();
 		intervalLDS = setInterval( checkLDS, 1000 );
 	});
+	
+	$("#publishButton").on("click",function(){
+		console.log("Checking publish button");
+		
+		//This will disable everything contained in the div
+//    	$("#rdfVal").hide();
+//    	$("#linksVal").hide();
+ 		$(".topPad20").hide();
+ 		
+		$("#linkingNextButton").removeClass("buttonGreen");
+        $("#linkingNextButton").addClass("button");
+    	$('#linkingNextButton').prop("disabled",true);
+    	
+		$.publish('openremotedialog');
+		$(".ui-dialog-titlebar-close").hide(); 
+ 	
+	});
+	
 }); 
 </script>
+		
+		<sj:dialog id="myremotedialog"
+		    openTopics="openremotedialog" 
+		    autoOpen="false" 
+		    closeOnEscape="false"
+		    modal="false"
+		    height="100"
+		    width="175"
+		    title="%{title}"> 			
+		   <img id="indicator" src="images/progressBar.gif" alt="Loading..."/>
+		</sj:dialog>
+
 <html:hidden id="rdfizerStatus" name="rdfizerStatus" value="%{#session['rdfizerStatus']}" />
 <html:hidden id="linkingJobId" name="linkingJobId" value="%{#session['linkingJobId']}" />
 <html:hidden id="ldsJobId" name="ldsJobId" value="%{#session['ldsJobId']}" />
@@ -226,7 +272,7 @@
 	</div>
 	<div class="row">
 		<html:form>
-			<html:submit id="linkingNextButton" disabled="true" action="finishFileWork" cssClass="fleft mediumButton button" key="linking.addNew"/>
+			<html:submit id="linkingNextButton" disabled="true" action="addAnotherFileWork" cssClass="fleft mediumButton button" key="linking.addNew"/>
 			<html:submit id="publishButton" disabled="true" action="publish" cssClass="fright submitButton button" key="publish"/>
 		</html:form>
 	</div>

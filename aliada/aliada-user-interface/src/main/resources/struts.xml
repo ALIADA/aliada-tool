@@ -93,7 +93,7 @@
 			<result name="error" type="tiles">/manage.tiles</result>
 		</action>
 		
-		<action name="finishFileWork" method="finishFileWork" class="eu.aliada.gui.action.LinkingAction">
+		<action name="addAnotherFileWork" method="addAnotherFileWork" class="eu.aliada.gui.action.LinkingAction">
             <result name="success" type="redirectAction">
          		<param name="actionName">manage</param>
          	</result>

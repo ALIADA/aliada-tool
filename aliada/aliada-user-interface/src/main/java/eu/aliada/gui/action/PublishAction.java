@@ -17,10 +17,17 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.servlet.http.HttpSession;
+
+import org.apache.struts2.ServletActionContext;
 
 import com.opensymphony.xwork2.ActionSupport;
 
 import eu.aliada.gui.log.MessageCatalog;
+import eu.aliada.gui.model.FileWork;
 import eu.aliada.gui.rdbms.DBConnectionManager;
 import eu.aliada.shared.log.Log;
 
@@ -47,10 +54,23 @@ public class PublishAction extends ActionSupport {
      * @since 1.0
      */
 	public String execute() {
+		
+    	//Delete file/s from session
+    	HttpSession session = ServletActionContext.getRequest().getSession();
+    	String user = (String) session.getAttribute("logedUser");
+    	
+    	List<FileWork> importedFiles = new ArrayList<FileWork>();
+    	session.setAttribute("importedFiles", importedFiles);
+		
 		Connection connection = new DBConnectionManager().getConnection();
         Statement statement;
         ResultSet rs;
         try {
+        	//Delete file/s from database
+//        	connection = new DBConnectionManager().getConnection();
+//		    statement = connection.createStatement();
+//		    statement.executeUpdate("DELETE FROM aliada.user_session where user_name='" + user + "'AND status='finishedLinking';");
+        	
 			statement = connection.createStatement();
 			rs = statement
 			        .executeQuery("select org_name, ckan_org_url, ckan_dataset_url from aliada.ckancreation_job_instances ORDER BY job_id DESC LIMIT 1");
@@ -79,11 +99,17 @@ public class PublishAction extends ActionSupport {
     public String publish() {
 
         int addedId = 0;
+    	HttpSession session = ServletActionContext.getRequest().getSession();
+    	String user = (String) session.getAttribute("logedUser");
             Connection connection = null;
             connection = new DBConnectionManager().getConnection();
             Statement statement;
             try {
                 statement = connection.createStatement();
+                
+                //Delete file/s from database
+    		    statement.executeUpdate("DELETE FROM aliada.user_session where user_name='" + user + "'AND status='finishedLinking';");
+    		    
                 ResultSet rs = statement
                         .executeQuery("select ckan_api_url, ckan_api_key, o.tmp_dir, store_ip, store_sql_port, "
                         		+ "sql_login, sql_password,isql_command_path, virtuoso_http_server_root, aliada_ontology, "
