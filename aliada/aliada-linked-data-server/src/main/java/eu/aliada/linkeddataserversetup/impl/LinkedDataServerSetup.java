@@ -345,16 +345,19 @@ public class LinkedDataServerSetup {
 	 *
 	 * @param jobConf		the {@link eu.aliada.linkeddataserversetup.model.JobConfiguration}
 	 *						that contains information to create the dataset HTML page.  
+	 * @param db			The DDBB connection. 
 	 * @return 
 	 * @since 2.0
 	 */
-	public void createDatasetDefaultPage(final JobConfiguration jobConf){
+	public void createDatasetDefaultPage(final JobConfiguration jobConf, final DBConnectionManager dbConn){
 		//Create the folder where the page resides, if it does not exist
 		final String pageFolder = jobConf.getVirtHttpServRoot() + File.separator + rulesNamesSuffix;
 		final File fFolder = new File(pageFolder);
 		if (!fFolder.exists()) {
 			fFolder.mkdir();
 		}
+		//Update the dataset web page root in the DB
+		dbConn.updateWebPageRoot(jobConf.getId(), pageFolder);
 		
 		String pagePath = pageFolder + File.separator + DATASET_INDEX_PAGE;
 		//Remove the page if it already exists
@@ -461,7 +464,7 @@ public class LinkedDataServerSetup {
 				}
 			}
 			//Create Dataset default HTML page
-			createDatasetDefaultPage(jobConf);
+			createDatasetDefaultPage(jobConf, dbConn);
 		} else {
 			LOGGER.error(MessageCatalog._00039_INPUT_PARAMS_ERROR, jobConf.getId());
 		}

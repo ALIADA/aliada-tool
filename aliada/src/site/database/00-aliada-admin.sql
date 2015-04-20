@@ -49,7 +49,8 @@ CREATE TABLE IF NOT EXISTS `dataset` (
   `dataset_source_url` varchar(245) DEFAULT NULL,
   `license_ckan_id` varchar(245) DEFAULT NULL,
   `license_url` varchar(245) DEFAULT NULL,
-  `isql_commands_file_dataset` varchar(245) DEFAULT NULL
+  `isql_commands_file_dataset` varchar(245) DEFAULT NULL,
+  `dataset_web_page_root` varchar(245) DEFAULT NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------

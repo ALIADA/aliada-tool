@@ -232,6 +232,34 @@ public class DBConnectionManager {
 	}
 
 	/**
+	 * Updates dataset web page root.
+	 *
+	 * @param jobId			the job identification.
+	 * @param webPageRoot	the dataset web page root.
+	 * @return true if the dataset web page root has been updated correctly in the DDBB.
+	 *         False otherwise.
+	 * @since 1.0
+	 */
+	public boolean updateWebPageRoot(final int jobId, final String webPageRoot){
+		//Update end_date of job
+		boolean updated = false;
+    	try {
+    		PreparedStatement preparedStatement = null;		
+    		preparedStatement = getConnection().prepareStatement("UPDATE linkeddataserver_job_instances SET dataset_web_page_root = ? WHERE job_id = ?");
+    		// (dataset_web_page_root, job_id)
+    		// parameters start with 1
+    		preparedStatement.setString(1, webPageRoot);
+    		preparedStatement.setInt(2, jobId);
+    		preparedStatement.executeUpdate();
+    		updated = true;
+		} catch (SQLException exception) {
+			LOGGER.error(MessageCatalog._00024_DATA_ACCESS_FAILURE, exception);
+			updated = false;
+		}
+    	return updated;
+	}
+
+	/**
 	 * Returns job information in the DDBB.
 	 *
 	 * @param jobId	the job identification.
