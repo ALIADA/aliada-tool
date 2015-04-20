@@ -62,6 +62,19 @@ $(function(){
 	    	   console.log(xml);
 	    	   var completed = $(xml).find("completed").text();
                if(completed=="true"){
+
+            	   var statusCode = $(xml).find("status-code").text();
+            	   console.log("Code: "+statusCode);
+            	   if(statusCode == 0) {
+    			       $("#fineImg").show();
+            	   } else if(statusCode == -1) {
+    			       $("#errorImg").show();
+            		   $("#validationError").show();
+            		   var validationErrorMess = $(xml).find("description").text();
+            		   console.log("Message: "+validationErrorMess);
+            		   $("ValError").text(validationErrorMess);
+            	   }
+                   
             	   $("#status").text("Completed");
 		   		   $("#checkRDFButton").prop("disabled",true);
 			       $("#nextButton").removeClass("button");
@@ -70,7 +83,6 @@ $(function(){
 			       $("#rdfVal").show("fast");
 			       $("#linksVal").show("fast");
 			       $("#progressBar").hide();
-			       $("#fineImg").show();
 		   		   console.log("interval stopped");
 		   		   clearInterval(interval);
                }
@@ -98,7 +110,7 @@ $(function(){
 		$('#progressBar').show();
 		$('#checkRDFButton').hide();
 		console.log("Checking");
-		interval = setInterval( checkRDF, 1000 );		
+		interval = setInterval( checkRDF, 3000 );		
 	});
 	if(showRdfizerButton==1){
 	   	$("#rdfizeButton").removeClass("button");
@@ -198,6 +210,7 @@ $(function(){
 				<label class="label"><html:text name="rdf.fileTo"/></label>
 				<html:property value="importedFile.getFilename()"/>
 				<img id="fineImg" class="displayNo" src="images/fine.png"/>
+				<img id="errorImg" class="displayNo" src="images/error.png">
 			</div>				
 			<div class="row">
 				<label class="label"><html:text name="rdf.format"/></label>
@@ -224,6 +237,12 @@ $(function(){
 				<label class="label"><html:text name="rdf.triplesThroughput"/></label>
 				<div id="triplesThroughput" class="displayInline"></div>
 				<html:text name="rdf.triplesSec"/>		
+			</div>
+			<div id="validationError" class="displayNo">
+				<div class="row">
+					<label class="label"><html:text name="rdf.validationMessage"/></label>	
+					<div id="ValError" class="displayInline"></div>	
+				</div>
 			</div>
 		</div>
 		<div class="buttons row">
