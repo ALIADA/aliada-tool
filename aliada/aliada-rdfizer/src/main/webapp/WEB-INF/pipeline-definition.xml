@@ -54,6 +54,13 @@
 		<template id="marcxml-validation-channel-producer" defaultEndpoint="direct:marcxml-validation-channel"/>
 		<template id="dc-validation-channel-producer" defaultEndpoint="direct:dc-validation-channel"/>
 		<route>
+			<from uri="file:{{auth.input.dir}}?move=../.done&amp;preMove=.working" />
+			<setHeader headerName="format">
+				<constant>auth</constant>
+			</setHeader>
+			<to uri="direct:sanity-check-channel" />
+		</route>
+		<route>
 			<from uri="file:{{lido.input.dir}}?move=../.done&amp;preMove=.working" />
 			<setHeader headerName="format">
 				<constant>lido</constant>
@@ -82,6 +89,15 @@
 		<route>
 			<from uri="direct:records-channel" />
 			<choice>
+				<when>
+					<simple>${header.format} == 'auth'</simple>
+					<process ref="count-marcxml-records"/>
+					<process ref="run-marcxml-validation"/>
+					<split streaming="true">
+						<tokenize token="record" xml="true" />
+						<to uri="seda:auth-record-channel?concurrentConsumers=2&amp;size=1000&amp;blockWhenFull=true" />
+					</split>
+				</when>			
 				<when>
 					<simple>${header.format} == 'lido'</simple>
 					<process ref="count-lido-records"/>
@@ -139,7 +155,14 @@
 			<process ref="xml-to-rdf"/>
 			<process ref="check-job-completeness"/>
 			<to uri="seda:triples-channel?size=250&amp;blockWhenFull=true" />
-		</route>		
+		</route>	
+		<route>
+			<from uri="seda:auth-record-channel?concurrentConsumers=2&amp;size=1000&amp;blockWhenFull=true" />
+			<process ref="string-to-xml"/>
+			<process ref="xml-to-rdf"/>
+			<process ref="check-job-completeness"/>
+			<to uri="seda:triples-channel?size=250&amp;blockWhenFull=true" />
+		</route>				
 		<route>
 			<from uri="seda:lido-record-channel?concurrentConsumers=2&amp;size=1000&amp;blockWhenFull=true" />
 			<process ref="string-to-xml"/>
