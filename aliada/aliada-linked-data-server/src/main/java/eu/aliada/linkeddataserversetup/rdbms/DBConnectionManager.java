@@ -9,6 +9,10 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -116,6 +120,7 @@ public class DBConnectionManager {
 	public JobConfiguration getJobConfiguration(final Integer jobId) {
 		JobConfiguration jobConf = null;
 		int datasetId = -1;
+		int organisationId = -1;
 		try {
 			//Get general information 
 			final Statement sta = getConnection().createStatement();
@@ -134,6 +139,8 @@ public class DBConnectionManager {
 				jobConf.setVirtHttpServRoot(resultSet.getString("virtuoso_http_server_root"));
 				jobConf.setOntologyUri(resultSet.getString("aliada_ontology"));
 				datasetId = resultSet.getInt("datasetId");
+				jobConf.setDatasetId(datasetId);
+				organisationId = resultSet.getInt("organisationId");
 			}
 			resultSet.close();
 			//Get dataset related information 
@@ -151,6 +158,10 @@ public class DBConnectionManager {
 				jobConf.setListeningHost(resultSet.getString("listening_host"));
 				jobConf.setVirtualHost(resultSet.getString("virtual_host"));
 				jobConf.setIsqlCommandsDatasetFilename(resultSet.getString("isql_commands_file_dataset"));
+				jobConf.setDatasetAuthor(resultSet.getString("dataset_author"));
+				jobConf.setDatasetSourceURL(resultSet.getString("dataset_source_url"));
+				jobConf.setLicenseURL(resultSet.getString("license_url"));
+				jobConf.setTmpDir(resultSet.getString("tmp_dir"));
 			}
 			resultSet.close();
 			//Get subsets related information 
@@ -164,6 +175,29 @@ public class DBConnectionManager {
 				subset.setGraph(resultSet.getString("graph_uri"));
 				subset.setLinksGraph(resultSet.getString("links_graph_uri"));
 				jobConf.setSubset(subset);
+			}
+			resultSet.close();
+			//Get organisation name and LOGO from BLOB object in organisation table 
+			sql = "SELECT org_name, org_logo FROM organisation WHERE organisationId=" + organisationId;
+			resultSet = sta.executeQuery(sql);
+            if (resultSet.next() && resultSet.getBlob("org_logo") != null) {
+				jobConf.setOrgName(resultSet.getString("org_name"));
+            	final Blob logo = resultSet.getBlob("org_logo");
+                final int blobLength = (int) logo.length();
+                byte[] blobAsBytes = null;
+                blobAsBytes = logo.getBytes(1, blobLength);
+            	//Compose initial logo file name 
+            	final String orgImagePathInit = jobConf.getTmpDir() + File.separator + "orgLogo"  + "_" + System.currentTimeMillis()  + ".jpeg";
+                try {
+	                FileOutputStream fos = new FileOutputStream(orgImagePathInit);
+	                fos.write(blobAsBytes);
+	                fos.close();
+	                jobConf.setOrgImagePath(orgImagePathInit);
+                } catch (IOException exception) {
+        			LOGGER.error(MessageCatalog._00034_FILE_CREATION_FAILURE, exception, orgImagePathInit);
+                }
+                //release the blob and free up memory. (since JDBC 4.0)
+                logo.free();
 			}
 			resultSet.close();
 			sta.close();
@@ -240,16 +274,16 @@ public class DBConnectionManager {
 	 *         False otherwise.
 	 * @since 1.0
 	 */
-	public boolean updateWebPageRoot(final int jobId, final String webPageRoot){
+	public boolean updateDatasetWebPageRoot(final int datasetId, final String webPageRoot){
 		//Update end_date of job
 		boolean updated = false;
     	try {
     		PreparedStatement preparedStatement = null;		
-    		preparedStatement = getConnection().prepareStatement("UPDATE linkeddataserver_job_instances SET dataset_web_page_root = ? WHERE job_id = ?");
+    		preparedStatement = getConnection().prepareStatement("UPDATE dataset SET dataset_web_page_root = ? WHERE datasetId = ?");
     		// (dataset_web_page_root, job_id)
     		// parameters start with 1
     		preparedStatement.setString(1, webPageRoot);
-    		preparedStatement.setInt(2, jobId);
+    		preparedStatement.setInt(2, datasetId);
     		preparedStatement.executeUpdate();
     		updated = true;
 		} catch (SQLException exception) {

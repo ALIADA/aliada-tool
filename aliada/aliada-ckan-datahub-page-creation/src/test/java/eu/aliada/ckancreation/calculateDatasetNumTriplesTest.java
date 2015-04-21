@@ -39,9 +39,8 @@ public class calculateDatasetNumTriplesTest {
 		final JobConfiguration jobConf = newJobConfiguration();
 		final CKANCreation ckanCreation = new CKANCreation(jobConf, dbConn);
 		final  ArrayList<Subset> subsetsList = newSubsetList();
-		final String sparqlEndpoint = "http://aliada.scanbit.net:8891/sparql";
 		int result = -1;
-		result = ckanCreation.calculateDatasetNumTriples(sparqlEndpoint, subsetsList);
+		result = ckanCreation.calculateDatasetNumTriples(jobConf.getSparqlEndpointUri(), jobConf.getSparqlLogin(), jobConf.getSparqlPassword(), subsetsList);
         if (result >= 0) {
         	LOGGER.info("OK");
         } else {
@@ -78,6 +77,9 @@ public class calculateDatasetNumTriplesTest {
 		job.setUriConceptPart("collections");
 		job.setVirtualHost("*ini*");
 		job.setIsqlCommandPath("isql");
+		job.setSparqlEndpointUri("http://aliada.scanbit.net:8891/sparql");
+		job.setSparqlLogin("");
+		job.setSparqlPassword("");
 		return job;
 	}
 

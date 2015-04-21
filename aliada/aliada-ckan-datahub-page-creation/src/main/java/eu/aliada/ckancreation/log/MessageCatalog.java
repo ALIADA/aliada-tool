@@ -40,5 +40,6 @@ public interface MessageCatalog {
 	String _00042_CKAN_ORG_UPDATED = LT + MODULE_NAME + "-00042> : Organization updated in CKAN.";	
 	String _00043_CKAN_DATASET_CREATED = LT + MODULE_NAME + "-00043> : Dataset created in CKAN.";	
 	String _00044_CKAN_RESOURCE_CREATED = LT + MODULE_NAME + "-00044> : Resource %s created in CKAN.";	
+	String _00045_GETTING_NUM_TRIPLES = LT + MODULE_NAME + "-00044> : Getting number of triples through sparqlEndpoint=%s, graph=%s, user=%s, password=%s.";	
 	String _00057_UPDATING_JOB_DDBB = LT + MODULE_NAME + "-00057> : Updating job %d in DDBB.";	
 }

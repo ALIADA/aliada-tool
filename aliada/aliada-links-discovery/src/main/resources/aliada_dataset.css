@@ -1,0 +1,42 @@
+h1 {
+  font-size: 25px;
+  font-family: Helvetica,Arial,sans-serif;
+  font-weight: bold;
+}
+body {
+  color: #555555;
+  font-family: Arial,sans-serif;
+  font-size: 0.813em;
+}
+table, th, td {
+    border: 0px;
+    border-collapse: collapse;
+	border-spacing: 2px;
+	border-color: gray;	
+}
+th, td {
+    padding: 5px;
+    text-align: left;
+}
+table tr:nth-child(even) {
+    background-color: #eee;
+}
+table tr:nth-child(odd) {
+   background-color:#fff;
+}
+table th	{
+    background-color: black;
+    color: white;
+}
+td.label {
+	font-family: Arial,sans-serif;
+	font-weight: bold;
+}
+td.input {
+	font-family: Arial,sans-serif;
+}
+ul {
+    list-style-type: none;
+    padding: 0px;
+    margin: 0px;
+}

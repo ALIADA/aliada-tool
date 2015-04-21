@@ -16,11 +16,18 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
+import java.io.InputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.io.InputStreamReader;
 import java.net.URLEncoder;
+import java.nio.file.Files;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Iterator;
+
+import org.omg.CORBA_2_3.portable.OutputStream;
 
 /**
  * Linked Data Server setup implementation. 
@@ -36,6 +43,8 @@ public class LinkedDataServerSetup {
 	private static final String ISQL_COMMAND_FORMAT = "%s %s:%d %s %s %s -u lhost='%s' vhost='%s' uri_id='%s' uri_doc_slash='%s' uri_def='%s' graphs_select_encoded='%s' graphs_encoded='%s' domain_name_encoded='%s' rules_suffix='%s' uri_doc_concept='%s' dataset_page='%s' aliada_ont_encoded='%s' uri_id_encoded='%s' create_virtual_path=%d urrl_list_subset=%d rules_suffix_dataset='%s' uri_doc_concept_parent='%s'";
 	/** Dataset Index HTML Page*/
 	private static final String DATASET_INDEX_PAGE = "dataset.html"; 
+	/** Dataset CSS file*/
+	private static final String DATASET_CSS_FILE = "aliada_dataset.css"; 
 	/* Input parameters for URL rewrite rules */
 	/** Suffix to be added to URL rewrite rules names. */
 	private String rulesNamesSuffix;
@@ -352,12 +361,13 @@ public class LinkedDataServerSetup {
 	public void createDatasetDefaultPage(final JobConfiguration jobConf, final DBConnectionManager dbConn){
 		//Create the folder where the page resides, if it does not exist
 		final String pageFolder = jobConf.getVirtHttpServRoot() + File.separator + rulesNamesSuffix;
+		final String pageURL = "http://" + jobConf.getDomainName();
 		final File fFolder = new File(pageFolder);
 		if (!fFolder.exists()) {
 			fFolder.mkdir();
 		}
 		//Update the dataset web page root in the DB
-		dbConn.updateWebPageRoot(jobConf.getId(), pageFolder);
+		dbConn.updateDatasetWebPageRoot(jobConf.getDatasetId(), pageFolder);
 		
 		String pagePath = pageFolder + File.separator + DATASET_INDEX_PAGE;
 		//Remove the page if it already exists
@@ -365,6 +375,10 @@ public class LinkedDataServerSetup {
 		if (fPage.exists()) {
 			fPage.delete();
 		}
+		
+		copyFilesToWebServerPath(jobConf, pageFolder, pageURL);
+		final String orgLogoPath = jobConf.getOrgImageURL();
+		final String styleSheetPath = jobConf.getCssFileURL();
 		//Now, create a new one
 		try {
 			final FileWriter fstream = new FileWriter(pagePath);
@@ -384,24 +398,65 @@ public class LinkedDataServerSetup {
         	line = "<title>" + jobConf.getDatasetDesc().toUpperCase() + "</title>";
         	out.write(line);
         	out.newLine();
+        	line = "<link rel=\"stylesheet\" href=\"" + styleSheetPath + "\" type=\"text/css\">";
+        	out.write(line);
+        	out.newLine();
         	line = "</head>";
         	out.write(line);
         	out.newLine();
         	line = "<body>";
         	out.write(line);
         	out.newLine();
-        	line = jobConf.getDatasetLongDesc() + "<br>";
+        	line = "<img src=\"" + orgLogoPath+ "\">";
         	out.write(line);
         	out.newLine();
-        	line = "<a href=\"" + jobConf.getPublicSparqlEndpointUri() + "\">" + "SPARQL Endpoint" + "</a><br>";
+        	line = "<h1>" + jobConf.getDatasetDesc() + "</h1>";
+        	out.write(line);
+        	out.newLine();
+        	line ="<table><colgroup><col width=\"25%\"><col width=\"75%\"></colgroup>";
+        	out.write(line);
+        	out.newLine();
+        	//Description
+        	line =String.format("<tr><td class=\"label\">%s</td><td class=\"input\">%s</td></tr>", "description", jobConf.getDatasetLongDesc());
+        	out.write(line);
+        	out.newLine();
+        	//Publisher
+        	line =String.format("<tr><td class=\"label\">%s</td><td class=\"input\">%s</td></tr>", "publisher", jobConf.getOrgName().toUpperCase());
+        	out.write(line);
+        	out.newLine();
+        	//Source URL
+        	line =String.format("<tr><td class=\"label\">%s</td><td class=\"input\"><a href=\"%s\">%s</a></td></tr>", "source", jobConf.getDatasetSourceURL(), jobConf.getDatasetSourceURL());
+        	out.write(line);
+        	out.newLine();
+        	//Created
+        	line =String.format("<tr><td class=\"label\">%s</td><td class=\"input\">%s</td></tr>", "created", getStringNow());
+        	out.write(line);
+        	out.newLine();
+        	//Contributor
+        	line =String.format("<tr><td class=\"label\">%s</td><td class=\"input\">%s</td></tr>", "contributor", jobConf.getDatasetAuthor());
+        	out.write(line);
+        	out.newLine();
+        	//License URL
+        	line =String.format("<tr><td class=\"label\">%s</td><td class=\"input\"><a href=\"%s\">%s</a></td></tr>", "license", jobConf.getLicenseURL(), jobConf.getLicenseURL());
+        	out.write(line);
+        	out.newLine();
+        	//SPARQL endpoint URL
+        	line =String.format("<tr><td class=\"label\">%s</td><td class=\"input\"><a href=\"%s\">%s</a></td></tr>", "SPARQL endpoint", jobConf.getPublicSparqlEndpointUri(), jobConf.getPublicSparqlEndpointUri());
+        	out.write(line);
+        	out.newLine();
+        	//Vocabulary URL
+        	line =String.format("<tr><td class=\"label\">%s</td><td class=\"input\"><a href=\"%s\">%s</a></td></tr>", "vocabulary", jobConf.getOntologyUri(), jobConf.getOntologyUri());
         	out.write(line);
         	out.newLine();
         	//List resources of dataset
         	String datasetUri = "http://" + jobConf.getDomainName() + "/" + uriDocConcept;  
-        	line = "<a href=\"" + datasetUri + "\">" + "list of resources" + "</a><br>";
+        	line =String.format("<tr><td class=\"label\">%s</td><td class=\"input\"><a href=\"%s\">%s</a></td></tr>", "list of resources", datasetUri, datasetUri);
         	out.write(line);
         	out.newLine();
-        	int numSubsets = 0;
+        	//List subsets
+        	line =String.format("<tr><td class=\"label\">%s</td><td class=\"input\"><ul>", "subsets");
+        	out.write(line);
+        	out.newLine();
 			for (Iterator<Subset> iterSubsets = jobConf.getSubsets().iterator(); iterSubsets.hasNext();  ) {
 				Subset subset = iterSubsets.next();
 				String uriDocConceptSubset = "";
@@ -409,20 +464,19 @@ public class LinkedDataServerSetup {
 					uriDocConceptSubset = removeLeadingTralingSlashes(subset.getUriConceptPart());
 				} 				
 				if(uriDocConceptSubset.length() > 0) {
-					if(numSubsets == 0){
-			        	line = "Subsets:<br>";
-			        	out.write(line);
-			        	out.newLine();
-					}
-					numSubsets++;
 		        	//List resources of subset
 					String subsetUri = datasetUri + "/" + uriDocConceptSubset;
-		        	line = "<a href=\"" + subsetUri + "\">" + "list of resources of subset " + subset.getDescription()+ "</a><br>";
+		        	line =String.format("<li>%s: <a href=\"%s\"></a></li>", subset.getDescription(), subsetUri);
 		        	out.write(line);
 		        	out.newLine();
-
 				}
 			}
+			line = "</ul></td></tr>";
+        	out.write(line);
+        	out.newLine();
+			line = "</table>";
+        	out.write(line);
+        	out.newLine();
         	
         	line = "</body>";
         	out.write(line);
@@ -435,6 +489,58 @@ public class LinkedDataServerSetup {
 			LOGGER.error(MessageCatalog._00034_FILE_CREATION_FAILURE, exception, pagePath);
 		}
 		
+	}
+
+	/**
+	 * Returns the current date.
+	 * 
+	 * @return The current date.
+	 * @since 2.0
+	 */
+	protected String getStringNow(){
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd"); 
+		Date fecha = new Date(); 
+		return dateFormat.format(fecha); 
+	}
+   
+	/**
+	 * It copies some files (the organisation image file and CSS file) to the dataset web root.
+	 *
+	 * @return true if the files has been copied correctly. False otherwise.  					
+	 * @since 2.0
+	 */
+	public boolean copyFilesToWebServerPath(final JobConfiguration jobConf, final String pageFolder, final String pageURL) {
+		boolean success = false;
+		try {
+			//Move the organization image file from TMP folder to the definitive folder
+			File orgImageInitFile= new File(jobConf.getOrgImagePath());
+			final String definitiveImgFileName = pageFolder + File.separator + "orgLogo.jpeg";
+			final File definitiveImgFile = new File (definitiveImgFileName);
+			Files.move(orgImageInitFile.toPath(), definitiveImgFile.toPath(), java.nio.file.StandardCopyOption.REPLACE_EXISTING);
+			jobConf.setOrgImagePath(definitiveImgFileName);
+			String orgImageURL = pageURL + "/" + definitiveImgFile.getName();
+			jobConf.setOrgImageURL(orgImageURL);
+
+			//Copy the CSS file to the definitive folder
+			InputStream cssInpuStream= getClass().getResourceAsStream("/"+ DATASET_CSS_FILE);
+			final String definitiveCssFileName = pageFolder + File.separator + "aliada_dataset.css";
+			final File definitiveCssFile = new File (definitiveCssFileName);
+			FileOutputStream cssOutputStream =  new FileOutputStream(definitiveCssFile);			
+			int read = 0;
+			byte[] bytes = new byte[1024]; 
+			while ((read = cssInpuStream.read(bytes)) != -1) {
+				cssOutputStream.write(bytes, 0, read);
+			}
+			cssOutputStream.close();
+			jobConf.setCssFilePath(definitiveCssFileName);
+			String cssFileURL = pageURL + "/" + DATASET_CSS_FILE;
+			jobConf.setCssFileURL(cssFileURL);
+			
+			success = true;
+		} catch (Exception exception) {
+			LOGGER.error(MessageCatalog._00035_FILE_ACCESS_FAILURE, exception, jobConf.getOrgImagePath());
+		}
+		return success;
 	}
 
 	/**
