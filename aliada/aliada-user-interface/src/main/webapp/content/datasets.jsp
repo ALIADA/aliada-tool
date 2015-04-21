@@ -176,6 +176,10 @@ $(function(){
 			<label class="label"><html:text name="isqlCommandsFileDatasetForm"/></label>
 			<html:property value="isqlCommandsFileDatasetForm" />
 		</div>
+		<div class="row">
+			<label class="label"><html:text name="datasetWebPageRootForm"/></label>
+			<html:property value="datasetWebPageRootForm" />
+		</div>
 		<div class="buttons row">
 			<html:submit action="showDatasets" cssClass="submitButton button"
 				key="back" />

@@ -63,6 +63,7 @@ public class DatasetsAction  extends ActionSupport{
 	private String licenseCkanIdForm;
 	private String licenseURLForm;
 	private String isqlCommandsFileDatasetForm;
+	private String datasetWebPageRootForm;
 	
 	private String title;
 	private String message1;
@@ -172,6 +173,7 @@ public class DatasetsAction  extends ActionSupport{
                 this.licenseCkanIdForm = rs.getString("license_ckan_id");
                 this.licenseURLForm = rs.getString("license_url");             
                 this.isqlCommandsFileDatasetForm = rs.getString("isql_commands_file_dataset");
+                this.datasetWebPageRootForm = rs.getString("dataset_web_page_root");
                 statement.close();
                 rs.close();
                 connection.close();
@@ -641,8 +643,8 @@ public class DatasetsAction  extends ActionSupport{
              		+ "public_sparql_endpoint_uri, dataset_author,"
              		+ "ckan_dataset_name, dataset_long_desc, "
              		+ "dataset_source_url, license_ckan_id,"
-             		+ "license_url,"
-             		+ "isql_commands_file_dataset) VALUES (" + organisationId + ",'"
+             		+ "license_url, isql_commands_file_dataset) "
+             		+ "VALUES (" + organisationId + ",'"
                      + this.datasetDescForm + "', '" + this.domainNameForm + "', '"
                      + this.uriIdPartForm + "', '" + this.uriDocPartForm + "', '"
                      + this.uriDefPartForm + "', '" + this.uriConceptPartForm + "', '" + this.uriSetPartForm + "', '"
@@ -651,8 +653,7 @@ public class DatasetsAction  extends ActionSupport{
                      + this.sparqlEndpointPasswordForm + "', '" + publicSparqlEndpoint + "', '"
                      + datasetAuthor + "', '" + this.ckanDatasetNameForm + "', '" + this.datasetLongDescForm + "', '"
                      + this.datasetSourceURLForm + "', '" + this.licenseCkanIdForm + "', '" 
-                     + this.licenseURLForm + "', '" 
-                     + this.isqlCommandsFileDatasetForm + "')");
+                     + this.licenseURLForm + "', '" + this.isqlCommandsFileDatasetForm + "')");
              rs.close();
              statement.close();
              connection.close();
@@ -1141,6 +1142,23 @@ public class DatasetsAction  extends ActionSupport{
      */
 	public void setIsqlCommandsFileDatasetForm(final String isqlCommandsFileDatasetForm) {
 		this.isqlCommandsFileDatasetForm = isqlCommandsFileDatasetForm;
+	}
+	/**
+     * @return Returns the datasetWebPageRootForm.
+     * @exception
+     * @since 1.0
+     */
+	public String getDatasetWebPageRootForm() {
+		return datasetWebPageRootForm;
+	}
+	/**
+     * @param datasetWebPageRootForm
+     *            The datasetWebPageRootForm to set.
+     * @exception
+     * @since 1.0
+     */
+	public void setDatasetWebPageRootForm(final String datasetWebPageRootForm) {
+		this.datasetWebPageRootForm = datasetWebPageRootForm;
 	}
 	/**
      * @return Returns the showAddDatasetForm.
