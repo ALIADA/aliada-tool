@@ -13,10 +13,10 @@
 
 <span>Esta es la URL del dataset publicado en CKAN: </span> <a href="<html:property value="ckanDatasetUrl" />" >CKAN Dataset URL</a>
 
-<div id="checkInfo" class="displayNo">
+<div id="anotherFile">
 	<div class="row">
 		<html:form>
-			<html:submit id="linkingNextButton" action="finishFileWork" cssClass="fleft mediumButton button" key="linking.addNew"/>
+			<html:submit id="linkingNextButton" action="addAnotherFileWork" cssClass="fleft mediumButton button" key="linking.addNew"/>
 		</html:form>
 	</div>
 
