@@ -283,7 +283,7 @@
 			$ne_s $is_a $Concept . 
 			$ne_s #skos('prefLabel') "$entry.getKey()" . 
 			$coll_s #skos('member') $ne_s .
-			$main_subject #ecrm('P137_exemplifies Darwin') $ne_s .
+			$main_subject #ecrm('P137_exemplifies') $ne_s .
 		#end
 	#end	
 #end
