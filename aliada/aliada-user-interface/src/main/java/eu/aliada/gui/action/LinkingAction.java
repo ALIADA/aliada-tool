@@ -389,7 +389,7 @@ public class LinkingAction extends ActionSupport {
                     preparedStatement.setString(5, rs.getString("isql_command_path"));
                     preparedStatement.setString(6, rs.getString("virtuoso_http_server_root"));
                     preparedStatement.setString(7, rs.getString("aliada_ontology"));
-                    preparedStatement.setString(8, rs.getString("datasetId"));
+                    preparedStatement.setInt(8, rs.getInt("datasetId"));
                     preparedStatement.setString(9, rs.getString("isql_commands_file_dataset_default"));
                     preparedStatement.setString(10, rs.getString("isql_commands_file_subset_default"));
                     preparedStatement.setInt(11, rs.getInt("organisationId"));
