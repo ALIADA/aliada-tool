@@ -370,7 +370,7 @@ public class LinkingAction extends ActionSupport {
                 ResultSet rs = statement
                         .executeQuery("select store_ip,store_sql_port,sql_login, sql_password, isql_command_path, "
                         		+ "o.virtuoso_http_server_root, o.aliada_ontology, s.datasetId, o.isql_commands_file_dataset_default, "
-                        		+ "o.isql_commands_file_subset_default from aliada.organisation o "
+                        		+ "o.isql_commands_file_subset_default, o.organisationId, o.tmp_dir from aliada.organisation o "
                         		+ "INNER JOIN aliada.dataset d ON o.organisationId=d.organisationId "
                         		+ "INNER JOIN aliada.subset s ON d.datasetId=s.datasetId INNER JOIN aliada.rdfizer_job_instances r "
                         		+ "WHERE s.graph_uri='" + fileToLink.getGraph() + "' ORDER BY r.job_id DESC LIMIT 1");
@@ -378,8 +378,9 @@ public class LinkingAction extends ActionSupport {
                     PreparedStatement preparedStatement = connection
                             .prepareStatement(
                                     "INSERT INTO aliada.linkeddataserver_job_instances (store_ip,store_sql_port,sql_login,sql_password,"
-                                    + "isql_command_path,virtuoso_http_server_root,aliada_ontology,datasetId,isql_commands_file_dataset_default,isql_commands_file_subset_default)"
-                                    + " VALUES(?,?,?,?,?,?,?,?,?,?)",
+                                    + "isql_command_path,virtuoso_http_server_root,aliada_ontology,datasetId,isql_commands_file_dataset_default,"
+                                    + "isql_commands_file_subset_default,organisationId,tmp_dir)"
+                                    + " VALUES(?,?,?,?,?,?,?,?,?,?,?,?)",
                                     PreparedStatement.RETURN_GENERATED_KEYS);
                     preparedStatement.setString(1, rs.getString("store_ip"));
                     preparedStatement.setInt(2, rs.getInt("store_sql_port"));
@@ -391,6 +392,8 @@ public class LinkingAction extends ActionSupport {
                     preparedStatement.setString(8, rs.getString("datasetId"));
                     preparedStatement.setString(9, rs.getString("isql_commands_file_dataset_default"));
                     preparedStatement.setString(10, rs.getString("isql_commands_file_subset_default"));
+                    preparedStatement.setInt(11, rs.getInt("organisationId"));
+                    preparedStatement.setString(12, rs.getString("tmp_dir"));
                     preparedStatement.executeUpdate();
                     ResultSet rs2 = preparedStatement.getGeneratedKeys();
                     if (rs2.next()) {

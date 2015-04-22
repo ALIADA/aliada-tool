@@ -12,13 +12,13 @@ $(function(){
 		$("#areDatasetsButtons").hide();
 	}
 	if(showAddDatasetForm == "true"){
-		$("#addDatasetPanel").show("slow");
+		$("#addDatasetPanel").show();
 	}
 	if(showEditDatasetForm == "true"){
-		$("#editDatasetPanel").show("slow");
+		$("#editDatasetPanel").show();
 	}
 	if(showTheDataset == "true"){
-		$("#theDatasetPanel").show("slow");
+		$("#theDatasetPanel").show();
 	}
 	if((showAddDatasetForm == "true") || (showEditDatasetForm == "true") || (showTheDataset == "true")){
 		$("#datasetsPanel").hide();		
@@ -186,7 +186,9 @@ $(function(){
 		</div>
 	</div>
 </html:form>
-		
+
+<div class="displayNo">
+
 		<sj:dialog 
 	    	id="domName" 
 	    	openTopics="domName"
@@ -258,6 +260,7 @@ $(function(){
 	    	title="%{title}">
 	    		<html:text name="message8"></html:text>  <html:a href="https://creativecommons.org/licenses/" target="_blank"><img alt="help" src="images/link.png"></img></html:a>  	
 	    </sj:dialog>
+</div>
 	
 <html:form id="datasetAddForm" class="row">
 	<div id="addDatasetPanel" class="displayNo">

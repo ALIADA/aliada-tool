@@ -92,6 +92,7 @@
 				    	   $("#linkingNextButton").removeClass("button");
 				    	   $("#linkingNextButton").addClass("buttonGreen");
 				    	   $("#linkingNextButton").prop("disabled",false);
+				    	   $("#pag").show();
 				       }
 				       finishedLink = true;
 			   	   }
@@ -130,6 +131,7 @@
 				    	   $("#linkingNextButton").removeClass("button");
 				    	   $("#linkingNextButton").addClass("buttonGreen");
 				    	   $("#linkingNextButton").prop("disabled",false);
+				    	   $("#pag").show();
 				       }
 				       finishedCreat = true;
 			   	   }
@@ -232,7 +234,7 @@
 	<div class="content">
 		<div class="row bigLabel">
 			<html:text name="linkingInfo.nameFile"/>
-			<html:property value="fileToLink.getFilename()"/>		
+			<html:property value="fileToLink.getFilename()"/>	
 		</div>
 		<div id="linkingDividedPanel" class="clearfix">		
 			<div id="linkingInfoPanel" class="fleft" >

@@ -20,19 +20,19 @@
         <sj:tab id="tab4" target="div4" label="%{#tab3Name}"/>
         <sj:tab id="tab5" target="div5" label="%{#tab4Name}"/>
         <sj:tab id="tab6" target="div6" label="%{#tab5Name}"/>
-        <div id="div1">
+        <div id="div1" class="displayNo">
 			<html:include value="institution.jsp" />
         </div>
-        <div id="div2">
+        <div id="div2" class="displayNo">
          	<html:include value="profiles.jsp" />
         </div>
-        <div id="div3">
+        <div id="div3" class="displayNo">
         	<html:include value="templates.jsp" />
         </div>
-        <div id="div4">
+        <div id="div4" class="displayNo">
         	<html:include value="users.jsp" />
         </div>
-        <div id="div5">
+        <div id="div5" class="displayNo">
        		<%-- <html:include value="datasets.jsp" /> --%>
        		<html:form>
 	       		<ul class="breadcrumb">
@@ -50,7 +50,7 @@
 	       		</html:form>
 	       	</div>
         </div>
-        <div id="div6">
+        <div id="div6" class="displayNo">
         	<html:include value="externalDatasets.jsp" />
         </div>
  </sj:tabbedpanel>
