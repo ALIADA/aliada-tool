@@ -234,7 +234,11 @@
 	<div class="content">
 		<div class="row bigLabel">
 			<html:text name="linkingInfo.nameFile"/>
-			<html:property value="fileToLink.getFilename()"/>	
+			<html:property value="fileToLink.getFilename()"/>
+			<div id="pag" class="displayNo">
+				<br/>
+				<a href="<html:property value="datasetUrl" />" target="_blank"><img alt="dataset" src="images/dataset.png"></img></a>
+			</div>	
 		</div>
 		<div id="linkingDividedPanel" class="clearfix">		
 			<div id="linkingInfoPanel" class="fleft" >
