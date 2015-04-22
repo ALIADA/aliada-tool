@@ -157,6 +157,9 @@ public class DBConnectionManager {
 				jobConf.setDatasetDesc(resultSet.getString("dataset_desc"));
 				jobConf.setDatasetLongDesc(resultSet.getString("dataset_long_desc"));
 				jobConf.setDatasetSourceURL(resultSet.getString("dataset_source_url"));
+				jobConf.setSparqlEndpointUri(resultSet.getString("sparql_endpoint_uri"));
+				jobConf.setSparqlLogin(resultSet.getString("sparql_endpoint_login"));
+				jobConf.setSparqlPassword(resultSet.getString("sparql_endpoint_password"));
 				jobConf.setPublicSparqlEndpointUri(resultSet.getString("public_sparql_endpoint_uri"));
 				jobConf.setLicenseCKANId(resultSet.getString("license_ckan_id"));
 				jobConf.setLicenseURL(resultSet.getString("license_url"));

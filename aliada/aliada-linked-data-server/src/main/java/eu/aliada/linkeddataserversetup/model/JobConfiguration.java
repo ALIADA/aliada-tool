@@ -6,6 +6,7 @@
 package eu.aliada.linkeddataserversetup.model;
 
 import java.util.ArrayList;
+
 import eu.aliada.linkeddataserversetup.model.Subset;
 
 /**
@@ -39,6 +40,8 @@ public class JobConfiguration {
 	 *  If the isql_commands_file_dataset is null or it does not exist, 
 	 *  this one will be used. */
 	private String isqlCommandsDatasetFilenameDefault;
+	/** Dataset identifier. */
+	private int datasetId;
 	/** Full path of the ISQL commands global file to execute. */
 	private String isqlCommandsDatasetFilename;
 	/** Full path of the ISQL commands default file to execute for every subset. 
@@ -63,6 +66,24 @@ public class JobConfiguration {
 	private String datasetLongDesc;
 	/** Dataset Public Sparql endpoint */
 	private String publicSparqlEndpointUri;
+	/** The dataset  author. */
+	private String datasetAuthor;
+	/** The dataset source URL. */
+	private String datasetSourceURL;
+	/** License URL.*/
+	private String licenseURL;
+	/** The organization name. */
+	private String orgName;
+	/** Temporary folder name where to create temporary files. */
+	private String tmpDir;
+	/** The organization image file path. */
+	private String orgImagePath;
+	/** The organization image URL. */
+	private String orgImageURL;
+	/** The CSS file path. */
+	private String cssFilePath;
+	/** The CSS file URL. */
+	private String cssFileURL;
 	
 	/** The subsets where the dataset resides. */
 	private ArrayList<Subset> subsets = new ArrayList<Subset>(); 
@@ -264,6 +285,25 @@ public class JobConfiguration {
 	 */
 	public void setIsqlCommandsDatasetFilenameDefault(String isqlCommandsDatasetFilenameDefault) {
 		this.isqlCommandsDatasetFilenameDefault = isqlCommandsDatasetFilenameDefault;
+	}		
+
+	/**
+	 * Returns the dataset identifier.
+	 * 
+	 * @return The dataset identifier.
+	 * @since 2.0
+	 */
+	public int getDatasetId() {
+		return datasetId;
+	}
+	/**
+	 * Sets dataset identifier.
+	 * 
+	 * @param datasetId The dataset identifier.
+	 * @since 2.0
+	 */
+	public void setDatasetId(final int datasetId) {
+		this.datasetId = datasetId;
 	}		
 
 	/**
@@ -482,6 +522,177 @@ public class JobConfiguration {
 	 */
 	public void setPublicSparqlEndpointUri(final String publicSparqlEndpointUri) {
 		this.publicSparqlEndpointUri = publicSparqlEndpointUri;
+	}
+	
+	/**
+	 * Returns the dataset author.
+	 * 
+	 * @return The dataset author.
+	 * @since 2.0
+	 */
+	public String getDatasetAuthor() {
+		return datasetAuthor;
+	}
+	/**
+	 * Sets the dataset author.
+	 * 
+	 * @param datasetAuthor dataset author.
+	 * @since 2.0
+	 */
+	public void setDatasetAuthor(final String datasetAuthor) {
+		this.datasetAuthor = datasetAuthor;
+	}
+
+	/**
+	 * Returns the dataset source URL.
+	 * 
+	 * @return The dataset source URL.
+	 * @since 2.0
+	 */
+	public String getDatasetSourceURL() {
+		return datasetSourceURL;
+	}
+	/**
+	 * Sets the dataset source URL.
+	 * 
+	 * @param datasetURL dataset source URL.
+	 * @since 2.0
+	 */
+	public void setDatasetSourceURL(final String datasetSourceURL) {
+		this.datasetSourceURL = datasetSourceURL;
+	}
+
+	/**
+	 * Returns the license URL of the dataset. 
+	 * 
+	 * @return The license URL of the dataset.
+	 * @since 2.0
+	 */
+	public String getLicenseURL() {
+		return this.licenseURL;
+	}
+	/**
+	 * Sets the license URL of the dataset.
+	 * 
+	 * @param licenseURL license URL of the dataset.
+	 * @since 2.0
+	 */
+	public void setLicenseURL(String licenseURL) {
+		this.licenseURL = licenseURL;
+	}
+
+	/**
+	 * Returns the organization name.
+	 * 
+	 * @return The organization name.
+	 * @since 2.0
+	 */
+	public String getOrgName() {
+		return orgName;
+	}
+	/**
+	 * Sets the organization name.
+	 * 
+	 * @param orgName Organization name.
+	 * @since 2.0
+	 */
+	public void setOrgName(final String orgName) {
+		this.orgName = orgName;
+	}
+
+	/**
+	 * Returns the path of the temporary directory for creating temporary files.
+	 * 
+	 * @return The path of the temporary directory for creating temporary files.
+	 * @since 2.0
+	 */
+	public String getTmpDir() {
+		return tmpDir;
+	}
+	/**
+	 * Sets the path of the temporary directory for creating temporary files.
+	 * 
+	 * @param tmpDir The path of the temporary directory for creating temporary files.
+	 * @since 2.0
+	 */
+	public void setTmpDir(final String tmpDir) {
+		this.tmpDir = tmpDir;
+	}		
+
+	/**
+	 * Returns the organization image Path.
+	 * 
+	 * @return The organization image Path.
+	 * @since 2.0
+	 */
+	public String getOrgImagePath() {
+		return orgImagePath;
+	}
+	/**
+	 * Sets the organization image Path.
+	 * 
+	 * @param orgImagePath Organization image Path.
+	 * @since 2.0
+	 */
+	public void setOrgImagePath(final String orgImagePath) {
+		this.orgImagePath = orgImagePath;
+	}
+	
+	/**
+	 * Returns the organization image URL.
+	 * 
+	 * @return The organization image URL.
+	 * @since 2.0
+	 */
+	public String getOrgImageURL() {
+		return orgImageURL;
+	}
+	/**
+	 * Sets the organization image URL.
+	 * 
+	 * @param orgImageURL Organization image URL.
+	 * @since 2.0
+	 */
+	public void setOrgImageURL(final String orgImageURL) {
+		this.orgImageURL = orgImageURL;
+	}
+	
+	/**
+	 * Returns the organization image Path.
+	 * 
+	 * @return The organization image Path.
+	 * @since 2.0
+	 */
+	public String getCssFilePath() {
+		return cssFilePath;
+	}
+	/**
+	 * Sets the organization image Path.
+	 * 
+	 * @param orgImagePath Organization image Path.
+	 * @since 2.0
+	 */
+	public void setCssFilePath(final String cssFilePath) {
+		this.cssFilePath = cssFilePath;
+	}
+	
+	/**
+	 * Returns the organization image URL.
+	 * 
+	 * @return The organization image URL.
+	 * @since 2.0
+	 */
+	public String getCssFileURL() {
+		return cssFileURL;
+	}
+	/**
+	 * Sets the organization image URL.
+	 * 
+	 * @param orgImageURL Organization image URL.
+	 * @since 2.0
+	 */
+	public void setCssFileURL(final String cssFileURL) {
+		this.cssFileURL = cssFileURL;
 	}
 	
 	/**

@@ -355,10 +355,12 @@ public class RDFStoreDAO {
 	 *
 	 * @param sparqlEndpointURI		the SPARQL endpoint URI.  
 	 * @param graphName 			the graphName, null in case of default graph.
+	 * @param user					the user name for the SPARQl endpoint.
+	 * @param password				the password for the SPARQl endpoint.
 	 * @return the number of triples in the graph.
 	 * @since 1.0
 	 */
-	public int getNumTriples(final String sparqlEndpointURI, final String graphName) {
+	public int getNumTriples(final String sparqlEndpointURI, final String graphName, final String user, final String password) {
 		int numTriples = 0; 
 		final StringBuilder builder = new StringBuilder();
 		builder.append("SELECT (COUNT(*) AS ?no) ");
@@ -374,11 +376,13 @@ public class RDFStoreDAO {
 		
 		builder.append(" WHERE { ?s ?p ?o }");
 		String query = builder.toString();
+
 	 	try {
 	        // Execute the query and obtain results
-	        QueryExecution qexec = QueryExecutionFactory.sparqlService(
+	        final QueryExecution qexec = QueryExecutionFactory.sparqlService(
 	        		sparqlEndpointURI, 
-	        		QueryFactory.create(query));
+	        		QueryFactory.create(query), 
+					auth(sparqlEndpointURI, user, password));
             ResultSet results = qexec.execSelect() ;
             while (results.hasNext())
             {

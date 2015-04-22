@@ -551,21 +551,25 @@ public class CKANCreation {
 	/**
 	 * It calculates the number of triples contained in the subsets of a dataset.
 	 *
-	 * @param sparqlEndpoint	The SPARQL endpoint of the dataset. 
+	 * @param sparqlEndpoint	the SPARQL endpoint of the dataset. 
+	 * @param user				the user name for the SPARQl endpoint.
+	 * @param password			the password for the SPARQl endpoint.
 	 * @param subsetsList		the {@link eu.aliada.ckancreation.model.Subset}
 	 *							that contains information of the graphs of the subset.  
 	 * @return the number of triples contained in the subsets of the dataset.  					
 	 * @since 2.0
 	 */
-	public int calculateDatasetNumTriples(String sparqlEndpoint, ArrayList<Subset> subsetsList) {
+	public int calculateDatasetNumTriples(String sparqlEndpoint, final String user, final String password, ArrayList<Subset> subsetsList) {
 		int numTriples = 0;
 		//Get subset graphs and get number of triples
 		for (Iterator<Subset> iterSubsets = jobConf.getSubsets().iterator(); iterSubsets.hasNext();  ) {
 			Subset subset = iterSubsets.next();
 			//Get number of triples of each subgraph
 			final RDFStoreDAO rdfstoreDAO = new RDFStoreDAO();
-			subset.setGraphNumTriples(rdfstoreDAO.getNumTriples(sparqlEndpoint, subset.getGraph()));
-			subset.setLinksGraphNumTriples(rdfstoreDAO.getNumTriples(sparqlEndpoint, subset.getLinksGraph()));
+			LOGGER.debug(MessageCatalog._00045_GETTING_NUM_TRIPLES, sparqlEndpoint, subset.getGraph(), user, password);
+			subset.setGraphNumTriples(rdfstoreDAO.getNumTriples(sparqlEndpoint, subset.getGraph(), user, password));
+			LOGGER.debug(MessageCatalog._00045_GETTING_NUM_TRIPLES, sparqlEndpoint, subset.getLinksGraph(), user, password);
+			subset.setLinksGraphNumTriples(rdfstoreDAO.getNumTriples(sparqlEndpoint, subset.getLinksGraph(), user, password));
 			numTriples = numTriples+ subset.getGraphNumTriples() + subset.getLinksGraphNumTriples();
 		}
 		return numTriples;
@@ -607,7 +611,7 @@ public class CKANCreation {
 		dbConn.updateJobStartDate(jobConf.getId());
 		
 		//Get the number of triples of the dataset
-		final int numTriples = calculateDatasetNumTriples(jobConf.getPublicSparqlEndpointUri(), jobConf.getSubsets());
+		final int numTriples = calculateDatasetNumTriples(jobConf.getSparqlEndpointUri(), jobConf.getSparqlLogin(), jobConf.getSparqlPassword(), jobConf.getSubsets());
 		jobConf.setNumTriples(numTriples);
 		//ORGANIZATION
 		//Copy organisation image file to dataset web root

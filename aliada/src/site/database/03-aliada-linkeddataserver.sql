@@ -10,6 +10,8 @@ CREATE TABLE `aliada`.`linkeddataserver_job_instances` (
 `virtuoso_http_server_root`  VARCHAR( 245 ) default NULL,
 `aliada_ontology`  VARCHAR( 245 ) default NULL,
 `datasetId` int(11) NOT NULL,
+`organisationId` int(11) NOT NULL,
+`tmp_dir`  VARCHAR( 245 ) default NULL,
 `start_date` DATETIME default NULL,
 `end_date` DATETIME default NULL ,
 FOREIGN KEY (datasetId) 
