@@ -23,6 +23,10 @@ public class Subset {
 	private String linksGraph;
 	/** Full path of the ISQL commands global file to execute for every subset. */
 	private String isqlCommandsSubsetFilename;
+	/** Number of triples in graph. **/
+	private int graphNumTriples;
+	/** Number of triples in linksGraph. **/
+	private int linksGraphNumTriples;
 
 	/**
 	 * Returns the URI subset Concept section.
@@ -123,4 +127,41 @@ public class Subset {
 		this.isqlCommandsSubsetFilename = isqlCommandsSubsetFilename;
 	}		
 
+	/**
+	 * Returns the number of triples of the subset in graph.
+	 * 
+	 * @return The number of triples of the subset in graph.
+	 * @since 2.0
+	 */
+	public int getGraphNumTriples(){
+		return graphNumTriples; 
+	}
+	/**
+	 * Sets the number of triples of the subset in graph.
+	 * 
+	 * @param graphNumTriples The number of triples of the subset in graph.
+	 * @since 2.0
+	 */
+	public void setGraphNumTriples(final int graphNumTriples) {
+		this.graphNumTriples = graphNumTriples;
+	}
+
+	/**
+	 * Returns the number of triples of the subset in linksGraph.
+	 * 
+	 * @return The number of triples of the subset in linksGraph.
+	 * @since 2.0
+	 */
+	public int getLinksGraphNumTriples(){
+		return linksGraphNumTriples; 
+	}
+	/**
+	 * Sets the number of triples of the subset in linksGraph.
+	 * 
+	 * @param graphNumTriples The number of triples of the subset in linksGraph.
+	 * @since 2.0
+	 */
+	public void setLinksGraphNumTriples(final int linksGraphNumTriples) {
+		this.linksGraphNumTriples = linksGraphNumTriples;
+	}
 }

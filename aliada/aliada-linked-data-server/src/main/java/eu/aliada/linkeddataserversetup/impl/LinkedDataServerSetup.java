@@ -6,6 +6,7 @@
 package eu.aliada.linkeddataserversetup.impl;
 
 import eu.aliada.shared.log.Log;
+import eu.aliada.shared.rdfstore.RDFStoreDAO;
 import eu.aliada.linkeddataserversetup.log.MessageCatalog;
 import eu.aliada.linkeddataserversetup.model.Job;
 import eu.aliada.linkeddataserversetup.model.JobConfiguration;
@@ -24,10 +25,9 @@ import java.io.InputStreamReader;
 import java.net.URLEncoder;
 import java.nio.file.Files;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
-
-import org.omg.CORBA_2_3.portable.OutputStream;
 
 /**
  * Linked Data Server setup implementation. 
@@ -376,9 +376,12 @@ public class LinkedDataServerSetup {
 			fPage.delete();
 		}
 		
+		//Copy image and CSS files to web server folder
 		copyFilesToWebServerPath(jobConf, pageFolder, pageURL);
 		final String orgLogoPath = jobConf.getOrgImageURL();
 		final String styleSheetPath = jobConf.getCssFileURL();
+		//Get the number of triples of the dataset
+		final int numTriples = calculateDatasetNumTriples(jobConf.getSparqlEndpointUri(), jobConf.getSparqlLogin(), jobConf.getSparqlPassword(), jobConf.getSubsets());
 		//Now, create a new one
 		try {
 			final FileWriter fstream = new FileWriter(pagePath);
@@ -425,7 +428,7 @@ public class LinkedDataServerSetup {
         	out.write(line);
         	out.newLine();
         	//Source URL
-        	line =String.format("<tr><td class=\"label\">%s</td><td class=\"input\"><a href=\"%s\">%s</a></td></tr>", "source", jobConf.getDatasetSourceURL(), jobConf.getDatasetSourceURL());
+        	line =String.format("<tr><td class=\"label\">%s</td><td class=\"input\"><a href=\"%s\" target=\"_blank\">%s</a></td></tr>", "source", jobConf.getDatasetSourceURL(), jobConf.getDatasetSourceURL());
         	out.write(line);
         	out.newLine();
         	//Created
@@ -437,20 +440,24 @@ public class LinkedDataServerSetup {
         	out.write(line);
         	out.newLine();
         	//License URL
-        	line =String.format("<tr><td class=\"label\">%s</td><td class=\"input\"><a href=\"%s\">%s</a></td></tr>", "license", jobConf.getLicenseURL(), jobConf.getLicenseURL());
+        	line =String.format("<tr><td class=\"label\">%s</td><td class=\"input\"><a href=\"%s\" target=\"_blank\">%s</a></td></tr>", "license", jobConf.getLicenseURL(), jobConf.getLicenseURL());
         	out.write(line);
         	out.newLine();
         	//SPARQL endpoint URL
-        	line =String.format("<tr><td class=\"label\">%s</td><td class=\"input\"><a href=\"%s\">%s</a></td></tr>", "SPARQL endpoint", jobConf.getPublicSparqlEndpointUri(), jobConf.getPublicSparqlEndpointUri());
+        	line =String.format("<tr><td class=\"label\">%s</td><td class=\"input\"><a href=\"%s\" target=\"_blank\">%s</a></td></tr>", "SPARQL endpoint", jobConf.getPublicSparqlEndpointUri(), jobConf.getPublicSparqlEndpointUri());
         	out.write(line);
         	out.newLine();
         	//Vocabulary URL
-        	line =String.format("<tr><td class=\"label\">%s</td><td class=\"input\"><a href=\"%s\">%s</a></td></tr>", "vocabulary", jobConf.getOntologyUri(), jobConf.getOntologyUri());
+        	line =String.format("<tr><td class=\"label\">%s</td><td class=\"input\"><a href=\"%s\" target=\"_blank\">%s</a></td></tr>", "vocabulary", jobConf.getOntologyUri(), jobConf.getOntologyUri());
+        	out.write(line);
+        	out.newLine();
+        	//Number of triples
+        	line =String.format("<tr><td class=\"label\">%s</td><td class=\"input\">%s</td></tr>", "number of triples", numTriples);
         	out.write(line);
         	out.newLine();
         	//List resources of dataset
         	String datasetUri = "http://" + jobConf.getDomainName() + "/" + uriDocConcept;  
-        	line =String.format("<tr><td class=\"label\">%s</td><td class=\"input\"><a href=\"%s\">%s</a></td></tr>", "list of resources", datasetUri, datasetUri);
+        	line =String.format("<tr><td class=\"label\">%s</td><td class=\"input\"><a href=\"%s\" target=\"_blank\">%s</a></td></tr>", "list of resources", datasetUri, datasetUri);
         	out.write(line);
         	out.newLine();
         	//List subsets
@@ -466,7 +473,7 @@ public class LinkedDataServerSetup {
 				if(uriDocConceptSubset.length() > 0) {
 		        	//List resources of subset
 					String subsetUri = datasetUri + "/" + uriDocConceptSubset;
-		        	line =String.format("<li>%s: <a href=\"%s\"></a></li>", subset.getDescription(), subsetUri);
+		        	line =String.format("<li>%s: <a href=\"%s\" target=\"_blank\">%s</a></li>", subset.getDescription(), subsetUri, subsetUri);
 		        	out.write(line);
 		        	out.newLine();
 				}
@@ -506,6 +513,10 @@ public class LinkedDataServerSetup {
 	/**
 	 * It copies some files (the organisation image file and CSS file) to the dataset web root.
 	 *
+	 * @param jobConf		the {@link eu.aliada.linkeddataserversetup.model.JobConfiguration}
+	 *						that contains information to setup the rewrite rules in Virtuoso.  
+	 * @param pageFolder	the dataset web page folder.  
+	 * @param pageURL		the dataset web page URL.  
 	 * @return true if the files has been copied correctly. False otherwise.  					
 	 * @since 2.0
 	 */
@@ -542,6 +553,34 @@ public class LinkedDataServerSetup {
 		}
 		return success;
 	}
+	
+	/**
+	 * It calculates the number of triples contained in the subsets of a dataset.
+	 *
+	 * @param sparqlEndpoint	the SPARQL endpoint of the dataset. 
+	 * @param user				the user name for the SPARQl endpoint.
+	 * @param password			the password for the SPARQl endpoint.
+	 * @param subsetsList		the {@link eu.aliada.ckancreation.model.Subset}
+	 *							that contains information of the graphs of the subset.  
+	 * @return the number of triples contained in the subsets of the dataset.  					
+	 * @since 2.0
+	 */
+	public int calculateDatasetNumTriples(String sparqlEndpoint, final String user, final String password, ArrayList<Subset> subsetsList) {
+		int numTriples = 0;
+		//Get subset graphs and get number of triples
+		for (Iterator<Subset> iterSubsets = subsetsList.iterator(); iterSubsets.hasNext();  ) {
+			Subset subset = iterSubsets.next();
+			//Get number of triples of each subgraph
+			final RDFStoreDAO rdfstoreDAO = new RDFStoreDAO();
+			LOGGER.debug(MessageCatalog._00045_GETTING_NUM_TRIPLES, sparqlEndpoint, subset.getGraph(), user, password);
+			subset.setGraphNumTriples(rdfstoreDAO.getNumTriples(sparqlEndpoint, subset.getGraph(), user, password));
+			LOGGER.debug(MessageCatalog._00045_GETTING_NUM_TRIPLES, sparqlEndpoint, subset.getLinksGraph(), user, password);
+			subset.setLinksGraphNumTriples(rdfstoreDAO.getNumTriples(sparqlEndpoint, subset.getLinksGraph(), user, password));
+			numTriples = numTriples+ subset.getGraphNumTriples() + subset.getLinksGraphNumTriples();
+		}
+		return numTriples;
+	}
+	
 
 	/**
 	 * It setups the rewrite rules in Virtuoso for dereferencing the dataset URI-s.

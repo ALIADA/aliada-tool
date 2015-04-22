@@ -36,5 +36,6 @@ public interface MessageCatalog {
 	String _00039_INPUT_PARAMS_ERROR = LT + MODULE_NAME + "-00039> : Input parameters not correct for job %d.";
 	String _00040_EXECUTING_ISQL = LT + MODULE_NAME + "-00040> : Executing ISQL command.";	
 	String _00041_STOPPED = LT + MODULE_NAME + "-00041> : LinkedDataServer programming has finished.";	
+	String _00045_GETTING_NUM_TRIPLES = LT + MODULE_NAME + "-00044> : Getting number of triples through sparqlEndpoint=%s, graph=%s, user=%s, password=%s.";	
 	String _00057_UPDATING_JOB_DDBB = LT + MODULE_NAME + "-00057> : Updating job %d in DDBB.";	
 }

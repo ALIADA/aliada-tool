@@ -64,6 +64,12 @@ public class JobConfiguration {
 	private String datasetDesc;
 	/** Dataset long description. */
 	private String datasetLongDesc;
+	/** The URI of the SPARQL endpoint of Aliada. */
+	private String sparqlEndpointUri;
+	/** The login of the SPARQL endpoint . */
+	private String sparqlLogin;
+	/** The password of the SPARQL endpoint . */
+	private String sparqlPassword;
 	/** Dataset Public Sparql endpoint */
 	private String publicSparqlEndpointUri;
 	/** The dataset  author. */
@@ -505,6 +511,66 @@ public class JobConfiguration {
 		this.datasetLongDesc = datasetLongDesc;
 	}
 
+	/**
+	 * Returns the URI of the SPARQL/Update endpoint of the dataset. 
+	 * 
+	 * @return The URI of the SPARQL/Update endpoint of the dataset. 
+	 * @since 2.0
+	 */
+	public String getSparqlEndpointUri() {
+		return sparqlEndpointUri;
+	}
+	/**
+	 * Sets the URI of the SPARQL/Update endpoint of the dataset.
+	 * 
+	 * @param sparqlEndpointUri The URI of the SPARQL/Update endpoint of the  
+	 *        dataset.
+	 * @since 2.0
+	 */
+	public void setSparqlEndpointUri(final String sparqlEndpointUri) {
+		this.sparqlEndpointUri = sparqlEndpointUri;
+	}
+
+	/**
+	 * Returns the login required for authentication in the SPARQL endpoint.
+	 * 
+	 * @return The login required for authentication in the SPARQL endpoint.
+	 * @since 2.0
+	 */
+	public String getSparqlLogin() {
+		return sparqlLogin;
+	}
+	/**
+	 * Sets the login required for authentication in the SPARQL endpoint.
+	 * 
+	 * @param sparqlLogin The login required for authentication in the SPARQL 
+	 *        endpoint.
+	 * @since 2.0
+	 */
+	public void setSparqlLogin(final String sparqlLogin) {
+		this.sparqlLogin = sparqlLogin;
+	}
+	
+	/**
+	 * Returns the password required for authentication in the SPARQL endpoint.
+	 * 
+	 * @return The password required for authentication in the SPARQL endpoint.
+	 * @since 2.0
+	 */
+	public String getSparqlPassword() {
+		return sparqlPassword;
+	}
+	/**
+	 * Sets the password required for authentication in the SPARQL endpoint.
+	 * 
+	 * @param sparqlPassword Password required for authentication in the SPARQL 
+	 *        endpoint.
+	 * @since 2.0
+	 */
+	public void setSparqlPassword(final String sparqlPassword) {
+		this.sparqlPassword = sparqlPassword;
+	}	
+	
 	/**
 	 * Returns the dataset Public Sparql endpoint.
 	 * 

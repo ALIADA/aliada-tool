@@ -141,6 +141,7 @@ public class DBConnectionManager {
 				datasetId = resultSet.getInt("datasetId");
 				jobConf.setDatasetId(datasetId);
 				organisationId = resultSet.getInt("organisationId");
+				jobConf.setTmpDir(resultSet.getString("tmp_dir"));
 			}
 			resultSet.close();
 			//Get dataset related information 
@@ -150,6 +151,9 @@ public class DBConnectionManager {
 				jobConf.setDatasetDesc(resultSet.getString("dataset_desc"));
 				jobConf.setDatasetLongDesc(resultSet.getString("dataset_long_desc"));
 				jobConf.setPublicSparqlEndpointUri(resultSet.getString("public_sparql_endpoint_uri"));
+				jobConf.setSparqlEndpointUri(resultSet.getString("sparql_endpoint_uri"));
+				jobConf.setSparqlLogin(resultSet.getString("sparql_endpoint_login"));
+				jobConf.setSparqlPassword(resultSet.getString("sparql_endpoint_password"));
 				jobConf.setDomainName(resultSet.getString("domain_name"));
 				jobConf.setUriIdPart(resultSet.getString("uri_id_part"));
 				jobConf.setUriDocPart(resultSet.getString("uri_doc_part"));
@@ -161,7 +165,6 @@ public class DBConnectionManager {
 				jobConf.setDatasetAuthor(resultSet.getString("dataset_author"));
 				jobConf.setDatasetSourceURL(resultSet.getString("dataset_source_url"));
 				jobConf.setLicenseURL(resultSet.getString("license_url"));
-				jobConf.setTmpDir(resultSet.getString("tmp_dir"));
 			}
 			resultSet.close();
 			//Get subsets related information 

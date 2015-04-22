@@ -540,7 +540,7 @@ public class JobConfiguration {
 	 * Returns the URI of the SPARQL/Update endpoint of the dataset. 
 	 * 
 	 * @return The URI of the SPARQL/Update endpoint of the dataset. 
-	 * @since 1.0
+	 * @since 2.0
 	 */
 	public String getSparqlEndpointUri() {
 		return sparqlEndpointUri;
@@ -550,7 +550,7 @@ public class JobConfiguration {
 	 * 
 	 * @param sparqlEndpointUri The URI of the SPARQL/Update endpoint of the  
 	 *        dataset.
-	 * @since 1.0
+	 * @since 2.0
 	 */
 	public void setSparqlEndpointUri(final String sparqlEndpointUri) {
 		this.sparqlEndpointUri = sparqlEndpointUri;
@@ -560,7 +560,7 @@ public class JobConfiguration {
 	 * Returns the login required for authentication in the SPARQL endpoint.
 	 * 
 	 * @return The login required for authentication in the SPARQL endpoint.
-	 * @since 1.0
+	 * @since 2.0
 	 */
 	public String getSparqlLogin() {
 		return sparqlLogin;
@@ -570,7 +570,7 @@ public class JobConfiguration {
 	 * 
 	 * @param sparqlLogin The login required for authentication in the SPARQL 
 	 *        endpoint.
-	 * @since 1.0
+	 * @since 2.0
 	 */
 	public void setSparqlLogin(final String sparqlLogin) {
 		this.sparqlLogin = sparqlLogin;
@@ -580,7 +580,7 @@ public class JobConfiguration {
 	 * Returns the password required for authentication in the SPARQL endpoint.
 	 * 
 	 * @return The password required for authentication in the SPARQL endpoint.
-	 * @since 1.0
+	 * @since 2.0
 	 */
 	public String getSparqlPassword() {
 		return sparqlPassword;
@@ -590,13 +590,11 @@ public class JobConfiguration {
 	 * 
 	 * @param sparqlPassword Password required for authentication in the SPARQL 
 	 *        endpoint.
-	 * @since 1.0
+	 * @since 2.0
 	 */
 	public void setSparqlPassword(final String sparqlPassword) {
 		this.sparqlPassword = sparqlPassword;
 	}	
-	
-
 	
 	/**
 	 * Returns the dataset Public Sparql endpoint.

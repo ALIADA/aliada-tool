@@ -562,7 +562,7 @@ public class CKANCreation {
 	public int calculateDatasetNumTriples(String sparqlEndpoint, final String user, final String password, ArrayList<Subset> subsetsList) {
 		int numTriples = 0;
 		//Get subset graphs and get number of triples
-		for (Iterator<Subset> iterSubsets = jobConf.getSubsets().iterator(); iterSubsets.hasNext();  ) {
+		for (Iterator<Subset> iterSubsets = subsetsList.iterator(); iterSubsets.hasNext();  ) {
 			Subset subset = iterSubsets.next();
 			//Get number of triples of each subgraph
 			final RDFStoreDAO rdfstoreDAO = new RDFStoreDAO();
