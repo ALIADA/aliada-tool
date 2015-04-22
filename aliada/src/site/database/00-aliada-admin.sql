@@ -474,7 +474,9 @@ INSERT INTO `dataset` (`datasetId`, `organisationId`, `dataset_desc`, `domain_na
 
 INSERT INTO `profile` (`profile_id`, `profile_name`, `profile_type_code`, `profile_description`, `metadata_scheme_code`, `file_type_code`, `file_format_code`, `character_set_code`) VALUES(1, 'MARC BIB', 0, 'MARC biblio', 0, 0, 0, 0);
 INSERT INTO `profile` (`profile_id`, `profile_name`, `profile_type_code`, `profile_description`, `metadata_scheme_code`, `file_type_code`, `file_format_code`, `character_set_code`) VALUES(2, 'MARC AUT', 0, 'MARC authorities', 0, 1, 0, 0);
-INSERT INTO `profile` (`profile_id`, `profile_name`, `profile_type_code`, `profile_description`, `metadata_scheme_code`, `file_type_code`, `file_format_code`, `character_set_code`) VALUES(3, 'LIDO', 1, 'LIDO MUSEUM', 1, 2, 0, 2);
+INSERT INTO `profile` (`profile_id`, `profile_name`, `profile_type_code`, `profile_description`, `metadata_scheme_code`, `file_type_code`, `file_format_code`, `character_set_code`) VALUES(3, 'LIDO', 1, 'LIDO MUSEUM', 1, 2, 0, 0);
+INSERT INTO `profile` (`profile_id`, `profile_name`, `profile_type_code`, `profile_description`, `metadata_scheme_code`, `file_type_code`, `file_format_code`, `character_set_code`) VALUES(4, 'DC', 2, 'Dublin Core Drupal', 2, 3, 0, 0);
+
 
 
 --
@@ -488,8 +490,10 @@ INSERT INTO `subset` (`datasetId`, `subsetId`, `subset_desc`, `uri_concept_part`
 --
 
 INSERT INTO `template` (`template_id`, `template_name`, `template_description`, `file_type_code`) VALUES(1, 'MARC BIB', 'MARC biblio', 0);
+INSERT INTO `template` (`template_id`, `template_name`, `template_description`, `file_type_code`) VALUES(2, 'Authorities', 'Authorities template', 1);
 INSERT INTO `template` (`template_id`, `template_name`, `template_description`, `file_type_code`) VALUES(3, 'LIDO', 'lido', 2);
-INSERT INTO `template` (`template_id`, `template_name`, `template_description`, `file_type_code`) VALUES(10, 'Authorities', 'Authorities template', 1);
+INSERT INTO `template` (`template_id`, `template_name`, `template_description`, `file_type_code`) VALUES (4, 'Dublin Core', 'Drupal', 3);
+
 
 --
 -- Volcado de datos para la tabla `template_xml_tag`
@@ -499,44 +503,12 @@ INSERT INTO `template_xml_tag` (`template_id`, `xml_tag_id`) VALUES(1, '024z');
 INSERT INTO `template_xml_tag` (`template_id`, `xml_tag_id`) VALUES(1, '130l');
 INSERT INTO `template_xml_tag` (`template_id`, `xml_tag_id`) VALUES(1, '700(0-1)a-b-c-d-q-u');
 INSERT INTO `template_xml_tag` (`template_id`, `xml_tag_id`) VALUES(1, '810k');
-INSERT INTO `template_xml_tag` (`template_id`, `xml_tag_id`) VALUES(3, '024d');
-INSERT INTO `template_xml_tag` (`template_id`, `xml_tag_id`) VALUES(3, '045c');
-INSERT INTO `template_xml_tag` (`template_id`, `xml_tag_id`) VALUES(3, '046l');
-INSERT INTO `template_xml_tag` (`template_id`, `xml_tag_id`) VALUES(3, '100(0-1)a-b-c-d-q-u');
-INSERT INTO `template_xml_tag` (`template_id`, `xml_tag_id`) VALUES(3, '100n');
-INSERT INTO `template_xml_tag` (`template_id`, `xml_tag_id`) VALUES(3, '110d');
-INSERT INTO `template_xml_tag` (`template_id`, `xml_tag_id`) VALUES(3, '110n');
-INSERT INTO `template_xml_tag` (`template_id`, `xml_tag_id`) VALUES(3, '111k');
-INSERT INTO `template_xml_tag` (`template_id`, `xml_tag_id`) VALUES(3, '111p');
-INSERT INTO `template_xml_tag` (`template_id`, `xml_tag_id`) VALUES(3, '111t');
-INSERT INTO `template_xml_tag` (`template_id`, `xml_tag_id`) VALUES(3, '240a');
-INSERT INTO `template_xml_tag` (`template_id`, `xml_tag_id`) VALUES(3, '240p');
-INSERT INTO `template_xml_tag` (`template_id`, `xml_tag_id`) VALUES(3, '240s');
-INSERT INTO `template_xml_tag` (`template_id`, `xml_tag_id`) VALUES(3, '243a');
-INSERT INTO `template_xml_tag` (`template_id`, `xml_tag_id`) VALUES(3, '336a');
-INSERT INTO `template_xml_tag` (`template_id`, `xml_tag_id`) VALUES(3, '546a');
-INSERT INTO `template_xml_tag` (`template_id`, `xml_tag_id`) VALUES(3, '700l');
-INSERT INTO `template_xml_tag` (`template_id`, `xml_tag_id`) VALUES(3, '700o');
-INSERT INTO `template_xml_tag` (`template_id`, `xml_tag_id`) VALUES(3, '700p');
-INSERT INTO `template_xml_tag` (`template_id`, `xml_tag_id`) VALUES(3, '710d');
-INSERT INTO `template_xml_tag` (`template_id`, `xml_tag_id`) VALUES(3, '710h');
-INSERT INTO `template_xml_tag` (`template_id`, `xml_tag_id`) VALUES(3, '710o');
-INSERT INTO `template_xml_tag` (`template_id`, `xml_tag_id`) VALUES(3, '710p');
-INSERT INTO `template_xml_tag` (`template_id`, `xml_tag_id`) VALUES(3, '710t');
-INSERT INTO `template_xml_tag` (`template_id`, `xml_tag_id`) VALUES(3, '711n');
-INSERT INTO `template_xml_tag` (`template_id`, `xml_tag_id`) VALUES(3, '730d');
-INSERT INTO `template_xml_tag` (`template_id`, `xml_tag_id`) VALUES(3, '730h');
-INSERT INTO `template_xml_tag` (`template_id`, `xml_tag_id`) VALUES(3, '800n');
-INSERT INTO `template_xml_tag` (`template_id`, `xml_tag_id`) VALUES(3, '810d');
-INSERT INTO `template_xml_tag` (`template_id`, `xml_tag_id`) VALUES(3, '830l');
 
 --
 -- Volcado de datos para la tabla `t_character_set`
 --
 
-INSERT INTO `t_character_set` (`character_set_code`, `character_set_name`, `character_set_description`) VALUES(0, 'MARC standard', NULL);
-INSERT INTO `t_character_set` (`character_set_code`, `character_set_name`, `character_set_description`) VALUES(1, 'AMICUS', NULL);
-INSERT INTO `t_character_set` (`character_set_code`, `character_set_name`, `character_set_description`) VALUES(2, 'Latin1', NULL);
+INSERT INTO `t_character_set` (`character_set_code`, `character_set_name`, `character_set_description`) VALUES(0, 'UTF-8', NULL);
 
 --
 -- Volcado de datos para la tabla `t_external_dataset`
@@ -569,6 +541,7 @@ INSERT INTO `t_file_format` (`file_format_code`, `file_format_name`, `file_forma
 INSERT INTO `t_file_type` (`file_type_code`, `file_type_name`, `file_type_description`, `file_type_conversion_file`) VALUES(0, 'Bibliographic', NULL, 'marc_bib.xsl');
 INSERT INTO `t_file_type` (`file_type_code`, `file_type_name`, `file_type_description`, `file_type_conversion_file`) VALUES(1, 'Authority', NULL, 'marc_aut.xsl');
 INSERT INTO `t_file_type` (`file_type_code`, `file_type_name`, `file_type_description`, `file_type_conversion_file`) VALUES(2, 'Museum Resource', NULL, 'lido.xsl');
+INSERT INTO `t_file_type` (`file_type_code`, `file_type_name`, `file_type_description`, `file_type_conversion_file`) VALUES(3, 'Dublin Core',  NULL, 'dc.xsl');
 
 --
 -- Volcado de datos para la tabla `t_metadata_scheme`
@@ -766,4 +739,7 @@ INSERT INTO `xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`,
 INSERT INTO `xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES('830p', 0, '830p', 0);
 INSERT INTO `xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES('830s', 0, '830s', 0);
 INSERT INTO `xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES('852()a', 0, '852()a', 0);
-
+INSERT INTO `xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('lido:administrativeMetadata/lido:recordWrap/lido:recordID', '1', 'identificador', '2');
+INSERT INTO `xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('lido:term', '1', 'lido type', '2');
+INSERT INTO `xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('lido:appellationValue', '1', 'titulo', '2');
+INSERT INTO `xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('dc:identifier', '1', 'identificador', '3');
