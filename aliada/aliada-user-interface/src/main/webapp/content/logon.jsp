@@ -35,11 +35,11 @@
 	<html:url id="localeES" namespace="/" action="locale" >
 	   <html:param name="request_locale" >es</html:param>
 	</html:url>
-	<%--<html:url id="localeITA" namespace="/" action="locale" >
+	<html:url id="localeITA" namespace="/" action="locale" >
 		<html:param name="request_locale" >ita</html:param>
-	</html:url>--%>		 
+	</html:url>		 
 	<html:a href="%{localeEN}" ><img src="images/gbFlag.png"/></html:a>
 	<html:a href="%{localeHU}"><img src="images/huFlag.png"/></html:a>
 	<html:a href="%{localeES}" ><img src="images/spFlag.png"/></html:a>
-	<%--<html:a href="%{localeITA}" ><img src="images/itFlag.png"/></html:a>--%>	
+	<html:a href="%{localeITA}" ><img src="images/itFlag.png"/></html:a>	
 </html:form>
