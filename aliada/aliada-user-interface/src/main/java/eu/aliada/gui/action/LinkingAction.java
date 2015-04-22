@@ -46,6 +46,7 @@ public class LinkingAction extends ActionSupport {
 	private List<String> dataset;
     private FileWork fileToLink;
 	private String title;
+	private String datasetUrl;
 
     private final Log logger = new Log(LinkingAction.class);
     
@@ -361,6 +362,7 @@ public class LinkingAction extends ActionSupport {
     private void createJobLDS() {
         HttpSession session = ServletActionContext.getRequest().getSession();
         int addedId = 0;
+        String datasetWeb = "http://";
         if (fileToLink.getGraph() != null) {
             Connection connection = null;
             connection = new DBConnectionManager().getConnection();
@@ -370,7 +372,7 @@ public class LinkingAction extends ActionSupport {
                 ResultSet rs = statement
                         .executeQuery("select store_ip,store_sql_port,sql_login, sql_password, isql_command_path, "
                         		+ "o.virtuoso_http_server_root, o.aliada_ontology, s.datasetId, o.isql_commands_file_dataset_default, "
-                        		+ "o.isql_commands_file_subset_default, o.organisationId, o.tmp_dir from aliada.organisation o "
+                        		+ "o.isql_commands_file_subset_default, o.organisationId, o.tmp_dir, d.domain_name from aliada.organisation o "
                         		+ "INNER JOIN aliada.dataset d ON o.organisationId=d.organisationId "
                         		+ "INNER JOIN aliada.subset s ON d.datasetId=s.datasetId INNER JOIN aliada.rdfizer_job_instances r "
                         		+ "WHERE s.graph_uri='" + fileToLink.getGraph() + "' ORDER BY r.job_id DESC LIMIT 1");
@@ -395,6 +397,10 @@ public class LinkingAction extends ActionSupport {
                     preparedStatement.setInt(11, rs.getInt("organisationId"));
                     preparedStatement.setString(12, rs.getString("tmp_dir"));
                     preparedStatement.executeUpdate();
+                    
+                    datasetWeb = datasetWeb + rs.getString("domain_name");
+                    setDatasetUrl(datasetWeb);
+                    
                     ResultSet rs2 = preparedStatement.getGeneratedKeys();
                     if (rs2.next()) {
                         addedId = (int) rs2.getInt(1);
@@ -510,6 +516,23 @@ public class LinkingAction extends ActionSupport {
      */
 	public void setTitle(final String title) {
 		this.title = title;
+	}
+	 /**
+     * @return Returns the datasetUrl.
+     * @exception
+     * @since 1.0
+     */
+	public String getDatasetUrl() {
+		return datasetUrl;
+	}
+	/**
+     * @param datasetUrl
+     *            The datasetUrl to set.
+     * @exception
+     * @since 1.0
+     */
+	public void setDatasetUrl(final String datasetUrl) {
+		this.datasetUrl = datasetUrl;
 	}
 
 }
