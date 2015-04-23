@@ -20,7 +20,8 @@
 	<bean id="string-to-xml" class="eu.aliada.rdfizer.pipeline.format.xml.XmlRecordToDocumentTranslator" />
 	<bean id="xml-to-rdf" class="eu.aliada.rdfizer.pipeline.format.xml.SynchXmlDocumentTranslator"/>
 	<bean id="marcxml-to-rdf-using-frbr" class="eu.aliada.rdfizer.pipeline.format.marc.frbr.FrbrDocumentTranslator"/>
-	<bean id="detect-frbr-entities" class="eu.aliada.rdfizer.pipeline.format.marc.frbr.FrbrEntitiesDetector" />	
+	<bean id="detect-frbr-entities" class="eu.aliada.rdfizer.pipeline.format.marc.frbr.FrbrEntitiesDetector" />
+	<bean id="detect-auth-entities" class="eu.aliada.rdfizer.pipeline.format.marc.frbr.LenientFrbrEntitiesDetector"/>
 	<bean id="count-lido-records" class="eu.aliada.rdfizer.pipeline.format.xml.RecordCounter">
 		<constructor-arg value="lido"/>
 	</bean>
@@ -42,6 +43,11 @@
 		<constructor-arg value="1"/>
 		<property name="producer" ref="marcxml-validation-channel-producer"/>
 	</bean>		
+	<bean id="run-auth-validation" class="eu.aliada.rdfizer.pipeline.format.xml.CaptureValidationSampleAndRunValidation">
+		<constructor-arg value="record"/>
+		<constructor-arg value="1"/>
+		<property name="producer" ref="auth-validation-channel-producer"/>
+	</bean>			
 	
 	<bean id="count-marcxml-records" class="eu.aliada.rdfizer.pipeline.format.xml.RecordCounter">
 		<constructor-arg value="record"/>
@@ -53,6 +59,7 @@
 		<template id="lido-validation-channel-producer" defaultEndpoint="direct:lido-validation-channel"/>
 		<template id="marcxml-validation-channel-producer" defaultEndpoint="direct:marcxml-validation-channel"/>
 		<template id="dc-validation-channel-producer" defaultEndpoint="direct:dc-validation-channel"/>
+		<template id="auth-validation-channel-producer" defaultEndpoint="direct:auth-validation-channel"/>
 		<route>
 			<from uri="file:{{auth.input.dir}}?move=../.done&amp;preMove=.working" />
 			<setHeader headerName="format">
@@ -92,7 +99,7 @@
 				<when>
 					<simple>${header.format} == 'auth'</simple>
 					<process ref="count-marcxml-records"/>
-					<process ref="run-marcxml-validation"/>
+					<process ref="run-auth-validation"/>
 					<split streaming="true">
 						<tokenize token="record" xml="true" />
 						<to uri="seda:auth-record-channel?concurrentConsumers=2&amp;size=1000&amp;blockWhenFull=true" />
@@ -150,6 +157,13 @@
 			<process ref="rdf-sample-validation"/>
 		</route>		
 		<route>
+			<from uri="direct:auth-validation-channel"/>
+			<process ref="string-to-xml"/>
+			<process ref="detect-auth-entities"/>
+			<process ref="marcxml-to-rdf-using-frbr"/>
+			<process ref="rdf-sample-validation"/>
+		</route>			
+		<route>
 			<from uri="seda:dc-record-channel?concurrentConsumers=2&amp;size=1000&amp;blockWhenFull=true" />
 			<process ref="string-to-xml"/>
 			<process ref="xml-to-rdf"/>
@@ -159,7 +173,8 @@
 		<route>
 			<from uri="seda:auth-record-channel?concurrentConsumers=2&amp;size=1000&amp;blockWhenFull=true" />
 			<process ref="string-to-xml"/>
-			<process ref="xml-to-rdf"/>
+			<process ref="detect-auth-entities"/>
+			<process ref="marcxml-to-rdf-using-frbr"/>
 			<process ref="check-job-completeness"/>
 			<to uri="seda:triples-channel?size=250&amp;blockWhenFull=true" />
 		</route>				
@@ -180,7 +195,7 @@
 		</route>
 		<route>
 			<from uri="seda:triples-channel?size=250&amp;blockWhenFull=true" />
-			<process ref="add-2-rdf-store"/>
+			<process ref="debugger"/>
 		</route>
 	</camelContext>
 </beans>

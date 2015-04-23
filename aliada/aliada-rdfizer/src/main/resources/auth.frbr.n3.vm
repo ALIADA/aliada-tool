@@ -1,6 +1,7 @@
 #set($is_a = "#rdf('type')")
 #set($P131_is_identified_by = "#ecrm('P131_is_identified_by')")	
 #set($F10_Person = "#ecrm('F10_Person')")	
+#set($P3_has_note = "#ecrm('P3_has_note')")
 
 ## PERSON
 #if ($entityDetector.personID && !$entityDetector.personID.isEmpty())
@@ -9,28 +10,37 @@
 		#set($uris = $entry.getValue())
 		#if ($uris && !$uris.isEmpty())
 			#foreach($uri in $uris)
-        		#set($person_s = "#uri('F10_Person' $uri)")
+        		#set($person_s = "#uri('E21_Person' $uri)")
         		$person_s $is_a $F10_Person .
-				#simplest_mapping_with_no_repeatable_tag ($person_s $tag "a" $root "E82_Actor_Appellation" "#ecrm('E82_Actor_Appellation')" "#ecrm('P131_is_identified_by')")
-        		#simplest_mapping_with_no_repeatable_tag ($person_s $tag "c" $root "E55_Type" $E55_Type $P2_has_type)
-				#simplest_mapping_with_no_repeatable_tag ($person_s $tag "q" $root "E82_Actor_Appellation" "#ecrm('E82_Actor_Appellation')" "#ecrm('P131_is_identified_by')")
-        		#simplest_mapping_with_no_repeatable_tag ($person_s $tag "u" $root "E82_Actor_Appellation" "#ecrm('E74_Group')" "#ecrm('P107i_is_current_or_former_member_of')")
-        		#simplest_mapping_with_repeatable_tag ($person_s $tag "j" $root "E82_Actor_Appellation" "#ecrm('E82_Actor_Appellation')" "#ecrm('P131_is_identified_by')")
-				#mapping_with_not_repeatable_tag_three_entities($xpath.df("100","b",$root) $person_s "F13_Identifier" "E90_Symbolic_Object" $F13_Identifier $E90_Symbolic_Object $P1_is_identified_by "#efrbroo('R8_consists_of')")
-				#set($dateExpression = $xpath.df("100","d",$root))
-				#if($dateExpression)
-					#set($birth=$function.splitDateAndPartialGet($dateExpression.textContent,true))
-					#set($death=$function.splitDateAndPartialGet($dateExpression.textContent,false))
-					#if($birth)
-						## PRENDE I TAG MA IO HO UNA STRINGA CON GIA IL RISULTATO
-						#defined_mapping_with_no_repeatable_tag_to_date_relation( "100" "d" $root "#ecrm('E67_Birth')" "E67_Brth" "#ecrm('P98i_was_born')" $person_s) 
-					#end	
-					#if($death)
-						## PRENDE UN NODO MA IO HO UNA STRINGA
-						#mapping_with_not_repeatable_tag_four_entities($xpath.df("100","d",$root) $person_s "E69_Death" "E52_Time-Span" "E50_Date" "#ecrm('E69_Death')" "#ecrm('E52_Time-Span')" "#ecrm('E50_Date')" "#ecrm('P100i_died_in')" "#ecrm('P4_has_time-span')" "#ecrm('P78_is_identified_by')" )		
-					#end	
+				
+				#simplest_mapping_with_no_repeatable_tag ($person_s "100" "a" $root "E82_Actor_Appellation" "#ecrm('E82_Actor_Appellation')" "#ecrm('P131_is_identified_by')")
+        		#simplest_mapping_with_no_repeatable_tag ($person_s "100" "c" $root "E55_Type" $E55_Type $P2_has_type)
+				#simplest_mapping_with_no_repeatable_tag ($person_s "100" "q" $root "E82_Actor_Appellation" "#ecrm('E82_Actor_Appellation')" "#ecrm('P131_is_identified_by')")
+				#birth_or_death_date("100" "d" $root "#ecrm('E67_Birth')" "E67_Birth" "#ecrm('P98i_was_born')" $person_s true) 
+				#birth_or_death_date("100" "d" $root "#ecrm('E69_Death')" "E69_Death" "#ecrm('P100i_died_in')" $person_s false) 
+				#set($placeOfBirth = $xpath.df("370","a",$record))
+				#if($placeOfBirth) 
+					#set($place_s = "#uri('E53_Place' $function.escape($placeOfBirth.textContent))")
+					#set ($event_s = "#new_uri('E67_Birth')")
+					$place_s $is_a #ecrm('E53_Place') . 
+					$place_s $P3_has_note "$placeOfBirth.textContent" . 
+					$event_s $is_a #ecrm('E67_Birth') . 
+					$event_s #ecrm("P7_took_place_at") $place_s . 
+					$person_s #ecrm('P98i_was_born') $event_s . 
 				#end
-				## SONO ARRIVATO QUA
+				#set($placeOfDeath = $xpath.df("370","b",$record))
+				#if($placeOfDeath) 
+					#set($place_s = "#uri('E53_Place' $function.escape($placeOfBirth.textContent))")
+					#set ($event_s = "#new_uri('E69_Death')")
+					$place_s $is_a #ecrm('E53_Place') . 
+					$place_s $P3_has_note "$placeOfBirth.textContent" . 
+					$event_s $is_a #ecrm('E69_Death') . 
+					$event_s #ecrm("P7_took_place_at") $place_s . 
+					$person_s #ecrm('P98i_was_born') $event_s . 
+				#end
+				#simplest_mapping_with_no_repeatable_tag ($person_s "375" "a" $root "E55_Type" $E55_Type $P2_has_type)
+				
+				## ARRIVATO QUA
 				#mapping_with_not_repeatable_tag_three_entities($xpath.df("100","d",$root) $person_s "F13_Identifier" "E90_Symbolic_Object" $F13_Identifier $E90_Symbolic_Object $P1_is_identified_by "#efrbroo('R8_consists_of')")
 				#simplest_mapping_with_repeatable_tag ($person_s "600" "a" $root "E82_Actor_Appellation" "#ecrm('E82_Actor_Appellation')" "#ecrm('P131_is_identified_by')")
 				#simplest_mapping_with_repeatable_tag ($person_s "600" "j" $root "E82_Actor_Appellation" "#ecrm('E82_Actor_Appellation')" "#ecrm('P131_is_identified_by')")
