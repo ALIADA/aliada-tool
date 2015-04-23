@@ -66,16 +66,30 @@
 				   		console.log(obj.numLinks);
 				   		console.log(obj.status);
 				   		
-				   		var d = "";
+				   		var d = "<table>";
 				   		for (var x = 0; x < arrName.length; x++) {
+				   			console.log("Result: "+(x+1));
 				   			if (arrStatus[x]=="running") {
-				   				d = d + arrName[x]+': '+arrNumLinks[x]+' <img src="images/loaderMini.gif"/></br>';
+				   				if((x+1)%2 == 0){
+				   					d = d + '<td>' + arrName[x]+': '+arrNumLinks[x]+' <img src="images/loaderMini.gif"/></td></tr>';
+				   				} else {
+				   					d = d + '<tr><td>' + arrName[x]+': '+arrNumLinks[x]+' <img src="images/loaderMini.gif"/></td>';
+				   				}
 				   			} else if (arrStatus[x]=="finished") {
-				   				d = d + arrName[x]+': '+arrNumLinks[x]+' <img src="images/fine.png"/></br>';
+				   				if((x+1)%2 == 0){
+				   					d = d + '<td>' + arrName[x]+': '+arrNumLinks[x]+' <img src="images/fine.png"/></td></tr>';
+				   				} else {
+				   					d = d + '<tr><td>' + arrName[x]+': '+arrNumLinks[x]+' <img src="images/fine.png"/></td>';
+				   				}
 				   			} else {
-				   				d = d + arrName[x]+': '+arrNumLinks[x]+' <img src="images/clock.png"/></br>';
+								if((x+1)%2 == 0){
+									d = d + '<td>' + arrName[x]+': '+arrNumLinks[x]+' <img src="images/clock.png"/></td></tr>';
+				   				} else {
+				   					d = d + '<tr><td>' + arrName[x]+': '+arrNumLinks[x]+' <img src="images/clock.png"/></td>';
+				   				}
 				   			}
 				   		}
+				   		d = d +'</table>';
 				   		
 				   		$("#datasetsInfo").html(d);
 				   		
@@ -84,6 +98,7 @@
 			   		   console.log("interval linking stopped");
 			   		   clearInterval(intervalLinking);
 				       $("#progressBarLinking").hide();
+				       $("#fineLinkingImg").addClass("centerImage");
 				       $("#fineLinkingImg").show();
 				       if(finishedCreat){
 				    	   $("#publishButton").removeClass("button");
@@ -123,6 +138,7 @@
 			   		   console.log("interval LDS stopped");
 			   		   clearInterval(intervalLDS);
 				       $("#progressBarLDS").hide();
+				       $("#fineLDSImg").addClass("centerImage");
 				       $("#fineLDSImg").show();
 				       if(finishedLink){
 				    	   $("#publishButton").removeClass("button");
@@ -257,8 +273,8 @@
 					<label class="label"><html:text name="linkingInfo.links"/></label>
 					<div id="numLinks" class="displayInline"></div>	
 				</div>
-				<img id="fineLinkingImg" class="displayNo lMargin40" src="images/fine.png"/>				
-				<img id="progressBarLinking" class="displayNo label" src="images/progressBar.gif" alt="" />
+				<img id="fineLinkingImg" class="displayNo" src="images/fine.png" alt="fine"/>				
+				<img id="progressBarLinking" class="displayNo centerImage" src="images/progressBar.gif" alt="progress" />
 			</div>	
 			
 			<div id="ldsInfoPanel" class="fleft" >
@@ -271,8 +287,8 @@
 					<label class="label"><html:text name="ldsInfo.eDate"/></label>
 					<div id="endDateLDS" class="displayInline"></div>		
 				</div>
-				<img id="progressBarLDS" class="displayNo label" src="images/progressBar.gif" alt="" />
-				<img id="fineLDSImg" class="displayNo lMargin40" src="images/fine.png"/>
+				<img id="progressBarLDS" class="displayNo centerImage" src="images/progressBar.gif" alt="fine"/>
+				<img id="fineLDSImg" class="displayNo" src="images/fine.png" alt="progress"/>
 			</div>	
 		</div>
 	</div>

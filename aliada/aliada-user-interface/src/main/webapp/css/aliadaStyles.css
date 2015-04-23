@@ -121,20 +121,27 @@ background-color: #ffffff;
 	text-align: center;
 }
 
+.centerImage {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 5px;
+}
+
 .row {
-display: block;
-padding: 10px 7px 10px 10px;
+	display: block;
+	padding: 3px 3px 3px 20px;
 }
 
 .label{
-	padding: 15px;
+	padding: 10px;
 	font-weight: bold;
 }
 .bigLabel{
 	text-align: center;
 	font-size: 18px;
 	font-weight: bold;
-	padding : 15px;
+	padding : 10px;
 }
 .mediumLabel{
 	font-size: 18px;
