@@ -4,7 +4,7 @@
 #set($P3_has_note = "#ecrm('P3_has_note')")
 
 ## PERSON
-#if ($entityDetector.personID && !$entityDetector.personID.isEmpty())
+#if ($frbr.personID && !$frbr.personID.isEmpty())
 	#foreach($entry in $frbr.personID.entrySet())
 		#set($tag = $entry.getKey())
 		#set($uris = $entry.getValue())
@@ -12,7 +12,6 @@
 			#foreach($uri in $uris)
         		#set($person_s = "#uri('E21_Person' $uri)")
         		$person_s $is_a $F10_Person .
-				
 				#simplest_mapping_with_no_repeatable_tag ($person_s "100" "a" $root "E82_Actor_Appellation" "#ecrm('E82_Actor_Appellation')" "#ecrm('P131_is_identified_by')")
         		#simplest_mapping_with_no_repeatable_tag ($person_s "100" "c" $root "E55_Type" $E55_Type $P2_has_type)
 				#simplest_mapping_with_no_repeatable_tag ($person_s "100" "q" $root "E82_Actor_Appellation" "#ecrm('E82_Actor_Appellation')" "#ecrm('P131_is_identified_by')")
@@ -38,17 +37,81 @@
 					$event_s #ecrm("P7_took_place_at") $place_s . 
 					$person_s #ecrm('P98i_was_born') $event_s . 
 				#end
+				#simplest_mapping_with_repeatable_tag ($person_s "370" "c" $root "E53_Place" "#ecrm('E53_Place')" "#ecrm('P7_took_place_at')")
+				#simplest_mapping_with_repeatable_tag ($person_s "370" "e" $root "E53_Place" "#ecrm('E53_Place')" "#ecrm('P74_has_current_or_former_residence')")
+				#simplest_mapping_with_repeatable_tag ($person_s "371" "a" $root "E45_Address" "#ecrm('E45_Address')" "#ecrm('P76_has_contact_point')")
+				#simplest_mapping_with_repeatable_tag ($person_s "373" "a" $root "E74_Group" "#ecrm('E74_Group')" "#ecrm('P107i_is_current_or_former_member_of')")
+				#simplest_mapping_with_repeatable_tag ($person_s "374" "a" $root "E55_Type" $E55_Type $P2_has_type)
 				#simplest_mapping_with_no_repeatable_tag ($person_s "375" "a" $root "E55_Type" $E55_Type $P2_has_type)
-				
-				## ARRIVATO QUA
-				#mapping_with_not_repeatable_tag_three_entities($xpath.df("100","d",$root) $person_s "F13_Identifier" "E90_Symbolic_Object" $F13_Identifier $E90_Symbolic_Object $P1_is_identified_by "#efrbroo('R8_consists_of')")
-				#simplest_mapping_with_repeatable_tag ($person_s "600" "a" $root "E82_Actor_Appellation" "#ecrm('E82_Actor_Appellation')" "#ecrm('P131_is_identified_by')")
-				#simplest_mapping_with_repeatable_tag ($person_s "600" "j" $root "E82_Actor_Appellation" "#ecrm('E82_Actor_Appellation')" "#ecrm('P131_is_identified_by')")
-				#simplest_mapping_with_repeatable_tag ($person_s "600" "q" $root "E82_Actor_Appellation" "#ecrm('E82_Actor_Appellation')" "#ecrm('P131_is_identified_by')")
-				#mapping_with_repeatable_tag_three_entities($xpath.dfs("600","b",$root) $person_s "F13_Identifier" "E90_Symbolic_Object" $F13_Identifier $E90_Symbolic_Object $P1_is_identified_by "#efrbroo('R8_consists_of')")
-				#mapping_with_repeatable_tag_four_entities($xpath.dfs("600","d",$root) $person_s "E67_Birth" "E52_Time-Span" "E50_Date" "#ecrm('E67_Birth')" "#ecrm('E52_Time-Span')" "#ecrm('E50_Date')" "#ecrm('P98i_was_born')" "#ecrm('P4_has_time-span')" "#ecrm('P78_is_identified_by')" )
-				#mapping_with_repeatable_tag_four_entities($xpath.dfs("600","d",$root) $person_s "E69_Death" "E52_Time-Span" "E50_Date" "#ecrm('E69_Death')" "#ecrm('E52_Time-Span')" "#ecrm('E50_Date')" "#ecrm('P100i_died_in')" "#ecrm('P4_has_time-span')" "#ecrm('P78_is_identified_by')" )
-				#mapping_with_repeatable_tag_three_entities($xpath.dfs("600","d",$root) $person_s "F13_Identifier" "E90_Symbolic_Object" $F13_Identifier $E90_Symbolic_Object $P1_is_identified_by "#efrbroo('R8_consists_of')")
+				#set($fieldsOfActivities = $xpath.dfs("372","a",$record))
+				#foreach($foa in $fieldsOfActivities)
+					#set($value = $function.escape($foa.textContent))
+					#set($foa_s = "#uri('E55_Type' $value)")
+					#set($pursuit_s = "#uri('F51_Pursuit' $value)")
+					$foa_s $is_a #ecrm('E55_Type') . 
+					$foa_s $P3_has_note "$value" . 
+					$pursuit_s $is_a #ecrm('F51_Pursuit') .
+					$pursuit_s  $P2_has_type $foa_s . 
+					$person_s #ecrm('P14i_perfomed') $pursuit_s . 
+				#end	
+				#set($languages = $xpath.dfs("377","a",$record))
+				#foreach($language in $languages)
+					#set($value = $function.escape($language.textContent))
+					#set($language_s = "#uri('E56_Language' $value)")
+					#set($pursuit_s = "#uri('F51_Pursuit' $value)")
+					$language_s $is_a #ecrm('E56_Language') . 
+					$language_s $P3_has_note "$value" . 
+					$pursuit_s $is_a #ecrm('F51_Pursuit') .
+					$pursuit_s #ecrm('R60_used_to_use_language') $language_s . 
+					$person_s #ecrm('P14i_perfomed') $pursuit_s . 
+				#end	
+				#set($abstract = $xpath.df("678","a",$record))
+				#if($abstract) 
+					$person_s $P3_has_note "$function.escape($abstract.textContent)" . 
+				#end
+			#end	
+    	#end	
+	#end	
+#end
+## CORPORATE BODY
+#if ($frbr.corporateBodyID && !$frbr.corporateBodyID.isEmpty())
+	#foreach($entry in $frbr.corporateBodyID.entrySet())
+		#set($tag = $entry.getKey())
+		#set($uris = $entry.getValue())
+		#if ($uris && !$uris.isEmpty())
+			#foreach($uri in $uris)
+        		#set($corporate_s = "#uri('F11_Corporate_Body' $uri)")
+        		$corporate_s $is_a #efrbroo('F11_Corporate_Body') . 
+        		#simplest_mapping_with_no_repeatable_tag ($corporate_s "110" "a" $root "E82_Actor_Appellation" "#ecrm('E82_Actor_Appellation')" "#ecrm('P131_is_identified_by')")
+				#simplest_mapping_with_repeatable_tag ($corporate_s "370" "e" $root "E53_Place" "#ecrm('E53_Place')" "#ecrm('P74_has_current_or_former_residence')")
+				#simplest_mapping_with_no_repeatable_tag ($corporate_s "376" "a" $root "E55_Type" $E55_Type $P2_has_type)
+				#set($languages = $xpath.dfs("377","a",$record))
+				#foreach($language in $languages)
+					#set($value = $function.escape($language.textContent))
+					#set($language_s = "#uri('E56_Language' $value)")
+					#set($pursuit_s = "#uri('F51_Pursuit' $value)")
+					$language_s $is_a #ecrm('E56_Language') . 
+					$language_s $P3_has_note "$value" . 
+					$pursuit_s $is_a #ecrm('F51_Pursuit') .
+					$pursuit_s #ecrm('R60_used_to_use_language') $language_s . 
+					$corporate_s #ecrm('P14i_perfomed') $pursuit_s . 
+				#end				
+				#simplest_mapping_with_repeatable_tag ($corporate_s "371" "a" $root "E45_Address" "#ecrm('E45_Address')" "#ecrm('P76_has_contact_point')")
+				#set($fieldsOfActivities = $xpath.dfs("372","a",$record))
+				#foreach($foa in $fieldsOfActivities)
+					#set($value = $function.escape($foa.textContent))
+					#set($foa_s = "#uri('E55_Type' $value)")
+					#set($pursuit_s = "#uri('F51_Pursuit' $value)")
+					$foa_s $is_a #ecrm('E55_Type') . 
+					$foa_s $P3_has_note "$value" . 
+					$pursuit_s $is_a #ecrm('F51_Pursuit') .
+					$pursuit_s  $P2_has_type $foa_s . 
+					$person_s #ecrm('P14i_perfomed') $pursuit_s . 
+				#end					
+				#set($abstract = $xpath.df("678","a",$record))
+				#if($abstract) 
+					$person_s $P3_has_note "$function.escape($abstract.textContent)" . 
+				#end
 			#end	
     	#end	
 	#end	
