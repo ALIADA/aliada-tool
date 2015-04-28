@@ -5,8 +5,11 @@
 // Responsible: ALIADA Consortiums
 package eu.aliada.rdfizer.datasource.rdbms;
 
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlTransient;
@@ -20,8 +23,10 @@ import javax.xml.bind.annotation.XmlTransient;
 @Entity
 @Table(name = "rdfizer_validation_messages")
 public class ValidationMessage {
-    @Id
-    @Column(name = "id", nullable = false)
+	@Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "id",unique=true, nullable = false)
     @XmlTransient
     private Integer id;
 
@@ -38,10 +43,10 @@ public class ValidationMessage {
     public ValidationMessage() {}
     
     public ValidationMessage(
-    		final Integer id, 
+    		final Integer jobId, 
     		final String messageType, final 
     		String description) {
-		this.id = id;
+		this.jobId = jobId;
 		this.messageType = messageType;
 		this.description = description;
 	}

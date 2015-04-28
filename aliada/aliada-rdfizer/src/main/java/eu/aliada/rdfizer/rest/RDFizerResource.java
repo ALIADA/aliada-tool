@@ -84,6 +84,9 @@ public class RDFizerResource implements RDFizer {
 	@Value(value = "${dc.input.dir}")
 	protected String dcXmlInputDir;
 	
+	@Value(value = "${auth.input.dir}")
+	protected String authXmlInputDir;	
+	
 	@Autowired
 	protected Cache cache;
 
@@ -316,6 +319,8 @@ public class RDFizerResource implements RDFizer {
 			return marcXmlInputDir;
 		} else if ("dc".equals(format)) {
 			return dcXmlInputDir;
+		} else if ("auth".equals(format)) {
+			return authXmlInputDir;
 		}
 		return null;
 	}

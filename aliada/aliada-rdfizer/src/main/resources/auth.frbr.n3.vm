@@ -1,0 +1,92 @@
+#set($is_a = "#rdf('type')")
+#set($P131_is_identified_by = "#ecrm('P131_is_identified_by')")	
+#set($F10_Person = "#ecrm('F10_Person')")	
+#set($P3_has_note = "#ecrm('P3_has_note')")
+#set($P2_has_type = "#ecrm('P2_has_type')")
+#set($E55_Type = "#ecrm('E55_Type')")
+## PERSON
+#if ($frbr.personID && !$frbr.personID.isEmpty())
+	#foreach($entry in $frbr.personID.entrySet())
+		#set($uris = $entry.getValue())
+		#if ($uris && !$uris.isEmpty())
+			#foreach($uri in $uris)
+        		#set($person_s = "#uri('E21_Person' $uri)")
+        		$person_s $is_a $F10_Person .
+				#simplest_mapping_with_no_repeatable_tag ($person_s "100" "a" $root "E82_Actor_Appellation" "#ecrm('E82_Actor_Appellation')" "#ecrm('P131_is_identified_by')")
+        		#simplest_mapping_with_no_repeatable_tag ($person_s "100" "c" $root "E55_Type" $E55_Type $P2_has_type)
+				#simplest_mapping_with_no_repeatable_tag ($person_s "100" "q" $root "E82_Actor_Appellation" "#ecrm('E82_Actor_Appellation')" "#ecrm('P131_is_identified_by')")
+				#birth_or_death_date("100" "d" $root "#ecrm('E67_Birth')" "E67_Birth" "#ecrm('P98i_was_born')" $person_s true) 
+				#birth_or_death_date("100" "d" $root "#ecrm('E69_Death')" "E69_Death" "#ecrm('P100i_died_in')" $person_s false) 
+				#mapping_with_repeatable_tag_three_entities($xpath.dfs("368","d",$root) $person_s "F13_Identifier" "E90_Symbolic_Object" "#ecrm('F13_Identifier')" "#ecrm('E90_Symbolic_Object')" "#ecrm('P1_is_identified_by')" "#ecrm('R8_consists_of')")
+				#mapping_with_repeatable_tag_three_entities($xpath.dfs("370","a",$root) $person_s "E67_Birth" "E53_Place" "#ecrm('E67_Birth')" "#ecrm('E53_Place')" "#ecrm('P98i_was_born')" "#ecrm('P7_took_place_at')")
+				#mapping_with_repeatable_tag_three_entities($xpath.dfs("370","b",$root) $person_s "E69_Death" "E53_Place" "#ecrm('E69_Death')" "#ecrm('E53_Place')" "#ecrm('P100i_died_in')" "#ecrm('P7_took_place_at')")
+				#simplest_mapping_with_repeatable_tag ($person_s "370" "c" $root "E53_Place" "#ecrm('E53_Place')" "#ecrm('P7_took_place_at')")
+				#simplest_mapping_with_repeatable_tag ($person_s "370" "e" $root "E53_Place" "#ecrm('E53_Place')" "#ecrm('P74_has_current_or_former_residence')")
+				#simplest_mapping_with_repeatable_tag ($person_s "371" "a" $root "E45_Address" "#ecrm('E45_Address')" "#ecrm('P76_has_contact_point')")
+				#mapping_with_repeatable_tag_three_entities($xpath.dfs("372","a",$root) $person_s "E7_Activity" "E55_Type" "#ecrm('E7_Activity')" $E55_Type "#ecrm('P14i_performed')" $P2_has_type)
+				#simplest_mapping_with_repeatable_tag ($person_s "373" "a" $root "E74_Group" "#ecrm('E74_Group')" "#ecrm('P107i_is_current_or_former_member_of')")
+				#simplest_mapping_with_repeatable_tag ($person_s "374" "a" $root "E55_Type" $E55_Type $P2_has_type)
+				#simplest_mapping_with_no_repeatable_tag ($person_s "375" "a" $root "E55_Type" $E55_Type $P2_has_type)
+				#mapping_with_repeatable_tag_three_entities($xpath.dfs("377","a",$root) $person_s "E7_Activity" "E56_Language" "#ecrm('E7_Activity')" "#ecrm('E56_Language')" "#ecrm('P14i_performed')" "#ecrm('R60_used_to_use_language')")
+				#set($abstract = $xpath.df("678","a",$record))
+				#if($abstract) 
+					$person_s $P3_has_note "$function.escape($abstract.textContent)" . 
+				#end
+				#break	
+			#end	
+    	#end	
+		#break
+	#end	
+#end
+## FAMILY
+#if ($frbr.familyID && !$frbr.familyID.isEmpty())
+	#foreach($entry in $frbr.familyID.entrySet())
+		#set($uris = $entry.getValue())
+		#if ($uris && !$uris.isEmpty())
+			#foreach($uri in $uris)
+				#set($family_s = "#uri('E74_Group' $uri)")
+        		$family_s $is_a "#ecrm('E74_Group')" . 
+				#simplest_mapping_with_no_repeatable_tag ($family_s "100" "a" $root "E82_Actor_Appellation" "#ecrm('E82_Actor_Appellation')" "#ecrm('P131_is_identified_by')")
+        		#simplest_mapping_with_no_repeatable_tag ($family_s "376" "a" $root "E55_Type" $E55_Type $P2_has_type)
+				#mapping_with_repeatable_tag_four_entities($xpath.df("376","s",$root) $family_s "E66_Formation" "E52_Time-Span" "E50_Date" "#ecrm('E66_Formation')" "#ecrm('E52_Time-Span')" "#ecrm('E50_Date')" "#ecrm('P95i_was_formed_by')" "#ecrm('P4_has_time-span')" "#ecrm('P78_is_identified_by')" )
+				#mapping_with_repeatable_tag_four_entities($xpath.df("376","t",$root) $family_s "E68_Dissolution" "E52_Time-Span" "E50_Date" "#ecrm('E68_Dissolution')" "#ecrm('E52_Time-Span')" "#ecrm('E50_Date')" "#ecrm('P95i_was_formed_by')" "#ecrm('P4_has_time-span')" "#ecrm('P78_is_identified_by')" )				
+				#mapping_with_repeatable_tag_three_entities($xpath.dfs("370","f",$root) $family_s "E27_Site" "E53_Place" "#ecrm('E27_Site')" "#ecrm('E53_Place')" "#ecrm('P51i_is_former_or_current_owner_of')" "#ecrm('P53_has_former_or_current_location')")
+				#mapping_with_repeatable_tag_three_entities($xpath.dfs("372","a",$root) $family_s "E7_Activity" "E55_Type" "#ecrm('E7_Activity')" $E55_Type "#ecrm('P14i_performed')" $P2_has_type)
+				#mapping_with_repeatable_tag_three_entities($xpath.dfs("377","a",$root) $family_s "E7_Activity" "E56_Language" "#ecrm('E7_Activity')" "#ecrm('E56_Language')" "#ecrm('P14i_performed')" "#ecrm('R60_used_to_use_language')")
+				#set($history = $xpath.df("678","a",$record))
+				#if($history) 
+					$family_s $P3_has_note "$function.escape($history.textContent)" . 
+				#end				
+				#break
+			#end	
+		#end	
+		#break
+	#end
+#end
+## CORPORATE BODY
+#if ($frbr.corporateBodyID && !$frbr.corporateBodyID.isEmpty())
+	#foreach($entry in $frbr.corporateBodyID.entrySet())
+		#set($uris = $entry.getValue())
+		#if ($uris && !$uris.isEmpty())
+			#foreach($uri in $uris)
+        		#set($corporate_s = "#uri('F11_Corporate_Body' $uri)")
+        		$corporate_s $is_a #efrbroo('F11_Corporate_Body') . 
+        		#simplest_mapping_with_no_repeatable_tag ($corporate_s "110" "a" $root "E82_Actor_Appellation" "#ecrm('E82_Actor_Appellation')" "#ecrm('P131_is_identified_by')")
+				#mapping_with_repeatable_tag_four_entities($xpath.df("368","s",$root) $corporate_s "E66_Formation" "E52_Time-Span" "E50_Date" "#ecrm('E66_Formation')" "#ecrm('E52_Time-Span')" "#ecrm('E50_Date')" "#ecrm('P95i_was_formed_by')" "#ecrm('P4_has_time-span')" "#ecrm('P78_is_identified_by')" )
+				#mapping_with_repeatable_tag_four_entities($xpath.df("368","t",$root) $corporate_s "E68_Dissolution" "E52_Time-Span" "E50_Date" "#ecrm('E68_Dissolution')" "#ecrm('E52_Time-Span')" "#ecrm('E50_Date')" "#ecrm('P95i_was_formed_by')" "#ecrm('P4_has_time-span')" "#ecrm('P78_is_identified_by')" )
+				#simplest_mapping_with_repeatable_tag ($corporate_s "370" "e" $root "E53_Place" "#ecrm('E53_Place')" "#ecrm('P74_has_current_or_former_residence')")
+				#mapping_with_repeatable_tag_three_entities($xpath.dfs("370","c",$root) $corporate_s "E27_Site" "E53_Place" "#ecrm('E27_Site')" "#ecrm('E53_Place')" "#ecrm('P51i_is_former_or_current_owner_of')" "#ecrm('P53_has_former_or_current_location')")
+				#mapping_with_repeatable_tag_three_entities($xpath.dfs("370","f",$root) $corporate_s "E27_Site" "E53_Place" "#ecrm('E27_Site')" "#ecrm('E53_Place')" "#ecrm('P51i_is_former_or_current_owner_of')" "#ecrm('P53_has_former_or_current_location')")
+				#simplest_mapping_with_repeatable_tag ($corporate_s "371" "a" $root "E45_Address" "#ecrm('E45_Address')" "#ecrm('P76_has_contact_point')")
+				#mapping_with_repeatable_tag_three_entities($xpath.dfs("372","a",$root) $corporate_s "E7_Activity" "E55_Type" "#ecrm('E7_Activity')" $E55_Type "#ecrm('P14i_performed')" $P2_has_type)
+				#mapping_with_repeatable_tag_three_entities($xpath.dfs("377","a",$root) $corporate_s "E7_Activity" "E56_Language" "#ecrm('E7_Activity')" "#ecrm('E56_Language')" "#ecrm('P14i_performed')" "#ecrm('R60_used_to_use_language')")
+				#set($abstract = $xpath.df("678","a",$record))
+				#if($abstract) 
+					$person_s $P3_has_note "$function.escape($abstract.textContent)" . 
+				#end
+				#break		
+			#end	
+    	#end	
+		#break		
+	#end	
+#end	

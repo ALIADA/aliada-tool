@@ -62,10 +62,9 @@ public class FrbrEntitiesDetector implements Processor {
 	@Autowired
 	ItemDetector recordetector;
 	
-	
 	@Autowired
 	private Cache cache;
-
+	
 	@Override
 	public void process(final Exchange exchange) throws Exception {
 		final Message in = exchange.getIn();
@@ -77,7 +76,7 @@ public class FrbrEntitiesDetector implements Processor {
 		}
 
 		final FrbrDocument entitiesDocument = frbrDetection(exchange.getIn().getBody(Document.class));
-		if (entitiesDocument.isValid()) {
+		if (isValid(entitiesDocument)) {
 			in.setBody(entitiesDocument);
 		} else {
 			log.debug(MessageCatalog._00041_FRBR_ENTITY_DETECTION_FAILED);
@@ -85,6 +84,16 @@ public class FrbrEntitiesDetector implements Processor {
 		}
 	}
 
+	/**
+	 * Returns true if the FRBR document is valid according with the rules of the current conversion.
+	 * 
+	 * @param entitiesDocument the FRBR entities collector.
+	 * @return true if the FRBR document is valid according with the rules of the current conversion.
+	 */
+	protected boolean isValid(final FrbrDocument entitiesDocument) {
+		return entitiesDocument.isValid();
+	}
+	
 	/**
 	 * Detects the FRBR entities.
 	 * 
@@ -104,7 +113,6 @@ public class FrbrEntitiesDetector implements Processor {
 				conceptDetector.detect(target),
 				eventDetector.detect(target),
 				placeDetector.detect(target),
-				recordetector.detect(target)
-				);
+				recordetector.detect(target));
 	}
 }

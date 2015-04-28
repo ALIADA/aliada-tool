@@ -122,6 +122,40 @@ public class Function {
 	}
 	
 	/**
+	 * Splits out a date expression and returns the first (presumably the birth date) or the second member (the death date).
+	 * 
+	 * @param dateExpression the date expression (e.g. 1988-1999, -1999,1888-).
+	 * @param first true if we want the first member to be returned, false if we want the second.
+	 * @return one of the split dates.
+	 */
+	public String splitDateAndPartialGet(final String dateExpression, final boolean first) {
+		final StringBuilder builder = new StringBuilder();
+		boolean secondSectionStarted = false;
+		boolean atLeastOneDigitHasBeenCollected = false;
+		
+		for (int i = 0; i < dateExpression.length(); i++) {
+			final char ch = dateExpression.charAt(i);
+			if (Character.isDigit(ch) ) {
+				atLeastOneDigitHasBeenCollected = true;
+				if (first || secondSectionStarted) {
+					builder.append(ch);
+				} 
+			} else if (atLeastOneDigitHasBeenCollected || ch == '-') {
+				if (first) {
+					return builder.length() > 0 ? builder.toString() : null; 
+				}
+				
+				if (!secondSectionStarted) {
+					secondSectionStarted = true;
+					builder.setLength(0);
+				}
+			}
+		}
+		
+		return builder.length() > 0 ? builder.toString() : null; 
+	}
+	
+	/**
 	 * Returns the ALIADA event type class corresponding to the given CIDOC-CRM class.
 	 * 
 	 * @param from the CIDOC-CRM event type class.
