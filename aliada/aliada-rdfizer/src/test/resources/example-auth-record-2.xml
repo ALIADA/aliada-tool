@@ -1,5 +1,58 @@
-<?xml version="1.0" encoding="UTF-8" ?><marc:collection xmlns:marc="http://www.loc.gov/MARC21/slim" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.loc.gov/MARC21/slim http://www.loc.gov/standards/marcxml/schema/MARC21slim.xsd">
-<marc:record><marc:leader>01455nz  a2200229n  4500</marc:leader>
-<marc:controlfield tag="001">000000095694</marc:controlfield>
-<marc:controlfield tag="003">CaOOAMICUS</marc:controlfield><marc:controlfield tag="005">20051007122811.0</marc:controlfield><marc:controlfield tag="008">970520 n azznnaabn           n ana     d</marc:controlfield><marc:datafield tag="040" ind1=" " ind2=" "><marc:subfield code="a">IMSS</marc:subfield><marc:subfield code="b">ita</marc:subfield><marc:subfield code="d">ip</marc:subfield></marc:datafield><marc:datafield tag="090" ind1=" " ind2=" "><marc:subfield code="a">1</marc:subfield></marc:datafield><marc:datafield tag="110" ind1="2" ind2=" "><marc:subfield code="a">Musée des arts et métiers (Paris)</marc:subfield></marc:datafield><marc:datafield tag="370" ind1=" " ind2=" "><marc:subfield code="c">Francia</marc:subfield><marc:subfield code="e">Parigi</marc:subfield></marc:datafield><marc:datafield tag="371" ind1=" " ind2=" "><marc:subfield code="a">60 Rue Réaumur, 75003 Paris, Francia</marc:subfield></marc:datafield><marc:datafield tag="372" ind1=" " ind2=" "><marc:subfield code="a">Arte industriale, design</marc:subfield></marc:datafield><marc:datafield tag="410" ind1="2" ind2=" "><marc:subfield code="w">xax@</marc:subfield><marc:subfield code="a">Conservatoire national des arts et métiers.</marc:subfield><marc:subfield code="b">Musée des arts et métiers</marc:subfield></marc:datafield><marc:datafield tag="510" ind1="2" ind2=" "><marc:subfield code="w">nnnx</marc:subfield><marc:subfield code="a">Musée national des techniques</marc:subfield></marc:datafield><marc:datafield tag="678" ind1=" " ind2=" "><marc:subfield code="a">Fondato nel 1794 dall'abate Grégoire con il nome di Conservatoire  des arts et métiers come deposito per la conservazione di strumenti, disegni, macchine, modelli riguardanti tutti i settori della manifattura e dell' industria. Nel 1802 ne fu inaugurata l'apertura, nel 1819 divenne anche un centro per l'insegnamento delle discipline tecnologiche (scuola di ingegneria CNAM). A questo si aggiunse nel 1852 un laboratorio di ricerca sperimentale. Progressivamente l'ente ha assunto una natura prevalentemente didattica (CNAM) Le collezioni sono conservate al Musée des arts et métiers (fino al 1999 fa parte del CNAM-colophon de La Revue 2000) precedentemente denominato Musée national des Techniques</marc:subfield></marc:datafield><marc:datafield tag="670" ind1=" " ind2=" "><marc:subfield code="a">LC</marc:subfield></marc:datafield><marc:datafield tag="670" ind1=" " ind2=" "><marc:subfield code="a">www.arts-et-metiers.net (sito web del museo)</marc:subfield></marc:datafield><marc:datafield tag="670" ind1=" " ind2=" "><marc:subfield code="a">(R)BNF</marc:subfield></marc:datafield><marc:datafield tag="670" ind1=" " ind2=" "><marc:subfield code="a">(R)LC</marc:subfield><marc:subfield code="b">(Conservatoire national des arts et métiers. Musée des arts et métiers)</marc:subfield></marc:datafield></marc:record>
+<?xml version="1.0" encoding="UTF-8" ?>
+<marc:collection xmlns:marc="http://www.loc.gov/MARC21/slim"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.loc.gov/MARC21/slim http://www.loc.gov/standards/marcxml/schema/MARC21slim.xsd">
+	<marc:record>
+		<marc:leader>01455nz  a2200229n  4500</marc:leader>
+		<marc:controlfield tag="001">000000095694</marc:controlfield>
+		<marc:controlfield tag="003">CaOOAMICUS</marc:controlfield>
+		<marc:controlfield tag="005">20051007122811.0</marc:controlfield>
+		<marc:controlfield tag="008">970520 n azznnaabn           n ana     d</marc:controlfield>
+		<marc:datafield tag="040" ind1=" " ind2=" ">
+			<marc:subfield code="a">IMSS</marc:subfield>
+			<marc:subfield code="b">ita</marc:subfield>
+			<marc:subfield code="d">ip</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="090" ind1=" " ind2=" ">
+			<marc:subfield code="a">1</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="110" ind1="2" ind2=" ">
+			<marc:subfield code="a">Musée des arts et métiers (Paris)</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="370" ind1=" " ind2=" ">
+			<marc:subfield code="c">Francia</marc:subfield>
+			<marc:subfield code="e">Parigi</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="371" ind1=" " ind2=" ">
+			<marc:subfield code="a">60 Rue Réaumur, 75003 Paris, Francia</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="372" ind1=" " ind2=" ">
+			<marc:subfield code="a">Arte industriale, design</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="410" ind1="2" ind2=" ">
+			<marc:subfield code="w">xax@</marc:subfield>
+			<marc:subfield code="a">Conservatoire national des arts et métiers.</marc:subfield>
+			<marc:subfield code="b">Musée des arts et métiers</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="510" ind1="2" ind2=" ">
+			<marc:subfield code="w">nnnx</marc:subfield>
+			<marc:subfield code="a">Musée national des techniques</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="678" ind1=" " ind2=" ">
+			<marc:subfield code="a">Fondato nel 1794 dall'abate Grégoire con il nome di Conservatoire  des arts et métiers come deposito per la conservazione di strumenti, disegni, macchine, modelli riguardanti tutti i settori della manifattura e dell' industria. Nel 1802 ne fu inaugurata l'apertura, nel 1819 divenne anche un centro per l'insegnamento delle discipline tecnologiche (scuola di ingegneria CNAM). A questo si aggiunse nel 1852 un laboratorio di ricerca sperimentale. Progressivamente l'ente ha assunto una natura prevalentemente didattica (CNAM) Le collezioni sono conservate al Musée des arts et métiers (fino al 1999 fa parte del CNAM-colophon de La Revue 2000) precedentemente denominato Musée national des Techniques</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="670" ind1=" " ind2=" ">
+			<marc:subfield code="a">LC</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="670" ind1=" " ind2=" ">
+			<marc:subfield code="a">www.arts-et-metiers.net (sito web del museo)</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="670" ind1=" " ind2=" ">
+			<marc:subfield code="a">(R)BNF</marc:subfield>
+		</marc:datafield>
+		<marc:datafield tag="670" ind1=" " ind2=" ">
+			<marc:subfield code="a">(R)LC</marc:subfield>
+			<marc:subfield code="b">(Conservatoire national des arts et métiers. Musée des arts et métiers)</marc:subfield>
+		</marc:datafield>
+	</marc:record>
 </marc:collection>
