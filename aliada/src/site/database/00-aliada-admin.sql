@@ -460,13 +460,7 @@ ALTER TABLE `template`
 INSERT INTO `organisation` (`organisationId`,`org_name`,`org_path`,`org_catalog_url`, `org_description`,`org_home_page`, `aliada_ontology`,`tmp_dir`,`linking_client_app_bin_dir`,
 `linking_client_app_user`,`store_ip`,`store_sql_port`,`sql_login`,`sql_password`,`isql_command_path`,`isql_commands_file_dataset_default`,  `isql_commands_file_subset_default`, 
 `isql_commands_file_graph_dump`, `virtuoso_http_server_root`, `ckan_api_url`,`ckan_api_key`,`dataset_author`,`isql_commands_file_dataset_creation`,`aliada_tool_hostname`) VALUES 
-(1,'artium','/usr/share/tomcat/upload/','http://aliada.artium.org', 'Basque Museum-Center of Contemporary Art', 'http://www.artium.org/', 'http://aliada-project.eu/2014/aliada-ontology#', '/home/aliada/tmp', '/home/aliada/links-discovery/bin/','linking','localhost',1111,'dba','dba','/home/virtuoso/bin/isql','/home/aliada/linked-data-server/config/isql_rewrite_rules_global.sql', '/home/aliada/linked-data-server/config/isql_rewrite_rules_subset_default.sql', '/home/aliada/ckan-datahub-page-creation/config/dump_one_graph_nt.sql', '/home/virtuoso/var/lib/virtuoso/vsp', 'http://datahub.io/api/action', '59465962-6eb1-4a06-8318-985fc4ffd1fc','Aliada Consortium','/home/aliada/bin/aliada_new_dataset.sql','aliada.scanbit.net');
-
---
--- Volcado de datos para la tabla `dataset`
---
-
-INSERT INTO `dataset` (`datasetId`, `organisationId`, `dataset_desc`, `domain_name`, `uri_id_part`, `uri_doc_part`, `uri_def_part`, `uri_concept_part`, `uri_set_part`, `listening_host`, `virtual_host`, `sparql_endpoint_uri`, `sparql_endpoint_login`, `sparql_endpoint_password`, `public_sparql_endpoint_uri`, `dataset_author`, `ckan_dataset_name`, `dataset_long_desc`, `dataset_source_url`, `license_ckan_id`, `license_url`, `isql_commands_file_dataset`) VALUES(1, 1, 'artium_dataset', 'data.artium.org', 'id', 'doc', 'def', 'collections', 'set', '*ini*', '*ini*', 'http://localhost:8891/sparql-auth', 'aliada_dev', 'aliada_dev', 'http://localhost:8891/sparql', 'Aliada Consortium', 'datos-artium-org', 'Open linked data from the Library and Museum of ARTIUM', 'http://biblioteca.artium.org', 'cc-zero', 'http://creativecommons.org/publicdomain/zero/1.0/','/home/aliada/linked-data-server/config/isql_rewrite_rules_global.sql');
+(1,'artium','/usr/share/tomcat/upload/','http://aliada.artium.org', 'Basque Museum-Center of Contemporary Art', 'http://www.artium.org/', 'http://aliada-project.eu/2014/aliada-ontology#', '/home/aliada/tmp', '/home/aliada/links-discovery/bin/','linking','localhost',1111,'dba','dba','/home/virtuoso/bin/isql','/home/aliada/linked-data-server/config/isql_rewrite_rules_global.sql', '/home/aliada/linked-data-server/config/isql_rewrite_rules_subset_default.sql', '/home/aliada/ckan-datahub-page-creation/config/dump_one_graph_nt.sql', '/home/virtuoso/var/lib/virtuoso/vsp', 'http://datahub.io/api/action', '****','Aliada Consortium','/home/aliada/bin/aliada_new_dataset.sql','aliada.scanbit.net');
 
 --
 -- Volcado de datos para la tabla `profile`
@@ -477,13 +471,6 @@ INSERT INTO `profile` (`profile_id`, `profile_name`, `profile_type_code`, `profi
 INSERT INTO `profile` (`profile_id`, `profile_name`, `profile_type_code`, `profile_description`, `metadata_scheme_code`, `file_type_code`, `file_format_code`, `character_set_code`) VALUES(3, 'LIDO', 1, 'LIDO MUSEUM', 1, 2, 0, 0);
 INSERT INTO `profile` (`profile_id`, `profile_name`, `profile_type_code`, `profile_description`, `metadata_scheme_code`, `file_type_code`, `file_format_code`, `character_set_code`) VALUES(4, 'DC', 2, 'Dublin Core Drupal', 2, 3, 0, 0);
 
-
-
---
--- Volcado de datos para la tabla `subset`
---
-
-INSERT INTO `subset` (`datasetId`, `subsetId`, `subset_desc`, `uri_concept_part`, `graph_uri`, `links_graph_uri`, `isql_commands_file_subset`) VALUES(1, 1, 'artium_subset', 'library/bib', 'http://data.artium.org/id/collections/library/bib', 'http://data.artium.org/id/collections/library/bib/links', '/home/aliada/linked-data-server/config/ isql_rewrite_rules_subset_artium_library.sql');
 
 --
 -- Volcado de datos para la tabla `template`
