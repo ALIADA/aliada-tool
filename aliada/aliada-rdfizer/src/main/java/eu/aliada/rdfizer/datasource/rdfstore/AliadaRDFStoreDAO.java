@@ -36,6 +36,7 @@ public class AliadaRDFStoreDAO {
 		QueryExecution execution = null;
 		try {
 			execution = QueryExecutionFactory.sparqlService("http://172.25.5.15:8890/sparql", query);
+			execution.setTimeout(2000, 5000);
 			final ResultSet results = execution.execSelect();
 			//Iterating over the SPARQL Query results
 			while (results.hasNext()) {

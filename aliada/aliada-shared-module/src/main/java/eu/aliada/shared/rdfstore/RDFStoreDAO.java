@@ -26,6 +26,7 @@ import org.apache.jena.atlas.web.auth.SimpleAuthenticator;
 
 import com.hp.hpl.jena.update.UpdateExecutionFactory;
 import com.hp.hpl.jena.update.UpdateFactory;
+import com.hp.hpl.jena.query.ARQ;
 import com.hp.hpl.jena.query.QueryExecution;
 import com.hp.hpl.jena.query.QueryExecutionFactory;
 import com.hp.hpl.jena.query.QueryFactory;
@@ -34,6 +35,8 @@ import com.hp.hpl.jena.query.ResultSet;
 import com.hp.hpl.jena.rdf.model.Resource;
 import com.hp.hpl.jena.graph.Triple;
 import com.hp.hpl.jena.sparql.engine.http.QueryEngineHTTP;
+import com.hp.hpl.jena.sparql.engine.http.Service;
+import com.hp.hpl.jena.sparql.util.Context;
 
 import eu.aliada.shared.log.Log;
 import eu.aliada.shared.log.MessageCatalog;
@@ -110,7 +113,8 @@ public class RDFStoreDAO {
 		try {
 			final URL putUrl = new URL(rdfSinkFolder);
 			final HttpURLConnection connection = (HttpURLConnection) putUrl.openConnection();
-	
+			connection.setReadTimeout(2000);
+			connection.setConnectTimeout(5000);
 			connection.setDoOutput(true);
 			connection.setInstanceFollowRedirects(false);
 			connection.setRequestMethod("PUT");
@@ -155,6 +159,7 @@ public class RDFStoreDAO {
 			UpdateExecutionFactory.createRemoteForm(
 					UpdateFactory.create(query), 
 					sparqlEndpointURI, 
+					context(),
 					auth(sparqlEndpointURI, user, password))
 				.execute();
 			done = true;
@@ -183,6 +188,7 @@ public class RDFStoreDAO {
 		UpdateExecutionFactory.createRemoteForm(
 				UpdateFactory.create(buildInsertQuery(graphName, triples)), 
 				sparqlEndpointURI, 
+				context(),
 				auth(sparqlEndpointURI, user, password))
 			.execute();
 	}	
@@ -324,7 +330,7 @@ public class RDFStoreDAO {
 					auth(sparqlEndpointURI, user, password));
             
 	        if (qexec instanceof QueryEngineHTTP) {
-	        	((QueryEngineHTTP)qexec).setTimeout(1000L, 1000L);
+	        	((QueryEngineHTTP)qexec).setTimeout(2000L, 5000L);
 	        }
 	        
 	        final ResultSet results = qexec.execSelect() ;
@@ -383,6 +389,7 @@ public class RDFStoreDAO {
 	        		sparqlEndpointURI, 
 	        		QueryFactory.create(query), 
 					auth(sparqlEndpointURI, user, password));
+	        qexec.setTimeout(2000, 5000);
             ResultSet results = qexec.execSelect() ;
             while (results.hasNext())
             {
@@ -416,6 +423,7 @@ public class RDFStoreDAO {
 	        		sparqlEndpointURI, 
 	        		QueryFactory.create(query), 
 					auth(sparqlEndpointURI, user, password));
+	        qexec.setTimeout(2000, 5000);
             final ResultSet results = qexec.execSelect() ;
             while (results.hasNext())
             {
@@ -456,6 +464,7 @@ public class RDFStoreDAO {
 		UpdateExecutionFactory.createRemoteForm(
 				UpdateFactory.create(buildDeleteQuery(graphName, triples)), 
 				sparqlEndpointURI, 
+				context(),
 				auth(sparqlEndpointURI, user, password))
 			.execute();
 	}	
@@ -478,6 +487,7 @@ public class RDFStoreDAO {
 	        		sparqlEndpointURI, 
 	        		QueryFactory.create(query), 
 					auth(sparqlEndpointURI, user, password));
+	        qexec.setTimeout(2000, 5000);
             results = qexec.execSelect() ;
 	        qexec.close() ;
 	      } catch (Exception exception) {
@@ -560,5 +570,11 @@ public class RDFStoreDAO {
 			builder.append("}");
 		}
 		return builder.toString();
+	}
+	
+	Context context() {
+		final Context ctx = new Context(ARQ.getContext());
+		ctx.put(Service.queryTimeout, 2000);
+		return ctx; 
 	}
 }
