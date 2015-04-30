@@ -142,7 +142,7 @@ public class SynchXmlDocumentTranslator implements Processor, ApplicationContext
 						
 			in.setBody(triples);
 			in.setHeader(Constants.GRAPH_ATTRIBUTE_NAME, graphName(configuration));
-
+			
 		} catch (final ResourceNotFoundException exception) {
 			log.error(MessageCatalog._00040_TEMPLATE_NOT_FOUND, exception, format);
 		} finally {
@@ -153,7 +153,7 @@ public class SynchXmlDocumentTranslator implements Processor, ApplicationContext
 				velocityContext.remove(Constants.ROOT_ELEMENT_ATTRIBUTE_NAME);
 				velocityContext.remove(Constants.JOB_CONFIGURATION_ATTRIBUTE_NAME);
 			}
-		}
+		} 
 	}
 
 	@Override

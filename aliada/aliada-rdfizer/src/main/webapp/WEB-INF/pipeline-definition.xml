@@ -120,7 +120,7 @@
 					<process ref="run-marcxml-validation"/>
 					<split streaming="true">
 						<tokenize token="record" xml="true" />
-						<to uri="seda:marcxml-record-channel?concurrentConsumers=2&amp;size=1000&amp;blockWhenFull=true" />
+						<to uri="seda:marcxml-record-channel?concurrentConsumers=5&amp;size=1000&amp;blockWhenFull=true" />
 					</split>
 				</when>
 				<when>
@@ -168,7 +168,7 @@
 			<process ref="string-to-xml"/>
 			<process ref="xml-to-rdf"/>
 			<process ref="check-job-completeness"/>
-			<to uri="seda:triples-channel?size=250&amp;blockWhenFull=true" />
+			<to uri="seda:triples-channel?concurrentConsumers=10&amp;size=250&amp;blockWhenFull=true" />
 		</route>	
 		<route>
 			<from uri="seda:auth-record-channel?concurrentConsumers=2&amp;size=1000&amp;blockWhenFull=true" />
@@ -176,25 +176,25 @@
 			<process ref="detect-auth-entities"/>
 			<process ref="marcxml-to-rdf-using-frbr"/>
 			<process ref="check-job-completeness"/>
-			<to uri="seda:triples-channel?size=250&amp;blockWhenFull=true" />
+			<to uri="seda:triples-channel?concurrentConsumers=10&amp;size=250&amp;blockWhenFull=true" />
 		</route>				
 		<route>
 			<from uri="seda:lido-record-channel?concurrentConsumers=2&amp;size=1000&amp;blockWhenFull=true" />
 			<process ref="string-to-xml"/>
 			<process ref="xml-to-rdf"/>
 			<process ref="check-job-completeness"/>
-			<to uri="seda:triples-channel?size=250&amp;blockWhenFull=true" />
+			<to uri="seda:triples-channel?concurrentConsumers=10&amp;size=250&amp;blockWhenFull=true" />
 		</route>
 		<route>
-			<from uri="seda:marcxml-record-channel?concurrentConsumers=2&amp;size=1000&amp;blockWhenFull=true" />
+			<from uri="seda:marcxml-record-channel?concurrentConsumers=5&amp;size=1000&amp;blockWhenFull=true" />
 			<process ref="string-to-xml"/>
 			<process ref="detect-frbr-entities"/>
 			<process ref="marcxml-to-rdf-using-frbr"/>
 			<process ref="check-job-completeness"/>
-			<to uri="seda:triples-channel?size=250&amp;blockWhenFull=true" />
+			<to uri="seda:triples-channel?concurrentConsumers=10&amp;size=250&amp;blockWhenFull=true" />
 		</route>
 		<route>
-			<from uri="seda:triples-channel?size=250&amp;blockWhenFull=true" />
+			<from uri="seda:triples-channel?concurrentConsumers=10&amp;size=250&amp;blockWhenFull=true" />
 			<process ref="add-2-rdf-store"/>
 		</route>
 	</camelContext>
