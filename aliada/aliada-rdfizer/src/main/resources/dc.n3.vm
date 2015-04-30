@@ -15,7 +15,7 @@ $s #ecrm("P1_is_identified_by") $c .
 #set($title = $xpath.one("metadata/dc/title",$root))
 #set($title_s = "#uri('E73_Information_Object' $title.textContent)")
 $title_s $is_a #ecrm('E35_Title') . 
-$title_s $P3_has_note "$title.textContent") . 
+$title_s $P3_has_note "$function.escape($title.textContent)" . 
 $s #ecrm('P102_has_title') $title_s .
 #set($root = $xpath.one("metadata/dc", $root))
 #set($creation_s = "")
@@ -30,7 +30,7 @@ $s #ecrm('P102_has_title') $title_s .
 		$creation_s $is_a #ecrm('E65_Creation') . 
 	#end	
 	$creator_actor_appellation_s $is_a #ecrm('E82_Actor_Appellation') . 
-	$creator_actor_appellation_s $P3_has_note "$value" . 
+	$creator_actor_appellation_s $P3_has_note "$function.escape($value)" . 
 	$creator_actor_s $is_a #ecrm('E39_Actor') . 
 	$creator_actor_s #ecrm('P131_is_identified_by') $creator_actor_appellation_s . 
 	$creation_s #ecrm('P14_carried_out_by') $creator_actor_s . 
@@ -47,7 +47,7 @@ $s #ecrm('P102_has_title') $title_s .
 		$creation_s $is_a #ecrm('E65_Creation') . 
 	#end	
 	$creator_actor_appellation_s $is_a #ecrm('E82_Actor_Appellation') . 
-	$creator_actor_appellation_s $P3_has_note "$value" . 
+	$creator_actor_appellation_s $P3_has_note "$function.escape($value)" . 
 	$creator_actor_s $is_a #ecrm('E39_Actor') . 
 	$creator_actor_s #ecrm('P131_is_identified_by') $creator_actor_appellation_s . 
 	$creation_s #ecrm('P14_carried_out_by') $creator_actor_s . 
@@ -75,15 +75,15 @@ $s #ecrm('P102_has_title') $title_s .
     #set($c = "#new_uri('E24_Physical_Man-Made_Thing')")
     $c $is_a #ecrm('E24_Physical_Man-Made_Thing') . 
     $c $P2_has_type #aliadaconcept("web_resource") . 
-    $c $P3_has_note "$source.textContent" . 
-    $s #ecrm(“P67_refers_to”) $c
+    $c $P3_has_note "$function.escape($source.textContent)" . 
+    $s #ecrm("P67_refers_to") $c . 
 #end    	
 ## FORMAT
 #set($formats = $xpath.many("format",$root))
 #foreach($format in $formats) 
 	#set($c = "#new_uri('Ε55_Type')")
 	$c $is_a #ecrm('Ε55_Type') . 
-    $c $P3_has_note "$format.textContent" . 
+    $c $P3_has_note "$function.escape($format.textContent)" . 
     $s $P2_has_type $c . 	
 #end	
 ## TYPE
@@ -91,7 +91,7 @@ $s #ecrm('P102_has_title') $title_s .
 #foreach($type in $types) 
 	#set($c = "#new_uri('Ε55_Type')")
 	$c $is_a #ecrm('Ε55_Type') . 
-    $c $P3_has_note "$type.textContent" . 
+    $c $P3_has_note "$function.escape($type.textContent)" . 
     $s $P2_has_type $c . 	
 #end	
 ## SUBJECT
@@ -99,7 +99,7 @@ $s #ecrm('P102_has_title') $title_s .
 #foreach($subject in $subjects) 
 	#set($subject_s = "#uri('E1_CRM_Entity' $subject.textContent)")
 	$subject_s $is_a #ecrm('E1_CRM_Entity') . 
-	$subject_s $P3_has_note "$subject.textContent" . 
+	$subject_s $P3_has_note "$function.escape($subject.textContent)" . 
 	$s #ecrm('P129_is_about') $subject_s . 
 #end
 ## COVERAGE 
@@ -107,7 +107,7 @@ $s #ecrm('P102_has_title') $title_s .
 #foreach($coverage in $coverages) 
 	#set($coverage_s = "#uri('E1_CRM_Entity' $coverage.textContent)")
 	$coverage_s $is_a #ecrm('E1_CRM_Entity') . 
-	$coverage_s $P3_has_note "$coverage.textContent" . 
+	$coverage_s $P3_has_note "$function.escape($coverage.textContent)" . 
 	$s #ecrm('P129_is_about') $coverage_s . 
 #end
 ## LANGUAGE
@@ -115,13 +115,13 @@ $s #ecrm('P102_has_title') $title_s .
 #foreach($language in $languages) 	
 	#set($lang_s = "#uri('Ε56_Language' $language.textContent)") . 
 	$lang_s $is_a #ecrm('Ε56_Language') . 
-	$lang_s $P3_has_note "$language.textContent" . 
+	$lang_s $P3_has_note "$function.escape($language.textContent)" . 
 	$s #ecrm('P72_has_language') $lang_s . 
 #end
 ## DESCRIPTION
 #set($descriptions = $xpath.many("description",$root))
 #foreach($description in $descriptions)
-	$s $P3_has_note "description.textContent" . 
+	$s $P3_has_note "$function.escape($description.textContent)" . 
 #end	
 ## PUBLISHER
 #set($publishers = $xpath.many("publisher",$root))
@@ -130,7 +130,7 @@ $s #ecrm('P102_has_title') $title_s .
 	#set($publisher_actor_s = "#uri('E39_Actor' $publisher.textContent)") . 	
 	#set($publisher_actor_appellation_s = "#uri('E82_Actor_Appellation' $publisher.textContent)") . 	
 	$publisher_actor_appellation_s $is_a #ecrm('E82_Actor_Appellation') . 
-	$publisher_actor_appellation_s $P3_has_note "$publisher.textContent" . 
+	$publisher_actor_appellation_s $P3_has_note "$function.escape($publisher.textContent)" . 
 	$publisher_actor_s $is_a #ecrm('E39_Actor') . 
 	$publisher_actor_s #ecrm('P131_is_identified_by') $publisher_actor_appellation_s . 
 	$publisher_s $is_a #ecrm('E12_Production') . 
