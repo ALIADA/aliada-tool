@@ -96,8 +96,6 @@ public class SynchXmlDocumentTranslator implements Processor, ApplicationContext
 	
 	@Override
 	public final void process(final Exchange exchange) throws Exception {
-		final long begin = System.currentTimeMillis();
-		
 		final Message in = exchange.getIn();
 
 		final String format = in.getHeader(Constants.FORMAT_ATTRIBUTE_NAME, String.class);
@@ -117,6 +115,7 @@ public class SynchXmlDocumentTranslator implements Processor, ApplicationContext
 		
 		VelocityContext velocityContext = null;
 		String triples = null;
+		
 		long elapsed = 0;
 		
 		try {
@@ -130,6 +129,8 @@ public class SynchXmlDocumentTranslator implements Processor, ApplicationContext
 			velocityContext.put(Constants.JOB_CONFIGURATION_ATTRIBUTE_NAME, configuration);
 			
 			populateVelocityContext(velocityContext, in, configuration);
+			
+			final long begin = System.currentTimeMillis();
 			
 			final Writer sw = new StringWriter();
 			final Writer w = new BufferedWriter(sw);
@@ -230,8 +231,7 @@ public class SynchXmlDocumentTranslator implements Processor, ApplicationContext
 			job.incrementProcessedRecordsCount();
 			job.incrementElapsed(elapsed);
 			if (triples != null) {
-				final int howManyTriples = countTriples(triples);
-				job.incrementOutputStatementsCount(howManyTriples);				
+				job.incrementOutputStatementsCount(countTriples(triples));				
 			}
 		}
 	}	

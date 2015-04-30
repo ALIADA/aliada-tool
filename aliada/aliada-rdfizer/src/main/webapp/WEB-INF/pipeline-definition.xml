@@ -129,7 +129,7 @@
 					<process ref="run-dc-validation"/>
 					<split streaming="true">
 						<tokenize token="record" xml="true" />
-						<to uri="seda:dc-record-channel?concurrentConsumers=2&amp;size=1000&amp;blockWhenFull=true" />
+						<to uri="seda:dc-record-channel?concurrentConsumers=10&amp;size=1000&amp;blockWhenFull=true" />
 					</split>
 				</when>				
 				<otherwise>
@@ -164,7 +164,7 @@
 			<process ref="rdf-sample-validation"/>
 		</route>			
 		<route>
-			<from uri="seda:dc-record-channel?concurrentConsumers=2&amp;size=1000&amp;blockWhenFull=true" />
+			<from uri="seda:dc-record-channel?concurrentConsumers=10&amp;size=1000&amp;blockWhenFull=true" />
 			<process ref="string-to-xml"/>
 			<process ref="xml-to-rdf"/>
 			<process ref="check-job-completeness"/>

@@ -112,7 +112,7 @@ public class JobResource implements Job {
 	@Override
 	public double getRecordsThroughput() {
 		return elapsed.get() != 0 
-				? totalProcessedRecordsCount.doubleValue() / ((elapsed.get()))
+				? (totalProcessedRecordsCount.doubleValue() / elapsed.get()) * 1000
 				: 0;
 	}
 
@@ -152,7 +152,7 @@ public class JobResource implements Job {
 	@Override
 	public double getStatementsThroughput() {
 		return elapsed.get() != 0 
-				? totalOutputStatementsCount.doubleValue() / ((elapsed.get()))
+				? (totalOutputStatementsCount.doubleValue() / elapsed.doubleValue()) * 1000
 				: 0;		
 	}
 	
