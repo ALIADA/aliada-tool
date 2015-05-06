@@ -69,7 +69,7 @@ public class SynchXmlDocumentTranslator implements Processor, ApplicationContext
 	protected final ThreadLocal<VelocityContext> contexts = new ThreadLocal<VelocityContext>() {
 		protected VelocityContext initialValue() {
 			final VelocityContext context = new VelocityContext();
-			context.put(Constants.XPATH_ATTRIBUTE_NAME, xpath);
+			context.put(Constants.XPATH_ATTRIBUTE_NAME, oxpath);
 			context.put(Constants.FUNCTION_ATTRIBUTE_NAME, function);
 			return context;
 		};
@@ -83,6 +83,9 @@ public class SynchXmlDocumentTranslator implements Processor, ApplicationContext
 	@Autowired
 	protected XPath xpath;
 
+	@Autowired
+	protected OXPath oxpath;
+	
 	@Autowired
 	protected Cache cache;
 

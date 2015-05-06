@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 import org.w3c.dom.Document;
 
 import eu.aliada.rdfizer.pipeline.format.marc.selector.Expression;
-import eu.aliada.rdfizer.pipeline.format.xml.XPath;
+import eu.aliada.rdfizer.pipeline.format.xml.OXPath;
 
 /**
  * A selector expression interpreter for MARC control fields.
@@ -35,7 +35,7 @@ public class ControlFieldExpression implements Expression<String, Document> {
 	static final String END_INDEX_NAN = "Invalid specs (%s): unable to get a valid end index.";
 	
 	@Autowired
-	XPath xpath;
+	OXPath xpath;
 	
 	private final Expression<String, Document> fullSelector = new Expression<String, Document>() {
 		@Override
@@ -127,16 +127,16 @@ public class ControlFieldExpression implements Expression<String, Document> {
 			}			
 			
 			expression = new StringBuilder()
-				.append("record/controlfield[@tag='")
+				.append("controlfield[@tag='")
 				.append(specs.substring(0, indexOfOpeningSquareBracket).trim())
-				.append("']/text()")
+				.append("']")
 				.toString();
 			currentState = partialSelector;
 		} else {
 			expression = new StringBuilder()
-				.append("record/controlfield[@tag='")
+				.append("controlfield[@tag='")
 				.append(specs.trim())
-				.append("']/text()")
+				.append("']")
 				.toString();
 			currentState = fullSelector;
 		}

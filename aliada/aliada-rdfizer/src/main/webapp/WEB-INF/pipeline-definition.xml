@@ -12,6 +12,7 @@
 	<bean id="shutdown_listener" class="eu.aliada.rdfizer.listeners.PipelineShutdownListener" />
 	<bean id="debugger" class="eu.aliada.rdfizer.pipeline.processors.JustDebug"/> 
 	<bean id="count-debugger" class="eu.aliada.rdfizer.pipeline.processors.JustDebugTriplesCount"/>
+	<bean id="no-op" class="eu.aliada.rdfizer.pipeline.processors.NoOp"/>
 	<bean id="add-2-rdf-store" class="eu.aliada.rdfizer.pipeline.processors.RESTSparqlInsertProcessor"/>
 	<bean id="check-job-completeness" class="eu.aliada.rdfizer.pipeline.processors.CheckJobCompleteness"/>
 	<bean id="xpath" class="eu.aliada.rdfizer.pipeline.format.xml.XPath"/> 
