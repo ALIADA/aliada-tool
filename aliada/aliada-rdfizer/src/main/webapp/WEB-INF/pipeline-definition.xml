@@ -194,7 +194,7 @@
 			<process ref="check-job-completeness"/>
 			<to uri="seda:triples-channel?concurrentConsumers=10&amp;size=250&amp;blockWhenFull=true" />
 		</route>
-		<route>
+		<route> 
 			<from uri="seda:triples-channel?concurrentConsumers=10&amp;size=250&amp;blockWhenFull=true" />
 			<process ref="add-2-rdf-store"/>
 		</route>

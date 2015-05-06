@@ -136,14 +136,16 @@ public class OXPath {
 				final NodeList list = ((Element) item).getElementsByTagName("*");
 				for (int i = 0; i < list.getLength(); i++) {
 					Element element = (Element)list.item(i);
-					if (indexOfSquareBracket == -1) {
-						return element.getTextContent();
-					} else {
-						final String name = targetChild.substring(indexOfSquareBracket + 2, targetChild.indexOf("="));
-						int valueStartIndex = targetChild.indexOf("'");
-						final String value = targetChild.substring(valueStartIndex+1, targetChild.lastIndexOf("'"));
-						if (element.getAttribute(name).equals(value)) {
-							return element;
+					if (element.getNodeName().endsWith(targetChild)) {
+						if (indexOfSquareBracket == -1) {
+							return element.getTextContent();
+						} else {
+							final String name = targetChild.substring(indexOfSquareBracket + 2, targetChild.indexOf("="));
+							int valueStartIndex = targetChild.indexOf("'");
+							final String value = targetChild.substring(valueStartIndex+1, targetChild.lastIndexOf("'"));
+							if (element.getAttribute(name).equals(value)) {
+								return element;
+							}
 						}
 					}
 				}
@@ -156,14 +158,16 @@ public class OXPath {
 					Node n = list.item(i);
 					if (n.getNodeType() == Node.ELEMENT_NODE) {
 						Element element = (Element)n;
-						if (indexOfSquareBracket == -1) {
-							result.addNode(element);
-						} else {
-							final String name = targetChild.substring(indexOfSquareBracket + 2, targetChild.indexOf("="));
-							int valueStartIndex = targetChild.indexOf("'");
-							final String value = targetChild.substring(valueStartIndex+1, targetChild.lastIndexOf("'"));
-							if (element.getAttribute(name).equals(value)) {
+						if (element.getNodeName().endsWith(targetChild)) {
+							if (indexOfSquareBracket == -1) {
 								result.addNode(element);
+							} else {
+								final String name = targetChild.substring(indexOfSquareBracket + 2, targetChild.indexOf("="));
+								int valueStartIndex = targetChild.indexOf("'");
+								final String value = targetChild.substring(valueStartIndex+1, targetChild.lastIndexOf("'"));
+								if (element.getAttribute(name).equals(value)) {
+									result.addNode(element);
+								}
 							}
 						}
 					}
@@ -213,7 +217,7 @@ public class OXPath {
 			}
 		} else {
 			for (int i = 1; i < members.length; i++) {
-				current = select(topLevel, members[i]);
+				current = (i==1) ? select(topLevel, members[i]) : select(current, members[i]);
 			}
 		}
 		
@@ -233,6 +237,20 @@ public class OXPath {
 		}		
 		return nodes;
 	}
+	
+	private List<Node> select(List<Node> list, String child) throws XPathExpressionException {
+		List<Node> nodes = new ArrayList<Node>();
+		for (int x = 0; x < list.size(); x++) {
+			final XPathExpression exp = xpath(child);
+			NodeList result = (NodeList) exp.evaluate(list.get(x), XPathConstants.NODESET);
+			if (result.getLength() > 0) {
+				for (int i = 0; i < result.getLength(); i++) {
+					nodes.add(result.item(i));
+				}
+			}
+		}		
+		return nodes;
+	}	
 	
 	/**
 	 * Evaluates a given XPATH and returns the result as a single node.
@@ -256,7 +274,7 @@ public class OXPath {
 			}
 		} else {
 			for (int i = 1; i < members.length; i++) {
-				current = select(topLevel, members[i]);
+				current = (i==1) ? select(topLevel, members[i]) : select(current, members[i]);
 			}
 		}
 		
@@ -285,7 +303,7 @@ public class OXPath {
 			}
 		} else {
 			for (int i = 1; i < members.length; i++) {
-				current = select(topLevel, members[i]);
+				current = (i==1) ? select(topLevel, members[i]) : select(current, members[i]);
 			}
 		}
 		

@@ -196,7 +196,7 @@ $main_subject #ecrm("P70i_is_documented_in") $document_s .
 		#end	
 		#set($actorInRole = $xpath.one("actorInRole", $actor))
 		#set($actor = $xpath.one("actorInRole/actor", $actor))
-		#set($actor_identifiers = $xpath.many("actorID[@type='local']", $actor))
+		#set($actor_identifiers = $xpath.many("actorID[@lido:type='local']", $actor))
 		#foreach($actor_identifier in $actor_identifiers)
 			#set($value = $function.escape($actor_identifier.textContent))
 			#set($id_s = "#uri('E42_Identifier' $value)")
@@ -209,7 +209,7 @@ $main_subject #ecrm("P70i_is_documented_in") $document_s .
 			$id_s $P2_has_type #aliada('LocalIdentifier') . 
 			$author_s #ecrm('P48_has_preferred_identifier') $id_s .
 		#end	
-		#set($actor_identifiers = $xpath.many("actorID[@type='URI' and @source='VIAF']", $actor))
+		#set($actor_identifiers = $xpath.many("actorID[@lido:source='VIAF']", $actor))
 		#foreach($actor_identifier in $actor_identifiers)
 			#set($value = $function.escape($actor_identifier.textContent))
 			#set($id_s = "#uri_with_fragment('E42_Identifier' $value)")
@@ -222,9 +222,9 @@ $main_subject #ecrm("P70i_is_documented_in") $document_s .
 			$id_s $P2_has_type #aliada('VIAFIdentifier') . 
 			$author_s #ecrm('P48_has_preferred_identifier') $id_s .
 		#end		
-		#if ($author_s)
+		#if ($author_s && $author_s.trim().length() > 0)
  			$event_type_s #ecrm('P11_had_participant') $author_s .
-    		#set($actor_names = $xpath.many("nameActorSet/appellationValue[@pref='preferred']", $actor))
+    		#set($actor_names = $xpath.many("nameActorSet/appellationValue[@lido:pref='preferred']", $actor))
     		#foreach($actor_name in $actor_names)
     			#set($value = $function.escape($actor_name.textContent))
     			#set($actor_name_s = "#uri('E82_Actor_Appellation' $value)")
@@ -481,7 +481,7 @@ $main_subject #ecrm("P70i_is_documented_in") $document_s .
 			#end	
 			#set($rightsTypes = $xpath.many("rightsType", $rightsResource))
 			#foreach($rightsType in $rightsTypes)
-				#set($conceptID = $xpath.one("conceptID[@type='URL']",$rightsType))
+				#set($conceptID = $xpath.one("conceptID[@lido:type='URL']",$rightsType))
 				#if ($conceptID)
 					#set($term = $xpath.one("term",$rightsType))			
 					#if ($term)
