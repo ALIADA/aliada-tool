@@ -208,7 +208,7 @@ public class Function {
 	 * @throws XPathExpressionException in case of XPATH failure.
 	 */
 	public Map<String, String> mner(final String tag, final String code, final Object record) throws XPathExpressionException {
-		final ImmutableNodeList list = xpath.dfs(tag, code, record);
+		final List<Node> list = xpath.dfs(tag, code, record);
 		final StringBuilder builder = new StringBuilder();
 		for (final Node node : list) {
 			builder.append(node.getTextContent()).append("\n");

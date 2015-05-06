@@ -80,12 +80,16 @@ public class CheckJobCompleteness implements Processor {
 	 * 
 	 * @param job the job.
 	 */
-	void markJobAsCompleted(final JobResource job) {
-		final JobInstance instance = cache.getJobInstance(job.getID());
-		instance.setEndDate(new Timestamp(System.currentTimeMillis()));
-		jobInstanceRepository.save(instance);		
-	
-		log.info(MessageCatalog._00048_JOB_COMPLETED, job.getID());
+	 void markJobAsCompleted(final JobResource job) {
+		try { 
+			final JobInstance instance = cache.getJobInstance(job.getID());
+			instance.setEndDate(new Timestamp(System.currentTimeMillis()));
+			jobInstanceRepository.save(instance);		
+		} catch (Exception ignore) {
+			// Nothing to be done.
+		} finally {
+			log.info(MessageCatalog._00048_JOB_COMPLETED, job.getID());
+		}
 	}	
 	
 	/**
@@ -95,6 +99,7 @@ public class CheckJobCompleteness implements Processor {
 	 */
 	void persistJobStats(final JobResource job) {
 		final JobStats stats = new JobStats();
+		stats.setStatusCode(0); 
 		stats.setId(job.getID());
 		stats.setTotalRecordsCount(job.getTotalRecordsCount());
 		stats.setTotalTriplesProduced(job.getOutputStatementsCount());

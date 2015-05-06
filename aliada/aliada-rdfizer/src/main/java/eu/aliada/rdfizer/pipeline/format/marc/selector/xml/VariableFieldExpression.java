@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 import org.w3c.dom.Document;
 
 import eu.aliada.rdfizer.pipeline.format.marc.selector.Expression;
+import eu.aliada.rdfizer.pipeline.format.xml.OXPath;
 import eu.aliada.rdfizer.pipeline.format.xml.XPath;
 
 /**
@@ -53,7 +54,7 @@ public class VariableFieldExpression implements Expression<String, Document> {
 	private final String specs;
 
 	@Autowired
-	XPath xpath;	
+	OXPath xpath;	
 	/**
 	 * Builds a new expression with the given specs.
 	 * 
@@ -83,7 +84,7 @@ public class VariableFieldExpression implements Expression<String, Document> {
 			char secondIndicatorPattern = pattern.charAt(1);
 			
 			final StringBuilder expressionBuilder = new StringBuilder()
-				.append("record/datafield[@tag='")
+				.append("datafield[@tag='")
 				.append(specs.substring(0, indexOfOpeningParenthesis).trim())
 				.append("'");
 			
@@ -117,7 +118,7 @@ public class VariableFieldExpression implements Expression<String, Document> {
 			
 		} else {
 			expression = new StringBuilder()
-				.append("record/datafield[@tag='")
+				.append("datafield[@tag='")
 				.append(specs.substring(0, 3))
 				.append("']/subfield[@code='")
 				.append(specs.charAt(specs.trim().length() - 1)).append("']")

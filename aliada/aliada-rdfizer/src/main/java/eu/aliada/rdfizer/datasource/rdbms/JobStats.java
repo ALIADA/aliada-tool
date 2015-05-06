@@ -47,7 +47,7 @@ public class JobStats {
     private BigDecimal triplesThroughput;
     
     @Column(name = "status_code", nullable = true)
-    private int statusCode;
+    private Integer statusCode;
     
     @Transient
     private List<ValidationMessage> validationMessages = new ArrayList<ValidationMessage>();
@@ -209,8 +209,8 @@ public class JobStats {
 		return statusCode;
 	}
 
-	public void setStatusCode(int statusCode) {
-		this.statusCode = statusCode;
+	public void setStatusCode(Integer statusCode) {
+		this.statusCode = (statusCode != null) ? statusCode : 0;
 	}
 
 	public List<ValidationMessage> getValidationMessages() {

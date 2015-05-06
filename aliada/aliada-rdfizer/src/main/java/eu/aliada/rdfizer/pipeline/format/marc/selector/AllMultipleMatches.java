@@ -16,8 +16,6 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import eu.aliada.rdfizer.pipeline.format.xml.ImmutableNodeList;
-
 /**
  * A composite expression that selects the multiple not-null evaluation of a set of expressions.
  * 
@@ -26,7 +24,7 @@ import eu.aliada.rdfizer.pipeline.format.xml.ImmutableNodeList;
  * @param <K> the record kind.
  */
 public class AllMultipleMatches<K> implements Expression<Map<String, List<String>>, K> {
-	private final Expression<ImmutableNodeList, K> [] expressions;
+	private final Expression<List<Node>, K> [] expressions;
 	private final static String TAG = "TAG";
 	private final static String INDICATORS = "INDICATORS";
 	private final static String SUBFIELDS = "SUBFIELDS";
@@ -40,7 +38,7 @@ public class AllMultipleMatches<K> implements Expression<Map<String, List<String
 	 * @param expressions the expressions that form the execution chain.
 	 */
 	@SafeVarargs
-	public AllMultipleMatches(final Expression<ImmutableNodeList, K> ... expressions) {
+	public AllMultipleMatches(final Expression<List<Node>, K> ... expressions) {
 		this.expressions = expressions;
 	}
 	
@@ -56,7 +54,7 @@ public class AllMultipleMatches<K> implements Expression<Map<String, List<String
 	public Map<String, List<String>> evaluate(final K target) {
 		final Map<String, List<String>> result = new HashMap<String, List<String>>(
 				expressions.length);
-		for (final Expression<ImmutableNodeList, K> expression : expressions) {
+		for (final Expression<List<Node>, K> expression : expressions) {
 			Map<String, Object> map = getMarcSpecs(expression.specs());
 			String tag = (String) map.get(TAG);
 			String[] indicators = (String[]) map.get(INDICATORS);

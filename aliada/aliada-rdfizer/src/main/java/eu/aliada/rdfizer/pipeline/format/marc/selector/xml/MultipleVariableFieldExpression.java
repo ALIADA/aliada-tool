@@ -5,14 +5,16 @@
 // Responsible: ALIADA Consortiums
 package eu.aliada.rdfizer.pipeline.format.marc.selector.xml;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.Document;
+import org.w3c.dom.Node;
 
 import eu.aliada.rdfizer.pipeline.format.marc.selector.Expression;
-import eu.aliada.rdfizer.pipeline.format.xml.ImmutableNodeList;
-import eu.aliada.rdfizer.pipeline.format.xml.XPath;
+import eu.aliada.rdfizer.pipeline.format.xml.OXPath;
 
 /**
  * A selector expression interpreter for MARCXML for mutiple variable fields.
@@ -39,7 +41,7 @@ import eu.aliada.rdfizer.pipeline.format.xml.XPath;
  */
 @Component
 @Scope("prototype")
-public class MultipleVariableFieldExpression implements Expression<ImmutableNodeList, Document> {
+public class MultipleVariableFieldExpression implements Expression<List<Node>, Document> {
 	static final String MISSING_PARENTHESIS_ERR_MESSAGE = "Invalid specs (%s): a parenthesis is missing.";
 	static final String BAD_INDICATORS_PATTERN_ERR_MESSAGE = "Invalid specs (%s): bad indicators pattern.";
 		
@@ -49,7 +51,7 @@ public class MultipleVariableFieldExpression implements Expression<ImmutableNode
 	
 
 	@Autowired
-	XPath xpath;	
+	OXPath xpath;	
 	/**
 	 * Builds a new expression with the given specs.
 	 * 
@@ -73,7 +75,7 @@ public class MultipleVariableFieldExpression implements Expression<ImmutableNode
 			String tag = specs.substring(0, indexOfOpeningParenthesis).trim();
 			
 			final StringBuilder expressionBuilder = new StringBuilder()
-				.append("record/datafield[@tag='")
+				.append("datafield[@tag='")
 				.append(tag)
 				.append("']");
 			
@@ -81,7 +83,7 @@ public class MultipleVariableFieldExpression implements Expression<ImmutableNode
 			
 		} else {
 			expression = new StringBuilder()
-				.append("record/datafield[@tag='")
+				.append("datafield[@tag='")
 				.append(specs.substring(0, 3))
 				.append("']")
 				.toString();
@@ -90,7 +92,7 @@ public class MultipleVariableFieldExpression implements Expression<ImmutableNode
 	}
 	
 	@Override
-	public ImmutableNodeList evaluate(final Document target) {
+	public List<Node> evaluate(final Document target) {
 		try {
 			return xpath.many(expression, target);
 		} catch (final Exception exception) {
