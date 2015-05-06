@@ -34,6 +34,7 @@
 #macro (wgs $v)<http://www.w3.org/2003/01/geo/wgs84_pos#$v>#end
 #macro (skos $v)<http://www.w3.org/2004/02/skos/core#$v>#end
 #macro (efrbroo $v)<http://erlangen-crm.org/efrbroo/$v>#end 
+#macro (aliada_p3 $v)<aliada:PX_$v>#end
 ## LIDO MACROS
 #macro(legalBody $legalBody $owner_s $owner_p)
     #if($legalBody)
@@ -307,3 +308,122 @@
 		#end
 	#end	
 #end
+
+
+
+#macro(mapping_aliada_p3_has_note_with_repeatable_tag $s $tag $subfield $record $type) 
+	#set($tagValues = $xpath.dfs($tag,$subfield,$record))
+	#foreach($tagValue in $tagValues) 
+		#if($tagValue) 
+    		#set($text = $function.escape($tagValue.textContent))
+			$s $type $text .
+		#end	
+	#end	
+#end	
+
+#macro(mapping_aliada_p3_has_note_with_no_repeatable_tag $s $tag $subfield $record $type) 
+	#set($tagValue = $xpath.df($tag,$subfield,$record))
+		#if($tagValue) 
+    		#set($text = $function.escape($tagValue.textContent))
+			$s $type $text .
+		#end	
+#end	
+
+##F2 Expression (instantiated as E36 Visual Item P2 has type E55 Type {Cartographic image}) P138 represents {P138.1 has type E55 Type = "Scale"} E1 CRM Entity
+#macro(mapping_aliada_instanced_with_repeatable_tag $s $tag $subfield $record $entity1 $entity2 $typeUri1 $typeUri2 $concept $predicate) 
+	#set($tagValues = $xpath.dfs($tag,$subfield,$record))
+	#foreach($tagValue in $tagValues) 
+		#if($tagValue) 
+    		#set($text = $function.escape($tagValue.textContent))
+			#set($ent2 = "#new_uri($entity2)")
+			#set($ent1 = "#new_uri($entity1)")
+			$ent2 $is_a $typeUri2 .
+			$ent1 $is_a  $typeUri1 .
+			$s $is_a $ent1 .
+			$s $P2_has_type $concept .
+			$s $predicate $text .
+			$text $is_a $ent2 .
+		#end	
+	#end	
+#end	
+
+##F2 Expression (instantiated as E36 Visual Item P2 has type E55 Type {Cartographic image}) P138 represents {P138.1 has type E55 Type = "Scale"} E1 CRM Entity
+#macro(mapping_aliada_instanced_with_no_repeatable_tag $s $tag $subfield $record $entity1 $entity2 $typeUri1 $typeUri2 $instanceEntity $concept $predicate) 
+	#set($tagValue = $xpath.df($tag,$subfield,$record))
+		#if($tagValue) 
+    		#set($text = $function.escape($tagValue.textContent))
+			#set($ent2 = "#new_uri($entity2)")
+			#set($ent1 = "#new_uri($entity1)")
+			$ent2 $is_a $typeUri2 .
+			$ent1 $is_a  $typeUri1 .
+			$s $is_a  $instanceEntity .
+			$s $P2_has_type $concept .
+			$s $predicate $text .
+			$text $is_a $ent2 .
+		#end	
+#end	
+
+
+##F22 Self-Contained Expression R3i realises F18 Serial work P3 has note {P3.1 has type E55 Type = “Expected frequency”} E62 String
+#macro(mapping_aliada_self_contained_with_repeatable_tag $s $tag $subfield $record $entity1 $entity2 $typeUri1 $typeUri2 $typeUri3 $predicate) 
+	#set($tagValues = $xpath.dfs($tag,$subfield,$record))
+	#foreach($tagValue in $tagValues) 
+		#if($tagValue) 
+    		#set($text = $function.escape($tagValue.textContent))
+			#set($ent1 = "#new_uri($entity1)")
+			$s $is_a $typeUri1 .
+			$s $typeUri3 $ent1 . 
+			$ent1 $is_a $typeUri2 .
+			$ent1 $predicate $tagValue .
+		#end	
+	#end	
+#end
+
+
+##F22 Self-Contained Expression R3i realises F18 Serial work P3 has note {P3.1 has type E55 Type = “Expected frequency”} E62 String
+#macro(mapping_aliada_self_contained_with_no_repeatable_tag $s $tag $subfield $record $entity1 $entity2 $typeUri1 $typeUri2 $typeUri3 $predicate) 
+	#set($tagValue = $xpath.df($tag,$subfield,$record))
+		#if($tagValue) 
+    		#set($text = $function.escape($tagValue.textContent))
+			#set($ent1 = "#new_uri($entity1)")
+			$s $is_a $typeUri1 .
+			$s $typeUri3 $ent1 .
+ 			$ent1 $is_a $typeUri2 .
+			$ent1 $predicate $tagValue .
+		#end	
+#end
+
+
+
+##F24 Expression R5 has component F2 Expression {P2 has type E55 Type = "Summary"}
+#macro(mapping_aliada_has_component_with_repeatable_tag $s $tag $subfield $record $entity1 $typeUri1 $typeUri2 $typeUri3 $predicate $concept) 
+	#set($tagValues = $xpath.dfs($tag,$subfield,$record))
+	#foreach($tagValue in $tagValues) 
+		#if($tagValue) 
+    		#set($text = $function.escape($tagValue.textContent))
+			#set($ent1 = "#new_uri($entity1)")
+			$s $predicate $typeUri1 .
+			$ent1 $is_a $typeUri2 .	
+			$ent1 $P2_has_type $concept .
+		#end	
+	#end	
+#end
+
+
+##F1 Work R16B was initiated by F27 Work Conception P16 used specific object {P16.1 mode of use: E55 Type = "supplemented work"} F1 Work
+#macro(mapping_aliada_was_initiated_with_repeatable_tag $s $tag $subfield $record $entity1 $typeUri1 $typeUri2 $predicate1 $predicate2) 
+	#set($tagValues = $xpath.dfs($tag,$subfield,$record))
+	#foreach($tagValue in $tagValues) 
+		#if($tagValue) 
+    		#set($text = $function.escape($tagValue.textContent))
+			#set($ent1 = "#new_uri($entity1)")
+			$s $predicate1 $ent1 .
+			$ent1 $is_a $typeUri1 .
+			$ent1 $predicate2 $tagValue .
+			$tagValue $is_a $typeUri2 .
+		#end	
+	#end	
+#end
+
+
+
