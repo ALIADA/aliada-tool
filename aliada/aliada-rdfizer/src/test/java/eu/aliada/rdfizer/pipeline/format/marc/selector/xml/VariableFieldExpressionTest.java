@@ -17,7 +17,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import eu.aliada.rdfizer.TestData;
-import eu.aliada.rdfizer.pipeline.format.xml.XPath;
+import eu.aliada.rdfizer.pipeline.format.xml.OXPath;
 
 /**
  * Test case for {@link VariableFieldExpression}.
@@ -85,7 +85,7 @@ public class VariableFieldExpressionTest implements TestData {
 	public void noTargetField() {
 		final Document document = newRecord(A_VARIABLE_FIELD_NAME, '#', '#', 'a');
 		final VariableFieldExpression expression = new VariableFieldExpression(A_VARIABLE_FIELD_NAME + "a");
-		expression.xpath = new XPath();
+		expression.xpath = new OXPath();
 		assertNull(expression.evaluate(document));
 	}	
 
@@ -96,7 +96,7 @@ public class VariableFieldExpressionTest implements TestData {
 	public void noTargetSubField() {
 		final Document document = newRecord(A_VARIABLE_FIELD_NAME, '#', '#', 'a');
 		final VariableFieldExpression expression = new VariableFieldExpression(A_VARIABLE_FIELD_NAME);
-		expression.xpath = new XPath();
+		expression.xpath = new OXPath();
 		assertNull(expression.evaluate(document));
 	}	
 	
@@ -108,7 +108,7 @@ public class VariableFieldExpressionTest implements TestData {
 		final String expectedValue = "This is the expected value";
 		final Document document = newRecord(A_VARIABLE_FIELD_NAME, '#', '#', 'a', expectedValue);
 		final VariableFieldExpression expression = new VariableFieldExpression(A_VARIABLE_FIELD_NAME + "a");
-		expression.xpath = new XPath();
+		expression.xpath = new OXPath();
 		assertEquals(expectedValue, expression.evaluate(document));
 	}	
 	
@@ -124,7 +124,7 @@ public class VariableFieldExpressionTest implements TestData {
 				"another value", 
 				"still another value");
 		final VariableFieldExpression expression = new VariableFieldExpression(A_VARIABLE_FIELD_NAME + "a");
-		expression.xpath = new XPath();
+		expression.xpath = new OXPath();
 		assertEquals(expectedValue, expression.evaluate(document));
 	}		
 
@@ -136,7 +136,7 @@ public class VariableFieldExpressionTest implements TestData {
 		final String expectedValue = "This is the expected value";
 		final Document document = newRecord(A_VARIABLE_FIELD_NAME, '1', '2', 'a', expectedValue);
 		final VariableFieldExpression expression = new VariableFieldExpression(A_VARIABLE_FIELD_NAME + "(12)a");
-		expression.xpath = new XPath();
+		expression.xpath = new OXPath();
 		assertEquals(expectedValue, expression.evaluate(document));
 	}
 	
@@ -151,7 +151,7 @@ public class VariableFieldExpressionTest implements TestData {
 		final String [] matchingPatterns = {"??", "1?", "?2"};
 		for (final String matchingPattern : matchingPatterns) {
 			final VariableFieldExpression expression = new VariableFieldExpression(A_VARIABLE_FIELD_NAME + "(" + matchingPattern + ")a");
-			expression.xpath = new XPath();
+			expression.xpath = new OXPath();
 			assertEquals(expectedValue, expression.evaluate(document));
 		}
 	}
@@ -166,7 +166,7 @@ public class VariableFieldExpressionTest implements TestData {
 		final String [] unmatchingPatterns = {"?3", "#?", "##", "44", "21"};
 		for (final String unmatchingPattern : unmatchingPatterns) {
 			final VariableFieldExpression expression = new VariableFieldExpression(A_VARIABLE_FIELD_NAME + "(" + unmatchingPattern + ")a");
-			expression.xpath = new XPath();
+			expression.xpath = new OXPath();
 			assertNull(expression.evaluate(document));
 		}
 	}

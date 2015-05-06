@@ -1,15 +1,17 @@
+// ALIADA - Automatic publication under Linked Data paradigm
+//          of library and museum data
+//
+// Component: aliada-rdfizer
+// Responsible: ALIADA Consortium
 package eu.aliada.rdfizer.pipeline.format.xml;
 
 
-import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.WeakHashMap;
 
 import javax.xml.namespace.QName;
-import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathExpressionException;
@@ -23,7 +25,8 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
 /**
- * ALIADA XPath tool.
+ * ALIADA O(ptimized)XPath tool.
+ * It only supports few XPATH expressions (those needed for the conversion job).
  * 
  * @author Andrea Gazzarini
  * @since 1.0
@@ -46,14 +49,28 @@ public class OXPath {
 		};
 	};
 	
+	/**
+	 * A Mutable {@link NodeList}.
+	 * 
+	 * @author Andrea Gazzarini
+	 * @since 2.0
+	 */
 	public static class MutableNodeList implements NodeList {
 
 		final List<Node> nodes;
 		
+		/**
+		 * Builds a new {@link MutableNodeList} with the given nodes.
+		 * 
+		 * @param nodes the nodes.
+		 */
 		public MutableNodeList(final List<Node> nodes) {
 			this.nodes = nodes;
 		}
 		
+		/**
+		 * 
+		 */
 		public MutableNodeList() {
 			this.nodes = new ArrayList<Node>();
 		}
@@ -183,7 +200,7 @@ public class OXPath {
 	 * @throws XPathExpressionException in case of XPATH failure.
 	 */
 	public String value(final String expression, final Object context) throws XPathExpressionException {
-		Element doc = (Element) (context instanceof Document ? ((Document)context).getDocumentElement() : context);
+		final Element doc = (Element) (context instanceof Document ? ((Document)context).getDocumentElement() : context);
 		String [] members = expression.split("/");
 		List<Node> current = null;
 		String firstExp = members[0];
@@ -201,49 +218,8 @@ public class OXPath {
 		}
 		
 		return (current != null && current.size() > 0) ? current.get(0).getTextContent() : "";
-//		final String result = (String) xpath(expression).evaluate(context, XPathConstants.STRING);
-//		return result != null && result.trim().length() != 0 ? result : null;
 	}	
-	
-	
-	public static void main(String[] args)  throws Exception {
-		System.out.println(Arrays.toString("controlfield[@tag='245']".split("/|\\[@")));
-			
-		final OXPath xpath = new OXPath();
-		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-		factory.setNamespaceAware(false);
-		Document dom = factory.newDocumentBuilder().parse(new File("/home/agazzarini/git/aliada-tool/aliada/aliada-rdfizer/src/test/resources/marcxml-artium.xml"));
-		NodeList list = dom.getDocumentElement().getElementsByTagName("*");
-		Element record = (Element) list.item(0);
-	
 		
-		
-		long begin = System.currentTimeMillis();
-//	
-		for (int i = 0; i < 1; i++) {
-//			xpath.value("leader", record);
-//			xpath.value("controlfield[@tag='001']", record);
-			System.out.println(xpath.dfs("245", "a", record).size());
-			
-//			xpath.one("datafield[@tag='245']/subfield[@code='a']", record).getTextContent();
-		}
-		
-		System.out.println(System.currentTimeMillis() - begin);
-	}
-	
-	
-//	private List<Node> select(Node node, String child) throws XPathExpressionException {
-//		List<Node> nodes = new ArrayList<Node>();
-//		final XPathExpression exp = xpath(child);
-//		NodeList result = (NodeList) exp.evaluate(node, XPathConstants.NODESET);
-//		if (result.getLength() > 0) {
-//			for (int i = 0; i < result.getLength(); i++) {
-//				nodes.add(result.item(i));
-//			}
-//		}
-//		return nodes;
-//	}
-	
 	private List<Node> select(NodeList list, String child) throws XPathExpressionException {
 		List<Node> nodes = new ArrayList<Node>();
 		for (int x = 0; x < list.getLength(); x++) {
@@ -257,21 +233,6 @@ public class OXPath {
 		}		
 		return nodes;
 	}
-	
-	
-//	private List<Node> select(List<Node> list, String child) throws XPathExpressionException {
-//		List<Node> nodes = new ArrayList<Node>();
-//		for (int x = 0; x < list.size(); x++) {
-//			final XPathExpression exp = xpath(child);
-//			NodeList result = (NodeList) exp.evaluate(list.get(x), XPathConstants.NODESET);
-//			if (result.getLength() > 0) {
-//				for (int i = 0; i < result.getLength(); i++) {
-//					nodes.add(result.item(i));
-//				}
-//			}
-//		}		
-//		return nodes;
-//	}	
 	
 	/**
 	 * Evaluates a given XPATH and returns the result as a single node.
@@ -300,7 +261,6 @@ public class OXPath {
 		}
 		
 		return (current != null && current.size() > 0) ? current.get(0) : null;
-//		return (Node)xpath(expression).evaluate(context, XPathConstants.NODE);
 	}	
 	
 	/**
@@ -331,7 +291,7 @@ public class OXPath {
 		
 		return (current != null) ? current : EMPTY_LIST;
 	}	
-//	
+
 	/**
 	 * Returns the value of the control field associated with the given tag.
 	 * 

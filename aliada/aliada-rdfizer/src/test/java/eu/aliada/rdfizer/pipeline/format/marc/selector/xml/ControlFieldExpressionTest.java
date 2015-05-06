@@ -17,7 +17,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import eu.aliada.rdfizer.TestData;
-import eu.aliada.rdfizer.pipeline.format.xml.XPath;
+import eu.aliada.rdfizer.pipeline.format.xml.OXPath;
 
 /**
  * Test case for {@link ControlFieldExpression}.
@@ -145,7 +145,7 @@ public class ControlFieldExpressionTest implements TestData{
 				A_CONTROL_FIELD_NAME + " [ 00   -   " + endIndex + " ]"};
 		for (final String specs : expressions) {			
 			final ControlFieldExpression expression = new ControlFieldExpression(specs);
-			expression.xpath = new XPath();
+			expression.xpath = new OXPath();
 			assertNull(expression.evaluate(document));
 		}
 	}		
@@ -157,7 +157,7 @@ public class ControlFieldExpressionTest implements TestData{
 	public void fullSelectorWithNoTargetField() {
 		final Document document = newRecord(null, null);
 		final ControlFieldExpression expression = new ControlFieldExpression(A_CONTROL_FIELD_NAME);
-		expression.xpath = new XPath();
+		expression.xpath = new OXPath();
 		assertNull(expression.evaluate(document));
 	}
 	
@@ -168,7 +168,7 @@ public class ControlFieldExpressionTest implements TestData{
 	public void partialSelectorWithNoTargetField() {
 		final Document document = newRecord(null, null);
 		final ControlFieldExpression expression = new ControlFieldExpression(A_CONTROL_FIELD_NAME + "[00-05]");
-		expression.xpath = new XPath();
+		expression.xpath = new OXPath();
 		assertNull(expression.evaluate(document));
 	}	
 	
@@ -179,7 +179,7 @@ public class ControlFieldExpressionTest implements TestData{
 	public void fullSelector() {
 		final Document document = newRecord(A_CONTROL_FIELD_NAME, A_CONTROL_FIELD_VALUE);
 		final ControlFieldExpression expression = new ControlFieldExpression(A_CONTROL_FIELD_NAME);
-		expression.xpath = new XPath();
+		expression.xpath = new OXPath();
 		assertEquals(A_CONTROL_FIELD_VALUE, expression.evaluate(document));
 	}
 	
@@ -201,7 +201,7 @@ public class ControlFieldExpressionTest implements TestData{
 		
 		for (final String specs : expressions) {			
 			final ControlFieldExpression expression = new ControlFieldExpression(specs);
-			expression.xpath = new XPath();
+			expression.xpath = new OXPath();
 			assertEquals(expectedValue, expression.evaluate(document));
 		}
 	}	
