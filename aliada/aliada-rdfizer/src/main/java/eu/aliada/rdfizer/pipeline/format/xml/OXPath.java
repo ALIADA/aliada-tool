@@ -111,6 +111,23 @@ public class OXPath {
 			this.matchingField = indexOfSquare == -1 ? targetChild : targetChild.substring(0, indexOfSquare);
 		}
 		
+		boolean matchesAttrFilters(final String expression, final Element element) {
+			int currentStartOffset = expression.indexOf("[");
+			int indexOfNextFilter = -1;
+			while ( (indexOfNextFilter = expression.indexOf('@', currentStartOffset)) != -1) {
+				final String filterName = expression.substring(indexOfNextFilter + 1, expression.indexOf("'", indexOfNextFilter)-1).trim();
+				final int valueStartIndex = expression.indexOf("'", indexOfNextFilter) + 1;
+				final int valueEndIndex = expression.indexOf("'", valueStartIndex + 1);
+				final String filterValue = expression.substring(valueStartIndex, valueEndIndex); 
+				final String actualValue = element.getAttribute(filterName);
+				if (!actualValue.equals(filterValue)) {
+					return false;
+				}
+				currentStartOffset = valueEndIndex;
+			}
+			return true;
+		}
+		
 		@Override
 		public Object evaluate(final Object item, final QName returnType) {
 			int indexOfSquareBracket = targetChild.indexOf("[");
@@ -125,12 +142,15 @@ public class OXPath {
 						if (indexOfSquareBracket == -1) {
 							return element.getTextContent();
 						} else {
-							final String name = targetChild.substring(indexOfSquareBracket + 2, targetChild.indexOf("="));
-							int valueStartIndex = targetChild.indexOf("'");
-							final String value = targetChild.substring(valueStartIndex+1, targetChild.lastIndexOf("'"));
-							if (element.getAttribute(name).equals(value)) {
+							if (matchesAttrFilters(targetChild, element)) {
 								return element.getTextContent();
 							}
+//							final String name = targetChild.substring(indexOfSquareBracket + 2, targetChild.indexOf("="));
+//							int valueStartIndex = targetChild.indexOf("'");
+//							final String value = targetChild.substring(valueStartIndex+1, targetChild.lastIndexOf("'"));
+//							if (element.getAttribute(name).equals(value)) {
+//								return element.getTextContent();
+//							}
 						}
 					}
 				}
@@ -143,12 +163,16 @@ public class OXPath {
 						if (indexOfSquareBracket == -1) {
 							return element.getTextContent();
 						} else {
-							final String name = targetChild.substring(indexOfSquareBracket + 2, targetChild.indexOf("="));
-							int valueStartIndex = targetChild.indexOf("'");
-							final String value = targetChild.substring(valueStartIndex+1, targetChild.lastIndexOf("'"));
-							if (element.getAttribute(name).equals(value)) {
+							if (matchesAttrFilters(targetChild, element)) {
 								return element;
 							}
+
+//							final String name = targetChild.substring(indexOfSquareBracket + 2, targetChild.indexOf("="));
+//							int valueStartIndex = targetChild.indexOf("'");
+//							final String value = targetChild.substring(valueStartIndex+1, targetChild.lastIndexOf("'"));
+//							if (element.getAttribute(name).equals(value)) {
+//								return element;
+//							}
 						}
 					}
 				}
@@ -165,10 +189,7 @@ public class OXPath {
 							if (indexOfSquareBracket == -1) {
 								result.addNode(element);
 							} else {
-								final String name = targetChild.substring(indexOfSquareBracket + 2, targetChild.indexOf("="));
-								int valueStartIndex = targetChild.indexOf("'");
-								final String value = targetChild.substring(valueStartIndex+1, targetChild.lastIndexOf("'"));
-								if (element.getAttribute(name).equals(value)) {
+								if (matchesAttrFilters(targetChild, element)) {
 									result.addNode(element);
 								}
 							}
@@ -293,7 +314,7 @@ public class OXPath {
 	 * @throws XPathExpressionException in case of XPATH failure.
 	 */
 	public List<Node> many(final String expression, final Object context) throws XPathExpressionException {
-		Element doc = (Element) (context instanceof Document ? ((Document)context).getDocumentElement() : context);
+		Element doc = (Element) ((context instanceof Document) ? ((Document)context).getDocumentElement() : context);
 		String [] members = expression.split("/");
 		List<Node> current = null;
 		String firstExp = members[0];
@@ -358,13 +379,18 @@ public class OXPath {
 	 * @throws XPathExpressionException in case of XPATH compilation failure.
 	 */
 	public List<Node> dfs(final String tag, final String code, final Object record) throws XPathExpressionException {
-		final String xpath = new StringBuilder("datafield[@tag='")
-			.append(tag)
-			.append("']/subfield[@code='")
-			.append(code)
-			.append("']")
-			.toString();
-		return many(xpath, record);
+		try {
+			final String xpath = new StringBuilder("datafield[@tag='")
+				.append(tag)
+				.append("']/subfield[@code='")
+				.append(code)
+				.append("']")
+				.toString();
+			return many(xpath, record);
+		} catch (Exception exception) {
+			System.out.println(tag + "$" + code + "=" + record.getClass());
+			throw new RuntimeException(exception);
+		}
 	}	
 	
 	/**

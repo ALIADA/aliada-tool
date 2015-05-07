@@ -45,7 +45,7 @@ $expression_s #efrbroo('R4_carriers_provided_by') $manifestation_s .
 
 ##Control Field Mapping
 #set($value006 = $xpath.cf("006",$root))
-#if($value006 && $value006.lenght() >= 18)
+#if($value006 && $value006.length() >= 18)
 #simplest_mapping_of_string ($work_s $value006.substring(0,5) "E55_Type" $E55_Type $P103_was_intended_for)
 #simplest_mapping_of_string ($work_s $value006.substring(1,4) "E55_Type" $E55_Type $P2_has_type)
 #simplest_mapping_of_string ($work_s $value006.substring(3,4) "E55_Type" $E55_Type $P2_has_type)
@@ -140,7 +140,7 @@ $expression_s #efrbroo('R4_carriers_provided_by') $manifestation_s .
 
 ##Control Field Mapping
 #set($cf006 = $xpath.cf("006",$root))
-#if($cf006 && $cf006.lenght() >= 18)
+#if($cf006 && $cf006.length() >= 18)
 	#simplest_mapping_of_string ($manifestation_s $cf006.substring(4,5) "E55_Type" $E55_Type "#ecrm('CLP2_should_have_type')")
 	#simplest_mapping_of_string ($F4_Manifestation_Singleton $cf006.substring(4,5) "E55_Type" $E55_Type $P2_has_type)
 	#simplest_mapping_of_string ($manifestation_s $cf006.substring(5,6) "E55_Type" $E55_Type "#ecrm('CLP2_should_have_type')")
@@ -228,7 +228,7 @@ $expression_s #efrbroo('R4_carriers_provided_by') $manifestation_s .
 
 ##Control Field Mapping
 #set($value006 = $xpath.cf("006",$root))
-#if($value006 && $value006.lenght() >= 18)
+#if($value006 && $value006.length() >= 18)
 	#simplest_mapping_of_string ($expression_s $value006.substring(0,1) "E55_Type" $E55_Type $P2_has_type)
 	#simplest_mapping_of_string ($expression_s $value006.substring(1,2) "E55_Type" $E55_Type $P2_has_type)
 	#simplest_mapping_of_string ($expression_s $value006.substring(2,3) "E55_Type" $E55_Type $P2_has_type)
@@ -236,17 +236,17 @@ $expression_s #efrbroo('R4_carriers_provided_by') $manifestation_s .
 	#set($value006_01 = $value006.substring(0,1))
 	#set($value006_02 = $value006.substring(1,2))
 #if($value006_01)
-	#mapping_aliada_self_contained_with_repeatable_tag($expression $value006_01 "F22_Self-Contained_Expression" "F18_Serial_work" "#efrbroo('F22_Self-Contained_Expression')" "#efrbroo('F18_Serial_work')" "#efrbroo('R3i_realises')" "#aliada_p3('expected_frequency')")
+	##mapping_aliada_self_contained_with_repeatable_tag($expression $value006_01 "F22_Self-Contained_Expression" "F18_Serial_work" "#efrbroo('F22_Self-Contained_Expression')" "#efrbroo('F18_Serial_work')" "#efrbroo('R3i_realises')" "#aliada_p3('expected_frequency')")
 #end
 
 #if($value006_02)
-	#mapping_aliada_self_contained_with_repeatable_tag($expression $value006_02 "F22_Self-Contained_Expression" "F18_Serial_work" "#efrbroo('F22_Self-Contained_Expression')" "#efrbroo('F18_Serial_work')" "#efrbroo('R3i_realises')" "#aliada_p3('expected_frequency')")
+	##mapping_aliada_self_contained_with_repeatable_tag($expression $value006_02 "F22_Self-Contained_Expression" "F18_Serial_work" "#efrbroo('F22_Self-Contained_Expression')" "#efrbroo('F18_Serial_work')" "#efrbroo('R3i_realises')" "#aliada_p3('expected_frequency')")
 #end
 
 
 #end
 #set($value008 = $xpath.cf("008",$root))
-#if($value008 && $value008.lenght() >= 40)
+#if($value008 && $value008.length() >= 40)
 #set($value008_7_10 = $value008.substring(6,9))
 	#if($value008_7_10)
 		#mapping_with_not_repeatable_tag_four_entities($value008_7_10 $manifestation_s "F24_Publication_Expression" "E33_Linguistic_Object" "E55_Type" "$F24_Publication_Expression" "#ecrm('E33_Linguistic_Object')" "#ecrm('E55_Type')" "#ecrm('CLR6_should_carry')" "#ecrm('P148_has_component')" "$P2_has_type" )
