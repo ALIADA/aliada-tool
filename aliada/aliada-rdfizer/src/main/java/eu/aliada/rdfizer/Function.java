@@ -23,7 +23,6 @@ import com.hp.hpl.jena.sparql.util.FmtUtils;
 
 import eu.aliada.rdfizer.datasource.Cache;
 import eu.aliada.rdfizer.datasource.rdbms.JobInstance;
-import eu.aliada.rdfizer.pipeline.format.xml.ImmutableNodeList;
 import eu.aliada.rdfizer.pipeline.format.xml.XPath;
 import eu.aliada.rdfizer.pipeline.nlp.NERService;
 import eu.aliada.shared.ID;
@@ -208,7 +207,7 @@ public class Function {
 	 * @throws XPathExpressionException in case of XPATH failure.
 	 */
 	public Map<String, String> mner(final String tag, final String code, final Object record) throws XPathExpressionException {
-		final ImmutableNodeList list = xpath.dfs(tag, code, record);
+		final List<Node> list = xpath.dfs(tag, code, record);
 		final StringBuilder builder = new StringBuilder();
 		for (final Node node : list) {
 			builder.append(node.getTextContent()).append("\n");

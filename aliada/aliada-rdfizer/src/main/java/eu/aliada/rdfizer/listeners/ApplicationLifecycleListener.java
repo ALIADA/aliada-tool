@@ -39,7 +39,7 @@ public class ApplicationLifecycleListener implements ServletContextListener {
 		try {
 			mxServer.unregisterMBean(ManagementRegistrar.RDFIZER_OBJECT_NAME);
 		} catch (final Exception exception) {
-			logger.error(MessageCatalog._00042_MX_SUBSYSTEM_FAILURE, exception);
+			// Nothing to be done here...
 		}
 
 		logger.info(MessageCatalog._00012_STOPPED);	

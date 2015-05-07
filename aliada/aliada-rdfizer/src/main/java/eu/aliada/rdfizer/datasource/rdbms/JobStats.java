@@ -7,6 +7,7 @@ package eu.aliada.rdfizer.datasource.rdbms;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -47,7 +48,13 @@ public class JobStats {
     private BigDecimal triplesThroughput;
     
     @Column(name = "status_code", nullable = true)
-    private int statusCode;
+    private Integer statusCode;
+
+    @Transient
+    private Date startDate;
+    
+    @Transient
+    private Date endDate;
     
     @Transient
     private List<ValidationMessage> validationMessages = new ArrayList<ValidationMessage>();
@@ -209,8 +216,8 @@ public class JobStats {
 		return statusCode;
 	}
 
-	public void setStatusCode(int statusCode) {
-		this.statusCode = statusCode;
+	public void setStatusCode(Integer statusCode) {
+		this.statusCode = (statusCode != null) ? statusCode : 0;
 	}
 
 	public List<ValidationMessage> getValidationMessages() {
@@ -219,5 +226,15 @@ public class JobStats {
 
 	public void setValidationMessages(List<ValidationMessage> validationMessages) {
 		this.validationMessages = validationMessages;
+	}
+
+	@XmlElement(name = "start-date")
+	public Date getStartDate() {
+		return instance != null ? instance.getStartDate() : null;
+	}
+
+	@XmlElement(name = "end-date")
+	public Date getEndDate() {
+		return instance != null ? instance.getEndDate() : null;
 	}
 }

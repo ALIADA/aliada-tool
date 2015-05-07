@@ -16,7 +16,7 @@ import org.w3c.dom.Element;
 import eu.aliada.rdfizer.datasource.rdbms.JobInstance;
 import eu.aliada.rdfizer.framework.MainSubjectDetectionRule;
 import eu.aliada.rdfizer.framework.UnableToProceedWithConversionException;
-import eu.aliada.rdfizer.pipeline.format.xml.XPath;
+import eu.aliada.rdfizer.pipeline.format.xml.OXPath;
 
 /**
  * Main subject detection rule implementation for DC records.
@@ -27,7 +27,7 @@ import eu.aliada.rdfizer.pipeline.format.xml.XPath;
 @Component("dc-subject-detection-rule")
 public class DublinCoreMainSubjectDetectionRule implements MainSubjectDetectionRule<Element, String> {
 	@Autowired
-	private XPath xpath;
+	private OXPath xpath;
 	
 	@Override
 	public String computeFrom(final Element input, final JobInstance configuration) throws UnableToProceedWithConversionException {
