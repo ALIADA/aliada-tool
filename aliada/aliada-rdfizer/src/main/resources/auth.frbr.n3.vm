@@ -28,10 +28,18 @@
 				#simplest_mapping_with_repeatable_tag ($person_s "374" "a" $root "E55_Type" $E55_Type $P2_has_type)
 				#simplest_mapping_with_no_repeatable_tag ($person_s "375" "a" $root "E55_Type" $E55_Type $P2_has_type)
 				#mapping_with_repeatable_tag_three_entities($xpath.dfs("377","a",$root) $person_s "E7_Activity" "E56_Language" "#ecrm('E7_Activity')" "#ecrm('E56_Language')" "#ecrm('P14i_performed')" "#ecrm('R60_used_to_use_language')")
-				#set($abstract = $xpath.df("678","a",$record))
+				#set($abstract = $xpath.df("678","a",$root))
 				#if($abstract) 
 					$person_s $P3_has_note "$function.escape($abstract.textContent)" . 
 				#end
+				#set($notes = $xpath.many("datafield[@tag='500']", $root))
+				#foreach($note in $notes) 
+					#set($a = $xpath.value("subfield[@code='a']", $note))
+					#set($i = $xpath.value("subfield[@code='i']", $note))
+					#if($a && $a.trim().length() > 0 && $i && $i.trim().length() > 0)
+						$person_s $P3_has_note "${function.escape(${i})}: ${function.escape(${a})}" .
+					#end	
+				#end	
 				#break	
 			#end	
     	#end	
@@ -53,10 +61,18 @@
 				#mapping_with_repeatable_tag_three_entities($xpath.dfs("370","f",$root) $family_s "E27_Site" "E53_Place" "#ecrm('E27_Site')" "#ecrm('E53_Place')" "#ecrm('P51i_is_former_or_current_owner_of')" "#ecrm('P53_has_former_or_current_location')")
 				#mapping_with_repeatable_tag_three_entities($xpath.dfs("372","a",$root) $family_s "E7_Activity" "E55_Type" "#ecrm('E7_Activity')" $E55_Type "#ecrm('P14i_performed')" $P2_has_type)
 				#mapping_with_repeatable_tag_three_entities($xpath.dfs("377","a",$root) $family_s "E7_Activity" "E56_Language" "#ecrm('E7_Activity')" "#ecrm('E56_Language')" "#ecrm('P14i_performed')" "#ecrm('R60_used_to_use_language')")
-				#set($history = $xpath.df("678","a",$record))
+				#set($history = $xpath.df("678","a",$root))
 				#if($history) 
 					$family_s $P3_has_note "$function.escape($history.textContent)" . 
-				#end				
+				#end
+				#set($notes = $xpath.many("datafield[@tag='500']", $root))	
+				#foreach($note in $notes) 
+					#set($a = $xpath.value("subfield[@code='a']"))
+					#set($i = $xpath.value("subfield[@code='i']"))
+					#if($a && $a.trim().length() > 0 && $i && $i.trim().length() > 0)
+						$family_s $P3_has_note "${function.escape(${i})}: ${function.escape(${a})}" .
+					#end	
+				#end					
 				#break
 			#end	
 		#end	
@@ -80,7 +96,7 @@
 				#simplest_mapping_with_repeatable_tag ($corporate_s "371" "a" $root "E45_Address" "#ecrm('E45_Address')" "#ecrm('P76_has_contact_point')")
 				#mapping_with_repeatable_tag_three_entities($xpath.dfs("372","a",$root) $corporate_s "E7_Activity" "E55_Type" "#ecrm('E7_Activity')" $E55_Type "#ecrm('P14i_performed')" $P2_has_type)
 				#mapping_with_repeatable_tag_three_entities($xpath.dfs("377","a",$root) $corporate_s "E7_Activity" "E56_Language" "#ecrm('E7_Activity')" "#ecrm('E56_Language')" "#ecrm('P14i_performed')" "#ecrm('R60_used_to_use_language')")
-				#set($abstract = $xpath.df("678","a",$record))
+				#set($abstract = $xpath.df("678","a",$root))
 				#if($abstract) 
 					$person_s $P3_has_note "$function.escape($abstract.textContent)" . 
 				#end

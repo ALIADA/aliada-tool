@@ -130,6 +130,9 @@ public class OXPath {
 		
 		@Override
 		public Object evaluate(final Object item, final QName returnType) {
+			if (targetChild.startsWith("@")) {
+				return ((Element) item).getAttribute(targetChild.substring(1));
+			}
 			int indexOfSquareBracket = targetChild.indexOf("[");
 			if (returnType == XPathConstants.STRING) {
 				if (targetChild.startsWith("@")) {
@@ -179,7 +182,7 @@ public class OXPath {
 				return null;
 			} else if (returnType == XPathConstants.NODESET) {
 				final NodeList list = ((Element) item).getChildNodes();
-				if (list.getLength() == 0) return list; 
+				if (list == null || list.getLength() == 0) return EMPTY_LIST; 
 				MutableNodeList result = new MutableNodeList();		
 				for (int i = 0; i < list.getLength(); i++) {
 					Node n = list.item(i);
