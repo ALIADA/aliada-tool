@@ -56,7 +56,7 @@ public interface MessageCatalog {
 	String _00049_DEBUG_TRIPLES = LT + MODULE_NAME + "-00049> : *** TRIPLES ***\n%s";
 	String _00050_RDFSTORE_FAILURE = LT + MODULE_NAME + "-00050> : RDF Store failure has been detected. See below for further details.";
 	String _00051_IO_FAILURE = LT + MODULE_NAME + "-00051> : I/O failure has been detected. See below for further details.";
-	String _00052_CLASSIFIER_LOAD_FAILURE = LT + MODULE_NAME + "-00052> : Unable to load the classifier %s. See below for further details.";
+	String _00052_CLASSIFIER_LOAD_FAILURE = LT + MODULE_NAME + "-00052> : Unable to load the classifier %s. Check the classifier file, if it exists and does have the right permissions.";
 	String _00053_VALIDATION_SAMPLE_SIZE = LT + MODULE_NAME + "-00053> : Validation sample size is set to %s";	
 	String _00054_RECORD_ADDED_TO_VALIDATION_SAMPLE = LT + MODULE_NAME + "-00054> : Triples belonging to job id %s have been added to validation sample (actual size is %s, validation will be triggered on %s) ";
 	String _00055_VALIDATING = LT + MODULE_NAME + "-00055> : Job id %s is going to be validated...";

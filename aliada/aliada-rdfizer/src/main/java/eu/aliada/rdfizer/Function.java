@@ -24,7 +24,8 @@ import com.hp.hpl.jena.sparql.util.FmtUtils;
 import eu.aliada.rdfizer.datasource.Cache;
 import eu.aliada.rdfizer.datasource.rdbms.JobInstance;
 import eu.aliada.rdfizer.pipeline.format.xml.XPath;
-import eu.aliada.rdfizer.pipeline.nlp.NERService;
+import eu.aliada.rdfizer.pipeline.nlp.NERSingletonService;
+import eu.aliada.rdfizer.pipeline.nlp.NERThreadLocalService;
 import eu.aliada.shared.ID;
 import eu.aliada.shared.Strings;
 import eu.aliada.shared.rdfstore.RDFStoreDAO;
@@ -47,7 +48,7 @@ public class Function {
 	private XPath xpath;
 	
 	@Autowired
-	private NERService ner;
+	private NERSingletonService ner;
 	
 	/**
 	 * Returns a new generated UID.

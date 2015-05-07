@@ -21,7 +21,7 @@ import eu.aliada.rdfizer.datasource.Cache;
  */
 public class NERServiceTestCase {
 
-	NERService service;
+	NERSingletonService service;
 
 	/**
 	 * Setup fixture for this test case.
@@ -29,7 +29,7 @@ public class NERServiceTestCase {
 	 */
 	@Before
 	public void setUp() {
-		service = new NERService();
+		service = new NERSingletonService();
 		service.cache = new Cache();
 		service.classifierFilePath = "../src/site/nlp/english.all.7class.distsim.crf.ser.gz";
 	}

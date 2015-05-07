@@ -10,13 +10,11 @@ import java.util.regex.Pattern;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
 
 import edu.stanford.nlp.ie.AbstractSequenceClassifier;
 import edu.stanford.nlp.ie.crf.CRFClassifier;
 import edu.stanford.nlp.ling.CoreLabel;
 import eu.aliada.rdfizer.datasource.Cache;
-import eu.aliada.rdfizer.log.MessageCatalog;
 import eu.aliada.shared.log.Log;
 
 /**
@@ -25,14 +23,13 @@ import eu.aliada.shared.log.Log;
  * @author Andrea Gazzarini
  * @since 1.0
  */
-@Component
-public class NERService {
+public abstract class NERService {
 	
-	private static final Log LOGGER = new Log(NERService.class);
+	protected static final Log LOGGER = new Log(NERService.class);
 	
-	private static Map<String, String> EMPTY_MAP = new HashMap<String, String>();
-	private static Set<String> EMPTY_SET = new HashSet<String>();
-	private static final CRFClassifier<CoreLabel> NULL_OBJECT_CLASSIFIER = new CRFClassifier<CoreLabel>(new Properties()) {
+	protected static Map<String, String> EMPTY_MAP = new HashMap<String, String>();
+	protected static Set<String> EMPTY_SET = new HashSet<String>();
+	protected static final CRFClassifier<CoreLabel> NULL_OBJECT_CLASSIFIER = new CRFClassifier<CoreLabel>(new Properties()) {
 		@Override
 		public String classifyWithInlineXML(String sentences) {
 			return "";
@@ -48,18 +45,9 @@ public class NERService {
 
 	@Autowired
 	Cache cache;
-
-	private ThreadLocal<AbstractSequenceClassifier<CoreLabel>> classifiers = new ThreadLocal<AbstractSequenceClassifier<CoreLabel>>() {
-		protected AbstractSequenceClassifier<CoreLabel> initialValue() {
-			try {
-				return CRFClassifier.getClassifier(classifierFilePath);
-			} catch (final Exception exception) {
-				LOGGER.error(MessageCatalog._00052_CLASSIFIER_LOAD_FAILURE, exception, classifierFilePath);
-				return NULL_OBJECT_CLASSIFIER;
-			}
-		};
-	};
 	
+	abstract AbstractSequenceClassifier<CoreLabel> classifier();
+
 	/**
 	 * Executes the NER on a given text.
 	 *  
@@ -70,9 +58,9 @@ public class NERService {
 			return EMPTY_MAP;
 		}
 		
-		final String labeledText = classifiers.get().classifyWithInlineXML(text);
-		final Set<String> tags = classifiers.get().labels();
-		final String background = classifiers.get().backgroundSymbol();
+		final String labeledText = classifier().classifyWithInlineXML(text);
+		final Set<String> tags = classifier().labels();
+		final String background = classifier().backgroundSymbol();
 		final StringBuilder tagPattern = new StringBuilder();
 		
 		if (tags == null || tags.isEmpty()) {

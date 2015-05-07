@@ -66,36 +66,36 @@
 			<setHeader headerName="format">
 				<constant>auth</constant>
 			</setHeader>
-			<to uri="seda:sanity-check-channel" />
+			<to uri="seda:sanity-check-channel?concurrentConsumers=5&amp;size=1000&amp;blockWhenFull=true" />
 		</route>
 		<route>
 			<from uri="file:{{lido.input.dir}}?move=../.done&amp;preMove=.working" />
 			<setHeader headerName="format">
 				<constant>lido</constant>
 			</setHeader>
-			<to uri="seda:sanity-check-channel" />
+			<to uri="seda:sanity-check-channel?concurrentConsumers=5&amp;size=1000&amp;blockWhenFull=true" />
 		</route>
 		<route>
 			<from uri="file:{{marcxml.input.dir}}?move=../.done&amp;preMove=.working" />
 			<setHeader headerName="format">
 				<constant>marcxml</constant>
 			</setHeader>
-			<to uri="seda:sanity-check-channel" />
+			<to uri="seda:sanity-check-channel?concurrentConsumers=5&amp;size=1000&amp;blockWhenFull=true" />
 		</route>
 		<route>
 			<from uri="file:{{dc.input.dir}}?move=../.done&amp;preMove=.working" />
 			<setHeader headerName="format">
 				<constant>dc</constant>
 			</setHeader>
-			<to uri="seda:sanity-check-channel" />
+			<to uri="seda:sanity-check-channel?concurrentConsumers=5&amp;size=1000&amp;blockWhenFull=true" />
 		</route>		
 		<route>
-			<from uri="seda:sanity-check-channel" />
+			<from uri="seda:sanity-check-channel?concurrentConsumers=5&amp;size=1000&amp;blockWhenFull=true" />
 			<process ref="validate_input_path" />
-			<to uri="seda:records-channel" />
+			<to uri="seda:records-channel?concurrentConsumers=5&amp;size=1000&amp;blockWhenFull=true" />
 		</route>
 		<route>
-			<from uri="seda:records-channel" />
+			<from uri="seda:records-channel?concurrentConsumers=5&amp;size=1000&amp;blockWhenFull=true" />
 			<choice>
 				<when>
 					<simple>${header.format} == 'auth'</simple>
@@ -196,7 +196,7 @@
 		</route>
 		<route> 
 			<from uri="seda:triples-channel?concurrentConsumers=10&amp;size=250&amp;blockWhenFull=true" />
-			<process ref="no-op"/>
+			<process ref="add-2-rdf-store"/>
 		</route>
 	</camelContext>
 </beans>

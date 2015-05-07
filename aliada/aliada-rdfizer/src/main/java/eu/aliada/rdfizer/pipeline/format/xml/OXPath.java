@@ -379,18 +379,13 @@ public class OXPath {
 	 * @throws XPathExpressionException in case of XPATH compilation failure.
 	 */
 	public List<Node> dfs(final String tag, final String code, final Object record) throws XPathExpressionException {
-		try {
-			final String xpath = new StringBuilder("datafield[@tag='")
-				.append(tag)
-				.append("']/subfield[@code='")
-				.append(code)
-				.append("']")
-				.toString();
-			return many(xpath, record);
-		} catch (Exception exception) {
-			System.out.println(tag + "$" + code + "=" + record.getClass());
-			throw new RuntimeException(exception);
-		}
+		final String xpath = new StringBuilder("datafield[@tag='")
+			.append(tag)
+			.append("']/subfield[@code='")
+			.append(code)
+			.append("']")
+			.toString();
+		return many(xpath, record);
 	}	
 	
 	/**
