@@ -116,12 +116,12 @@
 		<RestrictTo> ?b &lt;http://rdf.freebase.com/ns/type.object.type&gt; &lt;http://rdf.freebase.com/ns/film.film&gt; . </RestrictTo>
 	  </TargetDataset>
 	  <LinkageRule>
-		<Compare id="unnamed_21" metric="levenshteinDistance" threshold="1">
-			<TransformInput id="unnamed_22" function="lowerCase">
-				<Input id="unnamed_23" path="?book/ecrm:P102_has_title[&lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#type&gt; = &lt;http://erlangen-crm.org/current/E35_Title&gt;]/ecrm:P3_has_note"/>
+		<Compare id="unnamed_26" metric="levenshteinDistance" threshold="1">
+			<TransformInput id="unnamed_27" function="lowerCase">
+				<Input id="unnamed_28" path="?book/ecrm:P102_has_title[&lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#type&gt; = &lt;http://erlangen-crm.org/current/E35_Title&gt;]/ecrm:P3_has_note"/>
 			</TransformInput>
-			<TransformInput id="unnamed_24" function="lowerCase">
-				<Input id="unnamed_25" path="?b/rdfs:label"/>
+			<TransformInput id="unnamed_29" function="lowerCase">
+				<Input id="unnamed_30" path="?b/rdfs:label"/>
 			</TransformInput>
 			<Param name="minChar" value="0"/>
 			<Param name="maxChar" value="z"/>
