@@ -42,13 +42,13 @@
         ## LEGAL BODY NAME BEGIN
         #set($repositoryNames = $xpath.many("legalBodyName/appellationValue",$legalBody))
 		#foreach($repositoryName in $repositoryNames)
-    		#set($value = $function.escape($repositoryName.gmant))
+    		#set($value = $function.escape($repositoryName.textContent))
 			#if($value)
-				#set($lang = $xpath.one("@lang", $repositoryName))
+				#set($lang = $xpath.value("@lang", $repositoryName))
 	        	#set($repository_appellation = "#uri('E82_Actor_Appellation' $value)")
 	        	$repository_appellation $is_a #ecrm("E82_Actor_Appellation") .
-	         	#if($lang)
-		        	$repository_appellation $P3_has_note "$value"@$lang.textContent .
+	         	#if($lang && $lang.trim().length() > 0)
+		        	$repository_appellation $P3_has_note "$value"@$lang .
 		        #else
 		        	$repository_appellation $P3_has_note "$value" .
 	        	#end
@@ -59,11 +59,11 @@
 	        	#end
 	        	$actor #ecrm("P131_is_identified_by") $repository_appellation .
 	        #end	
-			#set($lang = $xpath.one("@lang", $repositoryName))
+			#set($lang = $xpath.value("@lang", $repositoryName))
         	#set($repository_appellation = "#uri('E82_Actor_Appellation' $value)")
         	$repository_appellation $is_a #ecrm("E82_Actor_Appellation") .
-         	#if($lang)
-	        	$repository_appellation $P3_has_note "$value"@$lang.textContent .
+	        #if($lang && $lang.trim().length() > 0)
+	        	$repository_appellation $P3_has_note "$value"@$lang .
 	        #else
 	        	$repository_appellation $P3_has_note "$value" .
         	#end

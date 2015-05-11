@@ -236,6 +236,8 @@ public class OXPath {
 		List<Node> current = null;
 		String firstExp = members[0];
 		final XPathExpression exp = xpath(firstExp);
+		Object obj = exp.evaluate(doc, XPathConstants.NODESET);
+		if (obj instanceof String) return (String)obj;
 		NodeList topLevel = (NodeList) exp.evaluate(doc, XPathConstants.NODESET);
 		if (members.length == 1) {
 			current = new ArrayList<Node>();
