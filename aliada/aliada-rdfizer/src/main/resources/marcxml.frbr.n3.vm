@@ -223,7 +223,7 @@ $expression_s #efrbroo('R4_carriers_provided_by') $manifestation_s .
 #simplest_mapping_with_repeatable_tag ($manifestation_s "600" "h" $root "E55_Type" $E55_Type $CLP2_should_have_type)
 
 
-## EXPRESSION
+## START EXPRESSION
 
 ##Control Field Mapping
 #set($value006 = $xpath.cf("006",$root))

@@ -406,7 +406,7 @@
 
 
 
-##F24 Expression R5 has component F2 Expression {P2 has type E55 Type = "Summary"}
+##F24 Expression R5 has component F2 Expression {P2 has type E55 Type = "Summary"} .
 #macro(mapping_aliada_has_component_with_repeatable_tag $s $tag $subfield $record $entity1 $typeUri1 $typeUri2 $predicate $concept) 
 	#set($tagValues = $xpath.dfs($tag,$subfield,$record))
 	#foreach($tagValue in $tagValues) 
