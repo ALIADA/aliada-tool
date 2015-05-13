@@ -29,7 +29,7 @@ public final class CheckImportError {
 	private static final int TYPE_BIBLIOGRAPHIC = 0;
 	private static final int TYPE_AUTHORITY = 1;
 	private static final int TYPE_LIDO = 2;
-
+	private static final int TYPE_DRUPAL = 3;
 	/**
 	 * Class constructor.
 	 * 
@@ -87,6 +87,17 @@ public final class CheckImportError {
 		setFileType(TYPE_LIDO);
 	}
 
+	/**
+	 * The method is used by identify a drupal file.
+	 * 
+	 * @see
+	 * @since 1.0
+	 */
+	public static void putDrupalType() {
+		setFileType(TYPE_DRUPAL);
+	}
+
+	
 	/**
 	 * The method is used by control if the file is bibliographic or authority
 	 * type and if the leader tags are correct.
