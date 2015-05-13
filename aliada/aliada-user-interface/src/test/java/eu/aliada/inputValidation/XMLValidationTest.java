@@ -24,14 +24,13 @@ public class XMLValidationTest extends TestCase {
         XMLValidation xmlVal = new XMLValidation();
         boolean result = 
                 //LIDO
-                //xmlVal.isValidatedXMLFile("src/test/resources/lido/lido_mFBA.xml",
-                //"src/main/resources/xmlValidators/lido-v1.0.xsd");
+                //xmlVal.isValidatedXMLFile("src/test/resources/lido/lidoMFAB_modified.xml","src/main/resources/xmlValidators/lido-v1.0.xsd");
                 //MARC bib
-                //xmlVal.isValidatedXMLFile("src/test/resources/marc/marc_bib.xml",
-                //"src/main/resources/xmlValidators/MARC21slim.xsd");
+                //xmlVal.isValidatedXMLFile("src/test/resources/marc/Parte8_corregido.xml", "src/main/resources/xmlValidators/MARC21slim.xsd");
                 //MARC aut
-                xmlVal.isValidatedXMLFile("src/test/resources/marc/marc_aut.xml",
-                "src/main/resources/xmlValidators/MARC21slim.xsd");
+                //xmlVal.isValidatedXMLFile("src/test/resources/marc/marc_aut.xml","src/main/resources/xmlValidators/MARC21slim.xsd");
+        		//DC
+        xmlVal.isValidatedXMLFile("src/test/resources/drupal/podcastXML.xml", "src/main/resources/xmlValidators/dc.xsd");
         if (result) {
             log.info("BIEN");
         } else {

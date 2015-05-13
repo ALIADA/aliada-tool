@@ -22,11 +22,13 @@ public class WellFormedTest extends TestCase{
     public void testWellFormed() {
         WellFormed wf = new WellFormed();
         //LIDO
-        //boolean result = wf.isWellFormedXML("src/test/resources/lido/lido_elGreco.xml");
+        //boolean result = wf.isWellFormedXML("src/test/resources/lido/lidoMFAB_modified.xml");
         //MARC bib
-        //boolean result = wf.isWellFormedXML("src/test/resources/marc/marc_bib.xml");
+        //boolean result = wf.isWellFormedXML("src/test/resources/marc/Parte8_corregido.xml");
         //MARC aut
-        boolean result = wf.isWellFormedXML("src/test/resources/marc/marc_aut.xml");
+        //boolean result = wf.isWellFormedXML("src/test/resources/marc/marc_aut.xml");
+        //DC
+        boolean result = wf.isWellFormedXML("src/test/resources/drupal/dc_ART.xml");
         if (result) {
             log.info("BIEN");
         } else {

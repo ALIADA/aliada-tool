@@ -1,0 +1,1445 @@
+<OAI-PMH xmlns="http://www.openarchives.org/OAI/2.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/ http://www.openarchives.org/OAI/2.0/OAI-PMH.xsd">
+<responseDate>2014-12-12T10:36:11Z</responseDate>
+<request verb="ListRecords" metadataPrefix="oai_dc">http://aliada-project</request>
+<ListRecords>
+<record>
+<header>
+<identifier>oai:aliada-project:7111</identifier>
+<datestamp>2014-03-31T08:28:40Z</datestamp>
+</header>
+<metadata>
+<oai_dc:dc xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+<dc:title>Jaime Davidovich</dc:title>
+<dc:description>
+Exposición: Jaime Davidovich.
+http://www.artium.org/Castellano/Exposiciones/Exposicion/tabid/176/language/es-ES/Default.aspx?pidExposicion=25
+(2010)
+Conversaciones con Jaime Davidovich donde analiza su producción artística entre 1968 y 1984, a modo de viaje que va desde su obra pictórica, pasando por la experimentación con el vídeo, hasta su encuentro con la televisión...
+</dc:description>
+<dc:creator>Jaime Davidovich</dc:creator>
+<dc:subject>Conversaciones con...</dc:subject>
+<dc:source>http://www.ivoox.com/playerivoox_ee_2025617_1.html</dc:source>
+<dc:identifier>Davidovich, Jaime</dc:identifier>
+</oai_dc:dc>
+</metadata>
+</record>
+<record>
+<header>
+<identifier>oai:aliada-project:7112</identifier>
+<datestamp>2014-03-31T08:32:31Z</datestamp>
+</header>
+<metadata>
+<oai_dc:dc xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+<dc:title>Patti Smith</dc:title>
+<dc:description>
+Exposición:Written Portrait
+(
+2008)
+http://www.artium.org/Castellano/Exposiciones/Exposicion/tabid/176/language/es-ES/Default.aspx?pidExposicion=41
+Written Portrait comienza el recorrido a través de los dibujos más tempranos, a mediados de los sesenta, cuando da los primeros pasos creativos.
+</dc:description>
+<dc:creator>Patti Smith</dc:creator>
+<dc:subject>Visitas guiadas</dc:subject>
+<dc:source>http://www.ivoox.com/playerivoox_ee_1257565_1.html</dc:source>
+<dc:identifier>Smith, Patti</dc:identifier>
+</oai_dc:dc>
+</metadata>
+</record>
+<record>
+<header>
+<identifier>oai:aliada-project:7114</identifier>
+<datestamp>2014-03-31T08:30:02Z</datestamp>
+</header>
+<metadata>
+<oai_dc:dc xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+<dc:title>Andrés Serrano</dc:title>
+<dc:description>
+
+Exposición
+:
+Andres Serrano. El dedo en la llaga
+(2006)
+
+
+Serrano es un formalista y un artista con un gran sentido de la tradición. Sus composiciones son rigurosas y los simbolismos alegóricos aparecen en cada una de sus series, desde las monocromas de los
+fluidos
+, los
+homeless
+o el
+Ku klux Klan
+a los
+tableaux
+de
+Budapest.
+
+</dc:description>
+<dc:creator>Andrés Serrano</dc:creator>
+<dc:subject>Conversaciones con...</dc:subject>
+<dc:source>http://www.ivoox.com/playerivoox_ee_2046954_1.html</dc:source>
+<dc:identifier>Serrano, Andrés</dc:identifier>
+</oai_dc:dc>
+</metadata>
+</record>
+<record>
+<header>
+<identifier>oai:aliada-project:7349</identifier>
+<datestamp>2014-03-31T07:32:05Z</datestamp>
+</header>
+<metadata>
+<oai_dc:dc xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+<dc:title>Ignasi Aballí</dc:title>
+<dc:description>
+
+Exposición
+:
+Ignasi Aballí. This is not the end
+(2012)
+
+
+El título
+http://www.artium.org/Castellano/Exposiciones/Exposicion/tabid/176/language/es-ES/Default.aspx?pidExposicion=223
+This Is Not The End
+indica, en primer lugar, el carácter transitorio de la exposición de Igasi Aballí (Barcelona, 1958) y su deseo de escapar de toda tentación de inventario retrospectivo.
+
+
+</dc:description>
+<dc:creator>Ignasi Aballí</dc:creator>
+<dc:subject>Visitas guiadas</dc:subject>
+<dc:source>http://www.ivoox.com/playerivoox_ee_2017153_1.html</dc:source>
+<dc:identifier>Aballí, Ignasi</dc:identifier>
+</oai_dc:dc>
+</metadata>
+</record>
+<record>
+<header>
+<identifier>oai:aliada-project:7350</identifier>
+<datestamp>2014-03-31T07:26:54Z</datestamp>
+</header>
+<metadata>
+<oai_dc:dc xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+<dc:title>Regina José Galindo</dc:title>
+<dc:description>
+
+Exposición
+:
+Piel de gallina
+(2012)
+
+
+Visita guiada de la artista Regina José Galindo a su exposición en Artium
+http://www.artium.org/Castellano/Exposiciones/Exposicion/tabid/176/language/es-ES/Default.aspx?pidExposicion=215
+Piel de gallina
+,un viaje de la palabra a través del cuerpo, que se articula a través de cinco salas, despertando el musculus erector pili en el espectador.
+
+</dc:description>
+<dc:creator>Regina José Galindo</dc:creator>
+<dc:subject>Visitas guiadas</dc:subject>
+<dc:source>
+http://www.ivoox.com/playerivoox_ee_2017352_1.html
+</dc:source>
+<dc:identifier>Galindo, Regina José</dc:identifier>
+</oai_dc:dc>
+</metadata>
+</record>
+<record>
+<header>
+<identifier>oai:aliada-project:7351</identifier>
+<datestamp>2014-03-31T07:29:49Z</datestamp>
+</header>
+<metadata>
+<oai_dc:dc xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+<dc:title>Ángel Marcos</dc:title>
+<dc:description>
+
+Exposición
+:
+Rabo de lagartija
+(2011)
+
+
+Ángel Marcos nos propone una visita guiada por la exposición
+http://www.artium.org/Castellano/Exposiciones/Exposicion/tabid/176/language/es-ES/Default.aspx?pidExposicion=187Rabo de lagartija
+en Artium. Como es habitual en Ángel Marcos, su obra se desarrolla alrededor de un amplio espacio conceptual...
+
+</dc:description>
+<dc:creator>Ángel Marcos</dc:creator>
+<dc:subject>Visitas guiadas</dc:subject>
+<dc:source>
+http://www.ivoox.com/playerivoox_ee_2017510_1.html
+</dc:source>
+<dc:identifier>Marcos, Ángel</dc:identifier>
+</oai_dc:dc>
+</metadata>
+</record>
+<record>
+<header>
+<identifier>oai:aliada-project:7352</identifier>
+<datestamp>2014-03-31T07:28:31Z</datestamp>
+</header>
+<metadata>
+<oai_dc:dc xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+<dc:title>Santiago Sierra</dc:title>
+<dc:description>
+
+Exposición
+: NO global tour (2011)
+
+
+Santiago Sierra realiza un recorrido por la exposición
+http://www.artium.org/Castellano/Exposiciones/Exposicion/tabid/176/language/es-ES/Default.aspx?pidExposicion=183NO, Global Tour
+, un viaje iniciado en Julio de 2009 a través del primer mundo. Una gran escultura formada por la palabra NO recorre diversos países emplazada sobre la plataforma de un camión.
+
+
+</dc:description>
+<dc:creator>Santiago Sierra</dc:creator>
+<dc:subject>Visitas guiadas</dc:subject>
+<dc:source>
+http://www.ivoox.com/playerivoox_ee_2017682_1.html
+</dc:source>
+<dc:identifier>Sierra, Santiago</dc:identifier>
+</oai_dc:dc>
+</metadata>
+</record>
+<record>
+<header>
+<identifier>oai:aliada-project:7353</identifier>
+<datestamp>2014-03-31T07:25:55Z</datestamp>
+</header>
+<metadata>
+<oai_dc:dc xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+<dc:title>José Miguel García Cortés</dc:title>
+<dc:description>
+
+Exposición
+:
+Medianoche en la ciudad
+(2011)
+
+
+Visita guiada de José Miguel G. Cortés a
+http://www.artium.org/Castellano/Exposiciones/Exposicion/tabid/176/language/es-ES/Default.aspx?pidExposicion=181Medianoche en la ciudad
+en Artium. La ciudad no debe ser leída tan solo como una situación espacial, sino también como un acontecimiento temporal en el que se suceden las más diversas experiencias urbanas.
+
+
+</dc:description>
+<dc:creator>José Miguel García Cortés</dc:creator>
+<dc:subject>Visitas guiadas</dc:subject>
+<dc:source>
+http://www.ivoox.com/playerivoox_ee_2017755_1.html
+</dc:source>
+<dc:identifier>García Cortés, José Miguel</dc:identifier>
+</oai_dc:dc>
+</metadata>
+</record>
+<record>
+<header>
+<identifier>oai:aliada-project:7354</identifier>
+<datestamp>2014-03-31T07:18:39Z</datestamp>
+</header>
+<metadata>
+<oai_dc:dc xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+<dc:title>Carmelo Ortiz de Elgea</dc:title>
+<dc:description>
+
+Exposición
+: Carmelo Ortiz de Elgea, José Luis Zumeta. Luz adentro (2011)
+
+
+Visita guiada a la exposición de Artium
+http://www.artium.org/Castellano/Exposiciones/Exposicion/tabid/176/language/es-ES/Default.aspx?pidExposicion=196Luz adentro
+, de la mano de Carmelo Ortiz de Elgea, José Luis Zumeta y de uno de los comisarios de la muestra, Enrique Martínez Goikoetxea.
+
+</dc:description>
+<dc:creator>Carmelo Ortiz de Elgea</dc:creator>
+<dc:subject>Visitas guiadas</dc:subject>
+<dc:source>
+http://www.ivoox.com/playerivoox_ee_2017379_1.html
+</dc:source>
+<dc:identifier>Ortiz de Elgea, Carmelo</dc:identifier>
+</oai_dc:dc>
+</metadata>
+</record>
+<record>
+<header>
+<identifier>oai:aliada-project:7355</identifier>
+<datestamp>2014-03-31T07:24:15Z</datestamp>
+</header>
+<metadata>
+<oai_dc:dc xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+<dc:title>José Luis Zumeta</dc:title>
+<dc:description>
+
+Exposición
+: Carmelo Ortiz de Elgea, José Luis Zumeta. Luz adentro (2011)
+
+
+Visita guiada a la exposición de Artium
+http://www.artium.org/Castellano/Exposiciones/Exposicion/tabid/176/language/es-ES/Default.aspx?pidExposicion=196Luz adentro
+, de la mano de Carmelo Ortiz de Elgea, José Luis Zumeta y de uno de los comisarios de la muestra, Enrique Martínez Goikoetxea.
+
+</dc:description>
+<dc:creator>José Luis Zumeta</dc:creator>
+<dc:subject>Visitas guiadas</dc:subject>
+<dc:source>
+http://www.ivoox.com/playerivoox_ee_2017379_1.html</dc:source>
+<dc:identifier>Zumeta, José Luis</dc:identifier>
+</oai_dc:dc>
+</metadata>
+</record>
+<record>
+<header>
+<identifier>oai:aliada-project:7356</identifier>
+<datestamp>2014-03-31T07:21:47Z</datestamp>
+</header>
+<metadata>
+<oai_dc:dc xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+<dc:title>CVA</dc:title>
+<dc:description>
+
+Exposición
+:
+CVA. Juan Luis Moraza y Marisa Fernández
+(2004)
+
+
+Conversaciones con
+http://www.artium.org/Castellano/Exposiciones/Exposicion/tabid/176/language/es-ES/Default.aspx?pidExposicion=135CVA
+un colectivo que estuvo formado por los artistas Juan Luis Moraza y Marisa Fernandez y que desarrolló una gran actividad entre 1979 y 1985. Grabado el 28 de octubre de 2004.
+
+</dc:description>
+<dc:creator>CVA</dc:creator>
+<dc:subject>Conversaciones con...</dc:subject>
+<dc:source>
+http://www.ivoox.com/playerivoox_ee_2016810_1.html</dc:source>
+<dc:identifier>CVA</dc:identifier>
+</oai_dc:dc>
+</metadata>
+</record>
+<record>
+<header>
+<identifier>oai:aliada-project:7366</identifier>
+<datestamp>2014-03-31T07:19:55Z</datestamp>
+</header>
+<metadata>
+<oai_dc:dc xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+<dc:title>Pepo Salazar</dc:title>
+<dc:description>
+
+Exposición
+:
+
+http://www.artium.org/Castellano/Exposiciones/Exposicion/tabid/176/language/es-ES/Default.aspx?pidExposicion=39
+Walk Among Us (Attack, Sustain, Release, Decay). Pepo Salazar
+
+
+(2009)
+
+
+Con una identidad muy marcada, esta obra muestra la visión de Pepo Salazar del momento socio-cultural actual, y la relación, muchas veces perversa, que se establece entre el mercado y la cultura.
+
+</dc:description>
+<dc:creator>Pepo Salazar</dc:creator>
+<dc:subject>Conversaciones con...</dc:subject>
+<dc:source>http://www.ivoox.com/playerivoox_ee_2035968_1.html</dc:source>
+<dc:identifier>Salazar, Pepo</dc:identifier>
+</oai_dc:dc>
+</metadata>
+</record>
+<record>
+<header>
+<identifier>oai:aliada-project:7367</identifier>
+<datestamp>2014-03-31T07:17:06Z</datestamp>
+</header>
+<metadata>
+<oai_dc:dc xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+<dc:title>Eduardo Sourrouille</dc:title>
+<dc:description>
+
+Exposición
+:
+http://www.artium.org/Castellano/Exposiciones/Exposicion/tabid/176/language/es-ES/Default.aspx?pidExposicion=40
+Villa Edur. Eduardo Sourrouille
+
+(2009)
+
+
+Visita guiada de Eduardo Sourrouille a la exposición "Villa Edur" que se celebró en ARTIUM. La casa que muestra en
+
+Villa Edur
+
+es su casa, como era (es) la de sumadre. Se trata del primer legado que recibió de ella...
+
+</dc:description>
+<dc:creator>Eduardo Sourrouille</dc:creator>
+<dc:subject>Visitas guiadas</dc:subject>
+<dc:source>
+http://www.ivoox.com/playerivoox_ee_2036021_1.html</dc:source>
+<dc:identifier>Sourrouille, Eduardo</dc:identifier>
+</oai_dc:dc>
+</metadata>
+</record>
+<record>
+<header>
+<identifier>oai:aliada-project:7368</identifier>
+<datestamp>2014-03-31T08:33:46Z</datestamp>
+</header>
+<metadata>
+<oai_dc:dc xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+<dc:title>Pepo Salazar</dc:title>
+<dc:description>
+
+Exposición
+:
+http://www.artium.org/Castellano/Exposiciones/Exposicion/tabid/176/language/es-ES/Default.aspx?pidExposicion=39
+Walk Among Us (Attack, Sustain, Release, Decay)
+
+(2009)
+
+
+Visita guiada de Pepo Salazar a su exposición Walk Among Us (Attack, Sustain, Release, Decay),título del proyecto que presenta en ARTIUM, resultado de los dos últimos años de trabajo e investigación, realizados entre Nueva York y Valencia.
+
+</dc:description>
+<dc:creator>Pepo Salazar</dc:creator>
+<dc:subject>Visitas guiadas</dc:subject>
+<dc:source>http://www.ivoox.com/playerivoox_ee_2035968_1.html</dc:source>
+<dc:identifier>Salazar, Pepo</dc:identifier>
+</oai_dc:dc>
+</metadata>
+</record>
+<record>
+<header>
+<identifier>oai:aliada-project:7371</identifier>
+<datestamp>2014-03-31T07:35:09Z</datestamp>
+</header>
+<metadata>
+<oai_dc:dc xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+<dc:title>Francesc Torres</dc:title>
+<dc:description>
+
+Exposición
+:
+http://www.artium.org/Castellano/Exposiciones/Exposicion/tabid/176/language/es-ES/Default.aspx?pidExposicion=35
+
+Francesc Torres – Oscura es la habitación donde dormimos
+
+
+(2009)
+
+
+Visita guiada de Francesc Torres a su exposición
+Oscura es la habitación donde dormimos
+en ARTIUM. Comprometido con su tiempo, el trabajo de Francesc Torres está ligado desde hace varias décadas a la conciencia colectiva.
+
+</dc:description>
+<dc:creator>Francesc Torres</dc:creator>
+<dc:subject>Visitas guiadas</dc:subject>
+<dc:source>
+</dc:source>
+<dc:identifier>Torres, Francesc</dc:identifier>
+</oai_dc:dc>
+</metadata>
+</record>
+<record>
+<header>
+<identifier>oai:aliada-project:7372</identifier>
+<datestamp>2014-03-31T07:36:16Z</datestamp>
+</header>
+<metadata>
+<oai_dc:dc xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+<dc:title>Fernando Millán</dc:title>
+<dc:description>
+
+Exposición
+:
+http://www.artium.org/Castellano/Exposiciones/Exposicion/tabid/176/language/es-ES/Default.aspx?pidExposicion=33
+
+Escrito está. Poesía experimental en España (1963-1984)
+
+
+(2009)
+
+
+Visita guiada del comisario Fernando Millán a la exposición
+
+Escrito está. Poesía experimental en España (1963-1984)
+
+. Producida por ARTIUM (Vitoria-Gasteiz) y Museo Patio Herreriano (Valladolid), con el patrocinio del Ministerio de Cultura y El Correo.
+
+
+</dc:description>
+<dc:creator>Fernando Millán</dc:creator>
+<dc:subject>Visitas guiadas</dc:subject>
+<dc:source>
+http://www.ivoox.com/playerivoox_ee_2035916_1.html
+</dc:source>
+<dc:identifier>Millán, Fernando</dc:identifier>
+</oai_dc:dc>
+</metadata>
+</record>
+<record>
+<header>
+<identifier>oai:aliada-project:7373</identifier>
+<datestamp>2014-03-31T07:38:37Z</datestamp>
+</header>
+<metadata>
+<oai_dc:dc xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+<dc:title>Hannah Collins</dc:title>
+<dc:description>
+
+Exposición
+:
+http://www.artium.org/Castellano/Exposiciones/Exposicion/tabid/176/language/es-ES/Default.aspx?pidExposicion=44
+Hannah Collins. Historia en curso
+
+(2008)
+
+
+Visita guiada de Hannah Collins a su exposición en Artium
+Historia en curso
+. Esta muestra reunió por primera vez tres films en pantalla múltiple de Hannah Collins y una serie de fotografías relacionadas.
+
+</dc:description>
+<dc:creator>Hannah Collins</dc:creator>
+<dc:subject>Visitas guiadas</dc:subject>
+<dc:source>
+</dc:source>
+<dc:identifier>Collins, Hannah</dc:identifier>
+</oai_dc:dc>
+</metadata>
+</record>
+<record>
+<header>
+<identifier>oai:aliada-project:7375</identifier>
+<datestamp>2014-03-31T07:40:10Z</datestamp>
+</header>
+<metadata>
+<oai_dc:dc xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+<dc:title>Miguel Ángel Gaüeca</dc:title>
+<dc:description>
+
+Exposición
+:
+http://www.artium.org/Castellano/Exposiciones/Exposicion/tabid/176/language/es-ES/Default.aspx?pidExposicion=28
+Miguel Ángel Gaüeca. Deals, Shapes and Void
+
+(2010)
+
+Visita guiada de Miguel Ángel Gaüeca.
+Deals, Shapes and Void
+es una instalación que recoge parte de su trabajo artístico de los últimos ocho años. Agrupadas en series, las imágenes invitan a generar relaciones entre distintos ámbitos de la vida del artista.
+
+</dc:description>
+<dc:creator>Miguel Ángel Gaüeca</dc:creator>
+<dc:subject>Visitas guiadas</dc:subject>
+<dc:source>
+
+http://www.ivoox.com/playerivoox_ee_2035825_1.html
+
+</dc:source>
+<dc:identifier>Gaüeca, Miguel Ángel</dc:identifier>
+</oai_dc:dc>
+</metadata>
+</record>
+<record>
+<header>
+<identifier>oai:aliada-project:7376</identifier>
+<datestamp>2014-03-31T07:42:41Z</datestamp>
+</header>
+<metadata>
+<oai_dc:dc xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+<dc:title>Lluisa Ortínez</dc:title>
+<dc:description>
+
+Exposición
+:
+http://www.artium.org/Castellano/Exposiciones/Exposicion/tabid/176/language/es-ES/Default.aspx?pidExposicion=30
+
+Yo y el otro. Retratos en la fotografía india contemporánea
+
+
+(2009)
+
+
+Visita guiada de la comisaria Lluisa Ortínez.
+Yo y el otro
+es una exploración de la mirada fotográfica que entra en cuestiones de identidad personal y cultural, una visión íntima de la vida contemporánea en la India a través de los objetivos de sus fotógrafos y artistas más conocidos.
+
+</dc:description>
+<dc:creator>Lluisa Ortínez</dc:creator>
+<dc:subject>Visitas guiadas</dc:subject>
+<dc:source>
+http://www.ivoox.com/playerivoox_ee_2035848_1.html
+</dc:source>
+<dc:identifier>Ortínez, Lluisa</dc:identifier>
+</oai_dc:dc>
+</metadata>
+</record>
+<record>
+<header>
+<identifier>oai:aliada-project:7377</identifier>
+<datestamp>2014-03-31T07:43:51Z</datestamp>
+</header>
+<metadata>
+<oai_dc:dc xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+<dc:title>Aitor Lajarín</dc:title>
+<dc:description>
+
+Exposición
+:
+
+http://www.artium.org/Castellano/Exposiciones/Exposicion/tabid/176/language/es-ES/Default.aspx?pidExposicion=175From Here to Everywhere. Profiling Postcity
+
+(2010)
+
+
+Visita guiada de Aitor Lajarín. El proyecto creado especialmente para ARTIUM gira en torno a las grandes urbes y el concepto de ciudad contemporánea en un momento en el que la vida humana parece estar organizándose irreversiblemente cada vez más en torno a ella.
+
+</dc:description>
+<dc:creator>Aitor Lajarín</dc:creator>
+<dc:subject>Visitas guiadas</dc:subject>
+<dc:source>
+
+http://www.ivoox.com/playerivoox_ee_2025681_1.html
+</dc:source>
+<dc:identifier>Lajarín, Aitor</dc:identifier>
+</oai_dc:dc>
+</metadata>
+</record>
+<record>
+<header>
+<identifier>oai:aliada-project:7378</identifier>
+<datestamp>2014-04-08T10:47:16Z</datestamp>
+</header>
+<metadata>
+<oai_dc:dc xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+<dc:title>Jaime Davidovich</dc:title>
+<dc:description>
+
+Exposición
+:
+http://www.artium.org/Castellano/Exposiciones/Exposicion/tabid/176/language/es-ES/Default.aspx?pidExposicion=25
+Morder la mano que te da de comer
+
+(2011)
+
+
+Visita guiada de Jaime Davidovich. se plantea como una mirada a su producción artística entre 1968 y 1984, a modo de viaje que va desde su obra pictórica, pasando por la experimentación con el vídeo, hasta su encuentro con las posibilidades creativas de la televisión.
+
+</dc:description>
+<dc:creator>Jaime Davidovich</dc:creator>
+<dc:subject>Visitas guiadas</dc:subject>
+<dc:source>
+
+</dc:source>
+<dc:identifier>Davidovich, Jaime</dc:identifier>
+</oai_dc:dc>
+</metadata>
+</record>
+<record>
+<header>
+<identifier>oai:aliada-project:7380</identifier>
+<datestamp>2014-03-31T07:45:18Z</datestamp>
+</header>
+<metadata>
+<oai_dc:dc xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+<dc:title>Patricia Piccinini</dc:title>
+<dc:description>
+
+Exposición
+:
+http://www.artium.org/Castellano/Exposiciones/Exposicion/tabid/176/language/es-ES/Default.aspx?pidExposicion=80
+Tender Creatures - (tiernas) criaturas
+
+(2007)
+
+
+Visita guiada de Patricia Piccini, una artista que se puede calificar como creadora de historias fantásticas, de mundos artificiales llenos de ternura, que parecen haber surgido de los experimentos de un laboratorio científico.
+
+
+</dc:description>
+<dc:creator>Patricia Piccinini</dc:creator>
+<dc:subject>Visitas guiadas</dc:subject>
+<dc:source>
+
+http://www.ivoox.com/playerivoox_ee_2036240_1.html
+</dc:source>
+<dc:identifier>Piccinini, Patricia</dc:identifier>
+</oai_dc:dc>
+</metadata>
+</record>
+<record>
+<header>
+<identifier>oai:aliada-project:7382</identifier>
+<datestamp>2014-03-31T07:49:52Z</datestamp>
+</header>
+<metadata>
+<oai_dc:dc xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+<dc:title>Alfredo Álvarez Plágaro</dc:title>
+<dc:description>
+
+Exposición
+:
+http://www.artium.org/Castellano/Exposiciones/Exposicion/tabid/176/language/es-ES/Default.aspx?pidExposicion=224
+Plágaro
+
+(2012)
+
+
+Visita guiada de Alfredo Álvarez Plágaro. Su trabajo presenta la peculiaridad de usar su libertad creativa para limitar su propia libertad. A pesar de comenzar su trayectoria en una línea figurativa, el artista dará un giro hacia la abstracción pictórica a finales de los 80.
+
+</dc:description>
+<dc:creator>Alfredo Álvarez Plágaro</dc:creator>
+<dc:subject>Visitas guiadas</dc:subject>
+<dc:source>
+http://www.ivoox.com/playerivoox_ee_2036462_1.html
+
+</dc:source>
+<dc:identifier>Álvarez Plágaro, Alfredo</dc:identifier>
+</oai_dc:dc>
+</metadata>
+</record>
+<record>
+<header>
+<identifier>oai:aliada-project:7394</identifier>
+<datestamp>2014-03-31T07:33:26Z</datestamp>
+</header>
+<metadata>
+<oai_dc:dc xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+<dc:title>Azucena Vieites</dc:title>
+<dc:description>
+
+Exposición
+:
+http://www.artium.org/Castellano/Exposiciones/Exposicion/tabid/176/language/es-ES/Default.aspx?pidExposicion=91
+Gure Artea. Ibon Aranberri, Iñaki Garmendia, Azucena Vieites
+
+(2005)
+
+
+Conversaciones con la artista Azucena Vieites. La cultura del sampleo, las genealogías feministas y trans y el espíritu “hazlo tú misma” del punk son algunas de sus fuentes a la hora de filtrar imágenes en su iconografía.
+
+</dc:description>
+<dc:creator>Azucena Vieites</dc:creator>
+<dc:subject>Conversaciones con...</dc:subject>
+<dc:source>
+
+http://www.ivoox.com/playerivoox_ee_2047091_1.html
+
+</dc:source>
+<dc:identifier>Vieites, Azucena</dc:identifier>
+</oai_dc:dc>
+</metadata>
+</record>
+<record>
+<header>
+<identifier>oai:aliada-project:7395</identifier>
+<datestamp>2014-03-31T07:51:20Z</datestamp>
+</header>
+<metadata>
+<oai_dc:dc xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+<dc:title>Susana Talayero</dc:title>
+<dc:description>
+
+Conversaciones con la artista Susana Talayero (Bilbao, 1961). Reside en Roma de 1986 a 1995. Actualmente vive y trabaja en Bilbao. Grabado el 25 de marzo de 2004 en Artium.
+
+</dc:description>
+<dc:creator>Susana Talayero</dc:creator>
+<dc:subject>Conversaciones con...</dc:subject>
+<dc:source>
+
+http://www.ivoox.com/playerivoox_ee_2047079_1.html
+
+</dc:source>
+<dc:identifier>Talayero, Susana</dc:identifier>
+</oai_dc:dc>
+</metadata>
+</record>
+<record>
+<header>
+<identifier>oai:aliada-project:7396</identifier>
+<datestamp>2014-03-31T07:52:34Z</datestamp>
+</header>
+<metadata>
+<oai_dc:dc xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+<dc:title>Javier Pérez</dc:title>
+<dc:description>
+
+Exposición
+:
+http://www.artium.org/Castellano/Exposiciones/Exposicion/tabid/176/language/es-ES/Default.aspx?pidExposicion=100
+Javier Pérez
+
+(2003)
+
+
+Visita guiada del artista Javier Pérez a su exposición en Artium Centro Museo Vasco de Arte Contemporáneo de Vitoria-Gasteiz. Grabado en Artium el 28 de mayo de 2003.
+
+
+</dc:description>
+<dc:creator>Javier Pérez</dc:creator>
+<dc:subject>Visitas guiadas</dc:subject>
+<dc:source>
+
+http://www.ivoox.com/playerivoox_ee_2047025_1.html
+</dc:source>
+<dc:identifier>Pérez, Javier</dc:identifier>
+</oai_dc:dc>
+</metadata>
+</record>
+<record>
+<header>
+<identifier>oai:aliada-project:7397</identifier>
+<datestamp>2014-03-31T08:03:49Z</datestamp>
+</header>
+<metadata>
+<oai_dc:dc xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+<dc:title>Alfonso Gortázar</dc:title>
+<dc:description>
+
+Exposición
+:
+http://www.artium.org/Castellano/Exposiciones/Exposicion/tabid/176/language/es-ES/Default.aspx?pidExposicion=87
+Alfonso Gortázar. In Albis
+
+(2007)
+
+
+Visita guiada del artista Alfonso Gortázar a la exposición In Albis en Artium Centro Museo Vasco de Arte Contemporáneo. Grabado en Artium el 1 de febrero de 2007.
+
+
+</dc:description>
+<dc:creator>Alfonso Gortázar</dc:creator>
+<dc:subject>Visitas guiadas</dc:subject>
+<dc:source>
+http://www.ivoox.com/playerivoox_ee_2047009_1.html
+</dc:source>
+<dc:identifier>Gortázar, Alfonso</dc:identifier>
+</oai_dc:dc>
+</metadata>
+</record>
+<record>
+<header>
+<identifier>oai:aliada-project:7398</identifier>
+<datestamp>2014-03-31T08:26:57Z</datestamp>
+</header>
+<metadata>
+<oai_dc:dc xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+<dc:title>Darío Urzay</dc:title>
+<dc:description>
+
+Conversaciones con el artista
+http://www.dariourzay.com/Darío Urzay
+(Bilbao, 1958) en Artium Centro Museo Vasco de Arte Contemporáneo. Grabado en Artium el 25 de octubre de 2002.
+
+</dc:description>
+<dc:creator>Darío Urzay</dc:creator>
+<dc:subject>Conversaciones con...</dc:subject>
+<dc:source>
+
+
+http://www.ivoox.com/playerivoox_ee_2047176_1.html
+</dc:source>
+<dc:identifier>Urzay, Darío</dc:identifier>
+</oai_dc:dc>
+</metadata>
+</record>
+<record>
+<header>
+<identifier>oai:aliada-project:7399</identifier>
+<datestamp>2014-03-31T08:05:40Z</datestamp>
+</header>
+<metadata>
+<oai_dc:dc xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+<dc:title>Jana Sterbak</dc:title>
+<dc:description>
+
+Exposición
+:
+http://www.artium.org/Castellano/Exposiciones/Exposicion/tabid/176/language/es-ES/Default.aspx?pidExposicion=67
+Jana Sterbak. De la performance al vídeo
+
+(2006)
+
+
+Visita guiada de Teresa Blanch, comisaria de la exposición Jana Sterbak. De la performance al vídeo en Artium Centro Museo Vasco de Arte Contemporáneo. Grabado en Artium el 17 de mayo de 2006.
+
+</dc:description>
+<dc:creator>Jana Sterbak</dc:creator>
+<dc:subject>Visitas guiadas</dc:subject>
+<dc:source>
+
+http://www.ivoox.com/playerivoox_ee_2047001_1.html
+</dc:source>
+<dc:identifier>Sterbak, Jana</dc:identifier>
+</oai_dc:dc>
+</metadata>
+</record>
+<record>
+<header>
+<identifier>oai:aliada-project:7400</identifier>
+<datestamp>2014-03-31T08:07:20Z</datestamp>
+</header>
+<metadata>
+<oai_dc:dc xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+<dc:title>Charles and Ray Eames</dc:title>
+<dc:description>
+
+Exposición
+:
+http://www.artium.org/Castellano/Exposiciones/Exposicion/tabid/176/language/es-ES/Default.aspx?pidExposicion=96
+
+La obra de Charles y Ray Eames. Un legado de invención
+
+
+(2003)
+
+
+Visita guiada del comisario de la exposición Donald Albrecht en Artium. Charles y Ray Eames se encuentran entre los diseñadores americanos más importantes del siglo XX. Grabado en Artium el 22 de enero de 2003.
+
+</dc:description>
+<dc:creator>Charles and Ray Eames</dc:creator>
+<dc:subject>Visitas guiadas</dc:subject>
+<dc:source>
+
+
+http://www.ivoox.com/playerivoox_ee_2046987_1.html
+
+</dc:source>
+<dc:identifier>Eames, Charles and Ray</dc:identifier>
+</oai_dc:dc>
+</metadata>
+</record>
+<record>
+<header>
+<identifier>oai:aliada-project:7401</identifier>
+<datestamp>2014-03-31T08:08:15Z</datestamp>
+</header>
+<metadata>
+<oai_dc:dc xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+<dc:title>Itxaso Mendiluze</dc:title>
+<dc:description>
+
+Conversaciones con Itxaso Mendiluze,comisaria de exposiciones como
+Dibujando al revés
+en el Centro Cultural Montehermoso de Vitoria-Gasteiz o
+Líbrate de ello
+en la Fundación Bilbao Arte. Grabado en Artium el 30 de mayo de 2006.
+
+</dc:description>
+<dc:creator>Itxaso Mendiluze</dc:creator>
+<dc:subject>Conversaciones con...</dc:subject>
+<dc:source>
+
+http://www.ivoox.com/playerivoox_ee_2046971_1.html
+</dc:source>
+<dc:identifier>Mendiluze, Itxaso</dc:identifier>
+</oai_dc:dc>
+</metadata>
+</record>
+<record>
+<header>
+<identifier>oai:aliada-project:7402</identifier>
+<datestamp>2014-03-31T08:09:31Z</datestamp>
+</header>
+<metadata>
+<oai_dc:dc xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+<dc:title>Perejaume</dc:title>
+<dc:description>
+
+Exposición
+:
+http://www.artium.org/Castellano/Exposiciones/Exposicion/tabid/176/language/es-ES/Default.aspx?pidExposicion=104Perejaume: Retrotábula
+(2003)
+
+
+Visita guiada del artista catalán Perejaume a la exposición
+Retrotábula
+en Artium Centro Museo Vasco de Arte Contemporáneo de Vitoria-Gasteiz. Grabado en Artium el 25 de junio de 2003.
+
+</dc:description>
+<dc:creator>Perejaume</dc:creator>
+<dc:subject>Visitas guiadas</dc:subject>
+<dc:source>
+
+http://www.ivoox.com/playerivoox_ee_2047346_1.html
+
+</dc:source>
+<dc:identifier>Perejaume</dc:identifier>
+</oai_dc:dc>
+</metadata>
+</record>
+<record>
+<header>
+<identifier>oai:aliada-project:7403</identifier>
+<datestamp>2014-03-31T08:10:30Z</datestamp>
+</header>
+<metadata>
+<oai_dc:dc xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+<dc:title>Andrés Serrano</dc:title>
+<dc:description>
+
+Exposición
+:
+http://www.artium.org/Castellano/Exposiciones/Exposicion/tabid/176/language/es-ES/Default.aspx?pidExposicion=72
+Andrés Serrano. El dedo en la llaga
+
+(2006)
+
+
+Visita guiada del fotografo Andrés Serrano (Nueva York, 1950) a su exposición en Artium Centro Museo Vasco de Arte Contemporáneo de Vitoria-Gasteiz. Grabado en Artium el 21 de junio de 2006.
+
+</dc:description>
+<dc:creator>Andrés Serrano</dc:creator>
+<dc:subject>Visitas guiadas</dc:subject>
+<dc:source>
+http://www.ivoox.com/playerivoox_ee_2046954_1.html
+</dc:source>
+<dc:identifier>Serrano, Andrés</dc:identifier>
+</oai_dc:dc>
+</metadata>
+</record>
+<record>
+<header>
+<identifier>oai:aliada-project:7404</identifier>
+<datestamp>2014-03-31T08:11:25Z</datestamp>
+</header>
+<metadata>
+<oai_dc:dc xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+<dc:title>Susana Iturrioz</dc:title>
+<dc:description>
+
+Exposición
+:
+http://www.artium.org/Castellano/Exposiciones/Exposicion/tabid/176/language/es-ES/Default.aspx?pidExposicion=84
+Zhù yi! Fotografía actual en China
+
+(2007)
+
+
+Conversaciones con Susana Iturrioz, comisaria de la exposición Zhù yi! Fotografía actual en China en Artium Centro Museo Vasco de Arte Contemporáneo. Grabado en Artium el 10 de mayo de 2007.
+
+</dc:description>
+<dc:creator>Susana Iturrioz</dc:creator>
+<dc:subject>Conversaciones con...</dc:subject>
+<dc:source>
+
+http://www.ivoox.com/playerivoox_ee_2046900_1.html
+
+</dc:source>
+<dc:identifier>Iturrioz, Susana</dc:identifier>
+</oai_dc:dc>
+</metadata>
+</record>
+<record>
+<header>
+<identifier>oai:aliada-project:7405</identifier>
+<datestamp>2014-03-31T08:12:53Z</datestamp>
+</header>
+<metadata>
+<oai_dc:dc xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+<dc:title>Diego Santomé</dc:title>
+<dc:description>
+
+Exposición
+:
+http://www.artium.org/Castellano/Exposiciones/Exposicion/tabid/176/language/es-ES/Default.aspx?pidExposicion=122
+Diego Santomé
+
+(2004)
+
+
+De formación autodidacta, desde los inicios de su carrera artística  ha utilizado diferentes medios expresivos como vehículo para desarrollar una obra marcadamente conceptual y con un claro carácter multidisciplinar. Grabado en Artium el 1 de abril de 2004.
+
+</dc:description>
+<dc:creator>Diego Santomé</dc:creator>
+<dc:subject>Conversaciones con...</dc:subject>
+<dc:source>
+
+http://www.ivoox.com/playerivoox_ee_2046894_1.html
+</dc:source>
+<dc:identifier>Santomé, Diego</dc:identifier>
+</oai_dc:dc>
+</metadata>
+</record>
+<record>
+<header>
+<identifier>oai:aliada-project:7406</identifier>
+<datestamp>2014-03-31T08:14:09Z</datestamp>
+</header>
+<metadata>
+<oai_dc:dc xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+<dc:title>Ángel Borrego</dc:title>
+<dc:description>
+
+Exposición
+:
+http://www.artium.org/Castellano/Exposiciones/Exposicion/tabid/176/language/es-ES/Default.aspx?pidExposicion=97
+Ángel Borrego: Exposición vigilada II
+
+(2003)
+
+
+Visita guiada de Ángel Borrego. La vigilancia, los sistemas de control y sus relaciones con el espacio, los problemas de la comunicación del sufrimiento son abordados en su obra. Grabado en Artium el 20 de febrero de 2003.
+
+</dc:description>
+<dc:creator>Ángel Borrego</dc:creator>
+<dc:subject>Visitas guiadas</dc:subject>
+<dc:source>
+
+http://www.ivoox.com/playerivoox_ee_2046555_1.html
+</dc:source>
+<dc:identifier>Borrego, Ángel</dc:identifier>
+</oai_dc:dc>
+</metadata>
+</record>
+<record>
+<header>
+<identifier>oai:aliada-project:7407</identifier>
+<datestamp>2014-03-31T08:16:12Z</datestamp>
+</header>
+<metadata>
+<oai_dc:dc xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+<dc:title>Aitor Ortiz</dc:title>
+<dc:description>
+
+Exposición
+:
+http://www.artium.org/Castellano/Exposiciones/Exposicion/tabid/176/language/es-ES/Default.aspx?pidExposicion=65
+Muros de Luz. Aitor Ortiz
+
+(2006)
+
+
+Conversaciones con el fotógrafo Aitor Ortiz. Fotografía, arquitectura, escultura y luz forman parte de un complejo y sofisticado entramado visual que es Muros de Luz. Grabado en Artium el 23 de febrero de 2006.
+
+</dc:description>
+<dc:creator>Aitor Ortiz</dc:creator>
+<dc:subject>Conversaciones con...</dc:subject>
+<dc:source>
+
+http://www.ivoox.com/playerivoox_ee_2046864_1.html
+
+</dc:source>
+<dc:identifier>Ortiz, Aitor</dc:identifier>
+</oai_dc:dc>
+</metadata>
+</record>
+<record>
+<header>
+<identifier>oai:aliada-project:7408</identifier>
+<datestamp>2014-03-31T08:17:20Z</datestamp>
+</header>
+<metadata>
+<oai_dc:dc xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+<dc:title>Juncal Ballestín</dc:title>
+<dc:description>
+
+Conversaciones con la artista vitoriana Juncal Ballestín en Artium Centro Museo Vasco de Arte Contemporáneo de Vitoria-Gasteiz. Una vez al mes, un artista o un comisario introduce su trabajo y dialoga con los participantes para acercarles el arte contemporáneo. Grabado en Artium el 6 de mayo de 2004.
+
+</dc:description>
+<dc:creator>Juncal Ballestín</dc:creator>
+<dc:subject>Conversaciones con...</dc:subject>
+<dc:source>
+
+http://www.ivoox.com/playerivoox_ee_2046860_1.html
+</dc:source>
+<dc:identifier>Ballestín, Juncal</dc:identifier>
+</oai_dc:dc>
+</metadata>
+</record>
+<record>
+<header>
+<identifier>oai:aliada-project:7409</identifier>
+<datestamp>2014-03-31T08:18:21Z</datestamp>
+</header>
+<metadata>
+<oai_dc:dc xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+<dc:title>Eugenio Ampudia</dc:title>
+<dc:description>
+
+Exposición: Eugenio Ampudia. Solo una idea devoradora (2006)
+
+
+Visita guiada del artista Eugenio Ampudia a su exposición en Artium, Solo una idea devoradora, un análisis del arte como medio de transmisión y del artista como agente intermediario. Grabado en Artium el 19 de octubre de 2006.
+
+</dc:description>
+<dc:creator>Eugenio Ampudia</dc:creator>
+<dc:subject>Visitas guiadas</dc:subject>
+<dc:source>
+http://www.ivoox.com/playerivoox_ee_2046824_1.html
+
+</dc:source>
+<dc:identifier>Ampudia, Eugenio</dc:identifier>
+</oai_dc:dc>
+</metadata>
+</record>
+<record>
+<header>
+<identifier>oai:aliada-project:7410</identifier>
+<datestamp>2014-03-31T08:19:19Z</datestamp>
+</header>
+<metadata>
+<oai_dc:dc xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+<dc:title>Aitor Ortiz</dc:title>
+<dc:description>
+
+Exposición
+:
+http://www.artium.org/Castellano/Exposiciones/Exposicion/tabid/176/language/es-ES/Default.aspx?pidExposicion=65
+Aitor Ortiz. Muros de luz
+
+(2006)
+
+
+Visita guiada del fotógrafo bilbaíno Aitor Ortiz a la exposición Muros de luz en Artium Centro Museo Vasco de Arte Contemporáneo de Vitoria-Gasteiz. Grabado en Artium el 12 de febrero de 2006.
+
+</dc:description>
+<dc:creator>Aitor Ortiz</dc:creator>
+<dc:subject>Visitas guiadas</dc:subject>
+<dc:source>
+
+http://www.ivoox.com/playerivoox_ee_2046864_1.html
+
+</dc:source>
+<dc:identifier>Ortiz, Aitor</dc:identifier>
+</oai_dc:dc>
+</metadata>
+</record>
+<record>
+<header>
+<identifier>oai:aliada-project:7411</identifier>
+<datestamp>2014-03-31T08:15:00Z</datestamp>
+</header>
+<metadata>
+<oai_dc:dc xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+<dc:title>Juan Luis Moraza</dc:title>
+<dc:description>
+
+Conversaciones con el artista vitoriano Juan Luis Moraza en Artium Centro Museo Vasco de Arte Contemporáneo de Vitoria-Gasteiz. Una vez al mes, un artista o un comisario introduce su trabajo y dialoga con los participantes para acercarles el arte contemporáneo. Grabado en Artium el 30 de octubre de 2003.
+
+</dc:description>
+<dc:creator>Juan Luis Moraza</dc:creator>
+<dc:subject>Conversaciones con...</dc:subject>
+<dc:source>
+
+http://www.ivoox.com/playerivoox_ee_2046795_1.html
+</dc:source>
+<dc:identifier>Moraza, Juan Luis</dc:identifier>
+</oai_dc:dc>
+</metadata>
+</record>
+<record>
+<header>
+<identifier>oai:aliada-project:7412</identifier>
+<datestamp>2014-03-31T08:20:23Z</datestamp>
+</header>
+<metadata>
+<oai_dc:dc xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+<dc:title>Jon Mikel Euba</dc:title>
+<dc:description>
+
+Exposición
+:
+http://www.artium.org/Castellano/Exposiciones/Exposicion/tabid/176/language/es-ES/Default.aspx?pidExposicion=142
+Jon Mikel Euba. K.Y.D. Kill´em all
+
+(2002)
+
+
+Conversaciones con Jon Mikel Euba (Amorebieta, 1967), que pertenece a una generación de artistas comprometidos con su entorno, con la situación política, social y cultural de Euskadi. P. Grabado en Artium el 16 de enero de 2003.
+
+</dc:description>
+<dc:creator>Jon Mikel Euba</dc:creator>
+<dc:subject>Conversaciones con...</dc:subject>
+<dc:source>
+http://www.ivoox.com/playerivoox_ee_2046716_1.html
+</dc:source>
+<dc:identifier>Euba, Jon Mikel</dc:identifier>
+</oai_dc:dc>
+</metadata>
+</record>
+<record>
+<header>
+<identifier>oai:aliada-project:7413</identifier>
+<datestamp>2014-03-31T08:22:41Z</datestamp>
+</header>
+<metadata>
+<oai_dc:dc xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+<dc:title>Prudencio Irazábal</dc:title>
+<dc:description>
+
+Exposición
+:
+http://www.artium.org/Castellano/Exposiciones/Exposicion/tabid/176/language/es-ES/Default.aspx?pidExposicion=90
+Highlights. Prudencio Irazabal
+
+(2005)
+
+
+Visita guiada de Prudencio Irazábal (Puentelarrá, 1954) artista formado entre Sevilla, Barcelona, y residente en Nueva York desde hace más de 20 años, se ha desarrollado en el campo de la pintura. Grabado en Artium el 5 de octubre de 2005.
+
+</dc:description>
+<dc:creator>Prudencio Irazábal</dc:creator>
+<dc:subject>Visitas guiadas</dc:subject>
+<dc:source>
+http://www.ivoox.com/playerivoox_ee_2046752_1.html
+</dc:source>
+<dc:identifier>Irazábal, Prudencio</dc:identifier>
+</oai_dc:dc>
+</metadata>
+</record>
+<record>
+<header>
+<identifier>oai:aliada-project:7414</identifier>
+<datestamp>2014-03-31T08:23:45Z</datestamp>
+</header>
+<metadata>
+<oai_dc:dc xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+<dc:title>Joan Fontcuberta</dc:title>
+<dc:description>
+
+Exposición
+:
+http://www.artium.org/Castellano/Exposiciones/Exposicion/tabid/176/language/es-ES/Default.aspx?pidExposicion=102
+Joan Fontcuberta. La isla de los Vascos
+
+(2003)
+
+
+Visita guiada de Joan Fontcuberta por
+La Isla de los Vascos
+, proyecto diseñado para Artium, y que hace referencia a una pequeña isla, a 200 Km. al norte de la ciudad de Québec (Canadá). Grabado en Artium el 5 de junio de 2003.
+
+</dc:description>
+<dc:creator>Joan Fontcuberta</dc:creator>
+<dc:subject>Visitas guiadas</dc:subject>
+<dc:source>http://www.ivoox.com/playerivoox_ee_2046671_1.html</dc:source>
+<dc:identifier>Fontcuberta, Joan</dc:identifier>
+</oai_dc:dc>
+</metadata>
+</record>
+<record>
+<header>
+<identifier>oai:aliada-project:7415</identifier>
+<datestamp>2014-03-31T08:25:01Z</datestamp>
+</header>
+<metadata>
+<oai_dc:dc xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+<dc:title>Naia del Castillo</dc:title>
+<dc:description>
+
+Exposición
+:
+http://www.artium.org/Castellano/Exposiciones/Exposicion/tabid/176/language/es-ES/Default.aspx?pidExposicion=131
+Naia del Castillo
+
+(2004)
+
+
+Visita guiada de Naia del Castillo a su exposición en Artium, donde presenta una selección de algunos de los más destacados trabajos de esta artista vasca, realizados en los últimos cuatro años. Grabado en Artium el 29 de enero de 2004.
+
+</dc:description>
+<dc:creator>Naia del Castillo</dc:creator>
+<dc:subject>Visitas guiadas</dc:subject>
+<dc:source>http://www.ivoox.com/playerivoox_ee_2046662_1.html
+</dc:source>
+<dc:identifier>Castillo, Naia del</dc:identifier>
+</oai_dc:dc>
+</metadata>
+</record>
+<record>
+<header>
+<identifier>oai:aliada-project:7416</identifier>
+<datestamp>2014-03-31T07:11:22Z</datestamp>
+</header>
+<metadata>
+<oai_dc:dc xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+<dc:title>Pablo Milicua</dc:title>
+<dc:description>
+
+Conversaciones con el artista bilbaíno Pablo Milicua en el Artium Centro Museo Vasco de Arte Contemporáneo de Vitoria-Gasteiz. Grabado en Artium el 28 de noviembre de 2002.
+
+</dc:description>
+<dc:creator>Pablo Milicua</dc:creator>
+<dc:subject>Conversaciones con...</dc:subject>
+<dc:source>
+http://www.ivoox.com/playerivoox_ee_2046623_1.html
+</dc:source>
+<dc:identifier>Milicua, Pablo</dc:identifier>
+</oai_dc:dc>
+</metadata>
+</record>
+<record>
+<header>
+<identifier>oai:aliada-project:7417</identifier>
+<datestamp>2014-03-31T08:25:45Z</datestamp>
+</header>
+<metadata>
+<oai_dc:dc xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+<dc:title>Maider López</dc:title>
+<dc:description>
+
+Exposición
+:
+http://www.artium.org/Castellano/Exposiciones/Exposicion/tabid/176/language/es-ES/Default.aspx?pidExposicion=92
+Maider López. Proyecto Coches
+
+(2005)
+
+
+Visita guiada de la artista Maider López a su exposición en Artium. Una serie de 18 fotografías y dos intervenciones en las que muestra su interés por todo un símbolo de la cultura occidental: el coche. Grabado en Artium el 19 de octubre de 2005.
+
+</dc:description>
+<dc:creator>Maider López</dc:creator>
+<dc:subject>Visitas guiadas</dc:subject>
+<dc:source>
+http://www.ivoox.com/playerivoox_ee_2046610_1.html
+</dc:source>
+<dc:identifier>López, Maider</dc:identifier>
+</oai_dc:dc>
+</metadata>
+</record>
+<record>
+<header>
+<identifier>oai:aliada-project:7418</identifier>
+<datestamp>2014-03-26T09:15:48Z</datestamp>
+</header>
+<metadata>
+<oai_dc:dc xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+<dc:title>Jaime de la Jara</dc:title>
+</oai_dc:dc>
+</metadata>
+</record>
+<record>
+<header>
+<identifier>oai:aliada-project:7419</identifier>
+<datestamp>2014-03-31T08:27:47Z</datestamp>
+</header>
+<metadata>
+<oai_dc:dc xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+<dc:title>Ángel Borrego</dc:title>
+<dc:description>
+
+Exposición
+:
+http://www.artium.org/Castellano/Exposiciones/Exposicion/tabid/176/language/es-ES/Default.aspx?pidExposicion=97
+Ángel Borrego: Exposición vigilada II
+
+(2003)
+
+
+Conversaciones con el artista Ángel Borrego con motivo de su exposición en Artium Centro Museo Vasco de Arte Contemporáneo. Grabado en Artium el 21 de febrero de 2003.
+
+</dc:description>
+<dc:creator>Ángel Borrego</dc:creator>
+<dc:subject>Conversaciones con...</dc:subject>
+<dc:source>
+http://www.ivoox.com/playerivoox_ee_2046555_1.html
+</dc:source>
+<dc:identifier>Ángel Borrego</dc:identifier>
+</oai_dc:dc>
+</metadata>
+</record>
+<resumptionToken completeListSize="49" cursor="0"/>
+</ListRecords>
+</OAI-PMH>

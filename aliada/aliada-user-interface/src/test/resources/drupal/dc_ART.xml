@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='ISO-8859-1'?>
+<OAI-PMH xmlns="http://www.openarchives.org/OAI/2.0/" 
+				xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+				xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/ http://www.openarchives.org/OAI/2.0/OAI-PMH.xsd">
+<responseDate>2014-12-12T10:36:11Z</responseDate>
+<request verb="ListRecords" metadataPrefix="oai_dc">http://aliada-project</request>
+<ListRecords>
+<record>
+<header>
+<identifier>oai:aliada-project:7111</identifier>
+<datestamp>2014-03-31T08:28:40Z</datestamp>
+</header>
+<metadata>
+<oai_dc:dc xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+<dc:title>Jaime Davidovich</dc:title>
+<dc:description>
+Exposición : Jaime Davidovich.(2010)
+Conversaciones con Jaime Davidovich donde analiza su producción artística entre 1968 y 1984, a modo de viaje que va desde su obra pictórica, pasando por la experimentación con el vídeo, hasta su encuentro con la televisión...
+http://www.artium.org/Castellano/Exposiciones/Exposicion/tabid/176/language/es-ES/Default.aspx?pidExposicion=25
+</dc:description>
+<dc:creator>Jaime Davidovich</dc:creator>
+<dc:subject>Conversaciones con...</dc:subject>
+<dc:source>http://www.ivoox.com/playerivoox_ee_2025617_1.html</dc:source>
+<dc:identifier>Davidovich, Jaime</dc:identifier>
+</oai_dc:dc>
+</metadata>
+</record>
+<resumptionToken completeListSize="49" cursor="0"/>
+</ListRecords>
+</OAI-PMH>

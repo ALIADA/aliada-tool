@@ -1,0 +1,646 @@
+<OAI-PMH xmlns="http://www.openarchives.org/OAI/2.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/ http://www.openarchives.org/OAI/2.0/OAI-PMH.xsd">
+<responseDate>2014-12-12T10:38:49Z</responseDate>
+<request verb="ListRecords" metadataPrefix="oai_dc">http://aliada-project</request>
+<ListRecords>
+<record>
+<header>
+<identifier>oai:aliada-project:4281</identifier>
+<datestamp>2014-03-26T16:58:56Z</datestamp>
+</header>
+<metadata>
+<oai_dc:dc xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+<dc:title>Yvi</dc:title>
+<dc:contributor>Joan Fontaine</dc:contributor>
+<dc:creator>Sam Wood</dc:creator>
+<dc:date>1947-01-01 00:00:00</dc:date>
+<dc:coverage>Ideal Cinema - Teatro Florida (Vitoria-Gasteiz)</dc:coverage>
+<dc:subject>Drama</dc:subject>
+<dc:identifier>DEP PROG 1947-42</dc:identifier>
+<dc:source>http://www.youtube.com/embed/vlqzsuVxwrY</dc:source>
+</oai_dc:dc>
+</metadata>
+</record>
+<record>
+<header>
+<identifier>oai:aliada-project:4414</identifier>
+<datestamp>2014-03-26T16:58:35Z</datestamp>
+</header>
+<metadata>
+<oai_dc:dc xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+<dc:title>Swiss Tour</dc:title>
+<dc:contributor>Wilde Cornel</dc:contributor>
+<dc:contributor>Josette Day</dc:contributor>
+<dc:contributor>Simone Signoret</dc:contributor>
+<dc:creator>Leopold Lindtberg</dc:creator>
+<dc:date>1950-01-01 00:00:00</dc:date>
+<dc:coverage>Teatro Florida</dc:coverage>
+<dc:subject>Musical</dc:subject>
+<dc:identifier>DEP PROG 1950-92</dc:identifier>
+</oai_dc:dc>
+</metadata>
+</record>
+<record>
+<header>
+<identifier>oai:aliada-project:7115</identifier>
+<datestamp>2014-03-26T16:21:43Z</datestamp>
+</header>
+<metadata>
+<oai_dc:dc xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+<dc:title>Así es mi tierra</dc:title>
+<dc:contributor>Mario Moreno "Cantinflas"</dc:contributor>
+<dc:creator>Arcady Boytler</dc:creator>
+<dc:date>1937-09-15 00:00:00</dc:date>
+<dc:coverage>Ideal Cinema Preferencia (Vitoria-Gasteiz)</dc:coverage>
+<dc:identifier>DEP PROG 1937-13</dc:identifier>
+<dc:source>http://www.youtube.com/embed/AzZRfHNxRrg</dc:source>
+</oai_dc:dc>
+</metadata>
+</record>
+<record>
+<header>
+<identifier>oai:aliada-project:7116</identifier>
+<datestamp>2014-03-26T16:58:14Z</datestamp>
+</header>
+<metadata>
+<oai_dc:dc xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+<dc:title>Apartado de correos 1001</dc:title>
+<dc:contributor>Conrado Sanmartín</dc:contributor>
+<dc:contributor>Elena Espejo</dc:contributor>
+<dc:contributor>Tomás Blanco</dc:contributor>
+<dc:creator>Julio Salvador</dc:creator>
+<dc:date>1950-01-01 00:00:00</dc:date>
+<dc:coverage>Teatro Florida (Vitoria-Gasteiz)</dc:coverage>
+<dc:subject>Crimen</dc:subject>
+<dc:subject>Drama</dc:subject>
+<dc:identifier>DEP PROG 1950-3</dc:identifier>
+<dc:source>http://www.youtube.com/embed/I9HaJ98Sl7Q</dc:source>
+</oai_dc:dc>
+</metadata>
+</record>
+<record>
+<header>
+<identifier>oai:aliada-project:7117</identifier>
+<datestamp>2014-03-26T16:57:53Z</datestamp>
+</header>
+<metadata>
+<oai_dc:dc xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+<dc:title>Rocketship X-M</dc:title>
+<dc:contributor>Lloyd Bridges</dc:contributor>
+<dc:creator>Kurt Neumann</dc:creator>
+<dc:date>1950-01-01 00:00:00</dc:date>
+<dc:coverage>Teatro Príncipe (Vitoria-Gasteiz)</dc:coverage>
+<dc:subject>Aventuras</dc:subject>
+<dc:identifier>DEP PROG 1950-9, DEP PROG 1950-119</dc:identifier>
+<dc:source>http://www.youtube.com/embed/4oCMTgSbL8s</dc:source>
+</oai_dc:dc>
+</metadata>
+</record>
+<record>
+<header>
+<identifier>oai:aliada-project:7118</identifier>
+<datestamp>2014-03-26T17:05:35Z</datestamp>
+</header>
+<metadata>
+<oai_dc:dc xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+<dc:title>Colt 45</dc:title>
+<dc:contributor>Randolph Scott</dc:contributor>
+<dc:contributor>Ruth Roman</dc:contributor>
+<dc:creator>Edwin L. Marin</dc:creator>
+<dc:date>1950-01-01 00:00:00</dc:date>
+<dc:coverage>Teatro Florida (Vitoria-Gasteiz)</dc:coverage>
+<dc:subject>Oeste</dc:subject>
+<dc:identifier>DEP PROG 1950-10</dc:identifier>
+<dc:source>http://www.youtube.com/embed/_hiSeTFGXjg</dc:source>
+</oai_dc:dc>
+</metadata>
+</record>
+<record>
+<header>
+<identifier>oai:aliada-project:7119</identifier>
+<datestamp>2014-03-26T16:59:16Z</datestamp>
+</header>
+<metadata>
+<oai_dc:dc xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+<dc:title>Scarlet Angel</dc:title>
+<dc:contributor>Yvonne DeCarlo</dc:contributor>
+<dc:contributor>Rock Hudson</dc:contributor>
+<dc:creator>Sidney Salkow</dc:creator>
+<dc:date>1952-01-01 00:00:00</dc:date>
+<dc:coverage>Gran Cinema Vesa (Vitoria-Gasteiz)</dc:coverage>
+<dc:subject>Aventuras</dc:subject>
+<dc:identifier>DEP PROG 1952-5</dc:identifier>
+</oai_dc:dc>
+</metadata>
+</record>
+<record>
+<header>
+<identifier>oai:aliada-project:7120</identifier>
+<datestamp>2014-03-26T17:03:45Z</datestamp>
+</header>
+<metadata>
+<oai_dc:dc xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+<dc:title>Brigadoon</dc:title>
+<dc:contributor>Gene Kelly</dc:contributor>
+<dc:contributor>Cyd Charisse</dc:contributor>
+<dc:creator>Vincent Minnelli</dc:creator>
+<dc:date>1954-01-01 00:00:00</dc:date>
+<dc:coverage>
+Gran Cinema Vesa - Teatro Florida (Vitoria-Gasteiz)
+</dc:coverage>
+<dc:subject>Musical</dc:subject>
+<dc:identifier>DEP PROG 1954-5</dc:identifier>
+<dc:source>http://www.youtube.com/embed/61MEKyAQSpg</dc:source>
+</oai_dc:dc>
+</metadata>
+</record>
+<record>
+<header>
+<identifier>oai:aliada-project:7121</identifier>
+<datestamp>2014-03-26T17:10:47Z</datestamp>
+</header>
+<metadata>
+<oai_dc:dc xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+<dc:title>Two Sisters from Boston</dc:title>
+<dc:contributor>Kathryn Grayson</dc:contributor>
+<dc:contributor>June Allyson</dc:contributor>
+<dc:contributor>Jimmy Durante</dc:contributor>
+<dc:creator>Henry Koster</dc:creator>
+<dc:date>1946-01-01 00:00:00</dc:date>
+<dc:coverage>Nuevo Teatro (Vitoria-Gasteiz)</dc:coverage>
+<dc:subject>Comedia</dc:subject>
+<dc:subject>Musical</dc:subject>
+<dc:identifier>DEP PROG 1946-17</dc:identifier>
+<dc:source>http://www.youtube.com/embed/DVjh9-JYd1g</dc:source>
+</oai_dc:dc>
+</metadata>
+</record>
+<record>
+<header>
+<identifier>oai:aliada-project:7122</identifier>
+<datestamp>2014-03-26T17:04:58Z</datestamp>
+</header>
+<metadata>
+<oai_dc:dc xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+<dc:title>Fort apache</dc:title>
+<dc:contributor>Henry Fonda</dc:contributor>
+<dc:contributor>John Wayne</dc:contributor>
+<dc:contributor>Shirley Temple</dc:contributor>
+<dc:contributor>Pedro Armendariz</dc:contributor>
+<dc:creator>John Ford</dc:creator>
+<dc:date>1948-01-01 00:00:00</dc:date>
+<dc:coverage>Teatro Príncipe (Vitoria-Gasteiz)</dc:coverage>
+<dc:subject>Oeste</dc:subject>
+<dc:identifier>DEP PROG 1948-73</dc:identifier>
+<dc:source>http://www.youtube.com/embed/IM0QMrTF0MY</dc:source>
+</oai_dc:dc>
+</metadata>
+</record>
+<record>
+<header>
+<identifier>oai:aliada-project:7123</identifier>
+<datestamp>2014-03-26T16:59:45Z</datestamp>
+</header>
+<metadata>
+<oai_dc:dc xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+<dc:title>Operation secret</dc:title>
+<dc:contributor>Cornel Wilde</dc:contributor>
+<dc:contributor/>
+<dc:contributor>Steve Cochran</dc:contributor>
+<dc:contributor>Phyllis Thaxter</dc:contributor>
+<dc:contributor>Karl Malden</dc:contributor>
+<dc:creator>Lewis Seiler</dc:creator>
+<dc:date>1952-01-01 00:00:00</dc:date>
+<dc:coverage>Teatro Principal (Vitoria-Gasteiz)</dc:coverage>
+<dc:subject>Misterio</dc:subject>
+<dc:identifier>DEP PROG 1952-51</dc:identifier>
+</oai_dc:dc>
+</metadata>
+</record>
+<record>
+<header>
+<identifier>oai:aliada-project:7124</identifier>
+<datestamp>2014-03-26T17:06:40Z</datestamp>
+</header>
+<metadata>
+<oai_dc:dc xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+<dc:title>The Hurricane</dc:title>
+<dc:contributor>Dorothy Lamour</dc:contributor>
+<dc:contributor>Jon Hall</dc:contributor>
+<dc:contributor>Mary Astor</dc:contributor>
+<dc:contributor>C. Aubrey Smith</dc:contributor>
+<dc:creator>John Ford</dc:creator>
+<dc:date>1937-11-05 00:00:00</dc:date>
+<dc:coverage>Teatro Príncipe (Vitoria-Gasteiz)</dc:coverage>
+<dc:subject>Drama</dc:subject>
+<dc:subject>Romance</dc:subject>
+<dc:identifier>DEP PROG 1937-4, DEP PROG 1937-15</dc:identifier>
+<dc:source>http://www.youtube.com/embed/3hkBnTIKDp4</dc:source>
+</oai_dc:dc>
+</metadata>
+</record>
+<record>
+<header>
+<identifier>oai:aliada-project:7125</identifier>
+<datestamp>2014-03-26T17:11:34Z</datestamp>
+</header>
+<metadata>
+<oai_dc:dc xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+<dc:title>Ivanhoe</dc:title>
+<dc:contributor>Robert Taylor</dc:contributor>
+<dc:contributor>Elizabeth Taylor</dc:contributor>
+<dc:contributor>Joan Fontaine</dc:contributor>
+<dc:contributor>George Sanders</dc:contributor>
+<dc:creator>Richard Thorpe</dc:creator>
+<dc:coverage>
+Teatro Principal - Gran Cinema Vesa (Vitoria-Gasteiz)
+</dc:coverage>
+<dc:subject>Aventuras</dc:subject>
+<dc:identifier>DEP PROG 1952-91</dc:identifier>
+<dc:source>http://www.youtube.com/embed/NBCSFmf451M</dc:source>
+</oai_dc:dc>
+</metadata>
+</record>
+<record>
+<header>
+<identifier>oai:aliada-project:7126</identifier>
+<datestamp>2014-03-26T17:00:10Z</datestamp>
+</header>
+<metadata>
+<oai_dc:dc xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+<dc:title>Joan of Arc</dc:title>
+<dc:contributor>Ingrid Bergman</dc:contributor>
+<dc:contributor>José Ferrer</dc:contributor>
+<dc:contributor>Francis L. Sullivan</dc:contributor>
+<dc:creator>Victor Fleming</dc:creator>
+<dc:date>1948-01-01 00:00:00</dc:date>
+<dc:coverage>Teatro Florida (Vitoria-Gasteiz)</dc:coverage>
+<dc:subject>Drama</dc:subject>
+<dc:identifier>DEP PROG 1948-30</dc:identifier>
+<dc:source>http://www.youtube.com/embed/cta20GNYUqM</dc:source>
+</oai_dc:dc>
+</metadata>
+</record>
+<record>
+<header>
+<identifier>oai:aliada-project:7127</identifier>
+<datestamp>2014-03-24T15:13:23Z</datestamp>
+</header>
+<metadata>
+<oai_dc:dc xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+<dc:title>Kon Tiki</dc:title>
+<dc:contributor>Knut Haugland</dc:contributor>
+<dc:contributor>Erik Hesselberg</dc:contributor>
+<dc:contributor>Thor Heyerdahl</dc:contributor>
+<dc:creator>Thor Heyerdahl</dc:creator>
+<dc:date>0000-00-00 00:00:00</dc:date>
+<dc:identifier>DEP PROG 1950-76</dc:identifier>
+</oai_dc:dc>
+</metadata>
+</record>
+<record>
+<header>
+<identifier>oai:aliada-project:7128</identifier>
+<datestamp>2014-03-26T17:02:48Z</datestamp>
+</header>
+<metadata>
+<oai_dc:dc xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+<dc:title>Los tres mosqueteros</dc:title>
+<dc:contributor>Mario Moreno "Cantinflas"</dc:contributor>
+<dc:contributor>Ángel Garasa</dc:contributor>
+<dc:contributor>Janet Alcoriza</dc:contributor>
+<dc:creator>Miguel M. Delgado</dc:creator>
+<dc:date>1942-01-01 00:00:00</dc:date>
+<dc:coverage>Ideal Cinema Preferencia (Vitoria-Gasteiz)</dc:coverage>
+<dc:subject>Aventuras</dc:subject>
+<dc:subject>Comedia</dc:subject>
+<dc:identifier>DEP PROG 1942-36</dc:identifier>
+<dc:source>http://www.youtube.com/embed/yOIfMpvmMWc</dc:source>
+</oai_dc:dc>
+</metadata>
+</record>
+<record>
+<header>
+<identifier>oai:aliada-project:7129</identifier>
+<datestamp>2014-03-26T17:04:15Z</datestamp>
+</header>
+<metadata>
+<oai_dc:dc xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+<dc:title>Monkey Business</dc:title>
+<dc:contributor>Cary Grant</dc:contributor>
+<dc:contributor>Ginger Rogers</dc:contributor>
+<dc:contributor>Charles Coburn</dc:contributor>
+<dc:contributor>Marilyn Monroe</dc:contributor>
+<dc:creator>Howard Hawks</dc:creator>
+<dc:date>1952-01-01 00:00:00</dc:date>
+<dc:coverage>Teatro Principal (Vitoria-Gasteiz)</dc:coverage>
+<dc:subject>Comedia</dc:subject>
+<dc:identifier>DEP PROG 1952-90</dc:identifier>
+<dc:source>http://www.youtube.com/embed/etH4OqxAUDI</dc:source>
+</oai_dc:dc>
+</metadata>
+</record>
+<record>
+<header>
+<identifier>oai:aliada-project:7130</identifier>
+<datestamp>2014-03-26T17:00:37Z</datestamp>
+</header>
+<metadata>
+<oai_dc:dc xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+<dc:title>I remember mama</dc:title>
+<dc:contributor>Irene Dunne</dc:contributor>
+<dc:contributor>Barbara Bel Geddes</dc:contributor>
+<dc:contributor>Oskar Homolka</dc:contributor>
+<dc:creator>George Stevens</dc:creator>
+<dc:date>1948-01-01 00:00:00</dc:date>
+<dc:subject>Drama</dc:subject>
+<dc:identifier>DEP PROG 1948-41</dc:identifier>
+<dc:source>http://www.youtube.com/embed/P0FVNa251XU</dc:source>
+</oai_dc:dc>
+</metadata>
+</record>
+<record>
+<header>
+<identifier>oai:aliada-project:7131</identifier>
+<datestamp>2014-03-26T17:01:53Z</datestamp>
+</header>
+<metadata>
+<oai_dc:dc xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+<dc:title>Captain Lightfoot</dc:title>
+<dc:contributor>Rock Hudson</dc:contributor>
+<dc:contributor>Barbara Rush</dc:contributor>
+<dc:contributor>Jeff Morrow</dc:contributor>
+<dc:creator>Douglas Sirk</dc:creator>
+<dc:date>1955-01-01 00:00:00</dc:date>
+<dc:coverage>
+Gran Cinema Vesa - Teatro Florida (Vitoria-Gasteiz)
+</dc:coverage>
+<dc:subject>Aventuras</dc:subject>
+<dc:subject>Drama</dc:subject>
+<dc:subject>Historia</dc:subject>
+<dc:identifier>DEP PROG 1955-25</dc:identifier>
+<dc:source>http://www.youtube.com/embed/dort8p0n1qk</dc:source>
+</oai_dc:dc>
+</metadata>
+</record>
+<record>
+<header>
+<identifier>oai:aliada-project:7132</identifier>
+<datestamp>2014-03-26T17:02:26Z</datestamp>
+</header>
+<metadata>
+<oai_dc:dc xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+<dc:title>Song of Love</dc:title>
+<dc:contributor>Katharine Hepburn</dc:contributor>
+<dc:contributor>Paul Henreid</dc:contributor>
+<dc:contributor>Robert Walker</dc:contributor>
+<dc:creator>Clarence Brown</dc:creator>
+<dc:date>1947-01-01 00:00:00</dc:date>
+<dc:coverage>Teatro Príncipe (Vitoria-Gasteiz)</dc:coverage>
+<dc:subject>Drama</dc:subject>
+<dc:identifier>DEP PROG 1947-26</dc:identifier>
+<dc:source>http://www.youtube.com/embed/GHbqkME4RVA</dc:source>
+</oai_dc:dc>
+</metadata>
+</record>
+<record>
+<header>
+<identifier>oai:aliada-project:7134</identifier>
+<datestamp>2014-03-26T17:03:11Z</datestamp>
+</header>
+<metadata>
+<oai_dc:dc xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+<dc:title>Detective Story</dc:title>
+<dc:contributor>Kirk Douglas</dc:contributor>
+<dc:contributor>Eleanor Parker</dc:contributor>
+<dc:contributor>Lee Grant</dc:contributor>
+<dc:creator>William Wyler</dc:creator>
+<dc:date>1951-01-01 00:00:00</dc:date>
+<dc:coverage>Teatro Principal (Vitoria-Gasteiz)</dc:coverage>
+<dc:subject>Drama</dc:subject>
+<dc:subject>Misterio</dc:subject>
+<dc:identifier>DEP PROG 1951-73</dc:identifier>
+<dc:source>http://www.youtube.com/embed/44CUK2tcMUU</dc:source>
+</oai_dc:dc>
+</metadata>
+</record>
+<record>
+<header>
+<identifier>oai:aliada-project:7135</identifier>
+<datestamp>2014-03-26T17:04:36Z</datestamp>
+</header>
+<metadata>
+<oai_dc:dc xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+<dc:title>Temptation Harbour</dc:title>
+<dc:contributor>Robert Newton</dc:contributor>
+<dc:contributor>Simone Simon</dc:contributor>
+<dc:contributor>William Hartnell</dc:contributor>
+<dc:creator>Lance Comfort</dc:creator>
+<dc:date>1947-03-27 00:00:00</dc:date>
+<dc:subject>Drama</dc:subject>
+<dc:identifier>DEP PROG 1947-2</dc:identifier>
+</oai_dc:dc>
+</metadata>
+</record>
+<record>
+<header>
+<identifier>oai:aliada-project:7136</identifier>
+<datestamp>2014-03-26T16:16:58Z</datestamp>
+</header>
+<metadata>
+<oai_dc:dc xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+<dc:title>That night in Rio</dc:title>
+<dc:contributor>Alice Faye</dc:contributor>
+<dc:contributor>Don Ameche</dc:contributor>
+<dc:contributor>Carmen Miranda</dc:contributor>
+<dc:contributor>S.Z. Sakall</dc:contributor>
+<dc:creator>Irving Cummings</dc:creator>
+<dc:date>1941-04-11 00:00:00</dc:date>
+<dc:coverage>Nuevo Teatro (Vitoria-Gasteiz)</dc:coverage>
+<dc:identifier>DEP PROG 1941-2</dc:identifier>
+<dc:source>http://www.youtube.com/embed/-vt5k7qxyv8</dc:source>
+</oai_dc:dc>
+</metadata>
+</record>
+<record>
+<header>
+<identifier>oai:aliada-project:7137</identifier>
+<datestamp>2014-03-26T17:06:15Z</datestamp>
+</header>
+<metadata>
+<oai_dc:dc xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+<dc:title>The Hasty Heart</dc:title>
+<dc:contributor>Ronald Reagan</dc:contributor>
+<dc:contributor>Patricia Neal</dc:contributor>
+<dc:contributor>Richard Todd</dc:contributor>
+<dc:contributor>Anthony Nicholls</dc:contributor>
+<dc:contributor>Nirou Kaneko</dc:contributor>
+<dc:creator>Vincent Sherman</dc:creator>
+<dc:date>1949-12-02 00:00:00</dc:date>
+<dc:coverage>
+Teatro Principal - Gran Cinema Vesa (Vitoria-Gasteiz)
+</dc:coverage>
+<dc:subject>Drama</dc:subject>
+<dc:identifier>DEP PROG 1949-3</dc:identifier>
+<dc:source>http://www.youtube.com/embed/bJ2xiA7KBj8</dc:source>
+</oai_dc:dc>
+</metadata>
+</record>
+<record>
+<header>
+<identifier>oai:aliada-project:7138</identifier>
+<datestamp>2014-03-26T17:07:36Z</datestamp>
+</header>
+<metadata>
+<oai_dc:dc xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+<dc:title>Twelve O'Clock High</dc:title>
+<dc:contributor>Gregory Peck</dc:contributor>
+<dc:contributor>Hugh Marlowe</dc:contributor>
+<dc:contributor>Gary Merrill</dc:contributor>
+<dc:contributor>Millard Mitchell</dc:contributor>
+<dc:creator>Henry King</dc:creator>
+<dc:date>1950-02-13 00:00:00</dc:date>
+<dc:coverage>Teatro Principal (Vitoria-Gasteiz)</dc:coverage>
+<dc:subject>Bélica</dc:subject>
+<dc:subject>Drama</dc:subject>
+<dc:identifier>DEP PROG 1949-4, DEP PROG 1949-78</dc:identifier>
+<dc:source>http://www.youtube.com/embed/MMLw4JEgh4U</dc:source>
+</oai_dc:dc>
+</metadata>
+</record>
+<record>
+<header>
+<identifier>oai:aliada-project:7139</identifier>
+<datestamp>2014-03-26T17:08:33Z</datestamp>
+</header>
+<metadata>
+<oai_dc:dc xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+<dc:title>Where the sidewalks ends</dc:title>
+<dc:contributor>Dana Andrews</dc:contributor>
+<dc:contributor>Gene Tierney</dc:contributor>
+<dc:contributor>Gary Merrill</dc:contributor>
+<dc:contributor>Bert Freed</dc:contributor>
+<dc:creator>Otto Preminger</dc:creator>
+<dc:date>1950-07-07 00:00:00</dc:date>
+<dc:coverage>Gran Cinema Vesa (Vitoria-Gasteiz)</dc:coverage>
+<dc:subject>Crimen</dc:subject>
+<dc:subject>Drama</dc:subject>
+<dc:identifier>DEP PROG 1950-113</dc:identifier>
+<dc:source>http://www.youtube.com/embed/kA4mk1ecGs8</dc:source>
+</oai_dc:dc>
+</metadata>
+</record>
+<record>
+<header>
+<identifier>oai:aliada-project:7140</identifier>
+<datestamp>2014-03-26T17:08:09Z</datestamp>
+</header>
+<metadata>
+<oai_dc:dc xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+<dc:title>Week-End in Havana</dc:title>
+<dc:contributor>Alice Faye</dc:contributor>
+<dc:contributor>Carmen Miranda</dc:contributor>
+<dc:contributor>John Payne</dc:contributor>
+<dc:contributor>Cesar Romero</dc:contributor>
+<dc:creator>Walter Lang</dc:creator>
+<dc:date>1941-10-17 00:00:00</dc:date>
+<dc:coverage>Teatro Florida (Vitoria-Gasteiz)</dc:coverage>
+<dc:subject>Comedia</dc:subject>
+<dc:subject>Musical</dc:subject>
+<dc:identifier>DEP PROG 1941-44</dc:identifier>
+<dc:source>http://www.youtube.com/embed/PV1xhaFDCwM</dc:source>
+</oai_dc:dc>
+</metadata>
+</record>
+<record>
+<header>
+<identifier>oai:aliada-project:7141</identifier>
+<datestamp>2014-03-26T17:11:08Z</datestamp>
+</header>
+<metadata>
+<oai_dc:dc xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+<dc:title>Luxury Liner</dc:title>
+<dc:contributor>George Brent</dc:contributor>
+<dc:contributor>Jane Powell</dc:contributor>
+<dc:contributor>Lauritz Melchior</dc:contributor>
+<dc:contributor>Frances Gifford</dc:contributor>
+<dc:creator>Richard Whorf</dc:creator>
+<dc:date>1948-09-09 00:00:00</dc:date>
+<dc:coverage>
+Teatro Principal y Teatro Florida (Vitoria-Gasteiz)
+</dc:coverage>
+<dc:subject>Comedia</dc:subject>
+<dc:identifier>DEP PROG 1948-1</dc:identifier>
+<dc:source>http://www.youtube.com/embed/ZZgx6R5rahY</dc:source>
+</oai_dc:dc>
+</metadata>
+</record>
+<record>
+<header>
+<identifier>oai:aliada-project:7142</identifier>
+<datestamp>2014-03-26T17:08:57Z</datestamp>
+</header>
+<metadata>
+<oai_dc:dc xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+<dc:title>Adam and Evelyne</dc:title>
+<dc:contributor>Stewart Granger</dc:contributor>
+<dc:contributor>Jean Simmons</dc:contributor>
+<dc:contributor>Edwin Styles</dc:contributor>
+<dc:contributor>Raymond Young</dc:contributor>
+<dc:creator>Harold French</dc:creator>
+<dc:date>1949-12-26 00:00:00</dc:date>
+<dc:coverage>Gran Cinema Vesa (Vitoria-Gasteiz)</dc:coverage>
+<dc:subject>Comedia</dc:subject>
+<dc:identifier>DEP PROG 1949-104</dc:identifier>
+<dc:source>http://www.youtube.com/embed/TY4-Es_NpP0</dc:source>
+</oai_dc:dc>
+</metadata>
+</record>
+<record>
+<header>
+<identifier>oai:aliada-project:7143</identifier>
+<datestamp>2014-03-26T17:09:52Z</datestamp>
+</header>
+<metadata>
+<oai_dc:dc xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+<dc:title>To Catch a Thief</dc:title>
+<dc:contributor>Cary Grant</dc:contributor>
+<dc:contributor>Grace Kelly</dc:contributor>
+<dc:contributor>Jessie Royce Landis</dc:contributor>
+<dc:contributor>John Williams</dc:contributor>
+<dc:creator>Alfred Hitchcock</dc:creator>
+<dc:date>1955-03-08 00:00:00</dc:date>
+<dc:coverage>Teatro Amaya (Vitoria-Gasteiz)</dc:coverage>
+<dc:subject>Crimen</dc:subject>
+<dc:subject>Misterio</dc:subject>
+<dc:subject>Romance</dc:subject>
+<dc:identifier>DEP PROG 1955-24</dc:identifier>
+<dc:source>http://www.youtube.com/embed/Xhm8bgcgh6o</dc:source>
+</oai_dc:dc>
+</metadata>
+</record>
+<record>
+<header>
+<identifier>oai:aliada-project:7144</identifier>
+<datestamp>2014-04-07T13:58:23Z</datestamp>
+</header>
+<metadata>
+<oai_dc:dc xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+<dc:title>Under Capricorn</dc:title>
+<dc:contributor>Ingrid Bergman</dc:contributor>
+<dc:contributor>Joseph Cotten</dc:contributor>
+<dc:contributor>Michael Wilding</dc:contributor>
+<dc:contributor>Margaret Leighton</dc:contributor>
+<dc:creator>Alfred Hitchcock</dc:creator>
+<dc:date>1949-08-10 00:00:00</dc:date>
+<dc:coverage>
+Gran Cinema Vesa y Teatro Florida (Vitoria-Gasteiz)
+</dc:coverage>
+<dc:subject>Drama</dc:subject>
+<dc:identifier>DEP PROG 1949-9-1</dc:identifier>
+<dc:source>http://www.youtube.com/embed/mCDUuv06buU</dc:source>
+</oai_dc:dc>
+</metadata>
+</record>
+<resumptionToken completeListSize="31" cursor="0"/>
+</ListRecords>
+</OAI-PMH>
