@@ -7,6 +7,7 @@ package eu.aliada.linksdiscovery.model;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlElement;
@@ -29,6 +30,8 @@ public class Job {
 	private String status;
 	/** Number of links generated. */
 	private int numLinks;
+	/** Linking process duration. */
+	private long durationSeconds;
 
 	/** Subjobs associated. */
 	@XmlElement
@@ -141,6 +144,31 @@ public class Job {
 		this.status = status;
 	}
 	
+	/**
+	 * Returns the linking process duration in seconds.
+	 * 
+	 * @return The linking process duration in seconds.
+	 * @since 2.0
+	 */
+	public long getDurationSeconds() {
+		this.durationSeconds = 0;
+		if(startDate != null & endDate != null) {
+			long diffInMillies = endDate.getTime() - startDate.getTime();
+			TimeUnit timeUnit = TimeUnit.SECONDS;
+			this.durationSeconds = timeUnit.convert(diffInMillies,TimeUnit.MILLISECONDS);
+		}
+		return durationSeconds;
+	}
+	/**
+	 * Sets the linking process duration in seconds.
+	 * 
+	 * @param numLinks The linking process duration in seconds.
+	 * @since 2.0
+	 */
+	public void setDurationSeconds(final long durationSeconds) {
+		this.durationSeconds = durationSeconds;
+	}
+
 	/**
 	 * Returns the subjobs of the job.
 	 * 
