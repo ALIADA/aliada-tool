@@ -467,9 +467,9 @@ INSERT INTO `organisation` (`organisationId`,`org_name`,`org_path`,`org_catalog_
 --
 
 INSERT INTO `profile` (`profile_id`, `profile_name`, `profile_type_code`, `profile_description`, `metadata_scheme_code`, `file_type_code`, `file_format_code`, `character_set_code`) VALUES(1, 'MARC BIB', 0, 'MARC biblio', 0, 0, 0, 0);
-INSERT INTO `profile` (`profile_id`, `profile_name`, `profile_type_code`, `profile_description`, `metadata_scheme_code`, `file_type_code`, `file_format_code`, `character_set_code`) VALUES(2, 'MARC AUT', 0, 'MARC authorities', 0, 1, 0, 0);
-INSERT INTO `profile` (`profile_id`, `profile_name`, `profile_type_code`, `profile_description`, `metadata_scheme_code`, `file_type_code`, `file_format_code`, `character_set_code`) VALUES(3, 'LIDO', 1, 'LIDO MUSEUM', 1, 2, 0, 0);
-INSERT INTO `profile` (`profile_id`, `profile_name`, `profile_type_code`, `profile_description`, `metadata_scheme_code`, `file_type_code`, `file_format_code`, `character_set_code`) VALUES(4, 'DC', 2, 'Dublin Core Drupal', 2, 3, 0, 0);
+INSERT INTO `profile` (`profile_id`, `profile_name`, `profile_type_code`, `profile_description`, `metadata_scheme_code`, `file_type_code`, `file_format_code`, `character_set_code`) VALUES(2, 'MARC AUT', 1, 'MARC authorities', 0, 1, 0, 0);
+INSERT INTO `profile` (`profile_id`, `profile_name`, `profile_type_code`, `profile_description`, `metadata_scheme_code`, `file_type_code`, `file_format_code`, `character_set_code`) VALUES(3, 'LIDO', 2, 'LIDO MUSEUM', 1, 2, 0, 0);
+INSERT INTO `profile` (`profile_id`, `profile_name`, `profile_type_code`, `profile_description`, `metadata_scheme_code`, `file_type_code`, `file_format_code`, `character_set_code`) VALUES(4, 'DC', 3, 'Dublin Core Drupal', 2, 3, 0, 0);
 
 
 --
@@ -535,8 +535,9 @@ INSERT INTO `t_file_type` (`file_type_code`, `file_type_name`, `file_type_descri
 --
 
 INSERT INTO `t_metadata_scheme` (`metadata_code`, `metadata_name`, `metadata_description`, `metadata_conversion_file`) VALUES(0, 'marcxml', NULL, 'MARC21slim.xsd');
-INSERT INTO `t_metadata_scheme` (`metadata_code`, `metadata_name`, `metadata_description`, `metadata_conversion_file`) VALUES(1, 'lido', NULL, 'lido-v1.0.xsd');
-INSERT INTO `t_metadata_scheme` (`metadata_code`, `metadata_name`, `metadata_description`, `metadata_conversion_file`) VALUES(2, 'Dublin Core', NULL, 'xsd');
+INSERT INTO `t_metadata_scheme` (`metadata_code`, `metadata_name`, `metadata_description`, `metadata_conversion_file`) VALUES(1, 'auth', NULL, 'MARC21slim.xsd');
+INSERT INTO `t_metadata_scheme` (`metadata_code`, `metadata_name`, `metadata_description`, `metadata_conversion_file`) VALUES(2, 'lido', NULL, 'lido-v1.0.xsd');
+INSERT INTO `t_metadata_scheme` (`metadata_code`, `metadata_name`, `metadata_description`, `metadata_conversion_file`) VALUES(3, 'Dublin Core', NULL, 'dc.xsd');
 
 --
 -- Volcado de datos para la tabla `t_profile_type`
@@ -726,7 +727,9 @@ INSERT INTO `xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`,
 INSERT INTO `xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES('830p', 0, '830p', 0);
 INSERT INTO `xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES('830s', 0, '830s', 0);
 INSERT INTO `xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES('852()a', 0, '852()a', 0);
-INSERT INTO `xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('lido:administrativeMetadata/lido:recordWrap/lido:recordID', '1', 'identificador', '2');
+INSERT INTO `xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('lido:administrativeMetadata/lido:recordWrap/lido:recordID', '1', 'identifier', '2');
 INSERT INTO `xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('lido:term', '1', 'lido type', '2');
-INSERT INTO `xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('lido:appellationValue', '1', 'titulo', '2');
-INSERT INTO `xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('dc:identifier', '1', 'identificador', '3');
+INSERT INTO `xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('lido:appellationValue', '1', 'title', '2');
+INSERT INTO `xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('dc:identifier', '1', 'dc:identifier', '3');
+INSERT INTO `xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('identifier', '1', 'identifier', '3');
+INSERT INTO `xml_tag` (`xml_tag_id`, `xml_tag_mandatory`, `xml_tag_description`, `xml_tag_type_code`) VALUES ('dc:title', '1', 'dc:title', '3');
