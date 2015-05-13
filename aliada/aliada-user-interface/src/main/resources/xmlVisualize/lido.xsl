@@ -4,7 +4,7 @@
 							xmlns:cont="eu.aliada.inputValidation.CheckImportError">
 
     <xsl:template match="lido:lidoWrap">
-    	<xsl:value-of select="cont:putAuthorityType()"/>
+    	<xsl:value-of select="cont:putLidoType()"/>
     	<xsl:variable name="total" select="count(lido:lido)" />
     	<table class="table">
 			<tr class="backgroundGreen center">

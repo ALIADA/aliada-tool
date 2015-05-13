@@ -17,6 +17,7 @@
 				<xsl:variable name="amicusNumber" select="marc:controlfield[@tag='001']"/>
 				<xsl:variable name="title" select="marc:datafield[@tag='245']"/>
 				<xsl:variable name="recordType" select="substring(marc:leader,7,1)"/>
+				<xsl:if test="(not($title) and not($amicusNumber))">
 				<tr>
 					<td><xsl:value-of select="position()" />/<xsl:value-of select="$total"/></td>
 					<td><xsl:value-of select="$recordType"/><xsl:value-of select="cont:getFileType($recordType)"/></td>
@@ -39,6 +40,7 @@
 						</xsl:if>
 					</td>
 				</tr>
+				</xsl:if>
 			</xsl:for-each>
 		</table>
 		<xsl:value-of select="cont:getLocaleText('message.errorTotal')"/><xsl:value-of select="cont:getCount()"/>
