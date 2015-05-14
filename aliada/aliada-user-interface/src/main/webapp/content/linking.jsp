@@ -39,8 +39,10 @@
 	 var checkLinking = function(){
 			console.log("checking Linking");
 			var linkingJobId = $("#linkingJobId").val();
+			var sec = $("#sec").val();
 			var urlPath = "/aliada-links-discovery-2.0/jobs/"+linkingJobId;
 			var arrName = [];
+			var arrDuration = [];
 			var arrNumLinks = [];
 			var arrStatus = [];
 		    $.ajax({
@@ -52,44 +54,34 @@
 			   	   var sDate = json.startDate;
 			   	   //sDate= new Date(sDate);
 			   	   var eDate = json.endDate;
+			   	   var duration = json.durationSeconds;
 			   	   var numLinks = json.numLinks;
 			   	   var status = json.status;
 			   	   $("#datasetsInfo").empty();
 				   $.each(json.subjobs, function(idx, obj) {
 					   
 					   	arrName[idx] = obj.name;
+					   	arrDuration[idx] = obj.durationSeconds;
 					   	arrNumLinks[idx] = obj.numLinks;
 					   	arrStatus[idx] = obj.status;
 					   	
 					   	console.log(idx);
 				   		console.log(obj.name);
+				   		console.log("Duración: "+obj.durationSeconds);
 				   		console.log(obj.numLinks);
 				   		console.log(obj.status);
 				   		
-				   		var d = "<table>";
+				   		var d = "<ul style='list-style-type:square'>";
 				   		for (var x = 0; x < arrName.length; x++) {
-				   			console.log("Result: "+(x+1));
 				   			if (arrStatus[x]=="running") {
-				   				if((x+1)%2 == 0){
-				   					d = d + '<td>' + arrName[x]+': '+arrNumLinks[x]+' <img src="images/loaderMini.gif"/></td></tr>';
-				   				} else {
-				   					d = d + '<tr><td>' + arrName[x]+': '+arrNumLinks[x]+' <img src="images/loaderMini.gif"/></td>';
-				   				}
+				   					d = d + "<li>" + arrName[x] + ': ' + arrNumLinks[x] + ' <img src="images/loaderMini.gif"/> </li>';
 				   			} else if (arrStatus[x]=="finished") {
-				   				if((x+1)%2 == 0){
-				   					d = d + '<td>' + arrName[x]+': '+arrNumLinks[x]+' <img src="images/fine.png"/></td></tr>';
-				   				} else {
-				   					d = d + '<tr><td>' + arrName[x]+': '+arrNumLinks[x]+' <img src="images/fine.png"/></td>';
-				   				}
+				   					d = d + "<li>" + arrName[x] + ': ' + arrNumLinks[x] + " <img src='images/fine.png'/><ul style='list-style-type: disc'><li>" + arrDuration[x] + ' ' + sec + ' </li></ul></li>';
 				   			} else {
-								if((x+1)%2 == 0){
-									d = d + '<td>' + arrName[x]+': '+arrNumLinks[x]+' <img src="images/clock.png"/></td></tr>';
-				   				} else {
-				   					d = d + '<tr><td>' + arrName[x]+': '+arrNumLinks[x]+' <img src="images/clock.png"/></td>';
-				   				}
+				   					d = d + "<li>" + arrName[x] + ': ' + arrNumLinks[x] + ' <img src="images/clock.png"/> </li>';
 				   			}
 				   		}
-				   		d = d +'</table>';
+				   		d = d +'</ul>';
 				   		
 				   		$("#datasetsInfo").html(d);
 				   		
@@ -98,8 +90,6 @@
 			   		   console.log("interval linking stopped");
 			   		   clearInterval(intervalLinking);
 				       $("#progressBarLinking").hide();
-				       $("#fineLinkingImg").addClass("centerImage");
-				       $("#fineLinkingImg").show();
 				       if(finishedCreat){
 				    	   $("#publishButton").removeClass("button");
 				    	   $("#publishButton").addClass("buttonGreen");
@@ -206,6 +196,7 @@
 <html:hidden id="rdfizerStatus" name="rdfizerStatus" value="%{#session['rdfizerStatus']}" />
 <html:hidden id="linkingJobId" name="linkingJobId" value="%{#session['linkingJobId']}" />
 <html:hidden id="ldsJobId" name="ldsJobId" value="%{#session['ldsJobId']}" />
+<html:hidden id="sec" name="sec" value="%{seconds}" />
 <ul class="breadcrumb">
 	<span class="breadCrumb"><html:text name="home"/></span>
 	<li><span class="breadcrumb"><html:text name="manage.title"/></span></li>
@@ -220,10 +211,11 @@
 		<html:property value="fileToLink.getFilename()"/>
 		<h3 class="mediumLabel"><html:text name="linking.datasets"/></h3>		
 		<html:iterator value="datasets" var="data">
-	         <ul><html:checkbox fieldValue="%{value}" name="dataset" value="false">
-     		</html:checkbox>
-     		<html:property value="%{value}"/></ul>
-	      </html:iterator> 
+	         <ul>
+	         	<html:checkbox fieldValue="%{value}" name="dataset" value="true"></html:checkbox>
+     		 	<html:property value="%{value}"/>
+     		 </ul>
+	    </html:iterator> 
 		<html:actionerror/>
 		<div class="row">
 			<html:submit id="startLinkingButton" action="startLinking" cssClass="submitButton buttonGreen" key="linkSubmit"/>
@@ -268,12 +260,11 @@
 					<div id="endDate" class="displayInline"></div>	
 				</div>
 				<div class="row"><label class="label"><html:text name="linkingInfo.linksDataset"/></label></div>
-				<div id="datasetsInfo" class="lMargin40"></div>
+				<div id="datasetsInfo" class="lMargin20 content scrollifyAuto"></div>
 				<div class="row">
 					<label class="label"><html:text name="linkingInfo.links"/></label>
 					<div id="numLinks" class="displayInline"></div>	
-				</div>
-				<img id="fineLinkingImg" class="displayNo" src="images/fine.png" alt="fine"/>				
+				</div>			
 				<img id="progressBarLinking" class="displayNo centerImage" src="images/progressBar.gif" alt="progress" />
 			</div>	
 			

@@ -80,8 +80,6 @@ $(function(){
 <!--<html:hidden id="areFiles" name="areFiles" value="importedFiles" />-->
 <html:hidden id="enableErrorLogButton" name="enableErrorLogButton" value="%{enableErrorLogButton}" />
 <html:hidden id="enableNextButton" name="enableNextButton" value="%{enableNextButton}" />
-<!-- Publication is OK -->
-<html:hidden id="publish" name="publish" value="%{#session['publish']}" />
 <ul class="breadcrumb">
 	<span class="breadCrumb"><html:text name="home"/></span>
 	<li><span class="breadcrumb activeGreen"><html:text name="manage.title"/></span></li>

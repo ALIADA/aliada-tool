@@ -141,7 +141,7 @@ background-color: #ffffff;
 	text-align: center;
 	font-size: 18px;
 	font-weight: bold;
-	padding : 10px;
+	padding : 3px;
 }
 .mediumLabel{
 	font-size: 18px;
@@ -442,12 +442,12 @@ padding-left: 2px;
 	margin-left: 850px;
 }
 #linkingInfoPanel{
-	width: 50%;
+	width: 60%;
 	height: 100%;
 	border-right: 1px dotted #1BBC9B;
 }
 #ldsInfoPanel{
-	width: 49%;
+	width: 39%;
 	height: 100%;
 }
 .underlined{
@@ -456,6 +456,11 @@ padding-left: 2px;
 .rMargin20{
 	margin-right: 20px;
 }
+
+.lMargin20{
+	margin-left:20px;
+}
+
 .lMargin40{
 	margin-left:40px;
 }
@@ -495,4 +500,11 @@ clear: both;
 #queryResults{
 	width:1200px;
 	height:300px;
+}
+.scrollifyAuto{
+	overflow: auto;
+}
+#datasetsInfo{
+	width:450px;
+	height:100px;
 }

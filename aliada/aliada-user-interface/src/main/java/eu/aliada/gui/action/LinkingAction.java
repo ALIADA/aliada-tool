@@ -46,6 +46,7 @@ public class LinkingAction extends ActionSupport {
 	private List<String> dataset;
     private FileWork fileToLink;
 	private String title;
+	private String seconds;
 	private String datasetUrl;
 
     private final Log logger = new Log(LinkingAction.class);
@@ -203,6 +204,7 @@ public class LinkingAction extends ActionSupport {
         createJobLDS();
         
         title = getText("dialog.publish.title");
+        seconds = getText("seconds");
         
         Connection connection = null;
         Statement updateStatement = null;
@@ -518,6 +520,23 @@ public class LinkingAction extends ActionSupport {
 		this.title = title;
 	}
 	 /**
+     * @return Returns the seconds.
+     * @exception
+     * @since 1.0
+     */
+	 public String getSeconds() {
+		return seconds;
+	}
+	 /**
+	     * @param seconds
+	     *            The seconds to set.
+	     * @exception
+	     * @since 1.0
+	     */
+	public void setSeconds(final String seconds) {
+		this.seconds = seconds;
+	}
+	/**
      * @return Returns the datasetUrl.
      * @exception
      * @since 1.0
