@@ -85,7 +85,7 @@
 	<Interlink id="aliada_dbpedia_object_book">
 	  <LinkType>owl:sameAs</LinkType>
 	  <SourceDataset dataSource="ALIADA_ds" var="object">
-		<RestrictTo> {?object rdf:type ecrm:E19_Physical_Object} UNION {?object rdf:type efrbroo:F3_Manifestation_Product_Type} </RestrictTo>
+		<RestrictTo> {?object rdf:type ecrm:E18_Physical_Thing} UNION {?object rdf:type efrbroo:F3_Manifestation_Product_Type} UNION {?object rdf:type ecrm:E73_Information_Object}</RestrictTo>
 	  </SourceDataset>
 	  <TargetDataset dataSource="DBpedia" var="b">
 		<RestrictTo> ?b rdf:type dbpediaont:Work . </RestrictTo>
