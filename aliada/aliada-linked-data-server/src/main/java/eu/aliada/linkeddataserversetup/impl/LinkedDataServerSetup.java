@@ -549,7 +549,7 @@ public class LinkedDataServerSetup {
 			
 			success = true;
 		} catch (Exception exception) {
-			LOGGER.error(MessageCatalog._00035_FILE_ACCESS_FAILURE, exception, jobConf.getOrgImagePath());
+			LOGGER.error(MessageCatalog._00035_FILE_ACCESS_FAILURE, exception);
 		}
 		return success;
 	}
