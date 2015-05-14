@@ -537,7 +537,7 @@ INSERT INTO `t_file_type` (`file_type_code`, `file_type_name`, `file_type_descri
 INSERT INTO `t_metadata_scheme` (`metadata_code`, `metadata_name`, `metadata_description`, `metadata_conversion_file`) VALUES(0, 'marcxml', NULL, 'MARC21slim.xsd');
 INSERT INTO `t_metadata_scheme` (`metadata_code`, `metadata_name`, `metadata_description`, `metadata_conversion_file`) VALUES(1, 'auth', NULL, 'MARC21slim.xsd');
 INSERT INTO `t_metadata_scheme` (`metadata_code`, `metadata_name`, `metadata_description`, `metadata_conversion_file`) VALUES(2, 'lido', NULL, 'lido-v1.0.xsd');
-INSERT INTO `t_metadata_scheme` (`metadata_code`, `metadata_name`, `metadata_description`, `metadata_conversion_file`) VALUES(3, 'Dublin Core', NULL, 'dc.xsd');
+INSERT INTO `t_metadata_scheme` (`metadata_code`, `metadata_name`, `metadata_description`, `metadata_conversion_file`) VALUES(3, 'dc', NULL, 'dc.xsd');
 
 --
 -- Volcado de datos para la tabla `t_profile_type`
