@@ -6,6 +6,7 @@
 package eu.aliada.linksdiscovery.impl;
 
 import java.util.ArrayList;
+import java.lang.Math;
 import java.io.ByteArrayInputStream;
 
 import javax.ws.rs.client.Client;
@@ -64,6 +65,8 @@ public class SpecificAPIDataset {
 	private String propertyNameLOBID;
 	private String propertyNameOpenLibr;
 	private String propertyLCSubjectHead;
+	/** Maximum PAGE SIZE for SPARQL. */
+	private final int MAX_PAGE_SIZE = 1000;
 	/** Maximum number of triples to in every SPARQL INSERT statement. */
 	private final int MAX_NUMBER_TRIPLES = 100;
 
@@ -85,15 +88,15 @@ public class SpecificAPIDataset {
 				+ " {?res rdf:type ecrm:E39_Actor . ?res ecrm:P131_is_identified_by  ?apel . ?apel ecrm:P3_has_note ?text}" 
 				+ " UNION {?res rdf:type ecrm:E21_Person . ?res ecrm:P131_is_identified_by  ?apel . ?apel ecrm:P3_has_note ?text}" 
 				+ " UNION {?res rdf:type efrbroo:F10_Person . ?res ecrm:P131_is_identified_by  ?apel . ?apel ecrm:P3_has_note ?text}"
-				+ "}";	
+				+ "} ORDER BY ?res";	
 		queryLOBIDOrg = queryStart
 				+ " {?res rdf:type ecrm:E39_Actor . ?res ecrm:P131_is_identified_by  ?apel . ?apel ecrm:P3_has_note ?text}" 
-				+ "}";	
+				+ "} ORDER BY ?res";
 		queryLOBIDBibRes = queryStart
             	+ " ?res rdf:type efrbroo:F3_Manifestation_Product_Type . "
             	+ " ?res ecrm:P102_has_title ?apel . "
             	+ " ?apel ecrm:P3_has_note ?text "
-            	+ "}";
+            	+ "} ORDER BY ?res";
 		queryOpenLibr = queryLOBIDBibRes;
 		queryLCSubjectHead = queryStart
             	+ " {?obj rdf:type ecrm:E89_PropositionalObject . "
@@ -113,7 +116,7 @@ public class SpecificAPIDataset {
 				+ " {?obj ecrm:P137_exemplifies ?res . "
 				+ " ?res rdf:type skos:Concept . "
 				+ " ?res skos:prefLabel ?text }"
-				+ "}";
+				+ "} ORDER BY ?res";
 		//Properties
 		propertyNameVIAF = SAMEAS_PROP;
 		propertyNameLOBID = SAMEAS_PROP;
@@ -133,8 +136,9 @@ public class SpecificAPIDataset {
 	 * @return a list of the matched URIs.
 	 * @since 2.0
 	 */
-	public ResourceToLink[] getResourcesToLink(final String sparqlEndpointURI, final String user, final String password, final String query) {
+	public ResourceToLink[] getResourcesToLink(final String sparqlEndpointURI, final String user, final String password, final String sparql, final Integer offset, final Integer limit) {
 	  	ArrayList<ResourceToLink> resourcesList = new ArrayList<ResourceToLink>();
+	  	final String query = sparql + " OFFSET " + offset + " LIMIT " + limit;
         // Execute the query and obtain results
 	  	ResultSet results = rdfstoreDAO.executeSelect(sparqlEndpointURI, user, password, query);
 	 	if (results != null){
@@ -414,31 +418,41 @@ public class SpecificAPIDataset {
 		//Begin the search process
 		LOGGER.info(MessageCatalog._00083_SPECIFICAPI_STARTING, logExtDatasetName);
 		if((query!= null) && (propertyName!= null)) {
-			// Get the URIs of the resources to use to discover links towards external datasets.
-			ResourceToLink[] resToLink= getResourcesToLink(jobConf.getInputURI(), jobConf.getInputLogin(), jobConf.getInputPassword(), query);
-			//For each resource to link, do a search in the external dataset
+			Integer maxLimit = Integer.MAX_VALUE;
+			int pageSize = MAX_PAGE_SIZE;
+			Integer offset = 0;
+			Integer limit = Math.min(pageSize, maxLimit - offset);
+			// Get some of the URIs of the resources to use to discover links towards external datasets.
+			ResourceToLink[] resToLink= getResourcesToLink(jobConf.getInputURI(), jobConf.getInputLogin(), jobConf.getInputPassword(), query, offset, limit);
 			String triples = "";
 			int numInsertTriples = 0;
-			for (int i=0; i<resToLink.length;i++){
-				String[] externalRes = searchExternalDataset(resToLink[i].getText(), subjobConf.getName());
-				if(externalRes != null) {
-					for (int j=0; j<externalRes.length;j++) {
-						String triple = "<" + resToLink[i].getResURI() + "> <" + propertyName + "> <" + externalRes[j] + ">";    
-						triples = triples + triple + " . ";
-						numLinks++;
-						numInsertTriples++;
-						if(numInsertTriples >= MAX_NUMBER_TRIPLES) {
-						//Insert the discovered links in the corresponding graph
-							try {
-								rdfstoreDAO.executeInsert(jobConf.getOutputURI(), jobConf.getOutputGraph(), jobConf.getOutputLogin(), jobConf.getOutputPassword(), triples);
-							} catch (final Exception exception) {
-								LOGGER.error(MessageCatalog._00080_RDFSTORE_FAILURE, exception);
+			while (resToLink.length > 0) {
+				//For each resource to link, do a search in the external dataset
+				for (int i=0; i<resToLink.length;i++){
+					String[] externalRes = searchExternalDataset(resToLink[i].getText(), subjobConf.getName());
+					if(externalRes != null) {
+						for (int j=0; j<externalRes.length;j++) {
+							String triple = "<" + resToLink[i].getResURI() + "> <" + propertyName + "> <" + externalRes[j] + ">";    
+							triples = triples + triple + " . ";
+							numLinks++;
+							numInsertTriples++;
+							if(numInsertTriples >= MAX_NUMBER_TRIPLES) {
+							//Insert the discovered links in the corresponding graph
+								try {
+									rdfstoreDAO.executeInsert(jobConf.getOutputURI(), jobConf.getOutputGraph(), jobConf.getOutputLogin(), jobConf.getOutputPassword(), triples);
+								} catch (final Exception exception) {
+									LOGGER.error(MessageCatalog._00080_RDFSTORE_FAILURE, exception);
+								}
+								triples = "";
+								numInsertTriples = 0;
 							}
-							triples = "";
-							numInsertTriples = 0;
 						}
 					}
 				}
+				offset = offset + pageSize;
+				limit = Math.min(pageSize, maxLimit - offset);
+				// Get the rest of the URIs of the resources to use to discover links towards external datasets.
+				resToLink= getResourcesToLink(jobConf.getInputURI(), jobConf.getInputLogin(), jobConf.getInputPassword(), query, offset, limit);
 			}
 			if(numInsertTriples > 0) {
 			//Insert the remaining discovered links in the corresponding graph
