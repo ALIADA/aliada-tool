@@ -164,7 +164,7 @@ public class Subjob {
 	 * @since 2.0
 	 */
 	public long getDurationSeconds() {
-		this.durationSeconds = 0;
+		this.durationSeconds = -1;
 		if(startDate != null & endDate != null) {
 			long diffInMillies = endDate.getTime() - startDate.getTime();
 			TimeUnit timeUnit = TimeUnit.SECONDS;
