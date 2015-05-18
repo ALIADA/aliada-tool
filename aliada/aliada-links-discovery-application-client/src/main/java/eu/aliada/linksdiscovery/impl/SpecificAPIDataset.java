@@ -133,6 +133,8 @@ public class SpecificAPIDataset {
 	 * @param user					the user name for the SPARQl endpoint.
 	 * @param password				the password for the SPARQl endpoint.
 	 * @param query					the query to use to look for the resources.
+	 * @param offset				causes the solutions generated to start after the specified number of solutions.
+	 * @param limit					upper bound on the number of solutions returned.
 	 * @return a list of the matched URIs.
 	 * @since 2.0
 	 */

@@ -369,7 +369,7 @@ public class RDFStoreDAO {
 	public int getNumTriples(final String sparqlEndpointURI, final String graphName, final String user, final String password) {
 		int numTriples = 0; 
 		final StringBuilder builder = new StringBuilder();
-		builder.append("SELECT (COUNT(*) AS ?no) ");
+		builder.append("SELECT (COUNT(*) AS ?count) ");
 		if (isNotNullAndNotEmpty(graphName)) {
 			builder.append("FROM ");
 			if (graphName.startsWith("<") && graphName.endsWith(">")) {
@@ -394,7 +394,7 @@ public class RDFStoreDAO {
             while (results.hasNext())
             {
             	QuerySolution soln = results.nextSolution() ;
-            	numTriples = soln.getLiteral("no").getInt();
+            	numTriples = soln.getLiteral("count").getInt();
             }
 	        qexec.close() ;
 	      } catch (Exception exception) {
@@ -410,12 +410,16 @@ public class RDFStoreDAO {
 	 * @param graphName 			the graphName, null in case of default graph.
 	 * @param user					the user name for the SPARQl endpoint.
 	 * @param password				the password for the SPARQl endpoint.
+	 * @param offset				causes the solutions generated to start after the specified number of solutions.
+	 * @param limit					upper bound on the number of solutions returned.
 	 * @return a list of triples with the discovered links.
 	 * @since 2.0
 	 */
-	public Triple[] getDiscoveredLinks(final String sparqlEndpointURI, final String graphName, final String user, final String password) {
-		final String query = "select * FROM <" + graphName + "> " + 
-						"where {?source ?rel ?target }";
+	public Triple[] getDiscoveredLinks(final String sparqlEndpointURI, final String graphName, final String user, final String password, final int offset, final int limit) {
+		final String query = "select DISTINCT * FROM <" + graphName + "> " + 
+						"where {?source ?rel ?target }" +
+						" ORDER BY ?source ?target" +
+						" OFFSET " + offset + " LIMIT " + limit;
 	  	ArrayList<Triple> linksList = new ArrayList<Triple>();
 	 	try {
 	        // Execute the query and obtain results
@@ -442,6 +446,124 @@ public class RDFStoreDAO {
 			return new Triple[0];
 		}
 		return (Triple[]) linksList.toArray(new Triple[linksList.size()]);
+	}
+
+	/**
+	 * It executes a SELECT SPARQL query on the SPARQL endpoint, to get the number of discovered links.
+	 *
+	 * @param sparqlEndpointURI		the SPARQL endpoint URI.  
+	 * @param graphName 			the graphName, null in case of default graph.
+	 * @param user					the user name for the SPARQl endpoint.
+	 * @param password				the password for the SPARQl endpoint.
+	 * @return the number of the discovered links.
+	 * @since 2.0
+	 */
+	public int getNumDiscoveredLinks (final String sparqlEndpointURI, final String graphName, final String user, final String password) {
+		final String query = "select DISTINCT (COUNT(*) AS ?count) FROM <" + graphName + "> " + 
+						"where {?source ?rel ?target }";
+		int numLinks = 0;
+		try {
+	        // Execute the query and obtain results
+	        final QueryExecution qexec = QueryExecutionFactory.sparqlService(
+	        		sparqlEndpointURI, 
+	        		QueryFactory.create(query), 
+					auth(sparqlEndpointURI, user, password));
+	        qexec.setTimeout(2000, 5000);
+            final ResultSet results = qexec.execSelect() ;
+            while (results.hasNext())
+            {
+            	final QuerySolution soln = results.nextSolution() ;
+            	numLinks = soln.getLiteral("count").getInt();
+            }
+	        qexec.close() ;
+	      } catch (Exception exception) {
+			LOGGER.error(MessageCatalog._00035_SPARQL_FAILED, exception, query);
+		}
+		return numLinks;
+	}
+
+	/**
+	 * It executes a SELECT SPARQL query on the SPARQL endpoint, to get the ambiguous discovered links.
+	 *
+	 * @param sparqlEndpointURI		the SPARQL endpoint URI.  
+	 * @param graphName 			the graphName, null in case of default graph.
+	 * @param user					the user name for the SPARQl endpoint.
+	 * @param password				the password for the SPARQl endpoint.
+	 * @param offset				causes the solutions generated to start after the specified number of solutions.
+	 * @param limit					upper bound on the number of solutions returned.
+	 * @return a list of triples with the ambiguous discovered links.
+	 * @since 2.0
+	 */
+	public Triple[] getAmbiguousDiscoveredLinks(final String sparqlEndpointURI, final String graphName, final String user, final String password, final int offset, final int limit) {
+	  	ArrayList<Triple> ambiguosLinksList = new ArrayList<Triple>();
+	  	Triple[] discoveredLinks = getDiscoveredLinks(sparqlEndpointURI, graphName, user, password, offset, limit);
+	  	String formerSource = "";
+	  	String formerTarget = "";
+	  	Triple formerTriple = null;
+	  	boolean formerAdded = false;
+	  	for (int i=0;i<discoveredLinks.length;i++){
+    		if(formerTriple!= null) {
+    			if(formerSource != discoveredLinks[i].getSubject().getURI()) {
+    				//If first time appears the source URI, initialise the flag to false
+    				formerAdded = false;
+    			} else if (!discoveredLinks[i].getObject().getURI().substring(0, 14).equals(formerTarget.substring(0, 14))){
+    				//If changes target dataset, initialise the flag to false
+    				formerAdded = false;
+    			}
+    			if ((discoveredLinks[i].getSubject().getURI().equals(formerSource)) && 
+    				(discoveredLinks[i].getObject().getURI().substring(0, 14).equals(formerTarget.substring(0, 14)))) {
+	    			if (! formerAdded) {
+	    				ambiguosLinksList.add(formerTriple);
+	    				formerAdded = true;
+	    			}
+	    			ambiguosLinksList.add(discoveredLinks[i]);
+   				}
+    		}
+    		formerSource = discoveredLinks[i].getSubject().getURI();
+    		formerTarget = discoveredLinks[i].getObject().getURI();
+    		formerTriple = discoveredLinks[i];
+	  	}
+	  	return (Triple[]) ambiguosLinksList.toArray(new Triple[ambiguosLinksList.size()]);
+	}
+
+	/**
+	 * It executes a SELECT SPARQL query on the SPARQL endpoint, to get the number of ambiguous discovered links.
+	 *
+	 * @param sparqlEndpointURI		the SPARQL endpoint URI.  
+	 * @param graphName 			the graphName, null in case of default graph.
+	 * @param user					the user name for the SPARQl endpoint.
+	 * @param password				the password for the SPARQl endpoint.
+	 * @return the number of the ambiguous discovered links.
+	 * @since 2.0
+	 */
+	public int getNumAmbiguousDiscoveredLinks (final String sparqlEndpointURI, final String graphName, final String user, final String password) {
+		final String query = "SELECT (COUNT(?localRes) AS ?count) FROM <" + graphName + "> " + 
+						" WHERE {?localRes ?rel ?extRes ." +
+						" BIND( str(?extRes) as ?extResStr )." +
+						" BIND( SUBSTR(?extResStr, 1,14) AS ?extResBegin)" +
+						" }" +
+						" GROUP BY ?localRes ?extResBegin" +
+						" HAVING (COUNT(?localRes) > 1)";
+
+		int numLinks = 0;
+		try {
+	        // Execute the query and obtain results
+	        final QueryExecution qexec = QueryExecutionFactory.sparqlService(
+	        		sparqlEndpointURI, 
+	        		QueryFactory.create(query), 
+					auth(sparqlEndpointURI, user, password));
+	        qexec.setTimeout(2000, 5000);
+            final ResultSet results = qexec.execSelect() ;
+            while (results.hasNext())
+            {
+            	final QuerySolution soln = results.nextSolution() ;
+            	numLinks = numLinks + soln.getLiteral("count").getInt();
+            }
+	        qexec.close() ;
+	      } catch (Exception exception) {
+			LOGGER.error(MessageCatalog._00035_SPARQL_FAILED, exception, query);
+		}
+		return numLinks;
 	}
 
 	/**
