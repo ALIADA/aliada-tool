@@ -495,7 +495,7 @@ public class RDFStoreDAO {
 	 * @return a list of triples with the ambiguous discovered links.
 	 * @since 2.0
 	 */
-	public Triple[] getAmbiguousDiscoveredLinks(final String sparqlEndpointURI, final String graphName, final String user, final String password, final int offset, final int limit) {
+	public AmbiguousLink[] getAmbiguousDiscoveredLinks(final String sparqlEndpointURI, final String graphName, final String user, final String password, final int offset, final int limit) {
 		final String query = "SELECT ?localRes ?extResBegin (COUNT(?localRes) AS ?count) FROM <" + graphName + "> " + 
 				" WHERE {?localRes ?rel ?extRes ." +
 				" BIND( str(?extRes) as ?extResStr )." +
@@ -530,9 +530,9 @@ public class RDFStoreDAO {
 			LOGGER.error(MessageCatalog._00035_SPARQL_FAILED, exception, query);
 		}
 		if (ambiguousLinksList.isEmpty()) {
-			return new Triple[0];
+			return new AmbiguousLink[0];
 		}
-		return (Triple[]) ambiguousLinksList.toArray(new Triple[ambiguousLinksList.size()]);
+		return (AmbiguousLink[]) ambiguousLinksList.toArray(new AmbiguousLink[ambiguousLinksList.size()]);
 	}
 
 	/**
