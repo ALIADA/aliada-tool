@@ -1,13 +1,12 @@
 // ALIADA - Automatic publication under Linked Data paradigm
 //          of library and museum data
 //
-// Component: aliada-rdfizer
-// Responsible: ALIADA Consortiums
+// Component: aliada-shared
+// Responsible: ALIADA Consortium
 package eu.aliada.shared;
 
 import java.text.Normalizer;
 import java.text.Normalizer.Form;
-import java.util.UUID;
 
 /**
  * Strings Booch utility.

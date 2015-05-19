@@ -1,7 +1,7 @@
 // ALIADA - Automatic publication under Linked Data paradigm
 //          of library and museum data
 //
-// Component: aliada-rdfizer
+// Component: aliada-shared
 // Responsible: ALIADA Consortium
 package eu.aliada.shared;
 

@@ -40,6 +40,7 @@ import com.hp.hpl.jena.sparql.util.Context;
 
 import eu.aliada.shared.log.Log;
 import eu.aliada.shared.log.MessageCatalog;
+import eu.aliada.shared.rdfstore.AmbiguousLink;
 
 /**
  * RDF Store common operations. 
@@ -495,35 +496,43 @@ public class RDFStoreDAO {
 	 * @since 2.0
 	 */
 	public Triple[] getAmbiguousDiscoveredLinks(final String sparqlEndpointURI, final String graphName, final String user, final String password, final int offset, final int limit) {
-	  	ArrayList<Triple> ambiguosLinksList = new ArrayList<Triple>();
-	  	Triple[] discoveredLinks = getDiscoveredLinks(sparqlEndpointURI, graphName, user, password, offset, limit);
-	  	String formerSource = "";
-	  	String formerTarget = "";
-	  	Triple formerTriple = null;
-	  	boolean formerAdded = false;
-	  	for (int i=0;i<discoveredLinks.length;i++){
-    		if(formerTriple!= null) {
-    			if(formerSource != discoveredLinks[i].getSubject().getURI()) {
-    				//If first time appears the source URI, initialise the flag to false
-    				formerAdded = false;
-    			} else if (!discoveredLinks[i].getObject().getURI().substring(0, 14).equals(formerTarget.substring(0, 14))){
-    				//If changes target dataset, initialise the flag to false
-    				formerAdded = false;
-    			}
-    			if ((discoveredLinks[i].getSubject().getURI().equals(formerSource)) && 
-    				(discoveredLinks[i].getObject().getURI().substring(0, 14).equals(formerTarget.substring(0, 14)))) {
-	    			if (! formerAdded) {
-	    				ambiguosLinksList.add(formerTriple);
-	    				formerAdded = true;
-	    			}
-	    			ambiguosLinksList.add(discoveredLinks[i]);
-   				}
-    		}
-    		formerSource = discoveredLinks[i].getSubject().getURI();
-    		formerTarget = discoveredLinks[i].getObject().getURI();
-    		formerTriple = discoveredLinks[i];
-	  	}
-	  	return (Triple[]) ambiguosLinksList.toArray(new Triple[ambiguosLinksList.size()]);
+		final String query = "SELECT ?localRes ?extResBegin (COUNT(?localRes) AS ?count) FROM <" + graphName + "> " + 
+				" WHERE {?localRes ?rel ?extRes ." +
+				" BIND( str(?extRes) as ?extResStr )." +
+				" BIND( SUBSTR(?extResStr, 1,14) AS ?extResBegin)" +
+				" }" +
+				" GROUP BY ?localRes ?extResBegin" +
+				" HAVING (COUNT(?localRes) > 1)" +
+				" ORDER BY ?localRes" +
+				" OFFSET " + offset + " LIMIT " + limit;
+		
+		ArrayList<AmbiguousLink> ambiguousLinksList = new ArrayList<AmbiguousLink>();
+		try {
+			// Execute the query and obtain results
+			final QueryExecution qexec = QueryExecutionFactory.sparqlService(
+					sparqlEndpointURI, 
+					QueryFactory.create(query), 
+					auth(sparqlEndpointURI, user, password));
+			qexec.setTimeout(2000, 5000);
+			final ResultSet results = qexec.execSelect() ;
+			while (results.hasNext())
+			{
+				final QuerySolution soln = results.nextSolution() ;
+		    	final Resource localRes = soln.getResource("localRes");
+		    	final String extResBegin = soln.getLiteral("extResBegin").getString();
+		    	final AmbiguousLink ambiguousLink = new AmbiguousLink();
+		    	ambiguousLink.setSourceURI(localRes.getURI());
+		    	getSourceURIAmbiguousLinks(ambiguousLink, extResBegin, sparqlEndpointURI, graphName, user, password);
+		    	ambiguousLinksList.add(ambiguousLink);
+		    }
+		    qexec.close() ;
+		  } catch (Exception exception) {
+			LOGGER.error(MessageCatalog._00035_SPARQL_FAILED, exception, query);
+		}
+		if (ambiguousLinksList.isEmpty()) {
+			return new Triple[0];
+		}
+		return (Triple[]) ambiguousLinksList.toArray(new Triple[ambiguousLinksList.size()]);
 	}
 
 	/**
@@ -564,6 +573,43 @@ public class RDFStoreDAO {
 			LOGGER.error(MessageCatalog._00035_SPARQL_FAILED, exception, query);
 		}
 		return numLinks;
+	}
+
+	/**
+	 * It executes a SELECT SPARQL query on the SPARQL endpoint, to get the ambiguous discovered links.
+	 *
+	 * @param sparqlEndpointURI		the SPARQL endpoint URI.  
+	 * @param graphName 			the graphName, null in case of default graph.
+	 * @param user					the user name for the SPARQl endpoint.
+	 * @param password				the password for the SPARQl endpoint.
+	 * @param offset				causes the solutions generated to start after the specified number of solutions.
+	 * @param limit					upper bound on the number of solutions returned.
+	 * @return a list of triples with the ambiguous discovered links.
+	 * @since 2.0
+	 */
+	public void getSourceURIAmbiguousLinks(AmbiguousLink ambiguousLink, String extResBegin, final String sparqlEndpointURI, final String graphName, final String user, final String password) {
+		final String query = "SELECT ?extRes FROM <" + graphName + "> " + 
+				" WHERE {<" + ambiguousLink.getSourceURI() + "> ?rel ?extRes ." +
+				" FILTER regex(?extRes, \"^" + extResBegin + "\", \"i\")" +
+				" }";
+		try {
+			// Execute the query and obtain results
+			final QueryExecution qexec = QueryExecutionFactory.sparqlService(
+					sparqlEndpointURI, 
+					QueryFactory.create(query), 
+					auth(sparqlEndpointURI, user, password));
+			qexec.setTimeout(2000, 5000);
+			final ResultSet results = qexec.execSelect() ;
+			while (results.hasNext())
+			{
+				final QuerySolution soln = results.nextSolution() ;
+		    	final Resource extRes = soln.getResource("extRes");
+		    	ambiguousLink.addTargetURI(extRes.getURI());
+		    }
+		    qexec.close() ;
+		  } catch (Exception exception) {
+			LOGGER.error(MessageCatalog._00035_SPARQL_FAILED, exception, query);
+		}
 	}
 
 	/**

@@ -2,7 +2,7 @@
 //          of library and museum data
 //
 // Component: aliada-shared
-// Responsible: Tecnalia
+// Responsible: ALIADA Consortium
 package eu.aliada.shared.log;
 
 import org.slf4j.Logger;
