@@ -41,6 +41,7 @@ import com.hp.hpl.jena.sparql.util.Context;
 import eu.aliada.shared.log.Log;
 import eu.aliada.shared.log.MessageCatalog;
 import eu.aliada.shared.rdfstore.AmbiguousLink;
+import eu.aliada.shared.rdfstore.RetrievedResource;
 
 /**
  * RDF Store common operations. 
@@ -368,7 +369,6 @@ public class RDFStoreDAO {
 	 * @since 1.0
 	 */
 	public int getNumTriples(final String sparqlEndpointURI, final String graphName, final String user, final String password) {
-		int numTriples = 0; 
 		final StringBuilder builder = new StringBuilder();
 		builder.append("SELECT (COUNT(*) AS ?count) ");
 		if (isNotNullAndNotEmpty(graphName)) {
@@ -383,25 +383,7 @@ public class RDFStoreDAO {
 		
 		builder.append(" WHERE { ?s ?p ?o }");
 		String query = builder.toString();
-
-	 	try {
-	        // Execute the query and obtain results
-	        final QueryExecution qexec = QueryExecutionFactory.sparqlService(
-	        		sparqlEndpointURI, 
-	        		QueryFactory.create(query), 
-					auth(sparqlEndpointURI, user, password));
-	        qexec.setTimeout(2000, 5000);
-            ResultSet results = qexec.execSelect() ;
-            while (results.hasNext())
-            {
-            	QuerySolution soln = results.nextSolution() ;
-            	numTriples = soln.getLiteral("count").getInt();
-            }
-	        qexec.close() ;
-	      } catch (Exception exception) {
-			LOGGER.error(MessageCatalog._00035_SPARQL_FAILED, exception, query);
-		}
-		return numTriples;
+		return getNumResources(query, sparqlEndpointURI, user, password);
 	}
 
 	/**
@@ -417,7 +399,7 @@ public class RDFStoreDAO {
 	 * @since 2.0
 	 */
 	public Triple[] getDiscoveredLinks(final String sparqlEndpointURI, final String graphName, final String user, final String password, final int offset, final int limit) {
-		final String query = "select DISTINCT * FROM <" + graphName + "> " + 
+		final String query = "select * FROM <" + graphName + "> " + 
 						"where {?source ?rel ?target }" +
 						" ORDER BY ?source ?target" +
 						" OFFSET " + offset + " LIMIT " + limit;
@@ -459,28 +441,10 @@ public class RDFStoreDAO {
 	 * @return the number of the discovered links.
 	 * @since 2.0
 	 */
-	public int getNumDiscoveredLinks (final String sparqlEndpointURI, final String graphName, final String user, final String password) {
-		final String query = "select DISTINCT (COUNT(*) AS ?count) FROM <" + graphName + "> " + 
+	public int getNumDiscoveredLinks(final String sparqlEndpointURI, final String graphName, final String user, final String password) {
+		final String query = "select (COUNT(*) AS ?count) FROM <" + graphName + "> " + 
 						"where {?source ?rel ?target }";
-		int numLinks = 0;
-		try {
-	        // Execute the query and obtain results
-	        final QueryExecution qexec = QueryExecutionFactory.sparqlService(
-	        		sparqlEndpointURI, 
-	        		QueryFactory.create(query), 
-					auth(sparqlEndpointURI, user, password));
-	        qexec.setTimeout(2000, 5000);
-            final ResultSet results = qexec.execSelect() ;
-            while (results.hasNext())
-            {
-            	final QuerySolution soln = results.nextSolution() ;
-            	numLinks = soln.getLiteral("count").getInt();
-            }
-	        qexec.close() ;
-	      } catch (Exception exception) {
-			LOGGER.error(MessageCatalog._00035_SPARQL_FAILED, exception, query);
-		}
-		return numLinks;
+		return getNumResources(query, sparqlEndpointURI, user, password);
 	}
 
 	/**
@@ -492,7 +456,7 @@ public class RDFStoreDAO {
 	 * @param password				the password for the SPARQl endpoint.
 	 * @param offset				causes the solutions generated to start after the specified number of solutions.
 	 * @param limit					upper bound on the number of solutions returned.
-	 * @return a list of triples with the ambiguous discovered links.
+	 * @return a list of {@link eu.aliada.shared.rdfstore.AmbiguousLink} with the ambiguous discovered links.
 	 * @since 2.0
 	 */
 	public AmbiguousLink[] getAmbiguousDiscoveredLinks(final String sparqlEndpointURI, final String graphName, final String user, final String password, final int offset, final int limit) {
@@ -576,15 +540,16 @@ public class RDFStoreDAO {
 	}
 
 	/**
-	 * It executes a SELECT SPARQL query on the SPARQL endpoint, to get the ambiguous discovered links.
+	 * It executes a SELECT SPARQL query on the SPARQL endpoint, to get the ambiguous discovered links of a source URI.
 	 *
+	 * @param ambiguousLink			a {@link eu.aliada.shared.rdfstore.AmbiguousLink} that contains the source URI.  
+	 * @param extResBegin			the beginning string of the target link.  
 	 * @param sparqlEndpointURI		the SPARQL endpoint URI.  
 	 * @param graphName 			the graphName, null in case of default graph.
 	 * @param user					the user name for the SPARQl endpoint.
 	 * @param password				the password for the SPARQl endpoint.
 	 * @param offset				causes the solutions generated to start after the specified number of solutions.
 	 * @param limit					upper bound on the number of solutions returned.
-	 * @return a list of triples with the ambiguous discovered links.
 	 * @since 2.0
 	 */
 	public void getSourceURIAmbiguousLinks(AmbiguousLink ambiguousLink, String extResBegin, final String sparqlEndpointURI, final String graphName, final String user, final String password) {
@@ -612,6 +577,385 @@ public class RDFStoreDAO {
 		}
 	}
 
+	/**
+	 * It executes a SELECT SPARQL query on the SPARQL endpoint, to get the resources specified in the query argument.
+	 *
+	 * @param query					the query to execute to get the resources.  
+	 * @param sparqlEndpointURI		the SPARQL endpoint URI.  
+	 * @param user					the user name for the SPARQl endpoint.
+	 * @param password				the password for the SPARQl endpoint.
+	 * @param offset				causes the solutions generated to start after the specified number of solutions.
+	 * @param limit					upper bound on the number of solutions returned.
+	 * @return a list of {@link eu.aliada.shared.rdfstore.RetrievedResource} with the resources.
+	 * @since 2.0
+	 */
+	public RetrievedResource[] getResources(final String query, final String sparqlEndpointURI, final String user, final String password, final int offset, final int limit) {
+		ArrayList<RetrievedResource> resList = new ArrayList<RetrievedResource>();
+	 	try {
+	        // Execute the query and obtain results
+	        final QueryExecution qexec = QueryExecutionFactory.sparqlService(
+	        		sparqlEndpointURI, 
+	        		QueryFactory.create(query), 
+					auth(sparqlEndpointURI, user, password));
+	        qexec.setTimeout(2000, 5000);
+            final ResultSet results = qexec.execSelect() ;
+            while (results.hasNext())
+            {
+            	final QuerySolution soln = results.nextSolution() ;
+            	final Resource res = soln.getResource("res");
+        		String name = "";
+            	if(soln.contains("name")) {
+            		name = soln.getLiteral("name").getString();
+            	}
+        		final RetrievedResource retrievedRes = new RetrievedResource(res.getURI(), name);
+        		resList.add(retrievedRes);
+            }
+	        qexec.close() ;
+	      } catch (Exception exception) {
+			LOGGER.error(MessageCatalog._00035_SPARQL_FAILED, exception, query);
+		}
+		if (resList.isEmpty()) {
+			return new RetrievedResource[0];
+		}
+		return (RetrievedResource[]) resList.toArray(new RetrievedResource[resList.size()]);
+	}
+
+	/**
+	 * It executes a SELECT SPARQL query on the SPARQL endpoint, to get the number of resources specified in the query argument.
+	 *
+	 * @param query					the query to execute to get the number of resources.  
+	 * @param sparqlEndpointURI		the SPARQL endpoint URI.  
+	 * @param user					the user name for the SPARQl endpoint.
+	 * @param password				the password for the SPARQl endpoint.
+	 * @return the number of resources.
+	 * @since 2.0
+	 */
+	public int getNumResources(final String query, final String sparqlEndpointURI, final String user, final String password) {
+		int numRes = 0;
+		try {
+	        // Execute the query and obtain results
+	        final QueryExecution qexec = QueryExecutionFactory.sparqlService(
+	        		sparqlEndpointURI, 
+	        		QueryFactory.create(query), 
+					auth(sparqlEndpointURI, user, password));
+	        qexec.setTimeout(2000, 5000);
+            final ResultSet results = qexec.execSelect() ;
+            while (results.hasNext())
+            {
+            	final QuerySolution soln = results.nextSolution() ;
+            	numRes = soln.getLiteral("count").getInt();
+            }
+	        qexec.close() ;
+	      } catch (Exception exception) {
+			LOGGER.error(MessageCatalog._00035_SPARQL_FAILED, exception, query);
+		}
+		return numRes;
+	}
+	
+	/**
+	 * It executes a SELECT SPARQL query on the SPARQL endpoint, to get the authors.
+	 *
+	 * @param sparqlEndpointURI		the SPARQL endpoint URI.  
+	 * @param graphName 			the graphName, null in case of default graph.
+	 * @param user					the user name for the SPARQl endpoint.
+	 * @param password				the password for the SPARQl endpoint.
+	 * @param offset				causes the solutions generated to start after the specified number of solutions.
+	 * @param limit					upper bound on the number of solutions returned.
+	 * @return a list of {@link eu.aliada.shared.rdfstore.RetrievedResource} with the authors.
+	 * @since 2.0
+	 */
+	public RetrievedResource[] getAuthors(final String sparqlEndpointURI, final String graphName, final String user, final String password, final int offset, final int limit) {
+		final String query = " PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>" +
+		" PREFIX ecrm:   <http://erlangen-crm.org/current/>" +
+		" PREFIX efrbroo: <http://erlangen-crm.org/efrbroo/>" +
+		" SELECT ?res ?name FROM <" + graphName + "> " +
+		" WHERE { {{?res rdf:type ecrm:E39_Actor}" +
+		" UNION {?res rdf:type ecrm:E21_Person}" +
+		" UNION {?res rdf:type efrbroo:F10_Person}}" +
+		" . ?res ecrm:P131_is_identified_by ?apel" +
+		" . ?apel ecrm:P3_has_note ?name }" +
+		" ORDER BY ?res ?name" +
+		" OFFSET " + offset + " LIMIT " + limit;
+
+		return getResources(query, sparqlEndpointURI, user, password, offset, limit);
+	}
+
+	/**
+	 * It executes a SELECT SPARQL query on the SPARQL endpoint, to get the number of authors.
+	 *
+	 * @param sparqlEndpointURI		the SPARQL endpoint URI.  
+	 * @param graphName 			the graphName, null in case of default graph.
+	 * @param user					the user name for the SPARQl endpoint.
+	 * @param password				the password for the SPARQl endpoint.
+	 * @return the number of authors.
+	 * @since 2.0
+	 */
+	public int getNumAuthors(final String sparqlEndpointURI, final String graphName, final String user, final String password) {
+		final String query = " PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>" +
+		" PREFIX ecrm:   <http://erlangen-crm.org/current/>" +
+		" PREFIX efrbroo: <http://erlangen-crm.org/efrbroo/>" +
+		" SELECT (COUNT(*) AS ?count) FROM <" + graphName + "> " +
+		" WHERE { {{?actor rdf:type ecrm:E39_Actor}" +
+		" UNION {?actor rdf:type ecrm:E21_Person}" +
+		" UNION {?actor rdf:type efrbroo:F10_Person}}" +
+		" . ?actor ecrm:P131_is_identified_by ?apel" +
+		" . ?apel ecrm:P3_has_note ?name }";
+
+		return getNumResources(query, sparqlEndpointURI, user, password);
+	}
+
+	/**
+	 * It executes a SELECT SPARQL query on the SPARQL endpoint, to get the objects.
+	 *
+	 * @param sparqlEndpointURI		the SPARQL endpoint URI.  
+	 * @param graphName 			the graphName, null in case of default graph.
+	 * @param user					the user name for the SPARQl endpoint.
+	 * @param password				the password for the SPARQl endpoint.
+	 * @param offset				causes the solutions generated to start after the specified number of solutions.
+	 * @param limit					upper bound on the number of solutions returned.
+	 * @return a list of {@link eu.aliada.shared.rdfstore.RetrievedResource} with the objects.
+	 * @since 2.0
+	 */
+	public RetrievedResource[] getObjects(final String sparqlEndpointURI, final String graphName, final String user, final String password, final int offset, final int limit) {
+		final String query = " PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>" +
+		" PREFIX ecrm:   <http://erlangen-crm.org/current/>" +
+		" PREFIX efrbroo: <http://erlangen-crm.org/efrbroo/>" +
+		" SELECT ?res ?name FROM <" + graphName + "> " +
+		" WHERE {" +
+		" {?res rdf:type ecrm:E18_Physical_Thing ." +
+		" OPTIONAL {?res ecrm:P1_is_identified_by ?apel. ?apel ecrm:P3_has_note ?name}}" +
+		" UNION" +
+		" {?res rdf:type ecrm:E73_Information_Object ." +
+		" OPTIONAL {?res ecrm:P102_has_title ?apel. ?apel ecrm:P3_has_note ?name} }}" +
+		" ORDER BY ?res ?name" +
+		" OFFSET " + offset + " LIMIT " + limit;
+
+		return getResources(query, sparqlEndpointURI, user, password, offset, limit);
+	}
+
+	/**
+	 * It executes a SELECT SPARQL query on the SPARQL endpoint, to get the number of objects.
+	 *
+	 * @param sparqlEndpointURI		the SPARQL endpoint URI.  
+	 * @param graphName 			the graphName, null in case of default graph.
+	 * @param user					the user name for the SPARQl endpoint.
+	 * @param password				the password for the SPARQl endpoint.
+	 * @return the number of objects.
+	 * @since 2.0
+	 */
+	public int getNumObjects(final String sparqlEndpointURI, final String graphName, final String user, final String password) {
+		final String query = " PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>" +
+		" PREFIX ecrm:   <http://erlangen-crm.org/current/>" +
+		" PREFIX efrbroo: <http://erlangen-crm.org/efrbroo/>" +
+		" SELECT (COUNT(*) AS ?count) FROM <" + graphName + "> " +
+		" WHERE {" +
+		" {?res rdf:type ecrm:E18_Physical_Thing ." +
+		" OPTIONAL {?res ecrm:P1_is_identified_by ?apel. ?apel ecrm:P3_has_note ?name}}" +
+		" UNION" +
+		" {?res rdf:type ecrm:E73_Information_Object ." +
+		" OPTIONAL {?res ecrm:P102_has_title ?apel. ?apel ecrm:P3_has_note ?name} }}";
+
+		return getNumResources(query, sparqlEndpointURI, user, password);
+	}
+
+	/**
+	 * It executes a SELECT SPARQL query on the SPARQL endpoint, to get the manifestations.
+	 *
+	 * @param sparqlEndpointURI		the SPARQL endpoint URI.  
+	 * @param graphName 			the graphName, null in case of default graph.
+	 * @param user					the user name for the SPARQl endpoint.
+	 * @param password				the password for the SPARQl endpoint.
+	 * @param offset				causes the solutions generated to start after the specified number of solutions.
+	 * @param limit					upper bound on the number of solutions returned.
+	 * @return a list of {@link eu.aliada.shared.rdfstore.RetrievedResource} with the manifestations.
+	 * @since 2.0
+	 */
+	public RetrievedResource[] getManifestations(final String sparqlEndpointURI, final String graphName, final String user, final String password, final int offset, final int limit) {
+		final String query = " PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>" +
+		" PREFIX ecrm:   <http://erlangen-crm.org/current/>" +
+		" PREFIX efrbroo: <http://erlangen-crm.org/efrbroo/>" +
+		" SELECT ?res ?name FROM <" + graphName + "> " +
+		" WHERE {" +
+		" ?res rdf:type efrbroo:F3_Manifestation_Product_Type ." +
+		" ?res ecrm:P102_has_title ?apel. ?apel ecrm:P3_has_note ?name }" +
+		" ORDER BY ?res ?name" +
+		" OFFSET " + offset + " LIMIT " + limit;
+		
+		return getResources(query, sparqlEndpointURI, user, password, offset, limit);
+	}
+
+	/**
+	 * It executes a SELECT SPARQL query on the SPARQL endpoint, to get the number of manifestations.
+	 *
+	 * @param sparqlEndpointURI		the SPARQL endpoint URI.  
+	 * @param graphName 			the graphName, null in case of default graph.
+	 * @param user					the user name for the SPARQl endpoint.
+	 * @param password				the password for the SPARQl endpoint.
+	 * @return the number of manifestations.
+	 * @since 2.0
+	 */
+	public int getNumManifestations(final String sparqlEndpointURI, final String graphName, final String user, final String password) {
+		final String query = " PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>" +
+		" PREFIX ecrm:   <http://erlangen-crm.org/current/>" +
+		" PREFIX efrbroo: <http://erlangen-crm.org/efrbroo/>" +
+		" SELECT (COUNT(*) AS ?count) FROM <" + graphName + "> " +
+		" WHERE {" +
+		" ?res rdf:type efrbroo:F3_Manifestation_Product_Type ." +
+		" ?res ecrm:P102_has_title ?apel. ?apel ecrm:P3_has_note ?name }";
+
+		return getNumResources(query, sparqlEndpointURI, user, password);
+	}
+
+	/**
+	 * It executes a SELECT SPARQL query on the SPARQL endpoint, to get the resources specified in the query argument.
+	 *
+	 * @param sparqlEndpointURI		the SPARQL endpoint URI.  
+	 * @param graphName 			the graphName, null in case of default graph.
+	 * @param user					the user name for the SPARQl endpoint.
+	 * @param password				the password for the SPARQl endpoint.
+	 * @param offset				causes the solutions generated to start after the specified number of solutions.
+	 * @param limit					upper bound on the number of solutions returned.
+	 * @return a list of {@link eu.aliada.shared.rdfstore.RetrievedResource} with the resources.
+	 * @since 2.0
+	 */
+	public RetrievedWork[] getWorks(final String sparqlEndpointURI, final String graphName, final String user, final String password, final int offset, final int limit) {
+		final String query = " PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>" +
+		" PREFIX ecrm:   <http://erlangen-crm.org/current/>" +
+		" PREFIX efrbroo: <http://erlangen-crm.org/efrbroo/>" +
+		" SELECT ?work ?expr ?manif ?title ?dimensions ?extension ?author ?place_publication ?date_publication ?edition FROM <" + graphName + "> " +
+		" WHERE { ?work rdf:type efrbroo:F1_Work . "+
+		" ?work efrbroo:R40_has_representative_expression ?expr ." +
+		" ?expr efrbroo:R4_carriers_provided_by ?manif ." +
+		" ?manif ecrm:P102_has_title ?apel ." +
+		" ?apel ecrm:P3_has_note ?title ." +
+		" OPTIONAL { ?manif ecrm:CLP43_should_have_dimension ?dim ." +
+		" ?dim ecrm:P2_has_type <http://aliada-project.eu/2014/aliada-ontology/id/resource/Concept/MARC/6> ." +
+		" ?dim ecrm:P3_has_note ?dimensions . }" +
+		" OPTIONAL { ?manif ecrm:CLP43_should_have_dimension ?ext ." +
+		" ?ext ecrm:P2_has_type <http://aliada-project.eu/2014/aliada-ontology/id/resource/Concept/MARC/5> ." +
+		" ?ext ecrm:P3_has_note ?extension . }" +
+		" OPTIONAL { ?expr ecrm:P148_has_component ?lingobj1."+
+		" ?lingobj1 ecrm:P2_has_type <http://aliada-project.eu/2014/aliada-ontology/id/resource/Concept/MARC/1> ." +
+		" ?lingobj1 ecrm:P3_has_note ?author . }" +
+		" ?publexpr efrbroo:R14_incorporates ?expr ." +
+		" ?publexpr ecrm:P106_is_composed_of ?lingobj ." +
+		" OPTIONAL { ?lingobj ecrm:P2_has_type <http://aliada-project.eu/2014/aliada-ontology/id/resource/Concept/MARC/3> ." +
+		" ?lingobj ecrm:P3_has_note ?place_publication . }" +
+		" OPTIONAL { ?lingobj ecrm:P2_has_type <http://aliada-project.eu/2014/aliada-ontology/id/resource/Concept/MARC/4> ." +
+		" ?lingobj ecrm:P3_has_note ?date_publication . }" +
+		" OPTIONAL { ?lingobj ecrm:P2_has_type <http://aliada-project.eu/2014/aliada-ontology/id/resource/Concept/MARC/2> ." +
+		" ?lingobj ecrm:P3_has_note ?edition . } }" +
+		" ORDER BY ?work ?expr ?manif" +
+		" OFFSET " + offset + " LIMIT " + limit;
+
+		ArrayList<RetrievedWork> resList = new ArrayList<RetrievedWork>();
+	 	try {
+	        // Execute the query and obtain results
+	        final QueryExecution qexec = QueryExecutionFactory.sparqlService(
+	        		sparqlEndpointURI, 
+	        		QueryFactory.create(query), 
+					auth(sparqlEndpointURI, user, password));
+	        qexec.setTimeout(2000, 5000);
+            final ResultSet results = qexec.execSelect() ;
+            while (results.hasNext())
+            {
+            	final QuerySolution soln = results.nextSolution() ;
+		    	final RetrievedWork retrievedRes = new RetrievedWork();
+		    	retrievedRes.setWorkURI(soln.getResource("work").getURI());
+		    	retrievedRes.setExprURI(soln.getResource("expr").getURI());
+		    	retrievedRes.setManifURI(soln.getResource("manif").getURI());
+		    	retrievedRes.setTitle(soln.getLiteral("title").getString());
+        		
+		    	String dimensions = "";
+            	if(soln.contains("dimensions")) {
+            		dimensions = soln.getLiteral("dimensions").getString();
+            	}
+		    	retrievedRes.setDimensions(dimensions);
+        		
+		    	String extension = "";
+            	if(soln.contains("extension")) {
+            		extension = soln.getLiteral("extension").getString();
+            	}
+		    	retrievedRes.setExtension(extension);
+        		
+		    	String author = "";
+            	if(soln.contains("author")) {
+            		author = soln.getLiteral("author").getString();
+            	}
+		    	retrievedRes.setAuthor(author);
+
+		    	String publicPlace = "";
+            	if(soln.contains("place_publication")) {
+            		publicPlace = soln.getLiteral("place_publication").getString();
+            	}
+		    	retrievedRes.setPublicPlace(publicPlace);
+
+		    	String publicDate = "";
+            	if(soln.contains("date_publication")) {
+            		publicDate = soln.getLiteral("date_publication").getString();
+            	}
+		    	retrievedRes.setPublicDate(publicDate);
+
+		    	String edition = "";
+            	if(soln.contains("edition")) {
+            		edition = soln.getLiteral("edition").getString();
+            	}
+		    	retrievedRes.setEdition(edition);
+        		
+		    	resList.add(retrievedRes);
+            }
+	        qexec.close() ;
+	      } catch (Exception exception) {
+			LOGGER.error(MessageCatalog._00035_SPARQL_FAILED, exception, query);
+		}
+		if (resList.isEmpty()) {
+			return new RetrievedWork[0];
+		}
+		return (RetrievedWork[]) resList.toArray(new RetrievedWork[resList.size()]);
+	}
+
+	/**
+	 * It executes a SELECT SPARQL query on the SPARQL endpoint, to get the number of resources specified in the query argument.
+	 *
+	 * @param sparqlEndpointURI		the SPARQL endpoint URI.  
+	 * @param graphName 			the graphName, null in case of default graph.
+	 * @param user					the user name for the SPARQl endpoint.
+	 * @param password				the password for the SPARQl endpoint.
+	 * @return the number of resources.
+	 * @since 2.0
+	 */
+	public int getNumWorks(final String sparqlEndpointURI, final String graphName, final String user, final String password) {
+		final String query = " PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>" +
+		" PREFIX ecrm:   <http://erlangen-crm.org/current/>" +
+		" PREFIX efrbroo: <http://erlangen-crm.org/efrbroo/>" +
+		" SELECT (COUNT(*) AS ?count)  FROM <" + graphName + "> " +
+		" WHERE { ?work rdf:type efrbroo:F1_Work . "+
+		" ?work efrbroo:R40_has_representative_expression ?expr ." +
+		" ?expr efrbroo:R4_carriers_provided_by ?manif ." +
+		" ?manif ecrm:P102_has_title ?apel ." +
+		" ?apel ecrm:P3_has_note ?title ." +
+		" OPTIONAL { ?manif ecrm:CLP43_should_have_dimension ?dim ." +
+		" ?dim ecrm:P2_has_type <http://aliada-project.eu/2014/aliada-ontology/id/resource/Concept/MARC/6> ." +
+		" ?dim ecrm:P3_has_note ?dimensions . }" +
+		" OPTIONAL { ?manif ecrm:CLP43_should_have_dimension ?ext ." +
+		" ?ext ecrm:P2_has_type <http://aliada-project.eu/2014/aliada-ontology/id/resource/Concept/MARC/5> ." +
+		" ?ext ecrm:P3_has_note ?extension . }" +
+		" OPTIONAL { ?expr ecrm:P148_has_component ?lingobj1."+
+		" ?lingobj1 ecrm:P2_has_type <http://aliada-project.eu/2014/aliada-ontology/id/resource/Concept/MARC/1> ." +
+		" ?lingobj1 ecrm:P3_has_note ?author . }" +
+		" ?publexpr efrbroo:R14_incorporates ?expr ." +
+		" ?publexpr ecrm:P106_is_composed_of ?lingobj ." +
+		" OPTIONAL { ?lingobj ecrm:P2_has_type <http://aliada-project.eu/2014/aliada-ontology/id/resource/Concept/MARC/3> ." +
+		" ?lingobj ecrm:P3_has_note ?place_publication . }" +
+		" OPTIONAL { ?lingobj ecrm:P2_has_type <http://aliada-project.eu/2014/aliada-ontology/id/resource/Concept/MARC/4> ." +
+		" ?lingobj ecrm:P3_has_note ?date_publication . }" +
+		" OPTIONAL { ?lingobj ecrm:P2_has_type <http://aliada-project.eu/2014/aliada-ontology/id/resource/Concept/MARC/2> ." +
+		" ?lingobj ecrm:P3_has_note ?edition . } }";
+
+		return getNumResources(query, sparqlEndpointURI, user, password);
+	}
+	
+	
 	/**
 	 * It executes an DELETE SPARQL query on the SPARQL endpoint.
 	 *
