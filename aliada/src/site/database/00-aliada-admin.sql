@@ -79,7 +79,7 @@ CREATE TABLE IF NOT EXISTS `organisation` (
   `isql_commands_file_dataset_default` varchar(245) DEFAULT NULL,
   `isql_commands_file_subset_default` varchar(245) DEFAULT NULL
   `isql_commands_file_graph_dump` varchar(245) DEFAULT NULL,
-  `virtuoso_http_server_root`  VARCHAR( 245 ) default NULL,
+  `virtuoso_http_server_root`  VARCHAR(245) default NULL,
   `ckan_api_url` varchar(245) DEFAULT NULL,
   `ckan_api_key` varchar(245) DEFAULT NULL,
   `ckan_org_url` varchar(245) DEFAULT NULL,
