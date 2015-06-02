@@ -154,7 +154,7 @@ public class PublishAction extends ActionSupport {
                     URL url;
                     HttpURLConnection conn = null;
                     try {
-					    url = new URL("http://aliada:8080/aliada-ckan-datahub-page-creation-2.0/jobs/");
+					    url = new URL("http://localhost:8080/aliada-ckan-datahub-page-creation-2.0/jobs/");
                         conn = (HttpURLConnection) url.openConnection();
                         conn.setDoOutput(true);
                         conn.setRequestMethod("POST");

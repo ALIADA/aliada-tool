@@ -318,7 +318,7 @@ public class LinkingAction extends ActionSupport {
                     URL url;
                     HttpURLConnection conn = null;
                     try {
-					    url = new URL("http://aliada:8080/aliada-links-discovery-2.0/jobs/");
+					    url = new URL("http://localhost:8080/aliada-links-discovery-2.0/jobs/");
 //                        url = new URL("http://localhost:8890/links-discovery");
                         
 						conn = (HttpURLConnection) url.openConnection();
@@ -412,7 +412,7 @@ public class LinkingAction extends ActionSupport {
                     URL url;
                     HttpURLConnection conn = null;
                     try {
-					    url = new URL("http://aliada:8080/aliada-linked-data-server-2.0/jobs/");
+					    url = new URL("http://localhost:8080/aliada-linked-data-server-2.0/jobs/");
 //                        url = new URL("http://localhost:8889/lds");
                         conn = (HttpURLConnection) url.openConnection();
                         conn.setDoOutput(true);
