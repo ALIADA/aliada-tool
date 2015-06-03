@@ -18,7 +18,7 @@ PRIMARY KEY ( `job_id` )
 
 CREATE TABLE `aliada`.`linksdiscovery_subjob_instances` (
 `job_id` INT NOT NULL ,
-`subjob_id` INT NOT NULL ,
+`subjob_id` INT NOT NULL AUTO_INCREMENT,
 `name`  VARCHAR( 245 ) default NULL,
 `config_file`  VARCHAR( 245 ) default NULL,
 `num_threads` INT default 1 ,
@@ -32,7 +32,7 @@ CREATE TABLE `aliada`.`linksdiscovery_subjob_instances` (
 `num_links` INT default 0 ,
 `start_date` DATETIME default NULL,
 `end_date` DATETIME default NULL ,
-PRIMARY KEY ( `job_id` , `subjob_id`)
+PRIMARY KEY (`subjob_id`)
 ) ENGINE = InnoDB ;
 
 ALTER TABLE  `aliada`.`linksdiscovery_subjob_instances`
