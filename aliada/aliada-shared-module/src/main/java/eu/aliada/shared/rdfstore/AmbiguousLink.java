@@ -7,6 +7,7 @@
 package eu.aliada.shared.rdfstore;
 
 import java.util.ArrayList;
+import com.hp.hpl.jena.graph.Triple;
 
 /**
  * Ambiguous links for a given resource.
@@ -17,8 +18,9 @@ import java.util.ArrayList;
 public class AmbiguousLink {
 	/** Source URI of the ambiguous links. */
 	private String sourceURI;
-	/** List of target URI-s of the ambiguous links. */
-	private ArrayList<String> targetURI = new ArrayList<String>();
+	/** List of triples that contains the ambiguous links. */
+	private ArrayList<Triple> linksList = new ArrayList<Triple>();
+   
    
 	/**
 	 * Returns the source URI of the ambiguous links.
@@ -40,22 +42,21 @@ public class AmbiguousLink {
 	}
 
 	/**
-	 * Returns the target URI-s of the ambiguous links.
+	 * Returns the triples that contains the ambiguous links.
 	 * 
-	 * @return The target URI-s of the ambiguous links.
+	 * @return The triples that contains the ambiguous links.
 	 * @since 1.0
 	 */
-	public String[] getTargetURI() {
-		return this.targetURI.toArray(new String[]{});
+	public Triple[] getLinks() {
+		return this.linksList.toArray(new Triple[]{});
 	}
 	/**
-	 * Adds a target URI-s of the ambiguous links.
+	 * Adds one of the triples of the ambiguous links.
 	 * 
-	 * @param subjob The target URI-s of the ambiguous link to add.
+	 * @param link One of the triples of the ambiguous link to add.
 	 * @since 1.0
 	 */
-	public void addTargetURI(final String link) {
-		targetURI.add(link);
+	public void addLink(final Triple link) {
+		linksList.add(link);
 	}
-
 }

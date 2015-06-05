@@ -486,7 +486,7 @@ public class RDFStoreDAO {
 		    	final String extResBegin = soln.getLiteral("extResBegin").getString();
 		    	final AmbiguousLink ambiguousLink = new AmbiguousLink();
 		    	ambiguousLink.setSourceURI(localRes.getURI());
-		    	getSourceURIAmbiguousLinks(ambiguousLink, extResBegin, sparqlEndpointURI, graphName, user, password);
+		    	getSourceURIAmbiguousLinks(ambiguousLink, localRes, extResBegin, sparqlEndpointURI, graphName, user, password);
 		    	ambiguousLinksList.add(ambiguousLink);
 		    }
 		    qexec.close() ;
@@ -543,6 +543,7 @@ public class RDFStoreDAO {
 	 * It executes a SELECT SPARQL query on the SPARQL endpoint, to get the ambiguous discovered links of a source URI.
 	 *
 	 * @param ambiguousLink			a {@link eu.aliada.shared.rdfstore.AmbiguousLink} that contains the source URI.  
+	 * @param localRes				the source resource of the link.  
 	 * @param extResBegin			the beginning string of the target link.  
 	 * @param sparqlEndpointURI		the SPARQL endpoint URI.  
 	 * @param graphName 			the graphName, null in case of default graph.
@@ -552,8 +553,8 @@ public class RDFStoreDAO {
 	 * @param limit					upper bound on the number of solutions returned.
 	 * @since 2.0
 	 */
-	public void getSourceURIAmbiguousLinks(AmbiguousLink ambiguousLink, String extResBegin, final String sparqlEndpointURI, final String graphName, final String user, final String password) {
-		final String query = "SELECT ?extRes FROM <" + graphName + "> " + 
+	public void getSourceURIAmbiguousLinks(AmbiguousLink ambiguousLink, Resource localRes, String extResBegin, final String sparqlEndpointURI, final String graphName, final String user, final String password) {
+		final String query = "SELECT ?rel ?extRes FROM <" + graphName + "> " + 
 				" WHERE {<" + ambiguousLink.getSourceURI() + "> ?rel ?extRes ." +
 				" FILTER regex(?extRes, \"^" + extResBegin + "\", \"i\")" +
 				" }";
@@ -569,7 +570,9 @@ public class RDFStoreDAO {
 			{
 				final QuerySolution soln = results.nextSolution() ;
 		    	final Resource extRes = soln.getResource("extRes");
-		    	ambiguousLink.addTargetURI(extRes.getURI());
+            	final Resource relResType = soln.getResource("rel");
+            	final Triple triple = new Triple(localRes.asNode(), relResType.asNode(), extRes.asNode());
+		    	ambiguousLink.addLink(triple);
 		    }
 		    qexec.close() ;
 		  } catch (Exception exception) {
