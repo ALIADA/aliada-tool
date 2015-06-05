@@ -13,7 +13,13 @@ import javax.ws.rs.core.Form;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import com.hp.hpl.jena.graph.Triple;
+
 import eu.aliada.shared.log.Log;
+import eu.aliada.shared.rdfstore.AmbiguousLink;
+import eu.aliada.shared.rdfstore.RDFStoreDAO;
+import eu.aliada.shared.rdfstore.RetrievedResource;
+import eu.aliada.shared.rdfstore.RetrievedWork;
 
      
 /**
@@ -92,6 +98,32 @@ public class LinksDiscoveryClient {
 	public static void main(final String[] args) {
 		final LinksDiscoveryClient client = new LinksDiscoveryClient();
 		final int jobid = 1;
+		final RDFStoreDAO rdfstoreDAO = new RDFStoreDAO();
+		final String sparqlEndpointURI = "http://aliada.scanbit.net:8891/sparql-auth";
+		String graphName ="http://data.artium.org/id/collections/library/bib/links"; 
+		final String user = "aliada_dev";
+		final String password = "aliada_dev";
+		final int offset = 0;
+		final int limit = 100;
+		//Página "linksValidation.jsp"
+		int numDiscovLinks = rdfstoreDAO.getNumDiscoveredLinks(sparqlEndpointURI, graphName, user, password); 
+		Triple[] links = rdfstoreDAO.getDiscoveredLinks(sparqlEndpointURI, graphName, user, password, offset, limit);
+		final int numAmbDiscovLinks = rdfstoreDAO.getNumAmbiguousDiscoveredLinks(sparqlEndpointURI, graphName, user, password); 
+		AmbiguousLink[] ambigLinks = rdfstoreDAO.getAmbiguousDiscoveredLinks(sparqlEndpointURI, graphName, user, password, offset, limit);
+
+		//Página "rdfValidation.jsp"
+		numDiscovLinks = rdfstoreDAO.getNumDiscoveredLinks(sparqlEndpointURI, graphName, user, password); 
+		links = rdfstoreDAO.getDiscoveredLinks(sparqlEndpointURI, graphName, user, password, offset, limit);
+		graphName ="http://data.artium.org/id/collections/library/bib";
+		final int numAuthors = rdfstoreDAO.getNumAuthors(sparqlEndpointURI, graphName, user, password); 
+		RetrievedResource[] authors = rdfstoreDAO.getAuthors(sparqlEndpointURI, graphName, user, password, offset, limit);
+		final int numObjects = rdfstoreDAO.getNumObjects(sparqlEndpointURI, graphName, user, password); 
+		RetrievedResource[] objects = rdfstoreDAO.getObjects(sparqlEndpointURI, graphName, user, password, offset, limit);
+		final int numManifs = rdfstoreDAO.getNumManifestations(sparqlEndpointURI, graphName, user, password); 
+		RetrievedResource[] manifs = rdfstoreDAO.getManifestations(sparqlEndpointURI, graphName, user, password, offset, limit);
+		final int numWorks = rdfstoreDAO.getNumWorks(sparqlEndpointURI, graphName, user, password); 
+		RetrievedWork[] works = rdfstoreDAO.getWorks(sparqlEndpointURI, graphName, user, password, offset, limit);
+
 		//Create a Links Discovery Job
 		client.newJob(jobid);
 		//Get info about the created job

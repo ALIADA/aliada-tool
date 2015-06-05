@@ -27,6 +27,7 @@ public class CKANCreationClient {
 	private static final Log LOGGER = new Log(CKANCreationClient.class);
 	/** URL of the REST service to test URL. */
 	protected String ALIADA_CKANCREATION_URL = "http://localhost:8888/ckan-datahub/";
+//	protected String ALIADA_CKANCREATION_URL = "http://http://aliada.scanbit.net:8080/aliada-ckan-datahub-page-creation-2.0/";
 	
 	/**
 	 * Implementation of a CKAN Datahub Page Creation REST service client application.
