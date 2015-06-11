@@ -25,7 +25,6 @@ import eu.aliada.rdfizer.datasource.Cache;
 import eu.aliada.rdfizer.datasource.rdbms.JobInstance;
 import eu.aliada.rdfizer.pipeline.format.xml.XPath;
 import eu.aliada.rdfizer.pipeline.nlp.NERSingletonService;
-import eu.aliada.rdfizer.pipeline.nlp.NERThreadLocalService;
 import eu.aliada.shared.ID;
 import eu.aliada.shared.Strings;
 import eu.aliada.shared.rdfstore.RDFStoreDAO;
@@ -171,9 +170,19 @@ public class Function {
 	 * @param value the string to check.
 	 * @return true if the given string is not null and not empty.
 	 */
-	public boolean isNotNullAnrdfStoredNotEmpty(final String value) {
+	public boolean isNotNullAndNotEmpty(final String value) {
 		return Strings.isNotNullAndNotEmpty(value);
 	}
+	
+	/**
+	 * Returns true if the given string is not null and not empty.
+	 * 
+	 * @param value the string to check.
+	 * @return true if the given string is not null and not empty.
+	 */
+	public boolean isNullOrEmpty(final String value) {
+		return Strings.isNullOrEmpty(value);
+	}	
 	
 	private Map<String, String> typeCache = new HashMap<String, String>();
 	

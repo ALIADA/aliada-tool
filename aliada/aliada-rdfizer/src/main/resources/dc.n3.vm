@@ -23,6 +23,9 @@ $s #ecrm('P102_has_title') $title_s .
 #set($creators = $xpath.many("creator",$root))
 #foreach($creator in $creators) 
 	#set($value = $creator.textContent)
+	#if ($function.isNullOrEmpty(value))
+		#break;
+	#end
 	#set($creator_actor_appellation_s = "#uri('E82_Actor_Appellation' $value)") 	
 	#set($creator_actor_s = "#uri('E39_Actor' $value)")
 	#if(!$creation_s || $creation_s == "")
@@ -40,6 +43,9 @@ $s #ecrm('P102_has_title') $title_s .
 #set($creators = $xpath.many("contributor",$root))
 #foreach($creator in $creators) 
 	#set($value = $creator.textContent)
+	#if ($function.isNullOrEmpty(value))
+		#break;
+	#end	
 	#set($creator_actor_appellation_s = "#uri('E82_Actor_Appellation' $value)")
 	#set($creator_actor_s = "#uri('E39_Actor' $value)")
 	#if(!$creation_s || $creation_s == "")
