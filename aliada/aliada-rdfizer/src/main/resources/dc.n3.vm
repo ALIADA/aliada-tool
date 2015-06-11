@@ -2,7 +2,7 @@
 #set($is_a = "#rdf('type')")
 #set($E41_Appellation = "#ecrm('E41_Appellation')")
 #set($E39_Actor = "#ecrm('E39_Actor')")
-#set($P3_has_note = "#ecrm('P3_has_note')")
+#set($P3_has_note = "#ecrm('P3_has_note')") 
 #set($P2_has_type = "#ecrm('P2_has_type')")
 #set($identifier = $xpath.one("header/identifier",$root))
 #set($c = "#new_uri('Ε75_Conceptual_Object_Appellation')")
