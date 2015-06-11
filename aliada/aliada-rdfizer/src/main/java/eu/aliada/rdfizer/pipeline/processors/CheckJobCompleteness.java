@@ -97,7 +97,7 @@ public class CheckJobCompleteness implements Processor {
 	 * 
 	 * @param job the job.
 	 */
-	void persistJobStats(final JobResource job) {
+	synchronized void persistJobStats(final JobResource job) {
 		final JobStats stats = new JobStats();
 		stats.setStatusCode(0); 
 		stats.setId(job.getID());
@@ -111,7 +111,9 @@ public class CheckJobCompleteness implements Processor {
 				job.getStatementsThroughput() > 0
 					? BigDecimal.valueOf(job.getStatementsThroughput())
 					: BigDecimal.ZERO);		
-		jobStatsRepository.save(stats);		
+		if (!jobStatsRepository.exists(stats.getId())) {
+			jobStatsRepository.save(stats);					
+		}
 	}		
 	
 	/**
