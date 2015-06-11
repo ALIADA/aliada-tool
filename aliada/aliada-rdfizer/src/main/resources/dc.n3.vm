@@ -23,41 +23,39 @@ $s #ecrm('P102_has_title') $title_s .
 #set($creators = $xpath.many("creator",$root))
 #foreach($creator in $creators) 
 	#set($value = $creator.textContent)
-	#if ($function.isNullOrEmpty(value))
-		#break;
-	#end
-	#set($creator_actor_appellation_s = "#uri('E82_Actor_Appellation' $value)") 	
-	#set($creator_actor_s = "#uri('E39_Actor' $value)")
-	#if(!$creation_s || $creation_s == "")
-		#set($creation_s = "#uri('E65_Creation' $value)")
-		$creation_s $is_a #ecrm('E65_Creation') . 
+	#if ($function.isNotNullAndNotEmpty(value))
+		#set($creator_actor_appellation_s = "#uri('E82_Actor_Appellation' $value)") 	
+		#set($creator_actor_s = "#uri('E39_Actor' $value)")
+		#if(!$creation_s || $creation_s == "")
+			#set($creation_s = "#uri('E65_Creation' $value)")
+			$creation_s $is_a #ecrm('E65_Creation') . 
+		#end	
+		$creator_actor_appellation_s $is_a #ecrm('E82_Actor_Appellation') . 
+		$creator_actor_appellation_s $P3_has_note "$function.escape($value)" . 
+		$creator_actor_s $is_a #ecrm('E39_Actor') . 
+		$creator_actor_s #ecrm('P131_is_identified_by') $creator_actor_appellation_s . 
+		$creation_s #ecrm('P14_carried_out_by') $creator_actor_s . 
+		$s #ecrm('P94i_was_created_by') $creation_s . 	
 	#end	
-	$creator_actor_appellation_s $is_a #ecrm('E82_Actor_Appellation') . 
-	$creator_actor_appellation_s $P3_has_note "$function.escape($value)" . 
-	$creator_actor_s $is_a #ecrm('E39_Actor') . 
-	$creator_actor_s #ecrm('P131_is_identified_by') $creator_actor_appellation_s . 
-	$creation_s #ecrm('P14_carried_out_by') $creator_actor_s . 
-	$s #ecrm('P94i_was_created_by') $creation_s . 	
 #end
 ## CONTRIBUTOR 
 #set($creators = $xpath.many("contributor",$root))
 #foreach($creator in $creators) 
 	#set($value = $creator.textContent)
-	#if ($function.isNullOrEmpty(value))
-		#break;
+	#if ($function.isNotNullAndNotEmpty(value))
+		#set($creator_actor_appellation_s = "#uri('E82_Actor_Appellation' $value)")
+		#set($creator_actor_s = "#uri('E39_Actor' $value)")
+		#if(!$creation_s || $creation_s == "")
+			#set($creation_s = "#uri('E65_Creation' $value)")
+			$creation_s $is_a #ecrm('E65_Creation') . 
+		#end	
+		$creator_actor_appellation_s $is_a #ecrm('E82_Actor_Appellation') . 
+		$creator_actor_appellation_s $P3_has_note "$function.escape($value)" . 
+		$creator_actor_s $is_a #ecrm('E39_Actor') . 
+		$creator_actor_s #ecrm('P131_is_identified_by') $creator_actor_appellation_s . 
+		$creation_s #ecrm('P14_carried_out_by') $creator_actor_s . 
+		$s #ecrm('P94i_was_created_by') $creation_s . 	
 	#end	
-	#set($creator_actor_appellation_s = "#uri('E82_Actor_Appellation' $value)")
-	#set($creator_actor_s = "#uri('E39_Actor' $value)")
-	#if(!$creation_s || $creation_s == "")
-		#set($creation_s = "#uri('E65_Creation' $value)")
-		$creation_s $is_a #ecrm('E65_Creation') . 
-	#end	
-	$creator_actor_appellation_s $is_a #ecrm('E82_Actor_Appellation') . 
-	$creator_actor_appellation_s $P3_has_note "$function.escape($value)" . 
-	$creator_actor_s $is_a #ecrm('E39_Actor') . 
-	$creator_actor_s #ecrm('P131_is_identified_by') $creator_actor_appellation_s . 
-	$creation_s #ecrm('P14_carried_out_by') $creator_actor_s . 
-	$s #ecrm('P94i_was_created_by') $creation_s . 	
 #end
 ## DATE
 #set($dates = $xpath.many("date",$root))
