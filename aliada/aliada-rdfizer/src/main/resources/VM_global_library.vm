@@ -289,7 +289,7 @@
 		#set($ne_s = "#uri_with_fragment('Concept' $entry.getKey())")
 		#set($coll_s = "#uri_with_fragment('Collection' $entry.getValue())")
 		$ne_s $is_a $Concept . 
-		$ne_s #skos('prefLabel') "$entry.getKey()" . 
+		$ne_s #skos('prefLabel') "$function.escape($entry.getKey())" . 
 		$coll_s #skos('member') $ne_s .
 		$subject #ecrm('P129_is_about') $ne_s .		
 	#end
@@ -302,7 +302,7 @@
 			#set($ne_s = "#uri_with_fragment('Concept' $entry.getKey())")
 			#set($coll_s = "#uri_with_fragment('Collection' $entry.getValue())")
 			$ne_s $is_a $Concept . 
-			$ne_s #skos('prefLabel') "$entry.getKey()" . 
+			$ne_s #skos('prefLabel') "$function.escape($entry.getKey())" . 
 			$coll_s #skos('member') $ne_s .
 			$main_subject #ecrm('P137_exemplifies') $ne_s .
 		#end
@@ -316,7 +316,7 @@
 	#foreach($tagValue in $tagValues) 
 		#if($tagValue) 
     		#set($text = $function.escape($tagValue.textContent))
-			$s $type $text .
+			$s $type "$text" .
 		#end	
 	#end	
 #end	
@@ -325,7 +325,7 @@
 	#set($tagValue = $xpath.df($tag,$subfield,$record))
 		#if($tagValue) 
     		#set($text = $function.escape($tagValue.textContent))
-			$s $type $text .
+			$s $type "$text" .
 		#end	
 #end	
 
@@ -341,8 +341,7 @@
 			$ent1 $is_a  $typeUri1 .
 			$s $is_a $ent1 .
 			$s $P2_has_type $concept .
-			$s $predicate $text .
-			$text $is_a $ent2 .
+			$s $predicate "$text" .
 		#end	
 	#end	
 #end	
@@ -358,8 +357,7 @@
 			$ent1 $is_a  $typeUri1 .
 			$s $is_a  $ent1 .
 			$s $P2_has_type $concept .
-			$s $predicate $text .
-			$text $is_a $ent2 .
+			$s $predicate "$text" .
 		#end	
 #end	
 
@@ -374,7 +372,7 @@
 			$s $is_a $typeUri1 .
 			$s $typeUri3 $ent1 . 
 			$ent1 $is_a $typeUri2 .
-			$ent1 $predicate $tagValue .
+			$ent1 $predicate "$text" .
 		#end	
 	#end	
 #end
@@ -387,7 +385,7 @@
 			$s $is_a $typeUri1 .
 			$s $typeUri3 $ent1 .
  			$ent1 $is_a $typeUri2 .
-			$ent1 $predicate $tagValue .
+			$ent1 $predicate "$text" .
 		#end	
 #end
 
@@ -400,7 +398,7 @@
 			$s $is_a $typeUri1 .
 			$s $typeUri3 $ent1 .
  			$ent1 $is_a $typeUri2 .
-			$ent1 $predicate $tagValue .
+			$ent1 $predicate "$text" .
 		#end	
 #end
 
@@ -416,6 +414,7 @@
 			$s $predicate $typeUri1 .
 			$ent1 $is_a $typeUri2 .	
 			$ent1 $P2_has_type $concept .
+			$ent1 $P3_has_note "$text" . 
 		#end	
 	#end	
 #end
@@ -430,11 +429,7 @@
 			#set($ent1 = "#new_uri($entity1)")
 			$s $predicate1 $ent1 .
 			$ent1 $is_a $typeUri1 .
-			$ent1 $predicate2 $tagValue .
-			$tagValue $is_a $typeUri2 .
+			$ent1 $predicate2 "$text" .
 		#end	
 	#end	
 #end
-
-
-
