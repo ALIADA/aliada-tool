@@ -286,7 +286,6 @@ $expression_s #efrbroo('R4_carriers_provided_by') $manifestation_s .
 
 #mapping_aliada_p3_has_note_with_repeatable_tag($expression_s "514" "m" $root "#aliadaconcept('special_characteristics')")
 #simplest_mapping_with_repeatable_tag ($expression_s "516" "a" $root "E55_Type" $E55_Type $P2_has_type)
-#mapping_aliada_self_contained_with_repeatable_tag($expression_s "310" "7" $root "F22_Self-Contained_Expression" "F18_Serial_work" "#efrbroo('F22_Self-Contained_Expression')" "#efrbroo('F18_Serial_work')" "#efrbroo('R3i_realises')" "#aliadaconcept('expected_frequency')")
 
 #simplest_mapping_with_no_repeatable_tag($expression_s "600" "l" $root "E56_Language" "#ecrm('E56_Language')" "#ecrm('P72_has_language')")
 
