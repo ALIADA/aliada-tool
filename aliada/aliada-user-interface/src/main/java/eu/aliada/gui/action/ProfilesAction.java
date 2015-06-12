@@ -7,10 +7,12 @@
 package eu.aliada.gui.action;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.HashMap;
+
 
 
 import com.opensymphony.xwork2.ActionSupport;
@@ -134,10 +136,20 @@ public class ProfilesAction extends ActionSupport {
         Connection connection = null;
         try {
             connection = new DBConnectionManager().getConnection();
-            Statement statement = connection.createStatement();
-            statement.executeUpdate("INSERT INTO aliada.profile VALUES (default,'" + this.nameForm + "', '" + this.profileTypeForm + "', '"
-                    + this.descriptionForm + "', '" + this.schemeForm + "', '" + this.fileTypeForm + "', '" + this.fileFormatForm + "', '" + this.characterSetForm + "')");
-            statement.close();
+            PreparedStatement preparedStatement;
+            preparedStatement = connection
+                    .prepareStatement(
+                            "INSERT INTO `aliada`.`profile` (`profile_name`, `profile_type_code`, `profile_description`, `metadata_scheme_code`, "
+                            + "`file_type_code`, `file_format_code`, `character_set_code`) VALUES (?, ?, ?, ?, ?, ?, ?);");
+            preparedStatement.setString(1, this.nameForm);
+            preparedStatement.setInt(2, this.profileTypeForm);
+            preparedStatement.setString(3, this.descriptionForm);
+            preparedStatement.setInt(4, this.schemeForm);
+            preparedStatement.setInt(5, this.fileTypeForm);
+            preparedStatement.setInt(6, this.fileFormatForm);
+            preparedStatement.setInt(7, this.characterSetForm);
+            preparedStatement.executeUpdate();
+            preparedStatement.close();
             connection.close();
             addActionMessage(getText("profile.save.ok"));
             showProfiles();
@@ -181,7 +193,8 @@ public class ProfilesAction extends ActionSupport {
      * @return String */
     public String showEditProfile() {	
     	if (this.selectedProfile != null) {
-	    	if (getSelectedProfile().equalsIgnoreCase("MARC BIB") || getSelectedProfile().equalsIgnoreCase("MARC AUT") || getSelectedProfile().equalsIgnoreCase("LIDO")) {
+	    	if (getSelectedProfile().equalsIgnoreCase("MARC BIB") || getSelectedProfile().equalsIgnoreCase("MARC AUT") 
+	    			|| getSelectedProfile().equalsIgnoreCase("LIDO") || getSelectedProfile().equalsIgnoreCase("DC")) {
 			        	addActionError(getText("err.not.allow.edit"));
 			        	showProfiles();
 			            return ERROR;          	
@@ -229,7 +242,8 @@ public class ProfilesAction extends ActionSupport {
      * @return String */
     public String deleteProfile() {	
     	if (this.selectedProfile != null) {
-	    	if (getSelectedProfile().equalsIgnoreCase("LIDO") || getSelectedProfile().equalsIgnoreCase("MARC AUT") || getSelectedProfile().equalsIgnoreCase("MARC BIB")) {
+	    	if (getSelectedProfile().equalsIgnoreCase("LIDO") || getSelectedProfile().equalsIgnoreCase("MARC AUT") 
+	    			|| getSelectedProfile().equalsIgnoreCase("MARC BIB") || getSelectedProfile().equalsIgnoreCase("DC")) {
 			    	addActionError(getText("err.profile.deletion"));
 			    	showProfiles();
 			        return SUCCESS;
@@ -404,5 +418,45 @@ public class ProfilesAction extends ActionSupport {
 	public void setCharacterSetNameForm(final String characterSetNameForm) {
 		this.characterSetNameForm = characterSetNameForm;
 	}
-
+	/** @return Returns the profileTypeForm. */
+	public int getProfileTypeForm() {
+		return profileTypeForm;
+	}
+	/** @param profileTypeForm The profileTypeForm to set. */
+	public void setProfileTypeForm(final int profileTypeForm) {
+		this.profileTypeForm = profileTypeForm;
+	}
+	/** @return Returns the schemeForm. */
+	public int getSchemeForm() {
+		return schemeForm;
+	}
+	/** @param schemeForm The schemeForm to set. */
+	public void setSchemeForm(final int schemeForm) {
+		this.schemeForm = schemeForm;
+	}
+	/** @return Returns the fileTypeForm. */
+	public int getFileTypeForm() {
+		return fileTypeForm;
+	}
+	/** @param fileTypeForm The fileTypeForm to set. */
+	public void setFileTypeForm(final int fileTypeForm) {
+		this.fileTypeForm = fileTypeForm;
+	}
+	/** @return Returns the fileFormatForm. */
+	public int getFileFormatForm() {
+		return fileFormatForm;
+	}
+	/** @param fileFormatForm The fileFormatForm to set. */
+	public void setFileFormatForm(final int fileFormatForm) {
+		this.fileFormatForm = fileFormatForm;
+	}
+	/** @return Returns the characterSetForm. */
+	public int getCharacterSetForm() {
+		return characterSetForm;
+	}
+	/** @param characterSetForm The characterSetForm to set. */
+	public void setCharacterSetForm(final int characterSetForm) {
+		this.characterSetForm = characterSetForm;
+	}
+	
 }

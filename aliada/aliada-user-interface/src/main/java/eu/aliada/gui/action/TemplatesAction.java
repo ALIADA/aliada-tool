@@ -122,8 +122,11 @@ public class TemplatesAction extends ActionSupport{
         Connection connection = null;
         try {
             connection = new DBConnectionManager().getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO aliada.template VALUES (default,'" 
-            + this.templateName + "', '" + this.templateDescription + "', '" + this.fileType + "')", PreparedStatement.RETURN_GENERATED_KEYS);
+            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO `aliada`.`template` "
+            		+ "(`template_name`, `template_description`, `file_type_code`) VALUES (?, ?, ?)", PreparedStatement.RETURN_GENERATED_KEYS);
+            preparedStatement.setString(1, this.templateName);
+            preparedStatement.setString(2, this.templateDescription);
+            preparedStatement.setInt(3, this.fileType);
             preparedStatement.executeUpdate();
             ResultSet rs = preparedStatement.getGeneratedKeys();
             int idTemplate = 0;
@@ -195,7 +198,8 @@ public class TemplatesAction extends ActionSupport{
      * @return String */
     public String showEditTemplate() {	
     	if (this.selectedTemplate != null) {
-	    	if (getSelectedTemplate().equalsIgnoreCase("MARC BIB") || getSelectedTemplate().equalsIgnoreCase("LIDO") || getSelectedTemplate().equalsIgnoreCase("Authorities")) {
+	    	if (getSelectedTemplate().equalsIgnoreCase("MARC BIB") || getSelectedTemplate().equalsIgnoreCase("Authorities") 
+	    			|| getSelectedTemplate().equalsIgnoreCase("LIDO") || getSelectedTemplate().equalsIgnoreCase("Dublin Core")) {
 			       	addActionError(getText("err.not.allow.edit"));
 			        getTemplatesDb();
 			        tags = new Methods().getTagsDb(NOTEMPLATESELECTED);
@@ -244,7 +248,8 @@ public class TemplatesAction extends ActionSupport{
      * @return String */
     public String deleteTemplate() {
     	if (this.selectedTemplate != null) {
-	    	if (getSelectedTemplate().equalsIgnoreCase("Authorities") || getSelectedTemplate().equalsIgnoreCase("MARC BIB") || getSelectedTemplate().equalsIgnoreCase("LIDO")) {
+    		if (getSelectedTemplate().equalsIgnoreCase("MARC BIB") || getSelectedTemplate().equalsIgnoreCase("Authorities") 
+	    			|| getSelectedTemplate().equalsIgnoreCase("LIDO") || getSelectedTemplate().equalsIgnoreCase("Dublin Core")) {
 			    	addActionError(getText("err.template.deletion")); 
 			    	getTemplatesDb();
 			   		return SUCCESS;

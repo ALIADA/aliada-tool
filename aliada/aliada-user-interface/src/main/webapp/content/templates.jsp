@@ -167,7 +167,7 @@ $(function(){
 					</tr>
 					<tr>
 						<td class="label"><html:text name="fileTypeForm"/></td>
-						<td><html:select key="fileTypeForm"
+						<td><html:select key="fileType"
 								cssClass="inputForm input" list="types" /></td>
 					</tr>
 				</table>
@@ -221,7 +221,7 @@ $(function(){
 					</tr>
 					<tr>
 						<td class="label"><html:text name="fileTypeForm"/></td>
-						<td><html:select key="fileTypeForm"
+						<td><html:select key="fileType"
 								cssClass="inputForm input" list="types" /></td>
 					</tr>
 				</table>

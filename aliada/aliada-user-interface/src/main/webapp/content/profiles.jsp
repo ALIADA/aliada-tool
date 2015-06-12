@@ -155,23 +155,28 @@ $(function(){
 							<td><html:textfield key="descriptionForm" maxLength="128"  cssClass="inputForm frigth input"/></td>
 						</tr>
 						<tr>
-							<td><html:select theme="xhtml" key="profileTypeForm"
+							<td class="label"><html:text name="profileTypeForm"/></td>
+							<td><html:select key="profileTypeForm"
 									cssClass="inputForm input" list="profileTypes" /></td>
 						</tr>
 						<tr>
-							<td><html:select theme="xhtml" key="schemeForm"
+							<td class="label"><html:text name="schemeForm"/></td>
+							<td><html:select key="schemeForm"
 									cssClass="inputForm input" list="schemes" /></td>
 						</tr>
 						<tr>
-							<td><html:select theme="xhtml" key="fileTypeForm"
+							<td class="label"><html:text name="fileTypeForm"/></td>
+							<td><html:select key="fileTypeForm"
 									cssClass="inputForm input" list="types" /></td>
 						</tr>
 						<tr>
-							<td><html:select theme="xhtml" key="fileFormatForm"
+							<td class="label"><html:text name="fileFormatForm"/></td>
+							<td><html:select key="fileFormatForm"
 									cssClass="inputForm input" list="formats" /> </td>
 						</tr>
 						<tr>
-							<td><html:select theme="xhtml" key="characterSetForm"
+						<td class="label"><html:text name="characterSetForm"/></td>
+							<td><html:select key="characterSetForm"
 									cssClass="inputForm input" list="characterSets" /> </td>
 						</tr>
 				</table>
