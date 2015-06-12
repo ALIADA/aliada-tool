@@ -30,7 +30,7 @@
 		<constructor-arg value="record"/>
 	</bean>	
 	<bean id="run-dc-validation" class="eu.aliada.rdfizer.pipeline.format.xml.CaptureValidationSampleAndRunValidation">
-		<constructor-arg value="dc"/>
+		<constructor-arg value="record"/>
 		<constructor-arg value="1"/>
 		<property name="producer" ref="dc-validation-channel-producer"/>
 	</bean>		
