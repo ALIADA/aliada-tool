@@ -1,0 +1,26 @@
+.subsetsPage {
+	border: 1px dashed #e5e5e5;
+    margin: 20px;
+    padding: 20px;
+    background-color: #f0f0f0;
+}
+
+.actionMessage {
+	text-align: center;
+}
+
+.errorMessage {
+	text-align: center;
+}
+
+.pBottom20{
+	padding-bottom: 20px;
+}
+
+.lMargin25p{
+	margin-left: 25%;
+}
+
+.lMargin45p{
+	margin-left: 45%;
+}

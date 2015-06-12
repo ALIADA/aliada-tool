@@ -1,0 +1,92 @@
+.filesContent {
+	padding: 20px;
+}
+
+.errorMessage {
+	text-align: center;
+}
+
+.clearfixImport:after {/*Helps to locate float element into a div */
+content: " ";
+display: block;
+height: 0;
+clear: both;
+}
+
+#importDividedPanel{
+	background-color: #f0f0f0;
+	border: 1px dotted #1BBC9B;
+	width: 90%;
+	height: 50%;
+	margin-left: 55px;
+}
+
+#importPanel{
+	width: 49%;
+	height: 100%;
+	border-right: 1px dotted #1BBC9B;
+}
+
+#listPanel{
+	width: 50%;
+	height: 100%;
+}
+
+#import {
+	padding-top: 20px;
+}
+
+.contentTable{
+	border: 2px dashed #1bbc9b;
+	padding: 20px;
+	background-color: #f0f0f0;
+	margin: 20px;
+	
+}
+
+#importFiles{
+	width:400px;
+	height:180px;
+}
+
+#files {
+	width: 100%;
+	margin-bottom: 20px;
+}
+
+.tableFiles{
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+	border-radius: 5px 5px 5px 5px;
+}
+
+th {
+    height: 35px;
+    text-align: center;
+}
+
+td {
+    height: 25px;
+    text-align: center;
+}
+
+table, th, td {
+   border: 1px solid gray;
+}
+
+.radio {
+	text-align: left;
+}
+
+.butt{
+	padding: 20px;
+	text-align: center;
+}
+
+.rMargin20{
+	margin-right: 20px;
+}
+
+.lMargin40{
+	margin-left:40px;
+}

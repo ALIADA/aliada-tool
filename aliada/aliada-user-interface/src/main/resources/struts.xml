@@ -54,6 +54,10 @@
    			<result name="logon" type="tiles">/logon.tiles</result>
   		</global-results>
   		
+  		<action name="locale" class="eu.aliada.gui.action.LocaleAction">
+			<result name="success" type="tiles">/logon.tiles</result>
+	   	</action>
+  		
 		<action name="logon" class="eu.aliada.gui.action.LogonAction">
 			<interceptor-ref name="logonStack"/>
 			<result name="success" type="redirectAction">
@@ -66,88 +70,7 @@
 		<action name="logout" class="eu.aliada.gui.action.LogoutAction">
    			<result name="logout" type="tiles">/logon.tiles</result>
   		</action>
-				
-		<action name="importXML" method="importXML" class="eu.aliada.gui.action.ManagingAction">
-			<interceptor-ref name="filexmlStack"/>
-			<interceptor-ref name="storeStack"/>
-            <result name="input" type="redirectAction">
-         		<param name="actionName">manageStack</param>
-         	</result>
-            <result name="success" type="tiles">/manage.tiles</result>
-			<result name="error" type="tiles">/manage.tiles</result>
-		</action>
 		
-		<action name="cleanGraph" method="cleanGraph"
-			class="eu.aliada.gui.action.ConversionAction">
-			<result name="success" type="redirectAction">
-         		<param name="actionName">conversion</param>
-         	</result>
-			<result name="error" type="tiles">/conversion.tiles</result>
-			<result name="input" type="tiles">/conversion.tiles</result>
-		</action>
-		
-		<action name="saveFilesToConversion" method="saveFilesToConversion" class="eu.aliada.gui.action.ManagingAction">
-            <result name="success" type="redirectAction">
-         		<param name="actionName">conversion</param>
-         	</result>
-			<result name="error" type="tiles">/manage.tiles</result>
-		</action>
-		
-		<action name="addAnotherFileWork" method="addAnotherFileWork" class="eu.aliada.gui.action.LinkingAction">
-            <result name="success" type="redirectAction">
-         		<param name="actionName">manage</param>
-         	</result>
-		</action>
-		
-		<action name="conversion" class="eu.aliada.gui.action.ConversionAction">
-            <result name="success" type="tiles">/conversion.tiles</result>
-			<result name="error" type="tiles">/conversion.tiles</result>
-		</action>
-		
-		<action name="RDFize" method="rdfize" class="eu.aliada.gui.action.ConversionAction">
-            <result name="success" type="tiles">/conversion.tiles</result>
-			<result name="error" type="tiles">/conversion.tiles</result>
-		</action>
-		
-		<action name="showTemplates" method="getTemplatesDb"
-			class="eu.aliada.gui.action.ConfigurationAction">
-			<result name="success" type="tiles">/configuration.tiles</result>
-			<result name="input" type="tiles">/configuration.tiles</result>
-		</action>
-		
-		<action name="showTheTemplate" method="getTheTemplate"
-			class="eu.aliada.gui.action.ConfigurationAction">
-			<result name="success" type="tiles">/configuration.tiles</result>
-			<result name="error" type="tiles">/configuration.tiles</result>
-		</action>
-		
-		<action name="deleteTemplate" method="deleteTemplate"
-			class="eu.aliada.gui.action.ConfigurationAction">
-			<result name="success" type="tiles">/configuration.tiles</result>
-			<result name="error" type="tiles">/configuration.tiles</result>
-		</action>		
-		
-		<action name="showEditTemplateForm" method="showEditTemplate"
-			class="eu.aliada.gui.action.ConfigurationAction">
-			<result name="success" type="tiles">/configuration.tiles</result>
-			<result name="error" type="tiles">/configuration.tiles</result>
-		</action>
-		
-		<action name="editTemplate" method="editTemplate"
-			class="eu.aliada.gui.action.ConfigurationAction">
-			<result name="success" type="tiles">/configuration.tiles</result>
-			<result name="error"  type="redirectAction">
-         		<param name="actionName">showTemplates</param>
-         	</result>
-		</action>
-		
-		<action name="configure" method="execute"
-			class="eu.aliada.gui.action.ConfigurationAction">
-			<result name="success" type="tiles">/configuration.tiles</result>
-    		<result name="error" type="tiles">/welcome.tiles</result>
-			<result name="input" type="tiles">/configuration.tiles</result>
-		</action>
-
 		<action name="manage" method="getProfilesDb"
 			class="eu.aliada.gui.action.ManagingAction">
 			<result name="success" type="tiles">/manage.tiles</result>
@@ -160,93 +83,305 @@
 			<result name="success" type="tiles">/manage.tiles</result>
 			<result name="input" type="tiles">/manage.tiles</result>
 		</action>
+			
+		<action name="importXML" method="importXML" class="eu.aliada.gui.action.ManagingAction">
+			<interceptor-ref name="filexmlStack"/>
+			<interceptor-ref name="storeStack"/>
+            <result name="input" type="redirectAction">
+         		<param name="actionName">manageStack</param>
+         	</result>
+            <result name="success" type="tiles">/manage.tiles</result>
+			<result name="error" type="tiles">/manage.tiles</result>
+		</action>
+		
+		<action name="saveFilesToConversion" method="saveFilesToConversion" class="eu.aliada.gui.action.ManagingAction">
+            <result name="success" type="redirectAction">
+         		<param name="actionName">conversion</param>
+         	</result>
+			<result name="error" type="tiles">/manage.tiles</result>
+		</action>
 		
 		<action name="errorLog" class="eu.aliada.gui.action.ManagingAction">
 			<result name="success" type="tiles">/errorLog.tiles</result>
 		</action>
-				
+		
+		<action name="cleanGraph" method="cleanGraph"
+			class="eu.aliada.gui.action.ConversionAction">
+			<result name="success" type="tiles">/conversion.tiles</result>
+			<result name="error" type="tiles">/conversion.tiles</result>
+		</action>
+		
+		<action name="conversion" class="eu.aliada.gui.action.ConversionAction">
+            <result name="success" type="tiles">/conversion.tiles</result>
+			<result name="error" type="tiles">/conversion.tiles</result>
+		</action>
+		
+		<action name="RDFize" method="rdfize" class="eu.aliada.gui.action.ConversionAction">
+            <result name="success" type="tiles">/conversion.tiles</result>
+			<result name="error" type="tiles">/conversion.tiles</result>
+		</action>
+
+		<action name="linking" method="execute" class="eu.aliada.gui.action.LinkingAction">
+			<result name="success" type="tiles">/linking.tiles</result>
+			<result name="error" type="tiles">/linking.tiles</result>
+		</action>
+
+		<action name="loadPendingLinking" method="loadPending" class="eu.aliada.gui.action.LinkingAction">
+			<result name="success" type="tiles">/linking.tiles</result>
+			<result name="error" type="tiles">/linking.tiles</result>
+		</action>
+		
+		<action name="addAnotherFileWork" method="addAnotherFileWork" class="eu.aliada.gui.action.LinkingAction">
+            <result name="success" type="redirectAction">
+         		<param name="actionName">manage</param>
+         	</result>
+		</action>
+		
+		<action name="startLinking" method="startLinking" class="eu.aliada.gui.action.LinkingAction">
+			<result name="success" type="tiles">/linking.tiles</result>
+			<result name="error" type="tiles">/linking.tiles</result>
+		</action>
+		
+		<action name="checkLinking" method="checkLinking" class="eu.aliada.gui.action.LinkingAction">
+			<result name="success" type="tiles">/linking.tiles</result>
+			<result name="error" type="tiles">/linking.tiles</result>
+		</action>
+		
+		<action name="getAuthors" method="getAut" class="eu.aliada.gui.action.RDFValidationAction">
+			<result name="success" type="tiles">/rdfValidation.tiles</result>
+			<result name="error" type="tiles">/rdfValidation.tiles</result>
+		</action>
+		
+		<action name="getObj" method="getObj" class="eu.aliada.gui.action.RDFValidationAction">
+			<result name="success" type="tiles">/rdfValidation.tiles</result>
+			<result name="error" type="tiles">/rdfValidation.tiles</result>
+		</action>
+		
+		<action name="getManifs" method="getManifestations" class="eu.aliada.gui.action.RDFValidationAction">
+			<result name="success" type="tiles">/rdfValidation.tiles</result>
+			<result name="error" type="tiles">/rdfValidation.tiles</result>
+		</action>
+		
+		<action name="getWor" method="getWor" class="eu.aliada.gui.action.RDFValidationAction">
+			<result name="success" type="tiles">/rdfValidation.tiles</result>
+			<result name="error" type="tiles">/rdfValidation.tiles</result>
+		</action>
+		
+		<action name="linksVal" method="getAllLinks" class="eu.aliada.gui.action.DiscLinksValidationAction">
+			<result name="success" type="tiles">/linksValidation.tiles</result>
+			<result name="error" type="tiles">/linksValidation.tiles</result>
+		</action>
+		
+		<action name="linksAmbVal" class="eu.aliada.gui.action.DiscLinksValidationAction">
+			<result name="success" type="tiles">/linksValidation.tiles</result>
+			<result name="error" type="tiles">/linksValidation.tiles</result>
+		</action>
+		
+		<action name="removeLinks" method="removeLinks"
+			class="eu.aliada.gui.action.DiscLinksValidationAction">
+			<result name="success" type="tiles">/linksValidation.tiles</result>
+			<result name="error" type="tiles">/linksValidation.tiles</result>
+		</action>
+		
+		<action name="removeLinksAmbiguous" method="removeLinksAmbiguous"
+			class="eu.aliada.gui.action.DiscLinksValidationAction">
+			<result name="success" type="tiles">/linksValidation.tiles</result>
+			<result name="error" type="tiles">/linksValidation.tiles</result>
+		</action>
+		
+		<action name="publish" method="publish" class="eu.aliada.gui.action.PublishAction">
+			<result name="success" type="tiles">/publish.tiles</result>
+			<result name="error" type="tiles">/publish.tiles</result>
+		</action>
+		
+		<action name="showInstitution" method="showInstitution" class="eu.aliada.gui.action.InstitutionAction">
+            <result name="success" type="tiles">/institution.tiles</result>
+		</action>
+		
+		<action name="ImageAction" class="eu.aliada.gui.action.ImageAction">
+			<result name="success" type="imageResult">
+			</result>
+		</action>
+		
+		<action name="fileUploadStack" method="fileUploadFormat"
+			class="eu.aliada.gui.action.InstitutionAction">
+			<interceptor-ref name="retrieveStack"/>
+			<result name="success" type="tiles">/institution.tiles</result>
+			<result name="input" type="tiles">/institution.tiles</result>
+		</action>
+		
+		<action name="editInstitution" method="editInstitution"
+			class="eu.aliada.gui.action.InstitutionAction"> 
+			<interceptor-ref name="fileImageStack"/>
+			<interceptor-ref name="storeStack"/>
+			<result name="input" type="redirectAction">
+         		<param name="actionName">fileUploadStack</param>
+         	</result>
+			<result name="success" type="tiles">/institution.tiles</result>
+			<result name="error" type="tiles">/institution.tiles</result>
+		</action>
+		
 		<action name="showProfiles" method="showProfiles"
-			class="eu.aliada.gui.action.ConfigurationAction">
-			<result name="success" type="tiles">/configuration.tiles</result>
+			class="eu.aliada.gui.action.ProfilesAction">
+			<result name="success" type="tiles">/profiles.tiles</result>
+		</action>
+		
+		<action name="addProfile" method="addProfile"
+			class="eu.aliada.gui.action.ProfilesAction">
+			<interceptor-ref name="storeStack"/>
+			<result name="success" type="tiles">/profiles.tiles</result>
+			<result name="error"  type="redirectAction">
+         		<param name="actionName">showAddProfileForm</param>
+         	</result>
+         	<result name="input"  type="redirectAction">
+         		<param name="actionName">showAddProfileForm</param>
+         	</result>
+		</action>
+		
+		<action name="showAddProfileForm" method="showAddProfile"
+			class="eu.aliada.gui.action.ProfilesAction">
+			<interceptor-ref name="retrieveStack"/>
+			<result name="success" type="tiles">/profiles.tiles</result>
+		</action>
+		
+		<action name="showTheProfile" method="getTheProfile"
+			class="eu.aliada.gui.action.ProfilesAction">
+			<result name="success" type="tiles">/profiles.tiles</result>
+			<result name="error" type="tiles">/profiles.tiles</result>
+		</action>
+		
+		<action name="editProfile" method="editProfile"
+			class="eu.aliada.gui.action.ProfilesAction">
+			<result name="success" type="tiles">/profiles.tiles</result>
+			<result name="error"  type="redirectAction">
+         		<param name="actionName">showProfiles</param>
+         	</result>
+         	<result name="input"  type="redirectAction">
+         		<param name="actionName">showEditProfileForm</param>
+         	</result>
+		</action>
+		
+		<action name="showEditProfileForm" method="showEditProfile"
+			class="eu.aliada.gui.action.ProfilesAction">
+			<result name="success" type="tiles">/profiles.tiles</result>
+			<result name="error" type="tiles">/profiles.tiles</result>
+		</action>
+		
+		<action name="deleteProfile" method="deleteProfile"
+			class="eu.aliada.gui.action.ProfilesAction">
+			<result name="success" type="tiles">/profiles.tiles</result>
+			<result name="error" type="tiles">/profiles.tiles</result>
+		</action>
+		
+		<action name="showTemplates" method="getTemplatesDb"
+			class="eu.aliada.gui.action.TemplatesAction">
+			<result name="success" type="tiles">/templates.tiles</result>
+			<result name="input" type="tiles">/templates.tiles</result>
+		</action>
+		
+		<action name="addTemplate" method="addTemplate"
+			class="eu.aliada.gui.action.TemplatesAction">
+			<interceptor-ref name="storeStack"/>
+			<result name="success" type="tiles">/templates.tiles</result>
+			<result name="error"  type="redirectAction">
+         		<param name="actionName">showAddTemplateForm</param>
+         	</result>
+         	<result name="input"  type="redirectAction">
+         		<param name="actionName">showAddTemplateForm</param>
+         	</result>
+		</action>
+		
+		<action name="showAddTemplateForm" method="showAddTemplate"
+			class="eu.aliada.gui.action.TemplatesAction">
+			<interceptor-ref name="retrieveStack"/>
+			<result name="success" type="tiles">/templates.tiles</result>
+			<result name="error" type="tiles">/templates.tiles</result>
+		</action>
+		
+		<action name="showTheTemplate" method="getTheTemplate"
+			class="eu.aliada.gui.action.TemplatesAction">
+			<result name="success" type="tiles">/templates.tiles</result>
+			<result name="error" type="tiles">/templates.tiles</result>
+		</action>		
+		
+		<action name="showEditTemplateForm" method="showEditTemplate"
+			class="eu.aliada.gui.action.TemplatesAction">
+			<result name="success" type="tiles">/templates.tiles</result>
+			<result name="error" type="tiles">/templates.tiles</result>
+		</action>
+		
+		<action name="editTemplate" method="editTemplate"
+			class="eu.aliada.gui.action.TemplatesAction">
+			<result name="success" type="tiles">/templates.tiles</result>
+			<result name="error"  type="redirectAction">
+         		<param name="actionName">showTemplates</param>
+         	</result>
+		</action>
+		
+		<action name="deleteTemplate" method="deleteTemplate"
+			class="eu.aliada.gui.action.TemplatesAction">
+			<result name="success" type="tiles">/templates.tiles</result>
+			<result name="error" type="tiles">/templates.tiles</result>
+		</action>
+		
+		<action name="showUsers" method="getUsersDb"
+			class="eu.aliada.gui.action.UsersAction">
+			<result name="success" type="tiles">/users.tiles</result>
+			<result name="error" type="tiles">/users.tiles</result>
+		</action>
+		
+		<action name="addUser" method="addUser"
+			class="eu.aliada.gui.action.UsersAction">
+			<interceptor-ref name="storeStack"/>
+			<result name="success" type="tiles">/users.tiles</result>
+			<result name="error"  type="redirectAction">
+         		<param name="actionName">showAddFormStack</param>
+         	</result>
+         	<result name="input"  type="redirectAction">
+         		<param name="actionName">showAddFormStack</param>
+         	</result>
+		</action>
+		
+		<action name="showAddFormStack" method="showAddForm"
+			class="eu.aliada.gui.action.UsersAction">
+			<interceptor-ref name="retrieveStack"/>
+			<result name="success" type="tiles">/users.tiles</result>
+			<result name="error" type="tiles">/users.tiles</result>
+		</action>
+	
+		<action name="editUser" method="editUser"
+			class="eu.aliada.gui.action.UsersAction">
+			<interceptor-ref name="storeStack"/>
+			<result name="success" type="tiles">/users.tiles</result>
+			<result name="error"  type="redirectAction">
+         		<param name="actionName">showEditFormStack</param>
+         	</result>
+         	<result name="input"  type="redirectAction">
+         		<param name="actionName">showEditFormStack</param>
+         	</result>
+		</action>
+		
+		<action name="showEditForm" method="showEdit"
+			class="eu.aliada.gui.action.UsersAction">
+			<result name="success" type="tiles">/users.tiles</result>
+			<result name="error" type="tiles">/users.tiles</result>
+		</action>
+		
+		<action name="showEditFormStack" method="showEditForm"
+			class="eu.aliada.gui.action.UsersAction">
+			<interceptor-ref name="retrieveStack"/>
+			<result name="success" type="tiles">/users.tiles</result>
+			<result name="error" type="tiles">/users.tiles</result>
+		</action>
+
+		<action name="deleteUser" method="deleteUser"
+			class="eu.aliada.gui.action.UsersAction">
+			<result name="success" type="tiles">/users.tiles</result>
+			<result name="error" type="tiles">/users.tiles</result>
 		</action>
 		
 		<action name="showDatasets" method="showDatasets" class="eu.aliada.gui.action.DatasetsAction">
             <result name="success" type="tiles">/datasets.tiles</result>
-		</action>
-		
-		<action name="showSubsets" method="showSubsets" class="eu.aliada.gui.action.SubsetsAction">
-            <result name="success" type="tiles">/subsets.tiles</result>
-		</action>
-		
-		<action name="showExternalDatasets" method="showExternalDatasets" class="eu.aliada.gui.action.ConfigurationAction">
-            <result name="success" type="tiles">/configuration.tiles</result>
-		</action>
-		
-		<action name="showTheProfile" method="getTheProfile"
-			class="eu.aliada.gui.action.ConfigurationAction">
-			<result name="success" type="tiles">/configuration.tiles</result>
-			<result name="error" type="tiles">/configuration.tiles</result>
-		</action>
-		
-		<action name="showTheDataset" method="getTheDataset"
-			class="eu.aliada.gui.action.DatasetsAction">
-			<result name="success" type="tiles">/datasets.tiles</result>
-			<result name="error" type="tiles">/datasets.tiles</result>
-		</action>
-		
-		<action name="showTheSubset" method="getTheSubset"
-			class="eu.aliada.gui.action.SubsetsAction">
-			<result name="success" type="tiles">/subsets.tiles</result>
-			<result name="error" type="tiles">/subsets.tiles</result>
-		</action>
-		
-		<action name="showAddTemplateForm" method="showAddTemplate"
-			class="eu.aliada.gui.action.ConfigurationAction">
-			<interceptor-ref name="retrieveStack"/>
-			<result name="success" type="tiles">/configuration.tiles</result>
-			<result name="error" type="tiles">/configuration.tiles</result>
-		</action>
-		
-		<action name="showAddProfileForm" method="showAddProfile"
-			class="eu.aliada.gui.action.ConfigurationAction">
-			<interceptor-ref name="retrieveStack"/>
-			<result name="success" type="tiles">/configuration.tiles</result>
-		</action>
-		
-		<action name="showAddDatasetForm" method="showAddDataset"
-			class="eu.aliada.gui.action.DatasetsAction">
-			<interceptor-ref name="retrieveStack"/>
-			<result name="success" type="tiles">/datasets.tiles</result>
-		</action>
-		
-		<action name="showAddSubsetForm" method="showAddSubset"
-			class="eu.aliada.gui.action.SubsetsAction">
-			<interceptor-ref name="retrieveStack"/>
-			<result name="success" type="tiles">/subsets.tiles</result>
-		</action>
-		
-		<action name="addTemplate" method="addTemplate"
-			class="eu.aliada.gui.action.ConfigurationAction">
-			<interceptor-ref name="storeStack"/>
-			<result name="success" type="tiles">/configuration.tiles</result>
-			<result name="error"  type="redirectAction">
-         		<param name="actionName">showAddTemplateForm</param>
-         	</result>
-         	<result name="input"  type="redirectAction">
-         		<param name="actionName">showAddTemplateForm</param>
-         	</result>
-		</action>
-		
-		<action name="addProfile" method="addProfile"
-			class="eu.aliada.gui.action.ConfigurationAction">
-			<interceptor-ref name="storeStack"/>
-			<result name="success" type="tiles">/configuration.tiles</result>
-			<result name="error"  type="redirectAction">
-         		<param name="actionName">showAddProfileForm</param>
-         	</result>
-         	<result name="input"  type="redirectAction">
-         		<param name="actionName">showAddProfileForm</param>
-         	</result>
 		</action>
 		
 		<action name="addDataset" method="addDataset"
@@ -261,47 +396,16 @@
          	</result>
 		</action>
 		
-		<action name="addSubset" method="addSubset"
-			class="eu.aliada.gui.action.SubsetsAction">
-			<interceptor-ref name="storeStack"/>
-			<result name="success" type="tiles">/subsets.tiles</result>
-			<result name="error"  type="redirectAction">
-         		<param name="actionName">showAddSubsetForm</param>
-         	</result>
-         	<result name="input"  type="redirectAction">
-         		<param name="actionName">showAddSubsetForm</param>
-         	</result>
-		</action>
-		
-		<action name="showEditProfileForm" method="showEditProfile"
-			class="eu.aliada.gui.action.ConfigurationAction">
-			<result name="success" type="tiles">/configuration.tiles</result>
-			<result name="error" type="tiles">/configuration.tiles</result>
-		</action>
-		
-		<action name="showEditDatasetForm" method="showEditDataset"
+		<action name="showAddDatasetForm" method="showAddDataset"
 			class="eu.aliada.gui.action.DatasetsAction">
 			<interceptor-ref name="retrieveStack"/>
 			<result name="success" type="tiles">/datasets.tiles</result>
-			<result name="error" type="tiles">/datasets.tiles</result>
-		</action>
-	
-		<action name="showEditSubsetForm" method="showEditSubset"
-			class="eu.aliada.gui.action.SubsetsAction">
-			<interceptor-ref name="retrieveStack"/>
-			<result name="success" type="tiles">/subsets.tiles</result>
-			<result name="error" type="tiles">/subsets.tiles</result>
 		</action>
 		
-		<action name="editProfile" method="editProfile"
-			class="eu.aliada.gui.action.ConfigurationAction">
-			<result name="success" type="tiles">/configuration.tiles</result>
-			<result name="error"  type="redirectAction">
-         		<param name="actionName">showProfiles</param>
-         	</result>
-         	<result name="input"  type="redirectAction">
-         		<param name="actionName">showEditProfileForm</param>
-         	</result>
+		<action name="showTheDataset" method="getTheDataset"
+			class="eu.aliada.gui.action.DatasetsAction">
+			<result name="success" type="tiles">/datasets.tiles</result>
+			<result name="error" type="tiles">/datasets.tiles</result>
 		</action>
 		
 		<action name="editDataset" method="editDataset"
@@ -316,6 +420,47 @@
          	</result>
 		</action>
 		
+		<action name="showEditDatasetForm" method="showEditDataset"
+			class="eu.aliada.gui.action.DatasetsAction">
+			<interceptor-ref name="retrieveStack"/>
+			<result name="success" type="tiles">/datasets.tiles</result>
+			<result name="error" type="tiles">/datasets.tiles</result>
+		</action>
+		
+		<action name="deleteDataset" method="deleteDataset"
+			class="eu.aliada.gui.action.DatasetsAction">
+			<result name="success" type="tiles">/datasets.tiles</result>
+			<result name="error" type="tiles">/datasets.tiles</result>
+		</action>
+		
+		<action name="showSubsets" method="showSubsets" class="eu.aliada.gui.action.SubsetsAction">
+            <result name="success" type="tiles">/subsets.tiles</result>
+		</action>
+		
+		<action name="addSubset" method="addSubset"
+			class="eu.aliada.gui.action.SubsetsAction">
+			<interceptor-ref name="storeStack"/>
+			<result name="success" type="tiles">/subsets.tiles</result>
+			<result name="error"  type="redirectAction">
+         		<param name="actionName">showAddSubsetForm</param>
+         	</result>
+         	<result name="input"  type="redirectAction">
+         		<param name="actionName">showAddSubsetForm</param>
+         	</result>
+		</action>
+		
+		<action name="showAddSubsetForm" method="showAddSubset"
+			class="eu.aliada.gui.action.SubsetsAction">
+			<interceptor-ref name="retrieveStack"/>
+			<result name="success" type="tiles">/subsets.tiles</result>
+		</action>
+		
+		<action name="showTheSubset" method="getTheSubset"
+			class="eu.aliada.gui.action.SubsetsAction">
+			<result name="success" type="tiles">/subsets.tiles</result>
+			<result name="error" type="tiles">/subsets.tiles</result>
+		</action>
+	
 		<action name="editSubset" method="editSubset"
 			class="eu.aliada.gui.action.SubsetsAction">
 			<interceptor-ref name="storeStack"/>
@@ -328,16 +473,11 @@
          	</result>
 		</action>
 		
-		<action name="deleteProfile" method="deleteProfile"
-			class="eu.aliada.gui.action.ConfigurationAction">
-			<result name="success" type="tiles">/configuration.tiles</result>
-			<result name="error" type="tiles">/configuration.tiles</result>
-		</action>
-		
-		<action name="deleteDataset" method="deleteDataset"
-			class="eu.aliada.gui.action.DatasetsAction">
-			<result name="success" type="tiles">/datasets.tiles</result>
-			<result name="error" type="tiles">/datasets.tiles</result>
+		<action name="showEditSubsetForm" method="showEditSubset"
+			class="eu.aliada.gui.action.SubsetsAction">
+			<interceptor-ref name="retrieveStack"/>
+			<result name="success" type="tiles">/subsets.tiles</result>
+			<result name="error" type="tiles">/subsets.tiles</result>
 		</action>
 		
 		<action name="deleteSubset" method="deleteSubset"
@@ -345,122 +485,16 @@
 			<result name="success" type="tiles">/subsets.tiles</result>
 			<result name="error" type="tiles">/subsets.tiles</result>
 		</action>
-
-		<action name="linking" method="execute" class="eu.aliada.gui.action.LinkingAction">
-			<result name="success" type="tiles">/linking.tiles</result>
-			<result name="error" type="tiles">/configuration.tiles</result>
-		</action>
-
-		<action name="loadPendingLinking" method="loadPending" class="eu.aliada.gui.action.LinkingAction">
-			<result name="success" type="tiles">/linking.tiles</result>
-			<result name="error" type="tiles">/configuration.tiles</result>
-		</action>
-
-		<action name="editInstitution" method="editInstitution"
-			class="eu.aliada.gui.action.ConfigurationAction"> 
-			<interceptor-ref name="fileImageStack"/>
-			<result name="success" type="tiles">/configuration.tiles</result>
-			<result name="error" type="tiles">/configuration.tiles</result>
-			<result name="input" type="tiles">/configuration.tiles</result>
-		</action>
 		
-		<action name="startLinking" method="startLinking" class="eu.aliada.gui.action.LinkingAction">
-			<result name="success" type="tiles">/linking.tiles</result>
-			<result name="error" type="tiles">/linking.tiles</result>
-		</action>
-		
-		<action name="checkLinking" method="checkLinking" class="eu.aliada.gui.action.LinkingAction">
-			<result name="success" type="tiles">/linking.tiles</result>
-			<result name="error" type="tiles">/linking.tiles</result>
-		</action>
-		
-		<action name="showUsers" method="getUsersDb"
-			class="eu.aliada.gui.action.ConfigurationAction">
-			<result name="success" type="tiles">/configuration.tiles</result>
-			<result name="error" type="tiles">/configuration.tiles</result>
-		</action>
-
-		<action name="showAddForm" method="showAddForm"
-			class="eu.aliada.gui.action.ConfigurationAction">
-			<result name="success" type="tiles">/configuration.tiles</result>
-			<result name="error" type="tiles">/configuration.tiles</result>
-		</action>
-		
-		<action name="showAddFormStack" method="showAddForm"
-			class="eu.aliada.gui.action.ConfigurationAction">
-			<interceptor-ref name="retrieveStack"/>
-			<result name="success" type="tiles">/configuration.tiles</result>
-			<result name="error" type="tiles">/configuration.tiles</result>
-		</action>
-
-		<action name="showEditForm" method="showEdit"
-			class="eu.aliada.gui.action.ConfigurationAction">
-			<result name="success" type="tiles">/configuration.tiles</result>
-			<result name="error" type="tiles">/configuration.tiles</result>
-		</action>
-		
-		<action name="showEditFormStack" method="showEditForm"
-			class="eu.aliada.gui.action.ConfigurationAction">
-			<interceptor-ref name="retrieveStack"/>
-			<result name="success" type="tiles">/configuration.tiles</result>
-			<result name="error" type="tiles">/configuration.tiles</result>
-		</action>
-
-		<action name="addUser" method="addUser"
-			class="eu.aliada.gui.action.ConfigurationAction">
-			<interceptor-ref name="storeStack"/>
-			<result name="success" type="tiles">/configuration.tiles</result>
-			<result name="error"  type="redirectAction">
-         		<param name="actionName">showAddFormStack</param>
-         	</result>
-         	<result name="input"  type="redirectAction">
-         		<param name="actionName">showAddFormStack</param>
-         	</result>
-		</action>
-
-		<action name="editUser" method="editUser"
-			class="eu.aliada.gui.action.ConfigurationAction">
-			<interceptor-ref name="storeStack"/>
-			<result name="success" type="tiles">/configuration.tiles</result>
-			<result name="error"  type="redirectAction">
-         		<param name="actionName">showEditFormStack</param>
-         	</result>
-         	<result name="input"  type="redirectAction">
-         		<param name="actionName">showEditFormStack</param>
-         	</result>
-		</action>
-
-		<action name="deleteUser" method="deleteUser"
-			class="eu.aliada.gui.action.ConfigurationAction">
-			<result name="success" type="tiles">/configuration.tiles</result>
-			<result name="error" type="tiles">/configuration.tiles</result>
-		</action>
-		
-		<action name="rdfVal" class="eu.aliada.gui.action.RDFValidationAction">
-			<result name="success" type="tiles">/rdfValidation.tiles</result>
-			<result name="error" type="tiles">/rdfValidation.tiles</result>
-		</action>
-		
-		<action name="linksVal" class="eu.aliada.gui.action.DiscLinksValidationAction">
-			<result name="success" type="tiles">/linksValidation.tiles</result>
-			<result name="error" type="tiles">/linksValidation.tiles</result>
-		</action>
-		
-		<action name="removeLinks" method="removeLinks"
-			class="eu.aliada.gui.action.DiscLinksValidationAction">
-			<result name="success" type="tiles">/linksValidation.tiles</result>
-			<result name="error" type="tiles">/linksValidation.tiles</result>
+		<action name="showExtDatasets" method="showExtDatasets" class="eu.aliada.gui.action.ExtDatasetsAction">
+            <result name="success" type="tiles">/extDatasets.tiles</result>
 		</action>
 		
 		<action name="reloadExternalDatasets" method="reloadExternalDatasets"
-			class="eu.aliada.gui.action.ConfigurationAction">
-			<result name="success" type="tiles">/configuration.tiles</result>
-			<result name="error" type="tiles">/configuration.tiles</result>
+			class="eu.aliada.gui.action.ExtDatasetsAction">
+			<result name="success" type="tiles">/extDatasets.tiles</result>
+			<result name="error" type="tiles">/extDatasets.tiles</result>
 		</action>
-		
-		<action name="locale" class="eu.aliada.gui.action.LocaleAction">
-			<result name="success" type="tiles">/logon.tiles</result>
-	   </action>
 
 		<action name="pendingFiles" method="getPendingFilesDb" class="eu.aliada.gui.action.TasksAction">
             <result name="success" type="tiles">/tasks.tiles</result>
@@ -492,14 +526,9 @@
 			<result name="error" type="tiles">/tasks.tiles</result>
 		</action>
 		
-		<action name="ImageAction" class="eu.aliada.gui.action.ImageAction">
-			<result name="success" type="imageResult">
-			</result>
-		</action>
-		
-		<action name="publish" method="publish" class="eu.aliada.gui.action.PublishAction">
-			<result name="success" type="tiles">/publish.tiles</result>
-			<result name="error" type="tiles">/publish.tiles</result>
+		<action name="deleteAllFiles" method="deleteAllFiles" class="eu.aliada.gui.action.TasksAction">
+            <result name="success" type="tiles">/tasks.tiles</result>
+			<result name="error" type="tiles">/tasks.tiles</result>
 		</action>
 		
 	</package>

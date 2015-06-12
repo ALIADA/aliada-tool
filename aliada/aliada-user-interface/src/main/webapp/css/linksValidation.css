@@ -1,0 +1,26 @@
+.linksButton {
+    font-size: 18px;
+    height: 25px;
+    margin-left: 10px;
+    margin-right: 10px;
+    width: 270px;
+}
+
+.contentLinksButtons {
+    margin: 10px;
+    padding: 10px;
+}
+
+#linksPage {
+	border: 1px dashed #1BBC9B;
+    margin: 10px;
+    padding: 10px;
+}
+
+.actionMessage {
+	text-align: center;
+}
+
+.errorMessage {
+	text-align: center;
+}

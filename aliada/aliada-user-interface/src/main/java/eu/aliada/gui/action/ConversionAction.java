@@ -46,6 +46,8 @@ public class ConversionAction extends ActionSupport {
     private HashMap<Integer, String> templates;
     private HashMap<Integer, String> datasets;
     private HashMap<Integer, String> graphs;
+	private String title;
+	private String selectedGraph;
     private String selectedTemplate;
     private int showCheckButton;
     private int showRdfizerButton;
@@ -61,6 +63,7 @@ public class ConversionAction extends ActionSupport {
      * @since 1.0
      */
     public String execute() {
+    	title = getText("dialog.publish.title");
     	//STATUS IDLE
         String rdfizerStatus = "idle";
         HttpSession session = ServletActionContext.getRequest().getSession();
@@ -212,7 +215,8 @@ public class ConversionAction extends ActionSupport {
         Connection connection = null;
         connection = new DBConnectionManager().getConnection();
         Statement statement;
-        String graphToCleanId = ServletActionContext.getRequest().getParameter("graphToCleanId");
+        //String graphToCleanId = ServletActionContext.getRequest().getParameter("graphToCleanId");
+        String graphToCleanId = getSelectedGraph();
         String seu, sel, sep , graphUri , linksGraphUri = "";
         try {
             statement = connection.createStatement();
@@ -232,6 +236,7 @@ public class ConversionAction extends ActionSupport {
                     statement.close();
                     connection.close();
                     execute();
+                    addActionError("conversion.graphCleanError");
                     return ERROR;
                 }
                 if (!store.clearGraphBySparql(seu, sel, sep, linksGraphUri)) {
@@ -240,10 +245,11 @@ public class ConversionAction extends ActionSupport {
                     statement.close();
                     connection.close();
                     execute();
+                    addActionError("conversion.graphCleanError");
                     return ERROR;
                 }
                 logger.debug(MessageCatalog._00034_CONVERSION_GRAPH_CLEANED);
-                addActionMessage(getText("conversion.graphCleaned") + rs.getString("graph_uri"));
+                addActionMessage(getText("conversion.graphCleaned"));
             }
             rs.close();
             statement.close();
@@ -252,6 +258,7 @@ public class ConversionAction extends ActionSupport {
         } catch (SQLException e) {
             logger.error(MessageCatalog._00011_SQL_EXCEPTION, e);
             execute();
+            addActionError("conversion.graphCleanError");
             return ERROR;
         }
         
@@ -420,7 +427,7 @@ public class ConversionAction extends ActionSupport {
             	ArrayList<String> l = new ArrayList<String>();
             	
             	while (res.next()) {
-            		int subId = res.getInt("subsetId");
+            		//int subId = res.getInt("subsetId");
             		String graphUri = res.getString("graph_uri");
             		l.add(graphUri);
             	}
@@ -534,6 +541,24 @@ public class ConversionAction extends ActionSupport {
      */
     public void setImportedFile(final FileWork importedFile) {
         this.importedFile = importedFile;
+    }
+    /**
+     * @return Returns the selectedGraph.
+     * @exception
+     * @since 1.0
+     */
+    public String getSelectedGraph() {
+        return selectedGraph;
+    }
+
+    /**
+     * @param selectedGraph
+     *            The selectedGraph to set.
+     * @exception
+     * @since 1.0
+     */
+    public void setSelectedGraph(final String selectedGraph) {
+        this.selectedGraph = selectedGraph;
     }
     /**
      * @return Returns the selectedTemplate.
@@ -670,4 +695,22 @@ public class ConversionAction extends ActionSupport {
 	public void setSub(final String sub) {
 		this.sub = sub;
 	}    
+	 /**
+     * @return Returns the title.
+     * @exception
+     * @since 1.0
+     */
+	public String getTitle() {
+		return title;
+	}
+	/**
+     * @param title
+     *            The title to set.
+     * @exception
+     * @since 1.0
+     */
+	public void setTitle(final String title) {
+		this.title = title;
+	}
 }
+

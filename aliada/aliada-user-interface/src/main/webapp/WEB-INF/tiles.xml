@@ -5,23 +5,9 @@
        "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
 
 <tiles-definitions>
-
-	<definition name="baseLayout" template="/content/common/layout.jsp">
+	
+	<definition name="userLayout" template="/content/common/layout.jsp">
 		<put-attribute name="body" value="" />
-		<put-attribute name="menu" value="/content/common/menu.jsp" />
-		<put-attribute name="footer" value="/content/common/footer.jsp" />
-	</definition>
-	
-	<definition name="userLayout" template="/content/common/layoutUser.jsp">
-		<put-attribute name="body" value="" />
-		<put-attribute name="footer" value="/content/common/footer.jsp" />
-	</definition>	
-	
-	<definition name="/rdfValidation.tiles" template="/content//rdfValidation.jsp">
-		<put-attribute name="footer" value="/content/common/footer.jsp" />
-	</definition>
-	
-	<definition name="/linksValidation.tiles" template="/content//linksValidation.jsp">
 		<put-attribute name="footer" value="/content/common/footer.jsp" />
 	</definition>		
 
@@ -30,33 +16,48 @@
 		<put-attribute name="footer" value="/content/common/footer.jsp" />
 	</definition>
 	
-	<definition name="/welcome.tiles" template="/content/common/layout-logon.jsp">
-		<put-attribute name="body" value="/content/welcomePage.jsp" />
-		<put-attribute name="footer" value="/content/common/footer.jsp" />
-	</definition>
-
-	<definition name="/configuration.tiles" extends="baseLayout">
-		<put-attribute name="body" value="/content/configuration.jsp" />
-	</definition>
-	
 	<definition name="/errorLog.tiles" extends="userLayout">
 		<put-attribute name="body" value="/content/errorLog.jsp" />
 	</definition>
 	
-	<definition name="/manage.tiles" extends="baseLayout">
+	<definition name="/manage.tiles" extends="userLayout">
 		<put-attribute name="body" value="/content/manage.jsp" />
 	</definition>
 	
-	<definition name="/conversion.tiles" extends="baseLayout">
+	<definition name="/conversion.tiles" extends="userLayout">
 		<put-attribute name="body" value="/content/conversion.jsp" />
 	</definition>
 	
-	<definition name="/checkRDF.tiles" extends="baseLayout">
-		<put-attribute name="body" value="/content/checkRDF.jsp" />
+	<definition name="/linking.tiles" extends="userLayout">
+		<put-attribute name="body" value="/content/linking.jsp" />
 	</definition>
 	
-	<definition name="/tasks.tiles" extends="userLayout">
-		<put-attribute name="body" value="/content/tasks.jsp" />		
+	<definition name="/rdfValidation.tiles" template="/content//rdfValidation.jsp">
+		<put-attribute name="footer" value="/content/common/footer.jsp" />
+	</definition>
+	
+	<definition name="/linksValidation.tiles" template="/content//linksValidation.jsp">
+		<put-attribute name="footer" value="/content/common/footer.jsp" />
+	</definition>	
+	
+	<definition name="/publish.tiles" extends="userLayout">
+		<put-attribute name="body" value="/content/publish.jsp" />
+	</definition>
+	
+	<definition name="/institution.tiles" extends="userLayout">
+		<put-attribute name="body" value="/content/institution.jsp" />
+	</definition>
+	
+	<definition name="/profiles.tiles" extends="userLayout">
+		<put-attribute name="body" value="/content/profiles.jsp" />
+	</definition>
+	
+	<definition name="/templates.tiles" extends="userLayout">
+		<put-attribute name="body" value="/content/templates.jsp" />
+	</definition>
+	
+	<definition name="/users.tiles" extends="userLayout">
+		<put-attribute name="body" value="/content/users.jsp" />
 	</definition>
 	
 	<definition name="/datasets.tiles" extends="userLayout">
@@ -67,20 +68,12 @@
 		<put-attribute name="body" value="/content/subsets.jsp" />		
 	</definition>
 	
-	<definition name="/linking.tiles" extends="baseLayout">
-		<put-attribute name="body" value="/content/linking.jsp" />
+	<definition name="/extDatasets.tiles" extends="userLayout">
+		<put-attribute name="body" value="/content/externalDatasets.jsp" />
 	</definition>
 	
-	<definition name="/linkingInfo.tiles" extends="baseLayout">
-		<put-attribute name="body" value="/content/linkingInfo.jsp" />
-	</definition>
-	
-	<definition name="/ldsInfo.tiles" extends="baseLayout">
-		<put-attribute name="body" value="/content/ldsInfo.jsp" />
-	</definition>
-	
-	<definition name="/publish.tiles" extends="baseLayout">
-		<put-attribute name="body" value="/content/publish.jsp" />
+	<definition name="/tasks.tiles" extends="userLayout">
+		<put-attribute name="body" value="/content/tasks.jsp" />		
 	</definition>	
 
 </tiles-definitions>

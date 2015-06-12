@@ -1,0 +1,18 @@
+.extDatasetsPage {
+    border: 1px dashed #e5e5e5;
+    margin: 20px;
+    padding: 20px;
+    background-color: #f0f0f0;
+}
+
+.lmargin40p {
+	margin-left: 40%;
+}
+
+.actionMessage {
+	text-align: center;
+}
+
+.errorMessage {
+	text-align: center;
+}

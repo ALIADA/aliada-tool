@@ -1,41 +1,27 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="/struts-tags" prefix="html"%>
+<%@ taglib prefix="sj" uri="/struts-jquery-tags"%>
+
+<link type="text/css" rel="stylesheet" href="<html:url value="css/conversion.css" />" />
+
 <script>
+
 function confirmBox(){
 	var answer = window.confirm("<html:text name='conversion.cleanGraph'/>");
-	if (answer == true){
-		var graphToCleanId = $("#graphToClean").val();
-		console.log("Cleaning graph");
-		window.location.href = "${pageContext.request.contextPath}/cleanGraph.action?graphToCleanId="+graphToCleanId;
+	if (answer == true) {
+		console.log("Clean graph");
+		$("#clean").submit();
+	} else {
+		console.log("Cancel clean graph");
 	}
-	else{
-		console.log("Not cleaned");
-		window.location = "${pageContext.request.contextPath}/conversion.action";
-	}
-	return false;
+return false;
 }
+
 $(function(){
-	var showCheckButton = $("#showCheckButton").val();
 	var showRdfizerButton = $("#showRdfizerButton").val();
 	var rdfizerStatus = $("#rdfizerStatus").val();
-	console.log(rdfizerStatus);
-	if(rdfizerStatus =="running"){
-		$("#cleanGraphPanel").hide();
-		$("#templateSelect").hide();
-		$("#templateProperty").show();
-		$("#datasetSelect").hide();
-		$("#datasetProperty").show();
-		$("#graphSelect").hide();
-		$("#graphProperty").show();
-		$("#datSelect").hide();
-		$("#both").hide();
-		$("#data").show();
-		$("#d").show();
-		$("#subs").show();
-		$("#s").show();
-	} 
-	var interval;
+	var interval = 0;
 	var checkRDF = function(){
 		console.log("checking RDF");
 		var rdfizerJobId = $("#rdfizerJobId").val();
@@ -74,14 +60,12 @@ $(function(){
             		   console.log("Message: "+validationErrorMess);
             		   $("ValError").text(validationErrorMess);
             	   }
-                   
             	   $("#status").text("Completed");
 		   		   $("#checkRDFButton").prop("disabled",true);
-			       $("#nextButton").removeClass("button");
-			       $("#nextButton").addClass("buttonGreen");
-			       $("#nextButton").prop("disabled",false);
+			       $("#nextBut").removeClass("button");
+			       $("#nextBut").addClass("buttonGreen");
+			       $("#nextBut").prop("disabled",false);
 			       $("#rdfVal").show("fast");
-			       $("#linksVal").show("fast");
 			       $("#progressBar").hide();
 		   		   console.log("interval stopped");
 		   		   clearInterval(interval);
@@ -98,20 +82,17 @@ $(function(){
 	      }
    		});   
 	};
-	$("#datasetSelect").on("change", function(){
-		var d = $("#datasetSelect").val();
-		console.log(d);
-		$("#graphSelect").show();
-	});
 	
-	$("#checkRDFButton").on("click",function(){
-		$("#rdfizePanel").hide();		
-		$("#checkInfo").show("fast");
+	console.log(rdfizerStatus);
+	if(rdfizerStatus =="running"){
+		$("#checkInfo").hide();
+		$("#checkRDFInfo").show("fast");
 		$('#progressBar').show();
 		$('#checkRDFButton').hide();
 		console.log("Checking");
-		interval = setInterval( checkRDF, 3000 );		
-	});
+		interval = setInterval( checkRDF, 3000 );
+	} 
+	
 	if(showRdfizerButton==1){
 	   	$("#rdfizeButton").removeClass("button");
 	   	$("#rdfizeButton").addClass("buttonGreen");
@@ -122,141 +103,193 @@ $(function(){
 	   	$("#rdfizeButton").addClass("button");
 		$('#rdfizeButton').prop("disabled",true);			
 	}
-	if(showCheckButton==1){
-	   	$("#checkRDFButton").removeClass("button");
-	   	$("#checkRDFButton").addClass("buttonGreen");
-		$('#checkRDFButton').prop("disabled",false);
-		$('#backButton').prop("disabled",true);		
-	}
+	
 	$('#datSelect').find('br').remove();
-}); 
+	
+	$("#rdfizeButton").on("click",function(){
+		console.log("Rdfizer button");
+		$("#backButton").hide();
+		$("#rdfizeButton").hide();
+ 	   	$("#cleanButton").hide();
+ 	   	
+		$.publish('openremotedialog');
+		$("#indicator1").show();
+		$(".ui-dialog-titlebar-close").hide(); 
+	
+	});
+	
+});
 </script>
+
+		<sj:dialog id="myremotedialog"
+		    openTopics="openremotedialog" 
+		    autoOpen="false" 
+		    closeOnEscape="false"
+		    modal="false"
+		    height="100"
+		    width="175"
+		    title="%{title}"> 			
+		   <img id="indicator1" class="displayNo" src="images/progressBar.gif" alt="Loading..."/>
+		</sj:dialog>
 
 <html:hidden id="rdfizerStatus" name="rdfizerStatus" value="%{#session['rdfizerStatus']}" />
 <html:hidden id="rdfizerJobId" name="rdfizerJobId" value="%{#session['rdfizerJobId']}" />
 <html:hidden id="showRdfizerButton" name="showRdfizerButton" value="%{showRdfizerButton}" />
-<html:hidden id="showCheckButton" name="showCheckButton" value="%{showCheckButton}" />
+
 <ul class="breadcrumb">
 	<span class="breadCrumb"><html:text name="home"/></span>
 	<li><span class="breadcrumb"><html:text name="manage.title"/></span></li>
 	<li><span class="breadcrumb activeGreen"><html:text name="conversion.title"/></span></li>
 	<li><span class="breadcrumb"><html:text name="linking.title"/></span></li>
 </ul>
-<%-- doubleselect style to show at the same line  --%>
-<style> 
-	.nobr {
-		display: inline-block;
-		white-space: nowrap;
-		}  
-</style>
-<html:a id="rdfVal" disabled="true" action="rdfVal" cssClass="displayNo menuButton button fleft" key="rdfVal" target="_blank"><html:text name="rdfVal"/></html:a>
-<%--<html:a id="linksVal" disabled="true" action="linksVal" cssClass="displayNo menuButton button fright" key="linksVal" target="_blank"><html:text name="linksVal"/></html:a>--%>		
-<div class="form centered">
-	<html:form id="conversion">
-		<div id="rdfizePanel" class="content">
-			<label class="row label"><html:text name="conversion.filesTo"/></label>
-			<table class="table">
-				<tr class="backgroundGreen center">
-					<th><label class="bold"><html:text name="conversion.input"/></label></th>
-					<th><label class="bold"><html:text name="conversion.template"/></label></th>
-					<th id="both"><label class="bold"><html:text name="conversion.select"/></label></th>
-					<th id="d" class="displayNo"><label class="bold"><html:text name="conversion.dataset"/></label></th>
-					<th id="s" class="displayNo"><label class="bold"><html:text name="conversion.graph"/></label></th>
-				</tr>
-				<tr>
-					<td>
-						<html:property value="importedFile.getFilename()" />
-					</td>
-					<td>
-						<html:select id="templateSelect" name="selectedTemplate"
-							cssClass="inputForm" list="templates" />
-						<span id="templateProperty" class="displayNo"><html:property  value="importedFile.getTemplate()" /></span>					
-					</td>
-					<td>
-						<div id="datSelect" class="nobr">
-								<html:doubleselect cssClass="inputForm"
-								name="dat" list="datasetMap.keySet()" doubleCssClass="inputForm"
-								doubleName="sub" doubleList="datasetMap.get(top)" />
-						</div>
-						<span id="data" class="displayNo"><html:property  value="importedFile.getDataset()" /></span>
-					</td>
-					<td>
-						<span id="subs" class="displayNo"><html:property  value="importedFile.getGraph()" /></span>
-					</td>
-				</tr>			
-			</table>
-			<div id="conversionButtons" class="buttons row">	
-				<html:submit id="rdfizeButton" action="RDFize" disabled="true" cssClass="submitButton button"
-					key="RDF-ize"/>
-				<html:submit id="checkRDFButton" disabled="true" cssClass="submitButton button"
-					key="check" onClick="return false;"/>
-			</div>
-			<div id="cleanGraphPanel">
-				<label class="row label"><html:text name="conversion.cleanSelect"/></label>
-			<div class="row">
-				<html:select id="graphToClean" cssClass="inputForm" list="graphs" />
-			</div>
-			<div class="row">
-				<%-- <html:submit action="cleanGraph" cssClass="submitButton button"
-					key="conversion.clean" /> --%>
-				<html:submit onclick="return confirmBox();" cssClass="submitButton button"
-					key="conversion.clean" />
-			</div>
-			</div>
-			<html:actionmessage />
-		</div>
-		<div id="checkInfo" class="displayNo content">
-			<div class="row">
-				<label class="label"><html:text name="rdf.fileTo"/></label>
-				<html:property value="importedFile.getFilename()"/>
-				<img id="fineImg" class="displayNo" src="images/fine.png"/>
-				<img id="errorImg" class="displayNo" src="images/error.png">
-			</div>				
-			<div class="row">
-				<label class="label"><html:text name="rdf.format"/></label>
-				<div id="format" class="displayInline"></div>	
-			</div>
-			<div class="row">
-				<label class="label"><html:text name="rdf.records"/></label>	
-				<div id="recordNum" class="displayInline"></div>	
-			</div>
-			<div class="row">
-				<label class="label"><html:text name="rdf.processed"/></label>
-				<div id="processedNum" class="displayInline"></div>		
-			</div>
-			<div class="row">
-				<label class="label"><html:text name="rdf.emitted"/></label>
-				<div id="statementsNum" class="displayInline"></div>	
-			</div>
-			<div class="row">
-				<label class="label"><html:text name="rdf.recordThroughput"/></label>
-				<div id="processingThroughput" class="displayInline"></div>
-				<html:text name="rdf.recordsSec"/>			
-			</div>
-			<div class="row">
-				<label class="label"><html:text name="rdf.triplesThroughput"/></label>
-				<div id="triplesThroughput" class="displayInline"></div>
-				<html:text name="rdf.triplesSec"/>		
-			</div>
-			<div id="validationError" class="displayNo">
-				<div class="row">
-					<label class="label"><html:text name="rdf.validationMessage"/></label>	
-					<div id="ValError" class="displayInline"></div>	
+
+
+<div id="checkInfo">
+	<div id="conversionDividedPanel" class="clearfixConversion">
+			
+		<div id="cleanGraphInfoPanel" class="fleft" >
+			<html:form id="clean" action="/cleanGraph.action">
+				<label class="row label center"><html:text name="conversion.cleanSelect"/></label>
+				<div class="buttons row">
+					<html:select id="graphToClean" name="selectedGraph" cssClass="inputForm" list="graphs" />
 				</div>
+				<div class="buttons row">
+					 <html:submit cssClass="mediumButton button" key="conversion.clean" onclick="return confirmBox();"/> 
+				</div>
+				<html:actionerror/>
+				<html:actionmessage/>
+				<div id="inf" class="mainsection">
+				 <span class="bold">
+				 	<html:text name="cleanGinf1"/></span><br>
+				 	<html:text name="cleanGinf2"/>
+				 	<span class="bold"><html:text name="cleanGinf3"/></span><br>
+				 	<html:text name="cleanGinf4"/>
+				</div>
+			</html:form>
+		</div>	
+			
+		<div id="graphInfoPanel" class="fleft" >
+			<html:form id="conv">
+				<label class="row label center"><html:text name="conversion.filesTo"/></label>
+				<table class="tableConv">
+						<tr>
+							<th  class="backgroundGreen center"><label class="bold"><html:text name="conversion.input"/></label></th>
+							<td>
+								<html:property value="importedFile.getFilename()" />
+							</td>
+						</tr>
+						<tr>
+							<th class="backgroundGreen center"><label class="bold"><html:text name="conversion.template"/></label></th>
+							<td>
+								<html:select id="templateSelect" name="selectedTemplate"
+									cssClass="inputForm" list="templates" />
+								</td>
+						</tr>
+						<tr>
+							<th id="both" class="backgroundGreen center"><label class="bold"><html:text name="conversion.select"/></label></th>
+							<td>
+								<div id="datSelect" class="nobr">
+										<html:doubleselect cssClass="inputForm"
+										name="dat" list="datasetMap.keySet()" doubleCssClass="inputForm"
+										doubleName="sub" doubleList="datasetMap.get(top)" />
+								</div>
+							</td>
+						</tr>		
+					</table>
+					
+					<div id="conversionButtons">
+						<div class="mainsectionRDF mainsectionfleft">
+						 	<html:text name="convInf1"/><br>
+						 	<html:text name="convInf2"/>
+						 	<span class="bold"><html:text name="convInf3"/></span><br>
+						</div>
+						<div class="buttons row">
+							<html:submit id="rdfizeButton" action="RDFize" disabled="true" cssClass="mediumButton button"
+								key="RDF-ize"/>
+						</div>	
+					</div>
+				</html:form>
+		</div>
+				
+	</div>
+	<div id="submitButtons" class="buttons row">
+		<html:form id="submitButtonsForm">
+			<html:submit id="backButton" action="manage" cssClass="fleft mediumButton button" key="back" />
+		</html:form>
+	</div>
+</div>
+
+<div id="checkRDFInfo" class="displayNo">
+	<div class="formCheckConv centeredCheck checkContent">
+			<label class="row label center"><html:text name="conversion.title"/></label>
+			<table class="tableCheck">
+						<tr>
+							<th  class="backgroundGreen center"><label class="label"><html:text name="rdf.fileTo"/></label></th>
+							<td>
+								<html:property value="importedFile.getFilename()"/>
+								<img id="fineImg" class="displayNo" src="images/fine.png"/>
+								<img id="errorImg" class="displayNo" src="images/error.png">
+							</td>
+						</tr>
+						<tr>
+							<th class="backgroundGreen center"><label class="label"><html:text name="rdf.format"/></label></th>
+							<td>
+								<div id="format" class="displayInline"></div>						
+							</td>
+						</tr>
+						<tr>
+							<th class="backgroundGreen center"><label class="label"><html:text name="rdf.records"/></label></th>
+							<td>
+								<div id="recordNum" class="displayInline"></div>
+							</td>
+						</tr>
+						<tr>
+							<th class="backgroundGreen center"><label class="label"><html:text name="rdf.processed"/></label></th>
+							<td>
+								<div id="processedNum" class="displayInline"></div>	
+							</td>
+						</tr>	
+						<tr>
+							<th class="backgroundGreen center"><label class="label"><html:text name="rdf.emitted"/></label></th>
+							<td>
+								<div id="statementsNum" class="displayInline"></div>	
+							</td>
+						</tr>	
+						<tr>
+							<th class="backgroundGreen center"><label class="label"><html:text name="rdf.recordThroughput"/></label></th>
+							<td>
+								<div id="processingThroughput" class="displayInline"></div>
+								<html:text name="rdf.recordsSec"/>		
+							</td>
+						</tr>
+						<tr>
+							<th class="backgroundGreen center"><label class="label"><html:text name="rdf.triplesThroughput"/></label></th>
+							<td>
+								<div id="triplesThroughput" class="displayInline"></div>
+								<html:text name="rdf.triplesSec"/>		
+							</td>
+						</tr>
+						<tr id="validationError" class="displayNo">
+							<th class="backgroundGreen center"><label class="label"><html:text name="rdf.validationMessage"/></label></th>
+							<td>
+								<div id="ValError" class="displayInline"></div>			
+							</td>
+						</tr>
+			</table>
+			
+			<div id="rdfButton" class="buttons row">
+					<html:form id="submitButtonsForm">
+						<img id="progressBar" class="displayNo" src="images/progressBar.gif" alt="" />
+						<html:a id="rdfVal" disabled="true" action="getAuthors" cssClass="displayNo menuButton button fleft" key="rdfVal" target="_blank"><html:text name="rdfVal"/></html:a>
+						<html:submit id="nextBut" disabled="true" action="linking" cssClass="fright mediumButton button"
+							key="next" />
+					</html:form>
 			</div>
-		</div>
-		<div class="buttons row">
-			<img id="progressBar" class="displayNo" src="images/progressBar.gif" alt="" />
-		</div>
-	</html:form>
+	</div>
+
 </div>
-<div id="submitButtons" class="buttons row">
-	<html:form id="submitButtonsForm">
-		<html:submit id="backButton" action="manage" cssClass="fleft submitButton button" key="back" />	
-		<html:submit id="nextButton" disabled="true" action="linking" cssClass="fright submitButton button"
-			key="next" />
-	</html:form>
-</div>
+		
+		
 
 
 

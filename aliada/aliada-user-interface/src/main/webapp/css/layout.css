@@ -1,0 +1,56 @@
+#header {
+    font-family: Arial,Helvetica,sans-serif;
+    margin: auto;
+    padding: 10px;
+}
+
+ul, ol {
+    list-style: outside none none;
+}
+
+.nav > li {
+    float: left;
+}
+
+.nav li a {
+    background-color: #fff;
+    border: 1px solid #d0d0d0;
+    color: #000;
+    display: block;
+    height: 20px;
+    padding: 10px 12px;
+    text-decoration: none;
+    width: 140px;
+    text-align: center;
+}
+
+.nav li a:hover {
+    background-color: #1bbc9b;
+}
+.nav li ul {
+    display: none;
+    min-width: 140px;
+    position: absolute;
+}
+
+.nav li:hover > ul {
+    display: block;
+}
+
+.nav li ul li {
+    position: relative;
+}
+
+.nav li ul li ul {
+    right: -140px;
+    top: 0;
+}
+
+.insti {
+    padding: 10px 30px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}

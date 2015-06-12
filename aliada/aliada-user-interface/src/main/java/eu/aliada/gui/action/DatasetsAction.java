@@ -414,9 +414,9 @@ public class DatasetsAction  extends ActionSupport{
                 return ERROR; 
             }
             
-            if (!this.virtualHostForm.equalsIgnoreCase(vh)) {
-            	String sparqlEndpUri = "http://" + this.virtualHostForm + "/sparql-auth";
-            	String publicSparqlEndpUri = "http://" + this.virtualHostForm + "/sparql";
+            if (!this.domainNameForm.equalsIgnoreCase(dn)) {
+            	String sparqlEndpUri = "http://" + this.domainNameForm + "/sparql-auth";
+            	String publicSparqlEndpUri = "http://" + this.domainNameForm + "/sparql";
             	statement = connection.createStatement();
             	statement.executeUpdate("UPDATE aliada.dataset set sparql_endpoint_uri='"
                     + sparqlEndpUri + "', public_sparql_endpoint_uri='"
@@ -494,9 +494,9 @@ public class DatasetsAction  extends ActionSupport{
     	 String datasetAuthor = "", isqlCommandsFilename = "", aliadaToolHost = "";
     	 String sparqlEndpoint = "";
     	 String publicSparqlEndpoint = "";
-    	 if (!this.virtualHostForm.isEmpty()) {
-    	 sparqlEndpoint = "http://" + this.virtualHostForm + "/sparql-auth";
-    	 publicSparqlEndpoint = "http://" + this.virtualHostForm + "/sparql";
+    	 if (!this.domainNameForm.isEmpty()) {
+    	 sparqlEndpoint = "http://" + this.domainNameForm + "/sparql-auth";
+    	 publicSparqlEndpoint = "http://" + this.domainNameForm + "/sparql";
     	 } else {
     		 this.sparqlEndpointLoginForm = "";
     		 this.sparqlEndpointPasswordForm = "";

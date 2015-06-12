@@ -1,8 +1,11 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@ taglib uri="/struts-tags" prefix="html" %>
 <%@ taglib prefix="sj" uri="/struts-jquery-tags"%>
+
+<link type="text/css" rel="stylesheet" href="<html:url value="css/linking.css" />" />
+
 <script>
- $(function(){
+$(function(){
 	 var intervalLinking = 0;
 	 var intervalLDS = 0;
 	 var finishedLink = false;
@@ -15,25 +18,25 @@
 		 $("#linkingPanelCheck").hide();
 		 
 		 $("#checkLinkingButton").removeClass("buttonGreen");
-    	 $("#checkLinkingButton").addClass("button");
+   	 	 $("#checkLinkingButton").addClass("button");
 		 $('#checkLinkingButton').prop("disabled",true);
 		 
 		 $("#startLinkingButton").removeClass("button");
-  	   	 $("#startLinkingButton").addClass("buttonGreen");
-  	     $("#startLinkingButton").prop("disabled",false);
+ 	   	 $("#startLinkingButton").addClass("buttonGreen");
+ 	     $("#startLinkingButton").prop("disabled",false);
 		 
 	 } else if (rdfizerStatus == "finishedLinking") {
 		 
 		 $("#linkingPanel").hide();
 		 $("#linkingPanelCheck").show();
 		 
-  	     $("#startLinkingButtonCheck").removeClass("buttonGreen");
-    	 $("#startLinkingButtonCheck").addClass("button");
+ 	     $("#startLinkingButtonCheck").removeClass("buttonGreen");
+   	 	 $("#startLinkingButtonCheck").addClass("button");
 		 $('#startLinkingButtonCheck').prop("disabled",true);
 		 
 		 $("#checkLinkingButtonCheck").removeClass("button");
-  	   	 $("#checkLinkingButtonCheck").addClass("buttonGreen");
-  	     $("#checkLinkingButtonCheck").prop("disabled",false);
+ 	   	 $("#checkLinkingButtonCheck").addClass("buttonGreen");
+ 	     $("#checkLinkingButtonCheck").prop("disabled",false);
 	 }
 	 
 	 var checkLinking = function(){
@@ -90,14 +93,15 @@
 			   		   console.log("interval linking stopped");
 			   		   clearInterval(intervalLinking);
 				       $("#progressBarLinking").hide();
+				       $("#links").show();
+				       $("#numLinks").removeClass("displayNo");
+			    	   $("#numLinks").addClass("displayInline");
 				       if(finishedCreat){
-				    	   $("#publishButton").removeClass("button");
-				    	   $("#publishButton").addClass("buttonGreen");
-				    	   $("#publishButton").prop("disabled",false);
-				    	   $("#linkingNextButton").removeClass("button");
-				    	   $("#linkingNextButton").addClass("buttonGreen");
-				    	   $("#linkingNextButton").prop("disabled",false);
+				    	   $("#publishButton").show();
+				    	   $("#linkingNextButton").show();
 				    	   $("#pag").show();
+				    	   $("#rdfVal").show();
+				    	   $("#linksVal").show();
 				       }
 				       finishedLink = true;
 			   	   }
@@ -128,16 +132,13 @@
 			   		   console.log("interval LDS stopped");
 			   		   clearInterval(intervalLDS);
 				       $("#progressBarLDS").hide();
-				       $("#fineLDSImg").addClass("centerImage");
 				       $("#fineLDSImg").show();
 				       if(finishedLink){
-				    	   $("#publishButton").removeClass("button");
-				    	   $("#publishButton").addClass("buttonGreen");
-				    	   $("#publishButton").prop("disabled",false);
-				    	   $("#linkingNextButton").removeClass("button");
-				    	   $("#linkingNextButton").addClass("buttonGreen");
-				    	   $("#linkingNextButton").prop("disabled",false);
+				    	   $("#publishButton").show();
+				    	   $("#linkingNextButton").show();
 				    	   $("#pag").show();
+				    	   $("#rdfVal").show();
+				    	   $("#linksVal").show();
 				       }
 				       finishedCreat = true;
 			   	   }
@@ -156,8 +157,8 @@
 		$("#linkingPanelCheck").hide();		
 		$("#checkInfo").show("fast");
 		$('#checkLinkingButton').hide();
-		$('#progressBarLinking').show();
-		intervalLinking = setInterval( checkLinking, 1000 );	
+		intervalLinking = setInterval( checkLinking, 1000 );
+		$('#fineLDSImg').hide();
 		$('#progressBarLDS').show();
 		intervalLDS = setInterval( checkLDS, 1000 );
 	});
@@ -166,20 +167,49 @@
 		console.log("Checking publish button");
 		
 		//This will disable everything contained in the div
-//    	$("#rdfVal").hide();
-//    	$("#linksVal").hide();
- 		$(".topPad20").hide();
- 		
-		$("#linkingNextButton").removeClass("buttonGreen");
-        $("#linkingNextButton").addClass("button");
-    	$('#linkingNextButton').prop("disabled",true);
-    	
+		$("#publishButton").hide();
+ 	   	$("#linkingNextButton").hide();
+//  	$("#pag").hide();
+// 	   	$("#rdfVal").hide();
+// 	   	$("#linksVal").hide();
+		
+// 		$("#linkingNextButton").removeClass("buttonGreen");
+//        	$("#linkingNextButton").addClass("button");
+//    		$('#linkingNextButton').prop("disabled",true);
+   		
+//    		$("#publishButton").removeClass("buttonGreen");
+//        	$("#publishButton").addClass("button");
+//    		$('#publishButton').prop("disabled",true);
+   	
 		$.publish('openremotedialog');
+		$("#indicator").show();
 		$(".ui-dialog-titlebar-close").hide(); 
- 	
+	
 	});
 	
-}); 
+	$('#select_all').change(function() {
+	    var checkboxes = $(this).closest('form').find(':checkbox');
+	    if($(this).is(':checked')) {
+	        checkboxes.prop('checked', true);
+	    } else {
+	        checkboxes.prop('checked', false);
+	    }
+	});
+	
+	$("#sorteable :checkbox").on("change",function(){
+		var checked = $("#sorteable input:checked").length > 0;
+		console.log(checked);
+	    if (checked){
+			$("#startLinkingButtonCheck").removeClass("button");
+			$("#startLinkingButtonCheck").addClass("buttonGreen");
+			$("#startLinkingButtonCheck").prop( "disabled", false);
+	    } else {
+	    	$("#startLinkingButtonCheck").removeClass("buttonGreen");
+			$("#startLinkingButtonCheck").addClass("button");
+			$("#startLinkingButtonCheck").prop( "disabled", true);
+	    }
+	});
+});
 </script>
 		
 		<sj:dialog id="myremotedialog"
@@ -190,104 +220,133 @@
 		    height="100"
 		    width="175"
 		    title="%{title}"> 			
-		   <img id="indicator" src="images/progressBar.gif" alt="Loading..."/>
+		   <img id="indicator" class="displayNo" src="images/progressBar.gif" alt="Loading..."/>
 		</sj:dialog>
 
 <html:hidden id="rdfizerStatus" name="rdfizerStatus" value="%{#session['rdfizerStatus']}" />
 <html:hidden id="linkingJobId" name="linkingJobId" value="%{#session['linkingJobId']}" />
 <html:hidden id="ldsJobId" name="ldsJobId" value="%{#session['ldsJobId']}" />
 <html:hidden id="sec" name="sec" value="%{seconds}" />
+
 <ul class="breadcrumb">
 	<span class="breadCrumb"><html:text name="home"/></span>
 	<li><span class="breadcrumb"><html:text name="manage.title"/></span></li>
 	<li><span class="breadcrumb"><html:text name="conversion.title"/></span></li>
 	<li><span class="breadcrumb activeGreen"><html:text name="linking.title"/></span></li>
 </ul>
-<html:a id="rdfVal" action="rdfVal" cssClass="menuButton button fleft" key="rdfVal" target="_blank"><html:text name="rdfVal"/></html:a>
-<html:a id="linksVal" action="linksVal" cssClass="menuButton button fright" key="linksVal" target="_blank"><html:text name="linksVal"/></html:a>	
-<div id="linkingPanel" class="content centered form">	
+
+<div id="linkingPanel">
+	
 	<html:form>
-		<h3 class="bigLabel"><html:text name="linking.importedFile"/></h3>
-		<html:property value="fileToLink.getFilename()"/>
-		<h3 class="mediumLabel"><html:text name="linking.datasets"/></h3>		
-		<html:iterator value="datasets" var="data">
-	         <ul>
-	         	<html:checkbox fieldValue="%{value}" name="dataset" value="true"></html:checkbox>
-     		 	<html:property value="%{value}"/>
-     		 </ul>
-	    </html:iterator> 
-		<html:actionerror/>
-		<div class="row">
-			<html:submit id="startLinkingButton" action="startLinking" cssClass="submitButton buttonGreen" key="linkSubmit"/>
-			<html:submit id="checkLinkingButton" onClick="return false;" cssClass="submitButton button" key="check"/>
+	<div class="formCheckConv centeredCheck checkContent">
+			<h3 class="bigLabel"><html:text name="linking.importedFile"/> <span class="bold"><html:property value="fileToLink.getFilename()"/></span></h3>
+			<h3 class="mediumLabel center"><html:text name="linking.datasets"/></h3>
+			<div id="sorteable">
+				<ul>
+				<html:iterator value="datasets" var="data">
+			        <li> 
+			         	<html:checkbox fieldValue="%{value}" name="dataset"></html:checkbox>
+		     		 	<html:property value="%{value}"/>
+		     		</li>
+			    </html:iterator>
+			    	<li>
+			    		<html:checkbox id="select_all" name="all"></html:checkbox>
+			    		<html:text name="select"/>
+			    	</li>
+			    </ul>	
+			</div>
+	</div>
+	
+	<div class="buttons row">
+			<html:submit id="startLinkingButtonCheck" action="startLinking" disabled="true" cssClass="fright submitButton button" key="linkSubmit"/>
+	</div>
+	</html:form>
+	
+</div>
+
+<div id="linkingPanelCheck">
+
+	<html:form>
+	<div class="formCheckConv centeredCheck checkContent">
+		<h3 class="bigLabel"><html:text name="linking.importedFile"/> <span class="bold"><html:property value="fileToLink.getFilename()"/></span></h3>
+		<h3 class="mediumLabel center"><html:text name="linking.datasets"/></h3>
+		<div id="sorteable">
+			<ul>
+				<html:iterator value="dataset" var="data">
+			        <li> 
+			         	<html:text name="data"/>
+		     		</li>
+			    </html:iterator>
+			</ul>	
+		</div>
+	</div>
+		
+		<div class="buttons row">
+			<html:submit id="checkLinkingButtonCheck" onClick="return false;" cssClass="fright submitButton buttonGreen" key="check"/>
 		</div>
 	</html:form>
 </div>
-<div id="linkingPanelCheck" class="content centered form">	
-	<html:form>
-		<h3 class="bigLabel"><html:text name="linking.importedFile"/></h3>
-		<html:property value="fileToLink.getFilename()"/>
-		<h3 class="mediumLabel"><html:text name="linking.datasets"/></h3>		
-			<html:iterator value="dataset" var="data">
-	         	<ul><html:text name="data"/></ul>
-	      	</html:iterator> 
-		<html:actionerror/>
-		<div class="row">
-			<html:submit id="startLinkingButtonCheck" action="startLinking" cssClass="submitButton buttonGreen" key="linkSubmit"/>
-			<html:submit id="checkLinkingButtonCheck" onClick="return false;" cssClass="submitButton button" key="check"/>
-		</div>
-	</html:form>
-</div>
+
 <div id="checkInfo" class="displayNo">
-	<div class="content">
+
 		<div class="row bigLabel">
 			<html:text name="linkingInfo.nameFile"/>
 			<html:property value="fileToLink.getFilename()"/>
-			<div id="pag" class="displayNo">
-				<br/>
-				<a href="<html:property value="datasetUrl" />" target="_blank"><img alt="dataset" src="images/dataset.png"></img></a>
-			</div>	
 		</div>
+		
 		<div id="linkingDividedPanel" class="clearfix">		
-			<div id="linkingInfoPanel" class="fleft" >
-				<h3 class="bigLabel"><html:text name="linkingInfo.info"/></h3>
-				<div class="row">
+			<div id="linkingInfoPanel" class="fleftPanel" >
+				<h3 class="bigLabel center"><html:text name="linkingInfo.info"/></h3>
+				<div class="row center">
 					<label class="label"><html:text name="linkingInfo.sDate"/></label>
 					<div id="startDate" class="displayInline"></div>	
 				</div>
-				<div class="row">
+				<div class="row center">
 					<label class="label"><html:text name="linkingInfo.eDate"/></label>
 					<div id="endDate" class="displayInline"></div>	
 				</div>
-				<div class="row"><label class="label"><html:text name="linkingInfo.linksDataset"/></label></div>
-				<div id="datasetsInfo" class="lMargin20 content scrollifyAuto"></div>
-				<div class="row">
-					<label class="label"><html:text name="linkingInfo.links"/></label>
-					<div id="numLinks" class="displayInline"></div>	
+				<div class="row center"><label class="label"><html:text name="linkingInfo.linksDataset"/></label></div>
+				<div id="datasetsInfo" class="lMargin25 content scrollifyAuto"></div>
+				<div class="row center">
+					<img id="progressBarLinking" class="centerImage" src="images/progressBar.gif" alt="progress" />
+					<label id="links" class="label displayNo"><html:text name="linkingInfo.links"/></label>
+					<div id="numLinks" class="displayNo"></div>	
 				</div>			
-				<img id="progressBarLinking" class="displayNo centerImage" src="images/progressBar.gif" alt="progress" />
 			</div>	
 			
-			<div id="ldsInfoPanel" class="fleft" >
-				<h3 class="bigLabel"><html:text name="ldsInfo.title"/></h3>
-				<div class="row">
+			<div id="ldsInfoPanel" class="fleftPanel" >
+				<h3 class="bigLabel center"><html:text name="ldsInfo.title"/></h3>
+				<div class="row center">
 					<label class="label"><html:text name="ldsInfo.sDate"/></label>
 					<div id="startDateLDS" class="displayInline"></div>	
 				</div>
-				<div class="row">
+				<div class="row center">
 					<label class="label"><html:text name="ldsInfo.eDate"/></label>
 					<div id="endDateLDS" class="displayInline"></div>		
 				</div>
-				<img id="progressBarLDS" class="displayNo centerImage" src="images/progressBar.gif" alt="fine"/>
-				<img id="fineLDSImg" class="displayNo" src="images/fine.png" alt="progress"/>
-			</div>	
+				<div class="row center">
+					<img id="progressBarLDS" class="centerImage" src="images/progressBar.gif" alt="fine"/>
+					<img id="fineLDSImg" class="centerImage" src="images/fine.png" alt="progress"/>
+				</div>
+				<div class="buttons row">
+					<div id="pag" class="displayNo">
+						<a href="<html:property value="datasetUrl" />" target="_blank"><img alt="dataset" src="images/dataset.png"></img></a>
+					</div>
+				</div>
+				<div class="buttons row">
+					<html:a id="rdfVal" action="getAuthors" cssClass="displayNo menuButton button pad10" key="rdfVal" target="_blank"><html:text name="rdfVal"/></html:a>
+				</div>
+				<div class="buttons row">
+					<html:a id="linksVal" action="linksAmbVal" cssClass="displayNo menuButton button pad10" key="linksVal" target="_blank"><html:text name="linksVal"/></html:a>
+				</div>
+			</div>
+				
 		</div>
-	</div>
-	<div class="row">
+		
+	<div class="buttons row">
 		<html:form>
-			<html:submit id="linkingNextButton" disabled="true" action="addAnotherFileWork" cssClass="fleft mediumButton button" key="linking.addNew"/>
-			<html:submit id="publishButton" disabled="true" action="publish" cssClass="fright submitButton button" key="publish"/>
+			<html:submit id="linkingNextButton" action="addAnotherFileWork" cssClass="displayNo fleft menuButton buttonGreen" key="linking.addNew"/>
+			<html:submit id="publishButton" action="publish" cssClass="displayNo fright menuButton buttonGreen" key="publish"/>
 		</html:form>
 	</div>
 </div>
-

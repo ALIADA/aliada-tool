@@ -1,0 +1,109 @@
+#linkingPanel {
+	padding-top: 20px;
+}
+
+.formCheckConv {
+	display: inline-block;
+	margin-bottom: -0.4em;
+	padding: 10px;
+	margin-left: 45px;
+	margin-top: 10px;
+}
+
+.centeredCheck {
+	margin-bottom: 20px;
+    margin-left: 150px;
+    margin-right: 150px;
+}
+
+.checkContent {
+	border: 2px dotted #e5e5e5;
+	padding: 20px;
+	background-color: #f0f0f0;
+}
+
+#sorteable ul{
+  list-style:none;
+  padding-left: 50px;
+}
+  
+#sorteable ul li{
+  float:left;
+  padding:10px;
+  height: 30px;
+  margin: 10px;
+  width: 200px;
+}
+
+.bold {
+	font-weight:bold;
+}
+
+.fleftPanel{
+	float:left;
+	padding-rigth: 5px;
+}
+
+.clearfix:after {/*Helps to locate float element into a div */
+content: " ";
+display: block;
+height: 0;
+clear: both;
+}
+
+#linkingDividedPanel{
+	border: 1px dotted #1BBC9B;
+	width: 950px;
+	height: 360px;
+	margin-left: 100px;
+	background-color: #f0f0f0;
+}
+
+#linkingInfoPanel{
+	width: 50%;
+	height: 100%;
+	border-right: 1px dotted #1BBC9B;
+}
+
+#ldsInfoPanel{
+	width: 49%;
+	height: 100%;
+}
+
+#datasetsInfo{
+	width: 380px;
+	height: 90px;
+}
+
+.centerImage {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 5px;
+}
+
+.mediumLabel{
+	font-size: 18px;
+	font-weight: bold;
+}
+
+.inputPage{
+	font-size: 14px;
+	border: 1px solid #02207C;
+	background-color: #F8FBFC;
+	width: 22em;
+	height: 25px;
+	color: black;
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+	border-radius: 5px 5px 5px 5px;
+	float: right;
+}
+
+.lMargin25{
+	margin-left:25px;
+}
+
+.margin10 {
+	margin: 10px;
+}

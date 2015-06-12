@@ -57,7 +57,6 @@ public class PublishAction extends ActionSupport {
 		
     	//Delete file/s from session
     	HttpSession session = ServletActionContext.getRequest().getSession();
-    	String user = (String) session.getAttribute("logedUser");
     	
     	List<FileWork> importedFiles = new ArrayList<FileWork>();
     	session.setAttribute("importedFiles", importedFiles);

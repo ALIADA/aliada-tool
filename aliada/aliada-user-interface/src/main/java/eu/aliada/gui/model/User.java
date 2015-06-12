@@ -13,6 +13,9 @@ package eu.aliada.gui.model;
 public class User{
     private String username;
     private String password;
+    private String repeatPassword;
+    private String newPassword;
+    private String repeatNewPassword;
     private String email;
     private String role;
     private String type;   
@@ -49,6 +52,54 @@ public class User{
      */
     public void setPassword(final String password) {
         this.password = password;
+    }
+    /**
+     * @return Returns the repeatPassword.
+     * @exception
+     * @since 1.0
+     */
+    public String getRepeatPassword() {
+        return repeatPassword;
+    }
+    /**
+     * @param repeatPassword The repeatPassword to set.
+     * @exception
+     * @since 1.0
+     */
+    public void setRepeatPassword(final String repeatPassword) {
+        this.repeatPassword = repeatPassword;
+    }
+    /**
+     * @return Returns the newPassword.
+     * @exception
+     * @since 1.0
+     */
+    public String getNewPassword() {
+        return newPassword;
+    }
+    /**
+     * @param newPassword The newPassword to set.
+     * @exception
+     * @since 1.0
+     */
+    public void setNewPassword(final String newPassword) {
+        this.newPassword = newPassword;
+    }
+    /**
+     * @return Returns the repeatNewPassword.
+     * @exception
+     * @since 1.0
+     */
+    public String getRepeatNewPassword() {
+        return repeatNewPassword;
+    }
+    /**
+     * @param repeatNewPassword The repeatNewPassword to set.
+     * @exception
+     * @since 1.0
+     */
+    public void setRepeatNewPassword(final String repeatNewPassword) {
+        this.repeatNewPassword = repeatNewPassword;
     }
     /**
      * @return Returns the email.

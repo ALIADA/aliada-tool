@@ -1,9 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles" %>
 <%@ taglib uri="/struts-tags" prefix="html"%>
-<%@ taglib prefix="sj" uri="/struts-jquery-tags"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 
 <head>
     <title>Aliada</title>
@@ -12,125 +9,370 @@
     <meta http-equiv="Content-Script-Type" content="text/javascript; charset=UTF-8"/>
     <link rel="stylesheet" href="css/aliadaStyles.css" type="text/css"/>
     <link rel="shortcut icon" href="images/aliada.ico"/>
-    <sj:head/>	
-    <html:head/>
     
-    <script type="text/javascript" charset="UTF-8">
-	    var getResults = function(query){
-			var form = $("#formGetResults");
-			console.log(form);
-			form.get(0).query.value = query;
-		    var postData = form.serializeArray();
-		    console.log(postData);
-		    var formURL = form.attr("action");
-		    console.log(formURL);
-		      $.ajax(
-		    {
-		        url : formURL,
-		        type: "GET",
-		        data : postData,
-				dataType: 'html', 
-			    success:function(data, textStatus, jqXHR) 
-		        {
-					$("#queryResults").empty();
-					$("#queryResults").append(data);
-		        },
-		        error: function(jqXHR, textStatus, errorThrown) 
-		        {
-		            console.log("Error");    
-		        },
-		        comepleted: function(jqXHR, textStatus, errorThrown) 
-		        {
-		            console.log("Ajax called");   
-		        }
-		    });  
+ 	<link type="text/css" rel="stylesheet" href="<html:url value="css/rdfValidation.css" />" />
+    
+    <!-- DataTables CSS -->
+	<link rel="stylesheet" type="text/css" href="css/dataTables.css">
+  
+	<!-- jQuery -->
+	<script type="text/javascript" charset="utf8" src="js/jquery-1.10.2.min.js"></script>
+	  
+	<!-- DataTables -->
+	<script type="text/javascript" charset="utf8" src="js/jquery-dataTables.js"></script>
+
+    <html:head/>
+	<script type="text/javascript" charset="UTF-8">
+	
+		$(document).ready(function() {
+		    changeLocaleDataTable();
+		} );
+		
+		function changeLocaleDataTable(){
+			var loc = $("#loc").val();
+			console.log(loc);
+			if (loc == "es_ES" || loc == "es") {
+			    $("#datAuthors").dataTable( {
+			    	"iDisplayLength": 100,
+			    	"aLengthMenu": [[100, 250, 500], [100, 250, 500]],
+			        "language": {
+			            "url": "json/Spanish.json"
+			        }
+			    } );
+			    $("#dataObjects").dataTable( {
+			    	"iDisplayLength": 100,
+			    	"aLengthMenu": [[100, 250, 500], [100, 250, 500]],
+			        "language": {
+			            "url": "json/Spanish.json"
+			        }
+			    } );
+			    $("#dataManifs").dataTable( {
+			    	"iDisplayLength": 100,
+			    	"aLengthMenu": [[100, 250, 500], [100, 250, 500]],
+			        "language": {
+			            "url": "json/Spanish.json"
+			        }
+			    } );
+			    $("#dataWorks").dataTable( {
+			    	"iDisplayLength": 100,
+			    	"aLengthMenu": [[100, 250, 500], [100, 250, 500]],
+			        "language": {
+			            "url": "json/Spanish.json"
+			        }
+			    } );
+			} else if (loc == "ita_ITA" || loc == "ita") {
+				$("#datAuthors").dataTable( {
+					"iDisplayLength": 100,
+			    	"aLengthMenu": [[100, 250, 500], [100, 250, 500]],
+			        "language": {
+			            "url": "json/Italian.json"
+			        }
+			    } );
+			    $("#dataObjects").dataTable( {
+			    	"iDisplayLength": 100,
+			    	"aLengthMenu": [[100, 250, 500], [100, 250, 500]],
+			        "language": {
+			            "url": "json/Italian.json"
+			        }
+			    } );
+			    $("#dataManifs").dataTable( {
+			    	"iDisplayLength": 100,
+			    	"aLengthMenu": [[100, 250, 500], [100, 250, 500]],
+			        "language": {
+			            "url": "json/Italian.json"
+			        }
+			    } );
+			    $("#dataWorks").dataTable( {
+			    	"iDisplayLength": 100,
+			    	"aLengthMenu": [[100, 250, 500], [100, 250, 500]],
+			        "language": {
+			            "url": "json/Italian.json"
+			        }
+			    } );
+			} else if (loc == "hu_HU" ||loc == "hu") {
+				$("#datAuthors").dataTable( {
+					"iDisplayLength": 100,
+			    	"aLengthMenu": [[100, 250, 500], [100, 250, 500]],
+			        "language": {
+			            "url": "json/Hungarian.json"
+			        }
+			    } );
+			    $("#dataObjects").dataTable( {
+			    	"iDisplayLength": 100,
+			    	"aLengthMenu": [[100, 250, 500], [100, 250, 500]],
+			        "language": {
+			            "url": "json/Hungarian.json"
+			        }
+			    } );
+			    $("#dataManifs").dataTable( {
+			    	"iDisplayLength": 100,
+			    	"aLengthMenu": [[100, 250, 500], [100, 250, 500]],
+			        "language": {
+			            "url": "json/Hungarian.json"
+			        }
+			    } );
+			    $("#dataWorks").dataTable( {
+			    	"iDisplayLength": 100,
+			    	"aLengthMenu": [[100, 250, 500], [100, 250, 500]],
+			        "language": {
+			            "url": "json/Hungarian.json"
+			        }
+			    } );
+			} else if (loc == "en_EN" ||loc == "en") {
+				$("#datAuthors").dataTable( {
+					"iDisplayLength": 100,
+			    	"aLengthMenu": [[100, 250, 500], [100, 250, 500]],
+			        "language": {
+			            "url": "json/English.json"
+			        }
+			    } );
+			    $("#dataObjects").dataTable( {
+			    	"iDisplayLength": 100,
+			    	"aLengthMenu": [[100, 250, 500], [100, 250, 500]],
+			        "language": {
+			            "url": "json/English.json"
+			        }
+			    } );
+			    $("#dataManifs").dataTable( {
+			    	"iDisplayLength": 100,
+			    	"aLengthMenu": [[100, 250, 500], [100, 250, 500]],
+			        "language": {
+			            "url": "json/English.json"
+			        }
+			    } );
+			    $("#dataWorks").dataTable( {
+			    	"iDisplayLength": 100,
+			    	"aLengthMenu": [[100, 250, 500], [100, 250, 500]],
+			        "language": {
+			            "url": "json/English.json"
+			        }
+			    } );
+			}
 		}
-	    var getResultsLinks = function(query){
-			var form = $("#formGetResultsLinks");
-			console.log(form);
-			form.get(0).query.value = query;
-		    var postData = form.serializeArray();
-		    console.log(postData);
-		    var formURL = form.attr("action");
-		    console.log(formURL);
-		      $.ajax(
-		    {
-		        url : formURL,
-		        type: "GET",
-		        data : postData,
-				dataType: 'html', 
-			    success:function(data, textStatus, jqXHR) 
-		        {
-					$("#queryResults").empty();
-					$("#queryResults").append(data);
-		        },
-		        error: function(jqXHR, textStatus, errorThrown) 
-		        {
-		            console.log("Error");    
-		        },
-		        comepleted: function(jqXHR, textStatus, errorThrown) 
-		        {
-		            console.log("Ajax called");   
-		        }
-		    });  
+		
+		function authors(){
+			$("#aut").submit();
+			return false;
 		}
+		
+		function objects(){
+			$("#ob").submit();
+			return false;
+		}
+		
+		function manifestations(){
+			$("#ma").submit();
+			return false;
+		}
+		
+		function works(){
+			$("#wo").submit();
+			return false;
+		}
+		
 		$(function(){
-			var queryAuthors = "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> PREFIX ecrm:   <http://erlangen-crm.org/current/> PREFIX efrbroo: <http://erlangen-crm.org/efrbroo/> select ?actor ?name where { {?actor rdf:type ecrm:E39_Actor} UNION {?actor rdf:type ecrm:E21_Person} UNION {?actor rdf:type efrbroo:F10_Person} . ?actor ecrm:P131_is_identified_by ?apel. ?apel ecrm:P3_has_note ?name }";
-			var queryObjects = "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> PREFIX ecrm:   <http://erlangen-crm.org/current/> PREFIX efrbroo: <http://erlangen-crm.org/efrbroo/> select ?object ?name where { {?object rdf:type ecrm:E18_Physical_Thing . OPTIONAL {?object ecrm:P1_is_identified_by ?apel. ?apel ecrm:P3_has_note ?name}} UNION {?object rdf:type ecrm:E73_Information_Object . OPTIONAL {?object ecrm:P102_has_title ?apel. ?apel ecrm:P3_has_note ?name} }}";
-			var queryManifestations = "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> PREFIX ecrm:   <http://erlangen-crm.org/current/> PREFIX efrbroo: <http://erlangen-crm.org/efrbroo/> select ?manif ?name where { ?manif rdf:type efrbroo:F3_Manifestation_Product_Type . ?manif ecrm:P102_has_title ?apel. ?apel ecrm:P3_has_note ?name }";
-			var queryWorks = "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> PREFIX ecrm:   <http://erlangen-crm.org/current/> PREFIX efrbroo: <http://erlangen-crm.org/efrbroo/> select ?work ?expr ?manif ?title ?dimensions ?extension ?author ?place_publication ?date_publication ?edition where { ?work rdf:type efrbroo:F1_Work . ?work efrbroo:R40_has_representative_expression ?expr . ?expr efrbroo:R4_carriers_provided_by ?manif . ?manif ecrm:P102_has_title ?apel . ?apel ecrm:P3_has_note ?title . OPTIONAL { ?manif ecrm:CLP43_should_have_dimension ?dim . ?dim ecrm:P2_has_type <http://aliada-project.eu/2014/aliada-ontology/id/resource/Concept/MARC/6> . ?dim ecrm:P3_has_note ?dimensions . } OPTIONAL { ?manif ecrm:CLP43_should_have_dimension ?ext . ?ext ecrm:P2_has_type <http://aliada-project.eu/2014/aliada-ontology/id/resource/Concept/MARC/5> . ?ext ecrm:P3_has_note ?extension . } OPTIONAL { ?expr ecrm:P148_has_component ?lingobj1. ?lingobj1 ecrm:P2_has_type <http://aliada-project.eu/2014/aliada-ontology/id/resource/Concept/MARC/1> . ?lingobj1 ecrm:P3_has_note ?author . } ?publexpr efrbroo:R14_incorporates ?expr . ?publexpr ecrm:P106_is_composed_of ?lingobj . OPTIONAL { ?lingobj ecrm:P2_has_type <http://aliada-project.eu/2014/aliada-ontology/id/resource/Concept/MARC/3> . ?lingobj ecrm:P3_has_note ?place_publication . } OPTIONAL { ?lingobj ecrm:P2_has_type <http://aliada-project.eu/2014/aliada-ontology/id/resource/Concept/MARC/4> . ?lingobj ecrm:P3_has_note ?date_publication . } OPTIONAL { ?lingobj ecrm:P2_has_type <http://aliada-project.eu/2014/aliada-ontology/id/resource/Concept/MARC/2> . ?lingobj ecrm:P3_has_note ?edition . } }";
-			var querySameAs = "select ?aliada_dataset ?external_dataset where { ?aliada_dataset ?rel ?external_dataset }";
 			
-			$("#queryAuthors").on("click",function(e){
-				getResults(queryAuthors);
-			});	
-			$("#queryObjects").on("click",function(e){
-				getResults(queryObjects);
-			});
-			$("#queryManifestations").on("click",function(e){
-				getResults(queryManifestations);
-			});
-			$("#queryWorks").on("click",function(e){
-				getResults(queryWorks);
-			});				
-			$("#querySameAs").on("click",function(e){
-				getResultsLinks(querySameAs);
-			});	
+			var isAuth = $("#auth").val();	
+			var isObj = $("#obj").val();
+			var isManifs = $("#mani").val();	
+			var isWorks = $("#wor").val();	
+			
+			console.log(isAuth);
+			
+			console.log(isObj);
+			
+			console.log(isManifs);
+			
+			console.log(isWorks);
+			
+			if(isAuth == "true"){
+				$("#query").show();
+				$("#authors").show();
+			}
+			
+			if(isObj == "true"){
+				$("#query").show();
+				$("#objects").show();
+			}	
+			
+			if(isManifs == "true"){
+				$("#query").show();
+				$("#manifestations").show();
+			}
+			
+			if(isWorks == "true"){
+				$("#query").show();
+				$("#works").show();
+			}
+			
 		});
+		
 	</script>
+	
 </head>
 
 <body class="whitebackground">
+
+	<html:hidden id="loc" name="loc" value="%{getLocale().toString()}" />
+	<html:hidden id="auth" name="authors" value="%{auth}" />
+	<html:hidden id="obj" name="objects" value="%{obj}" />
+	<html:hidden id="mani" name="mani" value="%{mani}" />
+	<html:hidden id="wor" name="wor" value="%{works}" />
+
 	<div id="aliadaHeader">
 		<img src="images/aliada-header.png"/>	
 	</div>	
 	<div class="headerContentGreenBorder"></div>
-	<div class="content" >
-		<h2 class="pageTitle"><html:text name="rdfVal.title"/></h2>
-		
-		<ul>
-		<li><a id="queryAuthors" href="#"><html:text name="rdfVal.authors"/></a></li>
-		<li><a id="queryObjects" href="#"><html:text name="rdfVal.objects"/></a></li>
-		<li><a id="queryManifestations" href="#"><html:text name="rdfVal.manifestations"/></a></li>
-		<li><a id="queryWorks" href="#"><html:text name="rdfVal.all"/></a></li>
-		<li><a id="querySameAs" href="#"><html:text name="rdfVal.links"/></a></li>
-		</ul>
-		<form id="formGetResults" name="formGetResults" action=<html:property value="sparqlEndpoint"/> method="get" >
-				<input type="hidden" name="default-graph-uri" id="default-graph-uri" value="<html:property value="graphUri"/>"/>
-				<input type="hidden" name="query" id="query" value=""/>
-				<input type="hidden" name="format" id="format" value="text/html">
-				<input type="hidden" name="timeout" id="timeout" value="0" /> 
-				<input type="hidden" name="debug" id="debug" value="1"/>
-		</form>	
-		<form id="formGetResultsLinks" name="formGetResults" action=<html:property value="sparqlEndpoint"/> method="get" >
-				<input type="hidden" name="default-graph-uri" id="default-graph-uri" value="<html:property value="linksGraphUri"/>"/>
-				<input type="hidden" name="query" id="query" value=""/>
-				<input type="hidden" name="format" id="format" value="text/html">
-				<input type="hidden" name="timeout" id="timeout" value="0" /> 
-				<input type="hidden" name="debug" id="debug" value="1"/>
-		</form>	
+	<div class="contentQueriesButtons center" >
+	
+		<html:submit cssClass="queriesButton button" key="%{a}" onclick="return authors();"/>
+		<html:submit cssClass="queriesButton button" key="%{o}" onclick="return objects();"/>
+		<html:submit cssClass="queriesButton button" key="%{m}" onclick="return manifestations();"/>
+		<html:submit cssClass="queriesButton button" key="%{wo}" onclick="return works();"/>
+
 	</div>
-	<div id="queryResults" class="content scrollify">
+	<div id="query" class="scrollifyAuto displayNo">
+		<div id="authors" class="displayNo">
+			<h3 class="center"><html:text name="authors.title"></html:text></h3>
+			<table id="datAuthors" class="display compact">
+				<html:form id="aut" action="/getAuthors.action">
+				<thead>
+					<tr>
+						<th><html:text name="name"/></th>
+						<th><html:text name="uri"/></th>
+					</tr>
+				</thead>
+				
+				<tfoot>
+					<tr>
+						<th><html:text name="name"/></th>
+						<th><html:text name="uri"/></th>
+					</tr>
+				</tfoot>
+				
+				<tbody>
+					<html:iterator value="authors" var="dato">
+						<tr>
+							<td><html:property value="name" /></td>
+							<td><html:a href="%{resourceURI}" target="_blank"><html:property value="resourceURI" /></html:a></td>
+						</tr>
+					</html:iterator>
+				</tbody>
+				</html:form>
+			</table>
+		</div>
+		
+		<div id="objects" class="displayNo">
+			<h3 class="center"><html:text name="objects.title"></html:text></h3>
+			<table id="dataObjects" class="display compact">
+				<html:form id="ob" action="/getObj.action">
+				<thead>
+					<tr>
+						<th><html:text name="name"/></th>
+						<th><html:text name="uri"/></th>
+					</tr>
+				</thead>
+				
+				<tfoot>
+					<tr>
+						<th><html:text name="name"/></th>
+						<th><html:text name="uri"/></th>
+					</tr>
+				</tfoot>
+				
+				<tbody>
+					<html:iterator value="ob" var="dato">
+						<tr>
+							<td><html:property value="name" /></td>
+							<td><html:a href="%{resourceURI}" target="_blank"><html:property value="resourceURI" /></html:a></td>
+						</tr>
+					</html:iterator>
+				</tbody>
+				</html:form>
+			</table>
+		</div>
+		
+		<div id="manifestations" class="displayNo">
+			<h3 class="center"><html:text name="manifs.title"></html:text></h3>
+			<table id="dataManifs" class="display compact">
+				<html:form id="ma" action="/getManifs.action">
+				<thead>
+						<tr>
+							<th><html:text name="name"/></th>
+							<th><html:text name="uri"/></th>
+						</tr>
+				</thead>
+					
+				<tfoot>
+						<tr>
+							<th><html:text name="name"/></th>
+							<th><html:text name="uri"/></th>
+						</tr>
+				</tfoot>
+				
+				<tbody>
+					<html:iterator value="man" var="dato">
+						<tr>
+							<td><html:property value="name" /></td>
+							<td><html:a href="%{resourceURI}" target="_blank"><html:property value="resourceURI" /></html:a></td>
+						</tr>
+					</html:iterator>
+				</tbody>
+				</html:form>
+			</table>
+		</div>
+		
+		<div id="works" class="displayNo">
+			<h3 class="center"><html:text name="works.title"></html:text></h3>
+			<table id="dataWorks" class="display compact">
+				<html:form id="wo" action="/getWor.action">
+				<thead>
+					<tr>
+						<th><html:text name="work"/></th>
+						<th><html:text name="expr"/></th>
+						<th><html:text name="manif"/></th>
+						<th><html:text name="tit"/></th>
+						<th><html:text name="dimen"/></th>
+						<th><html:text name="ext"/></th>
+						<th><html:text name="author"/></th>
+						<th><html:text name="place"/></th>
+						<th><html:text name="date"/></th>
+						<th><html:text name="edition"/></th>
+					</tr>
+				</thead>
+				<tfoot>
+					<tr>
+						<th><html:text name="work"/></th>
+						<th><html:text name="expr"/></th>
+						<th><html:text name="manif"/></th>
+						<th><html:text name="tit"/></th>
+						<th><html:text name="dimen"/></th>
+						<th><html:text name="ext"/></th>
+						<th><html:text name="author"/></th>
+						<th><html:text name="place"/></th>
+						<th><html:text name="date"/></th>
+						<th><html:text name="edition"/></th>
+					</tr>
+				</tfoot>
+				<tbody>
+					<html:iterator value="w" var="dato">
+						<tr>
+							<td><html:a href="%{workURI}" target="_blank"><html:property value="workURI" /></html:a></td>
+							<td><html:a href="%{exprURI}" target="_blank"><html:property value="exprURI" /></html:a></td>
+							<td><html:a href="%{manifURI}" target="_blank"><html:property value="manifURI" /></html:a></td>
+							<td><html:property value="title" /></td>
+							<td><html:property value="dimensions" /></td>
+							<td><html:property value="extension" /></td>
+							<td><html:property value="author" /></td>
+							<td><html:property value="publicPlace" /></td>
+							<td><html:property value="publicDate" /></td>
+							<td><html:property value="edition" /></td>
+						</tr>
+					</html:iterator>
+				</tbody>
+				</html:form>
+			</table>
+		</div>
 	</div>
 	<div id="collapseCloud"></div>
 	<div class="headerContentGreenBorder"></div>

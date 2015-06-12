@@ -1,0 +1,44 @@
+.institutionPage {
+    border: 1px dashed #e5e5e5;
+    margin: 20px;
+    padding: 20px;
+    background-color: #f0f0f0;
+}
+
+.inputPage{
+	font-size: 14px;
+	border: 1px solid #02207C;
+	background-color: #F8FBFC;
+	width: 22em;
+	height: 25px;
+	color: black;
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+	border-radius: 5px 5px 5px 5px;
+	float: right;
+}
+
+.tableCenter {
+	width: 100%;
+}
+
+.actionMessage {
+	text-align: center;
+}
+
+.errorMessage {
+	text-align: center;
+	display: block;
+}
+
+.errorLabel {
+	padding: 15px;
+	font-weight: bold;
+}
+
+.logo {
+	border: 1px solid black;
+	height: 70px;
+    width: 70px;
+}
+

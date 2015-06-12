@@ -2,27 +2,64 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="/struts-tags" prefix="html"%>
 <%@ taglib prefix="sj" uri="/struts-jquery-tags"%>
+
+<link type="text/css" rel="stylesheet" href="<html:url value="css/subsets.css" />" />
+
 <script>
+
+function confirmBox(){
+	var answer = window.confirm("<html:text name='delete.message'/>");
+	if (answer == true) {
+		console.log("Remove subset");
+		$("#subsets").submit();
+	} else {
+		console.log("Remove subset cancel");
+	}
+return false;
+}
+
+function confirmEditBox(){
+	var answer = window.confirm("<html:text name='edit.message'/>");
+	if (answer == true) {
+		console.log("Edit subset");
+		$("#subsetEditForm").submit();
+	} else {
+		console.log("Edit subset cancel");
+	}
+return false;
+}
+
 $(function(){
-	var areSubsets = $("#areSubsets").val();	
 	var showTheSubset = $("#showTheSubset").val();
 	var showAddSubsetForm = $("#showAddSubsetForm").val();	
 	var showEditSubsetForm = $("#showEditSubsetForm").val();	
-	if(areSubsets != "true"){
-		$("#areSubsetsButtons").hide();
-	}
+	
 	if(showAddSubsetForm == "true"){
-		$("#addSubsetPanel").show("slow");
+		$("#addSubsetPanel").show();
 	}
 	if(showEditSubsetForm == "true"){
-		$("#editSubsetPanel").show("slow");
+		$("#editSubsetPanel").show();
 	}
 	if(showTheSubset == "true"){
-		$("#theSubsetPanel").show("slow");
+		$("#theSubsetPanel").show();
 	}
 	if((showAddSubsetForm == "true") || (showEditSubsetForm == "true") || (showTheSubset == "true")){
 		$("#subsetsPanel").hide();		
 	}
+	
+	$("#subsets :radio").on("change",function(){
+		if($("#subsets :radio:checked")){
+			$("#seeButton").prop( "disabled", false);
+			$("#editButton").prop( "disabled", false);
+			$("#deleteButton").prop( "disabled", false);
+		}
+		else{
+			$("#seeButton").prop( "disabled", true);
+			$("#editButton").prop( "disabled", true);
+			$("#deleteButton").prop( "disabled", true);
+		}
+	}); 
+	
 });
 
 $.subscribe('closeDialog', function(event,data) { 
@@ -35,100 +72,112 @@ $.subscribe('closeDialog', function(event,data) {
 <html:hidden id="showAddSubsetForm" name="showAddSubsetForm" value="%{showAddSubsetForm}" />
 <html:hidden id="showEditSubsetForm" name="showEditSubsetForm" value="%{showEditSubsetForm}" />
 
+<div id="subsetsPage">
+
 <ul class="breadcrumb">
 	<span class="breadCrumb"><html:text name="home"/></span>
 	<li><span class="breadcrumb activeGreen"><html:text name="confsubsets"/></span></li>
 </ul>
 
-<div class="content">
-<html:form id="subsets">
-	<div id="subsetsPanel" class="display buttons row">
-		<div class="fieldsNoBorder">
+<div class="subsetsPage">
+
+<div id="subsetsPanel" class="display row">
+	<html:form id="subsets" action="/deleteSubset.action">
+		<div id="list" class="lMargin45p">
 			<html:iterator value="subsets">
-				<html:radio key="selectedSubset" cssClass="bold lPad10" list="{value}"/><br/>
+				<html:radio key="selectedSubset" cssClass="bold lPad10" value="{key}" list="{value}"/><br/>
 			</html:iterator>
 		</div>
+		
 		<html:actionmessage />
 		<html:actionerror/>
-		<html:submit action="showAddSubsetForm" cssClass="submitButton button"
-			key="add" />
-		<div id="areSubsetsButtons" class="displayInline">	
-			<html:submit action="showTheSubset" cssClass="submitButton button"
-				key="see" />
-			<html:submit action="showEditSubsetForm" cssClass="submitButton button"
-				key="edit" />
-			<html:submit action="deleteSubset" cssClass="submitButton button"
-				key="delete" />
+			
+		<div id="areSubsetsButtons" class="buttons">
+			<html:a action="showDatasets" cssClass="fleft"><img alt="help" src="images/back.png"></img></html:a>
+			<html:submit action="showAddSubsetForm" cssClass="submitButton button"
+					key="add" />
+			<html:submit id="seeButton" disabled="true" action="showTheSubset" cssClass="submitButton button"
+					key="see" />
+			<html:submit id="editButton" disabled="true" action="showEditSubsetForm" cssClass="submitButton button"
+					key="edit" />
+			<html:submit id="deleteButton" disabled="true" cssClass="submitButton button" key="delete" onclick="return confirmBox();"/>
 		</div>
-		<html:submit action="showDatasets" cssClass="submitButton button fright"
-			key="back" />
-	</div>
-</html:form>
+	</html:form>	
+</div>
+
 
 <html:form id="showSubsetForm" class="row">
 	<div id="theSubsetPanel" class="displayNo">
-		<div class="row">
-			<label class="label"><html:text name="datasetIDForm"/></label>
-			<html:property value="datasetNameForm" />
-		</div>
-		<div class="row">
-			<label class="label"><html:text name="subsetDescForm"/></label>		
-			<html:property value="subsetDescForm" />
-		</div>
-		<div class="row">
-			<label class="label"><html:text name="uriConceptPartForm"/></label>
-			<html:property value="uriConceptPartForm" />
-		</div>
-		<div class="row">
-			<label class="label"><html:text name="graphUriForm"/></label>
-			<html:property value="graphUriForm" />
-		</div>
-		<div class="row">
-			<label class="label"><html:text name="linksGraphUriForm"/></label>
-			<html:property value="linksGraphUriForm" />
-		</div>
-		<div class="row">
-			<label class="label"><html:text name="isqlCommandsFileSubsetForm"/></label>
-			<html:property value="isqlCommandsFileSubsetForm" />
-		</div>
-		<div class="buttons row">
-			<html:submit action="showSubsets" cssClass="submitButton button"
-				key="back" />
+		<table class="lMargin25p">
+			<tr>
+				<td class="label"><html:text name="datasetIDForm"/></td>
+				<td><html:property value="datasetNameForm" /></td>
+			</tr>
+			<tr>
+				<td class="label"><html:text name="subsetDescForm"/></td>		
+				<td><html:property value="subsetDescForm" /></td>
+			</tr>
+			<tr>
+				<td class="label"><html:text name="uriConceptPartForm"/></td>
+				<td><html:property value="uriConceptPartForm" /></td>
+			</tr>
+			<tr>
+				<td class="label"><html:text name="graphUriForm"/></td>
+				<td><html:property value="graphUriForm" /></td>
+			</tr>
+			<tr>
+				<td class="label"><html:text name="linksGraphUriForm"/></td>
+				<td><html:property value="linksGraphUriForm" /></td>
+			</tr>
+			<tr>
+				<td class="label"><html:text name="isqlCommandsFileSubsetForm"/></td>
+				<td><html:property value="isqlCommandsFileSubsetForm" /></td>
+			</tr>
+		</table>
+		<div class="buttons row pBottom20">
+			<html:a action="showSubsets" cssClass="fleft"><img alt="help" src="images/back.png"></img></html:a>
 		</div>
 	</div>
 </html:form>
 
-		<sj:dialog 
-	    	id="haveCharConcept" 
-	    	openTopics="haveCharConcept"
-	    	onOpenTopics="closeDialog"
-	    	autoOpen="false" 
-	    	title="%{title}">
-	    		<html:text name="message"></html:text>
-	    </sj:dialog>	
+<div class="displayNo">
+	<sj:dialog 
+    	id="haveCharConcept" 
+    	openTopics="haveCharConcept"
+	   	onOpenTopics="closeDialog"
+	   	position="['center', 'top']"
+	    autoOpen="false" 
+	    title="%{title}">
+	    <html:text name="message"></html:text>
+	</sj:dialog>
+</div>	
 	
 <html:form id="subsetAddForm" class="row">
 	<div id="addSubsetPanel" class="displayNo">
-		<div class="row label">
-			<html:text name="subsetDescForm"/>
-			<html:textfield key="subsetDescForm" maxLength="128"  cssClass="inputForm frigth input"/>
-		</div>
-		<div class="row label">
-			<html:text name="uriConceptPartForm"/>
-			<sj:a id="conceptDialoglink"
-		     	onClickTopics="haveCharConcept">
-		    		<img alt="help" src="images/info.png"></img>
-	    	</sj:a>
-			<html:textfield key="uriConceptPartForm" maxLength="128" cssClass="inputForm frigth input" />
-		</div>
-		<div class="row label">
-			<html:text name="graphUriForm"/>
-			<html:textfield key="graphUriForm" maxLength="128" cssClass="inputForm frigth input" />
-		</div>
-		<div class="row label">
-			<html:text name="isqlCommandsFileSubsetForm"/>
-			<html:textfield key="isqlCommandsFileSubsetForm" maxLength="128" cssClass="inputForm frigth input" />
-		</div>
+		<table class="lMargin25p">
+			<tr>
+				<td class="label"><html:text name="subsetDescForm"/></td>
+				<td><html:textfield key="subsetDescForm" maxLength="128"  cssClass="inputForm frigth input"/></td>
+			</tr>
+			<tr>
+				<td class="label">
+					<sj:a id="conceptDialoglink"
+				     	onClickTopics="haveCharConcept">
+				    		<img alt="help" src="images/info.png"></img>
+			    	</sj:a>
+					<html:text name="uriConceptPartForm"/>
+				</td>
+				<td><html:textfield key="uriConceptPartForm" maxLength="128" cssClass="inputForm frigth input" /></td>
+			</tr>
+			<tr>
+				<td class="label"><html:text name="graphUriForm"/></td>
+				<td><html:textfield key="graphUriForm" maxLength="128" cssClass="inputForm frigth input" /></td>
+			</tr>
+			<tr>
+				<td class="label"><html:text name="isqlCommandsFileSubsetForm"/></td>
+				<td><html:textfield key="isqlCommandsFileSubsetForm" maxLength="128" cssClass="inputForm frigth input" /></td>
+			</tr>
+		</table>
 		<html:actionerror/>
 		<div class="buttons row">
 			<html:submit action="addSubset" cssClass="submitButton button"
@@ -139,37 +188,38 @@ $.subscribe('closeDialog', function(event,data) {
 	</div>
 </html:form>
 
-<html:form id="subsetEditForm" class="row">
+<html:form id="subsetEditForm" class="row" action="/editSubset.action">
 	<div id="editSubsetPanel" class="displayNo">
-		<div class="row label">
-			<html:text name="datasetIDForm"/>
-			<html:select key="dataID"
-							cssClass="inputForm frigth input" list="datasets" />
-		</div>
-		<div class="row label">
-			<html:text name="subsetDescForm"/>
-			<html:textfield key="subsetDescForm" maxLength="128" cssClass="inputForm frigth input" />
-		</div>
-		<div class="row label">
-			<html:text name="uriConceptPartForm"/>
-			<html:textfield key="uriConceptPartForm" maxLength="128" cssClass="inputForm frigth input" />
-		</div>
-		<div class="row label">
-			<html:text name="graphUriForm"/>
-			<html:textfield key="graphUriForm" maxLength="128" cssClass="inputForm frigth input" />
-		</div>
-		<div class="row label">
-			<html:text name="isqlCommandsFileSubsetForm"/>
-			<html:textfield key="isqlCommandsFileSubsetForm" maxLength="128" cssClass="inputForm frigth input" />
-		</div>
+		<table class="lMargin25p">
+			<tr>
+				<td class="label"><html:text name="datasetIDForm"/></td>
+				<td><html:select key="dataID" cssClass="inputForm frigth input" list="datasets" /></td>
+			</tr>
+			<tr>
+				<td class="label"><html:text name="subsetDescForm"/></td>
+				<td><html:textfield key="subsetDescForm" maxLength="128" cssClass="inputForm frigth input" /></td>
+			</tr>
+			<tr>
+				<td class="label"><html:text name="uriConceptPartForm"/></td>
+				<td><html:textfield key="uriConceptPartForm" maxLength="128" cssClass="inputForm frigth input" /></td>
+			</tr>
+			<tr>
+				<td class="label"><html:text name="graphUriForm"/></td>
+				<td><html:textfield key="graphUriForm" maxLength="128" cssClass="inputForm frigth input" /></td>
+			</tr>
+			<tr>
+				<td class="label"><html:text name="isqlCommandsFileSubsetForm"/></td>
+				<td><html:textfield key="isqlCommandsFileSubsetForm" maxLength="128" cssClass="inputForm frigth input" /></td>
+			</tr>
+		</table>
 		<html:actionerror/>
 		<div class="buttons row">
-			<html:submit action="editSubset" cssClass="submitButton button"
-				key="save" />
+			<html:submit cssClass="submitButton button" key="save" onclick="return confirmEditBox();"/>
 			<html:submit action="showSubsets" cssClass="submitButton button"
 				key="cancel" />
 		</div>
 	</div>
 </html:form>
 
+	</div>
 </div>

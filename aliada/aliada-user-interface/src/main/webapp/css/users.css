@@ -1,0 +1,64 @@
+.usersPage {
+    border: 1px dashed #e5e5e5;
+    margin: 20px;
+    padding: 20px;
+    background-color: #f0f0f0;
+}
+
+.pageSubtitle{
+	font-size: 18px;
+	color: rgb(12,52,88);
+	font-weight: bold;
+}
+
+.tableInput{
+	font-size: 14px;
+	border: 1px solid #02207C;
+	background-color: #F8FBFC;
+	width: 13em;
+	height: 34px;
+	color: black;
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+	border-radius: 5px 5px 5px 5px;
+}
+
+.tableUsers{
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+	border-radius: 5px 5px 5px 5px;
+	width: 100%;
+}
+
+#user table {
+	border: 1px solid gray;
+}
+
+#u th {
+	border: 1px solid gray;
+}
+
+#u td {
+	border: 1px solid gray;
+}
+
+.radio {
+    padding-left: 3%;
+    text-align: left;
+}
+
+.lMargin20{
+	margin-left:20px;
+}
+
+.lMargin25p{
+	margin-left: 25%;
+}
+
+.actionMessage {
+	text-align: center;
+}
+
+.errorMessage {
+	text-align: center;
+}

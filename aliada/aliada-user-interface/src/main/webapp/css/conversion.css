@@ -1,0 +1,122 @@
+.formCheckConv {
+	display: inline-block;
+	margin-bottom: -0.4em;
+	padding: 10px;
+	margin-left: 45px;
+	margin-top: 10px;
+}
+
+.centeredCheck {
+	margin-left: 240px; 
+}
+
+.checkContent {
+	border: 2px dotted #e5e5e5;
+	padding: 20px;
+	background-color: #f0f0f0;
+}
+
+/* doubleselect style to show at the same line */
+.nobr {
+	display: inline-block;
+	white-space: nowrap;
+}
+
+table {
+    width: 100%;
+}
+
+th {
+    height: 50px;
+    text-align: center;
+}
+
+td {
+    height: 40px;
+    text-align: center;
+}
+
+table, th, td {
+   border: 1px solid gray;
+}  
+
+.tableConv {
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+	border-radius: 5px 5px 5px 5px;
+	margin: 20px 20px 20px 10px;
+}
+
+.tableCheck {
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+	border-radius: 5px 5px 5px 5px;
+}
+
+.clearfixConversion:after {/*Helps to locate float element into a div */
+content: " ";
+display: block;
+height: 0;
+clear: both;
+}
+
+#conversionDividedPanel{
+	background-color: #f0f0f0;
+	border: 1px dotted #1BBC9B;
+	width: 90%;
+	height: 50%;
+	margin-left: 55px;
+}
+
+#cleanGraphInfoPanel{
+	width: 30%;
+	height: 100%;
+	border-right: 1px dotted #1BBC9B;
+}
+
+#graphInfoPanel{
+	width: 68%;
+	height: 100%;
+}
+
+#checkInfo {
+	padding-top: 20px;
+}
+
+#checkRDFInfo {
+	padding-top: 20px;
+}
+
+.mainsection {
+	background-color: #f0f0f0;
+	color:#990000; 
+	text-align:center;
+	margin: 10px;
+    padding: 7px;
+    border: 1px dashed #1bbc9b;
+}
+
+.mainsectionRDF { 
+	background-color: #f0f0f0;
+	color:#990000; 
+	text-align:center;
+    border: 1px dashed #1bbc9b;
+}
+
+.mainsectionfleft {
+    float: left;
+    padding: 10px;
+    margin: 10px;
+}
+
+.bold {
+	font-weight:bold;
+}
+
+.actionMessage {
+	text-align: center;
+}
+
+.errorMessage {
+	text-align: center;
+}

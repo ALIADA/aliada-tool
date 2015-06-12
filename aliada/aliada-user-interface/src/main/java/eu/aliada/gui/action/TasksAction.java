@@ -227,6 +227,37 @@ public class TasksAction extends ActionSupport{
     }
     
     /**
+     * Delete file from the control panel and DB.
+     * @return String
+     * @see
+     * @since 1.0
+     */
+    public String deleteAllFiles() {
+        Connection connection = null;
+        try {
+            connection = new DBConnectionManager().getConnection();
+            Statement statement = connection.createStatement();
+            String usernameLogged = (String) ServletActionContext.getRequest().getSession().getAttribute("logedUser");
+            
+            List<FileWork> jobs =  new ArrayList<FileWork>();
+            ServletActionContext.getRequest().getSession().setAttribute("importedFiles", jobs);
+            
+            int correct = statement.executeUpdate("DELETE FROM aliada.user_session where user_name='" + usernameLogged + "'");
+            statement.close();
+            connection.close();
+            if (correct != 0) {
+                clearErrorsAndMessages();
+                addActionMessage(getText("allJobs.delete.ok"));
+            }
+        } catch (SQLException e) {
+            logger.error(MessageCatalog._00011_SQL_EXCEPTION, e);
+            getPendingFilesDb();
+            return ERROR;
+        }
+        return getPendingFilesDb();
+    }
+    
+    /**
      * @return Returns the selectedUser.
      * @exception
      * @since 1.0

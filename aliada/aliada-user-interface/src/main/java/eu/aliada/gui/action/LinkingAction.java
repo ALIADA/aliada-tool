@@ -91,14 +91,19 @@ public class LinkingAction extends ActionSupport {
         //session.setAttribute("rdfizerStatus", "finished");
         setFileToLink((FileWork) session.getAttribute("importedFile"));
         
+        /*logger.debug("Load Pending");
+        logger.debug("Status: " + this.fileToLink.getStatus());
+        
         //If it's properly rdfizered => change status depends on which is current state
         if (this.fileToLink.getStatus() == "finishedRdfizer") { //Pending link and check
          //Makes the same if we enter normally
+        	logger.debug("STATUS FINISHED RDFIZER");
         } else if (this.fileToLink.getStatus() == "runningLinking") { //Pending check
               createJobLinking();
               createJobLDS();
+              logger.debug("STATUS RUNNING LINKING");
         } else if (this.fileToLink.getStatus() == "finishedLinking") { //Finish link and check
-            
+             logger.debug("STATUS FINISHED LINKING");
         }
         
         Connection connection = null;
@@ -111,7 +116,7 @@ public class LinkingAction extends ActionSupport {
     		connection.close();
         } catch (SQLException e) {
     		logger.error(MessageCatalog._00011_SQL_EXCEPTION, e);
-    	}
+    	}*/
                 
         return getDatasetsDb();
     }
@@ -125,14 +130,16 @@ public class LinkingAction extends ActionSupport {
         HttpSession session = ServletActionContext.getRequest().getSession();
         List<FileWork> importedFiles = (List<FileWork>) session.getAttribute("importedFiles");
         FileWork importedFile = (FileWork) session.getAttribute("importedFile");
-        for (FileWork file : importedFiles) {
-            if (file.equals(importedFile)) {
-                file.setStatus("finishedLinked");
+        if (importedFiles != null) {
+        	for (FileWork file : importedFiles) {
+                if (file.equals(importedFile)) {
+                    file.setStatus("finishedLinked");
+                }
             }
+            session.setAttribute("importedFiles", importedFiles);
+           
+        	setFileToLink((FileWork) session.getAttribute("importedFile"));
         }
-        session.setAttribute("importedFiles", importedFiles);
-       
-    	setFileToLink((FileWork) session.getAttribute("importedFile"));
         
         return SUCCESS;
     }

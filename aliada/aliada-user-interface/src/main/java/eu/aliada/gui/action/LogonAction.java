@@ -95,11 +95,12 @@ public class LogonAction extends ActionSupport {
 			}
 			st = conn.createStatement();
 			StrongPasswordEncryptor passwordEncryptor = new StrongPasswordEncryptor();
-			rs = st.executeQuery("select user_name,user_password from aliada.user where user_name = '"
-					+ getInputUser() + "'");			
+			rs = st.executeQuery("select user_name,user_password,org_name from aliada.user u INNER JOIN aliada.organisation o "
+					+ "ON u.organisationId = o.organisationId where user_name = '" + getInputUser() + "'");			
 			if (rs.next()) {
 			    if (passwordEncryptor.checkPassword(getInputPassword(), rs.getString("user_password"))) {
                     ServletActionContext.getRequest().getSession().setAttribute("logedUser", rs.getString("user_name"));
+                    ServletActionContext.getRequest().getSession().setAttribute("inst", rs.getString("org_name"));
 	                rs.close();
 	                st.close();
 	                conn.close();
