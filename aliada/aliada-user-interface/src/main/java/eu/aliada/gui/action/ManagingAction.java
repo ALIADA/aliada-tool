@@ -232,12 +232,10 @@ public class ManagingAction extends ActionSupport {
      * @see
      * @since 1.0
      */
-	private void enableNextBut(final HttpSession session) {
-        
+	private void enableNextBut(final HttpSession session) {  
 	    if (session.getAttribute("importedFiles") != null) {
             setEnableNextButton(1);
         }
-        
     }
 	/**
      * Get the files saved in the user_session.
@@ -257,13 +255,6 @@ public class ManagingAction extends ActionSupport {
      * @since 1.0
      */
 	public String saveFilesToConversion() {
-//	    List<FileWork> conversionFiles = new ArrayList<FileWork>();
-//	    for (FileWork file : importedFiles){
-//            if (file.isFileChecked()){
-//                conversionFiles.add(file);
-//            }
-//	    }
-	    //ServletActionContext.getRequest().getSession().setAttribute("conversionFiles", conversionFiles);
 	    if (ServletActionContext.getRequest().getSession().getAttribute("importedFiles") != null) {
 	        importedFiles = (ArrayList<FileWork>) ServletActionContext.getRequest().getSession().getAttribute("importedFiles");
 	        for (FileWork file : importedFiles) {
@@ -275,22 +266,7 @@ public class ManagingAction extends ActionSupport {
 	    } else {
 	        logger.error(MessageCatalog._00027_MANAGE_FILE_NOT_SAVE);
 	        return ERROR;
-	    }	    
-	/* Get from Database
-		getFilesDb();
-	    if(importedFiles != null){
-	        for (FileWork file : importedFiles){
-	              if (file.getFilename().equals(this.selectedFile)){
-	                  ServletActionContext.getRequest().getSession().setAttribute("importedFile", file);
-	              }
-	        }   
-	        return SUCCESS;
 	    }
-	    else{
-	        logger.error(MessageCatalog._00027_MANAGE_FILE_NOT_SAVE);
-	        return ERROR;
-	    }	
-	     */
 	}
 	
 	/**
@@ -300,7 +276,6 @@ public class ManagingAction extends ActionSupport {
 	 * @see
 	 * @since 1.0
 	 */
-	
 	public String getFilesDb() {
 		HttpSession session = ServletActionContext.getRequest().getSession();		
 		String usernameLogged = (String) ServletActionContext.getRequest().getSession().getAttribute("logedUser");
@@ -355,7 +330,6 @@ public class ManagingAction extends ActionSupport {
 		ServletActionContext.getRequest().getSession().setAttribute("ConfOpc", 0);
 		
 	    getFiles();
-		/*getFilesDb();*/
 		Connection connection = null;
         try {
 			connection = new DBConnectionManager().getConnection();

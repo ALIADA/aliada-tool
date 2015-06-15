@@ -18,6 +18,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -61,8 +62,6 @@ public class LinkingAction extends ActionSupport {
         HttpSession session = ServletActionContext.getRequest().getSession();
         session.setAttribute("rdfizerStatus", "finishedRdfizer");
         setFileToLink((FileWork) session.getAttribute("importedFile"));
-        
-        //logger.info("STATUS FINISHEDRDFIZER", null);
 		
         //If it's properly rdfizered => change STATUS FINISHEDRDFIZER
         Connection connection = null;
@@ -88,36 +87,48 @@ public class LinkingAction extends ActionSupport {
      */
     public String loadPending() {
         HttpSession session = ServletActionContext.getRequest().getSession();
-        //session.setAttribute("rdfizerStatus", "finished");
         setFileToLink((FileWork) session.getAttribute("importedFile"));
         
-        /*logger.debug("Load Pending");
-        logger.debug("Status: " + this.fileToLink.getStatus());
-        
-        //If it's properly rdfizered => change status depends on which is current state
-        if (this.fileToLink.getStatus() == "finishedRdfizer") { //Pending link and check
-         //Makes the same if we enter normally
-        	logger.debug("STATUS FINISHED RDFIZER");
-        } else if (this.fileToLink.getStatus() == "runningLinking") { //Pending check
-              createJobLinking();
-              createJobLDS();
-              logger.debug("STATUS RUNNING LINKING");
-        } else if (this.fileToLink.getStatus() == "finishedLinking") { //Finish link and check
+        // Load some data
+        if (this.fileToLink.getStatus().equals("runningLinking") || this.fileToLink.getStatus().equals("finishedLinking")) {
              logger.debug("STATUS FINISHED LINKING");
-        }
-        
-        Connection connection = null;
-        Statement updateStatement = null;
-        try {
-        	connection = new DBConnectionManager().getConnection();
-        	updateStatement = connection.createStatement();
-        	updateStatement.executeUpdate("UPDATE aliada.user_session set status='finishedRdfizer' where file_name='" + fileToLink.getFilename() + "'");
-        	updateStatement.close();
-    		connection.close();
-        } catch (SQLException e) {
-    		logger.error(MessageCatalog._00011_SQL_EXCEPTION, e);
-    	}*/
-                
+             
+             Connection con;
+             dataset = new LinkedList<String>();
+             try {
+                 con = new DBConnectionManager().getConnection();
+                 Statement st = con.createStatement();
+                 ResultSet rs = st
+                         .executeQuery("select name from aliada.linksdiscovery_subjob_instances where job_id=" + getFileToLink().getLdJobId());
+                 while (rs.next()) {
+                     String name = rs.getString("name");
+                     // Quit String "ALIADA_" 
+                     dataset.add(name.substring(7));
+                 }
+                 
+                 rs = st
+                         .executeQuery("select d.domain_name from aliada.dataset d inner join aliada.subset s "
+                         		+ "on d.datasetId = s.datasetId where s.graph_uri='" + getFileToLink().getGraph() + "'");
+                 while (rs.next()) {
+                     String datasetWeb = "http://" + rs.getString("domain_name");
+                     setDatasetUrl(datasetWeb);
+                 }
+                 
+                 rs.close();
+                 st.close();
+                 con.close();
+                 
+                 title = getText("dialog.publish.title");
+                 seconds = getText("seconds");
+                 session.setAttribute("linkingJobId", getFileToLink().getLdJobId());
+                 session.setAttribute("ldsJobId", getFileToLink().getLdsJobId());
+                 
+             } catch (SQLException e) {
+                 logger.error(MessageCatalog._00011_SQL_EXCEPTION, e);
+                 return ERROR;
+             }
+             
+        }               
         return getDatasetsDb();
     }
     /**
@@ -180,21 +191,37 @@ public class LinkingAction extends ActionSupport {
      * @since 1.0
      */
     public String checkLinking() {
+    	
     	HttpSession session = ServletActionContext.getRequest().getSession();
     	setFileToLink((FileWork) session.getAttribute("importedFile"));
     	
-    	//Delete file
+    	title = getText("dialog.publish.title");
+        seconds = getText("seconds");
+    	
     	Connection connection = null;
 	    Statement statement = null;
-		    try {
-		        connection = new DBConnectionManager().getConnection();
-		        statement = connection.createStatement();
-		        statement.executeUpdate("DELETE FROM aliada.user_session where file_name='" + fileToLink.getFilename() + "'");
-		        statement.close();
-		        connection.close();
-		    } catch (SQLException e) {
-		        logger.error(MessageCatalog._00011_SQL_EXCEPTION, e);
-		      }
+    	try {
+        	connection = new DBConnectionManager().getConnection();
+        	statement = connection.createStatement();
+        	ResultSet rs = statement
+                    .executeQuery("select d.domain_name from aliada.dataset d inner join aliada.subset s "
+                    		+ "on d.datasetId = s.datasetId where s.graph_uri='" + getFileToLink().getGraph() + "'");
+            while (rs.next()) {
+                String datasetWeb = "http://" + rs.getString("domain_name");
+                setDatasetUrl(datasetWeb);
+            }
+            
+          //If it's properly created  => change STATUS FINISHEDLINKING
+        	statement = connection.createStatement();
+        	statement.executeUpdate("UPDATE aliada.user_session set status='finishedLinking' where file_name='" + fileToLink.getFilename() + "'");
+        	statement.close();
+    		connection.close();
+        } catch (SQLException e) {
+    		logger.error(MessageCatalog._00011_SQL_EXCEPTION, e);
+    	}
+        
+        session.setAttribute("rdfizerStatus", "finishedLinking");
+        
     	return getDatasetsDb();
     }
     
@@ -222,16 +249,16 @@ public class LinkingAction extends ActionSupport {
         	
         	updateStatement.execute("UPDATE aliada.t_external_dataset SET external_dataset_linkingreloadtarget = 0");
         	updateStatement.close();
-        	//If it's properly rdfizered => change status
+        	//If it's properly created  => change STATUS RUNNINGLINKING
         	updateStatement = connection.createStatement();
-        	updateStatement.executeUpdate("UPDATE aliada.user_session set status='finishedLinking' where file_name='" + fileToLink.getFilename() + "'");
+        	updateStatement.executeUpdate("UPDATE aliada.user_session set status='runningLinking' where file_name='" + fileToLink.getFilename() + "'");
         	updateStatement.close();
     		connection.close();
         } catch (SQLException e) {
     		logger.error(MessageCatalog._00011_SQL_EXCEPTION, e);
     	}
         
-        session.setAttribute("rdfizerStatus", "finishedLinking");
+        session.setAttribute("rdfizerStatus", "runningLinking");
         
         return getDatasetsDb();
     }
@@ -289,7 +316,11 @@ public class LinkingAction extends ActionSupport {
                     statement = connection.createStatement();
                     String name;
                     if (dataset != null) {
-            			for (int i = 0; i < dataset.size(); i++) {
+                    	
+                    	getFileToLink().setLdJobId(addedId);
+                    	statement.executeUpdate("UPDATE aliada.user_session set links_disc_job_id=" + addedId + " where file_name='" + fileToLink.getFilename() + "'");
+                    	
+            			for (int i = 0; i < dataset.size(); i++) {            				
             				name = "ALIADA_" + dataset.get(i);
 		                    rs = statement
 		                            .executeQuery("select external_dataset_linkingfile, external_dataset_linkingnumthreads,"
@@ -326,8 +357,6 @@ public class LinkingAction extends ActionSupport {
                     HttpURLConnection conn = null;
                     try {
 					    url = new URL("http://localhost:8080/aliada-links-discovery-2.0/jobs/");
-//                        url = new URL("http://localhost:8890/links-discovery");
-                        
 						conn = (HttpURLConnection) url.openConnection();
                         conn.setDoOutput(true);
                         conn.setRequestMethod("POST");
@@ -415,12 +444,15 @@ public class LinkingAction extends ActionSupport {
                         addedId = (int) rs2.getInt(1);
                     }
                     rs2.close();
+                    
+                    getFileToLink().setLdsJobId(addedId);
+                	statement.executeUpdate("UPDATE aliada.user_session set linked_data_server_job_id=" + addedId + " where file_name='" + fileToLink.getFilename() + "'");
+                    
                     preparedStatement.close();          
                     URL url;
                     HttpURLConnection conn = null;
                     try {
 					    url = new URL("http://localhost:8080/aliada-linked-data-server-2.0/jobs/");
-//                        url = new URL("http://localhost:8889/lds");
                         conn = (HttpURLConnection) url.openConnection();
                         conn.setDoOutput(true);
                         conn.setRequestMethod("POST");
@@ -490,7 +522,7 @@ public class LinkingAction extends ActionSupport {
 	public void setDataset(final List<String> dataset) {
 		this.dataset = dataset;
 	}
-/**
+	/**
      * @return Returns the fileToLink.
      * @exception
      * @since 1.0

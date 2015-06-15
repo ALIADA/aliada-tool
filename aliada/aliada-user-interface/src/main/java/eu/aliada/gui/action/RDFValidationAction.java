@@ -163,9 +163,7 @@ public class RDFValidationAction extends ActionSupport {
     	   		authors.add(resource);
     		}
     	}
-    	
-    	logger.debug("Autores:" + Integer.toString(authors.size()));
-    	
+
     	return SUCCESS;
     }
     
@@ -180,7 +178,7 @@ public class RDFValidationAction extends ActionSupport {
     	execute();
     	
     	setObj(true);
-    	
+    
     	calls = numObjects / limit;
     	rest = numObjects % limit;
     	
@@ -200,9 +198,7 @@ public class RDFValidationAction extends ActionSupport {
    	    		ob.add(resource);
    	    	}
     	}
-    	
-    	logger.debug("Objetos:" + Integer.toString(ob.size()));
-    	
+
     	return SUCCESS;
     }
     
@@ -237,9 +233,7 @@ public class RDFValidationAction extends ActionSupport {
    	    		man.add(resource);
         	}
     	}
-    	
-    	logger.debug("Manifs: " + Integer.toString(man.size()));
-    	
+	
     	return SUCCESS;
     }
     
@@ -284,9 +278,7 @@ public class RDFValidationAction extends ActionSupport {
    	    		w.add(resource);
    	    	}
     	}
-    	
-    	logger.debug("Works:" + Integer.toString(w.size()));
-    	
+	
     	return SUCCESS;
     }
     

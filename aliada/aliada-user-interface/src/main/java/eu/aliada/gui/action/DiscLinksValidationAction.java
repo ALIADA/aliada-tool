@@ -115,8 +115,6 @@ public class DiscLinksValidationAction extends ActionSupport{
     	    	}
     	    }
     	}
-    	
-    	logger.debug("Ambiguous links:" + Integer.toString(discovLinksAmbiguous.size()));
    
 		return SUCCESS;
     }
@@ -165,11 +163,7 @@ public class DiscLinksValidationAction extends ActionSupport{
     	   		discovLinks.add(t);
         	}
     	}
-    	
-    	logger.debug("All the links: " + Integer.toString(discovLinks.size()));
-    	
-    	
-   
+
 		return SUCCESS;
     }
 	
@@ -537,8 +531,5 @@ public class DiscLinksValidationAction extends ActionSupport{
      */
 	public void setA(final String a) {
 		this.a = a;
-	}
-	
-	
-	
+	}	
 }

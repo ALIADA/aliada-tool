@@ -215,7 +215,6 @@ public class ConversionAction extends ActionSupport {
         Connection connection = null;
         connection = new DBConnectionManager().getConnection();
         Statement statement;
-        //String graphToCleanId = ServletActionContext.getRequest().getParameter("graphToCleanId");
         String graphToCleanId = getSelectedGraph();
         String seu, sel, sep , graphUri , linksGraphUri = "";
         try {
@@ -324,7 +323,6 @@ public class ConversionAction extends ActionSupport {
      */
     private void enableRdfizer() throws IOException {
     	URL url = new URL("http://localhost:8080/aliada-rdfizer-2.0/enable");
-//        URL url = new URL("http://localhost:8891/rdfizer/enable");
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setDoOutput(true);
         conn.setRequestMethod("PUT");
@@ -349,7 +347,6 @@ public class ConversionAction extends ActionSupport {
      */
     private void createJob(final int addedId) throws IOException {
 	    URL url = new URL("http://localhost:8080/aliada-rdfizer-2.0/jobs/" + addedId);
-//        URL url = new URL("http://localhost:8891/rdfizer/jobs/" + addedId);
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setDoOutput(true);
         conn.setRequestMethod("PUT");
@@ -427,7 +424,6 @@ public class ConversionAction extends ActionSupport {
             	ArrayList<String> l = new ArrayList<String>();
             	
             	while (res.next()) {
-            		//int subId = res.getInt("subsetId");
             		String graphUri = res.getString("graph_uri");
             		l.add(graphUri);
             	}
@@ -454,12 +450,6 @@ public class ConversionAction extends ActionSupport {
         try {
             connection = new DBConnectionManager().getConnection();
             Statement statement = connection.createStatement();
-            
-//            if (getSelectedDataset() == null) {
-//            	setSelectedDataset("1");
-//            }
-//            ResultSet rs = statement.executeQuery("SELECT subsetId, graph_uri FROM aliada.dataset d INNER JOIN aliada.subset s "
-//            		+ "ON d.datasetId=s.datasetId where d.datasetId ='" + getSelectedDataset() + "';");
             
             ResultSet rs = statement.executeQuery("SELECT subsetId, graph_uri FROM aliada.organisation o INNER JOIN aliada.dataset d "
             		+ "ON o.organisationId=d.organisationId INNER JOIN aliada.subset s ON d.datasetId=s.datasetId INNER JOIN aliada.user "

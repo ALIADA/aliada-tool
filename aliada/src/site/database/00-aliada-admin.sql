@@ -289,7 +289,9 @@ CREATE TABLE IF NOT EXISTS `user_session` (
   `template` int(11) DEFAULT NULL,
   `graph` int(11) DEFAULT NULL,
   `status` varchar(45) DEFAULT NULL,
-  `job_id` int(11) DEFAULT NULL
+  `job_id` int(11) DEFAULT NULL,
+  `links_disc_job_id` int(11) DEFAULT NULL,
+  `linked_data_server_job_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------

@@ -22,6 +22,8 @@ public class FileWork {
     private String graph;
     private String status;
     private int jobId;
+    private int ldJobId;
+    private int ldsJobId;
     
     
     /**
@@ -168,6 +170,38 @@ public class FileWork {
      */
     public void setJobId(final int jobId) {
         this.jobId = jobId;
+    }
+    /**
+     * @return Returns the ldJobId.
+     * @exception
+     * @since 1.0
+     */
+    public int getLdJobId() {
+        return ldJobId;
+    }
+    /**
+     * @param ldJobId The ldJobId to set.
+     * @exception
+     * @since 1.0
+     */
+    public void setLdJobId(final int ldJobId) {
+        this.ldJobId = ldJobId;
+    }
+    /**
+     * @return Returns the ldsJobId.
+     * @exception
+     * @since 1.0
+     */
+    public int getLdsJobId() {
+        return ldsJobId;
+    }
+    /**
+     * @param ldsJobId The ldsJobId to set.
+     * @exception
+     * @since 1.0
+     */
+    public void setLdsJobId(final int ldsJobId) {
+        this.ldsJobId = ldsJobId;
     }
 
 }

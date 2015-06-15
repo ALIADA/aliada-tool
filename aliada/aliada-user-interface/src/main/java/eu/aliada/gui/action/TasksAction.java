@@ -54,8 +54,7 @@ public class TasksAction extends ActionSupport{
      * @since 1.0
      */
     public String getPendingFilesDb() {
-    	
-        // HttpSession session = ServletActionContext.getRequest().getSession();		
+    		
 		String usernameLogged = (String) ServletActionContext.getRequest().getSession().getAttribute("logedUser");
         try {
 			Connection connection = new DBConnectionManager().getConnection();
@@ -120,8 +119,9 @@ public class TasksAction extends ActionSupport{
               Statement statement;
               statement = connection.createStatement();
               ResultSet rs = statement
-                      .executeQuery("select user_name,file_name,datafile,profile,template,graph,status,job_id from "
-                      		+ "aliada.user_session where file_name='" + selectedPendingFile + "'");
+                      .executeQuery("select user_name,file_name,datafile,profile,template,graph,status,job_id,"
+                      		+ "links_disc_job_id,linked_data_server_job_id from aliada.user_session "
+                      		+ "where file_name='" + selectedPendingFile + "'");
               if (rs.next()) {
                   File fileCreated = new File(rs.getString("datafile"), rs.getString("file_name"));
     			  FileWork recoveredFile = new FileWork();
@@ -144,6 +144,10 @@ public class TasksAction extends ActionSupport{
     			
     			  recoveredFile.setJobId(rs.getInt("job_id"));
     			  
+    			  recoveredFile.setLdJobId(rs.getInt("links_disc_job_id"));
+    			  
+    			  recoveredFile.setLdsJobId(rs.getInt("linked_data_server_job_id"));
+    			  
     			  pendingFiles = (List<FileWork>) session.getAttribute("importedFiles");
     			  
     			  if (pendingFiles != null) {
@@ -162,7 +166,7 @@ public class TasksAction extends ActionSupport{
     			  
     			  session.setAttribute("importedFile", recoveredFile);
 
-
+    			  // Update rdfzerStatus attribute
     			  if (status.equals("idle")) {
     				  session.setAttribute("rdfizerStatus", "idle");
     			  } else if (status.equals("runningRdfizer")) {
@@ -170,6 +174,8 @@ public class TasksAction extends ActionSupport{
     				  session.setAttribute("rdfizerJobId", recoveredFile.getJobId());
     			  } else if (status.equals("finishedRdfizer")) { 
     				  session.setAttribute("rdfizerStatus", "finishedRdfizer");
+    			  } else if (status.equals("runningLinking")) {
+    				  session.setAttribute("rdfizerStatus", "runningLinking");
     			  } else if (status.equals("finishedLinking")) {
     				  session.setAttribute("rdfizerStatus", "finishedLinking");
     			  }
@@ -184,8 +190,7 @@ public class TasksAction extends ActionSupport{
               logger.error(MessageCatalog._00011_SQL_EXCEPTION, e);
               status = "ERROR";
           }
-    	
-    	// System.out.println(""+status+"");
+          
           return status;
     }
     
@@ -255,109 +260,6 @@ public class TasksAction extends ActionSupport{
             return ERROR;
         }
         return getPendingFilesDb();
-    }
-    
-    /**
-     * @return Returns the selectedUser.
-     * @exception
-     * @since 1.0
-     */
-    public String getSelectedPendingFile() {
-        return selectedPendingFile;
-    }
-
-
-    /**
-     * @return Returns the filenameForm.
-     * @exception
-     * @since 1.0
-     */
-    public String getFilenameForm() {
-        return filenameForm;
-    }
-    /**
-     * @param filenameForm The filenameForm to set.
-     * @exception
-     * @since 1.0
-     */
-    public void setFilenameForm(final String filenameForm) {
-        this.filenameForm = filenameForm;
-    }
-    /**
-     * @return Returns the profileForm.
-     * @exception
-     * @since 1.0
-     */
-    public String getProfileForm() {
-        return profileForm;
-    }
-    /**
-     * @param profileForm The roleForm to set.
-     * @exception
-     * @since 1.0
-     */
-    public void setRoleForm(final String profileForm) {
-        this.profileForm = profileForm;
-    }
-    /**
-     * @return Returns the statusForm.
-     * @exception
-     * @since 1.0
-     */
-    public String getStatusForm() {
-        return statusForm;
-    }
-    /**
-     * @param statusForm The statusForm to set.
-     * @exception
-     * @since 1.0
-     */
-    public void setStatusForm(final String statusForm) {
-        this.statusForm = statusForm;
-    }
-    /**
-     * @param selectedPendingFile The selectedPendingFile to set.
-     * @exception
-     * @since 1.0
-     */
-    public void setSelectedPendingFile(final String selectedPendingFile) {
-        this.selectedPendingFile = selectedPendingFile;
-    }
-    
-    /**
-     * @return Returns the pendingFiles.
-     * @exception
-     * @since 1.0
-     */
-    public List<FileWork> getPendingFiles() {
-        return pendingFiles;
-    }
-    /**
-     * @param pendingFiles The pendingFiles to set.
-     * @exception
-     * @since 1.0
-     */
-    public void setPendingFiles(final List<FileWork> pendingFiles) {
-        this.pendingFiles = pendingFiles;
-    }
-    
-
-    /**
-     * @return Returns the arePendingFiles.
-     * @exception
-     * @since 1.0
-     */
-    public boolean isArePendingFiles() {
-        return arePendingFiles;
-    }
-
-    /**
-     * @param arePendingFiles The arePendingFiles to set.
-     * @exception
-     * @since 1.0
-     */
-    public void setArePendingFiles(final boolean arePendingFiles) {
-        this.arePendingFiles = arePendingFiles;
     }
     
     /**
@@ -469,5 +371,102 @@ public class TasksAction extends ActionSupport{
             return "";
         }
         return graphUri;
+    }
+
+    /**
+     * @return Returns the selectedUser.
+     * @exception
+     * @since 1.0
+     */
+    public String getSelectedPendingFile() {
+        return selectedPendingFile;
+    }
+    /**
+     * @return Returns the filenameForm.
+     * @exception
+     * @since 1.0
+     */
+    public String getFilenameForm() {
+        return filenameForm;
+    }
+    /**
+     * @param filenameForm The filenameForm to set.
+     * @exception
+     * @since 1.0
+     */
+    public void setFilenameForm(final String filenameForm) {
+        this.filenameForm = filenameForm;
+    }
+    /**
+     * @return Returns the profileForm.
+     * @exception
+     * @since 1.0
+     */
+    public String getProfileForm() {
+        return profileForm;
+    }
+    /**
+     * @param profileForm The roleForm to set.
+     * @exception
+     * @since 1.0
+     */
+    public void setRoleForm(final String profileForm) {
+        this.profileForm = profileForm;
+    }
+    /**
+     * @return Returns the statusForm.
+     * @exception
+     * @since 1.0
+     */
+    public String getStatusForm() {
+        return statusForm;
+    }
+    /**
+     * @param statusForm The statusForm to set.
+     * @exception
+     * @since 1.0
+     */
+    public void setStatusForm(final String statusForm) {
+        this.statusForm = statusForm;
+    }
+    /**
+     * @param selectedPendingFile The selectedPendingFile to set.
+     * @exception
+     * @since 1.0
+     */
+    public void setSelectedPendingFile(final String selectedPendingFile) {
+        this.selectedPendingFile = selectedPendingFile;
+    }
+    /**
+     * @return Returns the pendingFiles.
+     * @exception
+     * @since 1.0
+     */
+    public List<FileWork> getPendingFiles() {
+        return pendingFiles;
+    }
+    /**
+     * @param pendingFiles The pendingFiles to set.
+     * @exception
+     * @since 1.0
+     */
+    public void setPendingFiles(final List<FileWork> pendingFiles) {
+        this.pendingFiles = pendingFiles;
+    }
+    /**
+     * @return Returns the arePendingFiles.
+     * @exception
+     * @since 1.0
+     */
+    public boolean isArePendingFiles() {
+        return arePendingFiles;
+    }
+    /**
+     * @param arePendingFiles The arePendingFiles to set.
+     * @exception
+     * @since 1.0
+     */
+    public void setArePendingFiles(final boolean arePendingFiles) {
+        this.arePendingFiles = arePendingFiles;
     }
 }

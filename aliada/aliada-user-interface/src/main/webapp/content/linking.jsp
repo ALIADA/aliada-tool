@@ -10,34 +10,7 @@ $(function(){
 	 var intervalLDS = 0;
 	 var finishedLink = false;
 	 var finishedCreat = false;
-	 
 	 var rdfizerStatus = $("#rdfizerStatus").val();
-	 
-	 if(rdfizerStatus == "finishedRdfizer"){
-		 
-		 $("#linkingPanelCheck").hide();
-		 
-		 $("#checkLinkingButton").removeClass("buttonGreen");
-   	 	 $("#checkLinkingButton").addClass("button");
-		 $('#checkLinkingButton').prop("disabled",true);
-		 
-		 $("#startLinkingButton").removeClass("button");
- 	   	 $("#startLinkingButton").addClass("buttonGreen");
- 	     $("#startLinkingButton").prop("disabled",false);
-		 
-	 } else if (rdfizerStatus == "finishedLinking") {
-		 
-		 $("#linkingPanel").hide();
-		 $("#linkingPanelCheck").show();
-		 
- 	     $("#startLinkingButtonCheck").removeClass("buttonGreen");
-   	 	 $("#startLinkingButtonCheck").addClass("button");
-		 $('#startLinkingButtonCheck').prop("disabled",true);
-		 
-		 $("#checkLinkingButtonCheck").removeClass("button");
- 	   	 $("#checkLinkingButtonCheck").addClass("buttonGreen");
- 	     $("#checkLinkingButtonCheck").prop("disabled",false);
-	 }
 	 
 	 var checkLinking = function(){
 			console.log("checking Linking");
@@ -55,9 +28,8 @@ $(function(){
 		      success: function(json) {
 		    	  console.log(json);
 			   	   var sDate = json.startDate;
-			   	   //sDate= new Date(sDate);
 			   	   var eDate = json.endDate;
-			   	   var duration = json.durationSeconds;
+			   	   //var duration = json.durationSeconds;
 			   	   var numLinks = json.numLinks;
 			   	   var status = json.status;
 			   	   $("#datasetsInfo").empty();
@@ -151,17 +123,45 @@ $(function(){
 		      }
 	    	});   
 		};
-	
-	$("#checkLinkingButtonCheck").on("click",function(){
-		console.log("Checking");
-		$("#linkingPanelCheck").hide();		
-		$("#checkInfo").show("fast");
-		$('#checkLinkingButton').hide();
-		intervalLinking = setInterval( checkLinking, 1000 );
-		$('#fineLDSImg').hide();
-		$('#progressBarLDS').show();
-		intervalLDS = setInterval( checkLDS, 1000 );
-	});
+	 
+	 if(rdfizerStatus == "finishedRdfizer"){
+		 
+		 $("#linkingPanelCheck").hide();
+		 
+		 $("#checkLinkingButton").removeClass("buttonGreen");
+   	 	 $("#checkLinkingButton").addClass("button");
+		 $('#checkLinkingButton').prop("disabled",true);
+		 
+		 $("#startLinkingButton").removeClass("button");
+ 	   	 $("#startLinkingButton").addClass("buttonGreen");
+ 	     $("#startLinkingButton").prop("disabled",false);
+		 
+	 } else if (rdfizerStatus == "runningLinking") {
+		 
+		 $("#linkingPanel").hide();
+		 $("#linkingPanelCheck").show();
+		 
+ 	     $("#startLinkingButtonCheck").removeClass("buttonGreen");
+   	 	 $("#startLinkingButtonCheck").addClass("button");
+		 $('#startLinkingButtonCheck').prop("disabled",true);
+		 
+		 $("#checkLinkingButtonCheck").removeClass("button");
+ 	   	 $("#checkLinkingButtonCheck").addClass("buttonGreen");
+ 	     $("#checkLinkingButtonCheck").prop("disabled",false);
+ 	     
+	 } else if (rdfizerStatus == "finishedLinking") {
+		 
+		 console.log("Checking");
+ 	     $("#linkingPanel").hide();
+		 $("#linkingPanelCheck").hide();		
+	   	 $("#checkInfo").show("fast");
+		 $('#checkLinkingButton').hide();
+		 intervalLinking = setInterval( checkLinking, 1000 );
+		 $('#fineLDSImg').hide();
+		 $('#progressBarLDS').show();
+		 intervalLDS = setInterval( checkLDS, 1000 );
+		 
+	 }
 	
 	$("#publishButton").on("click",function(){
 		console.log("Checking publish button");
@@ -169,17 +169,6 @@ $(function(){
 		//This will disable everything contained in the div
 		$("#publishButton").hide();
  	   	$("#linkingNextButton").hide();
-//  	$("#pag").hide();
-// 	   	$("#rdfVal").hide();
-// 	   	$("#linksVal").hide();
-		
-// 		$("#linkingNextButton").removeClass("buttonGreen");
-//        	$("#linkingNextButton").addClass("button");
-//    		$('#linkingNextButton').prop("disabled",true);
-   		
-//    		$("#publishButton").removeClass("buttonGreen");
-//        	$("#publishButton").addClass("button");
-//    		$('#publishButton').prop("disabled",true);
    	
 		$.publish('openremotedialog');
 		$("#indicator").show();
@@ -282,7 +271,8 @@ $(function(){
 	</div>
 		
 		<div class="buttons row">
-			<html:submit id="checkLinkingButtonCheck" onClick="return false;" cssClass="fright submitButton buttonGreen" key="check"/>
+			<%-- <html:submit id="checkLinkingButtonCheck" onClick="return false;" cssClass="fright submitButton buttonGreen" key="check"/>--%>
+			<html:submit id="checkLinkingButtonCheck" action="checkLinking" cssClass="fright submitButton buttonGreen" key="check"/>
 		</div>
 	</html:form>
 </div>
