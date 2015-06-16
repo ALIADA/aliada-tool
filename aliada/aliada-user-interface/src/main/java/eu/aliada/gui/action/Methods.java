@@ -164,7 +164,6 @@ public class Methods {
         }
 		return characterSets;
     }
-    //
     /**
      * The method to show the file type list.
      * @return String

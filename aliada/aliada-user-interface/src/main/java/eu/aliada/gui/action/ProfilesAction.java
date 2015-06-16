@@ -15,6 +15,8 @@ import java.util.HashMap;
 
 
 
+import java.util.ResourceBundle;
+
 import com.opensymphony.xwork2.ActionSupport;
 
 import eu.aliada.gui.log.MessageCatalog;
@@ -56,6 +58,7 @@ public class ProfilesAction extends ActionSupport {
     private boolean areProfiles;
     
     private final Log logger = new Log(ProfilesAction.class);
+    private ResourceBundle defaults = ResourceBundle.getBundle("defaultValues", getLocale());
     
     /** The method to show the profile list.
      * @return String */
@@ -193,11 +196,13 @@ public class ProfilesAction extends ActionSupport {
      * @return String */
     public String showEditProfile() {	
     	if (this.selectedProfile != null) {
-	    	if (getSelectedProfile().equalsIgnoreCase("MARC BIB") || getSelectedProfile().equalsIgnoreCase("MARC AUT") 
-	    			|| getSelectedProfile().equalsIgnoreCase("LIDO") || getSelectedProfile().equalsIgnoreCase("DC")) {
-			        	addActionError(getText("err.not.allow.edit"));
-			        	showProfiles();
-			            return ERROR;          	
+	    	if (getSelectedProfile().equalsIgnoreCase(defaults.getString("profile.bib")) 
+	    	|| getSelectedProfile().equalsIgnoreCase(defaults.getString("profile.aut")) 
+	    	|| getSelectedProfile().equalsIgnoreCase(defaults.getString("profile.lido")) 
+	    	|| getSelectedProfile().equalsIgnoreCase(defaults.getString("profile.dc"))) {
+			        addActionError(getText("err.not.allow.edit"));
+			       	showProfiles();
+			        return ERROR;          	
 	        } else {
 		        Connection connection = null;
 		        try {
@@ -242,8 +247,10 @@ public class ProfilesAction extends ActionSupport {
      * @return String */
     public String deleteProfile() {	
     	if (this.selectedProfile != null) {
-	    	if (getSelectedProfile().equalsIgnoreCase("LIDO") || getSelectedProfile().equalsIgnoreCase("MARC AUT") 
-	    			|| getSelectedProfile().equalsIgnoreCase("MARC BIB") || getSelectedProfile().equalsIgnoreCase("DC")) {
+	    	if (getSelectedProfile().equalsIgnoreCase(defaults.getString("profile.bib")) 
+	    	|| getSelectedProfile().equalsIgnoreCase(defaults.getString("profile.aut")) 
+	    	|| getSelectedProfile().equalsIgnoreCase(defaults.getString("profile.lido")) 
+	    	|| getSelectedProfile().equalsIgnoreCase(defaults.getString("profile.dc"))) {
 			    	addActionError(getText("err.profile.deletion"));
 			    	showProfiles();
 			        return SUCCESS;

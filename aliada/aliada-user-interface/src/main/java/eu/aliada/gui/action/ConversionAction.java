@@ -18,6 +18,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.ResourceBundle;
 
 import javax.servlet.http.HttpSession;
 
@@ -56,6 +57,8 @@ public class ConversionAction extends ActionSupport {
     private String sub;
     
     private final Log logger = new Log(ConversionAction.class);
+    private ResourceBundle defaults = ResourceBundle.getBundle("defaultValues", getLocale());
+
     /**
      * Calls to the file session save process.
      * @return String
@@ -65,13 +68,13 @@ public class ConversionAction extends ActionSupport {
     public String execute() {
     	title = getText("dialog.publish.title");
     	//STATUS IDLE
-        String rdfizerStatus = "idle";
+        String rdfizerStatus = defaults.getString("status.idle");
         HttpSession session = ServletActionContext.getRequest().getSession();
         setImportedFile((FileWork) session.getAttribute("importedFile")); 
         if (session.getAttribute("rdfizerStatus") != null) {
             rdfizerStatus = (String) session.getAttribute("rdfizerStatus");
         }
-        if (rdfizerStatus.equals("running")) {
+        if (rdfizerStatus.equals(defaults.getString("status.running"))) {
             setShowCheckButton(1);
             setShowRdfizerButton(0);
         } else {
@@ -96,7 +99,7 @@ public class ConversionAction extends ActionSupport {
             importedFile.setDataset(getDat());
             importedFile.setGraph(getSub());
             String format = null;
-            String namespace = "http://";
+            String namespace = defaults.getString("web");
             try {
                 format = getFormat(importedFile.getProfile());
                 Connection connection = null;
@@ -157,7 +160,7 @@ public class ConversionAction extends ActionSupport {
                         enableRdfizer();
                         session.setAttribute("importedFile", importedFile);
                         createJob(addedId);
-                        session.setAttribute("rdfizerStatus", "running");
+                        session.setAttribute("rdfizerStatus", defaults.getString("status.running"));
 					
                         //If it's properly created  => change STATUS RUNNINGRDFIZER
  
@@ -322,16 +325,16 @@ public class ConversionAction extends ActionSupport {
      * @since 1.0
      */
     private void enableRdfizer() throws IOException {
-    	URL url = new URL("http://localhost:8080/aliada-rdfizer-2.0/enable");
+    	URL url = new URL(defaults.getString("enableRdfizer"));
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setDoOutput(true);
-        conn.setRequestMethod("PUT");
+        conn.setRequestMethod(defaults.getString("requestMethod.put"));
         if (conn.getResponseCode() != HttpURLConnection.HTTP_NO_CONTENT) {
             setShowRdfizerButton(1);
             getDatAndSubsets();
             getGraphsDb();
             getTemplatesDb();  
-            throw new ConnectException("Failed : HTTP error code : "
+            throw new ConnectException(MessageCatalog._00015_HTTP_ERROR_CODE
                     + conn.getResponseCode());
         }
         logger.debug(MessageCatalog._00030_CONVERSION_RDFIZE_ENABLE);
@@ -346,16 +349,16 @@ public class ConversionAction extends ActionSupport {
      * @since 1.0
      */
     private void createJob(final int addedId) throws IOException {
-	    URL url = new URL("http://localhost:8080/aliada-rdfizer-2.0/jobs/" + addedId);
+	    URL url = new URL(defaults.getString("createJob") + addedId);
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setDoOutput(true);
-        conn.setRequestMethod("PUT");
+        conn.setRequestMethod(defaults.getString("requestMethod.put"));
         if (conn.getResponseCode() != HttpURLConnection.HTTP_CREATED) {
             setShowRdfizerButton(1);
             getDatAndSubsets();
             getGraphsDb();
             getTemplatesDb();  
-            throw new ConnectException("Failed : HTTP error code : "
+            throw new ConnectException(MessageCatalog._00015_HTTP_ERROR_CODE
                     + conn.getResponseCode());
         }
         logger.debug(MessageCatalog._00031_CONVERSION_RDFIZE_JOB);

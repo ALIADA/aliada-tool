@@ -20,6 +20,7 @@ import java.sql.Statement;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.ResourceBundle;
 
 import javax.servlet.http.HttpSession;
 
@@ -51,6 +52,7 @@ public class LinkingAction extends ActionSupport {
 	private String datasetUrl;
 
     private final Log logger = new Log(LinkingAction.class);
+    private ResourceBundle defaults = ResourceBundle.getBundle("defaultValues", getLocale());
     
     /**
      * Calls to the rdfizerStatus process.
@@ -60,7 +62,7 @@ public class LinkingAction extends ActionSupport {
      */
     public String execute() {
         HttpSession session = ServletActionContext.getRequest().getSession();
-        session.setAttribute("rdfizerStatus", "finishedRdfizer");
+        session.setAttribute("rdfizerStatus", defaults.getString("status.finishedRdfizer"));
         setFileToLink((FileWork) session.getAttribute("importedFile"));
 		
         //If it's properly rdfizered => change STATUS FINISHEDRDFIZER
@@ -90,9 +92,8 @@ public class LinkingAction extends ActionSupport {
         setFileToLink((FileWork) session.getAttribute("importedFile"));
         
         // Load some data
-        if (this.fileToLink.getStatus().equals("runningLinking") || this.fileToLink.getStatus().equals("finishedLinking")) {
-             logger.debug("STATUS FINISHED LINKING");
-             
+        if (this.fileToLink.getStatus().equals(defaults.getString("status.runningLinking")) 
+        		|| this.fileToLink.getStatus().equals(defaults.getString("status.finishedLinking"))) {
              Connection con;
              dataset = new LinkedList<String>();
              try {
@@ -110,7 +111,7 @@ public class LinkingAction extends ActionSupport {
                          .executeQuery("select d.domain_name from aliada.dataset d inner join aliada.subset s "
                          		+ "on d.datasetId = s.datasetId where s.graph_uri='" + getFileToLink().getGraph() + "'");
                  while (rs.next()) {
-                     String datasetWeb = "http://" + rs.getString("domain_name");
+                     String datasetWeb = defaults.getString("web") + rs.getString("domain_name");
                      setDatasetUrl(datasetWeb);
                  }
                  
@@ -144,7 +145,7 @@ public class LinkingAction extends ActionSupport {
         if (importedFiles != null) {
         	for (FileWork file : importedFiles) {
                 if (file.equals(importedFile)) {
-                    file.setStatus("finishedLinked");
+                    file.setStatus(defaults.getString("status.finishedLinking"));
                 }
             }
             session.setAttribute("importedFiles", importedFiles);
@@ -207,7 +208,7 @@ public class LinkingAction extends ActionSupport {
                     .executeQuery("select d.domain_name from aliada.dataset d inner join aliada.subset s "
                     		+ "on d.datasetId = s.datasetId where s.graph_uri='" + getFileToLink().getGraph() + "'");
             while (rs.next()) {
-                String datasetWeb = "http://" + rs.getString("domain_name");
+                String datasetWeb = defaults.getString("web") + rs.getString("domain_name");
                 setDatasetUrl(datasetWeb);
             }
             
@@ -220,7 +221,7 @@ public class LinkingAction extends ActionSupport {
     		logger.error(MessageCatalog._00011_SQL_EXCEPTION, e);
     	}
         
-        session.setAttribute("rdfizerStatus", "finishedLinking");
+        session.setAttribute("rdfizerStatus", defaults.getString("status.finishedLinking"));
         
     	return getDatasetsDb();
     }
@@ -258,7 +259,7 @@ public class LinkingAction extends ActionSupport {
     		logger.error(MessageCatalog._00011_SQL_EXCEPTION, e);
     	}
         
-        session.setAttribute("rdfizerStatus", "runningLinking");
+        session.setAttribute("rdfizerStatus", defaults.getString("status.runningLinking"));
         
         return getDatasetsDb();
     }
@@ -356,10 +357,10 @@ public class LinkingAction extends ActionSupport {
                     URL url;
                     HttpURLConnection conn = null;
                     try {
-					    url = new URL("http://localhost:8080/aliada-links-discovery-2.0/jobs/");
+					    url = new URL(defaults.getString("createJobLinking"));
 						conn = (HttpURLConnection) url.openConnection();
                         conn.setDoOutput(true);
-                        conn.setRequestMethod("POST");
+                        conn.setRequestMethod(defaults.getString("requestMethod.post"));
                         conn.setRequestProperty("Content-Type",
                                 "application/x-www-form-urlencoded");
                         String param = "jobid=" + addedId;
@@ -370,8 +371,7 @@ public class LinkingAction extends ActionSupport {
                         wr.flush();
                         wr.close();
                         if (conn.getResponseCode() != HttpURLConnection.HTTP_CREATED) {
-                            throw new ConnectException(
-                                    "Failed : HTTP error code : "
+                            throw new ConnectException(MessageCatalog._00015_HTTP_ERROR_CODE
                                             + conn.getResponseCode());
                         } else {
                             logger.debug(MessageCatalog._00050_LINKING_JOB);
@@ -400,7 +400,7 @@ public class LinkingAction extends ActionSupport {
     private void createJobLDS() {
         HttpSession session = ServletActionContext.getRequest().getSession();
         int addedId = 0;
-        String datasetWeb = "http://";
+        String datasetWeb = defaults.getString("web");
         if (fileToLink.getGraph() != null) {
             Connection connection = null;
             connection = new DBConnectionManager().getConnection();
@@ -452,10 +452,10 @@ public class LinkingAction extends ActionSupport {
                     URL url;
                     HttpURLConnection conn = null;
                     try {
-					    url = new URL("http://localhost:8080/aliada-linked-data-server-2.0/jobs/");
+					    url = new URL(defaults.getString("createJobLDS"));
                         conn = (HttpURLConnection) url.openConnection();
                         conn.setDoOutput(true);
-                        conn.setRequestMethod("POST");
+                        conn.setRequestMethod(defaults.getString("requestMethod.post"));
                         conn.setRequestProperty("Content-Type",
                                 "application/x-www-form-urlencoded");
                         String param = "jobid=" + addedId;
@@ -465,7 +465,7 @@ public class LinkingAction extends ActionSupport {
                         wr.flush();
                         wr.close();
                         if (conn.getResponseCode() != HttpURLConnection.HTTP_CREATED) {
-                            throw new ConnectException("Failed : HTTP error code : "
+                            throw new ConnectException(MessageCatalog._00015_HTTP_ERROR_CODE
                                     + conn.getResponseCode());
                         } else {
                             session.setAttribute("ldsJobId", addedId);

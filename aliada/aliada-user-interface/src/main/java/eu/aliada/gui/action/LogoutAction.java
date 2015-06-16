@@ -33,7 +33,7 @@ public class LogoutAction extends ActionSupport {
 	 public String execute() {
 	   
 	  ServletActionContext.getRequest().getSession().invalidate();
-	  addActionMessage("You are successfully logout!");
+	  //addActionMessage("You are successfully logout!");
 	  logger.info(MessageCatalog._00002_STOPPED);
 	  return "logout";
 	 

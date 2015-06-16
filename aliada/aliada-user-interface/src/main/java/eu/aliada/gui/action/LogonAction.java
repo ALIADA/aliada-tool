@@ -35,48 +35,6 @@ public class LogonAction extends ActionSupport {
 	private String inputPassword;
 
 	/**
-	 * @return Returns the inputUser.
-	 * @exception
-	 * @since 1.0
-	 */
-
-	public String getInputUser() {
-		return inputUser;
-	}
-
-	/**
-	 * @param inputUser
-	 *            The inputUser to set.
-	 * @exception
-	 * @since 1.0
-	 */
-
-	public void setInputUser(final String inputUser) {
-		this.inputUser = inputUser;
-	}
-
-	/**
-	 * @return Returns the inputPassword.
-	 * @exception
-	 * @since 1.0
-	 */
-
-	public String getInputPassword() {
-		return inputPassword;
-	}
-
-	/**
-	 * @param inputPassword
-	 *            The inputPassword to set.
-	 * @exception
-	 * @since 1.0
-	 */
-
-	public void setInputPassword(final String inputPassword) {
-		this.inputPassword = inputPassword;
-	}
-
-	/**
 	 * @return Returns the result of the execution.
 	 */
 
@@ -128,4 +86,45 @@ public class LogonAction extends ActionSupport {
 		return SUCCESS;
 	}
 
+	/**
+	 * @return Returns the inputUser.
+	 * @exception
+	 * @since 1.0
+	 */
+
+	public String getInputUser() {
+		return inputUser;
+	}
+
+	/**
+	 * @param inputUser
+	 *            The inputUser to set.
+	 * @exception
+	 * @since 1.0
+	 */
+
+	public void setInputUser(final String inputUser) {
+		this.inputUser = inputUser;
+	}
+
+	/**
+	 * @return Returns the inputPassword.
+	 * @exception
+	 * @since 1.0
+	 */
+
+	public String getInputPassword() {
+		return inputPassword;
+	}
+
+	/**
+	 * @param inputPassword
+	 *            The inputPassword to set.
+	 * @exception
+	 * @since 1.0
+	 */
+
+	public void setInputPassword(final String inputPassword) {
+		this.inputPassword = inputPassword;
+	}
 }

@@ -12,6 +12,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 
 import org.apache.struts2.ServletActionContext;
 
@@ -34,6 +35,8 @@ public class RDFValidationAction extends ActionSupport {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	
+	private ResourceBundle defaults = ResourceBundle.getBundle("defaultValues", getLocale());
 	
 	private List<RetrievedResource> authors;
 	private List<RetrievedResource> ob;
@@ -64,7 +67,7 @@ public class RDFValidationAction extends ActionSupport {
     int calls;
     int rest;
     int offset;
-    int limit = 8000;
+    int limit = Integer.valueOf(defaults.getString("limit"));
     
     final RDFStoreDAO rdfstoreDAO = new RDFStoreDAO();
 

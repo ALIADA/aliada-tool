@@ -14,6 +14,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.HashMap;
+import java.util.ResourceBundle;
 
 import javax.servlet.http.HttpSession;
 
@@ -81,6 +82,7 @@ public class DatasetsAction  extends ActionSupport{
     private boolean areDatasets;
 	
 	private final Log logger = new Log(DatasetsAction.class);
+	private ResourceBundle defaults = ResourceBundle.getBundle("defaultValues", getLocale());
 
     /**
      * The method to show the datasets list.
@@ -90,8 +92,6 @@ public class DatasetsAction  extends ActionSupport{
      * @since 1.0
      */
     public String showDatasets() {
-    	
-    	ServletActionContext.getRequest().getSession().setAttribute("ConfOpc", 4);
     	
     	title = getText("dialog.title");
     	message1 = getText("dataset.message1");
@@ -495,8 +495,8 @@ public class DatasetsAction  extends ActionSupport{
     	 String sparqlEndpoint = "";
     	 String publicSparqlEndpoint = "";
     	 if (!this.domainNameForm.isEmpty()) {
-    	 sparqlEndpoint = "http://" + this.domainNameForm + "/sparql-auth";
-    	 publicSparqlEndpoint = "http://" + this.domainNameForm + "/sparql";
+    	 sparqlEndpoint = defaults.getString("web") + this.domainNameForm + defaults.getString("sparqlAuth");
+    	 publicSparqlEndpoint = defaults.getString("web") + this.domainNameForm + defaults.getString("sparql");
     	 } else {
     		 this.sparqlEndpointLoginForm = "";
     		 this.sparqlEndpointPasswordForm = "";
@@ -692,13 +692,13 @@ public class DatasetsAction  extends ActionSupport{
     public String showAddDataset() {
     	
     	// Default values
-    	String id = "id";
-    	String def = "def";
-    	String set = "set";
-    	String endLogin = "aliada_dev";
-    	String endPass = "aliada_dev";
-    	String ckanId = "cc-zero";
-    	String licUrl = "http://creativecommons.org/publicdomain/zero/1.0/";
+    	String id = defaults.getString("default.id");
+    	String def = defaults.getString("default.def");
+    	String set = defaults.getString("default.set");
+    	String endLogin = defaults.getString("default.endLogin");
+    	String endPass = defaults.getString("default.endPass");
+    	String ckanId = defaults.getString("default.ckanId");
+    	String licUrl = defaults.getString("default.licUrl");
     	String isqlCommFileDataset = "";
     	Connection connection = new DBConnectionManager().getConnection();
     	String usernameLogged = (String) ServletActionContext.getRequest().getSession().getAttribute("logedUser");

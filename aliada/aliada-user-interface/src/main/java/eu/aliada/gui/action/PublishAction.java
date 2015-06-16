@@ -19,6 +19,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 
 import javax.servlet.http.HttpSession;
 
@@ -47,6 +48,8 @@ public class PublishAction extends ActionSupport {
 	private String ckanDatasetUrl;
 	
 	private final Log logger = new Log(LinkingAction.class);
+	private ResourceBundle defaults = ResourceBundle.getBundle("defaultValues", getLocale());
+	
 	/**
      * Call to the execute method.
      * @return String
@@ -65,10 +68,6 @@ public class PublishAction extends ActionSupport {
         Statement statement;
         ResultSet rs;
         try {
-        	//Delete file/s from database
-//        	connection = new DBConnectionManager().getConnection();
-//		    statement = connection.createStatement();
-//		    statement.executeUpdate("DELETE FROM aliada.user_session where user_name='" + user + "'AND status='finishedLinking';");
         	
 			statement = connection.createStatement();
 			rs = statement
@@ -153,7 +152,7 @@ public class PublishAction extends ActionSupport {
                     URL url;
                     HttpURLConnection conn = null;
                     try {
-					    url = new URL("http://localhost:8080/aliada-ckan-datahub-page-creation-2.0/jobs/");
+					    url = new URL(defaults.getString("publish"));
                         conn = (HttpURLConnection) url.openConnection();
                         conn.setDoOutput(true);
                         conn.setRequestMethod("POST");
@@ -166,7 +165,7 @@ public class PublishAction extends ActionSupport {
                         wr.flush();
                         wr.close();
                         if (conn.getResponseCode() != HttpURLConnection.HTTP_CREATED) {
-                            throw new ConnectException("Failed : HTTP error code : "
+                            throw new ConnectException(MessageCatalog._00015_HTTP_ERROR_CODE
                                     + conn.getResponseCode());
                         } 
                         conn.disconnect();

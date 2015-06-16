@@ -12,6 +12,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 
 import com.hp.hpl.jena.graph.Triple;
 import com.opensymphony.xwork2.ActionSupport;
@@ -34,6 +35,8 @@ public class DiscLinksValidationAction extends ActionSupport{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	
+	private ResourceBundle defaults = ResourceBundle.getBundle("defaultValues", getLocale());
 	
 	private List<Triples> discovLinks;
 	
@@ -63,7 +66,7 @@ public class DiscLinksValidationAction extends ActionSupport{
 	int calls;
 	int rest;
 	int offset;
-	int limit = 8000;
+	int limit = Integer.valueOf(defaults.getString("limit"));
 	
 	final RDFStoreDAO rdfstoreDAO = new RDFStoreDAO();
 	

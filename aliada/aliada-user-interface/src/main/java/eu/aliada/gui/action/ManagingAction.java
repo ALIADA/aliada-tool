@@ -16,6 +16,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.ResourceBundle;
 
 import javax.servlet.http.HttpSession;
 
@@ -53,6 +54,8 @@ public class ManagingAction extends ActionSupport {
 	private List<FileWork> importedFiles;
 	private String selectedFile;
 	private String profileSelected;
+	
+	private ResourceBundle defaults = ResourceBundle.getBundle("defaultValues", getLocale());
  
 	 // Local server
 //    private static final String VISUALIZE_PATH = "src/main/resources/xmlVisualize/";
@@ -60,9 +63,9 @@ public class ManagingAction extends ActionSupport {
 //    private static final String ERROR_CONTENT_PATH = "src/main/webapp/content/errorContent.jsp";
    
      // Server
-	  private static final String VISUALIZE_PATH = "webapps/aliada-user-interface-2.0/WEB-INF/classes/xmlVisualize/";
-	  private static final String VALIDATOR_PATH = "webapps/aliada-user-interface-2.0/WEB-INF/classes/xmlValidators/";
-	  private static final String ERROR_CONTENT_PATH = "webapps/aliada-user-interface-2.0/content/errorContent.jsp";
+	private final String VISUALIZE_PATH = defaults.getString("visualize_path");
+	private final String VALIDATOR_PATH = defaults.getString("validator_path");
+	private final String ERROR_CONTENT_PATH = defaults.getString("error_content_path");
     
 	private final Log logger = new Log(ManagingAction.class);
 	/**
@@ -326,8 +329,6 @@ public class ManagingAction extends ActionSupport {
 	 * @since 1.0
 	 */
 	public String getProfilesDb() {
-		
-		ServletActionContext.getRequest().getSession().setAttribute("ConfOpc", 0);
 		
 	    getFiles();
 		Connection connection = null;

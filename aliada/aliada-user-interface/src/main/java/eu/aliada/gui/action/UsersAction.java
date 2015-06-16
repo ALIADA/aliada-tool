@@ -13,6 +13,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.ResourceBundle;
 
 import javax.servlet.http.HttpSession;
 
@@ -55,6 +56,7 @@ public class UsersAction extends ActionSupport {
     private int organisationForm;
     
     private final Log logger = new Log(UsersAction.class);
+    private ResourceBundle defaults = ResourceBundle.getBundle("defaultValues", getLocale());
     
     /** Gets the users from the DB.
      * @return String */
@@ -314,7 +316,7 @@ public class UsersAction extends ActionSupport {
      * @return String */
     public String showEdit() {
     	if (this.selectedUser != null) {
-	    	if (getSelectedUser().equalsIgnoreCase("admin")) {
+	    	if (getSelectedUser().equalsIgnoreCase(defaults.getString("user.admin"))) {
 	        	addActionError(getText("err.not.allow.edit"));
 	            getUsersDb();
 	            return ERROR;          	
@@ -377,7 +379,7 @@ public class UsersAction extends ActionSupport {
 	            addActionError(getText("err.user.deletion"));
 	            getUsersDb();
 	            return ERROR;
-	        } else if (getSelectedUser().equalsIgnoreCase("admin")) {
+	        } else if (getSelectedUser().equalsIgnoreCase(defaults.getString("user.admin"))) {
 	        	addActionError(getText("err.user.deletion"));
 	            getUsersDb();
 	            return ERROR;

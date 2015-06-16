@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.ResourceBundle;
 
 import org.apache.struts2.ServletActionContext;
 
@@ -34,7 +35,9 @@ public class TemplatesAction extends ActionSupport{
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	private final int NOTEMPLATESELECTED = -1;
+	private ResourceBundle defaults = ResourceBundle.getBundle("defaultValues", getLocale());
+	
+	private final int NOTEMPLATESELECTED = Integer.parseInt(defaults.getString("nontemplatedselected"));
     private HashMap<Integer, String> templates;
     private HashMap<String, Boolean> tags;
     private HashMap<Integer, String> types;
@@ -198,8 +201,10 @@ public class TemplatesAction extends ActionSupport{
      * @return String */
     public String showEditTemplate() {	
     	if (this.selectedTemplate != null) {
-	    	if (getSelectedTemplate().equalsIgnoreCase("MARC BIB") || getSelectedTemplate().equalsIgnoreCase("Authorities") 
-	    			|| getSelectedTemplate().equalsIgnoreCase("LIDO") || getSelectedTemplate().equalsIgnoreCase("Dublin Core")) {
+	    	if (getSelectedTemplate().equalsIgnoreCase(defaults.getString("template.bib")) 
+	    	|| getSelectedTemplate().equalsIgnoreCase(defaults.getString("template.aut")) 
+	    	|| getSelectedTemplate().equalsIgnoreCase(defaults.getString("template.lido")) 
+	    	|| getSelectedTemplate().equalsIgnoreCase(defaults.getString("template.dc"))) {
 			       	addActionError(getText("err.not.allow.edit"));
 			        getTemplatesDb();
 			        tags = new Methods().getTagsDb(NOTEMPLATESELECTED);
@@ -248,8 +253,10 @@ public class TemplatesAction extends ActionSupport{
      * @return String */
     public String deleteTemplate() {
     	if (this.selectedTemplate != null) {
-    		if (getSelectedTemplate().equalsIgnoreCase("MARC BIB") || getSelectedTemplate().equalsIgnoreCase("Authorities") 
-	    			|| getSelectedTemplate().equalsIgnoreCase("LIDO") || getSelectedTemplate().equalsIgnoreCase("Dublin Core")) {
+    		if (getSelectedTemplate().equalsIgnoreCase(defaults.getString("template.bib")) 
+    		|| getSelectedTemplate().equalsIgnoreCase(defaults.getString("template.aut")) 
+	    	|| getSelectedTemplate().equalsIgnoreCase(defaults.getString("template.lido")) 
+	    	|| getSelectedTemplate().equalsIgnoreCase(defaults.getString("template.dc"))) {
 			    	addActionError(getText("err.template.deletion")); 
 			    	getTemplatesDb();
 			   		return SUCCESS;
