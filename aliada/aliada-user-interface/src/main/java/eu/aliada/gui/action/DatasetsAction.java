@@ -491,7 +491,7 @@ public class DatasetsAction  extends ActionSupport{
      */
     public String addDataset() {
     	
-    	 String datasetAuthor = "", isqlCommandsFilename = "", aliadaToolHost = "";
+    	 String datasetAuthor = "", isqlCommandsFilename = "";
     	 String sparqlEndpoint = "";
     	 String publicSparqlEndpoint = "";
     	 if (!this.domainNameForm.isEmpty()) {
@@ -513,8 +513,8 @@ public class DatasetsAction  extends ActionSupport{
          	Statement statement = connection.createStatement();
             ResultSet rs = statement
                      .executeQuery("select u.organisationId, isql_command_path, store_ip, store_sql_port, "
-                     		+ "sql_login, sql_password, dataset_author, isql_commands_file_dataset_creation, "
-                     		+ "aliada_tool_hostname from aliada.organisation o inner join aliada.user u ON o.organisationId = u.organisationId "
+                     		+ "sql_login, sql_password, dataset_author, isql_commands_file_dataset_creation "
+                     		+ "from aliada.organisation o inner join aliada.user u ON o.organisationId = u.organisationId "
                      		+ "where user_name='" + usernameLogged + "'");
              if (rs.next()) {
                  organisationId = rs.getInt("organisationId");
@@ -525,7 +525,6 @@ public class DatasetsAction  extends ActionSupport{
                  sp = rs.getString("sql_password");
                  datasetAuthor = rs.getString("dataset_author");
                  isqlCommandsFilename = rs.getString("isql_commands_file_dataset_creation");
-                 aliadaToolHost = rs.getString("aliada_tool_hostname");
              }
              if (this.datasetDescForm.trim().isEmpty()) {
             	 rs.close();
@@ -619,9 +618,9 @@ public class DatasetsAction  extends ActionSupport{
                  return ERROR;
              }
              
-             final String ISQL_COMMAND_FORMAT = "%s %s:%d %s %s %s -u lhost='%s' vhost='%s' aliada_tool_host='%s'";
+             final String ISQL_COMMAND_FORMAT = "%s %s:%d %s %s %s -u lhost='%s' vhost='%s'";
              final String isqlCommand = String.format(ISQL_COMMAND_FORMAT, icp, si, ssp, sl, sp , 
-            		 isqlCommandsFilename, this.listeningHostForm, this.virtualHostForm, aliadaToolHost);
+            		 isqlCommandsFilename, this.listeningHostForm, this.virtualHostForm);
              logger.debug(isqlCommand);
              try {
             	 logger.debug(MessageCatalog._00070_EXECUTING_ISQL);
@@ -720,7 +719,6 @@ public class DatasetsAction  extends ActionSupport{
 			logger.error(MessageCatalog._00011_SQL_EXCEPTION, e);
             return ERROR;
 		}
-		
         
     	setUriIdPartForm(id);
     	setUriDefPartForm(def);
