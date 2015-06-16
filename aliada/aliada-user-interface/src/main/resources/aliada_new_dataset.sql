@@ -3,7 +3,6 @@
 ----------------------------------------------------------------
 --$u{lhost}: listening_host (no *ini*, choose another port so that default page for the dataset works properly), e.g.: :8891
 --$u{vhost}: virtual_host (no *ini*, choose another port so that default page for the dataset works properly), e.g: data.szepmuveszeti.hu
---$u{aliada_tool_host}: host where the Aliada tool web page resides, e.g.: aliada.szepmuveszeti.hu
 ----------------------------------------------------------------
 --Cross-Origin Resource Sharing (CORS) enabling the Virtuoso SPARQL Endpoint
 ----------------------------------------------------------------
@@ -20,7 +19,7 @@ DB.DBA.VHOST_DEFINE (
 	 is_dav=>1,
 	 vsp_user=>'dba',
 	 ses_vars=>0,
- 	 opts=>vector ('browse_sheet', '', 'noinherit', 1, 'cors', 'http://$u{aliada_tool_host}:8080 http://localhost:8080  http://$u{aliada_tool_host} http://localhost', 'cors_restricted', 0),
+ 	 opts=>vector ('browse_sheet', '', 'noinherit', 1),
 	 is_default_host=>0
 );
 
@@ -45,7 +44,7 @@ DB.DBA.VHOST_DEFINE (
          sec=>'digest',
          auth_fn=>'DB.DBA.HP_AUTH_SPARQL_USER',
          realm=>'SPARQL',
- 	 opts=>vector ('browse_sheet', '', 'noinherit', 1, 'cors', 'http://$u{aliada_tool_host}:8080 http://localhost:8080  http://$u{aliada_tool_host} http://localhost', 'cors_restricted', 0),
+ 	 opts=>vector ('browse_sheet', '', 'noinherit', 1),
 	 is_default_host=>0
 );
 
