@@ -84,8 +84,7 @@ CREATE TABLE IF NOT EXISTS `organisation` (
   `ckan_api_key` varchar(245) DEFAULT NULL,
   `ckan_org_url` varchar(245) DEFAULT NULL,
   `dataset_author` varchar(245) NOT NULL,
-  `isql_commands_file_dataset_creation` varchar(245) NOT NULL,
-  `aliada_tool_hostname` varchar(245) NOT NULL
+  `isql_commands_file_dataset_creation` varchar(245) NOT NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
