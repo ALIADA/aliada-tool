@@ -268,16 +268,16 @@ public class RDFValidationAction extends ActionSupport {
     		wor = rdfstoreDAO.getWorks(sparqlEndpointURI, graphName, user, password, offset, limit);
     		for (int a = 0; a < wor.length; a++) {
     			resource = new RetrievedWork();
-        		resource.setWorkURI(wor[i].getWorkURI());
-   	    		resource.setExprURI(wor[i].getExprURI());
-   	    		resource.setManifURI(wor[i].getManifURI());
-   	    		resource.setTitle(wor[i].getTitle());
-   	    		resource.setDimensions(wor[i].getDimensions());
-   	    		resource.setExtension(wor[i].getExtension());
-   	    		resource.setAuthor(wor[i].getAuthor());
-   	    		resource.setPublicPlace(wor[i].getPublicPlace());
-   	    		resource.setPublicDate(wor[i].getPublicDate());
-   	    		resource.setEdition(wor[i].getEdition());
+        		resource.setWorkURI(wor[a].getWorkURI());
+   	    		resource.setExprURI(wor[a].getExprURI());
+   	    		resource.setManifURI(wor[a].getManifURI());
+   	    		resource.setTitle(wor[a].getTitle());
+   	    		resource.setDimensions(wor[a].getDimensions());
+   	    		resource.setExtension(wor[a].getExtension());
+   	    		resource.setAuthor(wor[a].getAuthor());
+   	    		resource.setPublicPlace(wor[a].getPublicPlace());
+   	    		resource.setPublicDate(wor[a].getPublicDate());
+   	    		resource.setEdition(wor[a].getEdition());
    	    		w.add(resource);
    	    	}
     	}
