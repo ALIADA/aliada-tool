@@ -671,7 +671,7 @@ public class RDFStoreDAO {
 		final String query = " PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>" +
 		" PREFIX ecrm:   <http://erlangen-crm.org/current/>" +
 		" PREFIX efrbroo: <http://erlangen-crm.org/efrbroo/>" +
-		" SELECT ?res ?name FROM <" + graphName + "> " +
+		" SELECT DISTINCT ?res ?name FROM <" + graphName + "> " +
 		" WHERE { {{?res rdf:type ecrm:E39_Actor}" +
 		" UNION {?res rdf:type ecrm:E21_Person}" +
 		" UNION {?res rdf:type efrbroo:F10_Person}}" +
@@ -697,12 +697,14 @@ public class RDFStoreDAO {
 		final String query = " PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>" +
 		" PREFIX ecrm:   <http://erlangen-crm.org/current/>" +
 		" PREFIX efrbroo: <http://erlangen-crm.org/efrbroo/>" +
-		" SELECT (COUNT(*) AS ?count) FROM <" + graphName + "> " +
-		" WHERE { {{?actor rdf:type ecrm:E39_Actor}" +
-		" UNION {?actor rdf:type ecrm:E21_Person}" +
-		" UNION {?actor rdf:type efrbroo:F10_Person}}" +
-		" . ?actor ecrm:P131_is_identified_by ?apel" +
-		" . ?apel ecrm:P3_has_note ?name }";
+		" SELECT (COUNT(*) AS ?count) FROM <" + graphName + "> {" +
+		" SELECT DISTINCT ?res ?name " +
+		" WHERE { {{?res rdf:type ecrm:E39_Actor}" +
+		" UNION {?res rdf:type ecrm:E21_Person}" +
+		" UNION {?res rdf:type efrbroo:F10_Person}}" +
+		" . ?res ecrm:P131_is_identified_by ?apel" +
+		" . ?apel ecrm:P3_has_note ?name }" +
+		"}";
 
 		return getNumResources(query, sparqlEndpointURI, user, password);
 	}
@@ -723,7 +725,7 @@ public class RDFStoreDAO {
 		final String query = " PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>" +
 		" PREFIX ecrm:   <http://erlangen-crm.org/current/>" +
 		" PREFIX efrbroo: <http://erlangen-crm.org/efrbroo/>" +
-		" SELECT ?res ?name FROM <" + graphName + "> " +
+		" SELECT DISTINCT ?res ?name FROM <" + graphName + "> " +
 		" WHERE {" +
 		" {?res rdf:type ecrm:E18_Physical_Thing ." +
 		" OPTIONAL {?res ecrm:P1_is_identified_by ?apel. ?apel ecrm:P3_has_note ?name}}" +
@@ -750,13 +752,15 @@ public class RDFStoreDAO {
 		final String query = " PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>" +
 		" PREFIX ecrm:   <http://erlangen-crm.org/current/>" +
 		" PREFIX efrbroo: <http://erlangen-crm.org/efrbroo/>" +
-		" SELECT (COUNT(*) AS ?count) FROM <" + graphName + "> " +
+		" SELECT (COUNT(*) AS ?count) FROM <" + graphName + "> {" +
+		" SELECT DISTINCT ?res ?name " +
 		" WHERE {" +
 		" {?res rdf:type ecrm:E18_Physical_Thing ." +
 		" OPTIONAL {?res ecrm:P1_is_identified_by ?apel. ?apel ecrm:P3_has_note ?name}}" +
 		" UNION" +
 		" {?res rdf:type ecrm:E73_Information_Object ." +
-		" OPTIONAL {?res ecrm:P102_has_title ?apel. ?apel ecrm:P3_has_note ?name} }}";
+		" OPTIONAL {?res ecrm:P102_has_title ?apel. ?apel ecrm:P3_has_note ?name} }}" +
+		"}";
 
 		return getNumResources(query, sparqlEndpointURI, user, password);
 	}
@@ -777,7 +781,7 @@ public class RDFStoreDAO {
 		final String query = " PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>" +
 		" PREFIX ecrm:   <http://erlangen-crm.org/current/>" +
 		" PREFIX efrbroo: <http://erlangen-crm.org/efrbroo/>" +
-		" SELECT ?res ?name FROM <" + graphName + "> " +
+		" SELECT DISTINCT ?res ?name FROM <" + graphName + "> " +
 		" WHERE {" +
 		" ?res rdf:type efrbroo:F3_Manifestation_Product_Type ." +
 		" ?res ecrm:P102_has_title ?apel. ?apel ecrm:P3_has_note ?name }" +
@@ -801,10 +805,12 @@ public class RDFStoreDAO {
 		final String query = " PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>" +
 		" PREFIX ecrm:   <http://erlangen-crm.org/current/>" +
 		" PREFIX efrbroo: <http://erlangen-crm.org/efrbroo/>" +
-		" SELECT (COUNT(*) AS ?count) FROM <" + graphName + "> " +
+		" SELECT (COUNT(*) AS ?count) FROM <" + graphName + "> {" +
+		" SELECT DISTINCT ?res ?name " +
 		" WHERE {" +
 		" ?res rdf:type efrbroo:F3_Manifestation_Product_Type ." +
-		" ?res ecrm:P102_has_title ?apel. ?apel ecrm:P3_has_note ?name }";
+		" ?res ecrm:P102_has_title ?apel. ?apel ecrm:P3_has_note ?name }" +
+		"}";
 
 		return getNumResources(query, sparqlEndpointURI, user, password);
 	}
@@ -825,7 +831,7 @@ public class RDFStoreDAO {
 		final String query = " PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>" +
 		" PREFIX ecrm:   <http://erlangen-crm.org/current/>" +
 		" PREFIX efrbroo: <http://erlangen-crm.org/efrbroo/>" +
-		" SELECT ?work ?expr ?manif ?title ?dimensions ?extension ?author ?place_publication ?date_publication ?edition FROM <" + graphName + "> " +
+		" SELECT DISTINCT ?work ?expr ?manif ?title ?dimensions ?extension ?author ?place_publication ?date_publication ?edition FROM <" + graphName + "> " +
 		" WHERE { ?work rdf:type efrbroo:F1_Work . "+
 		" ?work efrbroo:R40_has_representative_expression ?expr ." +
 		" ?expr efrbroo:R4_carriers_provided_by ?manif ." +
@@ -931,7 +937,8 @@ public class RDFStoreDAO {
 		final String query = " PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>" +
 		" PREFIX ecrm:   <http://erlangen-crm.org/current/>" +
 		" PREFIX efrbroo: <http://erlangen-crm.org/efrbroo/>" +
-		" SELECT (COUNT(*) AS ?count)  FROM <" + graphName + "> " +
+		" SELECT (COUNT(*) AS ?count) FROM <" + graphName + "> {" +
+		" SELECT DISTINCT ?work ?expr ?manif ?title ?dimensions ?extension ?author ?place_publication ?date_publication ?edition " +
 		" WHERE { ?work rdf:type efrbroo:F1_Work . "+
 		" ?work efrbroo:R40_has_representative_expression ?expr ." +
 		" ?expr efrbroo:R4_carriers_provided_by ?manif ." +
@@ -953,7 +960,8 @@ public class RDFStoreDAO {
 		" OPTIONAL { ?lingobj ecrm:P2_has_type <http://aliada-project.eu/2014/aliada-ontology/id/resource/Concept/MARC/4> ." +
 		" ?lingobj ecrm:P3_has_note ?date_publication . }" +
 		" OPTIONAL { ?lingobj ecrm:P2_has_type <http://aliada-project.eu/2014/aliada-ontology/id/resource/Concept/MARC/2> ." +
-		" ?lingobj ecrm:P3_has_note ?edition . } }";
+		" ?lingobj ecrm:P3_has_note ?edition . } }" +
+		"}";
 
 		return getNumResources(query, sparqlEndpointURI, user, password);
 	}
