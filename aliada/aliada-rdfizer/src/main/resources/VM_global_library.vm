@@ -141,13 +141,15 @@
 #macro(simplest_mapping_of_string $s $tagValue $type $kind $predicate $concept) 
 	#if($tagValue) 
 		#set($text = $tagValue)
-    	#set($s1 = "#uri_with_strong_normalization(${type} ${text})")
-			$s1 $is_a $kind . 
-    	#if($concept) 
-			$s1 $P2_has_type $concept .
-		#end
-    	$s1 $P3_has_note "$text" . 
-    	$s $predicate $s1 . 
+		#if ($function.isNotNullAndNotEmpty($text))
+        	#set($s1 = "#uri_with_strong_normalization(${type} ${text})")
+    			$s1 $is_a $kind . 
+        	#if($concept) 
+    			$s1 $P2_has_type $concept .
+    		#end
+        	$s1 $P3_has_note "$text" . 
+        	$s $predicate $s1 . 
+		#end	
 	#end	
 #end	
 
@@ -316,7 +318,7 @@
 	#foreach($tagValue in $tagValues) 
 		#if($tagValue) 
     		#set($text = $function.escape($tagValue.textContent))
-    		#if ($function.isNotNullAndNotEmpty(text)))
+    		#if ($function.isNotNullAndNotEmpty($text))
 				$s $type "$text" .
 			#end	
 		#end	
@@ -327,7 +329,7 @@
 	#set($tagValue = $xpath.df($tag,$subfield,$record))
 		#if($tagValue) 
     		#set($text = $function.escape($tagValue.textContent))
-    		#if ($function.isNotNullAndNotEmpty(text)))
+    		#if ($function.isNotNullAndNotEmpty($text))
 				$s $type "$text" .
 			#end	
 		#end	
@@ -339,9 +341,9 @@
 	#foreach($tagValue in $tagValues) 
 		#if($tagValue) 
     		#set($text = $function.escape($tagValue.textContent))
-    		#if ($function.isNotNullAndNotEmpty(text)))
-				#set($ent2 = "#new_uri($entity2)")
-				#set($ent1 = "#new_uri($entity1)")
+    		#if ($function.isNotNullAndNotEmpty($text))
+				#set($ent2 = "#uri($entity2 $text)")
+				#set($ent1 = "#uri($entity1 $text)")
 				$ent2 $is_a $typeUri2 .
 				$ent1 $is_a  $typeUri1 .
 				$s $is_a $ent1 .
@@ -357,9 +359,9 @@
 	#set($tagValue = $xpath.df($tag,$subfield,$record))
 		#if($tagValue) 
     		#set($text = $function.escape($tagValue.textContent))
-    		#if ($function.isNotNullAndNotEmpty(text)))
-				#set($ent2 = "#new_uri($entity2)")
-				#set($ent1 = "#new_uri($entity1)")
+    		#if ($function.isNotNullAndNotEmpty($text))
+				#set($ent2 = "#uri($entity2 $text)")
+				#set($ent1 = "#uri($entity1 $text)")
 				$ent2 $is_a $typeUri2 .
 				$ent1 $is_a  $typeUri1 .
 				$s $is_a  $ent1 .
@@ -371,32 +373,32 @@
 
 
 ##F22 Self-Contained Expression R3i realises F18 Serial work P3 has note {P3.1 has type E55 Type = “Expected frequency”} E62 String
-#macro(mapping_aliada_self_contained_with_repeatable_tag $s $tag $subfield $record $entity1 $entity2 $typeUri1 $typeUri2 $typeUri3 $predicate) 
+#macro(mapping_aliada_self_contained_with_repeatable_tag $s $tag $subfield $record $entity1 $entity2 $typeUri1 $typeUri2 $s1_p_s2 $predicate) 
 	#set($tagValues = $xpath.dfs($tag,$subfield,$record))
 	#foreach($tagValue in $tagValues) 
 		#if($tagValue) 
     		#set($text = $function.escape($tagValue.textContent))
-    		#if ($function.isNotNullAndNotEmpty(text)))
-				#set($ent1 = "#new_uri($entity1)")
+    		#if ($function.isNotNullAndNotEmpty($text))
+				#set($s2 = "#uri($entity2 $text)")
 				$s $is_a $typeUri1 .
-				$s $typeUri3 $ent1 . 
-				$ent1 $is_a $typeUri2 .
-				$ent1 $predicate "$text" .
+				$s $s1_p_s2 $s2 . 
+				$s2 $is_a $typeUri2 .
+				$s2 $predicate "$text" .
 			#end	
 		#end	
 	#end	
 #end
 
 ##F22 Self-Contained Expression R3i realises F18 Serial work P3 has note {P3.1 has type E55 Type = “Expected frequency”} E62 String
-#macro(mapping_aliada_self_contained_to_control_field_tag $s $tagValue $entity1 $entity2 $typeUri1 $typeUri2 $typeUri3 $predicate) 
+#macro(mapping_aliada_self_contained_to_control_field_tag $s $tagValue $entity1 $entity2 $typeUri1 $typeUri2 $s1_p_s2 $predicate) 
 		#if($tagValue) 
     		#set($text = $function.escape($tagValue.textContent))
-    		#if ($function.isNotNullAndNotEmpty(text)))
-				#set($ent1 = "#new_uri($entity1)")
+    		#if ($function.isNotNullAndNotEmpty($text))
+				#set($s2 = "#uri($entity2 $text)")
 				$s $is_a $typeUri1 .
-				$s $typeUri3 $ent1 .
-	 			$ent1 $is_a $typeUri2 .
-				$ent1 $predicate "$text" .
+				$s $s1_p_s2 $s2 .
+	 			$s2 $is_a $typeUri2 .
+				$s2 $predicate "$text" .
 			#end	
 		#end	
 #end
@@ -406,8 +408,8 @@
 	#set($tagValue = $xpath.df($tag,$subfield,$record))
 		#if($tagValue) 
     		#set($text = $function.escape($tagValue.textContent))
-    		#if ($function.isNotNullAndNotEmpty(text)))
-				#set($ent1 = "#new_uri($entity1)")
+    		#if ($function.isNotNullAndNotEmpty($text))
+				#set($ent1 = "#uri($entity1 $text)")
 				$s $is_a $typeUri1 .
 				$s $typeUri3 $ent1 .
 	 			$ent1 $is_a $typeUri2 .
@@ -424,8 +426,8 @@
 	#foreach($tagValue in $tagValues) 
 		#if($tagValue) 
     		#set($text = $function.escape($tagValue.textContent))
-    		#if ($function.isNotNullAndNotEmpty(text)))
-				#set($ent1 = "#new_uri($entity1)")
+    		#if ($function.isNotNullAndNotEmpty($text))
+				#set($ent1 = "#uri($entity1 $text)")
 				$s $predicate $typeUri1 .
 				$ent1 $is_a $typeUri2 .	
 				$ent1 $P2_has_type $concept .
@@ -442,8 +444,8 @@
 	#foreach($tagValue in $tagValues) 
 		#if($tagValue) 
     		#set($text = $function.escape($tagValue.textContent))
-    		#if ($function.isNotNullAndNotEmpty(text)))
-				#set($ent1 = "#new_uri($entity1)")
+    		#if ($function.isNotNullAndNotEmpty($text))
+				#set($ent1 = "#uri($entity1 $text)")
 				$s $predicate1 $ent1 .
 				$ent1 $is_a $typeUri1 .
 				$ent1 $predicate2 "$text" .

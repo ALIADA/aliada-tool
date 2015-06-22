@@ -70,7 +70,7 @@ public class Function {
 	 * @return the normalized string.
 	 */
 	public String normalize(final String value) {
-		return value != null ? Strings.toURILocalName(value).toLowerCase() : UUID.randomUUID().toString();
+		return value != null ? uuid(Strings.toURILocalName(value).toLowerCase()) : UUID.randomUUID().toString();
 	}
 	
 	/**
@@ -81,7 +81,7 @@ public class Function {
 	 * @return the normalized string.
 	 */
 	public String normalizeWithoutLowercase(final String value) {
-		return Strings.toURILocalName(value);
+		return uuid(Strings.toURILocalName(value));
 	}	
 	
 	public String uuid(final String value) {
@@ -95,10 +95,10 @@ public class Function {
 	 * @return the normalized string.
 	 */
 	public String normalizeStrong(final String value) {
-		   return value == null ? null
-			        : Normalizer.normalize(value, Form.NFD)
+		   return value == null ? UUID.randomUUID().toString()
+			        : uuid(Normalizer.normalize(value, Form.NFD)
 			            .replaceAll("\\p{InCombiningDiacriticalMarks}+", "")
-			            .replaceAll("[^A-Za-z0-9]", "");
+			            .replaceAll("[^A-Za-z0-9]", ""));
 	}		
 	
 	public String lidoClass(final Integer id, final String value) {

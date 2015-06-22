@@ -45,7 +45,7 @@ $expression_s #efrbroo('R4_carriers_provided_by') $manifestation_s .
 ##Control Field Mapping
 #set($value006 = $xpath.cf("006",$root))
 #if($value006 && $value006.length() >= 18)
-#simplest_mapping_of_string ($work_s $value006.substring(0,5) "E55_Type" $E55_Type $P103_was_intended_for)
+#simplest_mapping_of_string ($work_s $value006.substring(1,5) "E55_Type" $E55_Type $P103_was_intended_for)
 #simplest_mapping_of_string ($work_s $value006.substring(1,4) "E55_Type" $E55_Type $P2_has_type)
 #simplest_mapping_of_string ($work_s $value006.substring(3,4) "E55_Type" $E55_Type $P2_has_type)
 #simplest_mapping_of_string ($work_s $value006.substring(4,5) "E55_Type" $E55_Type $P103_was_intended_for)
@@ -263,7 +263,7 @@ $expression_s #efrbroo('R4_carriers_provided_by') $manifestation_s .
 #simplest_mapping_with_no_repeatable_tag($expression_s "243" "l" $root "E56_Language" "#ecrm('E56_Language')" "#ecrm('P72_has_language')")
 
 #mapping_aliada_self_contained_with_repeatable_tag($expression_s "310" "a" $root "F22_Self-Contained_Expression" "F18_Serial_work" "#efrbroo('F22_Self-Contained_Expression')" "#efrbroo('F18_Serial_work')" "#efrbroo('R3i_realises')" "#aliadaconcept('expected_frequency')")
-#mapping_aliada_self_contained_with_no_repeatable_tag($expression_s "321" "a" $root "F22_Self-Contained_Expression" "F18_Serial_work" "#efrbroo('F22_Self-Contained_Expression')" "#efrbroo('F18_Serial_work')" "#efrbroo('R3i_realises')" "#aliadaconcept('expected_frequency')")
+#mapping_aliada_self_contained_with_repeatable_tag($expression_s "321" "a" $root "F22_Self-Contained_Expression" "F18_Serial_work" "#efrbroo('F22_Self-Contained_Expression')" "#efrbroo('F18_Serial_work')" "#efrbroo('R3i_realises')" "#aliadaconcept('expected_frequency')")
 
 #mapping_aliada_p3_has_note_with_repeatable_tag($expression_s "342" "o" $root "#aliadaconcept('special_characteristics')")
 #mapping_aliada_p3_has_note_with_repeatable_tag($expression_s "352" "a" $root "#aliadaconcept('file_characteristics')")
