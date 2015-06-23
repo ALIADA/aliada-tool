@@ -34,7 +34,7 @@
 #macro (wgs $v)<http://www.w3.org/2003/01/geo/wgs84_pos#$v>#end
 #macro (skos $v)<http://www.w3.org/2004/02/skos/core#$v>#end
 #macro (efrbroo $v)<http://erlangen-crm.org/efrbroo/$v>#end 
-#macro (aliada_p3 $v)<aliada:PX_$v>#end
+#macro (aliada_p3 $v)<${configuration.aliadaOntologyNamespace}PX_$v>#end
 ## LIDO MACROS
 #macro(legalBody $legalBody $owner_s $owner_p)
     #if($legalBody)
