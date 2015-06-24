@@ -443,20 +443,25 @@ $expression_s #efrbroo('R4_carriers_provided_by') $manifestation_s .
 	#end	
 #end	
 
-
 ##Place
 #if ($frbr.placeID && !$frbr.placeID.isEmpty())
 	#foreach($entry in $frbr.placeID.entrySet())
 		#set($tag = $entry.getKey())
 		#set($uris = $entry.getValue())
 		#if ($uris && !$uris.isEmpty())
-			  #simplest_mapping_with_repeatable_tag($E53_Place $tag "z" $root "E44_Place_Appellation" "#ecrm('E44_Place_Appellation')" $P87_is_identified_by)
-			#if($tag == "650")
-			  #simplest_mapping_with_repeatable_tag($E53_Place $tag "c" $root "E44_Place_Appellation" "#ecrm('E44_Place_Appellation')" $P87_is_identified_by)
-			#end
-			#if($tag == "651")
-			  #simplest_mapping_with_repeatable_tag($E53_Place $tag "a" $root "E44_Place_Appellation" "#ecrm('E44_Place_Appellation')" $P87_is_identified_by)
-			#end
+			#set($fields = $xpath.many("datafield[@tag='${tag}']",$root))
+			#foreach($uri in $uris) 			
+				#set($field = $fields.get($velocityCount))
+				#if($field)	
+					#simplest_mapping_with_repeatable_node($E53_Place $field "z" $root "E44_Place_Appellation" "#ecrm('E44_Place_Appellation')" $P87_is_identified_by)
+					#if($tag == "650")
+					  #simplest_mapping_with_repeatable_node($E53_Place $field "c" $root "E44_Place_Appellation" "#ecrm('E44_Place_Appellation')" $P87_is_identified_by)
+					#end
+					#if($tag == "651")
+					  #simplest_mapping_with_repeatable_node($E53_Place $field "a" $root "E44_Place_Appellation" "#ecrm('E44_Place_Appellation')" $P87_is_identified_by)
+					#end
+				#end	
+			#end	
     	#end	
 	#end	
 #end	
@@ -468,16 +473,20 @@ $expression_s #efrbroo('R4_carriers_provided_by') $manifestation_s .
 		#set($tag = $entry.getKey())
 		#set($uris = $entry.getValue())
 		#if ($uris && !$uris.isEmpty())
+			#set($fields = $xpath.many("datafield[@tag='${tag}']",$root))
 			#foreach($uri in $uris) 
-        		#set($concept_s = "#uri_literal('F6_Concept' $uri)")
-        		$concept_s $is_a #efrbroo('F6_Concept') .
-				#simplest_mapping_with_repeatable_tag($concept_s $tag "x" $root "E41_Appellation" "#ecrm('E41_Appellation')" $P1_is_identified_by)
-				#if($tag == "655")
-					#simplest_mapping_with_repeatable_tag($concept_s $tag "a" $root "E41_Appellation" "#ecrm('E41_Appellation')" $P1_is_identified_by)
-				#end
-				#if($tag == "600")
-					#simplest_mapping_with_repeatable_tag("#ecrm('E4_Period')" "600" "y" $root "E41_Appellation" "#ecrm('E41_Appellation')" $P87_is_identified_by)
-					#simplest_mapping_with_repeatable_tag($E53_Place "600" "z" $root "E44_Place_Appellation" "#ecrm('E44_Place_Appellation')" $P87_is_identified_by)
+				#set($field = $fields.get($velocityCount))
+				#if($field)	
+	        		#set($concept_s = "#uri_literal('F6_Concept' $uri)")
+	        		$concept_s $is_a #efrbroo('F6_Concept') .
+					#simplest_mapping_with_repeatable_node($concept_s $field "x" $root "E41_Appellation" "#ecrm('E41_Appellation')" $P1_is_identified_by)
+					#if($tag == "655")
+						#simplest_mapping_with_repeatable_node($concept_s $field "a" $root "E41_Appellation" "#ecrm('E41_Appellation')" $P1_is_identified_by)
+					#end
+					#if($tag == "600")
+						#simplest_mapping_with_repeatable_node("#ecrm('E4_Period')" $field "y" $root "E41_Appellation" "#ecrm('E41_Appellation')" $P87_is_identified_by)
+						#simplest_mapping_with_repeatable_node($E53_Place $field "z" $root "E44_Place_Appellation" "#ecrm('E44_Place_Appellation')" $P87_is_identified_by)
+					#end	
 				#end	
 			#end	
     	#end	
@@ -490,12 +499,16 @@ $expression_s #efrbroo('R4_carriers_provided_by') $manifestation_s .
 		#set($tag = $entry.getKey())
 		#set($uris = $entry.getValue())
 		#if ($uris && !$uris.isEmpty())
+			#set($fields = $xpath.many("datafield[@tag='${tag}']",$root))
 			#foreach($uri in $uris) 
-        		#set($item_s = "#uri_literal('F5_Item' $uri)")
-        		$item_s $is_a #efrbroo('F5_Item') .
-				#simplest_mapping_with_repeatable_tag($item_s $tag "a" $root "E39_Actor" "#ecrm('E39_Actor')" "#ecrm('P49_has_former_or_current_keeper')")
-				#simplest_mapping_with_repeatable_tag($item_s $tag "b" $root "E39_Actor" "#ecrm('E39_Actor')" "#ecrm('P49_has_former_or_current_keeper')")
-				#simplest_mapping_with_repeatable_tag($item_s $tag "m" $root "E42_Identifier" "#ecrm('E42_Identifier')" $P1_is_identified_by)
+				#set($field = $fields.get($velocityCount))
+				#if($field)	
+	        		#set($item_s = "#uri_literal('F5_Item' $uri)")
+	        		$item_s $is_a #efrbroo('F5_Item') .
+					#simplest_mapping_with_repeatable_node($item_s $field "a" $root "E39_Actor" "#ecrm('E39_Actor')" "#ecrm('P49_has_former_or_current_keeper')")
+					#simplest_mapping_with_repeatable_node($item_s $field "b" $root "E39_Actor" "#ecrm('E39_Actor')" "#ecrm('P49_has_former_or_current_keeper')")
+					#simplest_mapping_with_repeatable_node($item_s $field "m" $root "E42_Identifier" "#ecrm('E42_Identifier')" $P1_is_identified_by)
+				#end	
 			#end	
     	#end	
 	#end	
