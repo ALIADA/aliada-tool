@@ -58,6 +58,7 @@
 				<prop key="output.encoding">UTF-8</prop>
 				<prop key="velocimacro.library">VM_global_library.vm</prop>
 				<prop key="resource.manager.class">eu.aliada.rdfizer.pipeline.templating.AliadaResourceManager</prop>
+				<prop key="directive.foreach.counter.initial.value">0</prop>
 			</props>
 		</property>
 	</bean>

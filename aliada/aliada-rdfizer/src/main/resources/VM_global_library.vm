@@ -123,8 +123,38 @@
 	#end	
 #end	
 
+#macro(simplest_mapping_with_no_repeatable_node $s $node $subfield $record $type $kind $predicate $concept) 
+	#set($tagValue = $xpath.value("subfield[@code='${subfield}']", $node))
+	#if ($function.isNotNullAndNotEmpty($tagValue))
+		#set($text = $function.escape($tagValue))
+    	#set($s1 = "#uri_with_strong_normalization(${type} ${text})")
+			$s1 $is_a $kind . 
+    	#if($concept) 
+			$s1 $P2_has_type $concept .
+		#end
+    	$s1 $P3_has_note "$text" . 
+    	$s $predicate $s1 . 
+	#end	
+#end	
+
 #macro(simplest_mapping_with_repeatable_tag $s $tag $subfield $record $type $kind $predicate $concept) 
 	#set($tagValues = $xpath.dfs($tag,$subfield,$record))
+	#foreach($tagValue in $tagValues) 
+		#if($tagValue) 
+    		#set($text = $function.escape($tagValue.textContent))
+        	#set($s1 = "#uri_with_strong_normalization(${type} ${text})")
+        	$s1 $is_a $kind . 
+        	#if($concept) 
+    			$s1 $P2_has_type $concept .
+    		#end			
+        	$s1 $P3_has_note "$text" . 
+        	$s $predicate $s1 . 
+		#end	
+	#end	
+#end	
+
+#macro(simplest_mapping_with_repeatable_node $s $node $subfield $record $type $kind $predicate $concept) 
+	#set($tagValues = $xpath.dfs("subfield[@code='${subfield}']", $node))
 	#foreach($tagValue in $tagValues) 
 		#if($tagValue) 
     		#set($text = $function.escape($tagValue.textContent))
@@ -194,6 +224,25 @@
 	#end	
 #end	
 
+#macro(defined_mapping_with_no_repeatable_node_to_date_relation $node $subfield $record $object_rel_date $object_rel_string_date $predicate $entity) 
+	#set($tagValue = $xpath.value("subfield[@code='${subfield}']", $node))
+	#if($tagValue) 
+		#set($date_uri = "#uri('E50_Date' $function.escape($tagValue))")
+		#set($E52_Time_Span = "#ecrm('E52_Time-Span')")
+		#set ($ts_uri = "#new_uri('E52_Time-Span')")
+		#set ($bh_uri = "#new_uri($object_rel_string_date)")
+		#set($P78_is_identified_by = "#ecrm('P78_is_identified_by')")
+		#set($P4_has_time_span = "#ecrm('P4_has_time-span')")
+		$date_uri $is_a #ecrm('E50_Date') .
+		$date_uri $P3_has_note "$function.escape($tagValue)" .
+		$bh_uri $P4_has_time_span $ts_uri .
+		$ts_uri $P78_is_identified_by $date_uri .
+		$ts_uri $is_a $E52_Time_Span .
+		$bh_uri $is_a $object_rel_date .
+		$entity $predicate $bh_uri . 
+	#end	
+#end
+
 ## Create correlate triples for Generic Entity (that has) P4 has time-span E52 Time-Span P78 is identified by E50 Date between a Generic Entity($entity) with a generic predicate($property)
 #macro(defined_mapping_with_repeatable_tag_to_date_relation $tag $subfield $record $object_rel_date $object_rel_string_date $predicate $entity) 
 	#set($tagValues = $xpath.dfs($tag,$subfield,$record))
@@ -218,16 +267,14 @@
 
 ##F1 Work P1 is identified by F50 Controlled Access Point R8 consists of E90 Symbolic Object (4)
 #macro(mapping_with_not_repeatable_tag_three_entities $tagValue $entityFirst $entity1 $entity2 $typeUri1 $typeUri2 $predicateFirst $predicate1)
-  #if($tagValue) 	
-  #if($tagValue.textContent)
-	#set($value = "#uri($entity2 $function.escape($tagValue.textContent))")
-	#set($ent1 = "#new_uri($entity1)")
-	$ent1 $is_a  $typeUri1 .
-	$value $is_a $typeUri2 .
-	$value $P3_has_note "$function.escape($tagValue.textContent)" .
-	$ent1 $predicate1 $value .
-	$entityFirst $predicateFirst $ent1 .
-  #end
+  #if($tagValue && $tagValue.textContent) 	
+		#set($value = "#uri($entity2 $function.escape($tagValue.textContent))")
+		#set($ent1 = "#new_uri($entity1)")
+		$ent1 $is_a  $typeUri1 .
+		$value $is_a $typeUri2 .
+		$value $P3_has_note "$function.escape($tagValue.textContent.trim())" .
+		$ent1 $predicate1 $value .
+		$entityFirst $predicateFirst $ent1 .
  #end
 #end
 
