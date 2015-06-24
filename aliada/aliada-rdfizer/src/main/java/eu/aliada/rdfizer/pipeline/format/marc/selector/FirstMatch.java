@@ -4,10 +4,9 @@
 // Component: aliada-rdfizer
 // Responsible: ALIADA Consortiums
 package eu.aliada.rdfizer.pipeline.format.marc.selector;
-
+ 
+import static eu.aliada.shared.Strings.clean;
 import static eu.aliada.shared.Strings.isNotNullAndNotEmpty;
-
-
 /**
  * A composite expression that selects the first not-null evaluation of a set of expressions.
  * 
@@ -31,7 +30,7 @@ public class FirstMatch<K> implements Expression<String, K> {
 	@Override
 	public String evaluate(final K target) {
 		for (final Expression<String, K> expression : expressions) {
-			final String result = expression.evaluate(target);
+			final String result = clean(expression.evaluate(target));
 			if (isNotNullAndNotEmpty(result)) {
 				return result;
 			}

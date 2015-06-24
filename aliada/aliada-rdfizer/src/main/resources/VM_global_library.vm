@@ -126,7 +126,7 @@
 #macro(simplest_mapping_with_no_repeatable_node $s $node $subfield $record $type $kind $predicate $concept) 
 	#set($tagValue = $xpath.value("subfield[@code='${subfield}']", $node))
 	#if ($function.isNotNullAndNotEmpty($tagValue))
-		#set($text = $function.escape($tagValue))
+		#set($text = $function.escape($function.clean($tagValue)))
     	#set($s1 = "#uri_with_strong_normalization(${type} ${text})")
 			$s1 $is_a $kind . 
     	#if($concept) 
@@ -141,7 +141,7 @@
 	#set($tagValues = $xpath.dfs($tag,$subfield,$record))
 	#foreach($tagValue in $tagValues) 
 		#if($tagValue) 
-    		#set($text = $function.escape($tagValue.textContent))
+    		#set($text = $function.escape($function.clean($tagValue.textContent)))
         	#set($s1 = "#uri_with_strong_normalization(${type} ${text})")
         	$s1 $is_a $kind . 
         	#if($concept) 

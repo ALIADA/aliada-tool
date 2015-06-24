@@ -53,4 +53,13 @@ public abstract class Strings {
 			            .replaceAll("\\uFFFD", "")
 			            .trim();
 	}
+	
+	public static String clean(final String value) {
+		if (value == null) return value;
+		return value.replaceFirst("^[^a-zA-Z0-9]+", "").replaceAll("[^a-zA-Z0-9]+$", "");
+	}
+	
+	public static void main(String[] args) {
+		System.out.println(clean("000000122434"));
+	}
 }

@@ -242,4 +242,8 @@ public class Function {
 	public String escape(final String textContent){
 		return textContent != null ? FmtUtils.stringEsc(textContent) : null;
 	}
+	
+	public String clean(final String value){
+		return Strings.clean(value);
+	}
 }
