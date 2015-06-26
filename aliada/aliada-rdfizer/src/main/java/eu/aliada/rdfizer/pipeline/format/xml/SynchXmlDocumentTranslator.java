@@ -155,6 +155,7 @@ public class SynchXmlDocumentTranslator implements Processor, ApplicationContext
 				velocityContext.remove(Constants.MAIN_SUBJECT_ATTRIBUTE_NAME);
 				velocityContext.remove(Constants.ROOT_ELEMENT_ATTRIBUTE_NAME);
 				velocityContext.remove(Constants.JOB_CONFIGURATION_ATTRIBUTE_NAME);
+				velocityContext.remove(Constants.FRBR_DATA_ATTRIBUTE_NAME);
 			}
 		} 
 	}

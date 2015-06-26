@@ -7,7 +7,7 @@ package eu.aliada.rdfizer.pipeline.format.marc.frbr;
 
 import static eu.aliada.shared.Strings.isNotNullAndNotEmpty;
 
-import java.util.Iterator;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -73,17 +73,16 @@ public abstract class AbstractEntityDetector<O> {
 	 * @return the result object 
 	 */
 	protected Map<String, List<String>> put(final Map<String, List<String>> map, final Map<String, List<String>> result) {
-		Iterator<String> iter = map.keySet().iterator();
-		while (iter.hasNext()) {
-			String key = iter.next();
-			List<String> l = map.get(key);
-			for (int i = 0; i < l.size(); i++) {
-				String element = identifier(l.get(i));
-				l.set(i, element);
+		for (final Entry<String, List<String>> entry : map.entrySet()) {
+			final String tag = entry.getKey();
+			final List<String> headings = entry.getValue();
+			final List<String> uris = new ArrayList<String>(headings.size());
+			for (final String heading : headings) {
+				uris.add(identifier(heading));
 			}
-			result.putAll(map);
+			
+			result.put(tag, uris);
 		}
-		
 		return result;
 	}
 	
