@@ -65,3 +65,32 @@ padding-left: 2px;
 	color: #3D406D;
 	font-weight: bold;	
 }
+
+.lang {
+	padding-bottom: 3px;
+    word-spacing: 10px;
+}
+
+.langStyle {
+	text-decoration:none;
+}
+
+/* unvisited link */
+a:link {
+    color: black;
+}
+
+/* visited link */
+a:visited {
+    color: black;
+}
+
+/* mouse over link */
+a:hover {
+    color: #1bbc9b;
+}
+
+/* selected link */
+a:active {
+    color: black;
+}

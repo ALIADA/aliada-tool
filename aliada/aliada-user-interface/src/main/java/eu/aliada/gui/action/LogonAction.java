@@ -14,6 +14,7 @@ import java.sql.Statement;
 import org.apache.struts2.ServletActionContext;
 import org.jasypt.util.password.StrongPasswordEncryptor;
 
+import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 
 import eu.aliada.gui.log.MessageCatalog;
@@ -39,8 +40,10 @@ public class LogonAction extends ActionSupport {
 	 */
 
 	public String execute() {
-		ServletActionContext.getRequest().getSession()
-				.setAttribute("loggedInUser", getInputUser());
+		
+		ServletActionContext.getRequest().getSession().setAttribute("action", ActionContext.getContext().getName());
+		ServletActionContext.getRequest().getSession().setAttribute("loggedInUser", getInputUser());
+		
 		Connection conn = null;
 		Statement st = null;
 		ResultSet rs = null;
@@ -53,13 +56,20 @@ public class LogonAction extends ActionSupport {
 			}
 			st = conn.createStatement();
 			StrongPasswordEncryptor passwordEncryptor = new StrongPasswordEncryptor();
-			rs = st.executeQuery("select user_name,user_password,org_name from aliada.user u INNER JOIN aliada.organisation o "
-					+ "ON u.organisationId = o.organisationId where user_name = '" + getInputUser() + "'");			
+			
+			rs = st.executeQuery("select user_name,user_password,org_name, u.user_type_code from aliada.user u "
+					+ "INNER JOIN aliada.organisation o ON u.organisationId = o.organisationId "
+					+ "INNER JOIN aliada.t_user_type t ON t.user_type_code = u.user_type_code "
+					+ "where user_name = '" + getInputUser() + "' "
+					+ "AND language = '" + getLocale().getISO3Language() + "'");
+			
 			if (rs.next()) {
 			    if (passwordEncryptor.checkPassword(getInputPassword(), rs.getString("user_password"))) {
                     ServletActionContext.getRequest().getSession().setAttribute("logedUser", rs.getString("user_name"));
                     ServletActionContext.getRequest().getSession().setAttribute("inst", rs.getString("org_name"));
-	                rs.close();
+                    // User type
+                    ServletActionContext.getRequest().getSession().setAttribute("type", rs.getInt("user_type_code"));
+                    rs.close();
 	                st.close();
 	                conn.close();
 	                return SUCCESS;

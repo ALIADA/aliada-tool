@@ -54,6 +54,11 @@ public class UsersAction extends ActionSupport {
     private int roleForm;
     private int typeForm; 
     private int organisationForm;
+    private String title;
+    private String message;
+    private String admin;
+    private String email;
+    private String subject;
     
     private final Log logger = new Log(UsersAction.class);
     private ResourceBundle defaults = ResourceBundle.getBundle("defaultValues", getLocale());
@@ -61,39 +66,101 @@ public class UsersAction extends ActionSupport {
     /** Gets the users from the DB.
      * @return String */
     public String getUsersDb() {
+    	
     	Methods methods = new Methods();
-        ServletActionContext.getRequest().getSession().removeAttribute("userToUpdate");    
+        methods.setLang(getLocale().getISO3Language());   
         roles = methods.getRolesDb();
         userTypes = methods.getUsersTypesDb();
         organisations = methods.getOrganisationsDb();
-        Connection connection = null;
-        try {
-            connection = new DBConnectionManager().getConnection();
-            Statement statement = connection.createStatement();
-            ResultSet rs = statement.executeQuery("select * from aliada.user");
-            users = new ArrayList<User>();
-            while (rs.next()) {
-                User user = new User();
-                user.setUsername(rs.getString("user_name"));
-                user.setPassword(rs.getString("user_password"));
-                user.setEmail(rs.getString("user_email"));
-                user.setType(methods.getUserType(rs.getInt("user_type_code")));
-                user.setRole(methods.getRoleCode(rs.getInt("user_role_code")));
-                user.setOrganisation(methods.getOrganisationName(rs.getInt("organisationId")));
-                users.add(user);
+    	
+    	if ((int)ServletActionContext.getRequest().getSession().getAttribute("type") == 1) {
+    		
+    		ServletActionContext.getRequest().getSession().setAttribute("action", defaults.getString("lang.showUsers"));
+            ServletActionContext.getRequest().getSession().removeAttribute("userToUpdate");
+            
+            Connection connection = null;
+            try {
+                connection = new DBConnectionManager().getConnection();
+                Statement statement = connection.createStatement();
+                ResultSet rs = statement.executeQuery("select * from aliada.user");
+                users = new ArrayList<User>();
+                while (rs.next()) {
+                    User user = new User();
+                    user.setUsername(rs.getString("user_name"));
+                    user.setPassword(rs.getString("user_password"));
+                    user.setEmail(rs.getString("user_email"));
+                    user.setType(methods.getUserType(rs.getInt("user_type_code")));
+                    user.setRole(methods.getRoleCode(rs.getInt("user_role_code")));
+                    user.setOrganisation(methods.getOrganisationName(rs.getInt("organisationId")));
+                    users.add(user);
+                }
+                statement.close();
+                connection.close();
+                if (users.isEmpty()) {
+                    setAreUsers(false);
+                } else {
+                    setAreUsers(true);
+                }
+            } catch (SQLException e) {
+                logger.error(MessageCatalog._00011_SQL_EXCEPTION, e);
+                return ERROR;
             }
-            statement.close();
-            connection.close();
-            if (users.isEmpty()) {
-                setAreUsers(false);
-            } else {
-                setAreUsers(true);
+            return SUCCESS;
+            
+    	} else {
+    		
+    		Connection connection = null;
+    		HttpSession session = ServletActionContext.getRequest().getSession();
+	        User u = new User();
+    		
+            try {
+                connection = new DBConnectionManager().getConnection();
+                Statement statement = connection.createStatement();
+                String logedUser = ServletActionContext.getRequest().getSession().getAttribute("logedUser").toString();
+                ResultSet rs = statement.executeQuery("select * from aliada.user where user_name='" + logedUser + "'");
+                while (rs.next()) {
+                	
+                	setUsernameForm(logedUser);
+                	session.setAttribute("pass", rs.getString("user_password"));
+                    setEmailForm(rs.getString("user_email"));
+                    setTypeForm(rs.getInt("user_type_code"));
+                    setRoleForm(rs.getInt("user_role_code"));
+                    setOrganisationForm(rs.getInt("organisationId"));
+                    
+                    u.setUsername(logedUser);
+	                u.setEmail(rs.getString("user_email"));
+	                u.setType(String.valueOf(rs.getInt("user_type_code")));
+	                u.setRole(String.valueOf(rs.getInt("user_role_code")));
+	                u.setOrganisation(String.valueOf(rs.getInt("organisationId")));
+                    
+                    ServletActionContext.getRequest().getSession().setAttribute("action", defaults.getString("lang.default"));
+	                
+	                session.setAttribute("user", u);
+                	
+                }
+                rs = statement.executeQuery("select * from aliada.user where user_type_code=1");
+                setTitle(getText("email.title"));
+                setMessage(getText("email.message"));
+                setAdmin(getText("email.admin"));
+                setSubject(getText("email.subject"));
+                setEmail("");
+                while (rs.next()) {
+                	if (email.isEmpty()) {
+                		setEmail(rs.getString("user_email"));
+                	} else {
+                		email = email + ";" + rs.getString("user_email");
+                	}
+                }
+                statement.close();
+                connection.close();
+            } catch (SQLException e) {
+                logger.error(MessageCatalog._00011_SQL_EXCEPTION, e);
+                return ERROR;
             }
-        } catch (SQLException e) {
-            logger.error(MessageCatalog._00011_SQL_EXCEPTION, e);
-            return ERROR;
-        }
-        return SUCCESS;
+            return SUCCESS;
+    		
+    	}
+    	
     }
     
     /** Add an user to the DB.
@@ -162,6 +229,9 @@ public class UsersAction extends ActionSupport {
     	HttpSession session = ServletActionContext.getRequest().getSession();
     	User us = (User) session.getAttribute("newUser");
         getUsersDb();
+        
+        ServletActionContext.getRequest().getSession().setAttribute("action", defaults.getString("lang.default"));
+        
         setShowAddForm(true);
         if (session.getAttribute("newUser") != null) {
     		setUsernameForm(us.getUsername());
@@ -286,6 +356,7 @@ public class UsersAction extends ActionSupport {
             logger.error(MessageCatalog._00011_SQL_EXCEPTION, e);
             return ERROR;
         }
+        
         return SUCCESS;        
     }
     
@@ -347,6 +418,9 @@ public class UsersAction extends ActionSupport {
 			                statement.close();
 			                connection.close();
 			                getUsersDb();
+			                
+			            	ServletActionContext.getRequest().getSession().setAttribute("action", defaults.getString("lang.default"));
+			                
 			                session.setAttribute("user", u);
 			                session.setAttribute("userToUpdate", getSelectedUser());
 			                setShowEditForm(true);
@@ -407,6 +481,108 @@ public class UsersAction extends ActionSupport {
 	    	getUsersDb();
 	        return ERROR;
     	}
+    }
+    
+    /** Updates a basic user in the DB.
+     * @return String */
+    public String editBasicUser() {
+        Connection connection = null;
+        try {
+            connection = new DBConnectionManager().getConnection();
+        	Statement statement = connection.createStatement();
+        	if (this.passwordForm.trim().isEmpty()) {
+        		statement.executeUpdate("UPDATE aliada.user set user_email='" + this.emailForm + "',user_role_code='" + this.roleForm 
+        				+ "' where user_name='" + this.usernameForm + "'");
+        	            addActionMessage(getText("user.edit.ok"));
+        	            statement.close(); 
+        	            connection.close();
+        	            getUsersDb();
+        	} else {
+        		HttpSession session = ServletActionContext.getRequest().getSession();
+            	StrongPasswordEncryptor passwordEncryptor = new StrongPasswordEncryptor();
+            	String pass = (String) session.getAttribute("pass");
+            	// User password correct
+            	if (passwordEncryptor.checkPassword(this.passwordForm, pass)) {
+            		if (this.newPasswordForm.trim().isEmpty() && this.repeatNewPasswordForm.trim().isEmpty()) {
+                    	// New Pass empty
+            			setNewPasswordForm("");
+            			setRepeatNewPasswordForm("");
+                    	addFieldError("newPasswordForm", getText("userPassword.required"));
+                    	addFieldError("repeatNewPasswordForm", getText("userPassword.required"));
+                    	statement.close(); 
+         	           	connection.close();
+         	           	getUsersDb();
+                    } else if (this.newPasswordForm.trim().isEmpty()) {
+                    	// New Pass empty
+                    	setNewPasswordForm("");
+                    	addFieldError("newPasswordForm", getText("userPassword.required"));
+                    	statement.close(); 
+         	            connection.close();
+         	            getUsersDb();
+                    } else if (this.repeatNewPasswordForm.trim().isEmpty()) {
+                    	// Repeat new pass empty
+                    	setRepeatNewPasswordForm("");
+                    	addFieldError("repeatNewPasswordForm", getText("userPassword.required"));
+                    	statement.close(); 
+         	            connection.close();
+         	            getUsersDb();
+                    } else if (this.newPasswordForm.equals(this.repeatNewPasswordForm) && !passwordEncryptor.checkPassword(this.newPasswordForm, pass)) {
+                    	// New pass and repeat new pass equals
+                    	String encryptedPassword = passwordEncryptor.encryptPassword(this.newPasswordForm);
+                        statement.executeUpdate("UPDATE aliada.user set user_password='" + encryptedPassword + "',user_email='" + this.emailForm + "',user_role_code='" 
+                        + this.roleForm + "',user_type_code='" + this.typeForm + "' where user_name='" + this.usernameForm + "'");
+                        addActionMessage(getText("user.edit.ok"));
+                        setPasswordForm("");
+                        setNewPasswordForm("");
+                        setRepeatNewPasswordForm("");
+        	            statement.close(); 
+        	            connection.close();
+        	            getUsersDb();
+                    } else if (passwordEncryptor.checkPassword(this.newPasswordForm, pass)) {
+                    	// Pass equals to new Pass
+                    	setPasswordForm(this.passwordForm);
+                    	setNewPasswordForm(this.newPasswordForm);
+                    	setRepeatNewPasswordForm(this.repeatNewPasswordForm);
+                    	addFieldError("passwordForm", getText("userPassword.equals"));
+                    	addFieldError("newPasswordForm", getText("userPassword.equals"));
+                    	addFieldError("repeatNewPasswordForm", getText("userPassword.equals"));
+                    	statement.close(); 
+         	            connection.close();
+         	            getUsersDb();                  	
+                    } else {
+                    	// Not equals
+                    	setNewPasswordForm(this.newPasswordForm);
+                    	setRepeatNewPasswordForm(this.repeatNewPasswordForm);
+                    	addFieldError("newPasswordForm", getText("userPassword.not.equals"));
+                    	addFieldError("repeatNewPasswordForm", getText("userPassword.not.equals"));
+                    	statement.close(); 
+         	            connection.close();
+         	            getUsersDb();
+                    }
+            	} else {
+            		// User password wrong
+            		if (!this.newPasswordForm.trim().isEmpty()) {
+            			setNewPasswordForm(this.newPasswordForm);
+            		} else {
+            			setNewPasswordForm("");
+            		}
+            		if (!this.repeatNewPasswordForm.trim().isEmpty()) {
+            			setRepeatNewPasswordForm(this.repeatNewPasswordForm);
+            		} else {
+            			setRepeatNewPasswordForm("");
+            		}
+            		setPasswordForm(this.passwordForm);
+            		addFieldError("passwordForm", getText("userPassword.not.equals"));
+            		statement.close(); 
+     	            connection.close();
+     	            getUsersDb();
+            	}
+        	}
+        } catch (SQLException e) {
+            logger.error(MessageCatalog._00011_SQL_EXCEPTION, e);
+            return ERROR;
+        }
+        return SUCCESS;        
     }
     
     /** @return Returns the roles. */
@@ -544,6 +720,46 @@ public class UsersAction extends ActionSupport {
 	/** @param userTypes The userTypes to set. */
 	public void setUserTypes(final HashMap<Integer, String> userTypes) {
 		this.userTypes = userTypes;
+	}
+	/** @return Returns the title. */
+	public String getTitle() {
+		return title;
+	}
+	/** @param title The title to set. */
+	public void setTitle(final String title) {
+		this.title = title;
+	}
+	/** @return Returns the message. */
+	public String getMessage() {
+		return message;
+	}
+	/** @param message The message to set. */
+	public void setMessage(final String message) {
+		this.message = message;
+	}
+	/** @return Returns the admin. */
+	public String getAdmin() {
+		return admin;
+	}
+	/** @param admin The admin to set. */
+	public void setAdmin(final String admin) {
+		this.admin = admin;
+	}
+	/** @return Returns the email. */
+	public String getEmail() {
+		return email;
+	}
+	/** @param email The email to set. */
+	public void setEmail(final String email) {
+		this.email = email;
+	}
+	/** @return Returns the subject. */
+	public String getSubject() {
+		return subject;
+	}
+	/** @param subject The subject to set. */
+	public void setSubject(final String subject) {
+		this.subject = subject;
 	}
 	
 }

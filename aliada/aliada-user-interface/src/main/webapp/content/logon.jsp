@@ -26,10 +26,7 @@
 			<html:submit property="enterButton" cssClass="loginButton button" key="submit" />
 		</div>
 	</div>
-	<div class="row">
-		<%-- <html:select
-			list="#{'en':'English', 'es':'Spanish','ita':'Italian','hun':'Hungarian'}"
-			value="locale" /> --%>
+	<div class="row lang">
 		<html:url id="localeEN" namespace="/" action="locale" >
 		   <html:param name="request_locale" >en</html:param>
 		</html:url>
@@ -42,9 +39,9 @@
 		<html:url id="localeITA" namespace="/" action="locale" >
 			<html:param name="request_locale" >ita</html:param>
 		</html:url>		 
-		<html:a href="%{localeEN}" ><img src="images/gbFlag.png"/></html:a>
-		<html:a href="%{localeHU}"><img src="images/huFlag.png"/></html:a>
-		<html:a href="%{localeES}" ><img src="images/spFlag.png"/></html:a>
-		<html:a href="%{localeITA}" ><img src="images/itFlag.png"/></html:a>
+		<html:a href="%{localeEN}" cssClass="langStyle" ><html:text name="eng"/></html:a>
+		<html:a href="%{localeHU}" cssClass="langStyle" ><html:text name="hun"/></html:a>
+		<html:a href="%{localeES}" cssClass="langStyle" ><html:text name="spa"/></html:a>
+		<html:a href="%{localeITA}" cssClass="langStyle" ><html:text name="ita"/></html:a>
 	</div>	
 </html:form>

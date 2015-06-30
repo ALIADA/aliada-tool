@@ -17,6 +17,8 @@ import java.util.HashMap;
 
 import java.util.ResourceBundle;
 
+import org.apache.struts2.ServletActionContext;
+
 import com.opensymphony.xwork2.ActionSupport;
 
 import eu.aliada.gui.log.MessageCatalog;
@@ -63,6 +65,9 @@ public class ProfilesAction extends ActionSupport {
     /** The method to show the profile list.
      * @return String */
     public String showProfiles() {
+    	
+    	ServletActionContext.getRequest().getSession().setAttribute("action", defaults.getString("lang.showProfiles"));
+    	
         Connection connection = null;
         try {
             connection = new DBConnectionManager().getConnection();
@@ -84,27 +89,35 @@ public class ProfilesAction extends ActionSupport {
             logger.error(MessageCatalog._00011_SQL_EXCEPTION, e);
             return ERROR;
         }
-        schemes = new Methods().getSchemesDb();
-        characterSets = new Methods().getCharacterSetsDb();
-        formats = new Methods().getFormatsDb();
-        profileTypes = new Methods().getProfileTypesDb();
-        types = new Methods().getTypesDb();
+        Methods m = new Methods();
+        m.setLang(getLocale().getISO3Language());
+        schemes = m.getSchemesDb();
+        characterSets = m.getCharacterSetsDb();
+        formats = m.getFormatsDb();
+        profileTypes = m.getProfileTypesDb();
+        types = m.getTypesDb();
         return SUCCESS;
     }
     
     /** The method to see the profile selected.
      * @return String */
     public String getTheProfile() {
+    	
         Connection connection = null;
         try {
             connection = new DBConnectionManager().getConnection();
             Statement statement = connection.createStatement();
+            
             ResultSet rs = statement.executeQuery("select p.profile_name,p.profile_description,t.profile_name,m.metadata_name,f.file_type_name,"
-                    		+ "fo.file_format_name,c.character_set_name from aliada.profile p INNER JOIN aliada.t_profile_type t ON p.profile_type_code=t.profile_code "
-                    		+ "INNER JOIN aliada.t_metadata_scheme m ON p.metadata_scheme_code=m.metadata_code "
-                    		+ "INNER JOIN aliada.t_file_type f ON p.file_type_code=f.file_type_code "
-                    		+ "INNER JOIN aliada.t_file_format fo ON fo.file_format_code=p.file_format_code INNER JOIN aliada.t_character_set c "
-                    		+ "ON c.character_set_code=p.character_set_code where p.profile_name='" + this.selectedProfile + "'");
+            		+ "fo.file_format_name,c.character_set_name from aliada.profile p INNER JOIN aliada.t_profile_type t ON p.profile_type_code=t.profile_code "
+            		+ "INNER JOIN aliada.t_metadata_scheme m ON p.metadata_scheme_code=m.metadata_code "
+            		+ "INNER JOIN aliada.t_file_type f ON p.file_type_code=f.file_type_code "
+            		+ "INNER JOIN aliada.t_file_format fo ON fo.file_format_code=p.file_format_code INNER JOIN aliada.t_character_set c "
+            		+ "ON c.character_set_code=p.character_set_code where p.profile_name='" + this.selectedProfile 
+            		+ "' AND t.language = '" + getLocale().getISO3Language() + "' AND m.language = '" + getLocale().getISO3Language() + "' "
+            		+ "AND f.language = '" + getLocale().getISO3Language() + "' AND fo.language = '" + getLocale().getISO3Language() + "' "
+            		+ "AND c.language = '" + getLocale().getISO3Language() + "'");
+            
             if (rs.next()) {
                 this.nameForm = rs.getString("p.profile_name");
                 this.descriptionForm = rs.getString("p.profile_description");
@@ -117,6 +130,9 @@ public class ProfilesAction extends ActionSupport {
                 rs.close();
                 connection.close();
                 showProfiles();
+                
+                ServletActionContext.getRequest().getSession().setAttribute("action", defaults.getString("lang.default"));
+                
                 setShowTheProfile(true);
                 return SUCCESS;
             } else {
@@ -136,6 +152,7 @@ public class ProfilesAction extends ActionSupport {
     /** The method to add a new profile.
      * @return String */
     public String addProfile() {	
+    	
         Connection connection = null;
         try {
             connection = new DBConnectionManager().getConnection();
@@ -166,7 +183,11 @@ public class ProfilesAction extends ActionSupport {
     /** The method to show the profile form empty.
      * @return String */
     public String showAddProfile() {	
+    	
     	showProfiles();
+    	
+    	ServletActionContext.getRequest().getSession().setAttribute("action", defaults.getString("lang.default"));
+    	
         setShowAddProfileForm(true);
         return SUCCESS;
     }
@@ -221,6 +242,9 @@ public class ProfilesAction extends ActionSupport {
 		                rs.close();
 		                connection.close();
 		                showProfiles();
+		                
+		                ServletActionContext.getRequest().getSession().setAttribute("action", defaults.getString("lang.default"));
+		                
 		                setShowEditProfileForm(true);
 		                return SUCCESS;
 		            } else {

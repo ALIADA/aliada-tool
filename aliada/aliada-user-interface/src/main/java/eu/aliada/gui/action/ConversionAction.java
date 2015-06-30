@@ -66,6 +66,9 @@ public class ConversionAction extends ActionSupport {
      * @since 1.0
      */
     public String execute() {
+    	
+    	ServletActionContext.getRequest().getSession().setAttribute("action", defaults.getString("lang.conversion"));
+    	
     	title = getText("dialog.publish.title");
     	//STATUS IDLE
         String rdfizerStatus = defaults.getString("status.idle");
@@ -92,6 +95,9 @@ public class ConversionAction extends ActionSupport {
      * @since 1.0
      */
     public String rdfize() {
+    	
+    	ServletActionContext.getRequest().getSession().setAttribute("action", defaults.getString("lang.default"));
+    	
         HttpSession session = ServletActionContext.getRequest().getSession();
         if (session.getAttribute("importedFile") != null) {
             setImportedFile((FileWork) session.getAttribute("importedFile"));
@@ -108,23 +114,18 @@ public class ConversionAction extends ActionSupport {
                 ResultSet rs = statement.executeQuery("SELECT d.domain_name, d.uri_id_part, d.uri_concept_part, s.uri_concept_part "
                 		+ "FROM aliada.dataset d INNER JOIN aliada.subset s ON d.datasetId=s.datasetId WHERE s.graph_uri='" + importedFile.getGraph() + "';");
                 if (rs.next()) {
-                	// The field namespace
-                	String domain_name = rs.getNString(1);
-                	String uri_id_part = rs.getNString(2);
-                	String d_uri_concept_part = rs.getNString(3);
-                	String s_uri_concept_part = rs.getNString(4);
-      
-                	if (!domain_name.isEmpty()) {
-                	namespace = namespace.concat(domain_name + "/");
+                	// The field namespace      
+                	if (!rs.getNString(1).isEmpty()) {
+                	namespace = namespace.concat(rs.getNString(1) + "/");
                 	}
-                	if (!uri_id_part.isEmpty()) {
-                	namespace = namespace.concat(uri_id_part + "/");
+                	if (!rs.getNString(2).isEmpty()) {
+                	namespace = namespace.concat(rs.getNString(2) + "/");
                 	}
-                	if (!d_uri_concept_part.isEmpty()) {
-                	namespace = namespace.concat(d_uri_concept_part + "/");
+                	if (!rs.getNString(3).isEmpty()) {
+                	namespace = namespace.concat(rs.getNString(3) + "/");
                 	}
-                	if (!s_uri_concept_part.isEmpty()) {
-                	namespace = namespace.concat(s_uri_concept_part);
+                	if (!rs.getNString(4).isEmpty()) {
+                	namespace = namespace.concat(rs.getNString(4));
                 	}
 
                 }
@@ -306,9 +307,11 @@ public class ConversionAction extends ActionSupport {
         String format = null;
         connection = new DBConnectionManager().getConnection();
         Statement statement = connection.createStatement();
+        
         ResultSet rs = statement
                 .executeQuery("select metadata_name from aliada.t_metadata_scheme JOIN aliada.profile ON t_metadata_scheme.metadata_code=profile.metadata_scheme_code "
-                		+ "WHERE profile.profile_name= '" + profile + "'");
+                		+ "WHERE profile.profile_name= '" + profile + "' AND language='" + getLocale().getISO3Language() + "'");
+        
         if (rs.next()) {
             format = rs.getString(1);
         }

@@ -28,9 +28,9 @@ public class LocaleAction extends ActionSupport {
 	 * @return Returns the result of the execution.
 	 */
 	public String execute() {
-		logger.info(MessageCatalog._00007_CHANGE_LOCALE
+		logger.info(MessageCatalog._00007_CHANGE_LOCALE 
 				+ ServletActionContext.getRequest().getSession()
-						.getAttribute("WW_TRANS_I18N_LOCALE"));
+				.getAttribute("WW_TRANS_I18N_LOCALE"));
 		return SUCCESS;
 	}
 }

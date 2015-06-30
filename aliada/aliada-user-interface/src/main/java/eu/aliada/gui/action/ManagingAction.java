@@ -56,11 +56,6 @@ public class ManagingAction extends ActionSupport {
 	private String profileSelected;
 	
 	private ResourceBundle defaults = ResourceBundle.getBundle("defaultValues", getLocale());
- 
-	 // Local server
-//    private static final String VISUALIZE_PATH = "src/main/resources/xmlVisualize/";
-//    private static final String VALIDATOR_PATH = "src/main/resources/xmlValidators/";
-//    private static final String ERROR_CONTENT_PATH = "src/main/webapp/content/errorContent.jsp";
    
      // Server
 	private final String VISUALIZE_PATH = defaults.getString("visualize_path");
@@ -75,7 +70,7 @@ public class ManagingAction extends ActionSupport {
      * @since 1.0
      */
     public String execute() {
-        // getProfilesDb();
+        getProfilesDb();
         return SUCCESS;
     }
 	/**
@@ -115,15 +110,19 @@ public class ManagingAction extends ActionSupport {
 				int validationType = rs.getInt(1);
 				int fileType = rs.getInt(2);
 				statement = connection.createStatement();
+				
 				rs = statement
 						.executeQuery("select metadata_conversion_file from aliada.t_metadata_scheme where metadata_code='"
-								+ validationType + "'");
+								+ validationType + "' AND language='" + getLocale().getISO3Language() + "'");
+				
 				rs.next();
 				String validatorPath = rs.getString(1);
 				statement = connection.createStatement();
+	
 				rs = statement
 						.executeQuery("select file_type_conversion_file from aliada.t_file_type where file_type_code='"
-								+ fileType + "'");
+								+ fileType + "' AND language='" + getLocale().getISO3Language() + "'");
+				
 				rs.next();
 				String visualizeTypePath = rs.getString(1);
 				rs.close();
@@ -329,6 +328,8 @@ public class ManagingAction extends ActionSupport {
 	 * @since 1.0
 	 */
 	public String getProfilesDb() {
+		
+		ServletActionContext.getRequest().getSession().setAttribute("action", defaults.getString("lang.manage"));
 		
 	    getFiles();
 		Connection connection = null;

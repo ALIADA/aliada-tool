@@ -13,6 +13,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 
 import javax.servlet.http.HttpSession;
 
@@ -46,6 +47,7 @@ public class TasksAction extends ActionSupport{
     private String statusForm;
 
 	private final Log logger = new Log(TasksAction.class);
+	private ResourceBundle defaults = ResourceBundle.getBundle("defaultValues", getLocale());
     
     /**
      * Gets the pendingFiles from the DB.
@@ -54,6 +56,8 @@ public class TasksAction extends ActionSupport{
      * @since 1.0
      */
     public String getPendingFilesDb() {
+    	
+    	ServletActionContext.getRequest().getSession().setAttribute("action", defaults.getString("lang.pendingFiles"));
     		
 		String usernameLogged = (String) ServletActionContext.getRequest().getSession().getAttribute("logedUser");
         try {

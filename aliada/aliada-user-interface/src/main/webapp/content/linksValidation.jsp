@@ -31,7 +31,7 @@
 		function changeLocaleDataTable(){
 			var loc = $("#loc").val();
 			//console.log(loc);
-			if (loc == "es_ES" || loc == "es") {
+			if (loc == "spa") {
 			    $("#links").dataTable( {
 			    	"iDisplayLength": 100,
 			    	"aLengthMenu": [[100, 250, 500], [100, 250, 500]],
@@ -46,7 +46,7 @@
 			            "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
 			        }
 			    } );
-			} else if (loc == "ita_ITA" || loc == "ita") {
+			} else if (loc == "ita") {
 				$("#links").dataTable( {
 					"iDisplayLength": 100,
 			    	"aLengthMenu": [[100, 250, 500], [100, 250, 500]],
@@ -61,7 +61,7 @@
 			            "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Italian.json"
 			        }
 			    } );
-			} else if (loc == "hu_HU" ||loc == "hu") {
+			} else if (loc == "hun") {
 				$("#links").dataTable( {
 					"iDisplayLength": 100,
 			    	"aLengthMenu": [[100, 250, 500], [100, 250, 500]],
@@ -76,7 +76,7 @@
 			            "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Hungarian.json"
 			        }
 			    } );
-			} else if (loc == "en_EN" ||loc == "en") {
+			} else if (loc == "eng") {
 				$("#links").dataTable( {
 					"iDisplayLength": 100,
 			    	"aLengthMenu": [[100, 250, 500], [100, 250, 500]],
@@ -146,7 +146,7 @@
 
 <body class="whitebackground">
 
-	<html:hidden id="loc" name="loc" value="%{getLocale().toString()}" />
+	<html:hidden id="loc" name="loc" value="%{getLocale().getISO3Language()}" />
 	<html:hidden id="li" name="li" value="%{li}" />
 	<html:hidden id="amb" name="amb" value="%{amb}" />
 

@@ -18,6 +18,13 @@ function confirmBox(){
 return false;
 }
 
+$(function(){
+	var type = $("#userType").val();
+	if(type == 1) {
+		$(".type").show();
+	}
+});
+
 </script>
 
 	<div id="institutionPage">
@@ -38,9 +45,11 @@ return false;
 											cssClass="inputPage disabled" readonly="true"/>
 					</div>	
 					
-					<div class="row label">				
-						<html:file theme="xhtml" cssClass="inputPage" key="organisationLogo" />
-					</div>		
+					<div class="type displayNo">
+						<div class="row label">				
+							<html:file theme="xhtml" cssClass="inputPage" key="organisationLogo" />
+						</div>
+					</div>	
 					
 					<div class="row label">
 						<html:textfield theme="xhtml" key="organisationCatalogUrl"
@@ -54,7 +63,7 @@ return false;
 				
 				<div class="buttons">
 					<html:form>
-			    		<html:submit cssClass="submitButton buttonGreen" key="save" onclick="return confirmBox();"></html:submit>
+			    		<html:submit cssClass="submitButton buttonGreen type displayNo" key="save" onclick="return confirmBox();"></html:submit>
 			    		<html:a action="manage" cssClass="fleft"><img alt="help" src="images/back.png"></img></html:a>
 					</html:form>
 				</div>	

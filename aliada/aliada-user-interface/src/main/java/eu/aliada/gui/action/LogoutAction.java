@@ -7,7 +7,6 @@
 package eu.aliada.gui.action;
 
 import org.apache.struts2.ServletActionContext;
-
 import com.opensymphony.xwork2.ActionSupport;
 
 import eu.aliada.gui.log.MessageCatalog;

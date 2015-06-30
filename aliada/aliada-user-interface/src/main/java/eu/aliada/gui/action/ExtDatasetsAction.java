@@ -13,6 +13,9 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.ResourceBundle;
+
+import org.apache.struts2.ServletActionContext;
 
 import com.opensymphony.xwork2.ActionSupport;
 
@@ -35,15 +38,21 @@ public class ExtDatasetsAction extends ActionSupport {
 	private List<String> val;
 	
 	private final Log logger = new Log(ExtDatasetsAction.class);
+	private ResourceBundle defaults = ResourceBundle.getBundle("defaultValues", getLocale());
 	
 	/** Show the external datasets selected in the UI.
      * @return String */
 	public String showExtDatasets() {
+		
+		ServletActionContext.getRequest().getSession().setAttribute("action", defaults.getString("lang.showExtDatasets"));
+		
     	selectedExternalDatasets = new ArrayList<>();
         try {
         	Connection connection = new DBConnectionManager().getConnection();
 			Statement statement = connection.createStatement();
-			ResultSet rs = statement.executeQuery("select * from aliada.t_external_dataset");
+			
+			ResultSet rs = statement.executeQuery("select * from aliada.t_external_dataset where language = '" + getLocale().getISO3Language() + "'");
+			
 	        externalDatasets = new HashMap<Integer, String>();
 	        while (rs.next()) {
 	            externalDatasets.put(rs.getInt("external_dataset_code"), rs.getString("external_dataset_name"));
@@ -62,7 +71,9 @@ public class ExtDatasetsAction extends ActionSupport {
     /** Reload the external datasets selected in the UI.
      * @return String */
     public String reloadExternalDatasets() {
-    	new Methods().cleanReloadDataset();
+    	Methods m = new Methods();
+    	m.setLang(getLocale().getISO3Language());
+    	m.cleanReloadDataset();
     	Connection connection = null;
     		if (val != null) {
     			for (int i = 0; i < val.size(); i++) {

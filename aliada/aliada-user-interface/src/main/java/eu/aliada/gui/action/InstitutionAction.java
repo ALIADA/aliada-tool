@@ -14,6 +14,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ResourceBundle;
 
 import org.apache.struts2.ServletActionContext;
 
@@ -38,11 +39,16 @@ public class InstitutionAction extends ActionSupport {
     private String organisationCatalogUrl; 
     
     private final Log logger = new Log(InstitutionAction.class);
+    private ResourceBundle defaults = ResourceBundle.getBundle("defaultValues", getLocale());
     
     /** Show the institution.
      * @return String */
     public String showInstitution() {
+    	
+    	ServletActionContext.getRequest().getSession().setAttribute("action", defaults.getString("lang.showInstitution"));
+    	
     	String userName = (String) ServletActionContext.getRequest().getSession().getAttribute("logedUser");
+    	
         try {
             Connection connection = new DBConnectionManager().getConnection();
             Statement statement = connection.createStatement();
@@ -65,6 +71,9 @@ public class InstitutionAction extends ActionSupport {
 	/** Edit the institution.
      * @return String */
     public String editInstitution() {
+    	
+    	ServletActionContext.getRequest().getSession().setAttribute("action", defaults.getString("lang.default"));
+    	
     	String user = (String) ServletActionContext.getRequest().getSession().getAttribute("logedUser");
         Connection connection;
         FileInputStream fis = null;

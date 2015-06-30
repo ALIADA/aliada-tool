@@ -93,6 +93,8 @@ public class DatasetsAction  extends ActionSupport{
      */
     public String showDatasets() {
     	
+    	ServletActionContext.getRequest().getSession().setAttribute("action", defaults.getString("lang.showDatasets"));
+    	
     	title = getText("dialog.title");
     	message1 = getText("dataset.message1");
     	message2 = getText("dataset.message2");
@@ -179,6 +181,9 @@ public class DatasetsAction  extends ActionSupport{
                 connection.close();
                 session.setAttribute("DatasetId", this.datasetIdForm);
                 showDatasets();
+                
+            	ServletActionContext.getRequest().getSession().setAttribute("action", defaults.getString("lang.default"));
+                
                 setShowTheDataset(true);
                 return SUCCESS;
             } else {
@@ -235,6 +240,9 @@ public class DatasetsAction  extends ActionSupport{
 	                connection.close();
 	                session.setAttribute("DatasetId", datasetId);
 	                showDatasets();
+	                
+	            	ServletActionContext.getRequest().getSession().setAttribute("action", defaults.getString("lang.default"));
+	                
 	                this.showEditDatasetForm = true;
 	                return SUCCESS;
 	            } else {
@@ -251,13 +259,13 @@ public class DatasetsAction  extends ActionSupport{
 	            return ERROR;
 	        }
         } else if (getActionErrors().size() > 0) {
-        	int DatId = (int) session.getAttribute("DatasetId");
+        	int datId = (int) session.getAttribute("DatasetId");
         	Connection connection = null;
         	try {
         		connection = new DBConnectionManager().getConnection();
 	            Statement statement = connection.createStatement();
 	            ResultSet rs = statement
-	                    .executeQuery("select * from aliada.dataset where datasetId='" + DatId + "'");
+	                    .executeQuery("select * from aliada.dataset where datasetId='" + datId + "'");
 	            if (rs.next()) {
 	                this.datasetDescForm = rs.getString("dataset_desc");
 	                this.domainNameForm = rs.getString("domain_name");
@@ -286,6 +294,9 @@ public class DatasetsAction  extends ActionSupport{
  	            return ERROR;
  	        }
             showDatasets();
+            
+        	ServletActionContext.getRequest().getSession().setAttribute("action", defaults.getString("lang.default"));
+            
             setShowEditDatasetForm(true);
         	return SUCCESS;
         } else {
@@ -415,8 +426,8 @@ public class DatasetsAction  extends ActionSupport{
             }
             
             if (!this.domainNameForm.equalsIgnoreCase(dn)) {
-            	String sparqlEndpUri = "http://" + this.domainNameForm + "/sparql-auth";
-            	String publicSparqlEndpUri = "http://" + this.domainNameForm + "/sparql";
+            	String sparqlEndpUri = defaults.getString("web") + this.domainNameForm + defaults.getString("sparqlAuth");
+            	String publicSparqlEndpUri = defaults.getString("web") + this.domainNameForm + defaults.getString("sparql");
             	statement = connection.createStatement();
             	statement.executeUpdate("UPDATE aliada.dataset set sparql_endpoint_uri='"
                     + sparqlEndpUri + "', public_sparql_endpoint_uri='"
@@ -730,6 +741,9 @@ public class DatasetsAction  extends ActionSupport{
     	setIsqlCommandsFileDatasetForm(isqlCommFileDataset);
     	
         showDatasets();
+        
+    	ServletActionContext.getRequest().getSession().setAttribute("action", defaults.getString("lang.default"));
+        
         setShowAddDatasetForm(true);
         return SUCCESS;
     }

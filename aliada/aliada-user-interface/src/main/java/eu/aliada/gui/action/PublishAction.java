@@ -95,6 +95,8 @@ public class PublishAction extends ActionSupport {
      * @since 1.0
      */
     public String publish() {
+    	
+    	ServletActionContext.getRequest().getSession().setAttribute("action", defaults.getString("lang.default"));
 
         int addedId = 0;
     	HttpSession session = ServletActionContext.getRequest().getSession();
@@ -122,9 +124,10 @@ public class PublishAction extends ActionSupport {
                             .prepareStatement(
                                     "INSERT INTO aliada.ckancreation_job_instances (ckan_api_url, ckan_api_key, tmp_dir, store_ip,"
                                     + " store_sql_port, sql_login, sql_password, isql_command_path, virtuoso_http_server_root,"
-                                    + " aliada_ontology, org_name, org_description, org_home_page, datasetId, job_id, organisationId, isql_commands_file_graph_dump) "
-                                    + "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+                                    + " aliada_ontology, org_name, org_description, org_home_page, datasetId, organisationId, isql_commands_file_graph_dump) "
+                                    + "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
                                     PreparedStatement.RETURN_GENERATED_KEYS);
+                    
                     preparedStatement.setString(1, rs.getString("ckan_api_url"));
                     preparedStatement.setString(2, rs.getString("ckan_api_key"));
                     preparedStatement.setString(3, rs.getString("tmp_dir"));
@@ -139,9 +142,8 @@ public class PublishAction extends ActionSupport {
                     preparedStatement.setString(12, rs.getString("org_description"));
                     preparedStatement.setString(13, rs.getString("org_home_page"));
                     preparedStatement.setInt(14, rs.getInt("datasetId"));
-                    preparedStatement.setInt(15, rs.getInt("job_id"));
-                    preparedStatement.setInt(16, rs.getInt("organisationId"));
-                    preparedStatement.setString(17, rs.getString("isql_commands_file_graph_dump"));
+                    preparedStatement.setInt(15, rs.getInt("organisationId"));
+                    preparedStatement.setString(16, rs.getString("isql_commands_file_graph_dump"));
                     preparedStatement.executeUpdate();
                     ResultSet rs2 = preparedStatement.getGeneratedKeys();
                     if (rs2.next()) {

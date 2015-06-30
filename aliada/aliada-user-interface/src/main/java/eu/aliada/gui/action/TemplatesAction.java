@@ -57,6 +57,9 @@ public class TemplatesAction extends ActionSupport{
     /** Gets the available templates from the DB.
      * @return String */ 
     public String getTemplatesDb() {
+    	
+    	ServletActionContext.getRequest().getSession().setAttribute("action", defaults.getString("lang.showTemplates"));
+    	
         Connection connection = null;
         try {
             connection = new DBConnectionManager().getConnection();
@@ -78,19 +81,27 @@ public class TemplatesAction extends ActionSupport{
             logger.error(MessageCatalog._00011_SQL_EXCEPTION, e);
             return ERROR;
         }
-        types = new Methods().getTypesDb();
+        Methods m = new Methods();
+        m.setLang(getLocale().getISO3Language());
+        types = m.getTypesDb();
         return SUCCESS;
     }    
     /** Displays the selected template.
      * @return String */
     public String getTheTemplate() {
+    	
+    	Methods m = new Methods();
+        m.setLang(getLocale().getISO3Language());
+    	
         Connection connection = null;
         try {
             connection = new DBConnectionManager().getConnection();
             Statement statement = connection.createStatement();
+            
             ResultSet rs = statement.executeQuery("select t.template_id,t.template_name,t.template_description,f.file_type_name "
-                    		+ "from aliada.template t INNER JOIN aliada.t_file_type f ON t.file_type_code=f.file_type_code "
-                    		+ "where t.template_name='" + this.selectedTemplate + "'");
+            		+ "from aliada.template t INNER JOIN aliada.t_file_type f ON t.file_type_code=f.file_type_code "
+            		+ "where t.template_name='" + this.selectedTemplate + "' AND f.language='" + getLocale().getISO3Language() + "'");
+
             if (rs.next()) {
                 int idTemplate = rs.getInt("t.template_id");
                 this.templateName = rs.getString("t.template_name");
@@ -100,7 +111,10 @@ public class TemplatesAction extends ActionSupport{
                 rs.close();
                 connection.close();
                 getTemplatesDb();
-                tags = new Methods().getTagsDb(idTemplate);
+                
+                ServletActionContext.getRequest().getSession().setAttribute("action", defaults.getString("lang.default"));
+                
+                tags = m.getTagsDb(idTemplate);
                 setShowTheTemplate(true);
                 ServletActionContext.getRequest().getSession().setAttribute("selectedTemplateId", idTemplate);
                 return SUCCESS;
@@ -110,7 +124,7 @@ public class TemplatesAction extends ActionSupport{
                 rs.close();
                 connection.close();
                 getTemplatesDb();
-                tags = new Methods().getTagsDb(NOTEMPLATESELECTED);
+                tags = m.getTagsDb(NOTEMPLATESELECTED);
                 return ERROR;
             }
         } catch (SQLException e) {
@@ -160,7 +174,12 @@ public class TemplatesAction extends ActionSupport{
      * @return String */
     public String showAddTemplate() {
         getTemplatesDb();
-        tags = new Methods().getTagsDb(NOTEMPLATESELECTED);
+        
+        ServletActionContext.getRequest().getSession().setAttribute("action", defaults.getString("lang.default"));
+        
+        Methods m = new Methods();
+        m.setLang(getLocale().getISO3Language());
+        tags = m.getTagsDb(NOTEMPLATESELECTED);
         setShowAddTemplateForm(true);
         return SUCCESS;
     }
@@ -200,6 +219,9 @@ public class TemplatesAction extends ActionSupport{
     /** Displays the form to edit the template.
      * @return String */
     public String showEditTemplate() {	
+    	Methods m = new Methods();
+        m.setLang(getLocale().getISO3Language());
+        
     	if (this.selectedTemplate != null) {
 	    	if (getSelectedTemplate().equalsIgnoreCase(defaults.getString("template.bib")) 
 	    	|| getSelectedTemplate().equalsIgnoreCase(defaults.getString("template.aut")) 
@@ -207,7 +229,8 @@ public class TemplatesAction extends ActionSupport{
 	    	|| getSelectedTemplate().equalsIgnoreCase(defaults.getString("template.dc"))) {
 			       	addActionError(getText("err.not.allow.edit"));
 			        getTemplatesDb();
-			        tags = new Methods().getTagsDb(NOTEMPLATESELECTED);
+			        
+			        tags = m.getTagsDb(NOTEMPLATESELECTED);
 		            return ERROR;          	
 	        } else {
 		        Connection connection = null;
@@ -223,8 +246,11 @@ public class TemplatesAction extends ActionSupport{
 		                statement.close();
 		                rs.close();
 		                connection.close();
-		                tags = new Methods().getTagsDb(idTemplate);
+		                tags = m.getTagsDb(idTemplate);
 		                getTemplatesDb();
+		                
+		                ServletActionContext.getRequest().getSession().setAttribute("action", defaults.getString("lang.default"));
+		                
 		                setShowEditTemplateForm(true);
 		                ServletActionContext.getRequest().getSession().setAttribute("selectedTemplateId", idTemplate);
 		                return SUCCESS;
@@ -234,7 +260,7 @@ public class TemplatesAction extends ActionSupport{
 		                rs.close();
 		                connection.close();
 		                getTemplatesDb();
-		                tags = new Methods().getTagsDb(NOTEMPLATESELECTED);
+		                tags = m.getTagsDb(NOTEMPLATESELECTED);
 		                return ERROR;
 		            }
 		        } catch (SQLException e) {

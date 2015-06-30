@@ -5,7 +5,32 @@
 <link type="text/css" rel="stylesheet" href="<html:url value="css/linking.css" />" />
 
 <script>
+
+function seconds2time (seconds) {
+    var hours   = Math.floor(seconds / 3600);
+    var minutes = Math.floor((seconds - (hours * 3600)) / 60);
+    var seconds = seconds - (hours * 3600) - (minutes * 60);
+    var time = "";
+    var sec = $("#sec").val();
+
+    if (hours != 0) {
+      time = hours+":";
+    }
+    if (minutes != 0 || time !== "") {
+      minutes = (minutes < 10 && time !== "") ? "0"+minutes : String(minutes);
+      time += minutes+":";
+    }
+    if (time === "") {
+      time = seconds + " " +sec;
+    }
+    else {
+      time += (seconds < 10) ? "0"+seconds : String(seconds);
+    }
+    return time;
+}
+
 $(function(){
+	 var type = $("#userType").val();
 	 var intervalLinking = 0;
 	 var intervalLDS = 0;
 	 var finishedLink = false;
@@ -15,7 +40,6 @@ $(function(){
 	 var checkLinking = function(){
 			console.log("checking Linking");
 			var linkingJobId = $("#linkingJobId").val();
-			var sec = $("#sec").val();
 			var urlPath = "/aliada-links-discovery-2.0/jobs/"+linkingJobId;
 			var arrName = [];
 			var arrDuration = [];
@@ -51,7 +75,7 @@ $(function(){
 				   			if (arrStatus[x]=="running") {
 				   					d = d + "<li>" + arrName[x] + ': ' + arrNumLinks[x] + ' <img src="images/loaderMini.gif"/> </li>';
 				   			} else if (arrStatus[x]=="finished") {
-				   					d = d + "<li>" + arrName[x] + ': ' + arrNumLinks[x] + " <img src='images/fine.png'/><ul style='list-style-type: disc'><li>" + arrDuration[x] + ' ' + sec + ' </li></ul></li>';
+				   					d = d + "<li>" + arrName[x] + ': ' + arrNumLinks[x] + " (" + seconds2time(arrDuration[x]) + ") <img src='images/fine.png'/></li>";
 				   			} else {
 				   					d = d + "<li>" + arrName[x] + ': ' + arrNumLinks[x] + ' <img src="images/clock.png"/> </li>';
 				   			}
@@ -69,11 +93,15 @@ $(function(){
 				       $("#numLinks").removeClass("displayNo");
 			    	   $("#numLinks").addClass("displayInline");
 				       if(finishedCreat){
-				    	   $("#publishButton").show();
+				    	   if(type == 1) {
+				    	   	$("#publishButton").show();
+				    	   }
 				    	   $("#linkingNextButton").show();
 				    	   $("#pag").show();
 				    	   $("#rdfVal").show();
-				    	   $("#linksVal").show();
+				    	   if(type == 1) {
+				    	   	$("#linksVal").show();
+				    	   }
 				       }
 				       finishedLink = true;
 			   	   }
@@ -106,11 +134,15 @@ $(function(){
 				       $("#progressBarLDS").hide();
 				       $("#fineLDSImg").show();
 				       if(finishedLink){
-				    	   $("#publishButton").show();
+				    	   if(type == 1) {
+				    	   	$("#publishButton").show();
+				    	   }
 				    	   $("#linkingNextButton").show();
 				    	   $("#pag").show();
 				    	   $("#rdfVal").show();
-				    	   $("#linksVal").show();
+				    	   if(type == 1) {
+				    	   	$("#linksVal").show();
+				    	   }
 				       }
 				       finishedCreat = true;
 			   	   }
@@ -185,7 +217,7 @@ $(function(){
 	    }
 	});
 	
-	$("#sorteable :checkbox").on("change",function(){
+	/*$("#sorteable :checkbox").on("change",function(){
 		var checked = $("#sorteable input:checked").length > 0;
 		console.log(checked);
 	    if (checked){
@@ -197,7 +229,7 @@ $(function(){
 			$("#startLinkingButtonCheck").addClass("button");
 			$("#startLinkingButtonCheck").prop( "disabled", true);
 	    }
-	});
+	});*/
 });
 </script>
 		
@@ -247,7 +279,7 @@ $(function(){
 	</div>
 	
 	<div class="buttons row">
-			<html:submit id="startLinkingButtonCheck" action="startLinking" disabled="true" cssClass="fright submitButton button" key="linkSubmit"/>
+			<html:submit id="startLinkingButtonCheck" action="startLinking" cssClass="fright submitButton buttonGreen" key="linkSubmit"/>
 	</div>
 	</html:form>
 	
@@ -319,9 +351,7 @@ $(function(){
 					<img id="fineLDSImg" class="centerImage" src="images/fine.png" alt="progress"/>
 				</div>
 				<div class="buttons row">
-					<div id="pag" class="displayNo">
-						<a href="<html:property value="datasetUrl" />" target="_blank"><img alt="dataset" src="images/dataset.png"></img></a>
-					</div>
+					<html:a id="pag" href="%{datasetUrl}" cssClass="displayNo menuButton button pad10" key="datWeb" target="_blank"><html:text name="datWeb"/></html:a>
 				</div>
 				<div class="buttons row">
 					<html:a id="rdfVal" action="getAuthors" cssClass="displayNo menuButton button pad10" key="rdfVal" target="_blank"><html:text name="rdfVal"/></html:a>

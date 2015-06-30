@@ -29,6 +29,11 @@ return false;
 }
 
 $(function(){
+	var type = $("#userType").val();
+	if(type == 1) {
+		$(".type").show();
+	}
+	
 	var areTemplates = $("#areTemplates").val();	
 	var showTheTemplate = $("#showTheTemplate").val();
 	var showAddTemplateForm = $("#showAddTemplateForm").val();	
@@ -94,12 +99,12 @@ $(function(){
 				<div id="areTemplatesButtons" class="buttons">
 					<html:a action="manage" cssClass="fleft"><img alt="help" src="images/back.png"></img></html:a>
 					<html:submit action="showAddTemplateForm"
-							cssClass="submitButton button" key="add" />
+							cssClass="submitButton button type displayNo" key="add" />
 					<html:submit id="seeButton" disabled="true" action="showTheTemplate" cssClass="submitButton button"
 							key="see" />	
-					<html:submit id="editButton" disabled="true" action="showEditTemplateForm" cssClass="submitButton button"
+					<html:submit id="editButton" disabled="true" action="showEditTemplateForm" cssClass="submitButton button type displayNo"
 							key="edit" />
-					<html:submit id="deleteButton" disabled="true" cssClass="submitButton button"
+					<html:submit id="deleteButton" disabled="true" cssClass="submitButton button type displayNo"
 							key="delete" onclick="return confirmBox();"/>
 				</div>
 			</html:form>

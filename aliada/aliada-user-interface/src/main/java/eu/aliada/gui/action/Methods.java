@@ -26,6 +26,8 @@ import eu.aliada.shared.log.Log;
  */
 public class Methods {
 	
+	private String lang;
+	
 	private final Log logger = new Log(Methods.class);
 	
 	/**
@@ -40,8 +42,10 @@ public class Methods {
             connection = new DBConnectionManager().getConnection();
             Statement statement = connection.createStatement();
         	Statement updateStatement = connection.createStatement();
-            ResultSet rs = statement
-                    .executeQuery("select * from aliada.t_external_dataset");
+        	
+        	ResultSet rs = statement
+                    .executeQuery("select * from aliada.t_external_dataset where language='" + getLang() + "'");
+        	
             while (rs.next()) {
             	datasetName = rs.getString("external_dataset_name"); 
                 updateStatement.executeUpdate("UPDATE aliada.t_external_dataset set external_dataset_linkingreloadtarget='0' "
@@ -68,8 +72,10 @@ public class Methods {
         try {
             connection = new DBConnectionManager().getConnection();
             Statement statement = connection.createStatement();
+            
             ResultSet rs = statement
-                    .executeQuery("select * from aliada.t_metadata_scheme");
+                    .executeQuery("select * from aliada.t_metadata_scheme where language='" + getLang() + "'");
+            
             schemes = new HashMap<Integer, String>();
             while (rs.next()) {
                 schemes.put(rs.getInt("metadata_code"),
@@ -95,8 +101,10 @@ public class Methods {
         try {
             connection = new DBConnectionManager().getConnection();
             Statement statement = connection.createStatement();
+            
             ResultSet rs = statement
-                    .executeQuery("select * from aliada.t_profile_type");
+                    .executeQuery("select * from aliada.t_profile_type where language='" + getLang() + "'");
+
             profileTypes = new HashMap<Integer, String>();
             while (rs.next()) {
                 profileTypes.put(rs.getInt("profile_code"),
@@ -122,8 +130,10 @@ public class Methods {
         try {
             connection = new DBConnectionManager().getConnection();
             Statement statement = connection.createStatement();
+            
             ResultSet rs = statement
-                    .executeQuery("select * from aliada.t_file_format");
+                    .executeQuery("select * from aliada.t_file_format where language='" + getLang() + "'");
+            
             formats = new HashMap<Integer, String>();
             while (rs.next()) {
                 formats.put(rs.getInt("file_format_code"),
@@ -149,8 +159,10 @@ public class Methods {
         try {
             connection = new DBConnectionManager().getConnection();
             Statement statement = connection.createStatement();
+            
             ResultSet rs = statement
-                    .executeQuery("select * from aliada.t_character_set");
+                    .executeQuery("select * from aliada.t_character_set where language='" + getLang() + "'");
+
             characterSets = new HashMap<Integer, String>();
             while (rs.next()) {
                 characterSets.put(rs.getInt("character_set_code"),
@@ -176,8 +188,10 @@ public class Methods {
         try {
             connection = new DBConnectionManager().getConnection();
             Statement statement = connection.createStatement();
+            
             ResultSet rs = statement
-                    .executeQuery("select * from aliada.t_file_type");
+                    .executeQuery("select * from aliada.t_file_type where language='" + getLang() + "'");
+
             types = new HashMap<Integer, String>();
             while (rs.next()) {
                 types.put(rs.getInt("file_type_code"),
@@ -257,7 +271,9 @@ public class Methods {
         try {
             connection = new DBConnectionManager().getConnection();
         	Statement statement = connection.createStatement();
-            ResultSet rs = statement.executeQuery("select * from aliada.t_user_type");
+        	
+        	ResultSet rs = statement.executeQuery("select * from aliada.t_user_type where language='" + getLang() + "'");
+        	
             while (rs.next()) {
                 int code = rs.getInt("user_type_code");
                 String name = rs.getString("user_type");
@@ -283,8 +299,11 @@ public class Methods {
         try {
             connection = new DBConnectionManager().getConnection();
         	Statement statement = connection.createStatement();
-            ResultSet rs = statement
-                    .executeQuery("select user_role from aliada.t_user_role where user_role_code='" + code + "'");
+        	
+        	ResultSet rs = statement
+                    .executeQuery("select user_role from aliada.t_user_role where user_role_code='" + code 
+                    		+ "' AND language='" + getLang() + "'");
+
             if (rs.next()) {
                 String userRole = rs.getString("user_role");
                 connection.close();
@@ -331,8 +350,11 @@ public class Methods {
         try {
             connection = new DBConnectionManager().getConnection();
             Statement statement = connection.createStatement();
+            
             ResultSet rs = statement
-                    .executeQuery("select user_type from aliada.t_user_type where user_type_code='" + code + "'");
+                    .executeQuery("select user_type from aliada.t_user_type where user_type_code='" + code 
+                    		+ "' AND language='" + getLang() + "'");
+        
             if (rs.next()) {
                 String userType = rs.getString("user_type");
                 connection.close();
@@ -355,7 +377,9 @@ public class Methods {
         try {
             connection = new DBConnectionManager().getConnection();
         	Statement statement = connection.createStatement();
-            ResultSet rs = statement.executeQuery("select * from aliada.t_user_role");
+        	
+        	ResultSet rs = statement.executeQuery("select * from aliada.t_user_role where language='" + getLang() + "'");
+        	
             while (rs.next()) {
                 int code = rs.getInt("user_role_code");
                 String name = rs.getString("user_role");
@@ -395,4 +419,21 @@ public class Methods {
         }
 		return organisations;
     }
+    /**
+     * @return Returns the lang.
+     * @exception
+     * @since 1.0
+     */
+	public String getLang() {
+		return lang;
+	}
+	/**
+     * @param lang The lang to set.
+     * @exception
+     * @since 1.0
+     */
+	public void setLang(final String lang) {
+		this.lang = lang;
+	}
+    
 }

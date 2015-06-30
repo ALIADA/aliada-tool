@@ -11,6 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.HashMap;
+import java.util.ResourceBundle;
 
 import javax.servlet.http.HttpSession;
 
@@ -58,6 +59,7 @@ public class SubsetsAction  extends ActionSupport{
     private boolean areSubsets;
 	
 	private final Log logger = new Log(SubsetsAction.class);
+	private ResourceBundle defaults = ResourceBundle.getBundle("defaultValues", getLocale());
 
     /**
      * The method to show the subsets list.
@@ -67,6 +69,8 @@ public class SubsetsAction  extends ActionSupport{
      * @since 1.0
      */
     public String showSubsets() {
+    	
+    	ServletActionContext.getRequest().getSession().setAttribute("action", defaults.getString("lang.showSubsets"));
     	
     	title = getText("dialog.title");
     	message = getText("subset.message");
@@ -115,8 +119,10 @@ public class SubsetsAction  extends ActionSupport{
         try {
             connection = new DBConnectionManager().getConnection();
             Statement statement = connection.createStatement();
+            HttpSession session = ServletActionContext.getRequest().getSession();
+            int datasetId = (int) session.getAttribute("DatasetId");
             ResultSet rs = statement
-                    .executeQuery("select * from aliada.subset where subset_desc='" + this.selectedSubset + "'");
+                    .executeQuery("select * from aliada.subset where subset_desc='" + this.selectedSubset + "' AND datasetId='" + datasetId + "'");
             if (rs.next()) {
                 this.dataID = rs.getInt("datasetId");
                 this.subsetDescForm = rs.getString("subset_desc");
@@ -128,6 +134,9 @@ public class SubsetsAction  extends ActionSupport{
                 rs.close();
                 connection.close();
                 showSubsets();
+                
+                ServletActionContext.getRequest().getSession().setAttribute("action", defaults.getString("lang.default"));
+                
                 setShowTheSubset(true);
                 this.datasetNameForm = getDatasetName();
                 return SUCCESS;
@@ -155,13 +164,14 @@ public class SubsetsAction  extends ActionSupport{
      */
     public String showEditSubset() {
     	HttpSession session = ServletActionContext.getRequest().getSession();
+    	int datasetId = (int) session.getAttribute("DatasetId");
         Connection connection = null;
         if (this.selectedSubset != null) {
 	        try {
 	            connection = new DBConnectionManager().getConnection();
 	            Statement statement = connection.createStatement();
 	            ResultSet rs = statement
-	                    .executeQuery("select * from aliada.subset where subset_desc='" + this.selectedSubset + "'");
+	                    .executeQuery("select * from aliada.subset where subset_desc='" + this.selectedSubset + "' AND datasetId='" + datasetId + "'");
 	            if (rs.next()) {
 	            	int subsetId = rs.getInt("subsetId");
 	            	this.dataID = rs.getInt("datasetId");
@@ -174,6 +184,9 @@ public class SubsetsAction  extends ActionSupport{
 	                connection.close();
 	                session.setAttribute("SubsetId", subsetId);
 	                showSubsets();
+	                
+	                ServletActionContext.getRequest().getSession().setAttribute("action", defaults.getString("lang.default"));
+	                
 	                setShowEditSubsetForm(true);
 	                return SUCCESS;
 	            } else {
@@ -190,12 +203,12 @@ public class SubsetsAction  extends ActionSupport{
 	            return ERROR;
 	        }
         } else if (getActionErrors().size() > 0) {
-        	int SubId = (int) session.getAttribute("SubsetId");
+        	int subId = (int) session.getAttribute("SubsetId");
         	try {
 	            connection = new DBConnectionManager().getConnection();
 	            Statement statement = connection.createStatement();
 	            ResultSet rs = statement
-	                    .executeQuery("select * from aliada.subset where subsetId='" + SubId + "'");
+	                    .executeQuery("select * from aliada.subset where subsetId='" + subId + "'");
 	            if (rs.next()) {
 	            	this.dataID = rs.getInt("datasetId");
 	                this.subsetDescForm = rs.getString("subset_desc");
@@ -212,6 +225,9 @@ public class SubsetsAction  extends ActionSupport{
  	            return ERROR;
  	        }
             showSubsets();
+            
+            ServletActionContext.getRequest().getSession().setAttribute("action", defaults.getString("lang.default"));
+            
             setShowEditSubsetForm(true);
         	return SUCCESS;
         } else {
@@ -299,7 +315,7 @@ public class SubsetsAction  extends ActionSupport{
                     + this.graphUriForm + "',links_graph_uri='"
                     + lgu + "',isql_commands_file_subset='"
                     + this.isqlCommandsFileSubsetForm + "' where subsetId='"
-                    + session.getAttribute("SubsetId") + "'");
+                    + subsetId + "'");
             statement.close();
             connection.close();
             addActionMessage(getText("subset.edit.ok"));
@@ -319,6 +335,8 @@ public class SubsetsAction  extends ActionSupport{
      * @since 1.0
      */
     public String deleteSubset() {
+    	HttpSession session = ServletActionContext.getRequest().getSession();
+    	int datasetId = (int) session.getAttribute("DatasetId");
     	String seu = "", sel = "", sep = "", gu = "", lgu = "";
         Connection connection = null;
         try {
@@ -328,7 +346,7 @@ public class SubsetsAction  extends ActionSupport{
             statement = connection.createStatement();
             ResultSet rs = statement
                     .executeQuery("select sparql_endpoint_uri, sparql_endpoint_login, sparql_endpoint_password, graph_uri, links_graph_uri"
-                    		+ " from dataset d Inner JOIN subset s on d.datasetId = s.datasetId where subset_desc = '" + getSelectedSubset() + "'");
+                    		+ " from dataset d Inner JOIN subset s on d.datasetId = s.datasetId where subset_desc = '" + getSelectedSubset() + "'AND s.datasetId=" + datasetId);
             if (rs.next()) {
            	 seu = rs.getString("sparql_endpoint_uri");
            	 sel = rs.getString("sparql_endpoint_login");
@@ -346,7 +364,7 @@ public class SubsetsAction  extends ActionSupport{
             }
             
             int correct = statement
-                    .executeUpdate("DELETE FROM aliada.subset WHERE subset_desc='" + getSelectedSubset() + "'");
+                    .executeUpdate("DELETE FROM aliada.subset WHERE subset_desc='" + getSelectedSubset() + "' AND datasetId='" + datasetId + "'");
             statement.close();
             connection.close();
             if (correct == 0) {
@@ -458,6 +476,9 @@ public class SubsetsAction  extends ActionSupport{
 		
     	getDatasetsDb();
         showSubsets();
+        
+        ServletActionContext.getRequest().getSession().setAttribute("action", defaults.getString("lang.default"));
+        
         setShowAddSubsetForm(true);
         return SUCCESS;
     }

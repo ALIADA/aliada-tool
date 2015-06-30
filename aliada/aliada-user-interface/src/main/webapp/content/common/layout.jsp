@@ -5,8 +5,8 @@
 
 <link type="text/css" rel="stylesheet" href="<html:url value="css/layout.css" />" />
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<html:hidden id="showLang" name="showLang" value="%{#session['action']}" />
+<html:hidden id="userType" name="userType" value="%{#session['type']}" />
 
 	<head>
 	    <title>Aliada</title>
@@ -19,18 +19,57 @@
 	    <html:head/>
 	</head>
 	
+	<script>
+		$(function(){
+			var showLang = $("#showLang").val();			
+			var type = $("#userType").val();
+			
+			if(type == 1) {
+				$(".type").show();
+			}
+			
+			if(showLang == "manage" 
+			|| showLang == "conversion"
+			|| showLang == "linking"
+			|| showLang == "checkLinking"
+			|| showLang == "showInstitution"
+			|| showLang == "showProfiles"
+			|| showLang == "showTemplates"
+			|| showLang == "showUsers"
+			|| showLang == "showDatasets"
+			|| showLang == "showSubsets"
+			|| showLang == "showExtDatasets"
+			|| showLang == "pendingFiles"){
+				$("#lang").show();				
+			} else {
+				$("#lang").hide();				
+			}
+			
+		});
+	</script>
+	
 	<body>
 		<div id="settings">
-			<%-- <span class="lMargin500">
-				<html:url id="localeEN" namespace="/">
+		
+			<span id="lang" class="fright lMargin500 lang">
+				<html:url id="localeEN" namespace="/" action="%{#session['action']}" >
 				   <html:param name="request_locale" >en</html:param>
 				</html:url>
-				<html:url id="localeES" namespace="/" >
+				<html:url id="localeHU" namespace="/" action="%{#session['action']}" >
+					<html:param name="request_locale" >hu</html:param>
+				</html:url>	
+				<html:url id="localeES" namespace="/" action="%{#session['action']}" >
 				   <html:param name="request_locale" >es</html:param>
-				</html:url>			 
-				<html:a href="%{localeEN}" ><img src="images/gbFlag.png"/></html:a>
-				<html:a href="%{localeES}" ><img src="images/spFlag.png"/></html:a>
-			</span> --%>
+				</html:url>
+				<html:url id="localeITA" namespace="/" action="%{#session['action']}" >
+					<html:param name="request_locale" >ita</html:param>
+				</html:url>		 
+				<html:a href="%{localeEN}" cssClass="langStyle" ><html:text name="eng"/></html:a>
+				<html:a href="%{localeHU}" cssClass="langStyle" ><html:text name="hun"/></html:a>
+				<html:a href="%{localeES}" cssClass="langStyle" ><html:text name="spa"/></html:a>
+				<html:a href="%{localeITA}" cssClass="langStyle" ><html:text name="ita"/></html:a>
+			</span>
+			
 			<div id="header">
 				<img class="fleft" src="images/aliada-header.png"/>
 				<ul class="nav fright">
@@ -41,8 +80,10 @@
 							<li><html:a action="showProfiles"> <html:text name="prof"/> </html:a></li>
 							<li><html:a action="showTemplates"> <html:text name="temp"/> </html:a></li>
 							<li><html:a action="showUsers"> <html:text name="us"/> </html:a></li>
-							<li><html:a action="showDatasets"> <html:text name="dat"/> </html:a></li>
-							<li><html:a action="showExtDatasets"> <html:text name="datrel"/> </html:a></li>
+							
+							<li class="type displayNo"> <html:a action="showDatasets"> <html:text name="dat"/> </html:a></li>
+							
+							<li class="type displayNo"> <html:a action="showExtDatasets"> <html:text name="datrel"/> </html:a></li>
 						</ul>
 					</li>
 					<li><html:a action="pendingFiles"> <html:text name="jobs"/> <img alt="control panel" src="images/task.png"></img></html:a></li>

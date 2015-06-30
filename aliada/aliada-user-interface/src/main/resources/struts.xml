@@ -361,6 +361,14 @@
          	</result>
 		</action>
 		
+		<action name="editBasicUser" method="editBasicUser"
+			class="eu.aliada.gui.action.UsersAction">
+			<interceptor-ref name="storeStack"/>
+			<result name="success" type="tiles">/users.tiles</result>
+			<result name="error"  type="tiles">/users.tiles</result>
+         	<result name="input"  type="tiles">/users.tiles</result>
+		</action>
+		
 		<action name="showEditForm" method="showEdit"
 			class="eu.aliada.gui.action.UsersAction">
 			<result name="success" type="tiles">/users.tiles</result>

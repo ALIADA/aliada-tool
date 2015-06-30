@@ -29,6 +29,11 @@ return false;
 }
 
 $(function(){
+	var type = $("#userType").val();
+	if(type == 1) {
+		$(".type").show();
+	}
+	
 	var areProfiles = $("#areProfiles").val();	
 	var showTheProfile = $("#showTheProfile").val();
 	var showAddProfileForm = $("#showAddProfileForm").val();	
@@ -92,13 +97,13 @@ $(function(){
 				
 				<div id="areProfilesButtons" class="buttons">
 						<html:a action="manage" cssClass="fleft"><img alt="help" src="images/back.png"></img></html:a>
-						<html:submit action="showAddProfileForm" cssClass="submitButton button"
+						<html:submit action="showAddProfileForm" cssClass="submitButton button type displayNo"
 							key="add" />
 						<html:submit id="seeButton" disabled="true" action="showTheProfile" cssClass="submitButton button"
 							key="see" />
-						<html:submit id="editButton" disabled="true" action="showEditProfileForm" cssClass="submitButton button"
+						<html:submit id="editButton" disabled="true" action="showEditProfileForm" cssClass="submitButton button type displayNo"
 							key="edit" />
-						<html:submit id="deleteButton" disabled="true" cssClass="submitButton button" key="delete" onclick="return confirmBox();"/>
+						<html:submit id="deleteButton" disabled="true" cssClass="submitButton button type displayNo" key="delete" onclick="return confirmBox();"/>
 				</div>
 			</html:form>
 		</div>

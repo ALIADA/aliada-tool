@@ -31,7 +31,7 @@
 		function changeLocaleDataTable(){
 			var loc = $("#loc").val();
 			console.log(loc);
-			if (loc == "es_ES" || loc == "es") {
+			if (loc == "spa") {
 			    $("#datAuthors").dataTable( {
 			    	"iDisplayLength": 100,
 			    	"aLengthMenu": [[100, 250, 500], [100, 250, 500]],
@@ -60,7 +60,7 @@
 			            "url": "json/Spanish.json"
 			        }
 			    } );
-			} else if (loc == "ita_ITA" || loc == "ita") {
+			} else if (loc == "ita") {
 				$("#datAuthors").dataTable( {
 					"iDisplayLength": 100,
 			    	"aLengthMenu": [[100, 250, 500], [100, 250, 500]],
@@ -89,7 +89,7 @@
 			            "url": "json/Italian.json"
 			        }
 			    } );
-			} else if (loc == "hu_HU" ||loc == "hu") {
+			} else if (loc == "hun") {
 				$("#datAuthors").dataTable( {
 					"iDisplayLength": 100,
 			    	"aLengthMenu": [[100, 250, 500], [100, 250, 500]],
@@ -118,7 +118,7 @@
 			            "url": "json/Hungarian.json"
 			        }
 			    } );
-			} else if (loc == "en_EN" ||loc == "en") {
+			} else if (loc == "eng") {
 				$("#datAuthors").dataTable( {
 					"iDisplayLength": 100,
 			    	"aLengthMenu": [[100, 250, 500], [100, 250, 500]],
@@ -213,7 +213,7 @@
 
 <body class="whitebackground">
 
-	<html:hidden id="loc" name="loc" value="%{getLocale().toString()}" />
+	<html:hidden id="loc" name="loc" value="%{getLocale().getISO3Language()}" />
 	<html:hidden id="auth" name="authors" value="%{auth}" />
 	<html:hidden id="obj" name="objects" value="%{obj}" />
 	<html:hidden id="mani" name="mani" value="%{mani}" />

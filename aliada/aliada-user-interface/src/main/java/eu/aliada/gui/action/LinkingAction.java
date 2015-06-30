@@ -25,7 +25,6 @@ import java.util.ResourceBundle;
 import javax.servlet.http.HttpSession;
 
 import org.apache.struts2.ServletActionContext;
-
 import com.opensymphony.xwork2.ActionSupport;
 
 import eu.aliada.gui.log.MessageCatalog;
@@ -61,25 +60,56 @@ public class LinkingAction extends ActionSupport {
      * @since 1.0
      */
     public String execute() {
-        HttpSession session = ServletActionContext.getRequest().getSession();
-        session.setAttribute("rdfizerStatus", defaults.getString("status.finishedRdfizer"));
-        setFileToLink((FileWork) session.getAttribute("importedFile"));
-		
-        //If it's properly rdfizered => change STATUS FINISHEDRDFIZER
-        Connection connection = null;
-        Statement updateStatement = null;
-        try {
-        	connection = new DBConnectionManager().getConnection();
-        	updateStatement = connection.createStatement();
-        	updateStatement.executeUpdate("UPDATE aliada.user_session set status='finishedRdfizer' where file_name='" + fileToLink.getFilename() + "'");
-        	updateStatement.close();
-    		connection.close();
-        } catch (SQLException e) {
-    		logger.error(MessageCatalog._00011_SQL_EXCEPTION, e);
-    	} 
+    	
+    	if ((int)ServletActionContext.getRequest().getSession().getAttribute("type") == 1) {
+    		
+    		ServletActionContext.getRequest().getSession().setAttribute("action", defaults.getString("lang.linking"));
+        	
+            HttpSession session = ServletActionContext.getRequest().getSession();
+            session.setAttribute("rdfizerStatus", defaults.getString("status.finishedRdfizer"));
+            setFileToLink((FileWork) session.getAttribute("importedFile"));
+    		
+            //If it's properly rdfizered => change STATUS FINISHEDRDFIZER
+            Connection connection = null;
+            Statement updateStatement = null;
+            try {
+            	connection = new DBConnectionManager().getConnection();
+            	updateStatement = connection.createStatement();
+            	updateStatement.executeUpdate("UPDATE aliada.user_session set status='finishedRdfizer' where file_name='" + fileToLink.getFilename() + "'");
+            	updateStatement.close();
+        		connection.close();
+            } catch (SQLException e) {
+        		logger.error(MessageCatalog._00011_SQL_EXCEPTION, e);
+        	} 
 
-        
-        return getDatasetsDb();
+            // Get the datasets to link
+            return getDatasetsDb();
+    		
+    	} else {
+    		
+    		ServletActionContext.getRequest().getSession().setAttribute("action", defaults.getString("lang.linking"));
+        	
+            HttpSession session = ServletActionContext.getRequest().getSession();
+            session.setAttribute("rdfizerStatus", defaults.getString("status.runningLinking"));
+            setFileToLink((FileWork) session.getAttribute("importedFile"));
+    		
+            //If it's properly rdfizered => change STATUS RUNNINGLINKING
+            Connection connection = null;
+            Statement updateStatement = null;
+            try {
+            	connection = new DBConnectionManager().getConnection();
+            	updateStatement = connection.createStatement();
+            	updateStatement.executeUpdate("UPDATE aliada.user_session set status='runningLinking' where file_name='" + fileToLink.getFilename() + "'");
+            	updateStatement.close();
+        		connection.close();
+            } catch (SQLException e) {
+        		logger.error(MessageCatalog._00011_SQL_EXCEPTION, e);
+        	} 
+
+            // Get '1' external datasets to show
+            return getDatasetDb();
+    		
+    	}
     }
     /**
      * Calls to the loadPending process.
@@ -88,8 +118,23 @@ public class LinkingAction extends ActionSupport {
      * @since 1.0
      */
     public String loadPending() {
+    	
         HttpSession session = ServletActionContext.getRequest().getSession();
         setFileToLink((FileWork) session.getAttribute("importedFile"));
+        
+        if (this.fileToLink.getStatus().equals(defaults.getString("status.finishedRdfizer"))) {
+        	
+        	ServletActionContext.getRequest().getSession().setAttribute("action", defaults.getString("lang.linking"));
+        	
+        } else if (this.fileToLink.getStatus().equals(defaults.getString("status.runningLinking"))) {
+        	
+        	ServletActionContext.getRequest().getSession().setAttribute("action", defaults.getString("lang.default"));
+        	
+        } else if (this.fileToLink.getStatus().equals(defaults.getString("status.finishedLinking"))) {
+        	
+        	ServletActionContext.getRequest().getSession().setAttribute("action", defaults.getString("lang.checkLinking"));
+        	
+        }
         
         // Load some data
         if (this.fileToLink.getStatus().equals(defaults.getString("status.runningLinking")) 
@@ -168,8 +213,10 @@ public class LinkingAction extends ActionSupport {
         try {
             con = new DBConnectionManager().getConnection();
             Statement st = con.createStatement();
+            
             ResultSet rs = st
-                    .executeQuery("select * from aliada.t_external_dataset");
+                    .executeQuery("select * from aliada.t_external_dataset where language ='" + getLocale().getISO3Language() + "'");
+
             while (rs.next()) {
                 int code = rs.getInt("external_dataset_code");
                 String name = rs.getString("external_dataset_name");
@@ -186,12 +233,53 @@ public class LinkingAction extends ActionSupport {
     }
     
     /**
+     * Loads the dataset from the database.
+     * @return String
+     * @see
+     * @since 1.0
+     */
+    private String getDatasetDb() {
+    	
+        dataset = new LinkedList<String>();
+        Connection con;
+        try {
+            con = new DBConnectionManager().getConnection();
+            Statement st = con.createStatement();
+            
+            ResultSet rs = st
+                    .executeQuery("select external_dataset_name from aliada.t_external_dataset where language ='" 
+                    		+ getLocale().getISO3Language() + "' AND external_dataset_linkingreloadtarget ='1'");
+            
+            while (rs.next()) {
+                String name = rs.getString("external_dataset_name");
+                dataset.add(name);
+            }
+            rs.close();
+            st.close();
+            con.close();
+        } catch (SQLException e) {
+            logger.error(MessageCatalog._00011_SQL_EXCEPTION, e);
+            return ERROR;
+        }
+        
+        createJobLinking();
+        createJobLDS();
+        
+        title = getText("dialog.publish.title");
+        seconds = getText("seconds");
+        
+        return SUCCESS;
+    }
+    
+    /**
      * Calls to the job deleting process.
      * @return String
      * @see
      * @since 1.0
      */
     public String checkLinking() {
+    	
+    	ServletActionContext.getRequest().getSession().setAttribute("action", defaults.getString("lang.checkLinking"));
     	
     	HttpSession session = ServletActionContext.getRequest().getSession();
     	setFileToLink((FileWork) session.getAttribute("importedFile"));
@@ -233,6 +321,9 @@ public class LinkingAction extends ActionSupport {
      * @since 1.0
      */
     public String startLinking() {
+    	
+    	ServletActionContext.getRequest().getSession().setAttribute("action", defaults.getString("lang.default"));
+    	
     	HttpSession session = ServletActionContext.getRequest().getSession();
         setFileToLink((FileWork) session.getAttribute("importedFile"));
         createJobLinking();
@@ -247,9 +338,6 @@ public class LinkingAction extends ActionSupport {
         try {
         	connection = new DBConnectionManager().getConnection();
         	updateStatement = connection.createStatement();
-        	
-        	updateStatement.execute("UPDATE aliada.t_external_dataset SET external_dataset_linkingreloadtarget = 0");
-        	updateStatement.close();
         	//If it's properly created  => change STATUS RUNNINGLINKING
         	updateStatement = connection.createStatement();
         	updateStatement.executeUpdate("UPDATE aliada.user_session set status='runningLinking' where file_name='" + fileToLink.getFilename() + "'");
@@ -321,12 +409,25 @@ public class LinkingAction extends ActionSupport {
                     	getFileToLink().setLdJobId(addedId);
                     	statement.executeUpdate("UPDATE aliada.user_session set links_disc_job_id=" + addedId + " where file_name='" + fileToLink.getFilename() + "'");
                     	
+                    	if ((int)ServletActionContext.getRequest().getSession().getAttribute("type") == 1) {
+                    		statement.executeUpdate("UPDATE aliada.t_external_dataset set external_dataset_linkingreloadtarget='0' ");
+                    	}
+                    	
             			for (int i = 0; i < dataset.size(); i++) {            				
             				name = "ALIADA_" + dataset.get(i);
-		                    rs = statement
+            				
+            				if ((int)ServletActionContext.getRequest().getSession().getAttribute("type") == 1) {
+            					
+            					statement.executeUpdate("UPDATE aliada.t_external_dataset set external_dataset_linkingreloadtarget='1' "
+            						+ "where external_dataset_name='" + dataset.get(i) + "'");
+            				}
+            				
+            				rs = statement
 		                            .executeQuery("select external_dataset_linkingfile, external_dataset_linkingnumthreads,"
 		                            		+ " external_dataset_linkingreloadsource, external_dataset_linkingreloadtarget "
-		                            		+ "from aliada.t_external_dataset where external_dataset_name='" + dataset.get(i) + "'");
+		                            		+ "from aliada.t_external_dataset where external_dataset_name='" + dataset.get(i)
+		                            		+ "' AND language='" + getLocale().getISO3Language() + "'");
+            				
 		                    while (rs.next()) {
 		                        preparedStatement = connection
 		                                .prepareStatement(

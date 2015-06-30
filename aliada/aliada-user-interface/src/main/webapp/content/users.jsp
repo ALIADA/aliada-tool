@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="/struts-tags" prefix="html"%>
+<%@ taglib prefix="sj" uri="/struts-jquery-tags"%>
 
 <link type="text/css" rel="stylesheet" href="<html:url value="css/users.css" />" />
 
@@ -28,7 +29,25 @@ function confirmEditBox(){
 return false;
 }
 
+function confirmEditBasicBox(){
+	var answer = window.confirm("<html:text name='edit.message'/>");
+	if (answer == true) {
+		console.log("Edit user basic");
+		$("#editUserPanelBasicForm").submit();
+	} else {
+		console.log("Edit user basic cancel");
+	}
+return false;
+}
+
 $(function(){
+	var type = $("#userType").val();
+	if(type == 0) {
+		$("#showUser").show();
+	} else {
+		$("#advUser").show();
+	}
+	
 	var showAddForm = $("#showAddForm").val();	
 	var showEditForm = $("#showEditForm").val();	
 	
@@ -68,7 +87,7 @@ $(function(){
 		<li><span class="breadcrumb activeGreen"><html:text name="registeredUsers"/></span></li>
 	</ul>
 	
-	<div class ="usersPage">
+	<div id="advUser" class="usersPage displayNo">
 	
 	<html:form id="user" action="/deleteUser.action">
 		<table id="u" class="tableUsers">
@@ -158,7 +177,7 @@ $(function(){
 			</div>
 		</div>
 	</html:form>
-	
+
 	<html:form id="userEditForm" class="row" action="/editUser.action">
 		<div id="editUserPanel" class="displayNo">
 			<h2 class="pageSubtitle center"><html:text name="editUser"/></h2>
@@ -215,6 +234,74 @@ $(function(){
 			</div>
 		</div>
 	</html:form>
+	
+	</div>
+	
+	<div class="displayNo">
+	
+		<sj:dialog 
+	    	id="infMessage" 
+	    	openTopics="infMessage"
+	    	position="['center', 'center']"
+	    	autoOpen="false" 
+	    	title="%{title}">
+	    		<html:text name="%{message}"/> <html:a href="mailto:%{email}?Subject=%{subject}"><html:text name="%{admin}"/> </html:a>
+	    </sj:dialog>
+	
+	</div>
+	
+	<div id="showUser" class="usersPage displayNo">
+		<html:form id="editUserPanelBasicForm" class="row" action="/editBasicUser.action">
+				<h2 class="pageSubtitle center"><html:text name="editUser"/></h2>
+				<table class="lMargin25p">
+					<tr>
+							<th class="backgroundGreen center"><label for="usernameForm" class="bold"><html:text name="username"/></label></th>
+							<td><html:textfield key="usernameForm" maxLength="20"
+									cssClass="tableInput input center disabled" readonly="true"/></td>
+						</tr>
+						<tr>
+							<th class="backgroundGreen center"><label for="passwordForm" class="bold"><html:text name="currPassword"/></label></th>
+							<td><html:password key="passwordForm" showPassword="true"
+									cssClass="tableInput input center" /></td>
+							<td><html:fielderror fieldName="passwordForm"/> </td>
+						</tr>
+						<tr>
+							<th class="backgroundGreen center"><label for="newPasswordForm" class="bold"><html:text name="newPasswordForm"/></label></th>
+							<td><html:password key="newPasswordForm" showPassword="true"
+									cssClass="tableInput input center" /></td>
+							<td><html:fielderror fieldName="newPasswordForm"/> </td>
+						</tr>
+						<tr>
+							<th class="backgroundGreen center"><label for="repeatNewPasswordForm" class="bold"><html:text name="repeatNewPasswordForm"/></label></th>
+							<td><html:password key="repeatNewPasswordForm" showPassword="true"
+									cssClass="tableInput input center" /></td>
+							<td><html:fielderror fieldName="repeatNewPasswordForm"/> </td>
+						</tr>
+						<tr>			
+							<th class="backgroundGreen center"><label for="emailForm" class="bold"><html:text name="email"/></label></th>		
+							<td><html:textfield key="emailForm" maxLength="128"
+									cssClass="tableInput input center" /></td>
+							<td><html:fielderror fieldName="emailForm"/></td>
+						</tr>
+						<tr>			
+							<th class="backgroundGreen center"><label for="roleForm" class="bold"><html:text name="role"/></label></th>		
+							<td><html:select key="roleForm"
+									cssClass="tableInput center" list="roles" /></td>
+						</tr>
+				</table>
+				
+				<html:actionmessage/>
+				<html:actionerror/>
+				
+				<div class="buttons row">
+					<html:a action="manage" cssClass="fleft"><img alt="help" src="images/back.png"></img></html:a>
+					<html:submit cssClass="submitButton button" key="save" onclick="return confirmEditBasicBox();"/>
+					<sj:a cssClass="fright"
+				     	onClickTopics="infMessage">
+				    		<img alt="email" src="images/email.png"></img>
+			    	</sj:a>
+				</div>
+		</html:form>
 	</div>
 
 </div>
