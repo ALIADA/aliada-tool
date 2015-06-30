@@ -51,7 +51,7 @@ CREATE TABLE IF NOT EXISTS `dataset` (
   `license_url` varchar(245) DEFAULT NULL,
   `isql_commands_file_dataset` varchar(245) DEFAULT NULL,
   `dataset_web_page_root` varchar(245) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -79,13 +79,13 @@ CREATE TABLE IF NOT EXISTS `organisation` (
   `isql_commands_file_dataset_default` varchar(245) DEFAULT NULL,
   `isql_commands_file_subset_default` varchar(245) DEFAULT NULL,
   `isql_commands_file_graph_dump` varchar(245) DEFAULT NULL,
-  `virtuoso_http_server_root`  VARCHAR(245) default NULL,
+  `virtuoso_http_server_root`  VARCHAR( 245 ) default NULL,
   `ckan_api_url` varchar(245) DEFAULT NULL,
   `ckan_api_key` varchar(245) DEFAULT NULL,
   `ckan_org_url` varchar(245) DEFAULT NULL,
   `dataset_author` varchar(245) NOT NULL,
   `isql_commands_file_dataset_creation` varchar(245) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -102,7 +102,7 @@ CREATE TABLE IF NOT EXISTS `profile` (
   `file_type_code` int(11) NOT NULL,
   `file_format_code` int(11) NOT NULL,
   `character_set_code` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -118,7 +118,7 @@ CREATE TABLE IF NOT EXISTS `subset` (
   `graph_uri` varchar(245) DEFAULT NULL,
   `links_graph_uri` varchar(245) DEFAULT NULL,
   `isql_commands_file_subset` varchar(245) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -131,7 +131,7 @@ CREATE TABLE IF NOT EXISTS `template` (
   `template_name` varchar(32) NOT NULL,
   `template_description` varchar(128) DEFAULT NULL,
   `file_type_code` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -153,7 +153,8 @@ CREATE TABLE IF NOT EXISTS `template_xml_tag` (
 CREATE TABLE IF NOT EXISTS `t_character_set` (
   `character_set_code` int(11) NOT NULL,
   `character_set_name` varchar(32) NOT NULL,
-  `character_set_description` varchar(128) DEFAULT NULL
+  `character_set_description` varchar(128) DEFAULT NULL,
+  `language` varchar(3) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -170,7 +171,8 @@ CREATE TABLE IF NOT EXISTS `t_external_dataset` (
   `external_dataset_linkingfile` varchar(245) DEFAULT NULL,
   `external_dataset_linkingnumthreads` tinyint(1) DEFAULT '8',
   `external_dataset_linkingreloadtarget` tinyint(1) default 0,
-  `external_dataset_linkingreloadsource` tinyint(1) default 1
+  `external_dataset_linkingreloadsource` tinyint(1) default 1,
+  `language` varchar(3) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -182,7 +184,8 @@ CREATE TABLE IF NOT EXISTS `t_external_dataset` (
 CREATE TABLE IF NOT EXISTS `t_file_format` (
   `file_format_code` int(11) NOT NULL,
   `file_format_name` varchar(32) NOT NULL,
-  `file_format_description` varchar(128) DEFAULT NULL
+  `file_format_description` varchar(128) DEFAULT NULL,
+  `language` varchar(3) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -195,7 +198,8 @@ CREATE TABLE IF NOT EXISTS `t_file_type` (
   `file_type_code` int(11) NOT NULL,
   `file_type_name` varchar(32) NOT NULL,
   `file_type_description` varchar(128) DEFAULT NULL,
-  `file_type_conversion_file` varchar(32) NOT NULL
+  `file_type_conversion_file` varchar(32) NOT NULL,
+  `language` varchar(3) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -208,7 +212,8 @@ CREATE TABLE IF NOT EXISTS `t_metadata_scheme` (
   `metadata_code` int(11) NOT NULL,
   `metadata_name` varchar(32) NOT NULL,
   `metadata_description` varchar(128) DEFAULT NULL,
-  `metadata_conversion_file` varchar(32) NOT NULL
+  `metadata_conversion_file` varchar(32) NOT NULL,
+  `language` varchar(3) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -220,7 +225,8 @@ CREATE TABLE IF NOT EXISTS `t_metadata_scheme` (
 CREATE TABLE IF NOT EXISTS `t_profile_type` (
   `profile_code` int(11) NOT NULL,
   `profile_name` varchar(32) NOT NULL,
-  `profile_description` varchar(128) DEFAULT NULL
+  `profile_description` varchar(128) DEFAULT NULL,
+  `language` varchar(3) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -232,7 +238,8 @@ CREATE TABLE IF NOT EXISTS `t_profile_type` (
 CREATE TABLE IF NOT EXISTS `t_user_role` (
   `user_role_code` int(11) NOT NULL,
   `user_role` varchar(32) NOT NULL,
-  `user_role_description` varchar(128) DEFAULT NULL
+  `user_role_description` varchar(128) DEFAULT NULL,
+  `language` varchar(3) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -244,7 +251,8 @@ CREATE TABLE IF NOT EXISTS `t_user_role` (
 CREATE TABLE IF NOT EXISTS `t_user_type` (
   `user_type_code` int(11) NOT NULL,
   `user_type` varchar(32) NOT NULL,
-  `user_type_description` varchar(128) DEFAULT NULL
+  `user_type_description` varchar(128) DEFAULT NULL,
+  `language` varchar(3) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -256,7 +264,23 @@ CREATE TABLE IF NOT EXISTS `t_user_type` (
 CREATE TABLE IF NOT EXISTS `t_xml_tag_type` (
   `xml_tag_type_code` int(11) NOT NULL,
   `xml_tag_type_name` varchar(32) NOT NULL,
-  `xml_tag_type_description` varchar(128) DEFAULT NULL
+  `xml_tag_type_description` varchar(128) DEFAULT NULL,
+  `language` varchar(3) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `t_language`
+--
+
+CREATE TABLE IF NOT EXISTS `t_language` (
+  `language_code` varchar(3) NOT NULL,
+  `lang_code` varchar(2) NOT NULL,
+  `lang_country` varchar(2),
+  `language_name` varchar(32) NOT NULL,
+  `language_description` varchar(128) DEFAULT NULL,
+  `language` varchar(3) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -356,56 +380,83 @@ ALTER TABLE `template_xml_tag`
 -- Indices de la tabla `t_character_set`
 --
 ALTER TABLE `t_character_set`
-  ADD PRIMARY KEY (`character_set_code`);
+  ADD PRIMARY KEY (`character_set_code`, `language`);
+ALTER TABLE `t_character_set` 
+ADD INDEX `language_character_set_idx` (`language` ASC);
 
 --
 -- Indices de la tabla `t_external_dataset`
 --
 ALTER TABLE `t_external_dataset`
-  ADD PRIMARY KEY (`external_dataset_code`);
+  ADD PRIMARY KEY (`external_dataset_code`, `language`);
+ALTER TABLE `t_external_dataset` 
+ADD INDEX `language_external_dataset_idx` (`language` ASC);
 
 --
 -- Indices de la tabla `t_file_format`
 --
 ALTER TABLE `t_file_format`
-  ADD PRIMARY KEY (`file_format_code`);
+  ADD PRIMARY KEY (`file_format_code`, `language`);
+ALTER TABLE `t_file_format` 
+ADD INDEX `language_file_format_idx` (`language` ASC);
 
 --
 -- Indices de la tabla `t_file_type`
 --
 ALTER TABLE `t_file_type`
-  ADD PRIMARY KEY (`file_type_code`);
+  ADD PRIMARY KEY (`file_type_code`, `language`);
+ALTER TABLE `t_file_type` 
+ADD INDEX `language_file_type_idx` (`language` ASC);
 
 --
 -- Indices de la tabla `t_metadata_scheme`
 --
 ALTER TABLE `t_metadata_scheme`
-  ADD PRIMARY KEY (`metadata_code`);
+  ADD PRIMARY KEY (`metadata_code`, `language`);
+ALTER TABLE `t_metadata_scheme` 
+ADD INDEX `language_metadata_scheme_idx` (`language` ASC);
 
 --
 -- Indices de la tabla `t_profile_type`
 --
 ALTER TABLE `t_profile_type`
-  ADD PRIMARY KEY (`profile_code`);
+  ADD PRIMARY KEY (`profile_code`, `language`);
+ALTER TABLE `t_profile_type` 
+ADD INDEX `language_profile_type_idx` (`language` ASC);
 
 --
 -- Indices de la tabla `t_user_role`
 --
 ALTER TABLE `t_user_role`
-  ADD PRIMARY KEY (`user_role_code`);
+  ADD PRIMARY KEY (`user_role_code`, `language`);
+ALTER TABLE `t_user_role` 
+ADD INDEX `language_user_role_idx` (`language` ASC);
 
 --
 -- Indices de la tabla `t_user_type`
 --
 ALTER TABLE `t_user_type`
-  ADD PRIMARY KEY (`user_type_code`);
+  ADD PRIMARY KEY (`user_type_code`, `language`);
+ALTER TABLE `t_user_type` 
+ADD INDEX `language_user_type_idx` (`language` ASC);
 
 --
 -- Indices de la tabla `t_xml_tag_type`
 --
 ALTER TABLE `t_xml_tag_type`
-  ADD PRIMARY KEY (`xml_tag_type_code`);
+  ADD PRIMARY KEY (`xml_tag_type_code`, `language`);
+ALTER TABLE `t_xml_tag_type` 
+ADD INDEX `language_xml_tag_type_idx` (`language` ASC);
 
+--
+-- Indices de la tabla `t_language`
+--
+ALTER TABLE `t_language` 
+ADD PRIMARY KEY (`language_code`, `lang_code`, `language`);
+ALTER TABLE `t_language` 
+ADD INDEX `language_language_idx` (`language` ASC);
+ 
+  
 --
 -- Indices de la tabla `user`
 --
@@ -454,14 +505,99 @@ ALTER TABLE `subset`
 ALTER TABLE `template`
   MODIFY `template_id` int(11) NOT NULL AUTO_INCREMENT;
 
+ALTER TABLE `t_character_set` 
+ADD CONSTRAINT `language_character_set_frk`
+  FOREIGN KEY (`language`)
+  REFERENCES `t_language` (`language_code`)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION;
+
+ALTER TABLE `t_external_dataset` 
+ADD CONSTRAINT `language_external_dataset_frk`
+  FOREIGN KEY (`language`)
+  REFERENCES `t_language` (`language_code`)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION;
+
+ALTER TABLE `t_file_type` 
+ADD CONSTRAINT `language_file_type_frk`
+  FOREIGN KEY (`language`)
+  REFERENCES `t_language` (`language_code`)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION;
+
+ALTER TABLE `t_metadata_scheme` 
+ADD CONSTRAINT `language_metadata_scheme_frk`
+  FOREIGN KEY (`language`)
+  REFERENCES `t_language` (`language_code`)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION;
+
+ALTER TABLE `t_profile_type` 
+ADD CONSTRAINT `language_profile_type_frk`
+  FOREIGN KEY (`language`)
+  REFERENCES `t_language` (`language_code`)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION;
+
+ALTER TABLE `t_user_role` 
+ADD CONSTRAINT `language_user_role_frk`
+  FOREIGN KEY (`language`)
+  REFERENCES `t_language` (`language_code`)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION;
+
+ALTER TABLE `t_user_type` 
+ADD CONSTRAINT `language_user_type_frk`
+  FOREIGN KEY (`language`)
+  REFERENCES `t_language` (`language_code`)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION;
+
+ALTER TABLE `t_xml_tag_type` 
+ADD CONSTRAINT `language_xml_tag_type_frk`
+  FOREIGN KEY (`language`)
+  REFERENCES `t_language` (`language_code`)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION;
+
+ALTER TABLE `t_language` 
+ADD CONSTRAINT `language_language_frk`
+  FOREIGN KEY (`language`)
+  REFERENCES `t_language` (`language_code`)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION;
+
 --
 -- Volcado de datos para la tabla `organisation`
 --
 
 INSERT INTO `organisation` (`organisationId`,`org_name`,`org_path`,`org_catalog_url`, `org_description`,`org_home_page`, `aliada_ontology`,`tmp_dir`,`linking_client_app_bin_dir`,
 `linking_client_app_user`,`store_ip`,`store_sql_port`,`sql_login`,`sql_password`,`isql_command_path`,`isql_commands_file_dataset_default`,  `isql_commands_file_subset_default`, 
-`isql_commands_file_graph_dump`, `virtuoso_http_server_root`, `ckan_api_url`,`ckan_api_key`,`dataset_author`,`isql_commands_file_dataset_creation`,`aliada_tool_hostname`) VALUES 
-(1,'artium','/usr/share/tomcat/upload/','http://aliada.artium.org', 'Basque Museum-Center of Contemporary Art', 'http://www.artium.org/', 'http://aliada-project.eu/2014/aliada-ontology#', '/home/aliada/tmp', '/home/aliada/links-discovery/bin/','linking','localhost',1111,'dba','dba','/home/virtuoso/bin/isql','/home/aliada/linked-data-server/config/isql_rewrite_rules_global.sql', '/home/aliada/linked-data-server/config/isql_rewrite_rules_subset_default.sql', '/home/aliada/ckan-datahub-page-creation/config/dump_one_graph_nt.sql', '/home/virtuoso/var/lib/virtuoso/vsp', 'http://datahub.io/api/action', '****','Aliada Consortium','/home/aliada/bin/aliada_new_dataset.sql','aliada.scanbit.net');
+`isql_commands_file_graph_dump`, `virtuoso_http_server_root`, `ckan_api_url`,`ckan_api_key`,`dataset_author`,`isql_commands_file_dataset_creation`) VALUES 
+(1,'artium','/usr/share/tomcat/upload/','http://aliada.artium.org', 'Basque Museum-Center of Contemporary Art', 'http://www.artium.org/', 'http://aliada-project.eu/2014/aliada-ontology#', '/home/aliada/tmp', '/home/aliada/links-discovery/bin/','linking','localhost',1111,'dba','dba','/home/virtuoso/bin/isql','/home/aliada/linked-data-server/config/isql_rewrite_rules_global.sql', '/home/aliada/linked-data-server/config/isql_rewrite_rules_subset_default.sql', '/home/aliada/ckan-datahub-page-creation/config/dump_one_graph_nt.sql', '/home/virtuoso/var/lib/virtuoso/vsp', 'http://datahub.io/api/action', '****','Aliada Consortium','/home/aliada/bin/aliada_new_dataset.sql');
+
+
+--
+-- Volcado de datos para la tabla `t_language`
+--
+INSERT INTO `t_language` (`language_code`, `lang_code`, `language_name`, `language`) VALUES ('eng', 'en', 'English', 'eng');
+INSERT INTO `t_language` (`language_code`, `lang_code`, `language_name`, `language`) VALUES ('spa', 'es', 'Spanish', 'eng');
+INSERT INTO `t_language` (`language_code`, `lang_code`, `language_name`, `language`) VALUES ('ita', 'it', 'Italian', 'eng');
+INSERT INTO `t_language` (`language_code`, `lang_code`, `language_name`, `language`) VALUES ('hun', 'hu', 'Hungarian', 'eng');
+INSERT INTO `t_language` (`language_code`, `lang_code`, `language_name`, `language`) VALUES ('eng', 'en', 'Inglés', 'spa');
+INSERT INTO `t_language` (`language_code`, `lang_code`, `language_name`, `language`) VALUES ('spa', 'es', 'Español', 'spa');
+INSERT INTO `t_language` (`language_code`, `lang_code`, `language_name`, `language`) VALUES ('ita', 'it', 'Italiano', 'spa');
+INSERT INTO `t_language` (`language_code`, `lang_code`, `language_name`, `language`) VALUES ('hun', 'hu', 'Húngaro', 'spa');
+INSERT INTO `t_language` (`language_code`, `lang_code`, `language_name`, `language`) VALUES ('eng', 'en', 'English', 'hun');
+INSERT INTO `t_language` (`language_code`, `lang_code`, `language_name`, `language`) VALUES ('spa', 'es', 'Spanish', 'hun');
+INSERT INTO `t_language` (`language_code`, `lang_code`, `language_name`, `language`) VALUES ('ita', 'it', 'Italian', 'hun');
+INSERT INTO `t_language` (`language_code`, `lang_code`, `language_name`, `language`) VALUES ('hun', 'hu', 'Hungarian', 'hun');
+INSERT INTO `t_language` (`language_code`, `lang_code`, `language_name`, `language`) VALUES ('eng', 'en', 'English', 'ita');
+INSERT INTO `t_language` (`language_code`, `lang_code`, `language_name`, `language`) VALUES ('spa', 'es', 'Spanish', 'ita');
+INSERT INTO `t_language` (`language_code`, `lang_code`, `language_name`, `language`) VALUES ('ita', 'it', 'Italian', 'ita');
+INSERT INTO `t_language` (`language_code`, `lang_code`, `language_name`, `language`) VALUES ('hun', 'hu', 'Hungarian', 'ita');
+
 
 --
 -- Volcado de datos para la tabla `profile`
@@ -496,80 +632,236 @@ INSERT INTO `template_xml_tag` (`template_id`, `xml_tag_id`) VALUES(1, '810k');
 -- Volcado de datos para la tabla `t_character_set`
 --
 
-INSERT INTO `t_character_set` (`character_set_code`, `character_set_name`, `character_set_description`) VALUES(0, 'UTF8', NULL);
+INSERT INTO `t_character_set` (`character_set_code`, `character_set_name`, `character_set_description`, `language`) VALUES(0, 'UTF8', NULL, 'eng');
+INSERT INTO `t_character_set` (`character_set_code`, `character_set_name`, `character_set_description`, `language`) VALUES(0, 'UTF8', NULL, 'spa');
+INSERT INTO `t_character_set` (`character_set_code`, `character_set_name`, `character_set_description`, `language`) VALUES(0, 'UTF8', NULL, 'hun');
+INSERT INTO `t_character_set` (`character_set_code`, `character_set_name`, `character_set_description`, `language`) VALUES(0, 'UTF8', NULL, 'ita');
 
 --
 -- Volcado de datos para la tabla `t_external_dataset`
 --
 
-INSERT INTO `t_external_dataset` (`external_dataset_code`, `external_dataset_name`, `external_dataset_description`, `external_dataset_homepage`, `external_dataset_linkingfile`, `external_dataset_linkingnumthreads`) VALUES(0, 'DBPedia', 'Linked Data version of Wikipedia', 'http://dbpedia.org', '/home/aliada/links-discovery/config/silk/aliada_dbpedia_config.xml', 8);
-INSERT INTO `t_external_dataset` (`external_dataset_code`, `external_dataset_name`, `external_dataset_description`, `external_dataset_homepage`, `external_dataset_linkingfile`, `external_dataset_linkingnumthreads`) VALUES(1, 'GeoNames', 'Linked Data version of Geonames', 'http://www.geonames.org', '/home/aliada/links-discovery/config/silk/aliada_geonames_config.xml', 8);
-INSERT INTO `t_external_dataset` (`external_dataset_code`, `external_dataset_name`, `external_dataset_description`, `external_dataset_homepage`, `external_dataset_linkingfile`, `external_dataset_linkingnumthreads`) VALUES(2, 'Freebase', 'A community-curated database of well-known people, places, and things', 'https://www.freebase.com', '/home/aliada/links-discovery/config/silk/aliada_freebase_config.xml', 8);
-INSERT INTO `t_external_dataset` (`external_dataset_code`, `external_dataset_name`, `external_dataset_description`, `external_dataset_homepage`, `external_dataset_linkingfile`, `external_dataset_linkingnumthreads`) VALUES(3, 'BNE', 'National Library of Spain Linked Data Dataset', 'http://datos.bne.es', '/home/aliada/links-discovery/config/silk/aliada_bne_config.xml', 8);
-INSERT INTO `t_external_dataset` (`external_dataset_code`, `external_dataset_name`, `external_dataset_description`, `external_dataset_homepage`, `external_dataset_linkingfile`, `external_dataset_linkingnumthreads`) VALUES(4, 'BNB', 'The British National Bibliography as Linked Data', 'http://bnb.data.bl.uk/id/data/BNB', '/home/aliada/links-discovery/config/silk/aliada_bnb_config.xml', 8);
-INSERT INTO `t_external_dataset` (`external_dataset_code`, `external_dataset_name`, `external_dataset_description`, `external_dataset_homepage`, `external_dataset_linkingfile`, `external_dataset_linkingnumthreads`) VALUES(5, 'Europeana', 'Europeana as Linked Open Data', 'http://data.europeana.eu', '/home/aliada/links-discovery/config/silk/aliada_europeana_config.xml', 8);
-INSERT INTO `t_external_dataset` (`external_dataset_code`, `external_dataset_name`, `external_dataset_description`, `external_dataset_homepage`, `external_dataset_linkingfile`, `external_dataset_linkingnumthreads`) VALUES(6, 'NSZL', 'Hungarian National Library (NSZL) as Linked Open Data', 'http://nektar.oszk.hu/wiki/Semantic_web', '/home/aliada/links-discovery/config/silk/aliada_nszl_config.xml', 8);
-INSERT INTO `t_external_dataset` (`external_dataset_code`, `external_dataset_name`, `external_dataset_description`, `external_dataset_homepage`, `external_dataset_linkingfile`, `external_dataset_linkingnumthreads`) VALUES(7, 'MARC', 'Linked Data version of MARC Codes List', 'http://id.loc.gov', '/home/aliada/links-discovery/config/silk/aliada_marc_config.xml', 8);
-INSERT INTO `t_external_dataset` (`external_dataset_code`, `external_dataset_name`, `external_dataset_description`, `external_dataset_homepage`) VALUES(8, 'VIAF', 'Virtual International Authority File', 'http://viaf.org');
-INSERT INTO `t_external_dataset` (`external_dataset_code`, `external_dataset_name`, `external_dataset_description`, `external_dataset_homepage`) VALUES(9, 'Lobid: Libraries & rel. orgs', 'Lobid-organisations provides URIs for library-organisations and museums', 'http://lobid.org');
-INSERT INTO `t_external_dataset` (`external_dataset_code`, `external_dataset_name`, `external_dataset_description`, `external_dataset_homepage`) VALUES(10, 'Lobid: Bibliographic Resources', 'Lobid-resources offers access to metadata in RDF about bibliographic resources', 'http://lobid.org');
-INSERT INTO `t_external_dataset` (`external_dataset_code`, `external_dataset_name`, `external_dataset_description`, `external_dataset_homepage`) VALUES(11, 'Library of Congress SH', 'LCSH has been actively maintained since 1898 to catalogue materials held at the Library of Congress', 'http://id.loc.gov/authorities/subjects');
-INSERT INTO `t_external_dataset` (`external_dataset_code`, `external_dataset_name`, `external_dataset_description`, `external_dataset_homepage`) VALUES(12, 'Open Library', 'Open Library is an open, editable library catalogue, building towards a web page for every book ever published', 'http://openlibrary.org');
+INSERT INTO `t_external_dataset` (`external_dataset_code`, `external_dataset_name`, `external_dataset_description`, `external_dataset_homepage`, `external_dataset_linkingfile`, `external_dataset_linkingnumthreads`, `language`) VALUES(0, 'DBPedia', 'Linked Data version of Wikipedia', 'http://dbpedia.org', '/home/aliada/links-discovery/config/silk/aliada_dbpedia_config.xml', 8, 'eng');
+INSERT INTO `t_external_dataset` (`external_dataset_code`, `external_dataset_name`, `external_dataset_description`, `external_dataset_homepage`, `external_dataset_linkingfile`, `external_dataset_linkingnumthreads`, `language`) VALUES(1, 'GeoNames', 'Linked Data version of Geonames', 'http://www.geonames.org', '/home/aliada/links-discovery/config/silk/aliada_geonames_config.xml', 8, 'eng');
+INSERT INTO `t_external_dataset` (`external_dataset_code`, `external_dataset_name`, `external_dataset_description`, `external_dataset_homepage`, `external_dataset_linkingfile`, `external_dataset_linkingnumthreads`, `language`) VALUES(2, 'Freebase', 'A community-curated database of well-known people, places, and things', 'https://www.freebase.com', '/home/aliada/links-discovery/config/silk/aliada_freebase_config.xml', 8, 'eng');
+INSERT INTO `t_external_dataset` (`external_dataset_code`, `external_dataset_name`, `external_dataset_description`, `external_dataset_homepage`, `external_dataset_linkingfile`, `external_dataset_linkingnumthreads`, `language`) VALUES(3, 'BNE', 'National Library of Spain Linked Data Dataset', 'http://datos.bne.es', '/home/aliada/links-discovery/config/silk/aliada_bne_config.xml', 8, 'eng');
+INSERT INTO `t_external_dataset` (`external_dataset_code`, `external_dataset_name`, `external_dataset_description`, `external_dataset_homepage`, `external_dataset_linkingfile`, `external_dataset_linkingnumthreads`, `language`) VALUES(4, 'BNB', 'The British National Bibliography as Linked Data', 'http://bnb.data.bl.uk/id/data/BNB', '/home/aliada/links-discovery/config/silk/aliada_bnb_config.xml', 8, 'eng');
+INSERT INTO `t_external_dataset` (`external_dataset_code`, `external_dataset_name`, `external_dataset_description`, `external_dataset_homepage`, `external_dataset_linkingfile`, `external_dataset_linkingnumthreads`, `language`) VALUES(5, 'Europeana', 'Europeana as Linked Open Data', 'http://data.europeana.eu', '/home/aliada/links-discovery/config/silk/aliada_europeana_config.xml', 8, 'eng');
+INSERT INTO `t_external_dataset` (`external_dataset_code`, `external_dataset_name`, `external_dataset_description`, `external_dataset_homepage`, `external_dataset_linkingfile`, `external_dataset_linkingnumthreads`, `language`) VALUES(6, 'NSZL', 'Hungarian National Library (NSZL) as Linked Open Data', 'http://nektar.oszk.hu/wiki/Semantic_web', '/home/aliada/links-discovery/config/silk/aliada_nszl_config.xml', 8, 'eng');
+INSERT INTO `t_external_dataset` (`external_dataset_code`, `external_dataset_name`, `external_dataset_description`, `external_dataset_homepage`, `external_dataset_linkingfile`, `external_dataset_linkingnumthreads`, `language`) VALUES(7, 'MARC', 'Linked Data version of MARC Codes List', 'http://id.loc.gov', '/home/aliada/links-discovery/config/silk/aliada_marc_config.xml', 8, 'eng');
+INSERT INTO `t_external_dataset` (`external_dataset_code`, `external_dataset_name`, `external_dataset_description`, `external_dataset_homepage`, `language`) VALUES(8, 'VIAF', 'Virtual International Authority File', 'http://viaf.org', 'eng');
+INSERT INTO `t_external_dataset` (`external_dataset_code`, `external_dataset_name`, `external_dataset_description`, `external_dataset_homepage`, `language`) VALUES(9, 'Lobid: Libraries & rel. orgs', 'Lobid-organisations provides URIs for library-organisations and museums', 'http://lobid.org', 'eng');
+INSERT INTO `t_external_dataset` (`external_dataset_code`, `external_dataset_name`, `external_dataset_description`, `external_dataset_homepage`, `language`) VALUES(10, 'Lobid: Bibliographic Resources', 'Lobid-resources offers access to metadata in RDF about bibliographic resources', 'http://lobid.org', 'eng');
+INSERT INTO `t_external_dataset` (`external_dataset_code`, `external_dataset_name`, `external_dataset_description`, `external_dataset_homepage`, `language`) VALUES(11, 'Library of Congress SH', 'LCSH has been actively maintained since 1898 to catalogue materials held at the Library of Congress', 'http://id.loc.gov/authorities/subjects', 'eng');
+INSERT INTO `t_external_dataset` (`external_dataset_code`, `external_dataset_name`, `external_dataset_description`, `external_dataset_homepage`, `language`) VALUES(12, 'Open Library', 'Open Library is an open, editable library catalogue, building towards a web page for every book ever published', 'http://openlibrary.org', 'eng');
+
+INSERT INTO `t_external_dataset` (`external_dataset_code`, `external_dataset_name`, `external_dataset_description`, `external_dataset_homepage`, `external_dataset_linkingfile`, `external_dataset_linkingnumthreads`, `language`) VALUES(0, 'DBPedia', 'Linked Data version of Wikipedia', 'http://dbpedia.org', '/home/aliada/links-discovery/config/silk/aliada_dbpedia_config.xml', 8, 'spa');
+INSERT INTO `t_external_dataset` (`external_dataset_code`, `external_dataset_name`, `external_dataset_description`, `external_dataset_homepage`, `external_dataset_linkingfile`, `external_dataset_linkingnumthreads`, `language`) VALUES(1, 'GeoNames', 'Linked Data version of Geonames', 'http://www.geonames.org', '/home/aliada/links-discovery/config/silk/aliada_geonames_config.xml', 8, 'spa');
+INSERT INTO `t_external_dataset` (`external_dataset_code`, `external_dataset_name`, `external_dataset_description`, `external_dataset_homepage`, `external_dataset_linkingfile`, `external_dataset_linkingnumthreads`, `language`) VALUES(2, 'Freebase', 'A community-curated database of well-known people, places, and things', 'https://www.freebase.com', '/home/aliada/links-discovery/config/silk/aliada_freebase_config.xml', 8, 'spa');
+INSERT INTO `t_external_dataset` (`external_dataset_code`, `external_dataset_name`, `external_dataset_description`, `external_dataset_homepage`, `external_dataset_linkingfile`, `external_dataset_linkingnumthreads`, `language`) VALUES(3, 'BNE', 'National Library of Spain Linked Data Dataset', 'http://datos.bne.es', '/home/aliada/links-discovery/config/silk/aliada_bne_config.xml', 8, 'spa');
+INSERT INTO `t_external_dataset` (`external_dataset_code`, `external_dataset_name`, `external_dataset_description`, `external_dataset_homepage`, `external_dataset_linkingfile`, `external_dataset_linkingnumthreads`, `language`) VALUES(4, 'BNB', 'The British National Bibliography as Linked Data', 'http://bnb.data.bl.uk/id/data/BNB', '/home/aliada/links-discovery/config/silk/aliada_bnb_config.xml', 8, 'spa');
+INSERT INTO `t_external_dataset` (`external_dataset_code`, `external_dataset_name`, `external_dataset_description`, `external_dataset_homepage`, `external_dataset_linkingfile`, `external_dataset_linkingnumthreads`, `language`) VALUES(5, 'Europeana', 'Europeana as Linked Open Data', 'http://data.europeana.eu', '/home/aliada/links-discovery/config/silk/aliada_europeana_config.xml', 8, 'spa');
+INSERT INTO `t_external_dataset` (`external_dataset_code`, `external_dataset_name`, `external_dataset_description`, `external_dataset_homepage`, `external_dataset_linkingfile`, `external_dataset_linkingnumthreads`, `language`) VALUES(6, 'NSZL', 'Hungarian National Library (NSZL) as Linked Open Data', 'http://nektar.oszk.hu/wiki/Semantic_web', '/home/aliada/links-discovery/config/silk/aliada_nszl_config.xml', 8, 'spa');
+INSERT INTO `t_external_dataset` (`external_dataset_code`, `external_dataset_name`, `external_dataset_description`, `external_dataset_homepage`, `external_dataset_linkingfile`, `external_dataset_linkingnumthreads`, `language`) VALUES(7, 'MARC', 'Linked Data version of MARC Codes List', 'http://id.loc.gov', '/home/aliada/links-discovery/config/silk/aliada_marc_config.xml', 8, 'spa');
+INSERT INTO `t_external_dataset` (`external_dataset_code`, `external_dataset_name`, `external_dataset_description`, `external_dataset_homepage`, `language`) VALUES(8, 'VIAF', 'Virtual International Authority File', 'http://viaf.org', 'spa');
+INSERT INTO `t_external_dataset` (`external_dataset_code`, `external_dataset_name`, `external_dataset_description`, `external_dataset_homepage`, `language`) VALUES(9, 'Lobid: Libraries & rel. orgs', 'Lobid-organisations provides URIs for library-organisations and museums', 'http://lobid.org', 'spa');
+INSERT INTO `t_external_dataset` (`external_dataset_code`, `external_dataset_name`, `external_dataset_description`, `external_dataset_homepage`, `language`) VALUES(10, 'Lobid: Bibliographic Resources', 'Lobid-resources offers access to metadata in RDF about bibliographic resources', 'http://lobid.org', 'spa');
+INSERT INTO `t_external_dataset` (`external_dataset_code`, `external_dataset_name`, `external_dataset_description`, `external_dataset_homepage`, `language`) VALUES(11, 'Library of Congress SH', 'LCSH has been actively maintained since 1898 to catalogue materials held at the Library of Congress', 'http://id.loc.gov/authorities/subjects', 'spa');
+INSERT INTO `t_external_dataset` (`external_dataset_code`, `external_dataset_name`, `external_dataset_description`, `external_dataset_homepage`, `language`) VALUES(12, 'Open Library', 'Open Library is an open, editable library catalogue, building towards a web page for every book ever published', 'http://openlibrary.org', 'spa');
+
+INSERT INTO `t_external_dataset` (`external_dataset_code`, `external_dataset_name`, `external_dataset_description`, `external_dataset_homepage`, `external_dataset_linkingfile`, `external_dataset_linkingnumthreads`, `language`) VALUES(0, 'DBPedia', 'Linked Data version of Wikipedia', 'http://dbpedia.org', '/home/aliada/links-discovery/config/silk/aliada_dbpedia_config.xml', 8, 'hun');
+INSERT INTO `t_external_dataset` (`external_dataset_code`, `external_dataset_name`, `external_dataset_description`, `external_dataset_homepage`, `external_dataset_linkingfile`, `external_dataset_linkingnumthreads`, `language`) VALUES(1, 'GeoNames', 'Linked Data version of Geonames', 'http://www.geonames.org', '/home/aliada/links-discovery/config/silk/aliada_geonames_config.xml', 8, 'hun');
+INSERT INTO `t_external_dataset` (`external_dataset_code`, `external_dataset_name`, `external_dataset_description`, `external_dataset_homepage`, `external_dataset_linkingfile`, `external_dataset_linkingnumthreads`, `language`) VALUES(2, 'Freebase', 'A community-curated database of well-known people, places, and things', 'https://www.freebase.com', '/home/aliada/links-discovery/config/silk/aliada_freebase_config.xml', 8, 'hun');
+INSERT INTO `t_external_dataset` (`external_dataset_code`, `external_dataset_name`, `external_dataset_description`, `external_dataset_homepage`, `external_dataset_linkingfile`, `external_dataset_linkingnumthreads`, `language`) VALUES(3, 'BNE', 'National Library of Spain Linked Data Dataset', 'http://datos.bne.es', '/home/aliada/links-discovery/config/silk/aliada_bne_config.xml', 8, 'hun');
+INSERT INTO `t_external_dataset` (`external_dataset_code`, `external_dataset_name`, `external_dataset_description`, `external_dataset_homepage`, `external_dataset_linkingfile`, `external_dataset_linkingnumthreads`, `language`) VALUES(4, 'BNB', 'The British National Bibliography as Linked Data', 'http://bnb.data.bl.uk/id/data/BNB', '/home/aliada/links-discovery/config/silk/aliada_bnb_config.xml', 8, 'hun');
+INSERT INTO `t_external_dataset` (`external_dataset_code`, `external_dataset_name`, `external_dataset_description`, `external_dataset_homepage`, `external_dataset_linkingfile`, `external_dataset_linkingnumthreads`, `language`) VALUES(5, 'Europeana', 'Europeana as Linked Open Data', 'http://data.europeana.eu', '/home/aliada/links-discovery/config/silk/aliada_europeana_config.xml', 8, 'hun');
+INSERT INTO `t_external_dataset` (`external_dataset_code`, `external_dataset_name`, `external_dataset_description`, `external_dataset_homepage`, `external_dataset_linkingfile`, `external_dataset_linkingnumthreads`, `language`) VALUES(6, 'NSZL', 'Hungarian National Library (NSZL) as Linked Open Data', 'http://nektar.oszk.hu/wiki/Semantic_web', '/home/aliada/links-discovery/config/silk/aliada_nszl_config.xml', 8, 'hun');
+INSERT INTO `t_external_dataset` (`external_dataset_code`, `external_dataset_name`, `external_dataset_description`, `external_dataset_homepage`, `external_dataset_linkingfile`, `external_dataset_linkingnumthreads`, `language`) VALUES(7, 'MARC', 'Linked Data version of MARC Codes List', 'http://id.loc.gov', '/home/aliada/links-discovery/config/silk/aliada_marc_config.xml', 8, 'hun');
+INSERT INTO `t_external_dataset` (`external_dataset_code`, `external_dataset_name`, `external_dataset_description`, `external_dataset_homepage`, `language`) VALUES(8, 'VIAF', 'Virtual International Authority File', 'http://viaf.org', 'hun');
+INSERT INTO `t_external_dataset` (`external_dataset_code`, `external_dataset_name`, `external_dataset_description`, `external_dataset_homepage`, `language`) VALUES(9, 'Lobid: Libraries & rel. orgs', 'Lobid-organisations provides URIs for library-organisations and museums', 'http://lobid.org', 'hun');
+INSERT INTO `t_external_dataset` (`external_dataset_code`, `external_dataset_name`, `external_dataset_description`, `external_dataset_homepage`, `language`) VALUES(10, 'Lobid: Bibliographic Resources', 'Lobid-resources offers access to metadata in RDF about bibliographic resources', 'http://lobid.org', 'hun');
+INSERT INTO `t_external_dataset` (`external_dataset_code`, `external_dataset_name`, `external_dataset_description`, `external_dataset_homepage`, `language`) VALUES(11, 'Library of Congress SH', 'LCSH has been actively maintained since 1898 to catalogue materials held at the Library of Congress', 'http://id.loc.gov/authorities/subjects', 'hun');
+INSERT INTO `t_external_dataset` (`external_dataset_code`, `external_dataset_name`, `external_dataset_description`, `external_dataset_homepage`, `language`) VALUES(12, 'Open Library', 'Open Library is an open, editable library catalogue, building towards a web page for every book ever published', 'http://openlibrary.org', 'hun');
+
+INSERT INTO `t_external_dataset` (`external_dataset_code`, `external_dataset_name`, `external_dataset_description`, `external_dataset_homepage`, `external_dataset_linkingfile`, `external_dataset_linkingnumthreads`, `language`) VALUES(0, 'DBPedia', 'Linked Data version of Wikipedia', 'http://dbpedia.org', '/home/aliada/links-discovery/config/silk/aliada_dbpedia_config.xml', 8, 'ita');
+INSERT INTO `t_external_dataset` (`external_dataset_code`, `external_dataset_name`, `external_dataset_description`, `external_dataset_homepage`, `external_dataset_linkingfile`, `external_dataset_linkingnumthreads`, `language`) VALUES(1, 'GeoNames', 'Linked Data version of Geonames', 'http://www.geonames.org', '/home/aliada/links-discovery/config/silk/aliada_geonames_config.xml', 8, 'ita');
+INSERT INTO `t_external_dataset` (`external_dataset_code`, `external_dataset_name`, `external_dataset_description`, `external_dataset_homepage`, `external_dataset_linkingfile`, `external_dataset_linkingnumthreads`, `language`) VALUES(2, 'Freebase', 'A community-curated database of well-known people, places, and things', 'https://www.freebase.com', '/home/aliada/links-discovery/config/silk/aliada_freebase_config.xml', 8, 'ita');
+INSERT INTO `t_external_dataset` (`external_dataset_code`, `external_dataset_name`, `external_dataset_description`, `external_dataset_homepage`, `external_dataset_linkingfile`, `external_dataset_linkingnumthreads`, `language`) VALUES(3, 'BNE', 'National Library of Spain Linked Data Dataset', 'http://datos.bne.es', '/home/aliada/links-discovery/config/silk/aliada_bne_config.xml', 8, 'ita');
+INSERT INTO `t_external_dataset` (`external_dataset_code`, `external_dataset_name`, `external_dataset_description`, `external_dataset_homepage`, `external_dataset_linkingfile`, `external_dataset_linkingnumthreads`, `language`) VALUES(4, 'BNB', 'The British National Bibliography as Linked Data', 'http://bnb.data.bl.uk/id/data/BNB', '/home/aliada/links-discovery/config/silk/aliada_bnb_config.xml', 8, 'ita');
+INSERT INTO `t_external_dataset` (`external_dataset_code`, `external_dataset_name`, `external_dataset_description`, `external_dataset_homepage`, `external_dataset_linkingfile`, `external_dataset_linkingnumthreads`, `language`) VALUES(5, 'Europeana', 'Europeana as Linked Open Data', 'http://data.europeana.eu', '/home/aliada/links-discovery/config/silk/aliada_europeana_config.xml', 8, 'ita');
+INSERT INTO `t_external_dataset` (`external_dataset_code`, `external_dataset_name`, `external_dataset_description`, `external_dataset_homepage`, `external_dataset_linkingfile`, `external_dataset_linkingnumthreads`, `language`) VALUES(6, 'NSZL', 'Hungarian National Library (NSZL) as Linked Open Data', 'http://nektar.oszk.hu/wiki/Semantic_web', '/home/aliada/links-discovery/config/silk/aliada_nszl_config.xml', 8, 'ita');
+INSERT INTO `t_external_dataset` (`external_dataset_code`, `external_dataset_name`, `external_dataset_description`, `external_dataset_homepage`, `external_dataset_linkingfile`, `external_dataset_linkingnumthreads`, `language`) VALUES(7, 'MARC', 'Linked Data version of MARC Codes List', 'http://id.loc.gov', '/home/aliada/links-discovery/config/silk/aliada_marc_config.xml', 8, 'ita');
+INSERT INTO `t_external_dataset` (`external_dataset_code`, `external_dataset_name`, `external_dataset_description`, `external_dataset_homepage`, `language`) VALUES(8, 'VIAF', 'Virtual International Authority File', 'http://viaf.org', 'ita');
+INSERT INTO `t_external_dataset` (`external_dataset_code`, `external_dataset_name`, `external_dataset_description`, `external_dataset_homepage`, `language`) VALUES(9, 'Lobid: Libraries & rel. orgs', 'Lobid-organisations provides URIs for library-organisations and museums', 'http://lobid.org', 'ita');
+INSERT INTO `t_external_dataset` (`external_dataset_code`, `external_dataset_name`, `external_dataset_description`, `external_dataset_homepage`, `language`) VALUES(10, 'Lobid: Bibliographic Resources', 'Lobid-resources offers access to metadata in RDF about bibliographic resources', 'http://lobid.org', 'ita');
+INSERT INTO `t_external_dataset` (`external_dataset_code`, `external_dataset_name`, `external_dataset_description`, `external_dataset_homepage`, `language`) VALUES(11, 'Library of Congress SH', 'LCSH has been actively maintained since 1898 to catalogue materials held at the Library of Congress', 'http://id.loc.gov/authorities/subjects', 'ita');
+INSERT INTO `t_external_dataset` (`external_dataset_code`, `external_dataset_name`, `external_dataset_description`, `external_dataset_homepage`, `language`) VALUES(12, 'Open Library', 'Open Library is an open, editable library catalogue, building towards a web page for every book ever published', 'http://openlibrary.org', 'ita');
+
 
 --
 -- Volcado de datos para la tabla `t_file_format`
 --
 
-INSERT INTO `t_file_format` (`file_format_code`, `file_format_name`, `file_format_description`) VALUES(0, 'XML', 'XML file');
+INSERT INTO `t_file_format` (`file_format_code`, `file_format_name`, `file_format_description`, `language`) VALUES(0, 'XML', 'XML file', 'eng');
+INSERT INTO `t_file_format` (`file_format_code`, `file_format_name`, `file_format_description`, `language`) VALUES(0, 'XML', 'XML file', 'spa');
+INSERT INTO `t_file_format` (`file_format_code`, `file_format_name`, `file_format_description`, `language`) VALUES(0, 'XML', 'XML file', 'hun');
+INSERT INTO `t_file_format` (`file_format_code`, `file_format_name`, `file_format_description`, `language`) VALUES(0, 'XML', 'XML file', 'ita');
 
 --
 -- Volcado de datos para la tabla `t_file_type`
 --
 
-INSERT INTO `t_file_type` (`file_type_code`, `file_type_name`, `file_type_description`, `file_type_conversion_file`) VALUES(0, 'Bibliographic', NULL, 'marc_bib.xsl');
-INSERT INTO `t_file_type` (`file_type_code`, `file_type_name`, `file_type_description`, `file_type_conversion_file`) VALUES(1, 'Authority', NULL, 'marc_aut.xsl');
-INSERT INTO `t_file_type` (`file_type_code`, `file_type_name`, `file_type_description`, `file_type_conversion_file`) VALUES(2, 'Museum Resource', NULL, 'lido.xsl');
-INSERT INTO `t_file_type` (`file_type_code`, `file_type_name`, `file_type_description`, `file_type_conversion_file`) VALUES(3, 'Dublin Core',  NULL, 'dc.xsl');
+INSERT INTO `t_file_type` (`file_type_code`, `file_type_name`, `file_type_description`, `file_type_conversion_file`, `language`) VALUES(0, 'Bibliographic', NULL, 'marc_bib.xsl', 'eng');
+INSERT INTO `t_file_type` (`file_type_code`, `file_type_name`, `file_type_description`, `file_type_conversion_file`, `language`) VALUES(1, 'Authority', NULL, 'marc_aut.xsl', 'eng');
+INSERT INTO `t_file_type` (`file_type_code`, `file_type_name`, `file_type_description`, `file_type_conversion_file`, `language`) VALUES(2, 'Museum Resource', NULL, 'lido.xsl', 'eng');
+INSERT INTO `t_file_type` (`file_type_code`, `file_type_name`, `file_type_description`, `file_type_conversion_file`, `language`) VALUES(3, 'Dublin Core',  NULL, 'dc.xsl', 'eng');
+
+INSERT INTO `t_file_type` (`file_type_code`, `file_type_name`, `file_type_description`, `file_type_conversion_file`, `language`) VALUES(0, 'Bibliographic', NULL, 'marc_bib.xsl', 'spa');
+INSERT INTO `t_file_type` (`file_type_code`, `file_type_name`, `file_type_description`, `file_type_conversion_file`, `language`) VALUES(1, 'Authority', NULL, 'marc_aut.xsl', 'spa');
+INSERT INTO `t_file_type` (`file_type_code`, `file_type_name`, `file_type_description`, `file_type_conversion_file`, `language`) VALUES(2, 'Museum Resource', NULL, 'lido.xsl', 'spa');
+INSERT INTO `t_file_type` (`file_type_code`, `file_type_name`, `file_type_description`, `file_type_conversion_file`, `language`) VALUES(3, 'Dublin Core',  NULL, 'dc.xsl', 'spa');
+
+INSERT INTO `t_file_type` (`file_type_code`, `file_type_name`, `file_type_description`, `file_type_conversion_file`, `language`) VALUES(0, 'Bibliographic', NULL, 'marc_bib.xsl', 'hun');
+INSERT INTO `t_file_type` (`file_type_code`, `file_type_name`, `file_type_description`, `file_type_conversion_file`, `language`) VALUES(1, 'Authority', NULL, 'marc_aut.xsl', 'hun');
+INSERT INTO `t_file_type` (`file_type_code`, `file_type_name`, `file_type_description`, `file_type_conversion_file`, `language`) VALUES(2, 'Museum Resource', NULL, 'lido.xsl', 'hun');
+INSERT INTO `t_file_type` (`file_type_code`, `file_type_name`, `file_type_description`, `file_type_conversion_file`, `language`) VALUES(3, 'Dublin Core',  NULL, 'dc.xsl', 'hun');
+
+INSERT INTO `t_file_type` (`file_type_code`, `file_type_name`, `file_type_description`, `file_type_conversion_file`, `language`) VALUES(0, 'Bibliographic', NULL, 'marc_bib.xsl', 'ita');
+INSERT INTO `t_file_type` (`file_type_code`, `file_type_name`, `file_type_description`, `file_type_conversion_file`, `language`) VALUES(1, 'Authority', NULL, 'marc_aut.xsl', 'ita');
+INSERT INTO `t_file_type` (`file_type_code`, `file_type_name`, `file_type_description`, `file_type_conversion_file`, `language`) VALUES(2, 'Museum Resource', NULL, 'lido.xsl', 'ita');
+INSERT INTO `t_file_type` (`file_type_code`, `file_type_name`, `file_type_description`, `file_type_conversion_file`, `language`) VALUES(3, 'Dublin Core',  NULL, 'dc.xsl', 'ita');
 
 --
 -- Volcado de datos para la tabla `t_metadata_scheme`
 --
 
-INSERT INTO `t_metadata_scheme` (`metadata_code`, `metadata_name`, `metadata_description`, `metadata_conversion_file`) VALUES(0, 'marcxml', NULL, 'MARC21slim.xsd');
-INSERT INTO `t_metadata_scheme` (`metadata_code`, `metadata_name`, `metadata_description`, `metadata_conversion_file`) VALUES(1, 'auth', NULL, 'MARC21slim.xsd');
-INSERT INTO `t_metadata_scheme` (`metadata_code`, `metadata_name`, `metadata_description`, `metadata_conversion_file`) VALUES(2, 'lido', NULL, 'lido-v1.0.xsd');
-INSERT INTO `t_metadata_scheme` (`metadata_code`, `metadata_name`, `metadata_description`, `metadata_conversion_file`) VALUES(3, 'dc', NULL, 'dc.xsd');
+INSERT INTO `t_metadata_scheme` (`metadata_code`, `metadata_name`, `metadata_description`, `metadata_conversion_file`, `language`) VALUES(0, 'marcxml', NULL, 'MARC21slim.xsd', 'eng');
+INSERT INTO `t_metadata_scheme` (`metadata_code`, `metadata_name`, `metadata_description`, `metadata_conversion_file`, `language`) VALUES(1, 'auth', NULL, 'MARC21slim.xsd', 'eng');
+INSERT INTO `t_metadata_scheme` (`metadata_code`, `metadata_name`, `metadata_description`, `metadata_conversion_file`, `language`) VALUES(2, 'lido', NULL, 'lido-v1.0.xsd', 'eng');
+INSERT INTO `t_metadata_scheme` (`metadata_code`, `metadata_name`, `metadata_description`, `metadata_conversion_file`, `language`) VALUES(3, 'dc', NULL, 'dc.xsd', 'eng');
+
+INSERT INTO `t_metadata_scheme` (`metadata_code`, `metadata_name`, `metadata_description`, `metadata_conversion_file`, `language`) VALUES(0, 'marcxml', NULL, 'MARC21slim.xsd', 'spa');
+INSERT INTO `t_metadata_scheme` (`metadata_code`, `metadata_name`, `metadata_description`, `metadata_conversion_file`, `language`) VALUES(1, 'auth', NULL, 'MARC21slim.xsd', 'spa');
+INSERT INTO `t_metadata_scheme` (`metadata_code`, `metadata_name`, `metadata_description`, `metadata_conversion_file`, `language`) VALUES(2, 'lido', NULL, 'lido-v1.0.xsd', 'spa');
+INSERT INTO `t_metadata_scheme` (`metadata_code`, `metadata_name`, `metadata_description`, `metadata_conversion_file`, `language`) VALUES(3, 'dc', NULL, 'dc.xsd', 'spa');
+
+INSERT INTO `t_metadata_scheme` (`metadata_code`, `metadata_name`, `metadata_description`, `metadata_conversion_file`, `language`) VALUES(0, 'marcxml', NULL, 'MARC21slim.xsd', 'hun');
+INSERT INTO `t_metadata_scheme` (`metadata_code`, `metadata_name`, `metadata_description`, `metadata_conversion_file`, `language`) VALUES(1, 'auth', NULL, 'MARC21slim.xsd', 'hun');
+INSERT INTO `t_metadata_scheme` (`metadata_code`, `metadata_name`, `metadata_description`, `metadata_conversion_file`, `language`) VALUES(2, 'lido', NULL, 'lido-v1.0.xsd', 'hun');
+INSERT INTO `t_metadata_scheme` (`metadata_code`, `metadata_name`, `metadata_description`, `metadata_conversion_file`, `language`) VALUES(3, 'dc', NULL, 'dc.xsd', 'hun');
+
+INSERT INTO `t_metadata_scheme` (`metadata_code`, `metadata_name`, `metadata_description`, `metadata_conversion_file`, `language`) VALUES(0, 'marcxml', NULL, 'MARC21slim.xsd', 'ita');
+INSERT INTO `t_metadata_scheme` (`metadata_code`, `metadata_name`, `metadata_description`, `metadata_conversion_file`, `language`) VALUES(1, 'auth', NULL, 'MARC21slim.xsd', 'ita');
+INSERT INTO `t_metadata_scheme` (`metadata_code`, `metadata_name`, `metadata_description`, `metadata_conversion_file`, `language`) VALUES(2, 'lido', NULL, 'lido-v1.0.xsd', 'ita');
+INSERT INTO `t_metadata_scheme` (`metadata_code`, `metadata_name`, `metadata_description`, `metadata_conversion_file`, `language`) VALUES(3, 'dc', NULL, 'dc.xsd', 'ita');
+
 
 --
 -- Volcado de datos para la tabla `t_profile_type`
 --
 
-INSERT INTO `t_profile_type` (`profile_code`, `profile_name`, `profile_description`) VALUES(0, 'ILS', NULL);
-INSERT INTO `t_profile_type` (`profile_code`, `profile_name`, `profile_description`) VALUES(1, 'TMS', NULL);
-INSERT INTO `t_profile_type` (`profile_code`, `profile_name`, `profile_description`) VALUES(2, 'Drupal', NULL);
+INSERT INTO `t_profile_type` (`profile_code`, `profile_name`, `profile_description`, `language`) VALUES(0, 'ILS', NULL, 'eng');
+INSERT INTO `t_profile_type` (`profile_code`, `profile_name`, `profile_description`, `language`) VALUES(1, 'TMS', NULL, 'eng');
+INSERT INTO `t_profile_type` (`profile_code`, `profile_name`, `profile_description`, `language`) VALUES(2, 'Drupal', NULL, 'eng');
+
+INSERT INTO `t_profile_type` (`profile_code`, `profile_name`, `profile_description`, `language`) VALUES(0, 'ILS', NULL, 'spa');
+INSERT INTO `t_profile_type` (`profile_code`, `profile_name`, `profile_description`, `language`) VALUES(1, 'TMS', NULL, 'spa');
+INSERT INTO `t_profile_type` (`profile_code`, `profile_name`, `profile_description`, `language`) VALUES(2, 'Drupal', NULL, 'spa');
+
+INSERT INTO `t_profile_type` (`profile_code`, `profile_name`, `profile_description`, `language`) VALUES(0, 'ILS', NULL, 'hun');
+INSERT INTO `t_profile_type` (`profile_code`, `profile_name`, `profile_description`, `language`) VALUES(1, 'TMS', NULL, 'hun');
+INSERT INTO `t_profile_type` (`profile_code`, `profile_name`, `profile_description`, `language`) VALUES(2, 'Drupal', NULL, 'hun');
+
+INSERT INTO `t_profile_type` (`profile_code`, `profile_name`, `profile_description`, `language`) VALUES(0, 'ILS', NULL, 'ita');
+INSERT INTO `t_profile_type` (`profile_code`, `profile_name`, `profile_description`, `language`) VALUES(1, 'TMS', NULL, 'ita');
+INSERT INTO `t_profile_type` (`profile_code`, `profile_name`, `profile_description`, `language`) VALUES(2, 'Drupal', NULL, 'ita');
+
 
 --
 -- Volcado de datos para la tabla `t_user_role`
 --
 
-INSERT INTO `t_user_role` (`user_role_code`, `user_role`, `user_role_description`) VALUES(0, 'Basic', NULL);
-INSERT INTO `t_user_role` (`user_role_code`, `user_role`, `user_role_description`) VALUES(1, 'Administrator', NULL);
+INSERT INTO `t_user_role` (`user_role_code`, `user_role`, `user_role_description`, `language`) VALUES(0, 'Administrador', NULL, 'eng');
+INSERT INTO `t_user_role` (`user_role_code`, `user_role`, `user_role_description`, `language`) VALUES(1, 'Administrative Officer', NULL, 'eng');
+INSERT INTO `t_user_role` (`user_role_code`, `user_role`, `user_role_description`, `language`) VALUES(2, 'Programmer', NULL, 'eng');
+INSERT INTO `t_user_role` (`user_role_code`, `user_role`, `user_role_description`, `language`) VALUES(3, 'Librarian', NULL, 'eng');
+INSERT INTO `t_user_role` (`user_role_code`, `user_role`, `user_role_description`, `language`) VALUES(4, 'Archivist', NULL, 'eng');
+INSERT INTO `t_user_role` (`user_role_code`, `user_role`, `user_role_description`, `language`) VALUES(5, 'Manager', NULL, 'eng');
+INSERT INTO `t_user_role` (`user_role_code`, `user_role`, `user_role_description`, `language`) VALUES(6, 'Cataloguer', NULL, 'eng');
+INSERT INTO `t_user_role` (`user_role_code`, `user_role`, `user_role_description`, `language`) VALUES(7, 'Supervisor', NULL, 'eng');
+INSERT INTO `t_user_role` (`user_role_code`, `user_role`, `user_role_description`, `language`) VALUES(8, 'Library Director', NULL, 'eng');
+
+INSERT INTO `t_user_role` (`user_role_code`, `user_role`, `user_role_description`, `language`) VALUES(0, 'Administrador', NULL, 'spa');
+INSERT INTO `t_user_role` (`user_role_code`, `user_role`, `user_role_description`, `language`) VALUES(1, 'Administrativo', NULL, 'spa');
+INSERT INTO `t_user_role` (`user_role_code`, `user_role`, `user_role_description`, `language`) VALUES(2, 'Programador', NULL, 'spa');
+INSERT INTO `t_user_role` (`user_role_code`, `user_role`, `user_role_description`, `language`) VALUES(3, 'Bibliotecario', NULL, 'spa');
+INSERT INTO `t_user_role` (`user_role_code`, `user_role`, `user_role_description`, `language`) VALUES(4, 'Archivero', NULL, 'spa');
+INSERT INTO `t_user_role` (`user_role_code`, `user_role`, `user_role_description`, `language`) VALUES(5, 'Gestor', NULL, 'spa');
+INSERT INTO `t_user_role` (`user_role_code`, `user_role`, `user_role_description`, `language`) VALUES(6, 'Catalogador', NULL, 'spa');
+INSERT INTO `t_user_role` (`user_role_code`, `user_role`, `user_role_description`, `language`) VALUES(7, 'Supervisor', NULL, 'spa');
+INSERT INTO `t_user_role` (`user_role_code`, `user_role`, `user_role_description`, `language`) VALUES(8, 'Director de la Biblioteca', NULL, 'spa');
+
+INSERT INTO `t_user_role` (`user_role_code`, `user_role`, `user_role_description`, `language`) VALUES(0, 'Administrador', NULL, 'hun');
+INSERT INTO `t_user_role` (`user_role_code`, `user_role`, `user_role_description`, `language`) VALUES(1, 'Administrative Officer', NULL, 'hun');
+INSERT INTO `t_user_role` (`user_role_code`, `user_role`, `user_role_description`, `language`) VALUES(2, 'Programmer', NULL, 'hun');
+INSERT INTO `t_user_role` (`user_role_code`, `user_role`, `user_role_description`, `language`) VALUES(3, 'Librarian', NULL, 'hun');
+INSERT INTO `t_user_role` (`user_role_code`, `user_role`, `user_role_description`, `language`) VALUES(4, 'Archivist', NULL, 'hun');
+INSERT INTO `t_user_role` (`user_role_code`, `user_role`, `user_role_description`, `language`) VALUES(5, 'Manager', NULL, 'hun');
+INSERT INTO `t_user_role` (`user_role_code`, `user_role`, `user_role_description`, `language`) VALUES(6, 'Cataloguer', NULL, 'hun');
+INSERT INTO `t_user_role` (`user_role_code`, `user_role`, `user_role_description`, `language`) VALUES(7, 'Supervisor', NULL, 'hun');
+INSERT INTO `t_user_role` (`user_role_code`, `user_role`, `user_role_description`, `language`) VALUES(8, 'Library Director', NULL, 'hun');
+
+INSERT INTO `t_user_role` (`user_role_code`, `user_role`, `user_role_description`, `language`) VALUES(0, 'Administrador', NULL, 'ita');
+INSERT INTO `t_user_role` (`user_role_code`, `user_role`, `user_role_description`, `language`) VALUES(1, 'Administrative Officer', NULL, 'ita');
+INSERT INTO `t_user_role` (`user_role_code`, `user_role`, `user_role_description`, `language`) VALUES(2, 'Programmer', NULL, 'ita');
+INSERT INTO `t_user_role` (`user_role_code`, `user_role`, `user_role_description`, `language`) VALUES(3, 'Librarian', NULL, 'ita');
+INSERT INTO `t_user_role` (`user_role_code`, `user_role`, `user_role_description`, `language`) VALUES(4, 'Archivist', NULL, 'ita');
+INSERT INTO `t_user_role` (`user_role_code`, `user_role`, `user_role_description`, `language`) VALUES(5, 'Manager', NULL, 'ita');
+INSERT INTO `t_user_role` (`user_role_code`, `user_role`, `user_role_description`, `language`) VALUES(6, 'Cataloguer', NULL, 'ita');
+INSERT INTO `t_user_role` (`user_role_code`, `user_role`, `user_role_description`, `language`) VALUES(7, 'Supervisor', NULL, 'ita');
+INSERT INTO `t_user_role` (`user_role_code`, `user_role`, `user_role_description`, `language`) VALUES(8, 'Library Director', NULL, 'ita');
 
 --
 -- Volcado de datos para la tabla `t_user_type`
 --
 
-INSERT INTO `t_user_type` (`user_type_code`, `user_type`, `user_type_description`) VALUES(0, 'Basic', NULL);
-INSERT INTO `t_user_type` (`user_type_code`, `user_type`, `user_type_description`) VALUES(1, 'Advanced', NULL);
+INSERT INTO `t_user_type` (`user_type_code`, `user_type`, `user_type_description`, `language`) VALUES(0, 'Basic', NULL, 'eng');
+INSERT INTO `t_user_type` (`user_type_code`, `user_type`, `user_type_description`, `language`) VALUES(1, 'Advanced', NULL, 'eng');
+
+INSERT INTO `t_user_type` (`user_type_code`, `user_type`, `user_type_description`, `language`) VALUES(0, 'Basic', NULL, 'spa');
+INSERT INTO `t_user_type` (`user_type_code`, `user_type`, `user_type_description`, `language`) VALUES(1, 'Advanced', NULL, 'spa');
+
+INSERT INTO `t_user_type` (`user_type_code`, `user_type`, `user_type_description`, `language`) VALUES(0, 'Basic', NULL, 'hun');
+INSERT INTO `t_user_type` (`user_type_code`, `user_type`, `user_type_description`, `language`) VALUES(1, 'Advanced', NULL, 'hun');
+
+INSERT INTO `t_user_type` (`user_type_code`, `user_type`, `user_type_description`, `language`) VALUES(0, 'Basic', NULL, 'ita');
+INSERT INTO `t_user_type` (`user_type_code`, `user_type`, `user_type_description`, `language`) VALUES(1, 'Advanced', NULL, 'ita');
+
 
 --
 -- Volcado de datos para la tabla `t_xml_tag_type`
 --
 
-INSERT INTO `t_xml_tag_type` (`xml_tag_type_code`, `xml_tag_type_name`, `xml_tag_type_description`) VALUES(0, 'MARC21 Bibliographic', NULL);
-INSERT INTO `t_xml_tag_type` (`xml_tag_type_code`, `xml_tag_type_name`, `xml_tag_type_description`) VALUES(1, 'MARC21 Authority', NULL);
-INSERT INTO `t_xml_tag_type` (`xml_tag_type_code`, `xml_tag_type_name`, `xml_tag_type_description`) VALUES(2, 'LIDO', NULL);
-INSERT INTO `t_xml_tag_type` (`xml_tag_type_code`, `xml_tag_type_name`, `xml_tag_type_description`) VALUES(3, 'DC', NULL);
+INSERT INTO `t_xml_tag_type` (`xml_tag_type_code`, `xml_tag_type_name`, `xml_tag_type_description`, `language`) VALUES(0, 'MARC21 Bibliographic', NULL, 'eng');
+INSERT INTO `t_xml_tag_type` (`xml_tag_type_code`, `xml_tag_type_name`, `xml_tag_type_description`, `language`) VALUES(1, 'MARC21 Authority', NULL, 'eng');
+INSERT INTO `t_xml_tag_type` (`xml_tag_type_code`, `xml_tag_type_name`, `xml_tag_type_description`, `language`) VALUES(2, 'LIDO', NULL, 'eng');
+INSERT INTO `t_xml_tag_type` (`xml_tag_type_code`, `xml_tag_type_name`, `xml_tag_type_description`, `language`) VALUES(3, 'DC', NULL, 'eng');
+
+INSERT INTO `t_xml_tag_type` (`xml_tag_type_code`, `xml_tag_type_name`, `xml_tag_type_description`, `language`) VALUES(0, 'MARC21 Bibliographic', NULL, 'spa');
+INSERT INTO `t_xml_tag_type` (`xml_tag_type_code`, `xml_tag_type_name`, `xml_tag_type_description`, `language`) VALUES(1, 'MARC21 Authority', NULL, 'spa');
+INSERT INTO `t_xml_tag_type` (`xml_tag_type_code`, `xml_tag_type_name`, `xml_tag_type_description`, `language`) VALUES(2, 'LIDO', NULL, 'spa');
+INSERT INTO `t_xml_tag_type` (`xml_tag_type_code`, `xml_tag_type_name`, `xml_tag_type_description`, `language`) VALUES(3, 'DC', NULL, 'spa');
+
+INSERT INTO `t_xml_tag_type` (`xml_tag_type_code`, `xml_tag_type_name`, `xml_tag_type_description`, `language`) VALUES(0, 'MARC21 Bibliographic', NULL, 'hun');
+INSERT INTO `t_xml_tag_type` (`xml_tag_type_code`, `xml_tag_type_name`, `xml_tag_type_description`, `language`) VALUES(1, 'MARC21 Authority', NULL, 'hun');
+INSERT INTO `t_xml_tag_type` (`xml_tag_type_code`, `xml_tag_type_name`, `xml_tag_type_description`, `language`) VALUES(2, 'LIDO', NULL, 'hun');
+INSERT INTO `t_xml_tag_type` (`xml_tag_type_code`, `xml_tag_type_name`, `xml_tag_type_description`, `language`) VALUES(3, 'DC', NULL, 'hun');
+
+INSERT INTO `t_xml_tag_type` (`xml_tag_type_code`, `xml_tag_type_name`, `xml_tag_type_description`, `language`) VALUES(0, 'MARC21 Bibliographic', NULL, 'ita');
+INSERT INTO `t_xml_tag_type` (`xml_tag_type_code`, `xml_tag_type_name`, `xml_tag_type_description`, `language`) VALUES(1, 'MARC21 Authority', NULL, 'ita');
+INSERT INTO `t_xml_tag_type` (`xml_tag_type_code`, `xml_tag_type_name`, `xml_tag_type_description`, `language`) VALUES(2, 'LIDO', NULL, 'ita');
+INSERT INTO `t_xml_tag_type` (`xml_tag_type_code`, `xml_tag_type_name`, `xml_tag_type_description`, `language`) VALUES(3, 'DC', NULL, 'ita');
+
 
 --
 -- Volcado de datos para la tabla `user`
