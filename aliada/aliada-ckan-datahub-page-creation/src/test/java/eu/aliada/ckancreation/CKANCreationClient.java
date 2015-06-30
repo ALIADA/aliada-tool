@@ -26,8 +26,8 @@ public class CKANCreationClient {
 	/** For logging. */
 	private static final Log LOGGER = new Log(CKANCreationClient.class);
 	/** URL of the REST service to test URL. */
-	protected String ALIADA_CKANCREATION_URL = "http://localhost:8888/ckan-datahub/";
-//	protected String ALIADA_CKANCREATION_URL = "http://http://aliada.scanbit.net:8080/aliada-ckan-datahub-page-creation-2.0/";
+	private static final String ALIADA_CKANCREATION_URL = "http://localhost:8888/ckan-datahub/";
+//	private static final String ALIADA_CKANCREATION_URL = "http://aliada.scanbit.net:8080/aliada-ckan-datahub-page-creation-2.0/";
 	
 	/**
 	 * Implementation of a CKAN Datahub Page Creation REST service client application.
@@ -86,8 +86,8 @@ public class CKANCreationClient {
 	 * @param args				Application arguments.
 	 * @since 2.0
 	 */
-	public static void main(String[] args) {
-		CKANCreationClient client = new CKANCreationClient();
+	public static void main(final String[] args) {
+		final CKANCreationClient client = new CKANCreationClient();
 		final int jobid = 1;
 		//Create a Links Discovery Job
 		client.newJob(jobid);

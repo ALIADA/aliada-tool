@@ -93,7 +93,7 @@ public class JobConfiguration {
 	private int numTriples;
 
 	/** The subsets where the dataset resides. */
-	private ArrayList<Subset> subsets = new ArrayList<Subset>(); 
+	private final ArrayList<Subset> subsets = new ArrayList<Subset>(); 
     
 	/**
 	 * Returns the identifier of this job configuration.
@@ -630,7 +630,7 @@ public class JobConfiguration {
 	 * @param licenseCKANId CKAN id of the License of the dataset.
 	 * @since 2.0
 	 */
-	public void setLicenseCKANId(String licenseCKANId) {
+	public void setLicenseCKANId(final String licenseCKANId) {
 		this.licenseCKANId = licenseCKANId;
 	}
 
@@ -649,7 +649,7 @@ public class JobConfiguration {
 	 * @param licenseURL license URL of the dataset.
 	 * @since 2.0
 	 */
-	public void setLicenseURL(String licenseURL) {
+	public void setLicenseURL(final String licenseURL) {
 		this.licenseURL = licenseURL;
 	}
 
@@ -766,7 +766,7 @@ public class JobConfiguration {
 	 * @param numTriples Number of triples of the dataset.
 	 * @since 2.0
 	 */
-	public void setNumTriples(int numTriples) {
+	public void setNumTriples(final int numTriples) {
 		this.numTriples = numTriples;
 	}
 

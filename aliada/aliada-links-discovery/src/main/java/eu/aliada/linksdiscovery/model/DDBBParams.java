@@ -12,9 +12,13 @@ package eu.aliada.linksdiscovery.model;
  * @since 1.0
  */
 public class DDBBParams {
+	/** DB user name */
 	private String username;
+	/** DB password */
 	private String password;
+	/** DB driver class name */
 	private String driverClassName;
+	/** DB URL */
 	private String url;
 
 	/**
@@ -30,7 +34,7 @@ public class DDBBParams {
 	 * 
 	 * @param username The username for the DDBB.
 	 */
-	public void setUsername(String username) {
+	public void setUsername(final String username) {
 		this.username = username;
 	}
 
@@ -47,7 +51,7 @@ public class DDBBParams {
 	 * 
 	 * @param username The password for the DDBB.
 	 */
-	public void setPassword(String password) {
+	public void setPassword(final String password) {
 		this.password = password;
 	}
 
@@ -64,7 +68,7 @@ public class DDBBParams {
 	 * 
 	 * @param driverClassName The driverClassName for the DDBB.
 	 */
-	public void setDriverClassName(String driverClassName) {
+	public void setDriverClassName(final String driverClassName) {
 		this.driverClassName = driverClassName;
 	}
 
@@ -81,7 +85,7 @@ public class DDBBParams {
 	 * 
 	 * @param url The url for the DDBB.
 	 */
-	public void setUrl(String url) {
+	public void setUrl(final String url) {
 		this.url = url;
 	}
 }

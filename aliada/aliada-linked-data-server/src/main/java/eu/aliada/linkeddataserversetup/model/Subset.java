@@ -123,7 +123,7 @@ public class Subset {
 	 *        the ISQL commands for URL rewriting in Virtuoso for the subset.
 	 * @since 2.0
 	 */
-	public void setIsqlCommandsSubsetFilename(String isqlCommandsSubsetFilename) {
+	public void setIsqlCommandsSubsetFilename(final String isqlCommandsSubsetFilename) {
 		this.isqlCommandsSubsetFilename = isqlCommandsSubsetFilename;
 	}		
 

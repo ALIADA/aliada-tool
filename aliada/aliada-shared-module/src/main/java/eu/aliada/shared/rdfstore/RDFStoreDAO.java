@@ -55,7 +55,7 @@ public class RDFStoreDAO {
 	/** HTTP authentication cache. */
 	private final Map<String, HttpAuthenticator> authCache = new HashMap<String, HttpAuthenticator>();
 	/** Maximum number of triples to in every SPARQL INSERT statement. */
-	private final int MAX_NUMBER_TRIPLES = 100;
+	private static final int MAX_NUMBER_TRIPLES = 100;
 	
 	/**
 	 * It clears the graph in the RDF store using ISQL.
@@ -307,8 +307,8 @@ public class RDFStoreDAO {
 	}
 
 	/**
-	 * It executes a SELECT SPARQL query on the SPARQL endpoint, to get the URIs of a type from 
-	 *   ALIADA ontology.
+	 * It executes a SELECT SPARQL query on the SPARQL endpoint, to get the 
+	 * URIs of a type from ALIADA ontology.
 	 *
 	 * @param sparqlEndpointURI		the SPARQL endpoint URI.  
 	 * @param user					the user name for the SPARQl endpoint.
@@ -318,7 +318,7 @@ public class RDFStoreDAO {
 	 * @since 1.0
 	 */
 	public String[] getOntologyTypeURI(final String sparqlEndpointURI, final String user, final String password, final String typeLabel) {
-		String query = "select distinct ?type FROM <http://aliada-project.eu/2014/aliada-ontology#> " + 
+		final String query = "select distinct ?type FROM <http://aliada-project.eu/2014/aliada-ontology#> " + 
 						"where {?type a <http://www.w3.org/2004/02/skos/core#Concept> . " +
 						"?type <http://www.w3.org/2004/02/skos/core#prefLabel> ?label . " +
 						"FILTER regex(str(?label), \"^" + typeLabel + "$\")}";
@@ -359,7 +359,8 @@ public class RDFStoreDAO {
 	}
 
 	/**
-	 * It executes a SELECT SPARQL query on the SPARQL endpoint, to get the number of triples of a graph.
+	 * It executes a SELECT SPARQL query on the SPARQL endpoint, 
+	 * to get the number of triples of a graph.
 	 *
 	 * @param sparqlEndpointURI		the SPARQL endpoint URI.  
 	 * @param graphName 			the graphName, null in case of default graph.
@@ -382,18 +383,20 @@ public class RDFStoreDAO {
 		}
 		
 		builder.append(" WHERE { ?s ?p ?o }");
-		String query = builder.toString();
+		final String query = builder.toString();
 		return getNumResources(query, sparqlEndpointURI, user, password);
 	}
 
 	/**
-	 * It executes a SELECT SPARQL query on the SPARQL endpoint, to get the discovered links.
+	 * It executes a SELECT SPARQL query on the SPARQL endpoint, 
+	 * to get the discovered links.
 	 *
 	 * @param sparqlEndpointURI		the SPARQL endpoint URI.  
 	 * @param graphName 			the graphName, null in case of default graph.
 	 * @param user					the user name for the SPARQl endpoint.
 	 * @param password				the password for the SPARQl endpoint.
-	 * @param offset				causes the solutions generated to start after the specified number of solutions.
+	 * @param offset				causes the solutions generated to start after 
+	 *                              the specified number of solutions.
 	 * @param limit					upper bound on the number of solutions returned.
 	 * @return a list of triples with the discovered links.
 	 * @since 2.0
@@ -432,7 +435,8 @@ public class RDFStoreDAO {
 	}
 
 	/**
-	 * It executes a SELECT SPARQL query on the SPARQL endpoint, to get the number of discovered links.
+	 * It executes a SELECT SPARQL query on the SPARQL endpoint, 
+	 * to get the number of discovered links.
 	 *
 	 * @param sparqlEndpointURI		the SPARQL endpoint URI.  
 	 * @param graphName 			the graphName, null in case of default graph.
@@ -448,13 +452,15 @@ public class RDFStoreDAO {
 	}
 
 	/**
-	 * It executes a SELECT SPARQL query on the SPARQL endpoint, to get the ambiguous discovered links.
+	 * It executes a SELECT SPARQL query on the SPARQL endpoint,
+	 * to get the ambiguous discovered links.
 	 *
 	 * @param sparqlEndpointURI		the SPARQL endpoint URI.  
 	 * @param graphName 			the graphName, null in case of default graph.
 	 * @param user					the user name for the SPARQl endpoint.
 	 * @param password				the password for the SPARQl endpoint.
-	 * @param offset				causes the solutions generated to start after the specified number of solutions.
+	 * @param offset				causes the solutions generated to start after 
+	 *                              the specified number of solutions.
 	 * @param limit					upper bound on the number of solutions returned.
 	 * @return a list of {@link eu.aliada.shared.rdfstore.AmbiguousLink} with the ambiguous discovered links.
 	 * @since 2.0
@@ -500,7 +506,8 @@ public class RDFStoreDAO {
 	}
 
 	/**
-	 * It executes a SELECT SPARQL query on the SPARQL endpoint, to get the number of ambiguous discovered links.
+	 * It executes a SELECT SPARQL query on the SPARQL endpoint, 
+	 * to get the number of ambiguous discovered links.
 	 *
 	 * @param sparqlEndpointURI		the SPARQL endpoint URI.  
 	 * @param graphName 			the graphName, null in case of default graph.
@@ -540,7 +547,8 @@ public class RDFStoreDAO {
 	}
 
 	/**
-	 * It executes a SELECT SPARQL query on the SPARQL endpoint, to get the ambiguous discovered links of a source URI.
+	 * It executes a SELECT SPARQL query on the SPARQL endpoint, 
+	 * to get the ambiguous discovered links of a source URI.
 	 *
 	 * @param ambiguousLink			a {@link eu.aliada.shared.rdfstore.AmbiguousLink} that contains the source URI.  
 	 * @param localRes				the source resource of the link.  
@@ -549,11 +557,12 @@ public class RDFStoreDAO {
 	 * @param graphName 			the graphName, null in case of default graph.
 	 * @param user					the user name for the SPARQl endpoint.
 	 * @param password				the password for the SPARQl endpoint.
-	 * @param offset				causes the solutions generated to start after the specified number of solutions.
+	 * @param offset				causes the solutions generated to start after 
+	 *                              the specified number of solutions.
 	 * @param limit					upper bound on the number of solutions returned.
 	 * @since 2.0
 	 */
-	public void getSourceURIAmbiguousLinks(AmbiguousLink ambiguousLink, Resource localRes, String extResBegin, final String sparqlEndpointURI, final String graphName, final String user, final String password) {
+	public void getSourceURIAmbiguousLinks(final AmbiguousLink ambiguousLink, final Resource localRes, final String extResBegin, final String sparqlEndpointURI, final String graphName, final String user, final String password) {
 		final String query = "SELECT ?rel ?extRes FROM <" + graphName + "> " + 
 				" WHERE {<" + ambiguousLink.getSourceURI() + "> ?rel ?extRes ." +
 				" FILTER regex(?extRes, \"^" + extResBegin + "\", \"i\")" +
@@ -581,19 +590,21 @@ public class RDFStoreDAO {
 	}
 
 	/**
-	 * It executes a SELECT SPARQL query on the SPARQL endpoint, to get the resources specified in the query argument.
+	 * It executes a SELECT SPARQL query on the SPARQL endpoint, 
+	 * to get the resources specified in the query argument.
 	 *
 	 * @param query					the query to execute to get the resources.  
 	 * @param sparqlEndpointURI		the SPARQL endpoint URI.  
 	 * @param user					the user name for the SPARQl endpoint.
 	 * @param password				the password for the SPARQl endpoint.
-	 * @param offset				causes the solutions generated to start after the specified number of solutions.
+	 * @param offset				causes the solutions generated to start after 
+	 *                              the specified number of solutions.
 	 * @param limit					upper bound on the number of solutions returned.
 	 * @return a list of {@link eu.aliada.shared.rdfstore.RetrievedResource} with the resources.
 	 * @since 2.0
 	 */
 	public RetrievedResource[] getResources(final String query, final String sparqlEndpointURI, final String user, final String password, final int offset, final int limit) {
-		ArrayList<RetrievedResource> resList = new ArrayList<RetrievedResource>();
+		final ArrayList<RetrievedResource> resList = new ArrayList<RetrievedResource>();
 	 	try {
 	        // Execute the query and obtain results
 	        final QueryExecution qexec = QueryExecutionFactory.sparqlService(
@@ -624,7 +635,8 @@ public class RDFStoreDAO {
 	}
 
 	/**
-	 * It executes a SELECT SPARQL query on the SPARQL endpoint, to get the number of resources specified in the query argument.
+	 * It executes a SELECT SPARQL query on the SPARQL endpoint, 
+	 * to get the number of resources specified in the query argument.
 	 *
 	 * @param query					the query to execute to get the number of resources.  
 	 * @param sparqlEndpointURI		the SPARQL endpoint URI.  
@@ -662,7 +674,8 @@ public class RDFStoreDAO {
 	 * @param graphName 			the graphName, null in case of default graph.
 	 * @param user					the user name for the SPARQl endpoint.
 	 * @param password				the password for the SPARQl endpoint.
-	 * @param offset				causes the solutions generated to start after the specified number of solutions.
+	 * @param offset				causes the solutions generated to start after 
+	 *                              the specified number of solutions.
 	 * @param limit					upper bound on the number of solutions returned.
 	 * @return a list of {@link eu.aliada.shared.rdfstore.RetrievedResource} with the authors.
 	 * @since 2.0
@@ -684,7 +697,8 @@ public class RDFStoreDAO {
 	}
 
 	/**
-	 * It executes a SELECT SPARQL query on the SPARQL endpoint, to get the number of authors.
+	 * It executes a SELECT SPARQL query on the SPARQL endpoint, 
+	 * to get the number of authors.
 	 *
 	 * @param sparqlEndpointURI		the SPARQL endpoint URI.  
 	 * @param graphName 			the graphName, null in case of default graph.
@@ -716,7 +730,8 @@ public class RDFStoreDAO {
 	 * @param graphName 			the graphName, null in case of default graph.
 	 * @param user					the user name for the SPARQl endpoint.
 	 * @param password				the password for the SPARQl endpoint.
-	 * @param offset				causes the solutions generated to start after the specified number of solutions.
+	 * @param offset				causes the solutions generated to start after 
+	 *                              the specified number of solutions.
 	 * @param limit					upper bound on the number of solutions returned.
 	 * @return a list of {@link eu.aliada.shared.rdfstore.RetrievedResource} with the objects.
 	 * @since 2.0
@@ -739,7 +754,8 @@ public class RDFStoreDAO {
 	}
 
 	/**
-	 * It executes a SELECT SPARQL query on the SPARQL endpoint, to get the number of objects.
+	 * It executes a SELECT SPARQL query on the SPARQL endpoint, 
+	 * to get the number of objects.
 	 *
 	 * @param sparqlEndpointURI		the SPARQL endpoint URI.  
 	 * @param graphName 			the graphName, null in case of default graph.
@@ -772,7 +788,8 @@ public class RDFStoreDAO {
 	 * @param graphName 			the graphName, null in case of default graph.
 	 * @param user					the user name for the SPARQl endpoint.
 	 * @param password				the password for the SPARQl endpoint.
-	 * @param offset				causes the solutions generated to start after the specified number of solutions.
+	 * @param offset				causes the solutions generated to start after 
+	 *                              the specified number of solutions.
 	 * @param limit					upper bound on the number of solutions returned.
 	 * @return a list of {@link eu.aliada.shared.rdfstore.RetrievedResource} with the manifestations.
 	 * @since 2.0
@@ -792,7 +809,8 @@ public class RDFStoreDAO {
 	}
 
 	/**
-	 * It executes a SELECT SPARQL query on the SPARQL endpoint, to get the number of manifestations.
+	 * It executes a SELECT SPARQL query on the SPARQL endpoint, 
+	 * to get the number of manifestations.
 	 *
 	 * @param sparqlEndpointURI		the SPARQL endpoint URI.  
 	 * @param graphName 			the graphName, null in case of default graph.
@@ -816,13 +834,15 @@ public class RDFStoreDAO {
 	}
 
 	/**
-	 * It executes a SELECT SPARQL query on the SPARQL endpoint, to get the resources specified in the query argument.
+	 * It executes a SELECT SPARQL query on the SPARQL endpoint, 
+	 * to get the resources specified in the query argument.
 	 *
 	 * @param sparqlEndpointURI		the SPARQL endpoint URI.  
 	 * @param graphName 			the graphName, null in case of default graph.
 	 * @param user					the user name for the SPARQl endpoint.
 	 * @param password				the password for the SPARQl endpoint.
-	 * @param offset				causes the solutions generated to start after the specified number of solutions.
+	 * @param offset				causes the solutions generated to start after 
+	 *                              the specified number of solutions.
 	 * @param limit					upper bound on the number of solutions returned.
 	 * @return a list of {@link eu.aliada.shared.rdfstore.RetrievedResource} with the resources.
 	 * @since 2.0
@@ -924,7 +944,8 @@ public class RDFStoreDAO {
 	}
 
 	/**
-	 * It executes a SELECT SPARQL query on the SPARQL endpoint, to get the number of resources specified in the query argument.
+	 * It executes a SELECT SPARQL query on the SPARQL endpoint, 
+	 * to get the number of resources specified in the query argument.
 	 *
 	 * @param sparqlEndpointURI		the SPARQL endpoint URI.  
 	 * @param graphName 			the graphName, null in case of default graph.
@@ -1006,7 +1027,7 @@ public class RDFStoreDAO {
 		ResultSet results = null;
 	 	try {
 	        // Execute the query and obtain results
-	        QueryExecution qexec = QueryExecutionFactory.sparqlService(
+	        final QueryExecution qexec = QueryExecutionFactory.sparqlService(
 	        		sparqlEndpointURI, 
 	        		QueryFactory.create(query), 
 					auth(sparqlEndpointURI, user, password));

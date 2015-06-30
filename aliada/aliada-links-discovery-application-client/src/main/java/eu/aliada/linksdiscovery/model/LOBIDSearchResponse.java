@@ -38,7 +38,7 @@ public class LOBIDSearchResponse {
 	 * @param label The title of the organisation/resource that is being searched for.
 	 * @since 2.0
 	 */
-	public void setLabel(String label) { this.label = label; }
+	public void setLabel(final String label) { this.label = label; }
 
 	/**
 	 * Returns the URI of the found resource.
@@ -55,7 +55,7 @@ public class LOBIDSearchResponse {
 	 * @param value The URI of the found resource.
 	 * @since 2.0
 	 */
-	public void setValue(String value) {
+	public void setValue(final String value) {
 		this.value = value;
 	}
 }

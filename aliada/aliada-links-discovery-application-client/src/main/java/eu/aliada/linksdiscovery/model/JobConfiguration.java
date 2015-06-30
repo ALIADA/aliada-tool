@@ -38,7 +38,8 @@ public class JobConfiguration {
 	/** The name of the folder where the links-discovery-task-runner.sh shell script 
 	 * has been installed. */
 	private String clientAppBinDir;
-	/** The machine´s user to execute the links-discovery-task-runner.sh shell script. */
+	/** The machine´s user to execute the links-discovery-task-runner.sh 
+	 * shell script. */
 	private String clientAppBinUser;
     
 	/**
@@ -280,7 +281,8 @@ public class JobConfiguration {
 	/**
 	 * Sets the machine´s user to execute the Links Discovery client application.
 	 * 
-	 * @param clientAppBinUser The machine´s user to execute the Links Discovery client application.
+	 * @param clientAppBinUser The machine´s user to execute the 
+	 *                         Links Discovery client application.
 	 * @since 1.0
 	 */
 	public void setClientAppBinUser(final String clientAppBinUser) {

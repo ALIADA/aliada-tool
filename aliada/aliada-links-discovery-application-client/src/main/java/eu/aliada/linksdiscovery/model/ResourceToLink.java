@@ -26,7 +26,7 @@ public class ResourceToLink {
 	 * @param resURI 	The URI of the resource to link.
 	 * @since 2.0
 	 */
-	public ResourceToLink(String text, String resURI) {
+	public ResourceToLink(final String text, final String resURI) {
 		this.text = text;
 		this.resURI = resURI;
 	} 
@@ -44,7 +44,7 @@ public class ResourceToLink {
 	 * @param text The text to search for.
 	 * @since 2.0
 	 */
-	public void setText(String text) { this.text = text; }
+	public void setText(final String text) { this.text = text; }
 
 	/**
 	 * Returns the URI of the resource to link.
@@ -61,7 +61,7 @@ public class ResourceToLink {
 	 * @param resURI The URI of the resource to link.
 	 * @since 2.0
 	 */
-	public void setResURI(String resURI) {
+	public void setResURI(final String resURI) {
 		this.resURI = resURI;
 	}
 }

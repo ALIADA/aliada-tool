@@ -49,7 +49,7 @@ public class CKANResourceResponse {
 	 * @param help The help text for the API function.
 	 * @since 2.0
 	 */
-	public void setHelp(String help) {
+	public void setHelp(final String help) {
 		this.help = help;
 	}
 
@@ -68,26 +68,30 @@ public class CKANResourceResponse {
 	 * @param result The {@link eu.aliada.ckancreation.model.Resource} in API function result.
 	 * @since 2.0
 	 */
-	public void setResult(Resource result) {
+	public void setResult(final Resource result) {
 		this.result = result;
 	}
 
 	/**
-	 * Returns the message that indicates if the API function was executed successfully or not.
+	 * Returns the message that indicates if the API function was 
+	 * executed successfully or not.
 	 * 
-	 * @return The message that indicates if the API function was executed successfully or not.
+	 * @return The message that indicates if the API function was 
+	 *         executed successfully or not.
 	 * @since 2.0
 	 */
 	public String getSuccess() {
 		return this.success;
 	}
 	/**
-	 * Sets the message that indicates if the API function was executed successfully or not.
+	 * Sets the message that indicates if the API function was executed 
+	 * successfully or not.
 	 * 
-	 * @param success The message that indicates if the API function was executed successfully or not.
+	 * @param success The message that indicates if the API function was executed 
+	 *                successfully or not.
 	 * @since 2.0
 	 */
-	public void setSuccess(String success) {
+	public void setSuccess(final String success) {
 		this.success = success;
 	}
 
@@ -106,7 +110,7 @@ public class CKANResourceResponse {
 	 * @param error The message that indicates the exception, if an error occurred.
 	 * @since 2.0
 	 */
-	public void setError(CKANResponseError error) {
+	public void setError(final CKANResponseError error) {
 		this.error = error;
 	}
 }

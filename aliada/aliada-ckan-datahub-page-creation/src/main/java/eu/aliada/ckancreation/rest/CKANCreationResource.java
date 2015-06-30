@@ -76,12 +76,13 @@ public class CKANCreationResource {
 			LOGGER.error(MessageCatalog._00023_JOB_CONFIGURATION_NOT_FOUND, jobid);
 			return Response.status(Status.BAD_REQUEST).build();								
 		}
-		//Check if organization and dataset names are lower case and with no spaces, as accepted by CKAN datahub
-		String orgName = jobConf.getOrgName().toLowerCase();
+		//Check if organization and dataset names are lower case and with no spaces, 
+		//as accepted by CKAN datahub
+		final String orgName = jobConf.getOrgName().toLowerCase();
 		if(!orgName.equals(jobConf.getOrgName()) || orgName.contains(" ")) {
 			return Response.status(Status.BAD_REQUEST).build();			
 		}
-		String datasetName = jobConf.getCkanDatasetName().toLowerCase();
+		final String datasetName = jobConf.getCkanDatasetName().toLowerCase();
 		if(!datasetName.equals(jobConf.getCkanDatasetName()) || datasetName.contains(" ")) {
 			return Response.status(Status.BAD_REQUEST).build();			
 		}

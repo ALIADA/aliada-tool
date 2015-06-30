@@ -92,7 +92,7 @@ public class JobConfiguration {
 	private String cssFileURL;
 	
 	/** The subsets where the dataset resides. */
-	private ArrayList<Subset> subsets = new ArrayList<Subset>(); 
+	private final ArrayList<Subset> subsets = new ArrayList<Subset>(); 
    
 	/**
 	 * Returns the identifier of this job configuration.
@@ -271,11 +271,12 @@ public class JobConfiguration {
 
 	/**
 	 * Returns the path of the default file containing the ISQL commands for URL 
-	 * rewriting in Virtuoso for a dataset. It contains the default mapping for HTML rendering.
+	 * rewriting in Virtuoso for a dataset. It contains the default mapping 
+	 * for HTML rendering.
 	 * 
 	 * @return The path of the default file containing the ISQL commands for URL 
-	 *         rewriting in Virtuoso for a dataset.  It contains the default mapping for HTML 
-	 *         rendering.
+	 *         rewriting in Virtuoso for a dataset.  It contains the default 
+	 *         mapping for HTML rendering.
 	 * @since 2.0
 	 */
 	public String getIsqlCommandsDatasetFilenameDefault() {
@@ -283,13 +284,16 @@ public class JobConfiguration {
 	}
 	/**
 	 * Sets the path of the default file containing the ISQL commands for URL 
-	 * rewriting in Virtuoso for a dataset. It contains the default mapping for HTML rendering.
+	 * rewriting in Virtuoso for a dataset. It contains the default mapping 
+	 * for HTML rendering.
 	 * 
-	 * @param isqlCommandsDatasetFilenameDefault The path of the default file containing 
-	 *        the ISQL commands for URL rewriting in Virtuoso for a dataset.
+	 * @param isqlCommandsDatasetFilenameDefault The path of the default file 
+	 *                                           containing the ISQL commands 
+	 *                                           for URL rewriting in Virtuoso 
+	 *                                           for a dataset.
 	 * @since 2.0
 	 */
-	public void setIsqlCommandsDatasetFilenameDefault(String isqlCommandsDatasetFilenameDefault) {
+	public void setIsqlCommandsDatasetFilenameDefault(final String isqlCommandsDatasetFilenameDefault) {
 		this.isqlCommandsDatasetFilenameDefault = isqlCommandsDatasetFilenameDefault;
 	}		
 
@@ -337,11 +341,12 @@ public class JobConfiguration {
 
 	/**
 	 * Returns the path of the default file containing the ISQL commands for URL 
-	 * rewriting in Virtuoso for a subset. It contains the default mapping for HTML rendering.
+	 * rewriting in Virtuoso for a subset. It contains the default mapping for 
+	 * HTML rendering.
 	 * 
 	 * @return The path of the default file containing the ISQL commands for URL 
-	 *         rewriting in Virtuoso for a subset.  It contains the default mapping for HTML 
-	 *         rendering.
+	 *         rewriting in Virtuoso for a subset.  It contains the default 
+	 *         mapping for HTML rendering.
 	 * @since 2.0
 	 */
 	public String getIsqlCommandsSubsetFilenameDefault() {
@@ -349,13 +354,14 @@ public class JobConfiguration {
 	}
 	/**
 	 * Sets the path of the default file containing the ISQL commands for URL 
-	 * rewriting in Virtuoso for a subset. It contains the default mapping for HTML rendering.
+	 * rewriting in Virtuoso for a subset. It contains the default mapping 
+	 * for HTML rendering.
 	 * 
 	 * @param isqlCommandsSubsetFilenameDefault The path of the default file containing 
 	 *        the ISQL commands for URL rewriting in Virtuoso for a subset.
 	 * @since 2.0
 	 */
-	public void setIsqlCommandsSubsetFilenameDefault(String isqlCommandsSubsetFilenameDefault) {
+	public void setIsqlCommandsSubsetFilenameDefault(final String isqlCommandsSubsetFilenameDefault) {
 		this.isqlCommandsSubsetFilenameDefault = isqlCommandsSubsetFilenameDefault;
 	}		
 
@@ -643,7 +649,7 @@ public class JobConfiguration {
 	 * @param licenseURL license URL of the dataset.
 	 * @since 2.0
 	 */
-	public void setLicenseURL(String licenseURL) {
+	public void setLicenseURL(final String licenseURL) {
 		this.licenseURL = licenseURL;
 	}
 

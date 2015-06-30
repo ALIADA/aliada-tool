@@ -39,6 +39,6 @@ public class OpenLibrResult {
 	 * @param viafid The Id of the resource in Open Library.
 	 * @since 2.0
 	 */
-	public void setKey(String key) { this.key = key; }
+	public void setKey(final String key) { this.key = key; }
 }
 

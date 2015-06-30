@@ -93,7 +93,7 @@ public class Dataset {
 	 * @param name The dataset name.
 	 * @since 2.0
 	 */
-	public void setName(String name) {
+	public void setName(final String name) {
 		this.name = name.toLowerCase();
 	}
 
@@ -112,7 +112,7 @@ public class Dataset {
 	 * @param id The dataset id in CKAN.
 	 * @since 2.0
 	 */
-	public void setId(String id) {
+	public void setId(final String id) {
 		this.id = id;
 	}
 
@@ -131,7 +131,7 @@ public class Dataset {
 	 * @param author The dataset author.
 	 * @since 2.0
 	 */
-	public void setAuthor(String author) {
+	public void setAuthor(final String author) {
 		this.author = author;
 	}
 	
@@ -150,7 +150,7 @@ public class Dataset {
 	 * @param description The dataset description.
 	 * @since 2.0
 	 */
-	public void setNotes(String notes) {
+	public void setNotes(final String notes) {
 		this.notes = notes;
 	}
 
@@ -169,7 +169,7 @@ public class Dataset {
 	 * @param sourceUrl The dataset source URL.
 	 * @since 2.0
 	 */
-	public void setSourceUrl(String sourceUrl) {
+	public void setSourceUrl(final String sourceUrl) {
 		this.sourceUrl = sourceUrl;
 	}
 
@@ -188,7 +188,7 @@ public class Dataset {
 	 * @param ownerOrg The organization owner of the dataset.
 	 * @since 2.0
 	 */
-	public void setOwnerOrg(String ownerOrg) {
+	public void setOwnerOrg(final String ownerOrg) {
 		this.ownerOrg = ownerOrg;
 	}
 	
@@ -207,7 +207,7 @@ public class Dataset {
 	 * @param licenseCKANId The dataset license Id.
 	 * @since 2.0
 	 */
-	public void setLicenseCKANId(String licenseCKANId) {
+	public void setLicenseCKANId(final String licenseCKANId) {
 		this.licenseCKANId = licenseCKANId;
 	}
 
@@ -226,7 +226,7 @@ public class Dataset {
 	 * @param state The dataset state.
 	 * @since 2.0
 	 */
-	public void setState(String state) {
+	public void setState(final String state) {
 		this.state = state;
 	}
 
@@ -245,7 +245,7 @@ public class Dataset {
 	 * @param triples The number of triples of the dataset.
 	 * @since 2.0
 	 */
-	public void setTriples(int triples) {
+	public void setTriples(final int triples) {
 		this.triples = triples;
 	}
 }

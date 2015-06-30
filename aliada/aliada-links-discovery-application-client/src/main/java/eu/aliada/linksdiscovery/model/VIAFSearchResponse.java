@@ -39,7 +39,7 @@ public class VIAFSearchResponse {
 	 * @param query The text to search for and sent to the API.
 	 * @since 2.0
 	 */
-	public void setQuery(String query) { this.query = query; }
+	public void setQuery(final String query) { this.query = query; }
 
 	/**
 	 * Returns the results of the query.
@@ -56,7 +56,7 @@ public class VIAFSearchResponse {
 	 * @param results The results of the query.
 	 * @since 2.0
 	 */
-	public void setResult(VIAFResult[] result) {
+	public void setResult(final VIAFResult[] result) {
 		this.result = result;
 	}
 }

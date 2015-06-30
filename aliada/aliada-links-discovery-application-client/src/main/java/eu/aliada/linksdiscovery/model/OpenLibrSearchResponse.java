@@ -41,7 +41,7 @@ public class OpenLibrSearchResponse {
 	 * @param start The paging start index.
 	 * @since 2.0
 	 */
-	public void setStart(String start) { this.start = start; }
+	public void setStart(final String start) { this.start = start; }
 
 	/**
 	 * Returns the number of results.
@@ -56,7 +56,7 @@ public class OpenLibrSearchResponse {
 	 * @param start The number of results.
 	 * @since 2.0
 	 */
-	public void setNumFound(String numFound) { this.numFound = numFound; }
+	public void setNumFound(final String numFound) { this.numFound = numFound; }
 
 	/**
 	 * Returns the results of the query.
@@ -73,7 +73,7 @@ public class OpenLibrSearchResponse {
 	 * @param results The results of the query.
 	 * @since 2.0
 	 */
-	public void setDocs(OpenLibrResult[] docs) {
+	public void setDocs(final OpenLibrResult[] docs) {
 		this.docs = docs;
 	}
 }

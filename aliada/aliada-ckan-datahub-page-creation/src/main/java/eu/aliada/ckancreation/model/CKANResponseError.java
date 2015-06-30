@@ -38,7 +38,7 @@ public class CKANResponseError {
 	 * @param message The message that indicates the exception, if an error occurred.
 	 * @since 2.0
 	 */
-	public void setMessage(String message) { this.message = message; }
+	public void setMessage(final String message) { this.message = message; }
 
 	/**
 	 * Returns the message that indicates the exception, if an error occurred.
@@ -55,7 +55,7 @@ public class CKANResponseError {
 	 * @param name The message that indicates the exception, if an error occurred.
 	 * @since 2.0
 	 */
-	public void setName(String[] name) {
+	public void setName(final String[] name) {
 		this.name = name;
 	}
 }

@@ -22,11 +22,11 @@ import org.junit.Test;
  * @author Idoia Murua
  * @since 2.0
  */
-public class calculateDatasetNumTriplesTest {
+public class CalculateDatasetNumTriplesTest {
 	/** For creating random variable values. */
 	static final Random RANDOMIZER = new Random();
 	/** For logging. */
-	private static final Log LOGGER = new Log(calculateDatasetNumTriplesTest.class);
+	private static final Log LOGGER = new Log(CalculateDatasetNumTriplesTest.class);
 
     /**
      * Test the calculateDatasetNumTriples method.
@@ -35,7 +35,7 @@ public class calculateDatasetNumTriplesTest {
      */
     @Test
     public void testCalculateDatasetNumTriples() {
-    	DBConnectionManager dbConn = new DBConnectionManager();
+    	final DBConnectionManager dbConn = new DBConnectionManager();
 		final JobConfiguration jobConf = newJobConfiguration();
 		final CKANCreation ckanCreation = new CKANCreation(jobConf, dbConn);
 		final  ArrayList<Subset> subsetsList = newSubsetList();
@@ -90,8 +90,8 @@ public class calculateDatasetNumTriplesTest {
      * @since 2.0
 	 */
 	public static  ArrayList<Subset> newSubsetList() {
-		ArrayList<Subset> subsetsList = new ArrayList<Subset>();
-		Subset subset = new Subset();
+		final ArrayList<Subset> subsetsList = new ArrayList<Subset>();
+		final Subset subset = new Subset();
 		subset.setDescription("Library bibliography");
 		subset.setGraph("http://aliada_graph1");
 		subset.setLinksGraph("http://aliada_graph1.links");

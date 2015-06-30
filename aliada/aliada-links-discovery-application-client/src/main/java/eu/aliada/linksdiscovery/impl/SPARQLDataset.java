@@ -31,6 +31,12 @@ import eu.aliada.shared.log.Log;
 import eu.aliada.linksdiscovery.log.MessageCatalog;
 import eu.aliada.shared.rdfstore.RDFStoreDAO;
 
+/**
+ * Links discovery process which uses SILK library for discovering links. 
+ * 
+ * @author Idoia Murua
+ * @since 2.0
+ */
 public class SPARQLDataset {
 	/** For logging. */
 	private static final Log LOGGER  = new Log(SPARQLDataset.class);

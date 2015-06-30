@@ -171,7 +171,7 @@ public class DBConnectionManager {
 			sql = "SELECT * FROM subset WHERE datasetId=" + datasetId;
 			resultSet = sta.executeQuery(sql);
 			while (resultSet.next()) {
-				Subset subset = new Subset();
+				final Subset subset = new Subset();
 				subset.setUriConceptPart(resultSet.getString("uri_concept_part"));
 				subset.setDescription(resultSet.getString("subset_desc"));
 				subset.setIsqlCommandsSubsetFilename(resultSet.getString("isql_commands_file_subset"));
@@ -192,7 +192,7 @@ public class DBConnectionManager {
             	//Compose initial logo file name 
             	final String orgImagePathInit = jobConf.getTmpDir() + File.separator + "orgLogo"  + "_" + System.currentTimeMillis()  + ".jpeg";
                 try {
-	                FileOutputStream fos = new FileOutputStream(orgImagePathInit);
+	                final FileOutputStream fos = new FileOutputStream(orgImagePathInit);
 	                fos.write(blobAsBytes);
 	                fos.close();
 	                jobConf.setOrgImagePath(orgImagePathInit);
@@ -215,7 +215,8 @@ public class DBConnectionManager {
 	 * Updates the start_date of the job.
 	 *
 	 * @param jobId	the job identification.
-	 * @return true if the date has been updated correctly in the DDBB. False otherwise.
+	 * @return true if the date has been updated correctly in the DDBB. 
+	 *         False otherwise.
 	 * @since 1.0
 	 */
 	public boolean updateJobStartDate(final int jobId){

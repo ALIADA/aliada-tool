@@ -242,7 +242,8 @@ public class DBConnectionManager {
 	}
 
 	/**
-	 * Updates the XML configuration file of the SILK process, for the specified subjob.
+	 * Updates the XML configuration file of the SILK process, 
+	 * for the specified subjob.
 	 *
 	 * @param jobId	the job identification.
 	 * @param subjobId					the subjob identification.
@@ -280,14 +281,16 @@ public class DBConnectionManager {
 	 * @param linkingXMLConfigFilename	Name of the XML configuration file for 
 	 * 									the SILK process.
 	 * @param tmpDir					the name of temporary folder.
-	 * @return true if the subjob has been inserted correctly in the DB. False otherwise.
+	 * @return true if the subjob has been inserted correctly in the DB. 
+	 *         False otherwise.
 	 * @since 1.0
 	 */
 	public boolean insertSubjobToDB(final int jobId, final int subjobId, final SubjobConfiguration subjobConf, final String linkingXMLConfigFilename, final JobConfiguration jobConf){
     	try {
     		PreparedStatement preparedStatement = null;		
     		preparedStatement = getConnection().prepareStatement("INSERT INTO  linksdiscovery_subjob_instances VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, default, default, default)");
-    		// (job_id, subjob_id, name, config_file, num_threads, reloadSource, reloadTarget, output_uri, output_login, output_password, output_graph, tmp_dir, num_links, start_date, end_date)
+    		// (job_id, subjob_id, name, config_file, num_threads, reloadSource, reloadTarget, output_uri, 
+    		//output_login, output_password, output_graph, tmp_dir, num_links, start_date, end_date)
     		// parameters start with 1
     		preparedStatement.setInt(1, jobId);
     		preparedStatement.setInt(2, subjobId);

@@ -31,11 +31,11 @@ public class Organization {
 	/** The organization image URL. */
 	private String image_url;
 	/** The users that belong to the organization. */
-	private ArrayList<Map<String, String>> users = new ArrayList<Map<String, String>>();
+	private final ArrayList<Map<String, String>> users = new ArrayList<Map<String, String>>();
 	/** The extra attributes for the organization. */
-	private ArrayList<Map<String, String>> extras = new ArrayList<Map<String, String>>();
+	private final ArrayList<Map<String, String>> extras = new ArrayList<Map<String, String>>();
 	/** The organization packages/datasets. */
-	private ArrayList<Map<String, String>> packages = new ArrayList<Map<String, String>>();
+	private final ArrayList<Map<String, String>> packages = new ArrayList<Map<String, String>>();
 
 	/**
 	 * Constructor.
@@ -56,14 +56,14 @@ public class Organization {
 	 * @param homePage		the organization home page.
 	 * @since 2.0
 	 */
-	public Organization(String name, String id, String title, String description, String image_url, String homePage)
+	public Organization(final String name, final String id, final String title, final String description, final String image_url, final String homePage)
 	{
 		this.name = name.toLowerCase();
 		this.id = id;
 		this.title = title;
 		this.description = description;
 		this.image_url = image_url;
-		Map<String, String> extra = new HashMap<String, String>();
+		final Map<String, String> extra = new HashMap<String, String>();
 		extra.put("key", "homePage");		
 		extra.put("value", homePage);		
 		this.extras.add(extra);
@@ -84,7 +84,7 @@ public class Organization {
 	 * @param name The organization name.
 	 * @since 2.0
 	 */
-	public void setName(String name) {
+	public void setName(final String name) {
 		this.name = name.toLowerCase();
 	}
 
@@ -103,7 +103,7 @@ public class Organization {
 	 * @param id The organization id in CKAN.
 	 * @since 2.0
 	 */
-	public void setId(String id) {
+	public void setId(final String id) {
 		this.id = id;
 	}
 
@@ -122,7 +122,7 @@ public class Organization {
 	 * @param title The organization title.
 	 * @since 2.0
 	 */
-	public void setTitle(String title) {
+	public void setTitle(final String title) {
 		this.title = title;
 	}
 	
@@ -141,7 +141,7 @@ public class Organization {
 	 * @param description The organization description.
 	 * @since 2.0
 	 */
-	public void setDescription(String description) {
+	public void setDescription(final String description) {
 		this.description = description;
 	}
 
@@ -160,7 +160,7 @@ public class Organization {
 	 * @param image_url The organization image URL.
 	 * @since 2.0
 	 */
-	public void setImage_url(String image_url) {
+	public void setImage_url(final String image_url) {
 		this.image_url = image_url;
 	}
 
@@ -179,7 +179,7 @@ public class Organization {
 	 * @param user The user to add.
 	 * @since 2.0
 	 */
-	public void addUser(Map<String, String> user) {
+	public void addUser(final Map<String, String> user) {
 		users.add(user);
 	}
 
@@ -198,7 +198,7 @@ public class Organization {
 	 * @param extra The extra attribute to add.
 	 * @since 2.0
 	 */
-	public void addExtra(Map<String, String> extra) {
+	public void addExtra(final Map<String, String> extra) {
 		extras.add(extra);
 	}
 
@@ -217,7 +217,7 @@ public class Organization {
 	 * @param pack The package/dataset to add.
 	 * @since 2.0
 	 */
-	public void addPackage(Map<String, String> pack) {
+	public void addPackage(final Map<String, String> pack) {
 		packages.add(pack);
 	}
 
@@ -229,8 +229,8 @@ public class Organization {
 	 * @param capacity The capacity of the user to add.
 	 * @since 2.0
 	 */
-	public void setUser(String username, String capacity) {
-		Map<String, String> user = new HashMap<String, String>();
+	public void setUser(final String username, final String capacity) {
+		final Map<String, String> user = new HashMap<String, String>();
 		user.put("name", username);		
 		user.put("capacity", capacity);		
 		this.users.add(user);
@@ -244,8 +244,8 @@ public class Organization {
 	 * @param homePage The organization home page.
 	 * @since 2.0
 	 */
-	public void setHomePage(String homePage) {
-		Map<String, String> extra = new HashMap<String, String>();
+	public void setHomePage(final String homePage) {
+		final Map<String, String> extra = new HashMap<String, String>();
 		extra.put("key", "homePage");		
 		extra.put("value", homePage);		
 		this.extras.add(extra);

@@ -39,6 +39,6 @@ public class VIAFResult {
 	 * @param viafid The Id of the resource in VIAF.
 	 * @since 2.0
 	 */
-	public void setViafid(String viafid) { this.viafid = viafid; }
+	public void setViafid(final String viafid) { this.viafid = viafid; }
 }
 

@@ -16,6 +16,7 @@ import org.junit.Test;
  * @since 1.0
  */
 public class GetConfigPropertiesTest {
+	/** For logging. */
     private final Log log = new Log(GetConfigPropertiesTest.class);
 
     /**
@@ -24,9 +25,9 @@ public class GetConfigPropertiesTest {
      */
     @Test
     public void testGetConfigProperties() {
-		LinkingProcess lProcess = new LinkingProcess();
-		String propertiesFileName = "src/test/resources/linking.properties";
-		boolean result = lProcess.getConfigProperties(propertiesFileName);
+		final LinkingProcess lProcess = new LinkingProcess();
+		final String propertiesFileName = "src/test/resources/linking.properties";
+		final boolean result = lProcess.getConfigProperties(propertiesFileName);
         if (result) {
             log.info("OK");
         } else {

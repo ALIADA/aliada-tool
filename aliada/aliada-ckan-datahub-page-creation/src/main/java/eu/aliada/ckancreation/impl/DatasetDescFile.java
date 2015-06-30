@@ -31,11 +31,13 @@ public class DatasetDescFile {
 	/** Description file extension **/
 	static final String FILE_EXTENSION = ".ttl"; 
 	//Properties names
+	/** Job Configuration which contains required parameters. **/
 	private final JobConfiguration jobConf;
 	/** The URL of the dataset in CKAN **/
 	private final String ckanDatasetUrl;
 	/** Array of info objects about the files containing the graph dump**/
 	private final DumpFileInfo[] datasetDumpFileInfoList;
+	/** Number of triples in the dataset **/
 	private int numTriples;
 	/** Void file name **/
 	private String name;
@@ -59,7 +61,8 @@ public class DatasetDescFile {
 	 * @since 2.0
 	 */
 	public DatasetDescFile(final JobConfiguration jobConf, final String ckanDatasetUrl, 
-			ArrayList<DumpFileInfo> datasetDumpFileInfoList, int numTriples, String dataFolderName, String dataFolderURL) {
+			final ArrayList<DumpFileInfo> datasetDumpFileInfoList, final int numTriples, final String dataFolderName,
+			final String dataFolderURL) {
 		this.jobConf = jobConf;
 		this.ckanDatasetUrl = ckanDatasetUrl;
 		this.datasetDumpFileInfoList = datasetDumpFileInfoList.toArray(new DumpFileInfo[]{});
@@ -196,9 +199,9 @@ public class DatasetDescFile {
 	 * @since 2.0
 	 */
 	protected String getStringNow(){
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd"); 
-		Date fecha = new Date(); 
-		return dateFormat.format(fecha); 
+		final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd"); 
+		final Date actualDate = new Date(); 
+		return dateFormat.format(actualDate); 
 	}
    
 	/**
@@ -208,7 +211,7 @@ public class DatasetDescFile {
 	 * @param out	the {@link java.io.BufferedWriter} where to write the content.
 	 * @since 2.0
 	 */
-    public void writeContent(BufferedWriter out){
+    public void writeContent(final BufferedWriter out){
 		try {
 			//Write prefixes info
 	    	out.write("@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .");
@@ -227,7 +230,7 @@ public class DatasetDescFile {
         	//
 			//Start writing dataset general info
         	//
-        	String datasetUri = "http://" + jobConf.getDomainName();  
+        	final String datasetUri = "http://" + jobConf.getDomainName();  
 	    	out.write("<" + datasetUri + "> rdf:type void:Dataset ;");
 	    	out.newLine();
 	    	out.write("    foaf:homepage <http://" + jobConf.getDomainName()  + "> ;");
@@ -269,8 +272,8 @@ public class DatasetDescFile {
 	    	///////////////////////
 			//Enumerate subsets
 	    	///////////////////////
-			for (Iterator<Subset> iterSubsets = jobConf.getSubsets().iterator(); iterSubsets.hasNext();  ) {
-				Subset subset = iterSubsets.next();
+			for (final Iterator<Subset> iterSubsets = jobConf.getSubsets().iterator(); iterSubsets.hasNext();  ) {
+				final Subset subset = iterSubsets.next();
 				String uriConceptSubset = "";
 				String uriConceptDataset = "";
 				if(subset.getUriConceptPart() != null) {
@@ -285,7 +288,7 @@ public class DatasetDescFile {
 						}
 					}
 					//Compose URI set part + URI Dataset Concept part + URI Subset Concept part
-					String subsetUri = datasetUri + "/" + jobConf.getUriSetPart() + "/" + uriConceptSubset;
+					final String subsetUri = datasetUri + "/" + jobConf.getUriSetPart() + "/" + uriConceptSubset;
 					//Enumerate subset
 			    	out.write("    void:subset :" + subsetUri + " ;");
 			    	out.newLine();
@@ -300,8 +303,8 @@ public class DatasetDescFile {
 	    	///////////////////////
 			//Describe each subset
 	    	///////////////////////
-			for (Iterator<Subset> iterSubsets = jobConf.getSubsets().iterator(); iterSubsets.hasNext();  ) {
-				Subset subset = iterSubsets.next();
+			for (final Iterator<Subset> iterSubsets = jobConf.getSubsets().iterator(); iterSubsets.hasNext();  ) {
+				final Subset subset = iterSubsets.next();
 				String uriConceptSubset = "";
 				String uriConceptDataset = "";
 				if(subset.getUriConceptPart() != null) {
@@ -316,14 +319,14 @@ public class DatasetDescFile {
 						}
 					}
 					//Compose URI set part + URI Dataset Concept part + URI Subset Concept part
-					String subsetUri = datasetUri + "/" + jobConf.getUriSetPart() + "/" + uriConceptSubset;
+					final String subsetUri = datasetUri + "/" + jobConf.getUriSetPart() + "/" + uriConceptSubset;
 					//Describe subset
 			    	out.write(":" + subsetUri + " rdf:type void:Dataset ;");
 			    	out.newLine();
 			    	out.write("    dcterms:description \"" + subset.getDescription() + "\" ;");
 			    	out.newLine();
 			    	//Write number of triples
-			    	int numTriples = subset.getGraphNumTriples() + subset.getLinksGraphNumTriples();
+			    	final int numTriples = subset.getGraphNumTriples() + subset.getLinksGraphNumTriples();
 			    	out.write("    void:triples " + numTriples + " ;");
 			    	out.newLine();    	
 			    	out.write("    .");

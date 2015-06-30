@@ -27,10 +27,10 @@ public class CreateLinkingPropConfigFileTest {
      */
     @Test
     public void testCreateLinkingPropConfigFile() {
-		LinksDiscovery linksDisc = new LinksDiscovery();
-		String tmpDir = "src/test/resources/";
-		DDBBParams ddbbParams = newDDBBParams();
-		String result = linksDisc.createLinkingPropConfigFile(tmpDir, ddbbParams);
+		final LinksDiscovery linksDisc = new LinksDiscovery();
+		final String tmpDir = "src/test/resources/";
+		final DDBBParams ddbbParams = newDDBBParams();
+		final String result = linksDisc.createLinkingPropConfigFile(tmpDir, ddbbParams);
         if (result != null) {
             LOGGER.info("OK");
         } else {
@@ -44,7 +44,7 @@ public class CreateLinkingPropConfigFileTest {
 	 * @return a dummy DDBBParams structure.
 	 */
 	public static DDBBParams newDDBBParams() {
-		DDBBParams ddbbParams = new DDBBParams();
+		final DDBBParams ddbbParams = new DDBBParams();
 		ddbbParams.setUsername("username");
 		ddbbParams.setPassword("password");
 		ddbbParams.setDriverClassName("com.mysql.jdbc.Driver");

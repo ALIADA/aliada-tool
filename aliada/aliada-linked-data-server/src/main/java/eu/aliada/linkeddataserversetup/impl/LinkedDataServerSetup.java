@@ -115,9 +115,9 @@ public class LinkedDataServerSetup {
 			graphsSelectEncoded = "";
 			graphsEncoded = "";
 			int subsetIndex = 0;
-			for (Iterator<Subset> iterSubsets = jobConf.getSubsets().iterator(); iterSubsets.hasNext();  ) {
-				Subset subset = iterSubsets.next();
-				String graphSelectEncoded = URLEncoder.encode(" FROM <" + subset.getGraph() + ">", "UTF-8");
+			for (final Iterator<Subset> iterSubsets = jobConf.getSubsets().iterator(); iterSubsets.hasNext();  ) {
+				final Subset subset = iterSubsets.next();
+				final String graphSelectEncoded = URLEncoder.encode(" FROM <" + subset.getGraph() + ">", "UTF-8");
 				String linksGraphSelectEncoded = URLEncoder.encode(" FROM <" + subset.getLinksGraph() + ">", "UTF-8");
 				graphsSelectEncoded = graphsSelectEncoded + graphSelectEncoded + linksGraphSelectEncoded;
 				String graphEncoded = "";
@@ -126,7 +126,7 @@ public class LinkedDataServerSetup {
 				} else {
 					graphEncoded = URLEncoder.encode("&graph=" + subset.getGraph(), "UTF-8");
 				}
-				String linksGraphEncoded = URLEncoder.encode("&graph=" + subset.getLinksGraph(), "UTF-8");
+				final String linksGraphEncoded = URLEncoder.encode("&graph=" + subset.getLinksGraph(), "UTF-8");
 				graphsEncoded = graphsEncoded + graphEncoded + linksGraphEncoded;
 				subsetIndex ++;
 			}
@@ -235,7 +235,7 @@ public class LinkedDataServerSetup {
 			//If the Concept part contains an /, a parent virtual path must also be created
 			//for the Document listing with extension
 			createVirtualPath = 1;
-			uriDocConceptParent = uriDocConcept.substring(0, uriDocConcept.lastIndexOf("/"));
+			uriDocConceptParent = uriDocConcept.substring(0, uriDocConcept.lastIndexOf('/'));
 		}
 		//Add a "/" at the beginning and end of the Document concept part
 		String uriDocSlash = "/" + uriDocPart;
@@ -305,19 +305,22 @@ public class LinkedDataServerSetup {
 		final String rulesNamessuffixDataset = rulesNamesSuffix;
 		String uriDocConceptParent = "";
 		if(subset.getUriConceptPart().contains("/")) {
-			//If the Concept part of the subset contains an /, a parent virtual path must also be created
+			//If the Concept part of the subset contains an /, 
+			//a parent virtual path must also be created
 			//for the Document listing with extension
 			createVirtualPath = 1;
-			uriDocConceptParent = uriDocConceptSubset.substring(0, uriDocConceptSubset.lastIndexOf("/"));
+			uriDocConceptParent = uriDocConceptSubset.substring(0, uriDocConceptSubset.lastIndexOf('/'));
 		}
 		//Add a "/" at the beginning and end of the Document concept part
 		String uriDocSlash = "/" + uriDocPart;
 		if (!uriDocSlash.endsWith("/")) {
 			uriDocSlash = uriDocSlash + "/";
 		}
-		//If the URI Concept part of the subset is empty, its corresponding URL Rewrite rules will not be created
+		//If the URI Concept part of the subset is empty, its 
+		//corresponding URL Rewrite rules will not be created
 		if((isqlCommandsFilename != null) && (uriDocConceptSubset.length() > 0)){
-			//Compose Rules Names suffix for the subset, adding the subset concept part of the URI
+			//Compose Rules Names suffix for the subset, 
+			//adding the subset concept part of the URI
 			String rulesNamesSuffixSubset = rulesNamesSuffix + uriDocConceptSubset;
 			rulesNamesSuffixSubset = rulesNamesSuffixSubset.replace("/", "");
 			//Compose ISQL command execution statement
@@ -369,7 +372,7 @@ public class LinkedDataServerSetup {
 		//Update the dataset web page root in the DB
 		dbConn.updateDatasetWebPageRoot(jobConf.getDatasetId(), pageFolder);
 		
-		String pagePath = pageFolder + File.separator + DATASET_INDEX_PAGE;
+		final String pagePath = pageFolder + File.separator + DATASET_INDEX_PAGE;
 		//Remove the page if it already exists
 		final File fPage = new File(pagePath);
 		if (fPage.exists()) {
@@ -456,7 +459,7 @@ public class LinkedDataServerSetup {
         	out.write(line);
         	out.newLine();
         	//List resources of dataset
-        	String datasetUri = "http://" + jobConf.getDomainName() + "/" + uriDocConcept;  
+        	final String datasetUri = "http://" + jobConf.getDomainName() + "/" + uriDocConcept;  
         	line =String.format("<tr><td class=\"label\">%s</td><td class=\"input\"><a href=\"%s\" target=\"_blank\">%s</a></td></tr>", "list of resources", datasetUri, datasetUri);
         	out.write(line);
         	out.newLine();
@@ -464,15 +467,15 @@ public class LinkedDataServerSetup {
         	line =String.format("<tr><td class=\"label\">%s</td><td class=\"input\"><ul>", "subsets");
         	out.write(line);
         	out.newLine();
-			for (Iterator<Subset> iterSubsets = jobConf.getSubsets().iterator(); iterSubsets.hasNext();  ) {
-				Subset subset = iterSubsets.next();
+			for (final Iterator<Subset> iterSubsets = jobConf.getSubsets().iterator(); iterSubsets.hasNext();  ) {
+				final Subset subset = iterSubsets.next();
 				String uriDocConceptSubset = "";
 				if(subset.getUriConceptPart() != null) {
 					uriDocConceptSubset = removeLeadingTralingSlashes(subset.getUriConceptPart());
 				} 				
 				if(uriDocConceptSubset.length() > 0) {
 		        	//List resources of subset
-					String subsetUri = datasetUri + "/" + uriDocConceptSubset;
+					final String subsetUri = datasetUri + "/" + uriDocConceptSubset;
 		        	line =String.format("<li>%s: <a href=\"%s\" target=\"_blank\">%s</a></li>", subset.getDescription(), subsetUri, subsetUri);
 		        	out.write(line);
 		        	out.newLine();
@@ -505,13 +508,14 @@ public class LinkedDataServerSetup {
 	 * @since 2.0
 	 */
 	protected String getStringNow(){
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd"); 
-		Date fecha = new Date(); 
-		return dateFormat.format(fecha); 
+		final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd"); 
+		final Date actualDate = new Date(); 
+		return dateFormat.format(actualDate); 
 	}
    
 	/**
-	 * It copies some files (the organisation image file and CSS file) to the dataset web root.
+	 * It copies some files (the organisation image file and CSS file) 
+	 * to the dataset web root.
 	 *
 	 * @param jobConf		the {@link eu.aliada.linkeddataserversetup.model.JobConfiguration}
 	 *						that contains information to setup the rewrite rules in Virtuoso.  
@@ -524,27 +528,27 @@ public class LinkedDataServerSetup {
 		boolean success = false;
 		try {
 			//Move the organization image file from TMP folder to the definitive folder
-			File orgImageInitFile= new File(jobConf.getOrgImagePath());
+			final File orgImageInitFile= new File(jobConf.getOrgImagePath());
 			final String definitiveImgFileName = pageFolder + File.separator + "orgLogo.jpeg";
 			final File definitiveImgFile = new File (definitiveImgFileName);
 			Files.move(orgImageInitFile.toPath(), definitiveImgFile.toPath(), java.nio.file.StandardCopyOption.REPLACE_EXISTING);
 			jobConf.setOrgImagePath(definitiveImgFileName);
-			String orgImageURL = pageURL + "/" + definitiveImgFile.getName();
+			final String orgImageURL = pageURL + "/" + definitiveImgFile.getName();
 			jobConf.setOrgImageURL(orgImageURL);
 
 			//Copy the CSS file to the definitive folder
-			InputStream cssInpuStream= getClass().getResourceAsStream("/"+ DATASET_CSS_FILE);
+			final InputStream cssInpuStream= getClass().getResourceAsStream("/"+ DATASET_CSS_FILE);
 			final String definitiveCssFileName = pageFolder + File.separator + "aliada_dataset.css";
 			final File definitiveCssFile = new File (definitiveCssFileName);
-			FileOutputStream cssOutputStream =  new FileOutputStream(definitiveCssFile);			
+			final FileOutputStream cssOutputStream =  new FileOutputStream(definitiveCssFile);			
 			int read = 0;
-			byte[] bytes = new byte[1024]; 
+			final byte[] bytes = new byte[1024]; 
 			while ((read = cssInpuStream.read(bytes)) != -1) {
 				cssOutputStream.write(bytes, 0, read);
 			}
 			cssOutputStream.close();
 			jobConf.setCssFilePath(definitiveCssFileName);
-			String cssFileURL = pageURL + "/" + DATASET_CSS_FILE;
+			final String cssFileURL = pageURL + "/" + DATASET_CSS_FILE;
 			jobConf.setCssFileURL(cssFileURL);
 			
 			success = true;
@@ -565,11 +569,11 @@ public class LinkedDataServerSetup {
 	 * @return the number of triples contained in the subsets of the dataset.  					
 	 * @since 2.0
 	 */
-	public int calculateDatasetNumTriples(String sparqlEndpoint, final String user, final String password, ArrayList<Subset> subsetsList) {
+	public int calculateDatasetNumTriples(final String sparqlEndpoint, final String user, final String password, final ArrayList<Subset> subsetsList) {
 		int numTriples = 0;
 		//Get subset graphs and get number of triples
-		for (Iterator<Subset> iterSubsets = subsetsList.iterator(); iterSubsets.hasNext();  ) {
-			Subset subset = iterSubsets.next();
+		for (final Iterator<Subset> iterSubsets = subsetsList.iterator(); iterSubsets.hasNext();  ) {
+			final Subset subset = iterSubsets.next();
 			//Get number of triples of each subgraph
 			final RDFStoreDAO rdfstoreDAO = new RDFStoreDAO();
 			LOGGER.debug(MessageCatalog._00045_GETTING_NUM_TRIPLES, sparqlEndpoint, subset.getGraph(), user, password);
@@ -600,11 +604,11 @@ public class LinkedDataServerSetup {
 		final boolean encoded = encodeParams(jobConf);
 		if(encoded) {
 			//Execute global ISQL commands file for rewriting rules in Virtuoso
-			boolean success = executeGlobalIsqlCommands(jobConf);
+			final boolean success = executeGlobalIsqlCommands(jobConf);
 			if (success) {
 				//Get subset ISQL commands file for rewriting rules in Virtuoso and execute them
-				for (Iterator<Subset> iterSubsets = jobConf.getSubsets().iterator(); iterSubsets.hasNext();  ) {
-					Subset subset = iterSubsets.next();
+				for (final Iterator<Subset> iterSubsets = jobConf.getSubsets().iterator(); iterSubsets.hasNext();  ) {
+					final Subset subset = iterSubsets.next();
 					executeSubsetIsqlCommands(jobConf, subset);
 				}
 			}

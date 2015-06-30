@@ -51,7 +51,7 @@ public class Resource {
 	 * @param type			the resource type.
 	 * @since 2.0
 	 */
-	public Resource(String packageId, String name, String description, String format, String url, String type)
+	public Resource(final String packageId, final String name, final String description, final String format, final String url, final String type)
 	{
 		this.name = name;
 		this.packageId = packageId;
@@ -76,7 +76,7 @@ public class Resource {
 	 * @param name The resource name.
 	 * @since 2.0
 	 */
-	public void setName(String name) {
+	public void setName(final String name) {
 		this.name = name.toLowerCase();
 	}
 
@@ -95,7 +95,7 @@ public class Resource {
 	 * @param packageId The package id in CKAN.
 	 * @since 2.0
 	 */
-	public void setPackageId(String packageId) {
+	public void setPackageId(final String packageId) {
 		this.packageId = packageId;
 	}
 
@@ -114,7 +114,7 @@ public class Resource {
 	 * @param description The resource description.
 	 * @since 2.0
 	 */
-	public void setDescription(String description) {
+	public void setDescription(final String description) {
 		this.description = description;
 	}
 	
@@ -133,7 +133,7 @@ public class Resource {
 	 * @param format The resource format.
 	 * @since 2.0
 	 */
-	public void setFormat(String format) {
+	public void setFormat(final String format) {
 		this.format = format;
 	}
 
@@ -152,7 +152,7 @@ public class Resource {
 	 * @param url The resource URL.
 	 * @since 2.0
 	 */
-	public void setUrl(String url) {
+	public void setUrl(final String url) {
 		this.url = url;
 	}
 
@@ -171,7 +171,7 @@ public class Resource {
 	 * @param type The resource type.
 	 * @since 2.0
 	 */
-	public void setType(String type) {
+	public void setType(final String type) {
 		this.type = type;
 	}
 }

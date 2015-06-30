@@ -28,7 +28,7 @@ import java.sql.PreparedStatement;
 import java.sql.Statement;
 
 /**
- * Links discovery process which uses SILK library for discovering links. 
+ * Links discovery process for discovering links. 
  * 
  * @author Idoia Murua
  * @since 1.0
@@ -395,7 +395,7 @@ public class LinkingProcess {
 		final String command = "crontab " + crontabFilename;
 		try {
 			LOGGER.debug(MessageCatalog._00040_EXECUTING_CRONTAB);
-			Process proc = Runtime.getRuntime().exec(command);
+			final Process proc = Runtime.getRuntime().exec(command);
 			proc.waitFor();
 			removed = true;
 		} catch (Exception exception) {
@@ -489,7 +489,8 @@ public class LinkingProcess {
 				System.exit(2);
 			}
 			int numLinks = 0;
-			//Check if the external dataset is one of the ones that do not provide a SPARQL endpoint.
+			//Check if the external dataset is one of the ones that 
+			//do not provide a SPARQL endpoint.
 			if(lProcess.subjobName.toUpperCase().contains("LOBID") || 
 					lProcess.subjobName.toUpperCase().contains("VIAF") ||
 					lProcess.subjobName.toUpperCase().contains("CONGRESS") ||

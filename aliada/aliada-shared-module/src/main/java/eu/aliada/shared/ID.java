@@ -15,6 +15,7 @@ import java.net.InetAddress;
  */
 public abstract class ID 
 {
+	/** Current ID **/
 	private static long currentID;
 
 	static 
@@ -23,7 +24,7 @@ public abstract class ID
 		String ipAddress = "127.0.0.1";
 		try 
 		{
-			InetAddress ip = InetAddress.getLocalHost();
+			final InetAddress ip = InetAddress.getLocalHost();
 			ipAddress = ip.getHostAddress();
 			sb.append(ipAddress.substring(ipAddress.lastIndexOf('.') + 1));
 		} catch (Exception ignore) 

@@ -21,13 +21,13 @@ public class LoadDataIntoGraphBySparqlTest {
      */
     @Test
     public void testLoadDataIntoGraphBySparqlTest() {
-    	String sparqlEndpointURI = "http://localhost:8890/sparql-auth";
-    	String graphUri = "http://aliada_graph1";
-    	String user = "aliada_dev";
-    	String password = "aliada_dev";
-    	String triplesFilename = "src/test/resources/links.n3";
-    	RDFStoreDAO rdfStoreDAO = new RDFStoreDAO();
-		boolean result = rdfStoreDAO.loadDataIntoGraphBySparql(triplesFilename, sparqlEndpointURI, user, password, graphUri);
+    	final String sparqlEndpointURI = "http://aliada.scanbit.net:8891/sparql-auth";
+    	final String graphUri = "http://aliada_graph1";
+    	final String user = "aliada_dev";
+    	final String password = "aliada_dev";
+    	final String triplesFilename = "src/test/resources/links.n3";
+    	final RDFStoreDAO rdfStoreDAO = new RDFStoreDAO();
+		final boolean result = rdfStoreDAO.loadDataIntoGraphBySparql(triplesFilename, sparqlEndpointURI, user, password, graphUri);
         if (result) {
             LOGGER.info("OK");
         } else {

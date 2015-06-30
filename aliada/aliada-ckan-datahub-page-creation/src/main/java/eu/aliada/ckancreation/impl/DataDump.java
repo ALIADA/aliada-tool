@@ -26,6 +26,7 @@ import eu.aliada.shared.log.Log;
 public class DataDump {
 	/** For logging. */
 	private static final Log LOGGER  = new Log(DataDump.class);
+	/** Job Configuration which contains required parameters. **/
 	private final JobConfiguration jobConf;
 	/** Format for the ISQL command to execute */
 	private static final String ISQL_COMMAND_FORMAT = "%s %s:%d %s %s %s -u graph_uri='%s' dump_file_path='%s' file_length_limit='%d'";
@@ -59,7 +60,9 @@ public class DataDump {
 	//FileNameFilter implementation
 	public static class DumpsFileNameFilter implements FilenameFilter{
          
+		/** Beginning string for the file names to filter **/
 		private final String fileInitName;
+		/** File extension to filter **/
 		private final String fileExt;
          
 		/**
@@ -95,7 +98,8 @@ public class DataDump {
 	 * Obtains the dump file names generated for the graph.
 	 *
 	 * @param graphURI			the graph URI.
-	 * @param dataDumpsPath		the definitive physical path of the folder where the data dumps are kept.
+	 * @param dataDumpsPath		the definitive physical path of the folder 
+	 *                          where the data dumps are kept.
 	 * @param dataDumpsUrl		the URL of the folder where the data dumps are kept.
 	 * @param dumpFileNameInit	the initial name for the files that contain the graph dumps.
 	 * @return	an array of  {@link eu.aliada.ckancreation.model.DumpFileInfo}
@@ -110,7 +114,7 @@ public class DataDump {
    		final File dumpFolder = new File(jobConf.getTmpDir());
    		final File[] listDumpFiles = dumpFolder.listFiles(new DumpsFileNameFilter(dumpFileNameInit, FILE_EXTENSION));
 		if( (listDumpFiles != null) && (listDumpFiles.length > 0)) {
-    		for(File dumpFile:listDumpFiles)
+    		for(final File dumpFile:listDumpFiles)
     		{
     	    	final String dumpFileUrl = dataDumpsUrl + "/" + dumpFile.getName();
     			try {
@@ -118,7 +122,7 @@ public class DataDump {
         			final String definitiveFileName = dataDumpsPath + File.separator + dumpFile.getName();
 	    			final File definitiveFile = new File (definitiveFileName);
 	    			Files.move(dumpFile.toPath(), definitiveFile.toPath(), java.nio.file.StandardCopyOption.REPLACE_EXISTING);
-	    	    	DumpFileInfo dumpFileInfo = new DumpFileInfo();
+	    	    	final DumpFileInfo dumpFileInfo = new DumpFileInfo();
 	    	    	dumpFileInfo.setDumpFileFormat(FILE_FORMAT);
 		    		dumpFileInfo.setDumpFilePath(definitiveFileName);
 		    	    dumpFileInfo.setDumpFileUrl(dumpFileUrl);
@@ -135,7 +139,8 @@ public class DataDump {
 	 * Generates the dump in file format for a graph.
 	 *
 	 * @param graphURI		the URI of the graph.
-	 * @param dataDumpsPath	the definitive physical path of the folder where to save the data dumps.
+	 * @param dataDumpsPath	the definitive physical path of the folder where 
+	 *                      to save the data dumps.
 	 * @param dataDumpsUrl	the URL of the folder where to save the data dumps.
 	 * @return	an array of  {@link eu.aliada.ckancreation.model.DumpFileInfo}
 	 * 			objects with the info about the files containing the graph dump.

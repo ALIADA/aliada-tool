@@ -174,7 +174,7 @@ public class DBConnectionManager {
 			sql = "SELECT * FROM subset WHERE datasetId=" + datasetId;
 			resultSet = sta.executeQuery(sql);
 			while (resultSet.next()) {
-				Subset subset = new Subset();
+				final Subset subset = new Subset();
 				subset.setUriConceptPart(resultSet.getString("uri_concept_part"));
 				subset.setDescription(resultSet.getString("subset_desc"));
 				subset.setGraph(resultSet.getString("graph_uri"));
@@ -194,7 +194,7 @@ public class DBConnectionManager {
             	//Compose initial logo file name 
             	final String orgImagePathInit = jobConf.getTmpDir() + File.separator + "orgLogo"  + "_" + System.currentTimeMillis()  + ".jpeg";
                 try {
-	                FileOutputStream fos = new FileOutputStream(orgImagePathInit);
+	                final FileOutputStream fos = new FileOutputStream(orgImagePathInit);
 	                fos.write(blobAsBytes);
 	                fos.close();
 	                jobConf.setOrgImagePath(orgImagePathInit);
@@ -219,7 +219,8 @@ public class DBConnectionManager {
 	 *
 	 * @param jobId			the job identification.
 	 * @param ckanOrgUrl	the URL of the organization in CKAN.
-	 * @return true if the URL has been updated correctly in the DDBB. False otherwise.
+	 * @return true if the URL has been updated correctly in the DDBB.
+	 *         False otherwise.
 	 * @since 2.0
 	 */
 	public boolean updateCkanOrgUrl(final int jobId, final String ckanOrgUrl){
@@ -231,6 +232,7 @@ public class DBConnectionManager {
     		preparedStatement.setString(1, ckanOrgUrl);
     		preparedStatement.setInt(2, jobId);
     		preparedStatement.executeUpdate();
+    		preparedStatement.close();
 		} catch (SQLException exception) {
 			LOGGER.error(MessageCatalog._00024_DATA_ACCESS_FAILURE, exception);
 			return false;
@@ -243,7 +245,8 @@ public class DBConnectionManager {
 	 *
 	 * @param jobId				the job identification.
 	 * @param ckanDatasetUrl	the URL of the dataset in CKAN.
-	 * @return true if the URL has been updated correctly in the DDBB. False otherwise.
+	 * @return true if the URL has been updated correctly in the DDBB.
+	 *         False otherwise.
 	 * @since 2.0
 	 */
 	public boolean updateCkanDatasetUrl(final int jobId, final String ckanDatasetUrl){
@@ -255,6 +258,7 @@ public class DBConnectionManager {
     		preparedStatement.setString(1, ckanDatasetUrl);
     		preparedStatement.setInt(2, jobId);
     		preparedStatement.executeUpdate();
+    		preparedStatement.close();
 		} catch (SQLException exception) {
 			LOGGER.error(MessageCatalog._00024_DATA_ACCESS_FAILURE, exception);
 			return false;
@@ -266,7 +270,8 @@ public class DBConnectionManager {
 	 * Updates the start_date of the job.
 	 *
 	 * @param jobId	the job identification.
-	 * @return true if the date has been updated correctly in the DDBB. False otherwise.
+	 * @return true if the date has been updated correctly in the DDBB. 
+	 *         False otherwise.
 	 * @since 2.0
 	 */
 	public boolean updateJobStartDate(final int jobId){
@@ -280,6 +285,7 @@ public class DBConnectionManager {
     		preparedStatement.setTimestamp(1, todaySQL);
     		preparedStatement.setInt(2, jobId);
     		preparedStatement.executeUpdate();
+    		preparedStatement.close();
 		} catch (SQLException exception) {
 			LOGGER.error(MessageCatalog._00024_DATA_ACCESS_FAILURE, exception);
 			return false;
@@ -291,7 +297,8 @@ public class DBConnectionManager {
 	 * Updates the end_date of the job.
 	 *
 	 * @param jobId	the job identification.
-	 * @return true if the date has been updated correctly in the DDBB. False otherwise.
+	 * @return true if the date has been updated correctly in the DDBB. 
+	 *         False otherwise.
 	 * @since 2.0
 	 */
 	public boolean updateJobEndDate(final int jobId){
@@ -305,6 +312,7 @@ public class DBConnectionManager {
     		preparedStatement.setTimestamp(1, todaySQL);
     		preparedStatement.setInt(2, jobId);
     		preparedStatement.executeUpdate();
+    		preparedStatement.close();
 		} catch (SQLException exception) {
 			LOGGER.error(MessageCatalog._00024_DATA_ACCESS_FAILURE, exception);
 			return false;
@@ -326,8 +334,8 @@ public class DBConnectionManager {
 		job.setId(jobId);
 		try {
 			final Statement sta = getConnection().createStatement();
-			String sql = "SELECT * FROM ckancreation_job_instances WHERE job_id=" + jobId;
-			ResultSet resultSet = sta.executeQuery(sql);
+			final String sql = "SELECT * FROM ckancreation_job_instances WHERE job_id=" + jobId;
+			final ResultSet resultSet = sta.executeQuery(sql);
 			while (resultSet.next()) {
 				job.setStartDate(resultSet.getTimestamp("start_date"));
 				job.setEndDate(resultSet.getTimestamp("end_date"));

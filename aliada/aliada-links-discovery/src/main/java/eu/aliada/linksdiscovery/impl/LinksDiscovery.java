@@ -67,7 +67,8 @@ public class LinksDiscovery {
 	private final static String RETRYCOUNT = "3"; 
 	/** RETRYPAUSE parameter for the SPARQL endpoint of ALIADA input datasource. */
 	private final static String RETRYPAUSE = "1000"; 
-	/** QUERYPARAMETERS parameter for the SPARQL endpoint of ALIADA input datasource. */
+	/** QUERYPARAMETERS parameter for the SPARQL endpoint of ALIADA input 
+	 * datasource. */
 	private final static String QUERYPARAMETERS = ""; 
 	/** ENTITYLIST parameter for the SPARQL endpoint of ALIADA input datasource. */
 	private final static String ENTITYLIST = ""; 
@@ -432,7 +433,8 @@ public class LinksDiscovery {
 				//For each linking process to schedule with crontab
 				for (int i=0; i<subjobConf.length;i++){
 					String linkingXMLConfigFilename = null;
-					//Check if the external dataset is one of the ones that do not provide a SPARQL endpoint.
+					//Check if the external dataset is one of the ones that do not 
+					//provide a SPARQL endpoint.
 					if(subjobConf[i].getName().toUpperCase().contains("LOBID") || 
 							subjobConf[i].getName().toUpperCase().contains("VIAF") ||
 							subjobConf[i].getName().toUpperCase().contains("CONGRESS") ||

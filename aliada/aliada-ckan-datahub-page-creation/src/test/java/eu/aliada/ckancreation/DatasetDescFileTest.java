@@ -22,11 +22,11 @@ import org.junit.Test;
  * @author Idoia Murua
  * @since 2.0
  */
-public class datasetDescFileTest {
+public class DatasetDescFileTest {
 	/** For creating random variable values. */
 	static final Random RANDOMIZER = new Random();
 	/** For logging. */
-	private static final Log LOGGER = new Log(datasetDescFileTest.class);
+	private static final Log LOGGER = new Log(DatasetDescFileTest.class);
 
     /**
      * Test the encodeParams method.
@@ -109,7 +109,7 @@ public class datasetDescFileTest {
 		job.setPublicSparqlEndpointUri("http://aliada.scanbit.org:8891/sparql");
 		job.setVirtHttpServRoot("/home/virtuoso/var/lib/virtuoso/vsp");
 		job.setOrgName("ARTIUM");
-		Subset subset = new Subset();
+		final Subset subset = new Subset();
 		subset.setDescription("Library bibliography");
 		subset.setGraph("http://aliada_graph1");
 		subset.setLinksGraph("http://aliada_graph1.links");

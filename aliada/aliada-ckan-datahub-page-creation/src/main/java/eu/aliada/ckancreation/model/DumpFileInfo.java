@@ -73,7 +73,7 @@ public class DumpFileInfo {
 	 * @param dumpFileFormat The dump file format.
 	 * @since 2.0
 	 */
-	public void setDumpFileFormat(String dumpFileFormat) {
+	public void setDumpFileFormat(final String dumpFileFormat) {
 		this.dumpFileFormat = dumpFileFormat;
 	}
 

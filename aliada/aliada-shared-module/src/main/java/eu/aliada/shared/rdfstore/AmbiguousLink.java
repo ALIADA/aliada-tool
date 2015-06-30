@@ -19,7 +19,7 @@ public class AmbiguousLink {
 	/** Source URI of the ambiguous links. */
 	private String sourceURI;
 	/** List of triples that contains the ambiguous links. */
-	private ArrayList<Triple> linksList = new ArrayList<Triple>();
+	private final ArrayList<Triple> linksList = new ArrayList<Triple>();
    
    
 	/**
