@@ -242,7 +242,7 @@ public class RDFStoreDAO {
 				numTriples++;
 				if(numTriples >= MAX_NUMBER_TRIPLES) {
 					try {
-						LOGGER.debug(MessageCatalog._00049_DEBUG_TRIPLES, triples);
+						//LOGGER.debug(MessageCatalog._00049_DEBUG_TRIPLES, triples);
 						executeInsert(sparqlEndpointURI, graphUri, user, password, triples);
 					} catch (Exception exception) {
 						done = false;
