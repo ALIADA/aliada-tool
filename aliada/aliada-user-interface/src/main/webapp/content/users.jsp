@@ -10,10 +10,7 @@
 function confirmBox(){
 	var answer = window.confirm("<html:text name='delete.message'/>");
 	if (answer == true) {
-		console.log("Remove user");
 		$("#user").submit();
-	} else {
-		console.log("Remove user cancel");
 	}
 return false;
 }
@@ -21,10 +18,7 @@ return false;
 function confirmEditBox(){
 	var answer = window.confirm("<html:text name='edit.message'/>");
 	if (answer == true) {
-		console.log("Edit user");
 		$("#userEditForm").submit();
-	} else {
-		console.log("Edit user cancel");
 	}
 return false;
 }
@@ -32,10 +26,7 @@ return false;
 function confirmEditBasicBox(){
 	var answer = window.confirm("<html:text name='edit.message'/>");
 	if (answer == true) {
-		console.log("Edit user basic");
 		$("#editUserPanelBasicForm").submit();
-	} else {
-		console.log("Edit user basic cancel");
 	}
 return false;
 }

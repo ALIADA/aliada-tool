@@ -11,6 +11,16 @@
     padding: 10px;
 }
 
+#graphs {
+	margin: 10px;
+	padding: 10px;
+}
+
+#gQuery {
+	background-color: #f0f0f0;
+    border: 1px dashed #1bbc9b;
+}
+
 #query {
 	border: 1px dashed #1BBC9B;
     margin: 10px;

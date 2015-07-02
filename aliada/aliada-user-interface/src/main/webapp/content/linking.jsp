@@ -38,7 +38,6 @@ $(function(){
 	 var rdfizerStatus = $("#rdfizerStatus").val();
 	 
 	 var checkLinking = function(){
-			console.log("checking Linking");
 			var linkingJobId = $("#linkingJobId").val();
 			var urlPath = "/aliada-links-discovery-2.0/jobs/"+linkingJobId;
 			var arrName = [];
@@ -50,7 +49,6 @@ $(function(){
 		      url: urlPath,
 		      dataType : 'json',
 		      success: function(json) {
-		    	  console.log(json);
 			   	   var sDate = json.startDate;
 			   	   var eDate = json.endDate;
 			   	   //var duration = json.durationSeconds;
@@ -63,12 +61,6 @@ $(function(){
 					   	arrDuration[idx] = obj.durationSeconds;
 					   	arrNumLinks[idx] = obj.numLinks;
 					   	arrStatus[idx] = obj.status;
-					   	
-					   	console.log(idx);
-				   		console.log(obj.name);
-				   		console.log("Duración: "+obj.durationSeconds);
-				   		console.log(obj.numLinks);
-				   		console.log(obj.status);
 				   		
 				   		var d = "<ul style='list-style-type:square'>";
 				   		for (var x = 0; x < arrName.length; x++) {
@@ -86,7 +78,6 @@ $(function(){
 				   		
 				   });
 			   	   if(status=="finished"){
-			   		   console.log("interval linking stopped");
 			   		   clearInterval(intervalLinking);
 				       $("#progressBarLinking").hide();
 				       $("#links").show();
@@ -116,7 +107,6 @@ $(function(){
 	    	});   
 		};
 		var checkLDS = function(){
-			console.log("checking lds");
 			var ldsJobId = $("#ldsJobId").val();
 			var urlPath = "/aliada-linked-data-server-2.0/jobs/"+ldsJobId;
 		    $.ajax({
@@ -124,12 +114,10 @@ $(function(){
 		      url: urlPath,
 		      dataType : 'json',
 		      success: function(json) {
-		    	  console.log(json);
 			   	   var sDate = json.startDate;
 			   	   var eDate = json.endDate;
 			   	   var status = json.status;
 			   	   if(status=="finished"){
-			   		   console.log("interval LDS stopped");
 			   		   clearInterval(intervalLDS);
 				       $("#progressBarLDS").hide();
 				       $("#fineLDSImg").show();
@@ -182,8 +170,6 @@ $(function(){
  	     $("#checkLinkingButtonCheck").prop("disabled",false);
  	     
 	 } else if (rdfizerStatus == "finishedLinking") {
-		 
-		 console.log("Checking");
  	     $("#linkingPanel").hide();
 		 $("#linkingPanelCheck").hide();		
 	   	 $("#checkInfo").show("fast");
@@ -196,7 +182,6 @@ $(function(){
 	 }
 	
 	$("#publishButton").on("click",function(){
-		console.log("Checking publish button");
 		
 		//This will disable everything contained in the div
 		$("#publishButton").hide();
@@ -219,7 +204,6 @@ $(function(){
 	
 	/*$("#sorteable :checkbox").on("change",function(){
 		var checked = $("#sorteable input:checked").length > 0;
-		console.log(checked);
 	    if (checked){
 			$("#startLinkingButtonCheck").removeClass("button");
 			$("#startLinkingButtonCheck").addClass("buttonGreen");

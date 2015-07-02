@@ -47,6 +47,7 @@ $(function(){
 	<li><span class="activeGreen"><html:text name="manage.title"/></span></li>
 	<li><span ><html:text name="conversion.title"/></span></li>
 	<li><span ><html:text name="linking.title"/></span></li>
+	<html:a id="rdfVal" action="getAuthors" cssClass="menuButton button fright" key="rdfVal" target="_blank"><html:text name="rdfVal"/></html:a>
 </ul>
 
 <div id=import>

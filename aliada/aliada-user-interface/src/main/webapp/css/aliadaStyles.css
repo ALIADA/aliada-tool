@@ -298,15 +298,6 @@ ul.breadcrumb {
 	overflow: visible;
 }
 
-/*.pageTitle{
-	font-size: 20px;
-	color: rgb(12,52,88);
-	font-weight: bold;
-	margin-top: 15px;
-	margin-left: 45px;
-	text-decoration: underline;
-}*/
-
 /* Footer Page */
 .copyrightPage {
 	display: block;
@@ -344,6 +335,10 @@ ul.breadcrumb {
 
 .lPad10{
 	padding-left: 10px;
+}
+
+.margin20{
+	margin: 20px;
 }
 
 .scrollifyAuto{

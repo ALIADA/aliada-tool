@@ -9,10 +9,7 @@
 function confirmBox(){
 	var answer = window.confirm("<html:text name='delete.message'/>");
 	if (answer == true) {
-		console.log("Remove jobs");
 		$("#pendingFiles").submit();
-	} else {
-		console.log("Remove jobs cancel");
 	}
 return false;
 }
@@ -20,10 +17,7 @@ return false;
 function confirmDeleteBox(){
 	var answer = window.confirm("<html:text name='delete.message'/>");
 	if (answer == true) {
-		console.log("Remove a job");
 		$("#pendingFile").submit();
-	} else {
-		console.log("Remove a job cancel");
 	}
 return false;
 }

@@ -30,7 +30,6 @@
 		
 		function changeLocaleDataTable(){
 			var loc = $("#loc").val();
-			//console.log(loc);
 			if (loc == "spa") {
 			    $("#links").dataTable( {
 			    	"iDisplayLength": 100,
@@ -108,10 +107,6 @@
 			
 			var isLinks = $("#li").val();	
 			var isAmb = $("#amb").val();
-			
-			console.log(isLinks);
-			
-			console.log(isAmb);
 			
 			if(isLinks == "true"){
 				$("#linksPage").show();

@@ -9,21 +9,15 @@
 function confirmBox(){
 	var answer = window.confirm("<html:text name='delete.message'/>");
 	if (answer == true) {
-		console.log("Remove profile");
 		$("#profiles").submit();
-	} else {
-		console.log("Remove profile cancel");
-	}
+	} 
 return false;
 }
 
 function confirmEditBox(){
 	var answer = window.confirm("<html:text name='edit.message'/>");
 	if (answer == true) {
-		console.log("Edit profile");
 		$("#profileEditForm").submit();
-	} else {
-		console.log("Edit profile cancel");
 	}
 return false;
 }

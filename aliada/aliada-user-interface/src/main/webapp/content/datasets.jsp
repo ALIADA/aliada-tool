@@ -10,21 +10,15 @@
 function confirmBox(){
 	var answer = window.confirm("<html:text name='delete.message'/>");
 	if (answer == true) {
-		console.log("Remove dataset");
 		$("#datasets").submit();
-	} else {
-		console.log("Remove dataset cancel");
-	}
+	} 
 return false;
 }
 
 function confirmEditBox(){
 	var answer = window.confirm("<html:text name='edit.message'/>");
 	if (answer == true) {
-		console.log("Edit dataset");
 		$("#datasetEditForm").submit();
-	} else {
-		console.log("Edit dataset cancel");
 	}
 return false;
 }

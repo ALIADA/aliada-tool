@@ -147,6 +147,11 @@
 			<result name="error" type="tiles">/linking.tiles</result>
 		</action>
 		
+		<action name="changeGraph" method="changeGraph" class="eu.aliada.gui.action.RDFValidationAction">
+			<result name="success" type="tiles">/rdfValidation.tiles</result>
+			<result name="error" type="tiles">/rdfValidation.tiles</result>
+		</action>
+		
 		<action name="getAuthors" method="getAut" class="eu.aliada.gui.action.RDFValidationAction">
 			<result name="success" type="tiles">/rdfValidation.tiles</result>
 			<result name="error" type="tiles">/rdfValidation.tiles</result>

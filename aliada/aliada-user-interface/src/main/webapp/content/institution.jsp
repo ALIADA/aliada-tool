@@ -10,11 +10,8 @@
 function confirmBox(){
 	var answer = window.confirm("<html:text name='edit.message'/>");
 	if (answer == true) {
-		console.log("Edit institution");
 		$("#institutionConfiguration").submit();
-	} else {
-		console.log("Edit institution cancel");
-	}
+	} 
 return false;
 }
 

@@ -10,10 +10,7 @@
 function confirmBox(){
 	var answer = window.confirm("<html:text name='delete.message'/>");
 	if (answer == true) {
-		console.log("Remove subset");
 		$("#subsets").submit();
-	} else {
-		console.log("Remove subset cancel");
 	}
 return false;
 }
@@ -21,10 +18,7 @@ return false;
 function confirmEditBox(){
 	var answer = window.confirm("<html:text name='edit.message'/>");
 	if (answer == true) {
-		console.log("Edit subset");
 		$("#subsetEditForm").submit();
-	} else {
-		console.log("Edit subset cancel");
 	}
 return false;
 }

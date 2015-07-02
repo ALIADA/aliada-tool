@@ -10,10 +10,7 @@
 function confirmBox(){
 	var answer = window.confirm("<html:text name='conversion.cleanGraph'/>");
 	if (answer == true) {
-		console.log("Clean graph");
 		$("#clean").submit();
-	} else {
-		console.log("Cancel clean graph");
 	}
 return false;
 }
@@ -23,7 +20,6 @@ $(function(){
 	var rdfizerStatus = $("#rdfizerStatus").val();
 	var interval = 0;
 	var checkRDF = function(){
-		console.log("checking RDF");
 		var rdfizerJobId = $("#rdfizerJobId").val();
 		var urlPath = "/aliada-rdfizer-2.0/jobs/"+rdfizerJobId;
 		//var urlPath = "/rdfizer/jobs/"+rdfizerJobId;
@@ -44,20 +40,16 @@ $(function(){
                $("#processingThroughput").text(processingThroughput);
                var triplesThroughput = $(xml).find("triples-throughput").text();
                $("#triplesThroughput").text(triplesThroughput);
-               console.log(completed);
-	    	   console.log(xml);
 	    	   var completed = $(xml).find("completed").text();
                if(completed=="true"){
 
             	   var statusCode = $(xml).find("status-code").text();
-            	   console.log("Code: "+statusCode);
             	   if(statusCode == 0) {
     			       $("#fineImg").show();
             	   } else if(statusCode == -1) {
     			       $("#errorImg").show();
             		   $("#validationError").show();
             		   var validationErrorMess = $(xml).find("description").text();
-            		   console.log("Message: "+validationErrorMess);
             		   $("ValError").text(validationErrorMess);
             	   }
             	   $("#status").text("Completed");
@@ -67,7 +59,6 @@ $(function(){
 			       $("#nextBut").prop("disabled",false);
 			       $("#rdfVal").show("fast");
 			       $("#progressBar").hide();
-		   		   console.log("interval stopped");
 		   		   clearInterval(interval);
                }
                else{
@@ -83,13 +74,11 @@ $(function(){
    		});   
 	};
 	
-	console.log(rdfizerStatus);
 	if(rdfizerStatus =="running"){
 		$("#checkInfo").hide();
 		$("#checkRDFInfo").show("fast");
 		$('#progressBar').show();
 		$('#checkRDFButton').hide();
-		console.log("Checking");
 		interval = setInterval( checkRDF, 3000 );
 	} 
 	
@@ -107,7 +96,6 @@ $(function(){
 	$('#datSelect').find('br').remove();
 	
 	$("#rdfizeButton").on("click",function(){
-		console.log("Rdfizer button");
 		$("#backButton").hide();
 		$("#rdfizeButton").hide();
  	   	$("#cleanButton").hide();

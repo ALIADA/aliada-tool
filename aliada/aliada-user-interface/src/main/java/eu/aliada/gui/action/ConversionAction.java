@@ -85,7 +85,9 @@ public class ConversionAction extends ActionSupport {
             setShowRdfizerButton(1); 
         }
         getDatAndSubsets();
-        getGraphsDb();
+        Methods m = new Methods();
+        m.setLang(getLocale().getISO3Language());
+        graphs = m.getGraphsDb();
         return getTemplatesDb();
     }
     /**
@@ -99,6 +101,10 @@ public class ConversionAction extends ActionSupport {
     	ServletActionContext.getRequest().getSession().setAttribute("action", defaults.getString("lang.default"));
     	
         HttpSession session = ServletActionContext.getRequest().getSession();
+        
+        Methods m = new Methods();
+        m.setLang(getLocale().getISO3Language());
+        
         if (session.getAttribute("importedFile") != null) {
             setImportedFile((FileWork) session.getAttribute("importedFile"));
             importedFile.setTemplate(getTemplateNameFromCode(getSelectedTemplate()));
@@ -174,7 +180,7 @@ public class ConversionAction extends ActionSupport {
                         logger.error(MessageCatalog._00012_IO_EXCEPTION, e);
                         getTemplatesDb();
                         getDatAndSubsets();
-                        getGraphsDb();
+                        graphs = m.getGraphsDb();
                         rs2.close();
                         preparedStatement.close();
                         connection.close();
@@ -188,23 +194,23 @@ public class ConversionAction extends ActionSupport {
                     session.setAttribute("rdfizerJobId", addedId);
                     setShowCheckButton(1);
                     getDatAndSubsets();
-                    getGraphsDb();
+                    graphs = m.getGraphsDb();
                     return getTemplatesDb();                
                 }
             } catch (SQLException e) {
                 logger.error(MessageCatalog._00011_SQL_EXCEPTION, e);
                 getDatAndSubsets();
-                getGraphsDb();
+                graphs = m.getGraphsDb();
                 getTemplatesDb();
                 return ERROR;
             }
             getDatAndSubsets();
-            getGraphsDb();
+            graphs = m.getGraphsDb();
             return getTemplatesDb();
         } else {
             logger.error(MessageCatalog._00033_CONVERSION_ERROR_NO_FILE_IMPORTED);
             getDatAndSubsets();
-            getGraphsDb();
+            graphs = m.getGraphsDb();
             getTemplatesDb();
             return ERROR;
         }
@@ -328,6 +334,8 @@ public class ConversionAction extends ActionSupport {
      * @since 1.0
      */
     private void enableRdfizer() throws IOException {
+    	Methods m = new Methods();
+        m.setLang(getLocale().getISO3Language());
     	URL url = new URL(defaults.getString("enableRdfizer"));
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setDoOutput(true);
@@ -335,7 +343,7 @@ public class ConversionAction extends ActionSupport {
         if (conn.getResponseCode() != HttpURLConnection.HTTP_NO_CONTENT) {
             setShowRdfizerButton(1);
             getDatAndSubsets();
-            getGraphsDb();
+            graphs = m.getGraphsDb();
             getTemplatesDb();  
             throw new ConnectException(MessageCatalog._00015_HTTP_ERROR_CODE
                     + conn.getResponseCode());
@@ -352,6 +360,8 @@ public class ConversionAction extends ActionSupport {
      * @since 1.0
      */
     private void createJob(final int addedId) throws IOException {
+    	Methods m = new Methods();
+        m.setLang(getLocale().getISO3Language());
 	    URL url = new URL(defaults.getString("createJob") + addedId);
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setDoOutput(true);
@@ -359,7 +369,7 @@ public class ConversionAction extends ActionSupport {
         if (conn.getResponseCode() != HttpURLConnection.HTTP_CREATED) {
             setShowRdfizerButton(1);
             getDatAndSubsets();
-            getGraphsDb();
+            graphs = m.getGraphsDb();
             getTemplatesDb();  
             throw new ConnectException(MessageCatalog._00015_HTTP_ERROR_CODE
                     + conn.getResponseCode());
@@ -443,36 +453,6 @@ public class ConversionAction extends ActionSupport {
             return ERROR;
         }  	
     	return SUCCESS;
-    }
-    /**
-     * Gets the available graphs from the DB.
-     * @return String
-     * @see
-     * @since 1.0
-     */
-    public String getGraphsDb() {
-        String username = (String) ServletActionContext.getRequest().getSession().getAttribute("logedUser");
-        Connection connection = null;
-        try {
-            connection = new DBConnectionManager().getConnection();
-            Statement statement = connection.createStatement();
-            
-            ResultSet rs = statement.executeQuery("SELECT subsetId, graph_uri FROM aliada.organisation o INNER JOIN aliada.dataset d "
-            		+ "ON o.organisationId=d.organisationId INNER JOIN aliada.subset s ON d.datasetId=s.datasetId INNER JOIN aliada.user "
-            		+ "u ON u.organisationId=d.organisationId where u.user_name='" + username + "';");
-            graphs = new HashMap<Integer, String>();
-            while (rs.next()) {
-                graphs.put(rs.getInt("subsetId"),
-                        rs.getString("graph_uri"));
-            }
-            rs.close();
-            statement.close();
-            connection.close();
-        } catch (SQLException e) {
-            logger.error(MessageCatalog._00011_SQL_EXCEPTION, e);
-            return ERROR;
-        }
-        return SUCCESS;
     }
     /**
      * Gets the graph Uri from a graph code.

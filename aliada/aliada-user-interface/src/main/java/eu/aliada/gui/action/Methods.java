@@ -15,6 +15,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.struts2.ServletActionContext;
+
 import eu.aliada.gui.log.MessageCatalog;
 import eu.aliada.gui.rdbms.DBConnectionManager;
 import eu.aliada.shared.log.Log;
@@ -62,7 +64,7 @@ public class Methods {
 	}
     /**
      * The method to show the metadata scheme list.
-     * @return String
+     * @return HashMap<Integer, String>
      * @see
      * @since 1.0
      */
@@ -91,7 +93,7 @@ public class Methods {
     }
     /**
      * The method to show the profile type list. 
-     * @return String
+     * @return HashMap<Integer, String>
      * @see
      * @since 1.0
      */
@@ -120,7 +122,7 @@ public class Methods {
     }
     /**
      * The method to show the file format list.
-     * @return String
+     * @return HashMap<Integer, String>
      * @see
      * @since 1.0
      */
@@ -149,7 +151,7 @@ public class Methods {
     }
     /**
      * The method to show the character set list.
-     * @return String
+     * @return HashMap<Integer, String>
      * @see
      * @since 1.0
      */
@@ -178,7 +180,7 @@ public class Methods {
     }
     /**
      * The method to show the file type list.
-     * @return String
+     * @return HashMap<Integer, String>
      * @see
      * @since 1.0
      */
@@ -261,7 +263,7 @@ public class Methods {
     }
     /**
      * Gets the user types from DB.
-     * @return String
+     * @return HashMap<Integer, String>
      * @see
      * @since 1.0
      */
@@ -367,7 +369,7 @@ public class Methods {
     }
     /**
      * Get the user roles from DB.
-     * @return String
+     * @return HashMap<Integer, String>
      * @see
      * @since 1.0
      */
@@ -395,7 +397,7 @@ public class Methods {
     }
     /**
      * Get the organisations from DB.
-     * @return String
+     * @return HashMap<Integer, String>
      * @see
      * @since 1.0
      */
@@ -418,6 +420,37 @@ public class Methods {
             logger.error(MessageCatalog._00011_SQL_EXCEPTION, e);
         }
 		return organisations;
+    }
+    
+    /**
+     * Gets the available graphs from the DB.
+     * @return HashMap<Integer, String>
+     * @see
+     * @since 1.0
+     */
+    public HashMap<Integer, String> getGraphsDb() {
+        String username = (String) ServletActionContext.getRequest().getSession().getAttribute("logedUser");
+        Connection connection = null;
+        HashMap<Integer, String> graphs = new HashMap<>();
+        try {
+            connection = new DBConnectionManager().getConnection();
+            Statement statement = connection.createStatement();
+            
+            ResultSet rs = statement.executeQuery("SELECT subsetId, graph_uri FROM aliada.organisation o INNER JOIN aliada.dataset d "
+            		+ "ON o.organisationId=d.organisationId INNER JOIN aliada.subset s ON d.datasetId=s.datasetId INNER JOIN aliada.user "
+            		+ "u ON u.organisationId=d.organisationId where u.user_name='" + username + "';");
+            graphs = new HashMap<Integer, String>();
+            while (rs.next()) {
+                graphs.put(rs.getInt("subsetId"),
+                        rs.getString("graph_uri"));
+            }
+            rs.close();
+            statement.close();
+            connection.close();
+        } catch (SQLException e) {
+            logger.error(MessageCatalog._00011_SQL_EXCEPTION, e);
+        }
+        return graphs;
     }
     /**
      * @return Returns the lang.

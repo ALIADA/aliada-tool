@@ -11,6 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -69,6 +70,11 @@ public class RDFValidationAction extends ActionSupport {
     int offset;
     int limit = Integer.valueOf(defaults.getString("limit"));
     
+    private boolean queries;
+    private String selectedGraph;
+    private HashMap<Integer, String> graphs;
+    private boolean change;
+    
     final RDFStoreDAO rdfstoreDAO = new RDFStoreDAO();
 
     private final Log logger = new Log(RDFValidationAction.class);
@@ -79,6 +85,10 @@ public class RDFValidationAction extends ActionSupport {
      * @since 1.0
      */
     public String execute() {  
+    	
+    	if (getSelectedGraph() == null) {
+    		setSelectedGraph((String) ServletActionContext.getRequest().getSession().getAttribute("graphToQuery"));
+    	}
     	
     	setAuth(false);
     	setObj(false);
@@ -91,6 +101,11 @@ public class RDFValidationAction extends ActionSupport {
     	wo = getText("works.title");
     	
         if (ServletActionContext.getRequest().getSession().getAttribute("importedFile") != null) {
+        	
+        	setChange(false);
+        	setQueries(true);
+        	graphs = new HashMap<>();
+        	
             FileWork importedFile = (FileWork) ServletActionContext.getRequest().getSession().getAttribute("importedFile"); 
             Connection connection;
             connection = new DBConnectionManager().getConnection();
@@ -128,12 +143,73 @@ public class RDFValidationAction extends ActionSupport {
                 logger.error(MessageCatalog._00011_SQL_EXCEPTION, e);
                 return ERROR;
             }
+        } else if (getSelectedGraph() != null) {
+        	
+        	setChange(true);
+        	setQueries(true);
+        	graphs = new HashMap<>();
+        	ServletActionContext.getRequest().getSession().setAttribute("graphToQuery", getSelectedGraph());
+        	
+            Connection connection;
+            connection = new DBConnectionManager().getConnection();
+            Statement statement;
+            try {
+                statement = connection.createStatement();
+                ResultSet rs = statement.executeQuery("SELECT sparql_endpoint_uri, graph_uri, sparql_endpoint_login, "
+                		+ "sparql_endpoint_password FROM aliada.organisation o "
+                		+ "INNER JOIN aliada.dataset d ON o.organisationId=d.organisationId "
+                		+ "INNER JOIN aliada.subset s ON d.datasetId=s.datasetId "
+                		+ "WHERE s.subsetId =" + getSelectedGraph() + "");
+                if (rs.next()) {
+                    setSparqlEndpointURI(rs.getString("sparql_endpoint_uri"));
+                    setGraphName(rs.getString("graph_uri"));
+                    setUser(rs.getString("sparql_endpoint_login"));
+                    setPassword(rs.getString("sparql_endpoint_password"));
+                }
+                rs.close();
+                statement.close();
+                connection.close();
+                
+                setNumAuthors(rdfstoreDAO.getNumAuthors(sparqlEndpointURI, graphName, user, password));
+                String num = " (" + String.valueOf(getNumAuthors()) + ")";
+            	setA(getA() + num);               
+                setNumObjects(rdfstoreDAO.getNumObjects(sparqlEndpointURI, graphName, user, password));
+                num = " (" + String.valueOf(getNumObjects()) + ")";
+                setO(getO() + num);   
+                setNumManifs(rdfstoreDAO.getNumManifestations(sparqlEndpointURI, graphName, user, password));
+                num = " (" + String.valueOf(getNumManifs()) + ")";
+                setM(getM() + num);   
+                setNumWorks(rdfstoreDAO.getNumWorks(sparqlEndpointURI, graphName, user, password));
+                num = " (" + String.valueOf(getNumWorks()) + ")";
+                setWo(getWo() + num);   
+                
+                return SUCCESS;
+            } catch (SQLException e) {
+                logger.error(MessageCatalog._00011_SQL_EXCEPTION, e);
+                return ERROR;
+            }
         } else {
-            logger.error(MessageCatalog._00033_CONVERSION_ERROR_NO_FILE_IMPORTED);
-            return ERROR;
-        }        
+        	
+        	setChange(false);
+        	setQueries(false);
+        	
+            Methods m = new Methods();
+            m.setLang(getLocale().getISO3Language());
+            graphs = m.getGraphsDb();
+            return SUCCESS;
+        }
     }
-    
+    /**
+     * Change the graph selected in the UI.
+     * @return String
+     * @see
+     * @since 1.0
+     */
+    public String changeGraph() {
+    	ServletActionContext.getRequest().getSession().setAttribute("graphToQuery", null);
+		execute();
+		return SUCCESS;
+    }
 	/**
      * Get the authors triples selected in the UI.
      * @return String
@@ -545,6 +621,54 @@ public class RDFValidationAction extends ActionSupport {
 	public void setWo(final String wo) {
 		this.wo = wo;
 	}
-
-	
+	/** @return Returns the queries. */
+    public boolean isQueries() {
+		return queries;
+	}
+    /** @param queries The queries to set. */
+	public void setQueries(final boolean queries) {
+		this.queries = queries;
+	}
+	/**
+     * @return Returns the selectedGraph.
+     * @exception
+     * @since 1.0
+     */
+    public String getSelectedGraph() {
+        return selectedGraph;
+    }
+    /**
+     * @param selectedGraph
+     *            The selectedGraph to set.
+     * @exception
+     * @since 1.0
+     */
+    public void setSelectedGraph(final String selectedGraph) {
+        this.selectedGraph = selectedGraph;
+    }
+    /**
+     * @return Returns the graphs.
+     * @exception
+     * @since 1.0
+     */
+    public HashMap<Integer, String> getGraphs() {
+        return graphs;
+    }
+    /**
+     * @param graphs The graphs to set.
+     * @exception
+     * @since 1.0
+     */
+    public void setGraphs(final HashMap<Integer, String> graphs) {
+        this.graphs = graphs;
+    }
+    /** @return Returns the change. */
+	public boolean isChange() {
+		return change;
+	}
+	/** @param change The change to set. */
+	public void setChange(final boolean change) {
+		this.change = change;
+	}
+    
 }

@@ -9,10 +9,7 @@
 function confirmBox(){
 	var answer = window.confirm("<html:text name='delete.message'/>");
 	if (answer == true) {
-		console.log("Remove template");
 		$("#templates").submit();
-	} else {
-		console.log("Remove template cancel");
 	}
 return false;
 }
@@ -20,10 +17,7 @@ return false;
 function confirmEditBox(){
 	var answer = window.confirm("<html:text name='edit.message'/>");
 	if (answer == true) {
-		console.log("Edit template");
 		$("#templateEditForm").submit();
-	} else {
-		console.log("Edit template cancel");
 	}
 return false;
 }

@@ -30,7 +30,6 @@
 		
 		function changeLocaleDataTable(){
 			var loc = $("#loc").val();
-			console.log(loc);
 			if (loc == "spa") {
 			    $("#datAuthors").dataTable( {
 			    	"iDisplayLength": 100,
@@ -177,14 +176,6 @@
 			var isManifs = $("#mani").val();	
 			var isWorks = $("#wor").val();	
 			
-			console.log(isAuth);
-			
-			console.log(isObj);
-			
-			console.log(isManifs);
-			
-			console.log(isWorks);
-			
 			if(isAuth == "true"){
 				$("#query").show();
 				$("#authors").show();
@@ -205,6 +196,20 @@
 				$("#works").show();
 			}
 			
+			var q = $("#queries").val();
+			if(q == "false") {
+				$("#query").hide();
+				$("#authors").hide();
+				$("#graphs").show();
+			} else {
+				$("#queriesButt").show();
+			}
+			
+			var c = $("#change").val();
+			if(c == "true") {
+				$("#changeGraph").show();
+			}
+			
 		});
 		
 	</script>
@@ -218,12 +223,15 @@
 	<html:hidden id="obj" name="objects" value="%{obj}" />
 	<html:hidden id="mani" name="mani" value="%{mani}" />
 	<html:hidden id="wor" name="wor" value="%{works}" />
+	<html:hidden id="queries" name="queries" value="%{queries}" />
+	<html:hidden id="change" name="change" value="%{change}" />
 
 	<div id="aliadaHeader">
-		<img src="images/aliada-header.png"/>	
+		<img src="images/aliada-header.png"/>
+		<html:a id="changeGraph" action="changeGraph" cssClass="displayNo menuButton buttonGreen margin20 fright" ><html:text name="graph.change"/></html:a>	
 	</div>	
 	<div class="headerContentGreenBorder"></div>
-	<div class="contentQueriesButtons center" >
+	<div id="queriesButt" class="displayNo contentQueriesButtons center" >
 	
 		<html:submit cssClass="queriesButton button" key="%{a}" onclick="return authors();"/>
 		<html:submit cssClass="queriesButton button" key="%{o}" onclick="return objects();"/>
@@ -373,6 +381,17 @@
 				</html:form>
 			</table>
 		</div>
+	</div>
+	<div id="graphs" class="displayNo">
+		<html:form id="gQuery">
+			<label class="row label center"><html:text name="graph.select"/></label>
+			<div class="buttons row">
+				<html:select id="graphToQuery" name="selectedGraph" cssClass="inputForm" list="graphs" />
+			</div>
+			<div class="buttons row">
+				 <html:submit id="rdfVal" action="getAuthors" cssClass="menuButton button" key="rdfVal"/> 
+			</div>
+		</html:form>
 	</div>
 	<div id="collapseCloud"></div>
 	<div class="headerContentGreenBorder"></div>
