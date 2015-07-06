@@ -178,7 +178,7 @@ $(function(){
 							<td>
 								<div id="datSelect" class="nobr">
 										<html:doubleselect cssClass="inputForm"
-										name="dat" list="datasetMap.keySet()" doubleCssClass="inputForm"
+										name="dat" list="datasetMap.keySet()" doubleCssClass="inputFormLarge"
 										doubleName="sub" doubleList="datasetMap.get(top)" />
 								</div>
 							</td>

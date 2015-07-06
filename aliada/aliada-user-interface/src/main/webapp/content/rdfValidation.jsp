@@ -175,34 +175,38 @@
 			var isObj = $("#obj").val();
 			var isManifs = $("#mani").val();	
 			var isWorks = $("#wor").val();	
+			var q = $("#queries").val();
 			
-			if(isAuth == "true"){
+			if(isAuth == "true" && q == "true"){
+				$("#queriesButt").show();
 				$("#query").show();
 				$("#authors").show();
+			} else if (q == "false") {
+				$("#graphs").show();
 			}
 			
-			if(isObj == "true"){
+			if(isObj == "true" && q == "true"){
+				$("#queriesButt").show();
 				$("#query").show();
 				$("#objects").show();
-			}	
+			} else if (q == "false") {
+				$("#graphs").show();
+			}
 			
-			if(isManifs == "true"){
+			if(isManifs == "true" && q == "true"){
+				$("#queriesButt").show();
 				$("#query").show();
 				$("#manifestations").show();
+			} else if (q == "false") {
+				$("#graphs").show();
 			}
 			
-			if(isWorks == "true"){
+			if(isWorks == "true" && q == "true"){
+				$("#queriesButt").show();
 				$("#query").show();
 				$("#works").show();
-			}
-			
-			var q = $("#queries").val();
-			if(q == "false") {
-				$("#query").hide();
-				$("#authors").hide();
+			} else if (q == "false") {
 				$("#graphs").show();
-			} else {
-				$("#queriesButt").show();
 			}
 			
 			var c = $("#change").val();
@@ -386,7 +390,7 @@
 		<html:form id="gQuery">
 			<label class="row label center"><html:text name="graph.select"/></label>
 			<div class="buttons row">
-				<html:select id="graphToQuery" name="selectedGraph" cssClass="inputForm" list="graphs" />
+				<html:select id="graphToQuery" name="selectedGraph" cssClass="inputFormLarge" list="graphs" />
 			</div>
 			<div class="buttons row">
 				 <html:submit id="rdfVal" action="getAuthors" cssClass="menuButton button" key="rdfVal"/> 

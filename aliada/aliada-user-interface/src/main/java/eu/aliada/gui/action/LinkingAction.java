@@ -417,7 +417,6 @@ public class LinkingAction extends ActionSupport {
             				name = "ALIADA_" + dataset.get(i);
             				
             				if ((int)ServletActionContext.getRequest().getSession().getAttribute("type") == 1) {
-            					
             					statement.executeUpdate("UPDATE aliada.t_external_dataset set external_dataset_linkingreloadtarget='1' "
             						+ "where external_dataset_name='" + dataset.get(i) + "'");
             				}
@@ -448,6 +447,13 @@ public class LinkingAction extends ActionSupport {
 		                        preparedStatement.executeUpdate();
 		                    }
             			}
+                    } else {
+                    	
+                    	if ((int)ServletActionContext.getRequest().getSession().getAttribute("type") == 1) {
+                    		statement.executeUpdate("UPDATE aliada.t_external_dataset set external_dataset_linkingreloadtarget='0' ");
+                    	}
+                    	
+                    	dataset = new LinkedList<String>();
                     }
                     
                     rs.close();

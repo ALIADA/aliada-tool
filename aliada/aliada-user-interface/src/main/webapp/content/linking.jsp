@@ -143,10 +143,10 @@ $(function(){
 		      }
 	    	});   
 		};
-	 
+	
 	 if(rdfizerStatus == "finishedRdfizer"){
 		 
-		 $("#linkingPanelCheck").hide();
+		 $("#linkingPanel").show();
 		 
 		 $("#checkLinkingButton").removeClass("buttonGreen");
    	 	 $("#checkLinkingButton").addClass("button");
@@ -158,7 +158,6 @@ $(function(){
 		 
 	 } else if (rdfizerStatus == "runningLinking") {
 		 
-		 $("#linkingPanel").hide();
 		 $("#linkingPanelCheck").show();
 		 
  	     $("#startLinkingButtonCheck").removeClass("buttonGreen");
@@ -169,9 +168,7 @@ $(function(){
  	   	 $("#checkLinkingButtonCheck").addClass("buttonGreen");
  	     $("#checkLinkingButtonCheck").prop("disabled",false);
  	     
-	 } else if (rdfizerStatus == "finishedLinking") {
- 	     $("#linkingPanel").hide();
-		 $("#linkingPanelCheck").hide();		
+	 } else if (rdfizerStatus == "finishedLinking") {		
 	   	 $("#checkInfo").show("fast");
 		 $('#checkLinkingButton').hide();
 		 intervalLinking = setInterval( checkLinking, 1000 );
@@ -240,7 +237,7 @@ $(function(){
 	<li><span class="breadcrumb activeGreen"><html:text name="linking.title"/></span></li>
 </ul>
 
-<div id="linkingPanel">
+<div id="linkingPanel" class="displayNo">
 	
 	<html:form>
 	<div class="formCheckConv centeredCheck checkContent">
@@ -269,7 +266,7 @@ $(function(){
 	
 </div>
 
-<div id="linkingPanelCheck">
+<div id="linkingPanelCheck" class="displayNo">
 
 	<html:form>
 	<div class="formCheckConv centeredCheck checkContent">
@@ -277,11 +274,18 @@ $(function(){
 		<h3 class="mediumLabel center"><html:text name="linking.datasets"/></h3>
 		<div id="sorteable">
 			<ul>
-				<html:iterator value="dataset" var="data">
-			        <li> 
-			         	<html:text name="data"/>
-		     		</li>
-			    </html:iterator>
+				<html:if test="dataset.size == 0">
+					<li> 
+				       	<html:text name="empty"/>
+			     	</li>
+				</html:if>
+				<html:else>
+				    <html:iterator value="dataset" var="data">
+				        <li> 
+				         	<html:text name="data"/>
+			     		</li>
+			    	</html:iterator>
+				</html:else>
 			</ul>	
 		</div>
 	</div>
