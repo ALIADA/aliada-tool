@@ -14,6 +14,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.util.ResourceBundle;
 
 import org.apache.struts2.ServletActionContext;
@@ -36,7 +37,9 @@ public class InstitutionAction extends ActionSupport {
 	
 	private String organisationName;
     private File organisationLogo;
-    private String organisationCatalogUrl; 
+    private String organisationCatalogUrl;
+    private String organisationDatahub;
+    private String datePublication;
     
     private final Log logger = new Log(InstitutionAction.class);
     private ResourceBundle defaults = ResourceBundle.getBundle("defaultValues", getLocale());
@@ -58,6 +61,15 @@ public class InstitutionAction extends ActionSupport {
                 setOrganisationName(rs.getString("org_name"));
                 setOrganisationCatalogUrl(rs.getString("org_catalog_url"));
             }
+            rs = statement.executeQuery("SELECT ckan_dataset_url, start_date, end_date FROM aliada.ckancreation_job_instances "
+            		+ "ORDER BY job_id DESC LIMIT 1");
+            setDatePublication("");
+            if (rs.next() && rs.getString("end_date") != null) {
+            	setOrganisationDatahub(rs.getString("ckan_dataset_url"));
+            	SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            	setDatePublication(dateFormat.format(rs.getTimestamp("end_date")));
+            }
+            
             rs.close();
             statement.close();
             connection.close();
@@ -148,5 +160,22 @@ public class InstitutionAction extends ActionSupport {
     public void setOrganisationCatalogUrl(final String organisationCatalogUrl) {
         this.organisationCatalogUrl = organisationCatalogUrl;
     }
+    /** @return Returns the organisationDatahub. */
+	public String getOrganisationDatahub() {
+		return organisationDatahub;
+	}
+	/** @param organisationDatahub The organisationDatahub to set. */
+	public void setOrganisationDatahub(final String organisationDatahub) {
+		this.organisationDatahub = organisationDatahub;
+	}
+	 /** @return Returns the datePublication. */
+	public String getDatePublication() {
+		return datePublication;
+	}
+	/** @param datePublication The datePublication to set. */
+	public void setDatePublication(final String datePublication) {
+		this.datePublication = datePublication;
+	}
+    
 
 }

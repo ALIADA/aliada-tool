@@ -52,6 +52,16 @@ $(function(){
 						<html:textfield theme="xhtml" key="organisationCatalogUrl"
 											cssClass="inputPage" maxLength="128" />
 					</div>
+					
+					<div class="row label">
+						<label class="label"><html:text name="organisationDatahub"/></label>
+						<html:if test="datePublication==''">
+							<label class="inputPage">&nbsp;&nbsp;<html:text name="publishing"/></label>
+						</html:if>
+						<html:else>
+							<label class="inputPage"><a href="<html:property value="organisationDatahub" />" target="_blank"><html:text name="publish.dataset"/></a>&nbsp;-&nbsp;<html:property value="datePublication" /></label>
+						</html:else>		
+					</div>
 											
 					<html:actionmessage/>
 					<html:actionerror/>
