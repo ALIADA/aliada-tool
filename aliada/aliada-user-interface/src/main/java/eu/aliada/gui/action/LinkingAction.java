@@ -49,6 +49,7 @@ public class LinkingAction extends ActionSupport {
 	private String title;
 	private String seconds;
 	private String datasetUrl;
+	private final int NODATASETSELECTED = -1; 
 
     private final Log logger = new Log(LinkingAction.class);
     private ResourceBundle defaults = ResourceBundle.getBundle("defaultValues", getLocale());
@@ -166,7 +167,11 @@ public class LinkingAction extends ActionSupport {
                  
                  title = getText("dialog.publish.title");
                  seconds = getText("seconds");
-                 session.setAttribute("linkingJobId", getFileToLink().getLdJobId());
+                 if (dataset.size() == 0) {
+                	 session.setAttribute("linkingJobId", NODATASETSELECTED);
+                 } else {
+                	 session.setAttribute("linkingJobId", getFileToLink().getLdJobId()); 
+                 }
                  session.setAttribute("ldsJobId", getFileToLink().getLdsJobId());
                  
              } catch (SQLException e) {

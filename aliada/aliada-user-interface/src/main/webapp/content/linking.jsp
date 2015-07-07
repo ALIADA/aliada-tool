@@ -77,7 +77,7 @@ $(function(){
 				   		$("#datasetsInfo").html(d);
 				   		
 				   });
-			   	   if(status=="finished"){
+			   	   if(status=="finished" || linkingJobId == -1){
 			   		   clearInterval(intervalLinking);
 				       $("#progressBarLinking").hide();
 				       $("#links").show();
