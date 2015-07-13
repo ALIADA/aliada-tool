@@ -461,6 +461,8 @@ public class LinkingAction extends ActionSupport {
                     	dataset = new LinkedList<String>();
                     }
                     
+            		statement.executeUpdate("UPDATE aliada.t_external_dataset set external_dataset_linkingreloadtarget='0' ");
+                    
                     rs.close();
                     preparedStatement.close();
                     statement.close();
