@@ -253,7 +253,7 @@ public class LinkingAction extends ActionSupport {
             
             ResultSet rs = st
                     .executeQuery("select external_dataset_name from aliada.t_external_dataset where language ='" 
-                    		+ getLocale().getISO3Language() + "' AND external_dataset_linkingreloadtarget ='1'");
+                    		+ getLocale().getISO3Language() + "' AND external_dataset_linkingreloadsource ='1'");
             
             while (rs.next()) {
                 String name = rs.getString("external_dataset_name");
@@ -415,14 +415,14 @@ public class LinkingAction extends ActionSupport {
                     	statement.executeUpdate("UPDATE aliada.user_session set links_disc_job_id=" + addedId + " where file_name='" + fileToLink.getFilename() + "'");
                     	
                     	if ((int)ServletActionContext.getRequest().getSession().getAttribute("type") == 1) {
-                    		statement.executeUpdate("UPDATE aliada.t_external_dataset set external_dataset_linkingreloadtarget='0' ");
+                    		statement.executeUpdate("UPDATE aliada.t_external_dataset set external_dataset_linkingreloadsource='0' ");
                     	}
                     	
             			for (int i = 0; i < dataset.size(); i++) {            				
             				name = "ALIADA_" + dataset.get(i);
             				
             				if ((int)ServletActionContext.getRequest().getSession().getAttribute("type") == 1) {
-            					statement.executeUpdate("UPDATE aliada.t_external_dataset set external_dataset_linkingreloadtarget='1' "
+            					statement.executeUpdate("UPDATE aliada.t_external_dataset set external_dataset_linkingreloadsource='1' "
             						+ "where external_dataset_name='" + dataset.get(i) + "'");
             				}
             				
@@ -455,7 +455,7 @@ public class LinkingAction extends ActionSupport {
                     } else {
                     	
                     	if ((int)ServletActionContext.getRequest().getSession().getAttribute("type") == 1) {
-                    		statement.executeUpdate("UPDATE aliada.t_external_dataset set external_dataset_linkingreloadtarget='0' ");
+                    		statement.executeUpdate("UPDATE aliada.t_external_dataset set external_dataset_linkingreloadsource='0' ");
                     	}
                     	
                     	dataset = new LinkedList<String>();
