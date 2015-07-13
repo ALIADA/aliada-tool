@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.lang.Math;
 import java.io.ByteArrayInputStream;
 
+
+import org.glassfish.jersey.client.ClientProperties;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.WebTarget;
@@ -195,35 +197,40 @@ public class SpecificAPIDataset {
 		final Client client = ClientBuilder.newClient();
 		final WebTarget webTarget = client.target(searchURI);
 
-		//GET (Response in JSON format)
-		final String acceptType = MediaType.APPLICATION_JSON; //If we want the response in JSON format
-		final WebTarget resourceWebTarget = webTarget.path(path);
-		final Response getResponse = resourceWebTarget
-				.queryParam("format", "ids")
-				.queryParam("name", text)
-				.queryParam("from", 0)
-				.queryParam("size", 10) //maximum items to return
-				.request(acceptType).get();
-		final String searchRespStr = getResponse.readEntity(String.class);
-		//Convert JSON representation to Java Object with JACKSON libraries
-		LOBIDSearchResponse[] searchResp = null;
-		final ObjectMapper mapper = new ObjectMapper();
 		try {
-			searchResp = mapper.readValue(searchRespStr, LOBIDSearchResponse[].class);
-    	} catch (Exception exception) {
-			LOGGER.error(MessageCatalog._00082_OBJECT_CONVERSION_FAILURE, exception);
-		}
-		if(searchResp != null) {
-			int numLinks = 0;
-			if(searchResp.length > MAX_SEARCH_RESULTS) {
-				numLinks = MAX_SEARCH_RESULTS; 
-			} else {
-				numLinks = searchResp.length; 
+			//GET (Response in JSON format)
+			final String acceptType = MediaType.APPLICATION_JSON; //If we want the response in JSON format
+			final WebTarget resourceWebTarget = webTarget.path(path);
+			final Response getResponse = resourceWebTarget
+					.queryParam("format", "ids")
+					.queryParam("name", text)
+					.queryParam("from", 0)
+					.queryParam("size", MAX_SEARCH_RESULTS) //maximum items to return
+					.request(acceptType).get();
+			final String searchRespStr = getResponse.readEntity(String.class);
+			//Convert JSON representation to Java Object with JACKSON libraries
+			LOBIDSearchResponse[] searchResp = null;
+			final ObjectMapper mapper = new ObjectMapper();
+			try {
+				searchResp = mapper.readValue(searchRespStr, LOBIDSearchResponse[].class);
+	    	} catch (Exception exception) {
+				LOGGER.error(MessageCatalog._00082_OBJECT_CONVERSION_FAILURE, exception);
 			}
-			searchResults = new String[numLinks];
-			for (int i=0; i< numLinks;i++){
-				searchResults[i] = searchResp[i].getValue();
+			if(searchResp != null) {
+				int numLinks = 0;
+				if(searchResp.length > MAX_SEARCH_RESULTS) {
+					numLinks = MAX_SEARCH_RESULTS; 
+				} else {
+					numLinks = searchResp.length; 
+				}
+				searchResults = new String[numLinks];
+				for (int i=0; i< numLinks;i++){
+					searchResults[i] = searchResp[i].getValue();
+				}
 			}
+			getResponse.close();
+		} catch (Exception exception) {
+			LOGGER.error(MessageCatalog._00085_CONNECTION_FAILURE, exception);
 		}
 		return searchResults;
 	}
@@ -243,33 +250,38 @@ public class SpecificAPIDataset {
 		final Client client = ClientBuilder.newClient();
 		final WebTarget webTarget = client.target(searchURI);
 
-		//GET (Response in JSON format)
-		final String acceptType = MediaType.APPLICATION_JSON; //If we want the response in JSON format
-		final Response getResponse = webTarget
-				.queryParam("query", text)
-				.request(acceptType).get();
-		final String searchRespStr = getResponse.readEntity(String.class);
-		//Convert JSON representation to Java Object with JACKSON libraries
-		VIAFSearchResponse searchResp = null;
-		final ObjectMapper mapper = new ObjectMapper();
 		try {
-			searchResp = mapper.readValue(searchRespStr, VIAFSearchResponse.class);
-    	} catch (Exception exception) {
-			LOGGER.error(MessageCatalog._00082_OBJECT_CONVERSION_FAILURE, exception);
-		}
-		if(searchResp != null) {
-			if(searchResp.getResult() != null) {
-				int numLinks = 0;
-				if(searchResp.getResult().length > MAX_SEARCH_RESULTS) {
-					numLinks = MAX_SEARCH_RESULTS; 
-				} else {
-					numLinks = searchResp.getResult().length; 
-				}
-				searchResults = new String[numLinks];
-				for (int i=0; i< numLinks;i++){
-					searchResults[i] = resURI + searchResp.getResult()[i].getViafid();
+			//GET (Response in JSON format)
+			final String acceptType = MediaType.APPLICATION_JSON; //If we want the response in JSON format
+			final Response getResponse = webTarget
+					.queryParam("query", text)
+					.request(acceptType).get();
+			final String searchRespStr = getResponse.readEntity(String.class);
+			//Convert JSON representation to Java Object with JACKSON libraries
+			VIAFSearchResponse searchResp = null;
+			final ObjectMapper mapper = new ObjectMapper();
+			try {
+				searchResp = mapper.readValue(searchRespStr, VIAFSearchResponse.class);
+	    	} catch (Exception exception) {
+				LOGGER.error(MessageCatalog._00082_OBJECT_CONVERSION_FAILURE, exception);
+			}
+			if(searchResp != null) {
+				if(searchResp.getResult() != null) {
+					int numLinks = 0;
+					if(searchResp.getResult().length > MAX_SEARCH_RESULTS) {
+						numLinks = MAX_SEARCH_RESULTS; 
+					} else {
+						numLinks = searchResp.getResult().length; 
+					}
+					searchResults = new String[numLinks];
+					for (int i=0; i< numLinks;i++){
+						searchResults[i] = resURI + searchResp.getResult()[i].getViafid();
+					}
 				}
 			}
+			getResponse.close();
+		} catch (Exception exception) {
+			LOGGER.error(MessageCatalog._00085_CONNECTION_FAILURE, exception);
 		}
 		return searchResults;
 	}
@@ -287,35 +299,44 @@ public class SpecificAPIDataset {
 		final String searchURI = "https://openlibrary.org/search";
 		final String resURI = "http://openlibrary.org";
 		final Client client = ClientBuilder.newClient();
+		//values are in milliseconds
+		client.property(ClientProperties.CONNECT_TIMEOUT, 1000);
+        client.property(ClientProperties.READ_TIMEOUT, 2000);
 		final WebTarget webTarget = client.target(searchURI);
 
-		//GET (Response in JSON format)
-		final String acceptType = MediaType.APPLICATION_JSON; //If we want the response in JSON format
-		final Response getResponse = webTarget
-				.queryParam("title", text)
-				.request(acceptType).get();
-		final String searchRespStr = getResponse.readEntity(String.class);
-		//Convert JSON representation to Java Object with JACKSON libraries
-		OpenLibrSearchResponse searchResp = null;
-		final ObjectMapper mapper = new ObjectMapper();
 		try {
-			searchResp = mapper.readValue(searchRespStr, OpenLibrSearchResponse.class);
-    	} catch (Exception exception) {
-			LOGGER.error(MessageCatalog._00082_OBJECT_CONVERSION_FAILURE, exception);
-		}
-		if(searchResp != null) {
-			if(searchResp.getDocs() != null) {
-				int numLinks = 0;
-				if(searchResp.getDocs().length > MAX_SEARCH_RESULTS) {
-					numLinks = MAX_SEARCH_RESULTS; 
-				} else {
-					numLinks = searchResp.getDocs().length; 
-				}
-				searchResults = new String[numLinks];
-				for (int i=0; i< numLinks;i++){
-					searchResults[i] = resURI + searchResp.getDocs()[i].getKey();
+			//GET (Response in JSON format)
+			final String acceptType = MediaType.APPLICATION_JSON; //If we want the response in JSON format
+			final Response getResponse = webTarget
+					.queryParam("title", text)
+					.queryParam("limit", MAX_SEARCH_RESULTS)
+					.request(acceptType).get();
+			final String searchRespStr = getResponse.readEntity(String.class);
+			//Convert JSON representation to Java Object with JACKSON libraries
+			OpenLibrSearchResponse searchResp = null;
+			final ObjectMapper mapper = new ObjectMapper();
+			try {
+				searchResp = mapper.readValue(searchRespStr, OpenLibrSearchResponse.class);
+	    	} catch (Exception exception) {
+				LOGGER.error(MessageCatalog._00082_OBJECT_CONVERSION_FAILURE, exception);
+			}
+			if(searchResp != null) {
+				if(searchResp.getDocs() != null) {
+					int numLinks = 0;
+					if(searchResp.getDocs().length > MAX_SEARCH_RESULTS) {
+						numLinks = MAX_SEARCH_RESULTS; 
+					} else {
+						numLinks = searchResp.getDocs().length; 
+					}
+					searchResults = new String[numLinks];
+					for (int i=0; i< numLinks;i++){
+						searchResults[i] = resURI + searchResp.getDocs()[i].getKey();
+					}
 				}
 			}
+			getResponse.close();
+    	} catch (Exception exception) {
+			LOGGER.error(MessageCatalog._00085_CONNECTION_FAILURE, exception);
 		}
 		return searchResults;
 	}
@@ -335,38 +356,43 @@ public class SpecificAPIDataset {
 		final Client client = ClientBuilder.newClient();
 		final WebTarget webTarget = client.target(searchURI);
 
-		//GET (Response in XML format)
-		final String acceptType = MediaType.APPLICATION_XML; //If we want the response in XML format
-		final Response getResponse = webTarget
-				.queryParam("q", text)
-				.queryParam("q", "cs:http://id.loc.gov/authorities/subjects")
-				.queryParam("format", "xml")
-				.request(acceptType).get();
-		final String searchRespStr = getResponse.readEntity(String.class);
-		//Parse XML string returned
 		try {
-			final DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-			final DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-			final Document doc = dBuilder.parse(new ByteArrayInputStream(searchRespStr.getBytes("utf-8")));		 
-			doc.getDocumentElement().normalize();
-			int numLinks = 0;
-			//Get <search:result> tags
-			final NodeList nList = doc.getElementsByTagName("search:result");
-			for (int temp = 0; (temp < nList.getLength()) && (numLinks < MAX_SEARCH_RESULTS); temp++) {
-				final Node nNode = nList.item(temp);
-				if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-					final Element resultElem = (Element) nNode;
-					final String uriValue = resultElem.getAttribute("uri");	
-					String uriValueNoext = uriValue;
-					if(uriValue.indexOf('.') > 0) {
-						uriValueNoext = uriValue.substring(0, uriValue.indexOf('.'));
+			//GET (Response in XML format)
+			final String acceptType = MediaType.APPLICATION_XML; //If we want the response in XML format
+			final Response getResponse = webTarget
+					.queryParam("q", text)
+					.queryParam("q", "cs:http://id.loc.gov/authorities/subjects")
+					.queryParam("format", "xml")
+					.request(acceptType).get();
+			final String searchRespStr = getResponse.readEntity(String.class);
+			//Parse XML string returned
+			try {
+				final DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+				final DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+				final Document doc = dBuilder.parse(new ByteArrayInputStream(searchRespStr.getBytes("utf-8")));		 
+				doc.getDocumentElement().normalize();
+				int numLinks = 0;
+				//Get <search:result> tags
+				final NodeList nList = doc.getElementsByTagName("search:result");
+				for (int temp = 0; (temp < nList.getLength()) && (numLinks < MAX_SEARCH_RESULTS); temp++) {
+					final Node nNode = nList.item(temp);
+					if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+						final Element resultElem = (Element) nNode;
+						final String uriValue = resultElem.getAttribute("uri");	
+						String uriValueNoext = uriValue;
+						if(uriValue.indexOf('.') > 0) {
+							uriValueNoext = uriValue.substring(0, uriValue.indexOf('.'));
+						}
+						searchResults.add(resURI + uriValueNoext);
+						numLinks++;
 					}
-					searchResults.add(resURI + uriValueNoext);
-					numLinks++;
 				}
+			} catch (Exception exception) {
+				LOGGER.error(MessageCatalog._00082_OBJECT_CONVERSION_FAILURE, exception);
 			}
+			getResponse.close();
 		} catch (Exception exception) {
-			LOGGER.error(MessageCatalog._00082_OBJECT_CONVERSION_FAILURE, exception);
+			LOGGER.error(MessageCatalog._00085_CONNECTION_FAILURE, exception);
 		}
 		return (String[]) searchResults.toArray(new String[searchResults.size()]);
 	}

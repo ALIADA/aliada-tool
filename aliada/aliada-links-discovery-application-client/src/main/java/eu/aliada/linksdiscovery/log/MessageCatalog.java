@@ -49,5 +49,6 @@ public interface MessageCatalog {
 	String _00082_OBJECT_CONVERSION_FAILURE = LT + MODULE_NAME + "-00082> : Error converting object.";
 	String _00083_SPECIFICAPI_STARTING = LT + MODULE_NAME + "-00083> : Starting search in %s external dataset.";
 	String _00084_SPECIFICAPI_FINISHED = LT + MODULE_NAME + "-00084> : Finished search in %s external dataset.";
+	String _00085_CONNECTION_FAILURE = LT + MODULE_NAME + "-00085> : Error in HTTP connection.";
 
 }
