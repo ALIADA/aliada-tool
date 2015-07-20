@@ -530,7 +530,7 @@ public class UsersAction extends ActionSupport {
                     	// New pass and repeat new pass equals
                     	String encryptedPassword = passwordEncryptor.encryptPassword(this.newPasswordForm);
                         statement.executeUpdate("UPDATE aliada.user set user_password='" + encryptedPassword + "',user_email='" + this.emailForm + "',user_role_code='" 
-                        + this.roleForm + "',user_type_code='" + this.typeForm + "' where user_name='" + this.usernameForm + "'");
+                        + this.roleForm + "' where user_name='" + this.usernameForm + "'");
                         addActionMessage(getText("user.edit.ok"));
                         setPasswordForm("");
                         setNewPasswordForm("");
