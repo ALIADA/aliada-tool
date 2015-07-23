@@ -75,6 +75,10 @@ padding-left: 2px;
 	text-decoration:none;
 }
 
+.license {
+	font-size:small;
+}
+
 /* unvisited link */
 a:link {
     color: black;
