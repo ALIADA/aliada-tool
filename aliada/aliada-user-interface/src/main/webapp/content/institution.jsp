@@ -15,13 +15,6 @@ function confirmBox(){
 return false;
 }
 
-$(function(){
-	var type = $("#userType").val();
-	if(type == 1) {
-		$(".type").show();
-	}
-});
-
 </script>
 
 	<div id="institutionPage">
@@ -29,7 +22,7 @@ $(function(){
 			<span class="breadCrumb"><html:text name="home"/></span>
 			<li><span class="breadcrumb activeGreen"><html:text name="organisation.title"/></span></li>
 		</ul>
-			
+
 			<div class="institutionPage">
 				<html:form id="institutionConfiguration" action="/editInstitution.action" enctype="multipart/form-data">
 				
@@ -55,9 +48,12 @@ $(function(){
 					
 					<div class="row label">
 						<label class="label"><html:text name="organisationDatahub"/></label>
-						<html:if test="datePublication==''">
+						<html:if test="datePublication.equals('')">
 							<label class="inputPage">&nbsp;&nbsp;<html:text name="publishing"/></label>
 						</html:if>
+						<html:elseif test="datePublication.equals('Empty')">
+							<label class="inputPage">&nbsp;&nbsp;<html:text name="empty"/></label>
+						</html:elseif>
 						<html:else>
 							<label class="inputPage"><a href="<html:property value="organisationDatahub" />" target="_blank"><html:text name="publish.dataset"/></a>&nbsp;-&nbsp;<html:property value="datePublication" /></label>
 						</html:else>		

@@ -61,13 +61,21 @@ public class InstitutionAction extends ActionSupport {
                 setOrganisationName(rs.getString("org_name"));
                 setOrganisationCatalogUrl(rs.getString("org_catalog_url"));
             }
-            rs = statement.executeQuery("SELECT ckan_dataset_url, start_date, end_date FROM aliada.ckancreation_job_instances "
-            		+ "ORDER BY job_id DESC LIMIT 1");
-            setDatePublication("");
-            if (rs.next() && rs.getString("end_date") != null) {
-            	setOrganisationDatahub(rs.getString("ckan_dataset_url"));
-            	SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            	setDatePublication(dateFormat.format(rs.getTimestamp("end_date")));
+            rs = statement.executeQuery("SELECT count(*) FROM aliada.ckancreation_job_instances");
+            
+            if (rs.next() && rs.getInt("count(*)") > 0) {
+            
+            	rs = statement.executeQuery("SELECT ckan_dataset_url, start_date, end_date FROM aliada.ckancreation_job_instances "
+                		+ "ORDER BY job_id DESC LIMIT 1");
+                setDatePublication("");
+                if (rs.next() && rs.getString("end_date") != null) {
+                	setOrganisationDatahub(rs.getString("ckan_dataset_url"));
+                	SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                	setDatePublication(dateFormat.format(rs.getTimestamp("end_date")));
+                }
+                
+            } else {
+            	setDatePublication("Empty");
             }
             
             rs.close();
