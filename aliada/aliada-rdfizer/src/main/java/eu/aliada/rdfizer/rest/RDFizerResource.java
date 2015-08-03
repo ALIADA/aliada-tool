@@ -84,6 +84,9 @@ public class RDFizerResource implements RDFizer {
 	@Value(value = "${dc.input.dir}")
 	protected String dcXmlInputDir;
 	
+	@Value(value = "${unimarcxml.input.dir}")
+	protected String unimarcXmlInputDir;	
+	
 	@Value(value = "${auth.input.dir}")
 	protected String authXmlInputDir;	
 	
@@ -321,6 +324,8 @@ public class RDFizerResource implements RDFizer {
 			return dcXmlInputDir;
 		} else if ("auth".equals(format)) {
 			return authXmlInputDir;
+		} else if ("unimarcxml".equals(format)) {
+			return unimarcXmlInputDir;
 		}
 		return null;
 	}
