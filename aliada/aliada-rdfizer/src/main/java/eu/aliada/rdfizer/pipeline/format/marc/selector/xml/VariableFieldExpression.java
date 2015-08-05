@@ -143,6 +143,6 @@ public class VariableFieldExpression implements Expression<String, Document> {
 	
 	@Override
 	public String toString() {
-		return specs + "=" + expression;
+		return specs();
 	}
 }

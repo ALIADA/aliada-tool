@@ -8,6 +8,7 @@
        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
        http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd">
 
+    <bean id="validate_input_path" class="eu.aliada.rdfizer.pipeline.processors.ValidateInputPath" /> 
 	<bean id="startup_listener" class="eu.aliada.rdfizer.listeners.PipelineStartupListener" />
 	<bean id="shutdown_listener" class="eu.aliada.rdfizer.listeners.PipelineShutdownListener" />
 	<bean id="debugger" class="eu.aliada.rdfizer.pipeline.processors.JustDebug"/> 
@@ -23,33 +24,11 @@
 	<bean id="marcxml-to-rdf-using-frbr" class="eu.aliada.rdfizer.pipeline.format.marc.frbr.FrbrDocumentTranslator"/>
 	<bean id="detect-frbr-entities" class="eu.aliada.rdfizer.pipeline.format.marc.frbr.FrbrEntitiesDetector" />
 	<bean id="detect-auth-entities" class="eu.aliada.rdfizer.pipeline.format.marc.frbr.LenientFrbrEntitiesDetector"/>
-	<bean id="count-lido-records" class="eu.aliada.rdfizer.pipeline.format.xml.RecordCounter">
-		<constructor-arg value="lido"/>
-	</bean>
-	<bean id="count-dc-records" class="eu.aliada.rdfizer.pipeline.format.xml.RecordCounter">
-		<constructor-arg value="record"/>
-	</bean>	
-	<bean id="run-dc-validation" class="eu.aliada.rdfizer.pipeline.format.xml.CaptureValidationSampleAndRunValidation">
-		<constructor-arg value="record"/>
-		<constructor-arg value="1"/>
-		<property name="producer" ref="dc-validation-channel-producer"/>
-	</bean>		
-	<bean id="run-lido-validation" class="eu.aliada.rdfizer.pipeline.format.xml.CaptureValidationSampleAndRunValidation">
-		<constructor-arg value="lido"/>
-		<constructor-arg value="1"/>
-		<property name="producer" ref="lido-validation-channel-producer"/>
-	</bean>	
 	<bean id="run-marcxml-validation" class="eu.aliada.rdfizer.pipeline.format.xml.CaptureValidationSampleAndRunValidation">
 		<constructor-arg value="record"/>
 		<constructor-arg value="1"/>
 		<property name="producer" ref="marcxml-validation-channel-producer"/>
-	</bean>		
-	<bean id="run-auth-validation" class="eu.aliada.rdfizer.pipeline.format.xml.CaptureValidationSampleAndRunValidation">
-		<constructor-arg value="record"/>
-		<constructor-arg value="1"/>
-		<property name="producer" ref="auth-validation-channel-producer"/>
 	</bean>			
-	
 	<bean id="count-marcxml-records" class="eu.aliada.rdfizer.pipeline.format.xml.RecordCounter">
 		<constructor-arg value="record"/>
 	</bean>		
@@ -57,38 +36,14 @@
 		<properties>
         	<property key="CamelLogDebugBodyMaxChars" value="500"/>
    		</properties>	
-		<template id="lido-validation-channel-producer" defaultEndpoint="direct:lido-validation-channel"/>
 		<template id="marcxml-validation-channel-producer" defaultEndpoint="direct:marcxml-validation-channel"/>
-		<template id="dc-validation-channel-producer" defaultEndpoint="direct:dc-validation-channel"/>
-		<template id="auth-validation-channel-producer" defaultEndpoint="direct:auth-validation-channel"/>
 		<route>
-			<from uri="file:{{auth.input.dir}}?move=../.done&amp;preMove=.working" />
+			<from uri="file:{{unimarcxml.input.dir}}?move=../.done&amp;preMove=.working" />
 			<setHeader headerName="format">
-				<constant>auth</constant>
+				<constant>unimarcxml</constant>
 			</setHeader>
 			<to uri="seda:sanity-check-channel?concurrentConsumers=5&amp;size=1000&amp;blockWhenFull=true" />
 		</route>
-		<route>
-			<from uri="file:{{lido.input.dir}}?move=../.done&amp;preMove=.working" />
-			<setHeader headerName="format">
-				<constant>lido</constant>
-			</setHeader>
-			<to uri="seda:sanity-check-channel?concurrentConsumers=5&amp;size=1000&amp;blockWhenFull=true" />
-		</route>
-		<route>
-			<from uri="file:{{marcxml.input.dir}}?move=../.done&amp;preMove=.working" />
-			<setHeader headerName="format">
-				<constant>marcxml</constant>
-			</setHeader>
-			<to uri="seda:sanity-check-channel?concurrentConsumers=5&amp;size=1000&amp;blockWhenFull=true" />
-		</route>
-		<route>
-			<from uri="file:{{dc.input.dir}}?move=../.done&amp;preMove=.working" />
-			<setHeader headerName="format">
-				<constant>dc</constant>
-			</setHeader>
-			<to uri="seda:sanity-check-channel?concurrentConsumers=5&amp;size=1000&amp;blockWhenFull=true" />
-		</route>		
 		<route>
 			<from uri="seda:sanity-check-channel?concurrentConsumers=5&amp;size=1000&amp;blockWhenFull=true" />
 			<process ref="validate_input_path" />
@@ -98,57 +53,18 @@
 			<from uri="seda:records-channel?concurrentConsumers=5&amp;size=1000&amp;blockWhenFull=true" />
 			<choice>
 				<when>
-					<simple>${header.format} == 'auth'</simple>
-					<process ref="count-marcxml-records"/>
-					<process ref="run-auth-validation"/>
-					<split streaming="true">
-						<tokenize token="record" xml="true" />
-						<to uri="seda:auth-record-channel?concurrentConsumers=2&amp;size=1000&amp;blockWhenFull=true" />
-					</split>
-				</when>			
-				<when>
-					<simple>${header.format} == 'lido'</simple>
-					<process ref="count-lido-records"/>
-					<process ref="run-lido-validation"/>
-					<split streaming="true">
-						<tokenize token="lido" xml="true" />
-						<to uri="seda:lido-record-channel?concurrentConsumers=2&amp;size=1000&amp;blockWhenFull=true" />
-					</split>
-				</when>
-				<when>
-					<simple>${in.header.format} == 'marcxml'</simple>
+					<simple>${in.header.format} == 'unimarcxml'</simple>
 					<process ref="count-marcxml-records"/>
 					<process ref="run-marcxml-validation"/>
 					<split streaming="true">
 						<tokenize token="record" xml="true" />
 						<to uri="seda:marcxml-record-channel?concurrentConsumers=5&amp;size=1000&amp;blockWhenFull=true" />
 					</split>
-				</when>
-				<when>
-					<simple>${header.format} == 'dc'</simple>
-					<process ref="count-dc-records"/>
-					<process ref="run-dc-validation"/>
-					<split streaming="true">
-						<tokenize token="record" xml="true" />
-						<to uri="seda:dc-record-channel?concurrentConsumers=10&amp;size=1000&amp;blockWhenFull=true" />
-					</split>
-				</when>				
+				</when>		
 				<otherwise>
 					<log message="&lt;RDF-IZER-00023> : Unsupported format has been detected in input datafile." loggingLevel="ERROR" logName="eu.aliada.pipeline"/>			    
 				</otherwise>		
 			</choice>	
-		</route>
-		<route>
-			<from uri="direct:dc-validation-channel"/>
-			<process ref="string-to-xml"/>
-			<process ref="xml-to-rdf"/>
-			<process ref="rdf-sample-validation"/>
-		</route>		
-		<route>
-			<from uri="direct:lido-validation-channel"/>
-			<process ref="string-to-xml"/>
-			<process ref="xml-to-rdf"/>
-			<process ref="rdf-sample-validation"/>
 		</route>
 		<route>
 			<from uri="direct:marcxml-validation-channel"/>
@@ -157,35 +73,6 @@
 			<process ref="marcxml-to-rdf-using-frbr"/>
 			<process ref="rdf-sample-validation"/>
 		</route>		
-		<route>
-			<from uri="direct:auth-validation-channel"/>
-			<process ref="string-to-xml"/>
-			<process ref="detect-auth-entities"/>
-			<process ref="marcxml-to-rdf-using-frbr"/>
-			<process ref="rdf-sample-validation"/>
-		</route>			
-		<route>
-			<from uri="seda:dc-record-channel?concurrentConsumers=10&amp;size=1000&amp;blockWhenFull=true" />
-			<process ref="string-to-xml"/>
-			<process ref="xml-to-rdf"/>
-			<process ref="check-job-completeness"/>
-			<to uri="seda:triples-channel?concurrentConsumers=10&amp;size=250&amp;blockWhenFull=true" />
-		</route>	
-		<route>
-			<from uri="seda:auth-record-channel?concurrentConsumers=2&amp;size=1000&amp;blockWhenFull=true" />
-			<process ref="string-to-xml"/>
-			<process ref="detect-auth-entities"/>
-			<process ref="marcxml-to-rdf-using-frbr"/>
-			<process ref="check-job-completeness"/>
-			<to uri="seda:triples-channel?concurrentConsumers=10&amp;size=250&amp;blockWhenFull=true" />
-		</route>				
-		<route>
-			<from uri="seda:lido-record-channel?concurrentConsumers=2&amp;size=1000&amp;blockWhenFull=true" />
-			<process ref="string-to-xml"/>
-			<process ref="xml-to-rdf"/>
-			<process ref="check-job-completeness"/>
-			<to uri="seda:triples-channel?concurrentConsumers=10&amp;size=250&amp;blockWhenFull=true" />
-		</route>
 		<route>
 			<from uri="seda:marcxml-record-channel?concurrentConsumers=5&amp;size=1000&amp;blockWhenFull=true" />
 			<process ref="string-to-xml"/>
@@ -196,7 +83,8 @@
 		</route>
 		<route> 
 			<from uri="seda:triples-channel?concurrentConsumers=10&amp;size=250&amp;blockWhenFull=true" />
-			<process ref="add-2-rdf-store"/>
+<!-- 			<process ref="add-2-rdf-store"/> -->
+			<process ref="debugger"/>
 		</route>
 	</camelContext>
 </beans>

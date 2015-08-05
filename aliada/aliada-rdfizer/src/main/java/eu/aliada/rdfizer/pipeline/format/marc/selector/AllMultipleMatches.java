@@ -8,6 +8,7 @@ package eu.aliada.rdfizer.pipeline.format.marc.selector;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -15,6 +16,7 @@ import org.w3c.dom.Attr;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+
 import static eu.aliada.shared.Strings.clean;
 /**
  * A composite expression that selects the multiple not-null evaluation of a set of expressions.
@@ -46,42 +48,36 @@ public class AllMultipleMatches<K> implements Expression<Map<String, List<String
 	 * Find the values from a specified Expression and put the results into a
 	 * map Object with the tag as key and a List as multiple values
 	 * 
-	 * (non-Javadoc)
-	 * 
 	 * @see eu.aliada.rdfizer.pipeline.format.marc.selector.Expression#evaluate(java.lang.Object)
 	 */
 	@Override
 	public Map<String, List<String>> evaluate(final K target) {
-		final Map<String, List<String>> result = new HashMap<String, List<String>>(
-				expressions.length);
+		final Map<String, List<String>> result = new LinkedHashMap<String, List<String>>(expressions.length);
 		for (final Expression<List<Node>, K> expression : expressions) {
 			Map<String, Object> map = getMarcSpecs(expression.specs());
 			String tag = (String) map.get(TAG);
 			String[] indicators = (String[]) map.get(INDICATORS);
 			String[] subfields = (String[]) map.get(SUBFIELDS);
-			final Iterator<Node> iterNode = expression.evaluate(target)
-					.iterator();
+			final Iterator<Node> iterNode = expression.evaluate(target).iterator();
 			while (iterNode.hasNext()) {
 				Node node = iterNode.next();
 				NamedNodeMap attributes = node.getAttributes();
-			   if(attributes != null) {
-				for (int k = 0; k < attributes.getLength(); k++) {
-					Attr attr = (Attr) attributes.item(k);
-					if (attr != null) {
-						String attrName = attr.getNodeName();
-						String attrValue = attr.getNodeValue();
-						if ((attrName.equals(XML_ATTRIBUTE_IND1) && isAttributeValuePresent(
-								attrValue, indicators)) || indicators[0].trim().length() == 0) {
-							putValue(
-									result,
-									tag,
-									append(node, subfields, new StringBuilder())
-											.toString());
-							break;
+				if(attributes != null) {
+					for (int k = 0; k < attributes.getLength(); k++) {
+						Attr attr = (Attr) attributes.item(k);
+						if (attr != null) {
+							String attrName = attr.getNodeName();
+							String attrValue = attr.getNodeValue();
+							if ((attrName.equals(XML_ATTRIBUTE_IND1) && isAttributeValuePresent(attrValue, indicators)) || indicators[0].trim().length() == 0) {
+								putValue(
+										result,
+										tag,
+										append(node, subfields, new StringBuilder()).toString());
+								break;
+							}
 						}
 					}
-				}
-			  } 
+				} 
 			}
 		}
 		return result;
@@ -139,20 +135,20 @@ public class AllMultipleMatches<K> implements Expression<Map<String, List<String
 	 * Check if specified value is into an array
 	 * 
 	 * @param attrValue
-	 * @param values
+	 * @param values null in case of alpha selection.
 	 * @return
 	 */
-	private boolean isAttributeValuePresent(final String attrValue,
-			final String[] values) {
-		boolean isPresent = false;
+	private boolean isAttributeValuePresent(final String attrValue, final String[] values) {
+		if (values == null) return true;
+		
 		if (attrValue != null) {
 			for (int i = 0; i < values.length; i++) {
 				if (attrValue.equals(values[i])) {
-					isPresent = true;
+					return true;
 				}
 			}
-		}
-		return isPresent;
+		} 
+		return false;
 	}
 	/**
 	 * Store the values for tag,indicators and subfields into an object map. 
@@ -166,7 +162,10 @@ public class AllMultipleMatches<K> implements Expression<Map<String, List<String
 		int indexOfClosingParenthesis = specs.indexOf(")", indexOfOpeningParenthesis);
 		String tag = specs.substring(0, indexOfOpeningParenthesis).trim();
 		String[] indicators = specs.substring(indexOfOpeningParenthesis + 1, indexOfClosingParenthesis).trim().split("-");
-		String[] subfields = specs.substring(indexOfClosingParenthesis + 1, specs.length()).split("-");
+		
+		String subfieldsExp = specs.substring(indexOfClosingParenthesis + 1, specs.length());
+		String[] subfields = ("alpha".equals(subfieldsExp.trim())) ? null : subfieldsExp.split("-");
+		
 		Map<String,Object> map = new HashMap<String,Object>();
 		map.put(TAG, tag);
 		map.put(INDICATORS, indicators);

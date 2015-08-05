@@ -15,6 +15,9 @@ import java.util.UUID;
 
 import org.w3c.dom.Document;
 
+import eu.aliada.rdfizer.log.MessageCatalog;
+import eu.aliada.shared.log.Log;
+
 /**
  * Base class for detecting entities.
  * 
@@ -22,8 +25,9 @@ import org.w3c.dom.Document;
  * @author Andrea Gazzarini
  * @since 1.0
  */
-public abstract class AbstractEntityDetector<O> {
-
+public abstract class AbstractEntityDetector<O> {	
+	protected static Log LOGGER = new Log(AbstractEntityDetector.class);
+	
 	/**
 	 * @param target the (record) document that is the detection target.
 	 * @return an identity Object associated with the detected entity.
@@ -78,7 +82,7 @@ public abstract class AbstractEntityDetector<O> {
 			final List<String> headings = entry.getValue();
 			final List<String> uris = new ArrayList<String>(headings.size());
 			for (final String heading : headings) {
-				uris.add(identifier(heading));
+				uris.add(identifier(entityKind(), heading));
 			}
 			
 			result.put(tag, uris);
@@ -92,7 +96,18 @@ public abstract class AbstractEntityDetector<O> {
 	 * @param value the string value.
 	 * @return the identifier associated with the incoming value.
 	 */
-	public static String identifier(final String value) {
-		return value != null ? UUID.nameUUIDFromBytes(value.getBytes()).toString() : null;
+	public static String identifier(final String entityKind, final String value) {	
+		if (value != null) {
+			LOGGER.debug(MessageCatalog._00060_FRBR_ENTITY_DEBUG, entityKind, value);
+			return UUID.nameUUIDFromBytes(value.getBytes()).toString();
+		} 
+		return null;
 	}	
+	
+	/**
+	 * Returns a mnemonic code of the entity kind detected by this component.
+	 * 
+	 * @return a mnemonic code of the entity kind detected by this component.
+	 */
+	abstract String entityKind();
 }

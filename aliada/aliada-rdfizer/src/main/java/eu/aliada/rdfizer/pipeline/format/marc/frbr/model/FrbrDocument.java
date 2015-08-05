@@ -32,7 +32,6 @@ public final class FrbrDocument implements Serializable {
 	private final Map<String, List<String>> conceptID;
 	private final Map<String, List<String>> eventID;
 	private final Map<String, List<String>> placeID;
-	private final Map<String, List<String>> recordID;
 	
 
 	/**
@@ -58,8 +57,7 @@ public final class FrbrDocument implements Serializable {
 			final Map<String, List<String>> itemURI,
 			final Map<String, List<String>> conceptURI,
 			final Map<String, List<String>> eventURI,
-			final Map<String, List<String>> placeURI,
-			final Map<String, List<String>> recordURI) {
+			final Map<String, List<String>> placeURI) {
 		this.document = document;
 		this.workID = workURI;
 		this.expressionID = expressionURI;
@@ -71,7 +69,6 @@ public final class FrbrDocument implements Serializable {
 		this.conceptID = conceptURI;
 		this.eventID = eventURI;
 		this.placeID = placeURI;
-		this.recordID = recordURI;
 	}
 	
 	/**
@@ -175,13 +172,5 @@ public final class FrbrDocument implements Serializable {
 	 */
 	public Map<String, List<String>> getPlaceID() {
 		return placeID;
-	}
-	
-	/**
-	 * Return a map with tag as key and a List of String which represent the URIs.
-	 * @return the recordID
-	 */
-	public Map<String, List<String>> getRecordID() {
-		return recordID;
 	}
 }

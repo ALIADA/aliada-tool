@@ -7,6 +7,7 @@ package eu.aliada.rdfizer.pipeline.format.marc.frbr;
 
 import org.w3c.dom.Document;
 
+import eu.aliada.rdfizer.log.MessageCatalog;
 import eu.aliada.rdfizer.pipeline.format.marc.selector.FirstMatch;
 
 /**
@@ -32,6 +33,13 @@ public class ManifestationDetector extends AbstractEntityDetector<String> {
 
 	@Override
 	String detect(final Document target) {
-		return controlNumberDetectionRule.evaluate(target);
+		final String id = controlNumberDetectionRule.evaluate(target);
+		LOGGER.debug(MessageCatalog._00060_FRBR_ENTITY_DEBUG, entityKind(), id);
+		return id;
+	}
+
+	@Override
+	String entityKind() {
+		return "MANIFESTATION";
 	}
 }

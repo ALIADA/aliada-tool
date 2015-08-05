@@ -63,10 +63,6 @@
 		</property>
 	</bean>
 
-	<!-- conversion pipeline definition -->
 	<import resource="pipeline-definition.xml" />
-	
-	<!-- Supported formats (with their specific settings) -->
- 	<import resource="marc-settings.xml" />
-	<bean id="validate_input_path" class="eu.aliada.rdfizer.pipeline.processors.ValidateInputPath" />
+ 	<import resource="unimarc-settings.xml" />
 </beans>

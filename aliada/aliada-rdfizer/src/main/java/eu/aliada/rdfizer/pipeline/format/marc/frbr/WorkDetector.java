@@ -65,4 +65,9 @@ public class WorkDetector extends AbstractEntityDetector<String> {
 		
 		return buffer.toString();
 	}
+
+	@Override
+	String entityKind() {
+		return "WORK";
+	}
 }

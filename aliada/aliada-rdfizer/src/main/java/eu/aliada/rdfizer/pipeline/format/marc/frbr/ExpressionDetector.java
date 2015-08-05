@@ -48,4 +48,9 @@ public class ExpressionDetector extends AbstractEntityDetector<String> {
 		final String result = buffer.toString().trim();
 		return isNotNullAndNotEmpty(result) ? result : null;
 	}
+
+	@Override
+	String entityKind() {
+		return "EXPRESSION";
+	}
 }

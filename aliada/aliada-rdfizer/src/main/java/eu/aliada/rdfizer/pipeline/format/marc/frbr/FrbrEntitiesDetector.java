@@ -9,6 +9,7 @@ import org.apache.camel.Exchange;
 import org.apache.camel.Message;
 import org.apache.camel.Processor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.w3c.dom.Document;
 
 import eu.aliada.rdfizer.Constants;
@@ -30,37 +31,44 @@ public class FrbrEntitiesDetector implements Processor {
 	private Log log = new Log(FrbrEntitiesDetector.class);
 
 	@Autowired
+	@Qualifier("workDetector")
 	WorkDetector workDetector;
 	
 	@Autowired
+	@Qualifier("expressionDetector")
 	ExpressionDetector expressionDetector;
 	
 	@Autowired
+	@Qualifier("manifestationDetector")
 	ManifestationDetector manifestationDetector;
 	
 	@Autowired
-	PersonDetector personDetector;
+	@Qualifier("personDetector")
+	MultiMapEntityDetector personDetector;
 	
 	@Autowired
-	FamilyDetector familyDetector;
+	@Qualifier("familyDetector")
+	MultiMapEntityDetector familyDetector;
 	
 	@Autowired
-	CorporateBodyDetector corporateBodyDetector;
+	@Qualifier("corporateBodyDetector")
+	MultiMapEntityDetector corporateBodyDetector;
 	
 	@Autowired
-	ItemDetector itemDetector;
+	@Qualifier("itemDetector")
+	MultiMapEntityDetector itemDetector;
 	
 	@Autowired
-	ItemDetector conceptDetector;
+	@Qualifier("conceptDetector")
+	MultiMapEntityDetector conceptDetector;
 	
 	@Autowired
-	ItemDetector eventDetector;
+	@Qualifier("eventDetector")
+	MultiMapEntityDetector eventDetector;
 	
 	@Autowired
-	ItemDetector placeDetector;
-	
-	@Autowired
-	ItemDetector recordetector;
+	@Qualifier("placeDetector")
+	MultiMapEntityDetector placeDetector;
 	
 	@Autowired
 	private Cache cache;
@@ -103,8 +111,8 @@ public class FrbrEntitiesDetector implements Processor {
 	FrbrDocument frbrDetection(final Document target) {
 		return new FrbrDocument(
 				target,
-				AbstractEntityDetector.identifier(workDetector.detect(target)),
-				AbstractEntityDetector.identifier(expressionDetector.detect(target)),
+				AbstractEntityDetector.identifier(workDetector.entityKind(), workDetector.detect(target)),
+				AbstractEntityDetector.identifier(expressionDetector.entityKind(), expressionDetector.detect(target)),
 				manifestationDetector.detect(target),
 				personDetector.detect(target),
 				familyDetector.detect(target),
@@ -112,7 +120,6 @@ public class FrbrEntitiesDetector implements Processor {
 				itemDetector.detect(target),
 				conceptDetector.detect(target),
 				eventDetector.detect(target),
-				placeDetector.detect(target),
-				recordetector.detect(target));
+				placeDetector.detect(target));
 	}
 }

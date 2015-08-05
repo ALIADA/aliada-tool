@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<collection xmlns="http://www.loc.gov/MARC21/slim">
+	<record>
+		<leader>00894nam1 22003251i 450 </leader>
+		<controlfield tag="001">000000001</controlfield>
+		<controlfield tag="005">20150408120529.0</controlfield>
+		<datafield tag="100" ind1=" " ind2=" ">
+			<subfield code="a">20090427d1975----km-y0itay50------ba
+			</subfield>
+		</datafield>
+		<datafield tag="101" ind1="1" ind2=" ">
+			<subfield code="a">ita</subfield>
+			<subfield code="c">eng</subfield>
+		</datafield>
+		<datafield tag="105" ind1=" " ind2=" ">
+			<subfield code="a">a---a---001yy</subfield>
+		</datafield>
+		<datafield tag="200" ind1="1" ind2=" ">
+			<subfield code="a">Termodinamica</subfield>
+			<subfield code="f">M. M. Abbott, H. C. Van Ness</subfield>
+		</datafield>
+		<datafield tag="210" ind1=" " ind2=" ">
+			<subfield code="a">Milano</subfield>
+			<subfield code="c">Etas libri</subfield>
+			<subfield code="d">1975</subfield>
+		</datafield>
+		<datafield tag="215" ind1=" " ind2=" ">
+			<subfield code="a">347 p.</subfield>
+			<subfield code="c">ill.</subfield>
+			<subfield code="d">27 cm</subfield>
+		</datafield>
+		<datafield tag="225" ind1="1" ind2=" ">
+			<subfield code="a">Collana Schaum</subfield>
+		</datafield>
+		<datafield tag="676" ind1=" " ind2=" ">
+			<subfield code="a">536.7</subfield>
+		</datafield>
+		<datafield tag="610" ind1="0" ind2=" ">
+			<subfield code="a">Termodinamica</subfield>
+		</datafield>
+		<datafield tag="691" ind1=" " ind2=" ">
+			<subfield code="a">80-XX</subfield>
+		</datafield>
+		<datafield tag="610" ind1="0" ind2=" ">
+			<subfield code="a">Calore</subfield>
+		</datafield>
+		<datafield tag="676" ind1=" " ind2=" ">
+			<subfield code="a">536</subfield>
+		</datafield>
+		<datafield tag="700" ind1=" " ind2="1">
+			<subfield code="a">Abbott,</subfield>
+			<subfield code="b">Michael M.</subfield>
+		</datafield>
+		<datafield tag="701" ind1=" " ind2="1">
+			<subfield code="a">Van Ness,</subfield>
+			<subfield code="b">Hendrick C.</subfield>
+		</datafield>
+		<datafield tag="801" ind1=" " ind2="0">
+			<subfield code="a">IT</subfield>
+			<subfield code="b">UNINA</subfield>
+			<subfield code="g">RICA</subfield>
+			<subfield code="2">UNIMARC</subfield>
+		</datafield>
+		<datafield tag="952" ind1=" " ind2=" ">
+			<subfield code="a">13 H 07 20</subfield>
+			<subfield code="b">30366</subfield>
+			<subfield code="f">FINBC</subfield>
+		</datafield>
+		<datafield tag="952" ind1=" " ind2=" ">
+			<subfield code="a">10 C II 90</subfield>
+			<subfield code="b">8495</subfield>
+			<subfield code="f">DINEL</subfield>
+		</datafield>
+		<datafield tag="952" ind1=" " ind2=" ">
+			<subfield code="a">28-074</subfield>
+			<subfield code="b">12066</subfield>
+			<subfield code="f">FI1</subfield>
+		</datafield>
+		<datafield tag="952" ind1=" " ind2=" ">
+			<subfield code="a">28-074.001</subfield>
+			<subfield code="f">FI1</subfield>
+		</datafield>
+		<datafield tag="952" ind1=" " ind2=" ">
+			<subfield code="a">SHAUM-17-(A</subfield>
+			<subfield code="b">9842</subfield>
+			<subfield code="f">MA1</subfield>
+		</datafield>
+		<datafield tag="952" ind1=" " ind2=" ">
+			<subfield code="a">28-059</subfield>
+			<subfield code="b">9750</subfield>
+			<subfield code="f">FI1</subfield>
+		</datafield>
+		<datafield tag="952" ind1=" " ind2=" ">
+			<subfield code="a">28-059.001 FV</subfield>
+			<subfield code="b">F.V.19</subfield>
+			<subfield code="f">FI1</subfield>
+		</datafield>
+		<datafield tag="952" ind1=" " ind2=" ">
+			<subfield code="a">04 121-181</subfield>
+			<subfield code="b">DIC 3657</subfield>
+			<subfield code="f">DINCH</subfield>
+		</datafield>
+	</record>
+</collection>
