@@ -5,6 +5,9 @@
 // Responsible: ALIADA Consortiums
 package eu.aliada.rdfizer.pipeline.format.marc.frbr;
 
+import java.util.List;
+import java.util.Map;
+
 import org.apache.camel.Exchange;
 import org.apache.camel.Message;
 import org.apache.camel.Processor;
@@ -102,6 +105,52 @@ public class FrbrEntitiesDetector implements Processor {
 		return entitiesDocument.isValid();
 	}
 	
+	protected String work(final Document target) {
+		return AbstractEntityDetector.identifier(
+				workDetector.entityKind(), 
+				workDetector.detect(target));
+	}
+	
+	protected String expression(final Document target) {
+		return AbstractEntityDetector.identifier(
+				expressionDetector.entityKind(), 
+				expressionDetector.detect(target));
+	}
+	
+	protected String manifestation(final Document target) {
+		return AbstractEntityDetector.identifier(
+				manifestationDetector.entityKind(), 
+				manifestationDetector.detect(target));
+	}	
+	
+	protected Map<String, List<String>> people(final Document target) {
+		return personDetector.detect(target);
+	}	
+	
+	protected Map<String, List<String>> families(final Document target) {
+		return familyDetector.detect(target);
+	}			
+
+	protected Map<String, List<String>> corporates(final Document target) {
+		return corporateBodyDetector.detect(target);
+	}		
+	
+	protected Map<String, List<String>> items(final Document target) {
+		return itemDetector.detect(target);
+	}		
+	
+	protected Map<String, List<String>> concepts(final Document target) {
+		return conceptDetector.detect(target);
+	}			
+	
+	protected Map<String, List<String>> events(final Document target) {
+		return eventDetector.detect(target);
+	}		
+
+	protected Map<String, List<String>> places(final Document target) {
+		return placeDetector.detect(target);
+	}		
+	
 	/**
 	 * Detects the FRBR entities.
 	 * 
@@ -111,15 +160,15 @@ public class FrbrEntitiesDetector implements Processor {
 	FrbrDocument frbrDetection(final Document target) {
 		return new FrbrDocument(
 				target,
-				AbstractEntityDetector.identifier(workDetector.entityKind(), workDetector.detect(target)),
-				AbstractEntityDetector.identifier(expressionDetector.entityKind(), expressionDetector.detect(target)),
-				manifestationDetector.detect(target),
-				personDetector.detect(target),
-				familyDetector.detect(target),
-				corporateBodyDetector.detect(target),
-				itemDetector.detect(target),
-				conceptDetector.detect(target),
-				eventDetector.detect(target),
-				placeDetector.detect(target));
+				work(target),
+				expression(target),
+				manifestation(target),
+				people(target),
+				families(target),
+				corporates(target),
+				items(target),
+				concepts(target),
+				events(target),
+				places(target));
 	}
 }
