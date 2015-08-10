@@ -182,25 +182,15 @@ $(function(){
 								</td>
 						</tr>
 						<tr>
-							<th id="both" class="backgroundGreen center"><label class="bold"><html:text name="conversion.select"/></label></th>
+							<th id="both" class="backgroundGreen center"><label class="bold"><html:text name="conversion.dataset"/></label></th>
 							<td>
-								<%-- <div id="datSelect" class="nobr">
-										<html:doubleselect cssClass="inputForm"
-										name="dat" list="datasetMap.keySet()" doubleCssClass="inputFormLarge"
-										doubleName="sub" doubleList="datasetMap.get(top)" />
-								</div>--%>
 								<html:select id="datasetSelect" name="dat"
 									cssClass="inputForm" list="datasets" value="%{#session['reloadDataset']}"/>
 							</td>
 						</tr>
 						<tr>
-							<th id="both" class="backgroundGreen center"><label class="bold"><html:text name="conversion.select"/></label></th>
+							<th id="both" class="backgroundGreen center"><label class="bold"><html:text name="conversion.graph"/></label></th>
 							<td>
-								<%-- <div id="datSelect" class="nobr">
-										<html:doubleselect cssClass="inputForm"
-										name="dat" list="datasetMap.keySet()" doubleCssClass="inputFormLarge"
-										doubleName="sub" doubleList="datasetMap.get(top)" />
-								</div>--%>
 								<html:select id="subsetSelect" name="sub"
 									cssClass="inputFormLarge" list="subsets" />
 							</td>

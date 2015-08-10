@@ -42,7 +42,6 @@ $(function(){
 	$("#dcTagstoShow").hide();
 	
 	var t = $("#type").val();
-	console.log(t);
 	
 	if(t == 'B') {
 		$("#marcBibTagstoEdit").show();
@@ -61,7 +60,6 @@ $(function(){
 	$("#tagsChange").change(function(e){
 		// List id value
 		var value = $(this).val();
-	   	console.log(value);
 	   	if (value == 0) {
 	   		$("#marcBibTags").show();
 	   		$("#marcAuthTags").hide();
@@ -89,7 +87,6 @@ $(function(){
 	$("#tagsChangeEdit").change(function(e){
 		// List id value
 		var value = $(this).val();
-	   	console.log(value);
 	   	if (value == 0) {
 	   		$("#marcBibTagstoEdit").show();
 	   		$("#marcAuthTagstoEdit").hide();

@@ -553,7 +553,7 @@ public class TemplatesAction extends ActionSupport{
 		return t;
 	}
 	/** @param t The t to set. */
-	public void setT(String t) {
+	public void setT(final String t) {
 		this.t = t;
 	}
 	

@@ -15,7 +15,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -87,7 +86,6 @@ public class ConversionAction extends ActionSupport {
         }
         getDatsDb();
         getSubsDb();
-        //getDatAndSubsets();
         Methods m = new Methods();
         m.setLang(getLocale().getISO3Language());
         graphs = m.getGraphsDb();
@@ -184,7 +182,6 @@ public class ConversionAction extends ActionSupport {
                         getTemplatesDb();
                         getDatsDb();
                         getSubsDb();
-                        //getDatAndSubsets();
                         graphs = m.getGraphsDb();
                         rs2.close();
                         preparedStatement.close();
@@ -200,7 +197,6 @@ public class ConversionAction extends ActionSupport {
                     setShowCheckButton(1);
                     getDatsDb();
                     getSubsDb();
-                    //getDatAndSubsets();
                     graphs = m.getGraphsDb();
                     return getTemplatesDb();                
                 }
@@ -208,21 +204,18 @@ public class ConversionAction extends ActionSupport {
                 logger.error(MessageCatalog._00011_SQL_EXCEPTION, e);
                 getDatsDb();
                 getSubsDb();
-                //getDatAndSubsets();
                 graphs = m.getGraphsDb();
                 getTemplatesDb();
                 return ERROR;
             }
             getDatsDb();
             getSubsDb();
-            //getDatAndSubsets();
             graphs = m.getGraphsDb();
             return getTemplatesDb();
         } else {
             logger.error(MessageCatalog._00033_CONVERSION_ERROR_NO_FILE_IMPORTED);
             getDatsDb();
             getSubsDb();
-            //getDatAndSubsets();
             graphs = m.getGraphsDb();
             getTemplatesDb();
             return ERROR;
@@ -286,34 +279,6 @@ public class ConversionAction extends ActionSupport {
         
     }
     /**
-     * Get the name of the the template from a give template code.
-     * @param selectedTemplate The selected template
-     * @return String
-     * @see
-     * @since 1.0
-     */
-    private String getTemplateNameFromCode(final String selectedTemplate) {
-        Connection connection = null;
-        String templateName = "";
-        try {
-            connection = new DBConnectionManager().getConnection();
-            Statement statement;
-            statement = connection.createStatement();
-            ResultSet rs = statement
-                    .executeQuery("select template_name from aliada.template where template_id=" + selectedTemplate);
-            if (rs.next()) {
-                templateName = rs.getString("template_name");
-            }
-            rs.close();
-            statement.close();
-            connection.close();
-        } catch (SQLException e) {
-            logger.error(MessageCatalog._00011_SQL_EXCEPTION, e);
-            return "";
-        }
-        return templateName;
-    }
-    /**
      * Gets the format of the file.
      * @return String
      * @param profile The profile selected
@@ -357,7 +322,6 @@ public class ConversionAction extends ActionSupport {
             setShowRdfizerButton(1);
             getDatsDb();
             getSubsDb();
-            //getDatAndSubsets();
             graphs = m.getGraphsDb();
             getTemplatesDb();  
             throw new ConnectException(MessageCatalog._00015_HTTP_ERROR_CODE
@@ -385,7 +349,6 @@ public class ConversionAction extends ActionSupport {
             setShowRdfizerButton(1);
             getDatsDb();
             getSubsDb();
-            //getDatAndSubsets();
             graphs = m.getGraphsDb();
             getTemplatesDb();  
             throw new ConnectException(MessageCatalog._00015_HTTP_ERROR_CODE
@@ -505,50 +468,6 @@ public class ConversionAction extends ActionSupport {
     	return SUCCESS;
     }
     
-    /**
-     * Gets the available datasets and subsets from the DB.
-     * @return String
-     * @see
-     * @since 1.0
-     */
-    public String getDatAndSubsets() {
-    	datasetMap = new HashMap();
-    	datasets = new HashMap<Integer, String>();
-    	String username = (String) ServletActionContext.getRequest().getSession().getAttribute("logedUser");
-        Connection connection = null;
-        try {
-        	connection = new DBConnectionManager().getConnection();
-            Statement statement = connection.createStatement();
-            Statement statement1 = connection.createStatement();
-            ResultSet rs = statement.executeQuery("SELECT datasetId, dataset_desc FROM aliada.organisation o INNER JOIN aliada.dataset d ON o.organisationId"
-            		+ "=d.organisationId INNER JOIN aliada.user u ON o.organisationId=u.organisationId where u.user_name='" + username + "';");
-            ResultSet res;
-            while (rs.next()) {
-            	int datId = rs.getInt("datasetId");
-            	String datDesc = rs.getString("dataset_desc");
-            	
-            	datasets.put(datId, datDesc);
-            	
-            	res = statement1.executeQuery("SELECT subsetId, graph_uri FROM aliada.subset s "
-            			+ "INNER JOIN aliada.dataset d ON s.datasetId=d.datasetId where s.datasetId='" + datId + "';");
-            	
-            	ArrayList<String> l = new ArrayList<String>();
-            	
-            	while (res.next()) {
-            		String graphUri = res.getString("graph_uri");
-            		l.add(graphUri);
-            	}
-            	datasetMap.put(datDesc, l);
-            }
-            rs.close();
-            statement.close();
-            connection.close();
-        } catch (SQLException e) {
-            logger.error(MessageCatalog._00011_SQL_EXCEPTION, e);
-            return ERROR;
-        }  	
-    	return SUCCESS;
-    }
     /**
      * Gets the graph Uri from a graph code.
      * @param graphUri The graph Uri
