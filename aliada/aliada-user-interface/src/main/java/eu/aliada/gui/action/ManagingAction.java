@@ -158,7 +158,7 @@ public class ManagingAction extends ActionSupport {
 							fileWork.setFile(fileCreated);
 							fileWork.setFilename(fileCreated.getName());
                             fileWork.setStatus("idle");
-							fileWork.setProfile(getProfileNameFromCode(this.profileSelected));
+							fileWork.setProfile(Integer.valueOf(this.profileSelected));
 							/* Get data from session*/
 							if (session.getAttribute("importedFiles") == null) {
 							    importedFiles = new ArrayList<FileWork>();
@@ -167,6 +167,7 @@ public class ManagingAction extends ActionSupport {
 							    importedFiles = (ArrayList<FileWork>) session.getAttribute("importedFiles");
 							    importedFiles.add(fileWork);
 							}
+							
 							session.setAttribute("rdfizerStatus", "idle");
 							session.setAttribute("importedFiles", importedFiles);
 							
@@ -297,9 +298,9 @@ public class ManagingAction extends ActionSupport {
 					FileWork fileWork = new FileWork();
 					fileWork.setFilename(fileCreated.getName());
 					fileWork.setFile(fileCreated);
-					fileWork.setProfile(getProfileNameFromCode(Integer.toString(rs.getInt("profile"))));
+					fileWork.setProfile(rs.getInt("profile"));
 					if (rs.getString("template") != null) {
-						fileWork.setTemplate(rs.getString("template").toString());
+						fileWork.setTemplate(rs.getInt("template"));
 					}
 					if (rs.getString("graph") != null) {
 						fileWork.setGraph(rs.getString("graph").toString());

@@ -75,9 +75,9 @@ public class TasksAction extends ActionSupport{
 					FileWork fileWork = new FileWork();
 					fileWork.setFilename(fileCreated.getName());
 					fileWork.setFile(fileCreated);
-					fileWork.setProfile(getProfileNameFromCode(Integer.toString(rs.getInt("profile"))));
+					fileWork.setProfile(rs.getInt("profile"));
 					if (rs.getString("template") != null) {
-						fileWork.setTemplate(getTemplateNameFromCode(String.valueOf(rs.getInt("template"))));
+						fileWork.setTemplate((rs.getInt("template")));
 					}
 					if (rs.getString("graph") != null) {
 						fileWork.setGraph(getGraphUri(String.valueOf(rs.getInt("graph"))));
@@ -131,9 +131,9 @@ public class TasksAction extends ActionSupport{
     			  FileWork recoveredFile = new FileWork();
     			  recoveredFile.setFilename(fileCreated.getName());
     			  recoveredFile.setFile(fileCreated);
-    			  recoveredFile.setProfile(getProfileNameFromCode(Integer.toString(rs.getInt("profile"))));
+    			  recoveredFile.setProfile(rs.getInt("profile"));
     			  if (rs.getString("template") != null) {
-    				recoveredFile.setTemplate(getTemplateNameFromCode(String.valueOf(rs.getInt("template"))));
+    				recoveredFile.setTemplate((rs.getInt("template")));
     			  }
     			  if (rs.getString("graph") != null) {
     				code = String.valueOf(rs.getInt("graph"));

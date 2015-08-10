@@ -114,7 +114,7 @@ public class RDFValidationAction extends ActionSupport {
                 statement = connection.createStatement();
                 ResultSet rs = statement.executeQuery("SELECT sparql_endpoint_uri, graph_uri, sparql_endpoint_login, sparql_endpoint_password FROM aliada.organisation o "
                 		+ "INNER JOIN aliada.dataset d ON o.organisationId=d.organisationId INNER JOIN aliada.subset s "
-                		+ "ON d.datasetId=s.datasetId WHERE graph_uri='" + importedFile.getGraph() + "'");
+                		+ "ON d.datasetId=s.datasetId WHERE s.subsetId='" + importedFile.getGraph() + "'");
                 if (rs.next()) {
                     setSparqlEndpointURI(rs.getString("sparql_endpoint_uri"));
                     setGraphName(rs.getString("graph_uri"));

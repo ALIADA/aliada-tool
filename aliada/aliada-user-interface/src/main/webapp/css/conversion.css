@@ -64,18 +64,18 @@ clear: both;
 	background-color: #f0f0f0;
 	border: 1px dotted #1BBC9B;
 	width: 90%;
-	height: 50%;
+	height: 60%;
 	margin-left: 55px;
 }
 
 #cleanGraphInfoPanel{
-	width: 30%;
+	width: 35%;
 	height: 100%;
 	border-right: 1px dotted #1BBC9B;
 }
 
 #graphInfoPanel{
-	width: 68%;
+	width: 63%;
 	height: 100%;
 }
 
@@ -100,13 +100,8 @@ clear: both;
 	background-color: #f0f0f0;
 	color:#990000; 
 	text-align:center;
+	margin-left: 10px;
     border: 1px dashed #1bbc9b;
-}
-
-.mainsectionfleft {
-    float: left;
-    padding: 10px;
-    margin: 10px;
 }
 
 .bold {

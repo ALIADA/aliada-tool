@@ -16,6 +16,13 @@ return false;
 }
 
 $(function(){
+	
+	$("#datasetSelect").change(function(e){
+		// List id value
+		var value = $(this).val();
+		window.location.href = "${pageContext.request.contextPath}/reloadSubsets.action?reloadDatasetId="+value;
+	});
+	
 	var showRdfizerButton = $("#showRdfizerButton").val();
 	var rdfizerStatus = $("#rdfizerStatus").val();
 	var interval = 0;
@@ -74,7 +81,7 @@ $(function(){
    		});   
 	};
 	
-	if(rdfizerStatus =="running"){
+	if(rdfizerStatus == "running"){
 		$("#checkInfo").hide();
 		$("#checkRDFInfo").show("fast");
 		$('#progressBar').show();
@@ -123,6 +130,7 @@ $(function(){
 <html:hidden id="rdfizerStatus" name="rdfizerStatus" value="%{#session['rdfizerStatus']}" />
 <html:hidden id="rdfizerJobId" name="rdfizerJobId" value="%{#session['rdfizerJobId']}" />
 <html:hidden id="showRdfizerButton" name="showRdfizerButton" value="%{showRdfizerButton}" />
+<html:hidden id="selectedDataset" name="selectedDataset" value="%{#session['reloadDataset']}" />
 
 <ul class="breadcrumb">
 	<span class="breadCrumb"><html:text name="home"/></span>
@@ -139,7 +147,7 @@ $(function(){
 			<html:form id="clean" action="/cleanGraph.action">
 				<label class="row label center"><html:text name="conversion.cleanSelect"/></label>
 				<div class="buttons row">
-					<html:select id="graphToClean" name="selectedGraph" cssClass="inputForm" list="graphs" />
+					<html:select id="graphToClean" name="selectedGraph" cssClass="inputFormLarge" list="graphs" />
 				</div>
 				<div class="buttons row">
 					 <html:submit cssClass="mediumButton button" key="conversion.clean" onclick="return confirmBox();"/> 
@@ -176,17 +184,31 @@ $(function(){
 						<tr>
 							<th id="both" class="backgroundGreen center"><label class="bold"><html:text name="conversion.select"/></label></th>
 							<td>
-								<div id="datSelect" class="nobr">
+								<%-- <div id="datSelect" class="nobr">
 										<html:doubleselect cssClass="inputForm"
 										name="dat" list="datasetMap.keySet()" doubleCssClass="inputFormLarge"
 										doubleName="sub" doubleList="datasetMap.get(top)" />
-								</div>
+								</div>--%>
+								<html:select id="datasetSelect" name="dat"
+									cssClass="inputForm" list="datasets" value="%{#session['reloadDataset']}"/>
 							</td>
-						</tr>		
+						</tr>
+						<tr>
+							<th id="both" class="backgroundGreen center"><label class="bold"><html:text name="conversion.select"/></label></th>
+							<td>
+								<%-- <div id="datSelect" class="nobr">
+										<html:doubleselect cssClass="inputForm"
+										name="dat" list="datasetMap.keySet()" doubleCssClass="inputFormLarge"
+										doubleName="sub" doubleList="datasetMap.get(top)" />
+								</div>--%>
+								<html:select id="subsetSelect" name="sub"
+									cssClass="inputFormLarge" list="subsets" />
+							</td>
+						</tr>	
 					</table>
 					
 					<div id="conversionButtons">
-						<div class="mainsectionRDF mainsectionfleft">
+						<div class="mainsectionRDF">
 						 	<html:text name="convInf1"/><br>
 						 	<html:text name="convInf2"/>
 						 	<span class="bold"><html:text name="convInf3"/></span><br>

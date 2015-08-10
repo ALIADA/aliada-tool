@@ -76,7 +76,18 @@ $(function(){
 				<html:iterator value="pendingFiles" var="dato">
 					<tr>
 						<td class="radio"><html:radio name="selectedPendingFile" list="filename"/></td>
-						<td><html:property value="profile" /></td>
+						<html:if test="profile == 1">
+							<td><html:text name="MARC BIB"/></td>
+						</html:if>
+						<html:elseif test="profile == 2">
+							<td><html:text name="MARC AUT"/></td>
+						</html:elseif>
+						<html:elseif test="profile == 3">
+							<td><html:text name="LIDO"/></td>
+						</html:elseif>
+						<html:elseif test="profile == 4">
+							<td><html:text name="DC"/></td>
+						</html:elseif>
 						<html:if test="status.equals('idle')">
 							<td><html:text name="status.import"/></td>
 						</html:if>

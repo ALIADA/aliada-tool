@@ -16,8 +16,8 @@ public class FileWork {
     private boolean fileChecked;
     private File file;
     private String filename;
-    private String profile;
-    private String template;
+    private int profile;
+    private int template;
     private String dataset;
     private String graph;
     private String status;
@@ -80,7 +80,7 @@ public class FileWork {
      * @exception
      * @since 1.0
      */
-    public String getProfile() {
+    public int getProfile() {
         return profile;
     }
     /**
@@ -88,7 +88,7 @@ public class FileWork {
      * @exception
      * @since 1.0
      */
-    public void setProfile(final String profile) {
+    public void setProfile(final int profile) {
         this.profile = profile;
     }
     /**
@@ -96,7 +96,7 @@ public class FileWork {
      * @exception
      * @since 1.0
      */
-    public String getTemplate() {
+    public int getTemplate() {
         return template;
     }
     /**
@@ -104,7 +104,7 @@ public class FileWork {
      * @exception
      * @since 1.0
      */
-    public void setTemplate(final String template) {
+    public void setTemplate(final int template) {
         this.template = template;
     }
     /**

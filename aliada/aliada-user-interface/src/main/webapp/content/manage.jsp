@@ -101,7 +101,18 @@ $(function(){
 								<%-- <td><html:checkbox name="fileChecked" value="fileChecked"/></td> --%>
 								<%-- <td><html:property value="filename" /></td> --%>
 								<td class="radio"><html:radio key="selectedFile" list="filename" checked="checked"/></td>
-								<td><html:property value="profile" /></td>
+								<html:if test="profile == 1">
+									<td><html:text name="MARC BIB"/></td>
+								</html:if>
+								<html:elseif test="profile == 2">
+									<td><html:text name="MARC AUT"/></td>
+								</html:elseif>
+								<html:elseif test="profile == 3">
+									<td><html:text name="LIDO"/></td>
+								</html:elseif>
+								<html:elseif test="profile == 4">
+									<td><html:text name="DC"/></td>
+								</html:elseif>
 								<td class="center">
 									<html:if test="status.equals('idle')">
 										<img class="displayNo" src="images/fine.png"/>

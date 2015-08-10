@@ -11,9 +11,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.struts2.ServletActionContext;
 
@@ -214,7 +218,7 @@ public class Methods {
      * @see
      * @since 1.0
      */
-    public HashMap<String, Boolean> getTagsDb(final int templateId) {
+    public HashMap<String, Boolean> getTagsDb(final int type, final int templateId) {
         final int NOTEMPLATESELECTED = -1;
         Connection connection = null;
         HashMap<String, Boolean> tags = new HashMap<>();
@@ -222,7 +226,7 @@ public class Methods {
             connection = new DBConnectionManager().getConnection();
             Statement statement = connection.createStatement();
             ResultSet rs = statement
-                    .executeQuery("select * from aliada.xml_tag");
+                    .executeQuery("select * from aliada.xml_tag where xml_tag_type_code=" + type);
             List tagNames = new ArrayList<String>();
             while (rs.next()) {
                 tagNames.add(rs.getString("xml_tag_id"));
@@ -259,8 +263,37 @@ public class Methods {
         } catch (SQLException e) {
             logger.error(MessageCatalog._00011_SQL_EXCEPTION, e);
         }
+        
+        tags = (HashMap<String, Boolean>) sortByKeys(tags);
+        
 		return tags;
     }
+    
+
+    /**
+     * Sorts the available tags from the DB.
+     * @param map The available tags
+     * @param <K> String
+     * @param <V> Boolean
+     * @return <K extends Comparable,V extends Comparable> Map<K,V>
+     * @see
+     * @since 1.0
+     */
+   public static <K extends Comparable, V extends Comparable> Map<K, V> sortByKeys(final Map<K, V> map) {
+       List<K> keys = new LinkedList<K>(map.keySet());
+       Collections.sort(keys);
+    
+       //LinkedHashMap will keep the keys in the order they are inserted
+       //which is currently sorted on natural ordering
+       Map<K, V> sortedMap = new LinkedHashMap<K, V>();
+       for (K key: keys) {
+           sortedMap.put(key, map.get(key));
+       }
+    
+       return sortedMap;
+   }
+
+    
     /**
      * Gets the user types from DB.
      * @return HashMap<Integer, String>

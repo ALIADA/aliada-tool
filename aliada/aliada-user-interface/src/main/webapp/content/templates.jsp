@@ -23,6 +23,97 @@ return false;
 }
 
 $(function(){
+	
+	// Hide the others tags (Add)
+	$("#marcAuthTags").hide();
+	$("#lidoTags").hide();
+	$("#dcTags").hide();
+	
+	// Hide the others tags (Edit)
+	$("#marcBibTagstoEdit").hide();
+	$("#marcAuthTagstoEdit").hide();
+	$("#lidoTagstoEdit").hide();
+	$("#dcTagstoEdit").hide();
+	
+	// Hide the others tags (Show)
+	$("#marcBibTagstoShow").hide();
+	$("#marcAuthTagstoShow").hide();
+	$("#lidoTagstoShow").hide();
+	$("#dcTagstoShow").hide();
+	
+	var t = $("#type").val();
+	console.log(t);
+	
+	if(t == 'B') {
+		$("#marcBibTagstoEdit").show();
+		$("#marcBibTagstoShow").show();
+	} else if (t == 'A') {
+		$("#marcAuthTagstoEdit").show();
+		$("#marcAuthTagstoShow").show();
+	} else if (t == 'L') {
+		$("#lidoTagstoEdit").show();
+		$("#lidoTagstoShow").show();
+	} else if (t == 'D') {
+		$("#dcTagstoEdit").show();
+		$("#dcTagstoShow").show();
+	}
+	
+	$("#tagsChange").change(function(e){
+		// List id value
+		var value = $(this).val();
+	   	console.log(value);
+	   	if (value == 0) {
+	   		$("#marcBibTags").show();
+	   		$("#marcAuthTags").hide();
+	   		$("#lidoTags").hide();
+	   		$("#dcTags").hide();
+	   	}
+	   	else if (value == 1) {
+	   		$("#marcBibTags").hide();
+	   		$("#marcAuthTags").show();
+	   		$("#lidoTags").hide();
+	   		$("#dcTags").hide();
+	   	} else if (value == 2) {
+	   		$("#marcBibTags").hide();
+	   		$("#marcAuthTags").hide();
+	   		$("#lidoTags").show();
+	   		$("#dcTags").hide();
+	   	} else if (value == 3) {
+	   		$("#marcBibTags").hide();
+	   		$("#marcAuthTags").hide();
+	   		$("#lidoTags").hide();
+	   		$("#dcTags").show();
+	   	}
+	});
+	
+	$("#tagsChangeEdit").change(function(e){
+		// List id value
+		var value = $(this).val();
+	   	console.log(value);
+	   	if (value == 0) {
+	   		$("#marcBibTagstoEdit").show();
+	   		$("#marcAuthTagstoEdit").hide();
+	   		$("#lidoTagstoEdit").hide();
+	   		$("#dcTagstoEdit").hide();
+	   	}
+	   	else if (value == 1) {
+	   		$("#marcBibTagstoEdit").hide();
+	   		$("#marcAuthTagstoEdit").show();
+	   		$("#lidoTagstoEdit").hide();
+	   		$("#dcTagstoEdit").hide();
+	   	} else if (value == 2) {
+	   		$("#marcBibTagstoEdit").hide();
+	   		$("#marcAuthTagstoEdit").hide();
+	   		$("#lidoTagstoEdit").show();
+	   		$("#dcTagstoEdit").hide();
+	   	} else if (value == 3) {
+	   		$("#marcBibTagstoEdit").hide();
+	   		$("#marcAuthTagstoEdit").hide();
+	   		$("#lidoTagstoEdit").hide();
+	   		$("#dcTagstoEdit").show();
+	   	}
+	});
+	
 	var type = $("#userType").val();
 	if(type == 1) {
 		$(".type").show();
@@ -67,6 +158,7 @@ $(function(){
 <html:hidden id="showTheTemplate" name="showTheTemplate" value="%{showTheTemplate}" />
 <html:hidden id="showAddTemplateForm" name="showAddTemplateForm" value="%{showAddTemplateForm}" />
 <html:hidden id="showEditTemplateForm" name="showEditTemplateForm" value="%{showEditTemplateForm}" />
+<html:hidden id="type" name="type" value="%{t}" />
 
 <div id="templatesPage">
 
@@ -120,24 +212,96 @@ $(function(){
 						<td><html:property value="fileTypeName" /></td>
 					</tr>
 				</table>
-				<div class="row">
+				<div id="marcBibTagstoShow" class="row">
 					<label class="label"><html:text name="templateFields" /></label>
 					<table class="table">
 						<html:iterator value="tags" status="status">
 							<html:if test="%{#status.index == 0}">
 								<tr>
-									<td><html:checkbox disabled="true" key="selectedTags" fieldValue="%{key}"
+									<td class="td_size"><html:checkbox disabled="true" key="selectedTags" fieldValue="%{key}"
 											value="%{value}" />
 										<html:property value="%{key}" /></td>
 							</html:if>
-							<html:elseif test="%{#status.index%12 == 0}">
+							<html:elseif test="%{#status.index%6 == 0}">
 								<tr>
-									<td><html:checkbox disabled="true" key="selectedTags" fieldValue="%{key}"
+									<td class="td_size"><html:checkbox disabled="true" key="selectedTags" fieldValue="%{key}"
 											value="%{value}" />
 										<html:property value="%{key}" /></td>
 							</html:elseif>
 							<html:else>
-								<td><html:checkbox disabled="true" key="selectedTags" fieldValue="%{key}"
+								<td class="td_size"><html:checkbox disabled="true" key="selectedTags" fieldValue="%{key}"
+										value="%{value}" />
+									<html:property value="%{key}" /></td>
+							</html:else>
+						</html:iterator>
+					</table>
+				</div>
+				<div id="marcAuthTagstoShow" class="row">
+					<label class="label"><html:text name="templateFields" /></label>
+					<table class="table">
+						<html:iterator value="tags" status="status">
+							<html:if test="%{#status.index == 0}">
+								<tr>
+									<td class="td_size"><html:checkbox disabled="true" key="selectedTags" fieldValue="%{key}"
+											value="%{value}" />
+										<html:property value="%{key}" /></td>
+							</html:if>
+							<html:elseif test="%{#status.index%6 == 0}">
+								<tr>
+									<td class="td_size"><html:checkbox disabled="true" key="selectedTags" fieldValue="%{key}"
+											value="%{value}" />
+										<html:property value="%{key}" /></td>
+							</html:elseif>
+							<html:else>
+								<td class="td_size"><html:checkbox disabled="true" key="selectedTags" fieldValue="%{key}"
+										value="%{value}" />
+									<html:property value="%{key}" /></td>
+							</html:else>
+						</html:iterator>
+					</table>
+				</div>
+				<div id="lidoTagstoShow" class="row">
+					<label class="label"><html:text name="templateFields" /></label>
+					<table class="table">
+						<html:iterator value="tags" status="status">
+							<html:if test="%{#status.index == 0}">
+								<tr>
+									<td class="td_size"><html:checkbox disabled="true" key="selectedTags" fieldValue="%{key}"
+											value="%{value}" />
+										<html:property value="%{key}" /></td>
+							</html:if>
+							<html:elseif test="%{#status.index%3 == 0}">
+								<tr>
+									<td class="td_size"><html:checkbox disabled="true" key="selectedTags" fieldValue="%{key}"
+											value="%{value}" />
+										<html:property value="%{key}" /></td>
+							</html:elseif>
+							<html:else>
+								<td class="td_size"><html:checkbox disabled="true" key="selectedTags" fieldValue="%{key}"
+										value="%{value}" />
+									<html:property value="%{key}" /></td>
+							</html:else>
+						</html:iterator>
+					</table>
+				</div>
+				<div id="dcTagstoShow" class="row">
+					<label class="label"><html:text name="templateFields" /></label>
+					<table class="table">
+						<html:iterator value="tags" status="status">
+							<html:if test="%{#status.index == 0}">
+								<tr>
+									<td class="td_size"><html:checkbox disabled="true" key="selectedTags" fieldValue="%{key}"
+											value="%{value}" />
+										<html:property value="%{key}" /></td>
+							</html:if>
+							<html:elseif test="%{#status.index%6 == 0}">
+								<tr>
+									<td class="td_size"><html:checkbox disabled="true" key="selectedTags" fieldValue="%{key}"
+											value="%{value}" />
+										<html:property value="%{key}" /></td>
+							</html:elseif>
+							<html:else>
+								<td class="td_size"><html:checkbox disabled="true" key="selectedTags" fieldValue="%{key}"
 										value="%{value}" />
 									<html:property value="%{key}" /></td>
 							</html:else>
@@ -166,29 +330,107 @@ $(function(){
 					</tr>
 					<tr>
 						<td class="label"><html:text name="fileTypeForm"/></td>
-						<td><html:select key="fileType"
+						<td><html:select id="tagsChange" key="fileType"
 								cssClass="inputForm input" list="types" /></td>
 					</tr>
 				</table>
-				<div class="row">
+				<div id="marcBibTags" class="row">
 					<div class="label">
 						<html:text name="templateFields" />
 						<table class="table">
-							<html:iterator value="tags" status="status">
+							<html:iterator value="marcBibTags" status="status">
 								<html:if test="%{#status.index == 0}">
 									<tr>
-										<td><html:checkbox key="selectedTags" fieldValue="%{key}"
+										<td class="td_size"><html:checkbox key="selectedMarcBibTags" fieldValue="%{key}"
 												value="%{value}" />
 											<html:property value="%{key}" /></td>
 								</html:if>
-								<html:elseif test="%{#status.index%12 == 0}">
+								<html:elseif test="%{#status.index%6 == 0}">
 									<tr>
-										<td><html:checkbox key="selectedTags" fieldValue="%{key}"
+										<td class="td_size"><html:checkbox key="selectedMarcBibTags" fieldValue="%{key}"
 												value="%{value}" />
 											<html:property value="%{key}" /></td>
 								</html:elseif>
 								<html:else>
-									<td><html:checkbox key="selectedTags" fieldValue="%{key}"
+									<td class="td_size"><html:checkbox key="selectedMarcBibTags" fieldValue="%{key}"
+											value="%{value}" />
+										<html:property value="%{key}" /></td>
+								</html:else>
+							</html:iterator>
+						</table>
+					</div>
+				</div>
+				<div id="marcAuthTags" class="row">
+					<div class="label">
+						<html:text name="templateFields" />
+						<table class="table">
+							<html:iterator value="marcAuthTags" status="status">
+								<html:if test="%{#status.index == 0}">
+									<tr>
+										<td class="td_size"><html:checkbox key="selectedMarcAuthTags" fieldValue="%{key}"
+												value="%{value}" />
+											<html:property value="%{key}" /></td>
+								</html:if>
+								<html:elseif test="%{#status.index%6 == 0}">
+									<tr>
+										<td class="td_size"><html:checkbox key="selectedMarcAuthTags" fieldValue="%{key}"
+												value="%{value}" />
+											<html:property value="%{key}" /></td>
+								</html:elseif>
+								<html:else>
+									<td class="td_size"><html:checkbox key="selectedMarcAuthTags" fieldValue="%{key}"
+											value="%{value}" />
+										<html:property value="%{key}" /></td>
+								</html:else>
+							</html:iterator>
+						</table>
+					</div>
+				</div>
+				<div id="lidoTags" class="row">
+					<div class="label">
+						<html:text name="templateFields" />
+						<table class="table">
+							<html:iterator value="lidoTags" status="status">
+								<html:if test="%{#status.index == 0}">
+									<tr>
+										<td class="td_size"><html:checkbox key="selectedLidoTags" fieldValue="%{key}"
+												value="%{value}" />
+											<html:property value="%{key}" /></td>
+								</html:if>
+								<html:elseif test="%{#status.index%3 == 0}">
+									<tr>
+										<td class="td_size"><html:checkbox key="selectedLidoTags" fieldValue="%{key}"
+												value="%{value}" />
+											<html:property value="%{key}" /></td>
+								</html:elseif>
+								<html:else>
+									<td class="td_size"><html:checkbox key="selectedLidoTags" fieldValue="%{key}"
+											value="%{value}" />
+										<html:property value="%{key}" /></td>
+								</html:else>
+							</html:iterator>
+						</table>
+					</div>
+				</div>
+				<div id="dcTags" class="row">
+					<div class="label">
+						<html:text name="templateFields" />
+						<table class="table">
+							<html:iterator value="dcTags" status="status">
+								<html:if test="%{#status.index == 0}">
+									<tr>
+										<td class="td_size"><html:checkbox key="selectedDcTags" fieldValue="%{key}"
+												value="%{value}" />
+											<html:property value="%{key}" /></td>
+								</html:if>
+								<html:elseif test="%{#status.index%6 == 0}">
+									<tr>
+										<td class="td_size"><html:checkbox key="selectedDcTags" fieldValue="%{key}"
+												value="%{value}" />
+											<html:property value="%{key}" /></td>
+								</html:elseif>
+								<html:else>
+									<td class="td_size"><html:checkbox key="selectedDcTags" fieldValue="%{key}"
 											value="%{value}" />
 										<html:property value="%{key}" /></td>
 								</html:else>
@@ -220,29 +462,29 @@ $(function(){
 					</tr>
 					<tr>
 						<td class="label"><html:text name="fileTypeForm"/></td>
-						<td><html:select key="fileType"
+						<td><html:select id="tagsChangeEdit" key="fileType"
 								cssClass="inputForm input" list="types" /></td>
 					</tr>
 				</table>
-				<div class="row">
+				<div id="marcBibTagstoEdit" class="row">
 					<div class="label">
 						<html:text name="templateFields" />
 						<table class="table">
-							<html:iterator value="tags" status="status">
+							<html:iterator value="marcBibTags" status="status">
 								<html:if test="%{#status.index == 0}">
 									<tr>
-										<td><html:checkbox key="selectedTags" fieldValue="%{key}"
+										<td class="td_size"><html:checkbox key="selectedMarcBibTags" fieldValue="%{key}"
 												value="%{value}" />
 											<html:property value="%{key}" /></td>
 								</html:if>
-								<html:elseif test="%{#status.index%12 == 0}">
+								<html:elseif test="%{#status.index%6 == 0}">
 									<tr>
-										<td><html:checkbox key="selectedTags" fieldValue="%{key}"
+										<td class="td_size"><html:checkbox key="selectedMarcBibTags" fieldValue="%{key}"
 												value="%{value}" />
 											<html:property value="%{key}" /></td>
 								</html:elseif>
 								<html:else>
-									<td><html:checkbox key="selectedTags" fieldValue="%{key}"
+									<td class="td_size"><html:checkbox key="selectedMarcBibTags" fieldValue="%{key}"
 											value="%{value}" />
 										<html:property value="%{key}" /></td>
 								</html:else>
@@ -250,6 +492,84 @@ $(function(){
 						</table>
 					</div>
 				</div>
+				<div id="marcAuthTagstoEdit" class="row">
+					<div class="label">
+						<html:text name="templateFields" />
+						<table class="table">
+							<html:iterator value="marcAuthTags" status="status">
+								<html:if test="%{#status.index == 0}">
+									<tr>
+										<td class="td_size"><html:checkbox key="selectedMarcAuthTags" fieldValue="%{key}"
+												value="%{value}" />
+											<html:property value="%{key}" /></td>
+								</html:if>
+								<html:elseif test="%{#status.index%6 == 0}">
+									<tr>
+										<td class="td_size"><html:checkbox key="selectedMarcAuthTags" fieldValue="%{key}"
+												value="%{value}" />
+											<html:property value="%{key}" /></td>
+								</html:elseif>
+								<html:else>
+									<td class="td_size"><html:checkbox key="selectedMarcAuthTags" fieldValue="%{key}"
+											value="%{value}" />
+										<html:property value="%{key}" /></td>
+								</html:else>
+							</html:iterator>
+						</table>
+					</div>
+				</div>
+				<div id="lidoTagstoEdit" class="row">
+					<div class="label">
+						<html:text name="templateFields" />
+						<table class="table">
+							<html:iterator value="lidoTags" status="status">
+								<html:if test="%{#status.index == 0}">
+									<tr>
+										<td class="td_size"><html:checkbox key="selectedLidoTags" fieldValue="%{key}"
+												value="%{value}" />
+											<html:property value="%{key}" /></td>
+								</html:if>
+								<html:elseif test="%{#status.index%3 == 0}">
+									<tr>
+										<td class="td_size"><html:checkbox key="selectedLidoTags" fieldValue="%{key}"
+												value="%{value}" />
+											<html:property value="%{key}" /></td>
+								</html:elseif>
+								<html:else>
+									<td class="td_size"><html:checkbox key="selectedLidoTags" fieldValue="%{key}"
+											value="%{value}" />
+										<html:property value="%{key}" /></td>
+								</html:else>
+							</html:iterator>
+						</table>
+					</div>
+				</div>
+				<div id="dcTagstoEdit" class="row">
+					<div class="label">
+						<html:text name="templateFields" />
+						<table class="table">
+							<html:iterator value="dcTags" status="status">
+								<html:if test="%{#status.index == 0}">
+									<tr>
+										<td class="td_size"><html:checkbox key="selectedDcTags" fieldValue="%{key}"
+												value="%{value}" />
+											<html:property value="%{key}" /></td>
+								</html:if>
+								<html:elseif test="%{#status.index%6 == 0}">
+									<tr>
+										<td class="td_size"><html:checkbox key="selectedDcTags" fieldValue="%{key}"
+												value="%{value}" />
+											<html:property value="%{key}" /></td>
+								</html:elseif>
+								<html:else>
+									<td class="td_size"><html:checkbox key="selectedDcTags" fieldValue="%{key}"
+											value="%{value}" />
+										<html:property value="%{key}" /></td>
+								</html:else>
+							</html:iterator>
+						</table>
+					</div>
+				</div>				
 				<div class="buttons row">
 					<html:submit cssClass="submitButton button" key="save" onclick="return confirmEditBox();"/>
 					<html:submit action="showTemplates" cssClass="submitButton button"

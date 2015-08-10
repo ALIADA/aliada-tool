@@ -47,6 +47,7 @@ public class ConversionAction extends ActionSupport {
     private HashMap<Integer, String> templates;
     private HashMap<Integer, String> datasets;
     private HashMap<Integer, String> graphs;
+    private HashMap<Integer, String> subsets;
 	private String title;
 	private String selectedGraph;
     private String selectedTemplate;
@@ -84,7 +85,9 @@ public class ConversionAction extends ActionSupport {
             setShowCheckButton(0);
             setShowRdfizerButton(1); 
         }
-        getDatAndSubsets();
+        getDatsDb();
+        getSubsDb();
+        //getDatAndSubsets();
         Methods m = new Methods();
         m.setLang(getLocale().getISO3Language());
         graphs = m.getGraphsDb();
@@ -107,7 +110,7 @@ public class ConversionAction extends ActionSupport {
         
         if (session.getAttribute("importedFile") != null) {
             setImportedFile((FileWork) session.getAttribute("importedFile"));
-            importedFile.setTemplate(getTemplateNameFromCode(getSelectedTemplate()));
+            importedFile.setTemplate(Integer.valueOf(getSelectedTemplate()));
             importedFile.setDataset(getDat());
             importedFile.setGraph(getSub());
             String format = null;
@@ -118,7 +121,7 @@ public class ConversionAction extends ActionSupport {
                 connection = new DBConnectionManager().getConnection();
                 Statement statement = connection.createStatement();
                 ResultSet rs = statement.executeQuery("SELECT d.domain_name, d.uri_id_part, d.uri_concept_part, s.uri_concept_part "
-                		+ "FROM aliada.dataset d INNER JOIN aliada.subset s ON d.datasetId=s.datasetId WHERE s.graph_uri='" + importedFile.getGraph() + "';");
+                		+ "FROM aliada.dataset d INNER JOIN aliada.subset s ON d.datasetId=s.datasetId WHERE s.subsetId='" + importedFile.getGraph() + "';");
                 if (rs.next()) {
                 	// The field namespace      
                 	if (!rs.getNString(1).isEmpty()) {
@@ -142,7 +145,7 @@ public class ConversionAction extends ActionSupport {
                 rs = statement
                         .executeQuery("select aliada_ontology,sparql_endpoint_uri,sparql_endpoint_login,sparql_endpoint_password,graph_uri"
                         		+ " from aliada.organisation o INNER JOIN aliada.dataset d ON o.organisationId=d.organisationId "
-                        		+ "INNER JOIN aliada.subset s ON d.datasetId=s.datasetId WHERE s.graph_uri='" + importedFile.getGraph() + "'");
+                        		+ "INNER JOIN aliada.subset s ON d.datasetId=s.datasetId WHERE s.subsetId='" + importedFile.getGraph() + "'");
                 if (rs.next()) {
                     PreparedStatement preparedStatement = connection
                             .prepareStatement(
@@ -173,13 +176,15 @@ public class ConversionAction extends ActionSupport {
  
                         Statement updateStatement = connection.createStatement();
                         updateStatement.executeUpdate("UPDATE aliada.user_session set status='runningRdfizer', job_id=" + addedId + ", "
-                        		+ "template=" + getSelectedTemplate() + ", graph=" + getSubsetId(getSub()) + " where file_name='" + importedFile.getFilename() + "'");
+                        		+ "template=" + getSelectedTemplate() + ", graph=" + getSub() + " where file_name='" + importedFile.getFilename() + "'");
                         updateStatement.close();
 						
                     } catch (IOException e) {
                         logger.error(MessageCatalog._00012_IO_EXCEPTION, e);
                         getTemplatesDb();
-                        getDatAndSubsets();
+                        getDatsDb();
+                        getSubsDb();
+                        //getDatAndSubsets();
                         graphs = m.getGraphsDb();
                         rs2.close();
                         preparedStatement.close();
@@ -193,23 +198,31 @@ public class ConversionAction extends ActionSupport {
                     connection.close();
                     session.setAttribute("rdfizerJobId", addedId);
                     setShowCheckButton(1);
-                    getDatAndSubsets();
+                    getDatsDb();
+                    getSubsDb();
+                    //getDatAndSubsets();
                     graphs = m.getGraphsDb();
                     return getTemplatesDb();                
                 }
             } catch (SQLException e) {
                 logger.error(MessageCatalog._00011_SQL_EXCEPTION, e);
-                getDatAndSubsets();
+                getDatsDb();
+                getSubsDb();
+                //getDatAndSubsets();
                 graphs = m.getGraphsDb();
                 getTemplatesDb();
                 return ERROR;
             }
-            getDatAndSubsets();
+            getDatsDb();
+            getSubsDb();
+            //getDatAndSubsets();
             graphs = m.getGraphsDb();
             return getTemplatesDb();
         } else {
             logger.error(MessageCatalog._00033_CONVERSION_ERROR_NO_FILE_IMPORTED);
-            getDatAndSubsets();
+            getDatsDb();
+            getSubsDb();
+            //getDatAndSubsets();
             graphs = m.getGraphsDb();
             getTemplatesDb();
             return ERROR;
@@ -308,7 +321,7 @@ public class ConversionAction extends ActionSupport {
      * @see
      * @since 1.0
      */
-    private String getFormat(final String profile) throws SQLException {
+    private String getFormat(final int profile) throws SQLException {
         Connection connection = null;
         String format = null;
         connection = new DBConnectionManager().getConnection();
@@ -316,7 +329,7 @@ public class ConversionAction extends ActionSupport {
         
         ResultSet rs = statement
                 .executeQuery("select metadata_name from aliada.t_metadata_scheme JOIN aliada.profile ON t_metadata_scheme.metadata_code=profile.metadata_scheme_code "
-                		+ "WHERE profile.profile_name= '" + profile + "' AND language='" + getLocale().getISO3Language() + "'");
+                		+ "WHERE profile.profile_id= '" + profile + "' AND language='" + getLocale().getISO3Language() + "'");
         
         if (rs.next()) {
             format = rs.getString(1);
@@ -342,7 +355,9 @@ public class ConversionAction extends ActionSupport {
         conn.setRequestMethod(defaults.getString("requestMethod.put"));
         if (conn.getResponseCode() != HttpURLConnection.HTTP_NO_CONTENT) {
             setShowRdfizerButton(1);
-            getDatAndSubsets();
+            getDatsDb();
+            getSubsDb();
+            //getDatAndSubsets();
             graphs = m.getGraphsDb();
             getTemplatesDb();  
             throw new ConnectException(MessageCatalog._00015_HTTP_ERROR_CODE
@@ -368,7 +383,9 @@ public class ConversionAction extends ActionSupport {
         conn.setRequestMethod(defaults.getString("requestMethod.put"));
         if (conn.getResponseCode() != HttpURLConnection.HTTP_CREATED) {
             setShowRdfizerButton(1);
-            getDatAndSubsets();
+            getDatsDb();
+            getSubsDb();
+            //getDatAndSubsets();
             graphs = m.getGraphsDb();
             getTemplatesDb();  
             throw new ConnectException(MessageCatalog._00015_HTTP_ERROR_CODE
@@ -391,7 +408,7 @@ public class ConversionAction extends ActionSupport {
             connection = new DBConnectionManager().getConnection();
             Statement statement = connection.createStatement();
             ResultSet rs = statement
-                    .executeQuery("select file_type_code from aliada.profile WHERE profile_name='" + importedFile.getProfile() + "'");
+                    .executeQuery("select file_type_code from aliada.profile WHERE profile_id='" + importedFile.getProfile() + "'");
             rs.next();
             int fileTypeCode = rs.getInt("file_type_code");   
             rs.close();
@@ -414,6 +431,81 @@ public class ConversionAction extends ActionSupport {
         return SUCCESS;
     }
     /**
+     * Gets the available datasets from the DB.
+     * @return String
+     * @see
+     * @since 1.0
+     */
+    public String getDatsDb() {
+    	datasets = new HashMap<Integer, String>();
+    	String username = (String) ServletActionContext.getRequest().getSession().getAttribute("logedUser");
+        Connection connection = null;
+        try {
+        	connection = new DBConnectionManager().getConnection();
+            Statement statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery("SELECT datasetId, dataset_desc FROM aliada.organisation o INNER JOIN aliada.dataset d ON o.organisationId"
+            		+ "=d.organisationId INNER JOIN aliada.user u ON o.organisationId=u.organisationId where u.user_name='" + username + "';");
+            while (rs.next()) {
+            	int datId = rs.getInt("datasetId");
+            	String datDesc = rs.getString("dataset_desc");
+            	
+            	datasets.put(datId, datDesc);
+            	
+            }
+            rs.close();
+            statement.close();
+            connection.close();
+            
+        } catch (SQLException e) {
+            logger.error(MessageCatalog._00011_SQL_EXCEPTION, e);
+            return ERROR;
+        }  	
+    	return SUCCESS;
+    }
+    
+    /**
+     * Gets the available subsets from the DB.
+     * @return String
+     * @see
+     * @since 1.0
+     */
+    public String getSubsDb() {
+    	subsets = new HashMap<Integer, String>();
+    	String datasetId = ServletActionContext.getRequest().getParameter("reloadDatasetId");
+    	if (datasetId != null) {
+    		ServletActionContext.getRequest().getSession().setAttribute("reloadDataset", datasetId);
+    	}
+    	if (datasetId == null) {
+    		datasetId = (String) ServletActionContext.getRequest().getSession().getAttribute("reloadDataset");
+    		if (datasetId == null) {
+    			datasetId = "1";
+    		}
+    	}
+        Connection connection = null;
+        try {
+        	connection = new DBConnectionManager().getConnection();
+            Statement statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery("SELECT subsetId, graph_uri FROM aliada.subset s "
+            			+ "INNER JOIN aliada.dataset d ON s.datasetId=d.datasetId where s.datasetId='" + datasetId + "';");
+            while (rs.next()) {
+            	int subId = rs.getInt("subsetId");
+            	String subDesc = rs.getString("graph_uri");
+            	
+            	subsets.put(subId, subDesc);
+            	
+            }
+            rs.close();
+            statement.close();
+            connection.close();
+            
+        } catch (SQLException e) {
+            logger.error(MessageCatalog._00011_SQL_EXCEPTION, e);
+            return ERROR;
+        }  	
+    	return SUCCESS;
+    }
+    
+    /**
      * Gets the available datasets and subsets from the DB.
      * @return String
      * @see
@@ -421,6 +513,7 @@ public class ConversionAction extends ActionSupport {
      */
     public String getDatAndSubsets() {
     	datasetMap = new HashMap();
+    	datasets = new HashMap<Integer, String>();
     	String username = (String) ServletActionContext.getRequest().getSession().getAttribute("logedUser");
         Connection connection = null;
         try {
@@ -433,6 +526,8 @@ public class ConversionAction extends ActionSupport {
             while (rs.next()) {
             	int datId = rs.getInt("datasetId");
             	String datDesc = rs.getString("dataset_desc");
+            	
+            	datasets.put(datId, datDesc);
             	
             	res = statement1.executeQuery("SELECT subsetId, graph_uri FROM aliada.subset s "
             			+ "INNER JOIN aliada.dataset d ON s.datasetId=d.datasetId where s.datasetId='" + datId + "';");
@@ -614,6 +709,22 @@ public class ConversionAction extends ActionSupport {
      */
     public HashMap<Integer, String> getGraphs() {
         return graphs;
+    }
+    /**
+     * @param subsets The subsets to set.
+     * @exception
+     * @since 1.0
+     */
+    public void setSubsets(final HashMap<Integer, String> subsets) {
+        this.subsets = subsets;
+    }
+    /**
+     * @return Returns the graphs.
+     * @exception
+     * @since 1.0
+     */
+    public HashMap<Integer, String> getSubsets() {
+        return subsets;
     }
     /**
      * @param graphs The graphs to set.

@@ -39,9 +39,20 @@ public class TemplatesAction extends ActionSupport{
 	
 	private final int NOTEMPLATESELECTED = Integer.parseInt(defaults.getString("nontemplatedselected"));
     private HashMap<Integer, String> templates;
+    
+    //tags
     private HashMap<String, Boolean> tags;
+    private HashMap<String, Boolean> marcBibTags;
+    private HashMap<String, Boolean> marcAuthTags;
+    private HashMap<String, Boolean> lidoTags;
+    private HashMap<String, Boolean> dcTags;
+    
+    private List selectedMarcBibTags = new ArrayList();
+    private List selectedMarcAuthTags = new ArrayList();
+    private List selectedLidoTags = new ArrayList();
+    private List selectedDcTags = new ArrayList();
+    
     private HashMap<Integer, String> types;
-    private List selectedTags = new ArrayList();
     private String templateName;
     private String templateDescription;
     private int fileType;
@@ -51,6 +62,7 @@ public class TemplatesAction extends ActionSupport{
     private boolean showAddTemplateForm;
     private boolean showEditTemplateForm;
     private boolean areTemplates;
+    private String t;
     
     private final Log logger = new Log(TemplatesAction.class);
     
@@ -98,7 +110,7 @@ public class TemplatesAction extends ActionSupport{
             connection = new DBConnectionManager().getConnection();
             Statement statement = connection.createStatement();
             
-            ResultSet rs = statement.executeQuery("select t.template_id,t.template_name,t.template_description,f.file_type_name "
+            ResultSet rs = statement.executeQuery("select t.template_id,t.template_name,t.template_description,f.file_type_name, t.file_type_code "
             		+ "from aliada.template t INNER JOIN aliada.t_file_type f ON t.file_type_code=f.file_type_code "
             		+ "where t.template_name='" + this.selectedTemplate + "' AND f.language='" + getLocale().getISO3Language() + "'");
 
@@ -107,6 +119,7 @@ public class TemplatesAction extends ActionSupport{
                 this.templateName = rs.getString("t.template_name");
                 this.templateDescription = rs.getString("t.template_description");
                 this.fileTypeName = rs.getString("f.file_type_name");
+                int type = rs.getInt("file_type_code");
                 statement.close();
                 rs.close();
                 connection.close();
@@ -114,7 +127,17 @@ public class TemplatesAction extends ActionSupport{
                 
                 ServletActionContext.getRequest().getSession().setAttribute("action", defaults.getString("lang.default"));
                 
-                tags = m.getTagsDb(idTemplate);
+                if (type == 0) {
+                	setT("B");
+                } else if (type == 1) {
+                	setT("A");
+                } else if (type == 2) {
+                	setT("L");
+                } else if (type == 3) {
+                	setT("D");
+                }
+                
+                tags = m.getTagsDb(type, idTemplate);
                 setShowTheTemplate(true);
                 ServletActionContext.getRequest().getSession().setAttribute("selectedTemplateId", idTemplate);
                 return SUCCESS;
@@ -124,7 +147,7 @@ public class TemplatesAction extends ActionSupport{
                 rs.close();
                 connection.close();
                 getTemplatesDb();
-                tags = m.getTagsDb(NOTEMPLATESELECTED);
+                tags = m.getTagsDb(0, NOTEMPLATESELECTED);
                 return ERROR;
             }
         } catch (SQLException e) {
@@ -152,7 +175,16 @@ public class TemplatesAction extends ActionSupport{
             }
             preparedStatement.close();
             Statement statement = connection.createStatement();
-            Iterator iterator = selectedTags.iterator();
+            Iterator iterator = null;
+            if (this.fileType == 0) {
+            	iterator = selectedMarcBibTags.iterator();
+            } else if (this.fileType == 1) {
+            	iterator = selectedMarcAuthTags.iterator();
+            } else if (this.fileType == 2) {
+            	iterator = selectedLidoTags.iterator();
+            } else if (this.fileType == 3) {
+            	iterator = selectedDcTags.iterator();
+            }
             while (iterator.hasNext()) {
                 statement = connection.createStatement();
                 statement.executeUpdate("INSERT INTO aliada.template_xml_tag VALUES ('" + idTemplate + "', '" + iterator.next() + "')");
@@ -179,7 +211,10 @@ public class TemplatesAction extends ActionSupport{
         
         Methods m = new Methods();
         m.setLang(getLocale().getISO3Language());
-        tags = m.getTagsDb(NOTEMPLATESELECTED);
+        marcBibTags = m.getTagsDb(0, NOTEMPLATESELECTED);
+        marcAuthTags = m.getTagsDb(1, NOTEMPLATESELECTED);
+        lidoTags = m.getTagsDb(2, NOTEMPLATESELECTED);
+        dcTags = m.getTagsDb(3, NOTEMPLATESELECTED);
         setShowAddTemplateForm(true);
         return SUCCESS;
     }
@@ -195,10 +230,21 @@ public class TemplatesAction extends ActionSupport{
             statement.executeUpdate("UPDATE aliada.template set template_description='" + this.templateDescription + "', file_type_code="
                             + this.fileType + " where template_id=" + idTemplate + "");
             statement.close();
-            statement = connection.createStatement();
-            statement.executeUpdate("DELETE FROM aliada.template_xml_tag WHERE template_id=" + idTemplate);
+            connection.close();
+            connection = new DBConnectionManager().getConnection();
+        	statement = connection.createStatement();
+            statement.executeUpdate("DELETE FROM aliada.template_xml_tag WHERE template_id='" + idTemplate + "'");
             statement.close();
-            Iterator iterator = selectedTags.iterator();
+            Iterator iterator = null;
+            if (this.fileType == 0) {
+            	iterator = selectedMarcBibTags.iterator();
+            } else if (this.fileType == 1) {
+            	iterator = selectedMarcAuthTags.iterator();
+            } else if (this.fileType == 2) {
+            	iterator = selectedLidoTags.iterator();
+            } else if (this.fileType == 3) {
+            	iterator = selectedDcTags.iterator();
+            }
             while (iterator.hasNext()) {
                 statement = connection.createStatement();
                 statement.executeUpdate("INSERT IGNORE INTO aliada.template_xml_tag VALUES ('" + idTemplate + "', '" + iterator.next() + "')");
@@ -230,7 +276,7 @@ public class TemplatesAction extends ActionSupport{
 			       	addActionError(getText("err.not.allow.edit"));
 			        getTemplatesDb();
 			        
-			        tags = m.getTagsDb(NOTEMPLATESELECTED);
+			        tags = m.getTagsDb(0, NOTEMPLATESELECTED);
 		            return ERROR;          	
 	        } else {
 		        Connection connection = null;
@@ -243,10 +289,35 @@ public class TemplatesAction extends ActionSupport{
 		                this.templateName = rs.getString("template_name");
 		                this.templateDescription = rs.getString("template_description");
 		                this.fileType = rs.getInt("file_type_code");
+		                int type = rs.getInt("file_type_code");
 		                statement.close();
 		                rs.close();
 		                connection.close();
-		                tags = m.getTagsDb(idTemplate);
+		                if (type == 0) {
+		                	setT("B");
+		                	marcBibTags = m.getTagsDb(type, idTemplate);
+		                	marcAuthTags = m.getTagsDb(1, NOTEMPLATESELECTED);
+		                    lidoTags = m.getTagsDb(2, NOTEMPLATESELECTED);
+		                    dcTags = m.getTagsDb(3, NOTEMPLATESELECTED);
+		                } else if (type == 1) {
+		                	setT("A");
+		                	marcAuthTags = m.getTagsDb(type, idTemplate);
+		                	marcBibTags = m.getTagsDb(0, NOTEMPLATESELECTED);
+		                    lidoTags = m.getTagsDb(2, NOTEMPLATESELECTED);
+		                    dcTags = m.getTagsDb(3, NOTEMPLATESELECTED);
+		                } else if (type == 2) {
+		                	setT("L");
+		                	lidoTags = m.getTagsDb(type, idTemplate);
+		                	marcBibTags = m.getTagsDb(0, NOTEMPLATESELECTED);
+		                	marcAuthTags = m.getTagsDb(1, NOTEMPLATESELECTED);
+		                    dcTags = m.getTagsDb(3, NOTEMPLATESELECTED);
+		                } else {
+		                	setT("D");
+		                	dcTags = m.getTagsDb(type, idTemplate);
+		                	marcBibTags = m.getTagsDb(0, NOTEMPLATESELECTED);
+		                    marcAuthTags = m.getTagsDb(1, NOTEMPLATESELECTED);
+		                    lidoTags = m.getTagsDb(2, NOTEMPLATESELECTED);
+		                }
 		                getTemplatesDb();
 		                
 		                ServletActionContext.getRequest().getSession().setAttribute("action", defaults.getString("lang.default"));
@@ -260,7 +331,7 @@ public class TemplatesAction extends ActionSupport{
 		                rs.close();
 		                connection.close();
 		                getTemplatesDb();
-		                tags = m.getTagsDb(NOTEMPLATESELECTED);
+		                tags = m.getTagsDb(0, NOTEMPLATESELECTED);
 		                return ERROR;
 		            }
 		        } catch (SQLException e) {
@@ -381,13 +452,69 @@ public class TemplatesAction extends ActionSupport{
     public void setTags(final HashMap<String, Boolean> tags) {
         this.tags = tags;
     }
-    /** @return Returns the selectedTags. */
-    public List getSelectedTags() {
-        return selectedTags;
+    /** @return Returns the marcBibTags. */
+    public HashMap<String, Boolean> getMarcBibTags() {
+        return marcBibTags;
     }
-    /** @param selectedTags The selectedTags to set. */
-    public void setSelectedTags(final List selectedTags) {
-        this.selectedTags = selectedTags;
+    /** @param marcBibTags The marcBibTags to set. */
+    public void setMarcBibTags(final HashMap<String, Boolean> marcBibTags) {
+        this.marcBibTags = marcBibTags;
+    }
+    /** @return Returns the marcAuthTags. */
+    public HashMap<String, Boolean> getMarcAuthTags() {
+        return marcAuthTags;
+    }
+    /** @param marcAuthTags The marcAuthTags to set. */
+    public void setMarcAuthTags(final HashMap<String, Boolean> marcAuthTags) {
+        this.marcAuthTags = marcAuthTags;
+    }
+    /** @return Returns the lidoTags. */
+    public HashMap<String, Boolean> getLidoTags() {
+        return lidoTags;
+    }
+    /** @param lidoTags The lidoTags to set. */
+    public void setLidoTags(final HashMap<String, Boolean> lidoTags) {
+        this.lidoTags = lidoTags;
+    }
+    /** @return Returns the dcTags. */
+    public HashMap<String, Boolean> getDcTags() {
+        return dcTags;
+    }
+    /** @param dcTags The dcTags to set. */
+    public void setDcTags(final HashMap<String, Boolean> dcTags) {
+        this.dcTags = dcTags;
+    }
+    /** @return Returns the selectedMarcBibTags. */
+    public List getSelectedMarcBibTags() {
+        return selectedMarcBibTags;
+    }
+    /** @param selectedMarcBibTags The selectedMarcBibTags to set. */
+    public void setSelectedMarcBibTags(final List selectedMarcBibTags) {
+        this.selectedMarcBibTags = selectedMarcBibTags;
+    }
+    /** @return Returns the selectedMarcAuthTags. */
+    public List getSelectedMarcAuthTags() {
+        return selectedMarcAuthTags;
+    }
+    /** @param selectedMarcAuthTags The selectedMarcAuthTags to set. */
+    public void setSelectedMarcAuthTags(final List selectedMarcAuthTags) {
+        this.selectedMarcAuthTags = selectedMarcAuthTags;
+    }
+    /** @return Returns the selectedLidoTags. */
+    public List getSelectedLidoTags() {
+        return selectedLidoTags;
+    }
+    /** @param selectedLidoTags The selectedLidoTags to set. */
+    public void setSelectedLidoTags(final List selectedLidoTags) {
+        this.selectedLidoTags = selectedLidoTags;
+    }
+    /** @return Returns the selectedDcTags. */
+    public List getSelectedDcTags() {
+        return selectedDcTags;
+    }
+    /** @param selectedDcTags The selectedDcTags to set. */
+    public void setSelectedDcTags(final List selectedDcTags) {
+        this.selectedDcTags = selectedDcTags;
     }
     /** @return Returns the areTemplates. */
     public boolean isAreTemplates() {
@@ -421,5 +548,14 @@ public class TemplatesAction extends ActionSupport{
     public void setFileTypeName(final String fileTypeName) {
         this.fileTypeName = fileTypeName;
     }
+    /** @return Returns the t. */
+	public String getT() {
+		return t;
+	}
+	/** @param t The t to set. */
+	public void setT(String t) {
+		this.t = t;
+	}
 	
+    
 }

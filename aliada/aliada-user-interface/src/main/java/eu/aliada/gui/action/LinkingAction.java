@@ -155,7 +155,7 @@ public class LinkingAction extends ActionSupport {
                  
                  rs = st
                          .executeQuery("select d.domain_name from aliada.dataset d inner join aliada.subset s "
-                         		+ "on d.datasetId = s.datasetId where s.graph_uri='" + getFileToLink().getGraph() + "'");
+                         		+ "on d.datasetId = s.datasetId where s.subsetId='" + getFileToLink().getGraph() + "'");
                  while (rs.next()) {
                      String datasetWeb = defaults.getString("web") + rs.getString("domain_name");
                      setDatasetUrl(datasetWeb);
@@ -299,7 +299,7 @@ public class LinkingAction extends ActionSupport {
         	statement = connection.createStatement();
         	ResultSet rs = statement
                     .executeQuery("select d.domain_name from aliada.dataset d inner join aliada.subset s "
-                    		+ "on d.datasetId = s.datasetId where s.graph_uri='" + getFileToLink().getGraph() + "'");
+                    		+ "on d.datasetId = s.datasetId where s.subsetId='" + getFileToLink().getGraph() + "'");
             while (rs.next()) {
                 String datasetWeb = defaults.getString("web") + rs.getString("domain_name");
                 setDatasetUrl(datasetWeb);
@@ -365,7 +365,7 @@ public class LinkingAction extends ActionSupport {
     private void createJobLinking() {
         int addedId = 0;
         String ou, ol, op, og, td = "";
-        if (fileToLink.getGraph() != null) {
+        //if (fileToLink.getGraph() != null) {
             Connection connection = null;
             connection = new DBConnectionManager().getConnection();
             Statement statement;
@@ -375,7 +375,7 @@ public class LinkingAction extends ActionSupport {
                         .executeQuery("select sparql_endpoint_uri, sparql_endpoint_login, sparql_endpoint_password, graph_uri, "
                         		+ "links_graph_uri, tmp_dir, linking_client_app_bin_dir,linking_client_app_user from aliada.organisation o "
                         		+ "INNER JOIN aliada.dataset d ON o.organisationId=d.organisationId INNER JOIN aliada.subset s ON d.datasetId=s.datasetId "
-                        		+ "WHERE s.graph_uri='" + fileToLink.getGraph() + "'");
+                        		+ "WHERE s.subsetId='" + fileToLink.getGraph() + "'");
                 if (rs.next()) {
                 	ou = rs.getString("sparql_endpoint_uri");
                 	ol = rs.getString("sparql_endpoint_login");
@@ -502,9 +502,9 @@ public class LinkingAction extends ActionSupport {
             } catch (SQLException e) {
                 logger.error(MessageCatalog._00011_SQL_EXCEPTION, e);
             }
-        } else {
+        /*} else {
            logger.debug(MessageCatalog._00041_NOT_FILE_TO_LINK); 
-        }        
+        } */       
     }
     /**
      * Creates a job for the linked data server.
@@ -515,7 +515,7 @@ public class LinkingAction extends ActionSupport {
         HttpSession session = ServletActionContext.getRequest().getSession();
         int addedId = 0;
         String datasetWeb = defaults.getString("web");
-        if (fileToLink.getGraph() != null) {
+        //if (fileToLink.getGraph() != null) {
             Connection connection = null;
             connection = new DBConnectionManager().getConnection();
             Statement statement;
@@ -527,7 +527,7 @@ public class LinkingAction extends ActionSupport {
                         		+ "o.isql_commands_file_subset_default, o.organisationId, o.tmp_dir, d.domain_name from aliada.organisation o "
                         		+ "INNER JOIN aliada.dataset d ON o.organisationId=d.organisationId "
                         		+ "INNER JOIN aliada.subset s ON d.datasetId=s.datasetId INNER JOIN aliada.rdfizer_job_instances r "
-                        		+ "WHERE s.graph_uri='" + fileToLink.getGraph() + "' ORDER BY r.job_id DESC LIMIT 1");
+                        		+ "WHERE s.subsetId='" + fileToLink.getGraph() + "' ORDER BY r.job_id DESC LIMIT 1");
                 if (rs.next()) {
                     PreparedStatement preparedStatement = connection
                             .prepareStatement(
@@ -598,9 +598,9 @@ public class LinkingAction extends ActionSupport {
                 } catch (SQLException e) {
                     logger.error(MessageCatalog._00011_SQL_EXCEPTION, e);
             }
-        } else {
+        /*} else {
             logger.debug(MessageCatalog._00041_NOT_FILE_TO_LINK);             
-        }
+        }*/
     }
     /**
      * @return Returns the datasets.
