@@ -38,8 +38,128 @@ $expression_s $is_a #efrbroo('E89_PropositionalObject') .
 $expression_s $is_a #ecrm('E33_Linguistic_Object') . 
 $work_s #efrbroo('R40_has_representative_expression') $expression_s . 
 $expression_s #efrbroo('R4_carriers_provided_by') $manifestation_s . 
+##WORK
+#simplest_mapping_with_no_repeatable_tag($work_s "710" "d" $root "E35_Title" $E35_Title $P102_has_title)
+#set($_500s = $xpath.many("datafield[@tag='500']",$root))
+#foreach($_500 in $_500s)
+	#set($v = $xpath.combine($_500, "ahi"))
+	#one($work_s $P102_has_title $E35_Title "E35_Title" $P3_has_note $v)
+	#set($v = $xpath.combine($_500, "k"))
+	#if($function.isNumber($v))
+    	#four(
+    		$work_s  
+    		"#ecrm('R16i_was_initiated_by')" 
+    		"#efrbroo('F27_Work_Conception')" 
+    		"F27_Work_Conception" 
+    		"#ecrm('P4_has_time-span')" 
+    		"#ecrm('E52_Time-Span')" 
+    		"E52_Time-Span" 
+    		"#ecrm('P78_is_identified_by')"  
+			"#ecrm('E50_Date')" 
+			"E50_Date" 
+    		$P3_has_note 
+    		$v)		
+	#end	
+	#set($v = $xpath.combine($_500, "l"))
+	#one($work_s $P2_has_type $E55_Type "E55_Type" $P3_has_note $v)
+	#set($v = $xpath.combine($_500, "r"))
+	#one($work_s $P2_has_type $E55_Type "E55_Type" $P3_has_note $v)	
+	#set($v = $xpath.combine($_500, "u"))
+	#two(
+		$work_s 
+		"#ecrm('P131_is_identified_by')" 
+		"#ecrm('F50_Controlled_Access_Point')" 
+		"F50_Controlled_Access_Point" 
+		"#ecrm('R8_consists_of')" 
+		"#ecrm('E90_Symbolic_Object')" 
+		"E90_Symbolic_Object" 
+		$P3_has_note 
+		$v)	
+#end	
+#set($_501s = $xpath.many("datafield[@tag='501']",$root))
+#foreach($_501 in $_501s)
+	#set($v = $xpath.combine($_501, "a"))
+	#one($work_s $P102_has_title $E35_Title "E35_Title" $P3_has_note $v)
+	#set($v = $xpath.combine($_501, "k"))
+	#if($function.isNumber($v))
+    	#four(
+    		$work_s  
+    		"#ecrm('R16i_was_initiated_by')" 
+    		"#efrbroo('F27_Work_Conception')" 
+    		"F27_Work_Conception" 
+    		"#ecrm('P4_has_time-span')" 
+    		"#ecrm('E52_Time-Span')" 
+    		"E52_Time-Span" 
+    		"#ecrm('P78_is_identified_by')"  
+			"#ecrm('E50_Date')" 
+			"E50_Date" 
+    		$P3_has_note 
+    		$v)		
+	#end	
+	#set($v = $xpath.combine($_501, "e"))
+	#one($work_s $P2_has_type $E55_Type "E55_Type" $P3_has_note $v)		
+#end
+## EXPRESSION
+#set($_101a = $xpath.df("101","a",$root))
+#set($_101c = $xpath.df("101","c",$root))
+#if ($_101a && $_101c)
+	#simplest_mapping_with_no_repeatable_tag($expression_s "101" "a" $root "E56_Language" "#ecrm('E56_Language')" "#ecrm('P72_has_language')")
+#end
 
 ## MANIFESTATION
+#set($_200 = $xpath.one("datafield[@tag='200']",$root))
+#if($_200)
+	#set($v = $xpath.combine($_200, "ahi"))
+	#one($manifestation_s $P102_has_title $E35_Title "E35_Title" $P3_has_note $v)
+	#set($v = $xpath.combine($_200, "f"))
+	#four(
+		$manifestation_s 
+		"#ecrm('CLR6_should_carry')" 
+		$F24_Publication_Expression 
+		"F24_Publication_Expression" 
+		"#ecrm('P148_has_component')" 
+		"#ecrm('E33_Linguistic_Object')" 
+		"E33_Linguistic_Object" 
+		$P2_has_type 
+		$E55_Type
+		"E55_Type" 
+		$P3_has_note 
+		$v)	
+#end	
+#set($_205s = $xpath.many("datafield[@tag='205']",$root))
+#foreach($_205 in $_205s)
+	#set($v = $xpath.combine($_205, "af"))
+	#four(
+		$manifestation_s 
+		"#ecrm('CLR6_should_carry')" 
+		$F24_Publication_Expression 
+		"F24_Publication_Expression" 
+		"#ecrm('P148_has_component')" 
+		"#ecrm('E33_Linguistic_Object')" 
+		"E33_Linguistic_Object" 
+		$P2_has_type 
+		$E55_Type
+		"E55_Type" 
+		$P3_has_note 
+		$v)	
+#end
+#set($_517s = $xpath.many("datafield[@tag='517']",$root))
+#foreach($_517 in $_517s)
+	#set($v = $xpath.combine($_517, "a"))
+	#one($manifestation_s $P102_has_title $E35_Title "E35_Title" $P3_has_note $v)
+#end
+#set($_520s = $xpath.many("datafield[@tag='520']",$root))
+#foreach($_520 in $_520s)
+	#set($v = $xpath.combine($_520, "ahi"))
+	#one($manifestation_s $P102_has_title $E35_Title "E35_Title" $P3_has_note $v)
+	#set($v = $xpath.combine($_520, "x"))
+	#one($manifestation_s $P1_is_identified_by $F13_Identifier "F13_Identifier" $P3_has_note $v)
+#end
+#set($_541s = $xpath.many("datafield[@tag='541']",$root))
+#foreach($_541 in $_541s)
+	#set($v = $xpath.combine($_541, "ahi"))
+	#one($manifestation_s $P102_has_title $E35_Title "E35_Title" $P3_has_note $v)
+#end		
 #set($_100 = $xpath.df("100","a",$root))
 #if($_100)
 	#set($txt = $_100.textContent)
@@ -102,13 +222,6 @@ $expression_s #efrbroo('R4_carriers_provided_by') $manifestation_s .
 		#end
 	#end	
 #end	
-
-## EXPRESSION
-#set($_101a = $xpath.df("101","a",$root))
-#set($_101c = $xpath.df("101","c",$root))
-#if ($_101a && $_101c)
-	#simplest_mapping_with_no_repeatable_tag($expression_s "101" "a" $root "E56_Language" "#ecrm('E56_Language')" "#ecrm('P72_has_language')")
-#end
 
 ## PERSON
 #if ($frbr.personID && !$frbr.personID.isEmpty())
