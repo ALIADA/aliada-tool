@@ -130,7 +130,7 @@ $expression_s #efrbroo('R4_carriers_provided_by') $manifestation_s .
 						"#ecrm('P131_is_identified_by')" 
 						"#ecrm('F50_Controlled_Access_Point')" 
 						"F50_Controlled_Access_Point" 
-						"#ecrm('R8_consists')" 
+						"#ecrm('R8_consists_of')" 
 						"#ecrm('E90_Symbolic_Object')" 
 						"E90_Symbolic_Object" 
 						$P3_has_note 
@@ -144,3 +144,59 @@ $expression_s #efrbroo('R4_carriers_provided_by') $manifestation_s .
     	#end	
 	#end	
 #end	
+## CORPORATE BODY
+#if ($frbr.corporateBodyID && !$frbr.corporateBodyID.isEmpty())
+	#foreach($entry in $frbr.corporateBodyID.entrySet())
+		#set($tag = $entry.getKey())
+		#set($uris = $entry.getValue())
+		#if ($uris && !$uris.isEmpty())
+			#set($fields = $xpath.many("datafield[@tag='${tag}']",$root))
+			#foreach($uri in $uris)
+				#set($field = $fields.get($velocityCount))
+				#if ($field)
+	        		#set($corporate_body_s = "#uri_literal('F11_Corporate_Body' $uri)")
+	        		$corporate_body_s $is_a #efrbroo('F11_Corporate_Body')
+					#set($name = $xpath.combine($field, "a"))
+					#one($corporate_body_s "#ecrm('P131_is_identified_by')" $E82_Actor_Appellation "E82_Actor_Appellation" $P3_has_note $name)
+					#set($v = $xpath.combine($field, "b"))
+					#two(
+						$corporate_body_s 
+						"#ecrm('P131_is_identified_by')" 
+						"#ecrm('F50_Controlled_Access_Point')" 
+						"F50_Controlled_Access_Point" 
+						"#ecrm('R8_consists_of')" 
+						"#ecrm('E90_Symbolic_Object')" 
+						"E90_Symbolic_Object" 
+						$P3_has_note 
+						$v)
+					#set($v = $xpath.combine($field, "e"))
+					#two(
+						$corporate_body_s 
+						"#ecrm('P131_is_identified_by')" 
+						"#ecrm('F50_Controlled_Access_Point')" 
+						"F50_Controlled_Access_Point" 
+						"#ecrm('R8_consists_of')" 
+						"#ecrm('E90_Symbolic_Object')" 
+						"E44_Place_Appellation" 
+						$P3_has_note 
+						$v)		
+					#set($v = $xpath.combine($field, "f"))
+					#two(
+						$corporate_body_s 
+						"#ecrm('P131_is_identified_by')" 
+						"#ecrm('F50_Controlled_Access_Point')" 
+						"F50_Controlled_Access_Point" 
+						"#ecrm('R8_consists_of')" 
+						"#ecrm('E90_Symbolic_Object')" 
+						"E50_Date" 
+						$P3_has_note 
+						$v)							
+					#set($v = $xpath.combine($field, "p"))	
+                    #if($function.isNotNullAndNotEmpty($v)) 
+						#one($corporate_body_s "#ecrm('P107i_is_current_or_former_member')" "#ecrm('E74_Group')" "E74_Group" $P3_has_note $v)
+                    #end	
+				#end	
+			#end	
+    	#end	
+	#end	
+#end
