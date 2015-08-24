@@ -280,7 +280,7 @@
 
 ##F1 Work P129 is about E27 Site3 is located in or within E53 Place P87 is identified by E47 Spatial Coordinates
 #macro(mapping_with_not_repeatable_tag_four_entities $tagValue $entityFirst $entity1 $entity2 $entity3 $typeUri1 $typeUri2 $typeUri3 $predicateFirst $predicate1 $predicate2)
-  #if($tagValue) 	
+#if($tagValue) 	
    #if($tagValue.textContent)
 	#set($value = "#uri($entity3 $function.escape($tagValue.textContent))")
 	#set($ent2 = "#new_uri($entity2)")
@@ -296,6 +296,63 @@
  #end
 #end
 
+## s F3 Manifestation Product Type  
+## p	CLR6 should carry 
+## s2		F24 Publication Expression 
+## p2			P148 has component 
+## s3				E33 Linguistic Object 
+## p3					P2 has type 
+## s4							E55 Type 
+## p4   							has_note
+## o									{Date of publication/distribution}
+#macro(four $s $p $st2 $st_string2 $p2 $st3 $st_string3 $p3 $st4 $st_string4 $p4 $o)
+	#if($function.isNotNullAndNotEmpty($o)) 
+    	#set($literal = $function.escape($o))
+    	#set($s2 = "#uri($st_string2 $literal)")
+    	#set($s3 = "#uri($st_string3 $literal)")
+    	#set($s4 = "#uri($st_string4 $literal)")
+    	$s4 $is_a $st4 .
+    	$s3 $is_a $st3 . 
+    	$s2 $is_a $st2 . 
+    	$s $p $s2 . 
+    	$s2 $p2 $s3 . 
+    	$s3 $p3 $s4 .
+    	$s4 $p4 "$literal" .
+	#end	
+#end
+
+## E21 Person 
+	## P1 is identified by 
+		## F50 Controlled Access Point 
+			## R8 consists 
+				## E90 Symbolic Object
+#macro(two $s $p $st2 $st_string2 $p2 $st3 $st_string3 $p3 $o) 
+	#if($function.isNotNullAndNotEmpty($o)) 
+    	#set($literal = $function.escape($o))
+    	#set($s2 = "#uri($st_string2 $literal)")
+	  	#set($s3 = "#uri($st_string3 $literal)")	
+		$s2 $is_a $st2 .
+		$s3 $is_a $st3 .
+		$s $p $s2 . 
+		$s2 $p2 $s3 . 
+		$s3 $p3 "$literal" . 
+	#end	
+#end	
+				
+## E21 Person 
+##	P131 is identified by 
+##		E82 Actor Appellation
+##			P3_has_note
+##				"Rossi, Adam"
+#macro(one $s $p $st2 $st_string2 $p2 $o) 
+	#if($function.isNotNullAndNotEmpty($o)) 
+    	#set($literal = $function.escape($o))
+    	#set($s2 = "#uri($st_string2 $literal)")
+		$s $p $s2 . 
+		$s2 $is_a $st2 . 
+		$s2 $p2 "$literal" . 
+	#end	
+#end	
 
 ##F1 Work P1 is identified by F50 Controlled Access Point R8 consists of E90 Symbolic Object (4)
 #macro(mapping_with_repeatable_tag_three_entities $tagValues $entityFirst $entity1 $entity2 $typeUri1 $typeUri2 $predicateFirst $predicate1)

@@ -7,6 +7,7 @@ package eu.aliada.rdfizer.pipeline.format.xml;
 
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.WeakHashMap;
@@ -280,6 +281,30 @@ public class OXPath {
 		}		
 		return nodes;
 	}	
+	
+	/**
+	 * Extracts a given set of subfields from the given node (tag).
+	 * 
+	 * @param node the node representing the Datafield node.
+	 * @param expression the expression which actually is a sequence of subfields.
+	 * @return the subfield values in sequence, concatenated by a space.
+	 */
+	public String combine(final Element node, final String expression) {
+		final NodeList subfields = node.getElementsByTagName("subfield");
+		return Arrays.stream(expression.split(""))
+			.map(subfield -> {
+				for (int i = 0; i < subfields.getLength(); i++) {
+					final Element e = (Element)subfields.item(i);
+					if (subfield.equals(e.getAttribute("code"))) {
+						return e.getTextContent();
+					}
+				}
+				
+				return "";
+			})
+			.reduce("", (a, b) -> a + b)
+			.trim();
+	}
 	
 	/**
 	 * Evaluates a given XPATH and returns the result as a single node.

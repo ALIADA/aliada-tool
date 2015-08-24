@@ -174,6 +174,15 @@ public class Function {
 		return Strings.isNotNullAndNotEmpty(value);
 	}
 	
+	public boolean isNumber(final String value) {
+		try {
+			Integer.parseInt(value);
+			return true;
+		} catch (Exception exception) {
+			return false;
+		}
+	}
+	
 	/**
 	 * Returns true if the given string is not null and not empty.
 	 * 

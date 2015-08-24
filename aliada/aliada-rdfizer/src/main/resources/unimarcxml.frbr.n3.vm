@@ -28,6 +28,7 @@
 #set($P14i_performed  = "#ecrm('P14i_performed')")
 #set($P103_was_intended_for  = "#ecrm('P103_was_intended_for')")
 #set($F24_Publication_Expression = "#efrbroo('F24_Publication_Expression')")
+#set($E82_Actor_Appellation = "#ecrm('E82_Actor_Appellation')")
 
 $work_s $is_a #efrbroo('F1_Work') . 
 $work_s $is_a #ecrm("E89_PropositionalObject") . 
@@ -37,3 +38,109 @@ $expression_s $is_a #efrbroo('E89_PropositionalObject') .
 $expression_s $is_a #ecrm('E33_Linguistic_Object') . 
 $work_s #efrbroo('R40_has_representative_expression') $expression_s . 
 $expression_s #efrbroo('R4_carriers_provided_by') $manifestation_s . 
+
+## MANIFESTATION
+#set($_100 = $xpath.df("100","a",$root))
+#if($_100)
+	#set($txt = $_100.textContent)
+	#if($txt && $txt.length() >= 14)
+    	#set($v = $txt.substring(9,13))
+    	#if($function.isNumber($v))
+        	#four(
+        		$manifestation_s 
+        		"#ecrm('CLR6_should_carry')" 
+        		$F24_Publication_Expression 
+        		"F24_Publication_Expression" 
+        		"#ecrm('P148_has_component')" 
+        		"#ecrm('E33_Linguistic_Object')" 
+        		"E33_Linguistic_Object" 
+        		$P2_has_type 
+        		$E55_Type
+        		"E55_Type" 
+        		$P3_has_note 
+        		$v)
+    	#end		
+	#end	
+	#if($txt && $txt.length() >= 18)
+    	#set($v = $txt.substring(13,17))
+    	#if($function.isNumber($v))
+        	#four(
+        		$manifestation_s 
+        		"#ecrm('CLR6_should_carry')" 
+        		$F24_Publication_Expression 
+        		"F24_Publication_Expression" 
+        		"#ecrm('P148_has_component')" 
+        		"#ecrm('E33_Linguistic_Object')" 
+        		"E33_Linguistic_Object" 
+        		$P2_has_type 
+        		$E55_Type
+        		"E55_Type" 
+        		$P3_has_note 
+        		$v)	
+    	#end		
+	#end	
+#end
+#set($_102 = $xpath.df("102","a",$root))
+#if($_102)
+	#set($txt = $_102.textContent)
+	#if($txt && $txt.length() >= 18)
+    	#set($v = $txt.substring(9,13))
+    	#if($function.isNumber($v))
+        	#four(
+        		$manifestation_s 
+        		"#ecrm('CLR6_should_carry')" 
+        		$F24_Publication_Expression 
+        		"F24_Publication_Expression" 
+        		"#ecrm('P148_has_component')" 
+        		"#ecrm('E33_Linguistic_Object')" 
+        		"E33_Linguistic_Object" 
+        		$P2_has_type 
+        		$E55_Type
+        		"E55_Type" 
+        		$P3_has_note 
+        		$v)
+		#end
+	#end	
+#end	
+
+## EXPRESSION
+#set($_101a = $xpath.df("101","a",$root))
+#set($_101c = $xpath.df("101","c",$root))
+#if ($_101a && $_101c)
+	#simplest_mapping_with_no_repeatable_tag($expression_s "101" "a" $root "E56_Language" "#ecrm('E56_Language')" "#ecrm('P72_has_language')")
+#end
+
+## PERSON
+#if ($frbr.personID && !$frbr.personID.isEmpty())
+	#foreach($entry in $frbr.personID.entrySet())
+		#set($tag = $entry.getKey())
+		#set($uris = $entry.getValue())
+		#if ($uris && !$uris.isEmpty())
+			#set($fields = $xpath.many("datafield[@tag='${tag}']",$root))
+			#foreach($uri in $uris)
+				#set($field = $fields.get($velocityCount))
+				#if ($field)
+	        		#set($person_s = "#uri_literal('E21_Person' $uri)")
+	        		$person_s $is_a #ecrm('E21_Person') .
+					#set($name = $xpath.combine($field, "abdcg"))
+					#one($person_s "#ecrm('P131_is_identified_by')" $E82_Actor_Appellation "E82_Actor_Appellation" $P3_has_note $name)
+					#set($v = $xpath.combine($field, "f"))
+					#two(
+						$person_s 
+						"#ecrm('P131_is_identified_by')" 
+						"#ecrm('F50_Controlled_Access_Point')" 
+						"F50_Controlled_Access_Point" 
+						"#ecrm('R8_consists')" 
+						"#ecrm('E90_Symbolic_Object')" 
+						"E90_Symbolic_Object" 
+						$P3_has_note 
+						$v)
+					#set($v = $xpath.combine($field, "p"))	
+                    #if($function.isNotNullAndNotEmpty($v)) 
+						#one($person_s "#ecrm('P107i_is_current_or_former_member')" "#ecrm('E74_Group')" "E74_Group" $P3_has_note $v)
+                    #end	
+				#end	
+			#end	
+    	#end	
+	#end	
+#end	
