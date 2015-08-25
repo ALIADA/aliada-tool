@@ -1,45 +1,53 @@
-#set($Concept = "#skos('Concept')")
 #set($work_s ="#uri('F1_Work' $frbr.workID)")
 #set($expression_s = "#uri('F2_Expression' $frbr.expressionID)")
 #set($manifestation_s = "#uri('F3_Manifestation_Product_Type' $frbr.manifestationID)")
 #set($is_a = "#rdf('type')")
 #set($P1_is_identified_by = "#ecrm('P1_is_identified_by')")	
-#set($P3_has_note = "#ecrm('P3_has_note')")
 #set($P2_has_type = "#ecrm('P2_has_type')")
+#set($P3_has_note = "#ecrm('P3_has_note')")
+#set($P14i_performed  = "#ecrm('P14i_performed')")
+#set($P59i_is_located_on_or_within = "#ecrm('P59i_is_located_on_or_within')")
+#set($P74_has_current_or_former_residence  = "#ecrm('P74_has_current_or_former_residence')")
+#set($P78_is_identified_by = "#ecrm('P78_is_identified_by')")
+#set($P87_is_identified_by = "#ecrm('P87_is_identified_by')")
+#set($P102_has_title = "#ecrm('P102_has_title')")
+#set($P103_was_intended_for  = "#ecrm('P103_was_intended_for')")
+#set($P104_is_subject_to = "#ecrm('P104_is_subject_to')")
+#set($P129_is_about = "#ecrm('P129_is_about')")
+#set($P131_is_identified_by = "#ecrm('P131_is_identified_by')")
+#set($P148_has_component = "#ecrm('P148_has_component')")
 #set($P149_is_identified_by = "#ecrm('P149_is_identified_by')")
-#set($E55_Type = "#ecrm('E55_Type')")
 #set($CLP2_should_have_type = "#efrbroo('CLP2_should_have_type')")
 #set($E35_Title = "#ecrm('E35_Title')")
-#set($P102_has_title = "#ecrm('P102_has_title')")
+#set($E27_Site = "#ecrm('E27_Site')")
+#set($E33_Linguistic_Object = "#ecrm('E33_Linguistic_Object')")
+#set($E44_Place_Appellation  = "#ecrm('E44_Place_Appellation')")
+#set($E47_Spatial_Coordinates = "#ecrm('E47_Spatial_Coordinates')")
+#set($E50_Date = "#ecrm('E50_Date')")
+#set($E52_Time-Span = "#ecrm('E52_Time-Span')")
+#set($E53_Place = "#ecrm('E53_Place')")
+#set($E55_Type = "#ecrm('E55_Type')")
+#set($E74_Group = "#ecrm('E74_Group')")
+#set($E82_Actor_Appellation = "#ecrm('E82_Actor_Appellation')")
 #set($E90_Symbolic_Object = "#ecrm('E90_Symbolic_Object')")
+#set($F4_Manifestation_Singleton = "#efrbroo('F4_Manifestation_Singleton')")
 #set($F13_Identifier = "#ecrm('F13_Identifier')")
+#set($F24_Publication_Expression = "#efrbroo('F24_Publication_Expression')")
+#set($F50_Controlled_Access_Point = "#efrbroo('F50_Controlled_Access_Point')")
 #set($F27_Work_Conception = "#efrbroo('F27_Work_Conception')")
 #set($R16i_was_initiated_by = "#efrbroo('R16i_was_initiated_by')")
-#set($E53_Place = "#ecrm('E53_Place')")
-#set($E27_Site = "#ecrm('E27_Site')")
-#set($P129_is_about = "#ecrm('P129_is_about')")
-#set($E47_Spatial_Coordinates = "#ecrm('E47_Spatial_Coordinates')")
-#set($P59i_is_located_on_or_within = "#ecrm('P59i_is_located_on_or_within')")
-#set($P87_is_identified_by = "#ecrm('P87_is_identified_by')")
-#set($F4_Manifestation_Singleton = "#efrbroo('F4_Manifestation_Singleton')")
-#set($P104_is_subject_to = "#ecrm('P104_is_subject_to')")
-#set($P74_has_current_or_former_residence  = "#ecrm('P74_has_current_or_former_residence')")
-#set($E44_Place_Appellation  = "#ecrm('E44_Place_Appellation')")
-#set($P14i_performed  = "#ecrm('P14i_performed')")
-#set($P103_was_intended_for  = "#ecrm('P103_was_intended_for')")
-#set($F24_Publication_Expression = "#efrbroo('F24_Publication_Expression')")
-#set($E82_Actor_Appellation = "#ecrm('E82_Actor_Appellation')")
 
 $work_s $is_a #efrbroo('F1_Work') . 
 $work_s $is_a #ecrm("E89_PropositionalObject") . 
 $expression_s $is_a #efrbroo('F2_Expression') . 
 $manifestation_s $is_a #efrbroo('F3_Manifestation_Product_Type') . 
 $expression_s $is_a #efrbroo('E89_PropositionalObject') .
-$expression_s $is_a #ecrm('E33_Linguistic_Object') . 
+$expression_s $is_a $E33_Linguistic_Object . 
 $work_s #efrbroo('R40_has_representative_expression') $expression_s . 
 $expression_s #efrbroo('R4_carriers_provided_by') $manifestation_s . 
 ##WORK
-#simplest_mapping_with_no_repeatable_tag($work_s "710" "d" $root "E35_Title" $E35_Title $P102_has_title)
+#simplest_mapping_with_no_repeatable_tag($work_s "320" "a" $root "E55_Type" $E55_Type $P2_has_type)
+#simplest_mapping_with_no_repeatable_tag($work_s "333" "a" $root "E55_Type" $E55_Type "#ecrm('P103_was_intended_for')")
 #set($_500s = $xpath.many("datafield[@tag='500']",$root))
 #foreach($_500 in $_500s)
 	#set($v = $xpath.combine($_500, "ahi"))
@@ -48,14 +56,14 @@ $expression_s #efrbroo('R4_carriers_provided_by') $manifestation_s .
 	#if($function.isNumber($v))
     	#four(
     		$work_s  
-    		"#ecrm('R16i_was_initiated_by')" 
-    		"#efrbroo('F27_Work_Conception')" 
+    		$R16i_was_initiated_by  
+    		$F27_Work_Conception  
     		"F27_Work_Conception" 
     		"#ecrm('P4_has_time-span')" 
-    		"#ecrm('E52_Time-Span')" 
+    		$$E52_Time-Span  
     		"E52_Time-Span" 
-    		"#ecrm('P78_is_identified_by')"  
-			"#ecrm('E50_Date')" 
+    		$P78_is_identified_by  
+			$E50_Date  
 			"E50_Date" 
     		$P3_has_note 
     		$v)		
@@ -67,11 +75,11 @@ $expression_s #efrbroo('R4_carriers_provided_by') $manifestation_s .
 	#set($v = $xpath.combine($_500, "u"))
 	#two(
 		$work_s 
-		"#ecrm('P131_is_identified_by')" 
-		"#ecrm('F50_Controlled_Access_Point')" 
+		$P131_is_identified_by  
+		$F50_Controlled_Access_Point 
 		"F50_Controlled_Access_Point" 
 		"#ecrm('R8_consists_of')" 
-		"#ecrm('E90_Symbolic_Object')" 
+		$E90_Symbolic_Object  
 		"E90_Symbolic_Object" 
 		$P3_has_note 
 		$v)	
@@ -84,14 +92,14 @@ $expression_s #efrbroo('R4_carriers_provided_by') $manifestation_s .
 	#if($function.isNumber($v))
     	#four(
     		$work_s  
-    		"#ecrm('R16i_was_initiated_by')" 
-    		"#efrbroo('F27_Work_Conception')" 
+    		$R16i_was_initiated_by  
+    		$F27_Work_Conception  
     		"F27_Work_Conception" 
     		"#ecrm('P4_has_time-span')" 
-    		"#ecrm('E52_Time-Span')" 
+    		$E52_Time-Span  
     		"E52_Time-Span" 
-    		"#ecrm('P78_is_identified_by')"  
-			"#ecrm('E50_Date')" 
+    		$P78_is_identified_by   
+			$E50_Date 
 			"E50_Date" 
     		$P3_has_note 
     		$v)		
@@ -99,13 +107,20 @@ $expression_s #efrbroo('R4_carriers_provided_by') $manifestation_s .
 	#set($v = $xpath.combine($_501, "e"))
 	#one($work_s $P2_has_type $E55_Type "E55_Type" $P3_has_note $v)		
 #end
+#simplest_mapping_with_no_repeatable_tag($work_s "710" "d" $root "E35_Title" $E35_Title $P102_has_title)
 ## EXPRESSION
 #set($_101a = $xpath.df("101","a",$root))
 #set($_101c = $xpath.df("101","c",$root))
 #if ($_101a && $_101c)
 	#simplest_mapping_with_no_repeatable_tag($expression_s "101" "a" $root "E56_Language" "#ecrm('E56_Language')" "#ecrm('P72_has_language')")
 #end
+#simplest_mapping_with_no_repeatable_tag($expression_s "208" "a" $root "E55_Type" $E55_Type $P2_has_type)
+#simplest_mapping_with_repeatable_tag ($expression_s "230" "a" $root "E54_Dimension" "#ecrm('E54_Dimension')" "#ecrm('P43_has_dimension')")
+#foreach($_501 in $_501s)
+	#set($v = $xpath.combine($_501, "m"))
+#simplest_mapping_with_repeatable_tag ($expression_s "501" "m" $root "E56_Language" "#ecrm('E56_Language')" "#ecrm('P72_has_language')")
 
+#end	
 ## MANIFESTATION
 #set($_200 = $xpath.one("datafield[@tag='200']",$root))
 #if($_200)
@@ -117,14 +132,16 @@ $expression_s #efrbroo('R4_carriers_provided_by') $manifestation_s .
 		"#ecrm('CLR6_should_carry')" 
 		$F24_Publication_Expression 
 		"F24_Publication_Expression" 
-		"#ecrm('P148_has_component')" 
-		"#ecrm('E33_Linguistic_Object')" 
+		$P148_has_component  
+		$E33_Linguistic_Object  
 		"E33_Linguistic_Object" 
 		$P2_has_type 
 		$E55_Type
 		"E55_Type" 
 		$P3_has_note 
 		$v)	
+	#set($v = $xpath.combine($_200, "b"))
+	#one($manifestation_s $CLP2_should_have_type $E55_Type "E55_Type" $P3_has_note $v)
 #end	
 #set($_205s = $xpath.many("datafield[@tag='205']",$root))
 #foreach($_205 in $_205s)
@@ -134,14 +151,65 @@ $expression_s #efrbroo('R4_carriers_provided_by') $manifestation_s .
 		"#ecrm('CLR6_should_carry')" 
 		$F24_Publication_Expression 
 		"F24_Publication_Expression" 
-		"#ecrm('P148_has_component')" 
-		"#ecrm('E33_Linguistic_Object')" 
+		$P148_has_component  
+		$E33_Linguistic_Object  
 		"E33_Linguistic_Object" 
 		$P2_has_type 
 		$E55_Type
 		"E55_Type" 
 		$P3_has_note 
 		$v)	
+#end
+#set($_210s = $xpath.many("datafield[@tag='210']",$root))
+#foreach($_210 in $_210s)
+	#set($v = $xpath.combine($_210, "a"))
+	#five(
+		$manifestation_s 
+		$P104_is_subject_to
+		"#ecrm('E30_Right')" 
+		"E30_Right" 
+		"#ecrm('P75B_is_possessed_by')" 
+		"#ecrm('E39_Actor')" 
+		"E39_Actor" 
+		"#ecrm('P74_has_current_or_former_residence')" 
+		"#ecrm('E53_Place')" 
+		"E53_Place" 
+		"#ecrm('P87_is_identified_by')" 
+		"#ecrm('E44 Place Appellation')" 
+		"E44 Place Appellation" 
+		$P3_has_note 
+		$v)	
+	#set($v = $xpath.combine($_210, "c"))
+	#five(
+		$manifestation_s 
+		"#ecrm('CLR6_should_carry')"
+		$F24_Publication_Expression
+		"F24_Publication_Expression" 
+		"#ecrm('P94_was_created_by')" 
+		"#efrbroo('F30_Publication_Event')")
+		"F30_Publication_Event" 
+		"#ecrm('P14_carried_out_by')" 
+		"#ecrm('E39_Actor')" 
+		"E39_Actor" 
+		$P131_is_identified_by  
+		"#ecrm('E82_Actor_Appellation')" 
+		"E82_Actor_Appellation" 
+		$P3_has_note 
+		$v)		
+	#set($v = $xpath.combine($_210, "d"))
+	#four(
+		$manifestation_s 
+		"#ecrm('CLR6_should_carry')" 
+		$F24_Publication_Expression 
+		"F24_Publication_Expression" 
+		$P148_has_component  
+		$E33_Linguistic_Object  
+		"E33_Linguistic_Object" 
+		$P2_has_type 
+		$E55_Type
+		"E55_Type" 
+		$P3_has_note 
+		$v)		
 #end
 #set($_517s = $xpath.many("datafield[@tag='517']",$root))
 #foreach($_517 in $_517s)
@@ -171,8 +239,8 @@ $expression_s #efrbroo('R4_carriers_provided_by') $manifestation_s .
         		"#ecrm('CLR6_should_carry')" 
         		$F24_Publication_Expression 
         		"F24_Publication_Expression" 
-        		"#ecrm('P148_has_component')" 
-        		"#ecrm('E33_Linguistic_Object')" 
+        		$P148_has_component  
+        		$E33_Linguistic_Object  
         		"E33_Linguistic_Object" 
         		$P2_has_type 
         		$E55_Type
@@ -189,8 +257,8 @@ $expression_s #efrbroo('R4_carriers_provided_by') $manifestation_s .
         		"#ecrm('CLR6_should_carry')" 
         		$F24_Publication_Expression 
         		"F24_Publication_Expression" 
-        		"#ecrm('P148_has_component')" 
-        		"#ecrm('E33_Linguistic_Object')" 
+        		$P148_has_component  
+        		$E33_Linguistic_Object  
         		"E33_Linguistic_Object" 
         		$P2_has_type 
         		$E55_Type
@@ -211,8 +279,8 @@ $expression_s #efrbroo('R4_carriers_provided_by') $manifestation_s .
         		"#ecrm('CLR6_should_carry')" 
         		$F24_Publication_Expression 
         		"F24_Publication_Expression" 
-        		"#ecrm('P148_has_component')" 
-        		"#ecrm('E33_Linguistic_Object')" 
+        		$P148_has_component  
+        		$E33_Linguistic_Object  
         		"E33_Linguistic_Object" 
         		$P2_has_type 
         		$E55_Type
@@ -236,21 +304,21 @@ $expression_s #efrbroo('R4_carriers_provided_by') $manifestation_s .
 	        		#set($person_s = "#uri_literal('E21_Person' $uri)")
 	        		$person_s $is_a #ecrm('E21_Person') .
 					#set($name = $xpath.combine($field, "abdcg"))
-					#one($person_s "#ecrm('P131_is_identified_by')" $E82_Actor_Appellation "E82_Actor_Appellation" $P3_has_note $name)
+					#one($person_s $P131_is_identified_by $E82_Actor_Appellation "E82_Actor_Appellation" $P3_has_note $name)
 					#set($v = $xpath.combine($field, "f"))
 					#two(
 						$person_s 
-						"#ecrm('P131_is_identified_by')" 
-						"#ecrm('F50_Controlled_Access_Point')" 
+						$P131_is_identified_by  
+						$F50_Controlled_Access_Point  
 						"F50_Controlled_Access_Point" 
 						"#ecrm('R8_consists_of')" 
-						"#ecrm('E90_Symbolic_Object')" 
+						$E90_Symbolic_Object  
 						"E90_Symbolic_Object" 
 						$P3_has_note 
 						$v)
 					#set($v = $xpath.combine($field, "p"))	
                     #if($function.isNotNullAndNotEmpty($v)) 
-						#one($person_s "#ecrm('P107i_is_current_or_former_member')" "#ecrm('E74_Group')" "E74_Group" $P3_has_note $v)
+						#one($person_s "#ecrm('P107i_is_current_or_former_member')" $E74_Group "E74_Group" $P3_has_note $v)
                     #end	
 				#end	
 			#end	
@@ -270,43 +338,43 @@ $expression_s #efrbroo('R4_carriers_provided_by') $manifestation_s .
 	        		#set($corporate_body_s = "#uri_literal('F11_Corporate_Body' $uri)")
 	        		$corporate_body_s $is_a #efrbroo('F11_Corporate_Body')
 					#set($name = $xpath.combine($field, "a"))
-					#one($corporate_body_s "#ecrm('P131_is_identified_by')" $E82_Actor_Appellation "E82_Actor_Appellation" $P3_has_note $name)
+					#one($corporate_body_s $P131_is_identified_by $E82_Actor_Appellation "E82_Actor_Appellation" $P3_has_note $name)
 					#set($v = $xpath.combine($field, "b"))
 					#two(
 						$corporate_body_s 
-						"#ecrm('P131_is_identified_by')" 
-						"#ecrm('F50_Controlled_Access_Point')" 
+						$P131_is_identified_by 
+						$F50_Controlled_Access_Point  
 						"F50_Controlled_Access_Point" 
 						"#ecrm('R8_consists_of')" 
-						"#ecrm('E90_Symbolic_Object')" 
+						$E90_Symbolic_Object  
 						"E90_Symbolic_Object" 
 						$P3_has_note 
 						$v)
 					#set($v = $xpath.combine($field, "e"))
 					#two(
 						$corporate_body_s 
-						"#ecrm('P131_is_identified_by')" 
-						"#ecrm('F50_Controlled_Access_Point')" 
+						$P131_is_identified_by 
+						$F50_Controlled_Access_Point  
 						"F50_Controlled_Access_Point" 
 						"#ecrm('R8_consists_of')" 
-						"#ecrm('E90_Symbolic_Object')" 
-						"E44_Place_Appellation" 
+						$E90_Symbolic_Object  
+						"E90_Symbolic_Object" 
 						$P3_has_note 
 						$v)		
 					#set($v = $xpath.combine($field, "f"))
 					#two(
 						$corporate_body_s 
-						"#ecrm('P131_is_identified_by')" 
-						"#ecrm('F50_Controlled_Access_Point')" 
+						$P131_is_identified_by 
+						$F50_Controlled_Access_Point  
 						"F50_Controlled_Access_Point" 
 						"#ecrm('R8_consists_of')" 
-						"#ecrm('E90_Symbolic_Object')" 
-						"E50_Date" 
+						$E90_Symbolic_Object  
+						"E90_Symbolic_Object" 
 						$P3_has_note 
 						$v)							
 					#set($v = $xpath.combine($field, "p"))	
                     #if($function.isNotNullAndNotEmpty($v)) 
-						#one($corporate_body_s "#ecrm('P107i_is_current_or_former_member')" "#ecrm('E74_Group')" "E74_Group" $P3_has_note $v)
+						#one($corporate_body_s "#ecrm('P107i_is_current_or_former_member')" $E74_Group "E74_Group" $P3_has_note $v)
                     #end	
 				#end	
 			#end	

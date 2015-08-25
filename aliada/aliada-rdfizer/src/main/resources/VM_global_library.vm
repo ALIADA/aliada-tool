@@ -296,6 +296,34 @@
  #end
 #end
 
+## F3 Manifestation Product Type 
+## 	P104 is subject to 
+## 		E30 Right {P2 has type E55 Type = “Distribution right”} 
+## 			P75B is possessed by 
+## 				E39 Actor 
+## 					P74 has current or former residence 
+## 						E53 Place 
+## 							P87 is identified by 
+## 								E44 Place Appellation
+#macro(five $s $p $st2 $st_string2 $p2 $st3 $st_string3 $p3 $st4 $st_string4 $p4 $st5 $st_string5 $p5 $o)
+	#if($function.isNotNullAndNotEmpty($o)) 
+    	#set($literal = $function.escape($o))
+    	#set($s2 = "#uri($st_string2 $literal)")
+    	#set($s3 = "#uri($st_string3 $literal)")
+    	#set($s4 = "#uri($st_string4 $literal)")
+		#set($s5 = "#uri($st_string5 $literal)")
+    	$s5 $is_a $st5 .
+    	$s4 $is_a $st4 .
+    	$s3 $is_a $st3 . 
+    	$s2 $is_a $st2 . 
+    	$s $p $s2 . 
+    	$s2 $p2 $s3 . 
+    	$s3 $p3 $s4 .
+    	$s4 $p4 $s5 .
+		$s5 $p5 "$literal" . 
+	#end	
+#end
+
 ## s F3 Manifestation Product Type  
 ## p	CLR6 should carry 
 ## s2		F24 Publication Expression 
