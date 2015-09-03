@@ -1,7 +1,7 @@
 #set($Concept = "#skos('Concept')")
 #set($work_s ="#uri('F1_Work' $frbr.workID)")
 #set($expression_s = "#uri('F2_Expression' $frbr.expressionID)")
-#set($manifestation_s = "#uri('F3_Manifestation_Product_Type' $frbr.manifestationID)")
+#set($manifestation_s = "#uri_literal('F3_Manifestation_Product_Type' $frbr.manifestationID)")
 #set($is_a = "#rdf('type')")
 #set($P1_is_identified_by = "#ecrm('P1_is_identified_by')")	
 #set($P3_has_note = "#ecrm('P3_has_note')")
