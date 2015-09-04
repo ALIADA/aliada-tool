@@ -388,9 +388,7 @@ $expression_s #efrbroo('R4_carriers_provided_by') $manifestation_s .
 	        		
 	        		#set($tagValue = $xpath.df("subfield[@code='b']", $field))
 					#mapping_with_not_repeatable_tag_three_entities($tagValue $person_s "F13_Identifier" "E90_Symbolic_Object" $F13_Identifier $E90_Symbolic_Object $P1_is_identified_by "#efrbroo('R8_consists_of')")
-					#defined_mapping_with_no_repeatable_node_to_date_relation($field "d" $root "#ecrm('E67_Birth')" "E67_Birth" "#ecrm('P98i_was_born')" $person_s) 					
-	        		#set($tagValue = $xpath.df("subfield[@code='d']", $field))
-					#mapping_with_not_repeatable_tag_three_entities($tagValue $person_s "F13_Identifier" "E90_Symbolic_Object" $F13_Identifier $E90_Symbolic_Object $P1_is_identified_by "#efrbroo('R8_consists_of')")
+					#defined_mapping_with_no_repeatable_node_to_date_relation($field "d" $root "#ecrm('E7_Activity')" "E7_Activity" "#ecrm('P14B_performed')" $person_s) 					
 				#end	
 			#end	
     	#end	
