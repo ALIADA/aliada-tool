@@ -137,6 +137,19 @@
 	#end	
 #end	
 
+#macro(simplest_mapping_with_no_repeatable_label $s $txt $type $kind $predicate $concept) 
+	#if ($function.isNotNullAndNotEmpty($txt))
+		#set($text = $function.escape($function.clean($txt)))
+    	#set($s1 = "#uri(${type} ${text})")
+			$s1 $is_a $kind . 
+    	#if($concept) 
+			$s1 $P2_has_type $concept .
+		#end
+    	$s1 $P3_has_note "$text" . 
+    	$s $predicate $s1 . 
+	#end	
+#end	
+
 #macro(simplest_mapping_with_repeatable_tag $s $tag $subfield $record $type $kind $predicate $concept) 
 	#set($tagValues = $xpath.dfs($tag,$subfield,$record))
 	#foreach($tagValue in $tagValues) 
@@ -504,3 +517,12 @@
 		#end	
 	#end	
 #end
+
+#macro(hr_label $s $v)	
+	#if ($function.isNotNullAndNotEmpty($v))
+		#set($lbl = $function.escape($function.clean($v)))
+		#if ($function.isNotNullAndNotEmpty($lbl))
+			$s $rdfs_label "$lbl" . 
+		#end
+	#end	
+#end	
