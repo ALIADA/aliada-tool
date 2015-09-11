@@ -290,21 +290,23 @@ public class OXPath {
 	 * @return the subfield values in sequence, concatenated by a space.
 	 */
 	public String combine(final Element node, final String expression) {
-		final NodeList subfields = node.getElementsByTagName("subfield");
-		return Arrays.stream(expression.split(""))
+		final NodeList subfields = node.getElementsByTagName("*");
+		final String result = Arrays.stream(expression.split(""))	
 			.map(subfield -> {
 				for (int i = 0; i < subfields.getLength(); i++) {
-					final Element e = (Element)subfields.item(i);
-					if (subfield.equals(e.getAttribute("code"))) {
-						return e.getTextContent();
-					}
+					if (subfields.item(i) instanceof Element) {
+						final Element e = (Element)subfields.item(i);
+						if (subfield.equals(e.getAttribute("code"))) {
+							return e.getTextContent();
+						}
+					} 
 				}
-				
 				return "";
 			})
 			.reduce("", (a, b) -> a + b)
 			.trim();
-	}
+		return result;
+	}	
 	
 	/**
 	 * Evaluates a given XPATH and returns the result as a single node.
