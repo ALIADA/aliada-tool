@@ -56,7 +56,7 @@ public class RDFValidationAction extends ActionSupport {
 	private String wo;
 	
 	private boolean auth;
-	private boolean obj;
+	private boolean objs;
 	private boolean mani;
 	private boolean works;
 	
@@ -91,7 +91,7 @@ public class RDFValidationAction extends ActionSupport {
     	}
     	
     	setAuth(false);
-    	setObj(false);
+    	setObjs(false);
     	setMani(false);
     	setWorks(false);
     	
@@ -256,7 +256,7 @@ public class RDFValidationAction extends ActionSupport {
     	
     	execute();
     	
-    	setObj(true);
+    	setObjs(true);
     
     	calls = numObjects / limit;
     	rest = numObjects % limit;
@@ -497,13 +497,13 @@ public class RDFValidationAction extends ActionSupport {
     public void setAuth(final boolean auth) {
         this.auth = auth;
     }
-    /** @return Returns the obj. */
-    public boolean isObj() {
-        return obj;
+    /** @param objs The objs to set. */
+    public void setObjs(final boolean objs) {
+        this.objs = objs;
     }
-    /** @param obj The obj to set. */
-    public void setObj(final boolean obj) {
-        this.obj = obj;
+    /** @return Returns the objs. */
+    public boolean isObjs() {
+        return objs;
     }
     /** @return Returns the mani. */
     public boolean isMani() {
