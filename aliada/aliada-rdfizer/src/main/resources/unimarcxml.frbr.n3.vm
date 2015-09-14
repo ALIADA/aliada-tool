@@ -311,6 +311,9 @@ $expression_s #efrbroo('R4_carriers_provided_by') $manifestation_s .
 					#if ($alreadyProcessed)
 						$person_s #ecrm("P94_has_created") $work_s . 
 					#else 
+						#if ($cluster) 
+	                    	$function.markAsProcessed($cluster)
+	                    #end
 						$person_s #ecrm("P94_has_created") $work_s . 
 		        		$person_s $is_a #ecrm('E21_Person') .  
 		        		$person_s $is_a #ecrm('E65_Creation') .
@@ -331,9 +334,6 @@ $expression_s #efrbroo('R4_carriers_provided_by') $manifestation_s .
 	                    #if($function.isNotNullAndNotEmpty($v)) 
 							#one($person_s "#ecrm('P107i_is_current_or_former_member')" $E74_Group "E74_Group" $P3_has_note $v)
 	                    #end	
-	                    #if ($cluster) 
-	                    	$function.markAsProcessed($cluster)
-	                    #end
 	                #end 
 				#end	
 			#end	
