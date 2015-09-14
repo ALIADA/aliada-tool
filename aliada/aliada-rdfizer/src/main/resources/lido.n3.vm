@@ -1,5 +1,6 @@
 ## SHORTCUTS
 #set($is_a = "#rdf('type')")
+#set($rdfs_label = "#rdfs('label')")
 #set($E41_Appellation = "#ecrm('E41_Appellation')")
 #set($E39_Actor = "#ecrm('E39_Actor')")
 #set($P3_has_note = "#ecrm('P3_has_note')")
@@ -14,6 +15,7 @@
 $appellation_s $is_a $E41_Appellation .
 $appellation_s $P3_has_note "$lidoRecID" .
 $document_s $is_a #ecrm("E31_Document") .
+$document_s $rdfs_label "$lidoRecID" .
 $document_s #ecrm("P1_is_identified_by") $appellation_s . 
 $main_subject #ecrm("P70i_is_documented_in") $document_s .
 #if($lidoClass)
@@ -39,6 +41,7 @@ $main_subject #ecrm("P70i_is_documented_in") $document_s .
 	#set($appellation_s = "#uri('E41_Appellation' $value)")
     $appellation_s $is_a $E41_Appellation .
     $appellation_s $P3_has_note "$value" .
+    $main_subject $rdfs_label "$value" .
 	$main_subject #ecrm("P1_is_identified_by") $appellation_s .
 #end	
 ## OBJECT ID END
@@ -69,6 +72,7 @@ $main_subject #ecrm("P70i_is_documented_in") $document_s .
     	$address_name_s $is_a #ecrm("E44_Place_Appellation") .
     	$address_name_s $P3_has_note "$value" . 
     	$address_s $is_a $E53_Place .
+	    $address_s $rdfs_label "$value" .
     	$address_s $P87_is_identified_by $address_name_s . 
     	$main_subject #ecrm("P53_has_former_or_current_location") $address_s .
 ##  	
@@ -91,6 +95,7 @@ $main_subject #ecrm("P70i_is_documented_in") $document_s .
 			$place_appellation_s $is_a $E44_Place_Appellation .
 			$place_appellation_s $P3_has_note "$value" . 
 			$place_s $is_a $E53_Place .
+		    $place_s $rdfs_label "$value" .
 			$place_s $P87_is_identified_by $place_appellation_s . 
 			$place_s $P89i_contains $address_s . 
 		#end
@@ -207,6 +212,7 @@ $main_subject #ecrm("P70i_is_documented_in") $document_s .
 			$id_s $is_a #ecrm('E42_Identifier') .
 			$id_s $P3_has_note "$value" . 
 			$id_s $P2_has_type #aliada('LocalIdentifier') . 
+		    $author_s $rdfs_label "$value" .
 			$author_s #ecrm('P48_has_preferred_identifier') $id_s .
 		#end	
 		#set($actor_identifiers = $xpath.many("actorID[@lido:source='VIAF']", $actor))
@@ -220,6 +226,7 @@ $main_subject #ecrm("P70i_is_documented_in") $document_s .
 			$id_s $is_a #ecrm('E42_Identifier') .
 			$id_s $P3_has_note "$value" . 
 			$id_s $P2_has_type #aliada('VIAFIdentifier') . 
+		    $author_s $rdfs_label "$value" .
 			$author_s #ecrm('P48_has_preferred_identifier') $id_s .
 		#end		
 		#if ($author_s && $author_s.trim().length() > 0)
@@ -230,6 +237,7 @@ $main_subject #ecrm("P70i_is_documented_in") $document_s .
     			#set($actor_name_s = "#uri('E82_Actor_Appellation' $value)")
     			$actor_name_s $is_a #ecrm("E82_Actor_Appellation") . 
     			$actor_name_s $P3_has_note "$value" .
+		    	$author_s $rdfs_label "$value" .
 				$author_s #ecrm('P131_is_identified_by') $actor_name_s . 
     		#end 	
     		#set($actor_nationalities = $xpath.many("nationalityActor/term",$actor))
@@ -240,6 +248,7 @@ $main_subject #ecrm("P70i_is_documented_in") $document_s .
     			$nationality_s $is_a #ecrm('E82_Actor_Appellation') . 
     			$nationality_s $P3_has_note "$value" .
     			$group_s $is_a #ecrm('E74_Group') . 
+		    	$group_s $rdfs_label "$value" .
     			$group_s #ecrm('P131_is_identified_by') $nationality_s . 
     			$author_s #ecrm('P107i_is_current_or_former_member_of') $group_s . 
     		#end	
@@ -326,6 +335,7 @@ $main_subject #ecrm("P70i_is_documented_in") $document_s .
 				$address_name_s $is_a #ecrm("E44_Place_Appellation") .
 				$address_name_s $P3_has_note "$value" . 
 				$address_s $is_a $E53_Place .
+		    	$address_s $rdfs_label "$value" .
 				$address_s $P87_is_identified_by $address_name_s . 
 				$event_type_s #ecrm("P7_took_place_at") $address_s .
 		##  	
@@ -348,6 +358,7 @@ $main_subject #ecrm("P70i_is_documented_in") $document_s .
 					$place_appellation_s $is_a $E44_Place_Appellation .
 					$place_appellation_s $P3_has_note "$value" . 
 					$place_s $is_a $E53_Place .
+			    	$place_s $rdfs_label "$value" .
 					$place_s $P87_is_identified_by $place_appellation_s . 
 					$place_s $P89i_contains $address_s . 
 				#end
@@ -402,6 +413,7 @@ $main_subject #ecrm("P70i_is_documented_in") $document_s .
 		$record_identifier_s $is_a #ecrm('E42_Identifier') . 
 		$record_identifier_s $P3_has_note "$value" . 
 		$record_document_s $is_a #ecrm('E31_Document') . 
+	    $record_document_s $rdfs_label "$value" .
 		$record_document_s #ecrm('P48_has_preferred_identifier') $record_identifier_s .
 		$main_subject #ecrm('P70i_is_documented_in') $record_document_s . 
 		## RECORD ID END
@@ -447,6 +459,7 @@ $main_subject #ecrm("P70i_is_documented_in") $document_s .
 		$resource_identifier_s $P3_has_note "$resource_id" . 
 		$resource_id_s $is_a #ecrm('E36_Visual_Item') . 
 		$main_subject #ecrm('P138i_has_representation') $resource_id_s . 
+	    $resource_id_s $rdfs_label "$resource_id" .
 		$resource_id_s #ecrm('P48_has_preferred_identifier') $resource_identifier_s . 
 		## RESOURCE ID END
 		## RESOURCE REPRESENTATION START
@@ -459,6 +472,7 @@ $main_subject #ecrm("P70i_is_documented_in") $document_s .
 			#set($information_obj_s = "#uri('E73_Information_Object' $resource_id)")
 			$information_obj_s $is_a #ecrm('E73_Information_Object') . 
 			$information_obj_s $P2_has_type #aliadaconcept('web_resource') . 
+	    	$information_obj_s $rdfs_label "$linkResourceText" .
 			$information_obj_s #ecrm('P149_is_identified_by') $uri . 
 			$resource_id_s #ecrm('P129i_is_subject_of') $information_obj_s .
 		#end 	
@@ -495,6 +509,7 @@ $main_subject #ecrm("P70i_is_documented_in") $document_s .
 						$conceptual_appellation_s $P3_has_note "$function.escape($conceptID.textContent)" . 
 						$information_object_s $is_a #ecrm('E73_Information_Object') . 
 						$information_object_s $P2_has_type #aliadaconcept('web_resource') . 
+				    	$information_object_s $rdfs_label "$function.escape($conceptID.textContent)" .
 						$information_object_s #ecrm('P149_is_identified_by') $conceptual_appellation_s . 
 						$right_s #ecrm('P129i_is_subject_of') $information_object_s . 
 					#end	

@@ -1,5 +1,6 @@
 ## SHORTCUTS
 #set($is_a = "#rdf('type')")
+#set($rdfs_label = "#rdfs('label')")
 #set($E41_Appellation = "#ecrm('E41_Appellation')")
 #set($E39_Actor = "#ecrm('E39_Actor')")
 #set($P3_has_note = "#ecrm('P3_has_note')") 
@@ -11,11 +12,13 @@ $c $is_a #ecrm('Ε75_Conceptual_Object_Appellation') .
 $c $P2_has_type #aliadaconcept("ISMN") . 
 $c $P3_has_note "$identifier.textContent" . 
 $s $is_a #ecrm('E73_Information_Object') .
+$s $rdfs_label "$identifier.textContent" .
 $s #ecrm("P1_is_identified_by") $c . 
 #set($title = $xpath.one("metadata/dc/title",$root))
 #set($title_s = "#uri('E73_Information_Object' $title.textContent)")
 $title_s $is_a #ecrm('E35_Title') . 
 $title_s $P3_has_note "$function.escape($title.textContent)" . 
+$s $rdfs_label "$function.escape($title.textContent)" .
 $s #ecrm('P102_has_title') $title_s .
 #set($root = $xpath.one("metadata/dc", $root))
 #set($creation_s = "")
@@ -27,12 +30,13 @@ $s #ecrm('P102_has_title') $title_s .
 		#set($creator_actor_appellation_s = "#uri('E82_Actor_Appellation' $value)") 	
 		#set($creator_actor_s = "#uri('E39_Actor' $value)")
 		#if(!$creation_s || $creation_s == "")
-			#set($creation_s = "#uri('E65_Creation' $value)")
+			#set($creation_s = "#new_uri('E65_Creation')")
 			$creation_s $is_a #ecrm('E65_Creation') . 
 		#end	
 		$creator_actor_appellation_s $is_a #ecrm('E82_Actor_Appellation') . 
 		$creator_actor_appellation_s $P3_has_note "$function.escape($value)" . 
 		$creator_actor_s $is_a #ecrm('E39_Actor') . 
+		$creator_actor_s $rdfs_label "$function.escape($value)" .
 		$creator_actor_s #ecrm('P131_is_identified_by') $creator_actor_appellation_s . 
 		$creation_s #ecrm('P14_carried_out_by') $creator_actor_s . 
 		$s #ecrm('P94i_was_created_by') $creation_s . 	
@@ -46,12 +50,13 @@ $s #ecrm('P102_has_title') $title_s .
 		#set($creator_actor_appellation_s = "#uri('E82_Actor_Appellation' $value)")
 		#set($creator_actor_s = "#uri('E39_Actor' $value)")
 		#if(!$creation_s || $creation_s == "")
-			#set($creation_s = "#uri('E65_Creation' $value)")
+			#set($creation_s = "#new_uri('E65_Creation')")
 			$creation_s $is_a #ecrm('E65_Creation') . 
 		#end	
 		$creator_actor_appellation_s $is_a #ecrm('E82_Actor_Appellation') . 
 		$creator_actor_appellation_s $P3_has_note "$function.escape($value)" . 
 		$creator_actor_s $is_a #ecrm('E39_Actor') . 
+		$creator_actor_s $rdfs_label "$function.escape($value)" .
 		$creator_actor_s #ecrm('P131_is_identified_by') $creator_actor_appellation_s . 
 		$creation_s #ecrm('P14_carried_out_by') $creator_actor_s . 
 		$s #ecrm('P94i_was_created_by') $creation_s . 	
@@ -65,6 +70,7 @@ $s #ecrm('P102_has_title') $title_s .
 	$date_s $P3_has_note "$d.textContent" . 
 	#set($time_span_s = "#new_uri('E52_Time-Span')") 
 	$time_span_s $is_a #ecrm("E52_Time-Span") . 
+	$time_span_s $rdfs_label "$d.textContent" .
 	$time_span_s #ecrm("P78_is_identified_by") $date_s . 
 	#if(!$creation_s || $creation_s == "")
 		#set($creation_s = "#new_uri('E65_Creation')") 
@@ -130,12 +136,13 @@ $s #ecrm('P102_has_title') $title_s .
 ## PUBLISHER
 #set($publishers = $xpath.many("publisher",$root))
 #foreach($publisher in $publishers) 
-	#set($publisher_s = "#uri('E12_Production' $publisher.textContent)") . 	
+	#set($publisher_s = "#new_uri('E12_Production')") . 	
 	#set($publisher_actor_s = "#uri('E39_Actor' $publisher.textContent)") . 	
 	#set($publisher_actor_appellation_s = "#uri('E82_Actor_Appellation' $publisher.textContent)") . 	
 	$publisher_actor_appellation_s $is_a #ecrm('E82_Actor_Appellation') . 
 	$publisher_actor_appellation_s $P3_has_note "$function.escape($publisher.textContent)" . 
 	$publisher_actor_s $is_a #ecrm('E39_Actor') . 
+	$publisher_actor_s $rdfs_label "$function.escape($publisher.textContent)" .
 	$publisher_actor_s #ecrm('P131_is_identified_by') $publisher_actor_appellation_s . 
 	$publisher_s $is_a #ecrm('E12_Production') . 
 	$publisher_s #ecrm('P14_carried_out_by') $publisher_actor_s . 

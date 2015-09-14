@@ -58,6 +58,11 @@
 	        		$actor $is_a #ecrm("E39_Actor") .
 		        	$owner_s $owner_p $actor .
 	        	#end
+	         	#if($lang && $lang.trim().length() > 0)
+		        	$actor $rdfs_label "$value"@$lang .
+		        #else
+		        	$actor $rdfs_label "$value" .
+	        	#end
 	        	$actor #ecrm("P131_is_identified_by") $repository_appellation .
 	        #end	
 			#set($lang = $xpath.value("@lang", $repositoryName))
@@ -73,6 +78,11 @@
         		$actor $is_a #ecrm("E39_Actor") .
 	        	$owner_s $owner_p $actor .
         	#end
+         	#if($lang && $lang.trim().length() > 0)
+	        	$actor $rdfs_label "$value"@$lang .
+	        #else
+	        	$actor $rdfs_label "$value" .
+        	#end
         	$actor #ecrm("P131_is_identified_by") $repository_appellation .
         #end		
         ## LEGAL BODY NAME END
@@ -87,6 +97,7 @@
             $conceptual_appellation_s $P3_has_note "$function.escape($weblink.textContent)" .
             $information_object_s $is_a #ecrm("E73_Information_Object") .
             $information_object_s $P2_has_type $web_resource_s . 
+         	$information_object_s $rdfs_label "$function.escape($weblink.textContent)" .
             $information_object_s #ecrm("P149_is_identified_by") $conceptual_appellation_s . 
         	#if($actor != "")
 				$actor #ecrm("P129i_is_subject_of") $information_object_s .
@@ -102,6 +113,7 @@
 			$id_s $P3_has_note "$value" . 
 			$id_s $P2_has_type #aliada('LocalIdentifier') .
         	#if($actor != "")
+	         	$actor $rdfs_label "$value" .
 				$actor #ecrm('P48_has_preferred_identifier') $id_s .
         	#end
 		#end	
