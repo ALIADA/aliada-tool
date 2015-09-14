@@ -23,6 +23,8 @@ import com.hp.hpl.jena.sparql.util.FmtUtils;
 
 import eu.aliada.rdfizer.datasource.Cache;
 import eu.aliada.rdfizer.datasource.rdbms.JobInstance;
+import eu.aliada.rdfizer.pipeline.format.marc.frbr.cluster.Cluster;
+import eu.aliada.rdfizer.pipeline.format.marc.frbr.cluster.ClusterService;
 import eu.aliada.rdfizer.pipeline.format.xml.XPath;
 import eu.aliada.rdfizer.pipeline.nlp.NERSingletonService;
 import eu.aliada.shared.ID;
@@ -48,6 +50,21 @@ public class Function {
 	
 	@Autowired
 	private NERSingletonService ner;
+	
+	@Autowired
+	private ClusterService clusterService;
+	
+	public Cluster getCluster(final String heading) {
+		return clusterService.getCluster(heading);
+	}
+	
+	public boolean hasBeenAlreadyProcessed(final Cluster cluster) {
+		return clusterService.alreadyProcessed(cluster.getId());
+	}
+	
+	public void markAsProcessed(final Cluster cluster) {
+		clusterService.markAsProcessed(cluster.getId());
+	}
 	
 	/**
 	 * Returns a new generated UID.

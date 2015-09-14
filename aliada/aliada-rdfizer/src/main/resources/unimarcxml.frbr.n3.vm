@@ -186,7 +186,7 @@ $expression_s #efrbroo('R4_carriers_provided_by') $manifestation_s .
 		$F24_Publication_Expression
 		"F24_Publication_Expression" 
 		"#ecrm('P94_was_created_by')" 
-		"#efrbroo('F30_Publication_Event')")
+		"#efrbroo('F30_Publication_Event')"
 		"F30_Publication_Event" 
 		"#ecrm('P14_carried_out_by')" 
 		"#ecrm('E39_Actor')" 
@@ -301,25 +301,40 @@ $expression_s #efrbroo('R4_carriers_provided_by') $manifestation_s .
 			#foreach($uri in $uris)
 				#set($field = $fields.get($velocityCount))
 				#if ($field)
-	        		#set($person_s = "#uri_literal('E21_Person' $uri)")
-	        		$person_s $is_a #ecrm('E21_Person') .
-					#set($name = $xpath.combine($field, "abdcg"))
-					#one($person_s $P131_is_identified_by $E82_Actor_Appellation "E82_Actor_Appellation" $P3_has_note $name)
-					#set($v = $xpath.combine($field, "f"))
-					#two(
-						$person_s 
-						$P131_is_identified_by  
-						$F50_Controlled_Access_Point  
-						"F50_Controlled_Access_Point" 
-						"#ecrm('R8_consists_of')" 
-						$E90_Symbolic_Object  
-						"E90_Symbolic_Object" 
-						$P3_has_note 
-						$v)
-					#set($v = $xpath.combine($field, "p"))	
-                    #if($function.isNotNullAndNotEmpty($v)) 
-						#one($person_s "#ecrm('P107i_is_current_or_former_member')" $E74_Group "E74_Group" $P3_has_note $v)
-                    #end	
+					#set($cluster = $function.getCluster($uri))
+					#if($cluster)
+						#set($person_s = "#uri_literal('E21_Person' $cluster.id)")
+						#set($alreadyProcessed = $function.hasBeenAlreadyProcessed($cluster))
+					#else 
+		        		#set($person_s = "#uri('E21_Person' $uri)")
+					#end
+					#if ($alreadyProcessed)
+						$person_s #ecrm("P94_has_created") $work_s . 
+					#else 
+						$person_s #ecrm("P94_has_created") $work_s . 
+		        		$person_s $is_a #ecrm('E21_Person') .  
+		        		$person_s $is_a #ecrm('E65_Creation') .
+						#set($name = $xpath.combine($field, "abdcg"))
+						#one($person_s $P131_is_identified_by $E82_Actor_Appellation "E82_Actor_Appellation" $P3_has_note $name)
+						#set($v = $xpath.combine($field, "f"))
+						#two(
+							$person_s 
+							$P131_is_identified_by  
+							$F50_Controlled_Access_Point  
+							"F50_Controlled_Access_Point" 
+							"#ecrm('R8_consists_of')" 
+							$E90_Symbolic_Object  
+							"E90_Symbolic_Object" 
+							$P3_has_note 
+							$v)
+						#set($v = $xpath.combine($field, "p"))	
+	                    #if($function.isNotNullAndNotEmpty($v)) 
+							#one($person_s "#ecrm('P107i_is_current_or_former_member')" $E74_Group "E74_Group" $P3_has_note $v)
+	                    #end	
+	                    #if ($cluster) 
+	                    	$function.markAsProcessed($cluster)
+	                    #end
+	                #end 
 				#end	
 			#end	
     	#end	
