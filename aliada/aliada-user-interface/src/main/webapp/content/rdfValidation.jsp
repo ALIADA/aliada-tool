@@ -171,8 +171,8 @@
 		
 		$(function(){
 			
-			var isAuth = $("#auth").val();	
-			var isObj = $("#obj").val();
+			var isAuth = $("#auth").val();
+			var isObj = $("#objs").val();
 			var isManifs = $("#mani").val();	
 			var isWorks = $("#wor").val();	
 			var q = $("#queries").val();
@@ -224,7 +224,7 @@
 
 	<html:hidden id="loc" name="loc" value="%{getLocale().getISO3Language()}" />
 	<html:hidden id="auth" name="authors" value="%{auth}" />
-	<html:hidden id="obj" name="objects" value="%{obj}" />
+	<html:hidden id="objs" name="objects" value="%{objs}" />
 	<html:hidden id="mani" name="mani" value="%{mani}" />
 	<html:hidden id="wor" name="wor" value="%{works}" />
 	<html:hidden id="queries" name="queries" value="%{queries}" />
