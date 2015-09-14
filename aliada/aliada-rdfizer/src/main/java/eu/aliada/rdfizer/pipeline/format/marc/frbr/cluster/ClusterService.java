@@ -10,7 +10,6 @@ import java.util.Set;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import com.googlecode.concurrentlinkedhashmap.ConcurrentLinkedHashMap;
@@ -33,9 +32,11 @@ public class ClusterService {
 		if (cluster == null) {
 			cluster = loadCluster(heading);
 			if (cluster != null) {
+				
 				cache.put(heading, cluster);
 			}
 		}
+		System.err.println("HEADING " + heading + " = " + (cluster != null ? "" + cluster.getId() : "NESSUN CLUSTER"));
 		return cluster;
 	}
 	
@@ -54,7 +55,6 @@ public class ClusterService {
 					+ "where name = ?)");
 			statement.setString(1, heading);
 			rs = statement.executeQuery();
-			int clusterId = -1;
 			Cluster cluster = null;
 			while (rs.next()) {
 				if (cluster == null) {

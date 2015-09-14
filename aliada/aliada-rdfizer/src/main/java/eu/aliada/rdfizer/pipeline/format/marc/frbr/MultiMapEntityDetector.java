@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import org.w3c.dom.Document;
 
 import eu.aliada.rdfizer.pipeline.format.marc.selector.Expression;
+import eu.aliada.shared.Strings;
 
 @Component
 public class MultiMapEntityDetector extends AbstractEntityDetector<Map<String, List<String>>>{
@@ -62,7 +63,7 @@ public class MultiMapEntityDetector extends AbstractEntityDetector<Map<String, L
 			final List<String> uris = new ArrayList<String>(headings.size());
 			
 			for (final String heading : headings) {
-				uris.add(useLiteralValueAsIdentifier ? heading : identifier(entityKind(), heading));
+				uris.add(useLiteralValueAsIdentifier ? heading : identifier(entityKind(), Strings.clean(heading)));
 			}
 			
 			result.put(tag, uris);

@@ -16,8 +16,6 @@ import org.w3c.dom.Attr;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-
-import static eu.aliada.shared.Strings.clean;
 /**
  * A composite expression that selects the multiple not-null evaluation of a set of expressions.
  * 
@@ -127,7 +125,7 @@ public class AllMultipleMatches<K> implements Expression<Map<String, List<String
 		if(list == null) {
 			list = new ArrayList<String>();
 		}
-		list.add(clean(value));
+		list.add(value);
 		map.put(tag, list);
 	}
 	
