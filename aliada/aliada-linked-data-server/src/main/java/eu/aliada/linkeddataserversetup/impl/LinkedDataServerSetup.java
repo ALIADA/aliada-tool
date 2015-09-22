@@ -285,6 +285,25 @@ public class LinkedDataServerSetup {
 	 */
 	public boolean executeSubsetIsqlCommands(final JobConfiguration jobConf, final Subset subset) {
 		boolean success = false;
+
+		//Encode subset graphs
+		String subgraphsSelectEncoded = "";
+		String subgraphsEncoded = "";
+		try	{
+			final String graphSelectEncoded = URLEncoder.encode(" FROM <" + subset.getGraph() + ">", "UTF-8");
+			String linksGraphSelectEncoded = URLEncoder.encode(" FROM <" + subset.getLinksGraph() + ">", "UTF-8");
+			subgraphsSelectEncoded = graphSelectEncoded + linksGraphSelectEncoded;
+			
+			String graphEncoded = "";
+			graphEncoded = "&graph" + URLEncoder.encode("=" + subset.getGraph(), "UTF-8");
+			final String linksGraphEncoded = URLEncoder.encode("&graph=" + subset.getLinksGraph(), "UTF-8");
+			subgraphsEncoded = graphEncoded + linksGraphEncoded;
+			
+			subgraphsSelectEncoded = subgraphsSelectEncoded.replace("%", "%%");
+			subgraphsEncoded = subgraphsEncoded.replace("%", "%%");
+		} catch (UnsupportedEncodingException exception){
+			LOGGER.error(MessageCatalog._00038_ENCODING_ERROR, exception);
+		}
 		
 		//Get global ISQL commands file for rewriting rules in Virtuoso
 		LOGGER.debug(MessageCatalog._00036_GET_ISQL_COMMANDS_FILE);
@@ -329,8 +348,8 @@ public class LinkedDataServerSetup {
 					jobConf.getStoreSqlPort(), jobConf.getSqlLogin(),
 					jobConf.getSqlPassword(), isqlCommandsFilename,
 					jobConf.getListeningHost(), jobConf.getVirtualHost(),
-					uriIdPart,  uriDocSlash, uriDefPart, graphsSelectEncoded,
-					graphsEncoded, domainNameEncoded, rulesNamesSuffixSubset,
+					uriIdPart,  uriDocSlash, uriDefPart, subgraphsSelectEncoded,
+					subgraphsEncoded, domainNameEncoded, rulesNamesSuffixSubset,
 					uriDocConceptSubset, DATASET_INDEX_PAGE, ontologyEncoded, 
 					uriIdPartEncoded, createVirtualPath, urrlListSubset,
 					rulesNamessuffixDataset, uriDocConceptParent);
