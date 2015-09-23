@@ -36,7 +36,6 @@ public class ClusterService {
 				cache.put(heading, cluster);
 			}
 		}
-		System.err.println("HEADING " + heading + " = " + (cluster != null ? "" + cluster.getId() : "NESSUN CLUSTER"));
 		return cluster;
 	}
 	
