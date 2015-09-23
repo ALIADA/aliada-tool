@@ -372,6 +372,17 @@ $expression_s #efrbroo('R4_carriers_provided_by') $manifestation_s .
 						$corporate_body_s #ecrm("P94_has_created") $work_s . 
 					#else
 						#if ($cluster) 
+							#foreach($entry in $cluster.entries)
+								#set($sameas_uri = $entry.entrySet().iterator().next());
+								#if($sameas_uri)
+									#set($name = $entry.get($sameas_uri))
+									#if (!$sameas_uri.startsWith("http"))
+										#set($sameas_uri = "#prefix${sameas_uri}") 
+									#end
+									$sameas_uri $is_a #ecrm('F11_Corporate_Body') .  
+									#one($sameas_uri $P131_is_identified_by $E82_Actor_Appellation "E82_Actor_Appellation" $P3_has_note $name)								
+								#end	
+							#end								
 	                    	$function.markAsProcessed($cluster)
 	                    #end
 						$corporate_body_s $is_a #efrbroo('F11_Corporate_Body')
