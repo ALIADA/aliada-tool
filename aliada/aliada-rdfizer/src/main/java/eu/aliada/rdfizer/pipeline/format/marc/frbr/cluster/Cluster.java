@@ -23,4 +23,8 @@ public final class Cluster {
 		entry.put(id, label);
 		entries.add(entry);
 	}
+	
+	public List<Map<String, String>> getEntries() {
+		return entries;
+	}
 }
