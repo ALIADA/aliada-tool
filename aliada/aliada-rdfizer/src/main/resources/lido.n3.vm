@@ -46,14 +46,18 @@ $main_subject #ecrm("P70i_is_documented_in") $document_s .
 #end	
 ## OBJECT ID END
 ## OBJECT INSCRIPTIONS BEGIN
-#set($inscriptions = $xpath.many("descriptiveMetadata/objectIdentificationWrap/inscriptionsWrap/inscriptions/inscriptionDescription/descriptiveNoteValue",$root))
-#foreach($inscription in $inscriptions)
-	#set($inscval = $function.escape($inscription.textContent))
-	#set($P65_shows_visual_item = "#ecrm('P65_shows_visual_item')")
-   	#set($inscription_name_s = "#uri_with_strong_normalization('E36_Visual_Item' $inscval)")
-   	$inscription_name_s $is_a #ecrm("E36_Visual_Item") .
-	$inscription_name_s $P3_has_note "$inscval" .
-	$main_subject $P65_shows_visual_item $inscription_name_s .
+#set($inscriptionsWrap = $xpath.one("descriptiveMetadata/objectIdentificationWrap/inscriptionsWrap",$root))
+#set($inscriptionsWrapValue = $inscriptionsWrap.textContent)
+#if ($function.isNotNullAndNotEmpty($inscriptionsWrapValue))
+	#set($inscriptions = $xpath.many("descriptiveMetadata/objectIdentificationWrap/inscriptionsWrap/inscriptions/inscriptionDescription/descriptiveNoteValue",$root))
+	#foreach($inscription in $inscriptions)
+		#set($inscval = $function.escape($inscription.textContent))
+		#set($P65_shows_visual_item = "#ecrm('P65_shows_visual_item')")
+	   	#set($inscription_name_s = "#uri_with_strong_normalization('E36_Visual_Item' $inscval)")
+	   	$inscription_name_s $is_a #ecrm("E36_Visual_Item") .
+		$inscription_name_s $P3_has_note "$inscval" .
+		$main_subject $P65_shows_visual_item $inscription_name_s .
+	#end	
 #end	
 ## OBJECT INSCRIPTIONS END
 ## REPOSITORY BEGIN
@@ -102,25 +106,35 @@ $main_subject #ecrm("P70i_is_documented_in") $document_s .
     #end    
 #end
 ## REPOSITORY LOCATION END
+## OBJECT DISPLAY BEGIN
+#set($displayStateEditionWrap = $xpath.one("descriptiveMetadata/objectIdentificationWrap/displayStateEditionWrap",$root))
+#set($displayStateEditionWrapValue = $displayStateEditionWrap.textContent)
+#if ($function.isNotNullAndNotEmpty($displayStateEditionWrapValue))
 ## OBJECT DISPLAY STATE BEGIN
-#set($displayStates = $xpath.many("descriptiveMetadata/objectIdentificationWrap/displayStateEditionWrap/displayState",$root))
-#foreach($displayState in $displayStates)
-	#set($value = $function.escape($displayState.textContent))
-	$main_subject $P3_has_note "$value" .
-#end	
+	#set($displayStates = $xpath.many("descriptiveMetadata/objectIdentificationWrap/displayStateEditionWrap/displayState",$root))
+	#foreach($displayState in $displayStates)
+		#set($value = $function.escape($displayState.textContent))
+		$main_subject $P3_has_note "$value" .
+	#end	
 ## OBJECT DISPLAY STATE END
 ## OBJECT DISPLAY EDITION BEGIN
-#set($displayEditions = $xpath.many("descriptiveMetadata/objectIdentificationWrap/displayStateEditionWrap/displayEdition",$root))
-#foreach($displayEdition in $displayEditions)
-	#set($value = $function.escape($displayEdition.textContent))
-	$main_subject $P3_has_note "$value" .
-#end	
+	#set($displayEditions = $xpath.many("descriptiveMetadata/objectIdentificationWrap/displayStateEditionWrap/displayEdition",$root))
+	#foreach($displayEdition in $displayEditions)
+		#set($value = $function.escape($displayEdition.textContent))
+		$main_subject $P3_has_note "$value" .
+	#end	
 ## OBJECT DISPLAY EDITION END
+#end	
+## OBJECT DISPLAY END
 ## OBJECT DESCRIPTION BEGIN
-#set($descriptions = $xpath.many("descriptiveMetadata/objectIdentificationWrap/objectDescriptionWrap/objectDescriptionSet/descriptiveNoteValue",$root))
-#foreach($description in $descriptions)
-	#set($descval = $function.escape($description.textContent))
-	$main_subject $P3_has_note "$descval" .
+#set($objectDescriptionWrap = $xpath.one("descriptiveMetadata/objectIdentificationWrap/objectDescriptionWrap",$root))
+#set($objectDescriptionWrapValue = $objectDescriptionWrap.textContent)
+#if ($function.isNotNullAndNotEmpty($objectDescriptionWrapValue))
+	#set($descriptions = $xpath.many("descriptiveMetadata/objectIdentificationWrap/objectDescriptionWrap/objectDescriptionSet/descriptiveNoteValue",$root))
+	#foreach($description in $descriptions)
+		#set($descval = $function.escape($description.textContent))
+		$main_subject $P3_has_note "$descval" .
+	#end	
 #end	
 #mn_it_lido_ner($descriptions $main_subject)
 ## OBJECT DESCRIPTION END
@@ -392,13 +406,17 @@ $main_subject #ecrm("P70i_is_documented_in") $document_s .
 ## EVENT TYPES END
 ## EVENTS END
 ## RIGHT WORK START
-#set($credit_lines = $xpath.many("administrativeMetadata/rightsWorkWrap/rightsWorkSet/creditLine", $root))
-#foreach($credit_line in $credit_lines)
-	#set($value = $function.escape($credit_line.textContent))
-	#set($credit_line_s = "#uri('E30_Right' $value)")
-	$credit_line_s $is_a #ecrm('E30_Right') . 
-	$credit_line_s $P3_has_note "$value" . 
-	$main_subject  #ecrm('P104_is_subject_to') $credit_line_s .	
+#set($rightsWorkWrap = $xpath.one("administrativeMetadata/rightsWorkWrap",$root))
+#set($rightsWorkWrapValue = $rightsWorkWrap.textContent)
+#if ($function.isNotNullAndNotEmpty($rightsWorkWrapValue))
+	#set($credit_lines = $xpath.many("administrativeMetadata/rightsWorkWrap/rightsWorkSet/creditLine", $root))
+	#foreach($credit_line in $credit_lines)
+		#set($value = $function.escape($credit_line.textContent))
+		#set($credit_line_s = "#uri('E30_Right' $value)")
+		$credit_line_s $is_a #ecrm('E30_Right') . 
+		$credit_line_s $P3_has_note "$value" . 
+		$main_subject  #ecrm('P104_is_subject_to') $credit_line_s .	
+	#end	
 #end	
 ## RIGHT WORK END
 ## RECORD WRAP START
