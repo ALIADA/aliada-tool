@@ -51,7 +51,8 @@ public class ExtDatasetsAction extends ActionSupport {
         	Connection connection = new DBConnectionManager().getConnection();
 			Statement statement = connection.createStatement();
 			
-			ResultSet rs = statement.executeQuery("select * from aliada.t_external_dataset where language = '" + getLocale().getISO3Language() + "'");
+			ResultSet rs = statement.executeQuery("select * FROM aliada.t_external_dataset where language = '" 
+			+ getLocale().getISO3Language() + "' AND external_dataset_linkingfile IS NOT NULL");
 			
 	        externalDatasets = new HashMap<Integer, String>();
 	        while (rs.next()) {
