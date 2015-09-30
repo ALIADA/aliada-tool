@@ -175,7 +175,7 @@ DB.DBA.URLREWRITE_CREATE_REGEX_RULE (
 '/$u{uri_id}/([^#]*)', 
 vector ('par_1'), 
 1, 
-'$u{uri_doc_slash}%s.ttl', 
+'$u{uri_doc_slash}%s', 
 vector ('par_1', '*accept*'), 
 NULL, 
 '(text/rdf.n3)', 
@@ -189,7 +189,7 @@ DB.DBA.URLREWRITE_CREATE_REGEX_RULE (
 '/$u{uri_id}/([^#]*)', 
 vector ('par_1'), 
 1, 
-'$u{uri_doc_slash}%s.rdf', 
+'$u{uri_doc_slash}%s', 
 vector ('par_1', '*accept*'), 
 NULL, 
 '(application/rdf.xml)', 
@@ -203,7 +203,7 @@ DB.DBA.URLREWRITE_CREATE_REGEX_RULE (
 '/$u{uri_id}/([^#]*)', 
 vector ('par_1'), 
 1, 
-'$u{uri_doc_slash}%s.json', 
+'$u{uri_doc_slash}%s', 
 vector ('par_1', '*accept*'), 
 NULL, 
 '(application/rdf.json)', 
@@ -217,7 +217,7 @@ DB.DBA.URLREWRITE_CREATE_REGEX_RULE (
 '/$u{uri_id}/([^#]*)', 
 vector ('par_1'), 
 1, 
-'$u{uri_doc_slash}%s.html', 
+'$u{uri_doc_slash}%s', 
 vector ('par_1', '*accept*'), 
 NULL, 
 '(text/html)', 
@@ -320,7 +320,7 @@ DB.DBA.VHOST_DEFINE (
 DB.DBA.URLREWRITE_CREATE_RULELIST ( 
 'http_rule_list_$u{rules_suffix}_Doc', 1, 
   vector ('http_rule_$u{rules_suffix}_Doc_list_no_extension_rdf', 'http_rule_$u{rules_suffix}_Doc_list_no_extension_others', 'http_rule_$u{rules_suffix}_Doc_no_extension_rdf', 'http_rule_$u{rules_suffix}_Doc_no_extension_htmlvirtuoso', 
-  'http_rule_$u{rules_suffix}_Doc_extension_n3', 'http_rule_$u{rules_suffix}_Doc_extension_xml', 'http_rule_$u{rules_suffix}_Doc_extension_json', 'http_rule_$u{rules_suffix}_Doc_extension_html', 'http_rule_$u{rules_suffix}_Doc_extension_opac'));
+  'http_rule_$u{rules_suffix}_Doc_extension_n3', 'http_rule_$u{rules_suffix}_Doc_extension_xml', 'http_rule_$u{rules_suffix}_Doc_extension_json', 'http_rule_$u{rules_suffix}_Doc_extension_jsonld', 'http_rule_$u{rules_suffix}_Doc_extension_nt', 'http_rule_$u{rules_suffix}_Doc_extension_html', 'http_rule_$u{rules_suffix}_Doc_extension_opac'));
 
 	
 --List URI-s of a dataset
@@ -414,12 +414,12 @@ DB.DBA.URLREWRITE_CREATE_REGEX_RULE (
 '($u{uri_doc_slash})([^#]*)', 
 vector ('par_1', 'par_2'),  
 2, 
-'/describe/?uri=http%%3A%%2F%%2F$u{domain_name_encoded}%%2F$u{uri_id_encoded}%%2F%s$u{graphs_encoded}', 
+'/fct/rdfdesc/description.vsp?g=http%%3A%%2F%%2F$u{domain_name_encoded}%%2F$u{uri_id_encoded}%%2F%s$u{graphs_encoded}', 
 vector ('par_2'), 
 NULL, 
 '(text/html)|(\\*/\\*)', 
 2, 
-303, 
+0, 
 '' 
 );
 
@@ -466,16 +466,44 @@ NULL,
 );
 
 DB.DBA.URLREWRITE_CREATE_REGEX_RULE ( 
-'http_rule_$u{rules_suffix}_Doc_extension_html', 1, 
-'($u{uri_doc_slash})([^#]*)\\.(html)', 
+'http_rule_$u{rules_suffix}_Doc_extension_jsonld', 1, 
+'($u{uri_doc_slash})([^#]*)\\.(jsonld)', 
 vector ('par_1', 'par_2', 'par_3'),
 3, 
-'/describe/?uri=http%%3A%%2F%%2F$u{domain_name_encoded}%%2F$u{uri_id_encoded}%%2F%s$u{graphs_encoded}', 
+'/sparql?query=define%%20sql%%3Adescribe-mode%%20%%22LOD%%22%%20DESCRIBE%%20%%3Chttp%%3A%%2F%%2F$u{domain_name_encoded}%%2F$u{uri_id_encoded}%%2F%U%%3E%%20$u{graphs_select_encoded}&output=application%%2Fld%%2Bjson', 
 vector ('par_2'), 
 NULL, 
 NULL, 
 2, 
-303, 
+0, 
+'' 
+);
+
+DB.DBA.URLREWRITE_CREATE_REGEX_RULE ( 
+'http_rule_$u{rules_suffix}_Doc_extension_nt', 1, 
+'($u{uri_doc_slash})([^#]*)\\.(nt)', 
+vector ('par_1', 'par_2', 'par_3'),
+3, 
+'/sparql?query=define%%20sql%%3Adescribe-mode%%20%%22LOD%%22%%20DESCRIBE%%20%%3Chttp%%3A%%2F%%2F$u{domain_name_encoded}%%2F$u{uri_id_encoded}%%2F%U%%3E%%20$u{graphs_select_encoded}&output=text%%2Fplain', 
+vector ('par_2'), 
+NULL, 
+NULL, 
+2, 
+0, 
+'' 
+);
+
+DB.DBA.URLREWRITE_CREATE_REGEX_RULE ( 
+'http_rule_$u{rules_suffix}_Doc_extension_html', 1, 
+'($u{uri_doc_slash})([^#]*)\\.(html)', 
+vector ('par_1', 'par_2', 'par_3'),
+3, 
+'/fct/rdfdesc/description.vsp?g=http%%3A%%2F%%2F$u{domain_name_encoded}%%2F$u{uri_id_encoded}%%2F%s$u{graphs_encoded}', 
+vector ('par_2'), 
+NULL, 
+NULL, 
+2, 
+0, 
 '' 
 );
 
@@ -484,12 +512,12 @@ DB.DBA.URLREWRITE_CREATE_REGEX_RULE (
 '($u{uri_doc_slash})([^#]*)\\.(opac)', 
 vector ('par_1', 'par_2', 'par_3'),
 3, 
-'/describe/?uri=http%%3A%%2F%%2F$u{domain_name_encoded}%%2F$u{uri_id_encoded}%%2F%s$u{graphs_encoded}', 
+'/fct/rdfdesc/description.vsp?g=http%%3A%%2F%%2F$u{domain_name_encoded}%%2F$u{uri_id_encoded}%%2F%s$u{graphs_encoded}', 
 vector ('par_2'), 
 NULL, 
 NULL, 
 2, 
-303, 
+0, 
 '' 
 );
 
