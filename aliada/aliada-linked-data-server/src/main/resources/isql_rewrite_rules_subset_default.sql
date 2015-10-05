@@ -120,6 +120,34 @@ NULL,
 '' 
 );
 
+DB.DBA.URLREWRITE_CREATE_REGEX_RULE ( 
+'http_rule_$u{rules_suffix}_Doc_list_extension_jsonld', 1, 
+'/($u{uri_doc_concept})\\.(jsonld)', 
+vector ('par_1', 'par_2'),
+2, 
+'/sparql?query=define%%20sql%%3Adescribe-mode%%20%%22LOD%%22%%20DESCRIBE%%20%%3Fa%%20$u{graphs_select_encoded}%%20WHERE%%20%%7B%%3Fa%%20%%3Fb%%20%%3Fc%%7D&output=application%%2Fld%%2Bjson', 
+vector ('par_1'), 
+NULL, 
+NULL, 
+1, 
+0, 
+'' 
+);
+
+DB.DBA.URLREWRITE_CREATE_REGEX_RULE ( 
+'http_rule_$u{rules_suffix}_Doc_list_extension_nt', 1, 
+'/($u{uri_doc_concept})\\.(nt)', 
+vector ('par_1', 'par_2'),
+2, 
+'/sparql?query=define%%20sql%%3Adescribe-mode%%20%%22LOD%%22%%20DESCRIBE%%20%%3Fa%%20$u{graphs_select_encoded}%%20WHERE%%20%%7B%%3Fa%%20%%3Fb%%20%%3Fc%%7D&output=text%%2Fplain', 
+vector ('par_1'), 
+NULL, 
+NULL, 
+1, 
+0, 
+'' 
+);
+
 --Doc URI-s	
 DB.DBA.URLREWRITE_CREATE_REGEX_RULE ( 
 'http_rule_$u{rules_suffix}_Doc_no_extension_rdf', 1, 

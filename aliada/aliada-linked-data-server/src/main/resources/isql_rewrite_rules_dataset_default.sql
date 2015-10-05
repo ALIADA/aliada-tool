@@ -2,7 +2,7 @@ CREATE PROCEDURE associate_list_ext_rules_to_virtpath (IN create_virtual_path IN
 {
 --It associates LIST rules, with extension, to parent folder (if not existing, it creates the parent folder)
   DECLARE p_urrl_inx INTEGER;
-  DECLARE urrl_member_1, urrl_member_2, urrl_member_3 VARCHAR;
+  DECLARE urrl_member_1, urrl_member_2, urrl_member_3, urrl_member_4, urrl_member_5 VARCHAR;
   DECLARE p_urrl_list VARCHAR;
   IF (urrl_list_subset > 0)
     {
@@ -16,6 +16,8 @@ CREATE PROCEDURE associate_list_ext_rules_to_virtpath (IN create_virtual_path IN
   urrl_member_1:= sprintf ('http_rule_%s_Doc_list_extension_n3', rules_suffix);
   urrl_member_2 := sprintf ('http_rule_%s_Doc_list_extension_xml', rules_suffix);
   urrl_member_3 := sprintf ('http_rule_%s_Doc_list_extension_json', rules_suffix);
+  urrl_member_4 := sprintf ('http_rule_%s_Doc_list_extension_jsonld', rules_suffix);
+  urrl_member_5 := sprintf ('http_rule_%s_Doc_list_extension_nt', rules_suffix);
   IF(create_virtual_path > 0)
     {
 --Create new Virtual Path, including the List with extension rules
@@ -29,7 +31,7 @@ CREATE PROCEDURE associate_list_ext_rules_to_virtpath (IN create_virtual_path IN
       DB.DBA.VHOST_DEFINE (lhost=>lhost, vhost=>vhost, lpath=>lpath, ppath=>ppath, is_dav=>1, def_page=>'', vsp_user=>'dba', ses_vars=>0, opts=>vector ('browse_sheet', '', 'url_rewrite', rules_list_name), is_default_host=>0);
 
       DB.DBA.URLREWRITE_CREATE_RULELIST (rules_list_name, 1, 
-  vector (urrl_member_1, urrl_member_2, urrl_member_3));
+  vector (urrl_member_1, urrl_member_2, urrl_member_3, urrl_member_4, urrl_member_5));
     }
   ELSE
     {
@@ -41,6 +43,10 @@ CREATE PROCEDURE associate_list_ext_rules_to_virtpath (IN create_virtual_path IN
       INSERT INTO DB.DBA.URL_REWRITE_RULE_LIST (URRL_LIST, URRL_INX, URRL_MEMBER) VALUES (p_urrl_list, p_urrl_inx, urrl_member_2);
       p_urrl_inx := p_urrl_inx + 1;
       INSERT INTO DB.DBA.URL_REWRITE_RULE_LIST (URRL_LIST, URRL_INX, URRL_MEMBER) VALUES (p_urrl_list, p_urrl_inx, urrl_member_3);
+      p_urrl_inx := p_urrl_inx + 1;
+      INSERT INTO DB.DBA.URL_REWRITE_RULE_LIST (URRL_LIST, URRL_INX, URRL_MEMBER) VALUES (p_urrl_list, p_urrl_inx, urrl_member_4);
+      p_urrl_inx := p_urrl_inx + 1;
+      INSERT INTO DB.DBA.URL_REWRITE_RULE_LIST (URRL_LIST, URRL_INX, URRL_MEMBER) VALUES (p_urrl_list, p_urrl_inx, urrl_member_5);
     }
 };
 
@@ -386,6 +392,34 @@ DB.DBA.URLREWRITE_CREATE_REGEX_RULE (
 vector ('par_1', 'par_2'),
 2, 
 '/sparql?query=define%%20sql%%3Adescribe-mode%%20%%22LOD%%22%%20DESCRIBE%%20%%3Fa%%20$u{graphs_select_encoded}%%20WHERE%%20%%7B%%3Fa%%20%%3Fb%%20%%3Fc%%7D&output=application%%2Frdf%%2Bjson', 
+vector ('par_1'), 
+NULL, 
+NULL, 
+1, 
+0, 
+'' 
+);
+
+DB.DBA.URLREWRITE_CREATE_REGEX_RULE ( 
+'http_rule_$u{rules_suffix}_Doc_list_extension_jsonld', 1, 
+'/($u{uri_doc_concept})\\.(jsonld)', 
+vector ('par_1', 'par_2'),
+2, 
+'/sparql?query=define%%20sql%%3Adescribe-mode%%20%%22LOD%%22%%20DESCRIBE%%20%%3Fa%%20$u{graphs_select_encoded}%%20WHERE%%20%%7B%%3Fa%%20%%3Fb%%20%%3Fc%%7D&output=application%%2Fld%%2Bjson', 
+vector ('par_1'), 
+NULL, 
+NULL, 
+1, 
+0, 
+'' 
+);
+
+DB.DBA.URLREWRITE_CREATE_REGEX_RULE ( 
+'http_rule_$u{rules_suffix}_Doc_list_extension_nt', 1, 
+'/($u{uri_doc_concept})\\.(nt)', 
+vector ('par_1', 'par_2'),
+2, 
+'/sparql?query=define%%20sql%%3Adescribe-mode%%20%%22LOD%%22%%20DESCRIBE%%20%%3Fa%%20$u{graphs_select_encoded}%%20WHERE%%20%%7B%%3Fa%%20%%3Fb%%20%%3Fc%%7D&output=text%%2Fplain', 
 vector ('par_1'), 
 NULL, 
 NULL, 
