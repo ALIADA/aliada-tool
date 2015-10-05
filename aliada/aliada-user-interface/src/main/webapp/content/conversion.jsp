@@ -156,10 +156,8 @@ $(function(){
 				<html:actionmessage/>
 				<div id="inf" class="mainsection">
 				 <span class="bold">
-				 	<html:text name="cleanGinf1"/></span><br>
+				 	<html:text name="cleanGinf1"/><br>
 				 	<html:text name="cleanGinf2"/>
-				 	<span class="bold"><html:text name="cleanGinf3"/></span><br>
-				 	<html:text name="cleanGinf4"/>
 				</div>
 			</html:form>
 		</div>	
@@ -198,11 +196,6 @@ $(function(){
 					</table>
 					
 					<div id="conversionButtons">
-						<div class="mainsectionRDF">
-						 	<html:text name="convInf1"/><br>
-						 	<html:text name="convInf2"/>
-						 	<span class="bold"><html:text name="convInf3"/></span><br>
-						</div>
 						<div class="buttons row">
 							<html:submit id="rdfizeButton" action="RDFize" disabled="true" cssClass="mediumButton button"
 								key="RDF-ize"/>
