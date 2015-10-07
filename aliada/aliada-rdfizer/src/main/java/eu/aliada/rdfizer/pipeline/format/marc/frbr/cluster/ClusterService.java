@@ -46,12 +46,7 @@ public class ClusterService {
 		
 		try {
 			connection = clusterDataSource.getConnection();
-			statement = connection.prepareStatement(
-					"select * "
-					+ "from clstr_grp "
-					+ "where clstr_id = (select distinct clstr_id "
-					+ "from clstr_grp "
-					+ "where name = ?)");
+			statement = connection.prepareStatement("select * from clstr_nme_grp where clstr_id = (select distinct clstr_id from bib_nme where norm_str_txt = ?)");
 			statement.setString(1, heading);
 			rs = statement.executeQuery();
 			Cluster cluster = null;
