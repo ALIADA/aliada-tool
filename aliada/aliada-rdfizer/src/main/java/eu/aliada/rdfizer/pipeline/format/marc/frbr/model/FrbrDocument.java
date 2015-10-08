@@ -11,6 +11,8 @@ import java.util.Map;
 
 import org.w3c.dom.Document;
 
+import eu.aliada.rdfizer.pipeline.format.marc.frbr.cluster.Cluster;
+
 /** 
  * A Value Object that encapsulates a MARC record and some FRBR concepts (i.e. entities URIs).
  * 
@@ -25,9 +27,9 @@ public final class FrbrDocument implements Serializable {
 	private final String workID;
 	private final String expressionID;
 	private final String manifestationID;
-	private final Map<String, List<String>> personID;
-	private final Map<String, List<String>> familyID;
-	private final Map<String, List<String>> corporateBodyID;
+	private final Map<String, List<Cluster>> personID;
+	private final Map<String, List<Cluster>> familyID;
+	private final Map<String, List<Cluster>> corporateBodyID;
 	private final Map<String, List<String>> itemID;
 	private final Map<String, List<String>> conceptID;
 	private final Map<String, List<String>> eventID;
@@ -51,9 +53,9 @@ public final class FrbrDocument implements Serializable {
 			final String workURI,
 			final String expressionURI,
 			final String manifestationURI,
-			final Map<String, List<String>> personURI, 
-			final Map<String, List<String>> familyURI,
-			final Map<String, List<String>> corporateBodyURI,
+			final Map<String, List<Cluster>> personURI, 
+			final Map<String, List<Cluster>> familyURI,
+			final Map<String, List<Cluster>> corporateBodyURI,
 			final Map<String, List<String>> itemURI,
 			final Map<String, List<String>> conceptURI,
 			final Map<String, List<String>> eventURI,
@@ -129,7 +131,7 @@ public final class FrbrDocument implements Serializable {
 	 * Return a map with tag as key and a List of String which represent the URIs.
 	 * @return the personURI
 	 */
-	public  Map<String, List<String>> getPersonID() {
+	public  Map<String, List<Cluster>> getPersonID() {
 		return personID;
 	}
 
@@ -137,7 +139,7 @@ public final class FrbrDocument implements Serializable {
 	 * Return a map with tag as key and a List of String which represent the URIs.
 	 * @return the familyURI
 	 */
-	public  Map<String, List<String>> getFamilyID() {
+	public  Map<String, List<Cluster>> getFamilyID() {
 		return familyID;
 	}
 
@@ -145,7 +147,7 @@ public final class FrbrDocument implements Serializable {
 	 * Return a map with tag as key and a List of String which represent the URIs.
 	 * @return the corporateBodyURI
 	 */
-	public  Map<String, List<String>> getCorporateBodyID() {
+	public  Map<String, List<Cluster>> getCorporateBodyID() {
 		return corporateBodyID;
 	}
 

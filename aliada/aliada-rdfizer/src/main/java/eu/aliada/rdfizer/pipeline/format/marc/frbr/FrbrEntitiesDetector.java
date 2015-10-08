@@ -5,8 +5,11 @@
 // Responsible: ALIADA Consortiums
 package eu.aliada.rdfizer.pipeline.format.marc.frbr;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.stream.Collectors;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Message;
@@ -16,9 +19,11 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.w3c.dom.Document;
 
 import eu.aliada.rdfizer.Constants;
+import eu.aliada.rdfizer.Function;
 import eu.aliada.rdfizer.datasource.Cache;
 import eu.aliada.rdfizer.datasource.rdbms.JobInstance;
 import eu.aliada.rdfizer.log.MessageCatalog;
+import eu.aliada.rdfizer.pipeline.format.marc.frbr.cluster.Cluster;
 import eu.aliada.rdfizer.pipeline.format.marc.frbr.model.FrbrDocument;
 import eu.aliada.rdfizer.pipeline.format.xml.NullObject;
 import eu.aliada.shared.log.Log;
@@ -74,6 +79,9 @@ public class FrbrEntitiesDetector implements Processor {
 	MultiMapEntityDetector placeDetector;
 	
 	@Autowired
+	private Function function;
+	
+	@Autowired
 	private Cache cache;
 	
 	@Override
@@ -123,16 +131,16 @@ public class FrbrEntitiesDetector implements Processor {
 				manifestationDetector.detect(target));
 	}	
 	
-	protected Map<String, List<String>> people(final Document target) {
-		return personDetector.detect(target);
+	protected Map<String, List<Cluster>> people(final Document target) {
+		return clusteredNames(target, personDetector);
 	}	
 	
-	protected Map<String, List<String>> families(final Document target) {
-		return familyDetector.detect(target);
+	protected Map<String, List<Cluster>> families(final Document target) {
+		return clusteredNames(target, familyDetector);
 	}			
 
-	protected Map<String, List<String>> corporates(final Document target) {
-		return corporateBodyDetector.detect(target);
+	protected Map<String, List<Cluster>> corporates(final Document target) {
+		return clusteredNames(target, corporateBodyDetector);
 	}		
 	
 	protected Map<String, List<String>> items(final Document target) {
@@ -171,4 +179,19 @@ public class FrbrEntitiesDetector implements Processor {
 				events(target),
 				places(target));
 	}
+	
+	Map<String, List<Cluster>> clusteredNames(final Document target, final MultiMapEntityDetector detector) {
+		final Map<String, List<String>> entities = detector.detect(target);
+		final Map<String, List<Cluster>> result = new HashMap<String, List<Cluster>>(entities.size());
+		for (final Entry<String, List<String>> entry : entities.entrySet()) {
+			result.put(
+					entry.getKey(), 
+					entry.getValue()
+						.stream()
+						.map(heading -> function.getNameCluster(heading))
+						.collect(Collectors.toList()));
+		}
+
+		return result;		
+	}		
 }

@@ -10,45 +10,47 @@
 		<constructor-arg>
 			<list>
 				<bean class="eu.aliada.rdfizer.pipeline.format.marc.selector.xml.VariableFieldExpression">
-					<constructor-arg value="500a" />
+					<constructor-arg value="5001" />
 				</bean>
+				<!-- 
 				<bean class="eu.aliada.rdfizer.pipeline.format.marc.selector.xml.VariableFieldExpression">
 					<constructor-arg value="501a" />
 				</bean>
+				-->
 				<bean class="eu.aliada.rdfizer.pipeline.format.marc.selector.xml.VariableFieldExpression">
-					<constructor-arg value="200a" />
+					<constructor-arg value="2001" />
 				</bean>				
 			</list>
 		</constructor-arg>
 	</bean>
 
-	<bean id="work-date" class="eu.aliada.rdfizer.pipeline.format.marc.selector.FirstMatch">
-		<constructor-arg>
-			<list>
-				<bean class="eu.aliada.rdfizer.pipeline.format.marc.selector.xml.VariableFieldExpression">
-					<constructor-arg value="500k" />
-				</bean>
-				<bean class="eu.aliada.rdfizer.pipeline.format.marc.selector.xml.VariableFieldExpression">
-					<constructor-arg value="501k" />
-				</bean>				
-			</list>
-		</constructor-arg>
-	</bean>
+<!-- 	<bean id="work-date" class="eu.aliada.rdfizer.pipeline.format.marc.selector.FirstMatch"> -->
+<!-- 		<constructor-arg> -->
+<!-- 			<list> -->
+<!-- 				<bean class="eu.aliada.rdfizer.pipeline.format.marc.selector.xml.VariableFieldExpression"> -->
+<!-- 					<constructor-arg value="500k" /> -->
+<!-- 				</bean> -->
+<!-- 				<bean class="eu.aliada.rdfizer.pipeline.format.marc.selector.xml.VariableFieldExpression"> -->
+<!-- 					<constructor-arg value="501k" /> -->
+<!-- 				</bean>				 -->
+<!-- 			</list> -->
+<!-- 		</constructor-arg> -->
+<!-- 	</bean> -->
 
-	<bean id="work-other-standard-identifier" class="eu.aliada.rdfizer.pipeline.format.marc.selector.FirstMatch">
-		<constructor-arg>
-			<list>
-				<bean
-					class="eu.aliada.rdfizer.pipeline.format.marc.selector.xml.VariableFieldExpression">
-					<constructor-arg value="500l" />
-				</bean>
-				<bean
-					class="eu.aliada.rdfizer.pipeline.format.marc.selector.xml.VariableFieldExpression">
-					<constructor-arg value="501l" />
-				</bean>
-			</list>
-		</constructor-arg>
-	</bean>
+<!-- 	<bean id="work-other-standard-identifier" class="eu.aliada.rdfizer.pipeline.format.marc.selector.FirstMatch"> -->
+<!-- 		<constructor-arg> -->
+<!-- 			<list> -->
+<!-- 				<bean -->
+<!-- 					class="eu.aliada.rdfizer.pipeline.format.marc.selector.xml.VariableFieldExpression"> -->
+<!-- 					<constructor-arg value="500l" /> -->
+<!-- 				</bean> -->
+<!-- 				<bean -->
+<!-- 					class="eu.aliada.rdfizer.pipeline.format.marc.selector.xml.VariableFieldExpression"> -->
+<!-- 					<constructor-arg value="501l" /> -->
+<!-- 				</bean> -->
+<!-- 			</list> -->
+<!-- 		</constructor-arg> -->
+<!-- 	</bean> -->
 	<bean id="expression-date" class="eu.aliada.rdfizer.pipeline.format.marc.selector.AllMatches">
 		<constructor-arg>
 			<list/>
@@ -119,12 +121,12 @@
 	</bean>
 	<bean id="workDetector" class="eu.aliada.rdfizer.pipeline.format.marc.frbr.WorkDetector">
 		<constructor-arg ref="work-uniform-title"/>
-		<constructor-arg>
-	      	<list>
-	      		<ref bean="work-date"/>
-	      		<ref bean="work-other-standard-identifier"/>
-	      	</list>
-		</constructor-arg>
+<!-- 		<constructor-arg> -->
+<!-- 	      	<list> -->
+<!-- 	      		<ref bean="work-date"/> -->
+<!-- 	      		<ref bean="work-other-standard-identifier"/> -->
+<!-- 	      	</list> -->
+<!-- 		</constructor-arg> -->
 	</bean>
 	<bean id="expressionDetector" class="eu.aliada.rdfizer.pipeline.format.marc.frbr.ExpressionDetector">
 		<constructor-arg>
@@ -147,13 +149,13 @@
 					<constructor-arg>
 	      				<list>
 							<bean class="eu.aliada.rdfizer.pipeline.format.marc.selector.xml.MultipleVariableFieldExpression">
-								<constructor-arg value="700()alpha" />
+								<constructor-arg value="7000" />
 							</bean>	
 							<bean class="eu.aliada.rdfizer.pipeline.format.marc.selector.xml.MultipleVariableFieldExpression">
-								<constructor-arg value="701()alpha" />
+								<constructor-arg value="7010" />
 							</bean>	
 							<bean class="eu.aliada.rdfizer.pipeline.format.marc.selector.xml.MultipleVariableFieldExpression">
-								<constructor-arg value="702()alpha" />
+								<constructor-arg value="7020" />
 							</bean>								
 						</list>
 					</constructor-arg>

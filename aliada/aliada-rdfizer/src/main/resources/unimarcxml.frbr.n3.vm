@@ -295,18 +295,17 @@ $expression_s #efrbroo('R4_carriers_provided_by') $manifestation_s .
 #if ($frbr.personID && !$frbr.personID.isEmpty())
 	#foreach($entry in $frbr.personID.entrySet())
 		#set($tag = $entry.getKey())
-		#set($uris = $entry.getValue())
-		#if ($uris && !$uris.isEmpty())
+		#set($clusters = $entry.getValue())
+		#if ($clusters && !$clusters.isEmpty())
 			#set($fields = $xpath.many("datafield[@tag='${tag}']",$root))
-			#foreach($uri in $uris)
+			#foreach($cluster in $clusters)
 				#set($field = $fields.get($velocityCount))
 				#if ($field)
-					#set($cluster = $function.getCluster($uri))
-					#if($cluster)
+					#if($cluster.isDummy())
 						#set($person_s = "#uri_literal('E21_Person' $cluster.id)")
-						#set($alreadyProcessed = $function.hasBeenAlreadyProcessed($cluster))
+						#set($alreadyProcessed = $function.nameClusterHasBeenAlreadyProcessed($cluster))
 					#else 
-		        		#set($person_s = "#uri('E21_Person' $uri)")
+		        		#set($person_s = "#uri('E21_Person' $cluster.headingAsId)")
 					#end
 					#if ($alreadyProcessed)
 						$person_s #ecrm("P94_has_created") $work_s . 
@@ -323,7 +322,7 @@ $expression_s #efrbroo('R4_carriers_provided_by') $manifestation_s .
 									#one($sameas_uri $P131_is_identified_by $E82_Actor_Appellation "E82_Actor_Appellation" $P3_has_note $name)								
 								#end	
 							#end	
-	                    	$function.markAsProcessed($cluster)
+	                    	$function.markNameClusterAsProcessed($cluster)
 	                    #end
 						$person_s #ecrm("P94_has_created") $work_s . 				
 		        		$person_s $is_a #ecrm('E21_Person') .  
@@ -355,18 +354,17 @@ $expression_s #efrbroo('R4_carriers_provided_by') $manifestation_s .
 #if ($frbr.corporateBodyID && !$frbr.corporateBodyID.isEmpty())
 	#foreach($entry in $frbr.corporateBodyID.entrySet())
 		#set($tag = $entry.getKey())
-		#set($uris = $entry.getValue())
-		#if ($uris && !$uris.isEmpty())
+		#set($clusters = $entry.getValue())
+		#if ($clusters && !$clusters.isEmpty())
 			#set($fields = $xpath.many("datafield[@tag='${tag}']",$root))
-			#foreach($uri in $uris)
+			#foreach($cluster in $clusters)
 				#set($field = $fields.get($velocityCount))
 				#if ($field)
-					#set($cluster = $function.getCluster($uri))
-					#if($cluster)
+					#if($cluster.isDummy())
 						#set($corporate_body_s = "#uri_literal('F11_Corporate_Body' $cluster.id)")
-						#set($alreadyProcessed = $function.hasBeenAlreadyProcessed($cluster))
+						#set($alreadyProcessed = $function.nameClusterHasBeenAlreadyProcessed($cluster))
 					#else
-						#set($corporate_body_s = "#uri('F11_Corporate_Body' $uri)")
+						#set($corporate_body_s = "#uri('F11_Corporate_Body' $cluster.headingAsId)")
 					#end	
 					#if($alreadyProcessed)
 						$corporate_body_s #ecrm("P94_has_created") $work_s . 
@@ -383,7 +381,7 @@ $expression_s #efrbroo('R4_carriers_provided_by') $manifestation_s .
 									#one($sameas_uri $P131_is_identified_by $E82_Actor_Appellation "E82_Actor_Appellation" $P3_has_note $name)								
 								#end	
 							#end								
-	                    	$function.markAsProcessed($cluster)
+	                    	$function.markNameClusterAsProcessed($cluster)
 	                    #end
 						$corporate_body_s $is_a #efrbroo('F11_Corporate_Body')
     					$corporate_body_s #ecrm("P94_has_created") $work_s . 

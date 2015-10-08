@@ -53,17 +53,75 @@ public class Function {
 	
 	@Autowired
 	private ClusterService clusterService;
+
+	/**
+	 * Returns the title {@link Cluster} associated with the given heading.
+	 * NOTE: although the heading is a string, the current implementation assumes that is actually 
+	 * the cluster identifier (i.e. an integer).
+	 * 
+	 * @param heading the cluster search criterion.
+	 * @return the title {@link Cluster} associated with the given heading.
+	 */
+	public Cluster getTitleCluster(final String heading) {
+		try {	
+			return clusterService.getTitleCluster(heading);
+		} catch (Exception exception) {
+			throw new RuntimeException(exception);
+		}
+ 	}
 	
-	public Cluster getCluster(final String heading) {
-		return clusterService.getCluster(heading);
+	/**
+	 * Returns the name {@link Cluster} associated with the given heading.
+	 * NOTE: although the heading is a string, the current implementation assumes that is actually 
+	 * the cluster identifier (i.e. an integer).
+	 * 
+	 * @param heading the cluster search criterion.
+	 * @return the name {@link Cluster} associated with the given heading.
+	 */
+	public Cluster getNameCluster(final String heading) {
+		try {
+			return clusterService.getNameCluster(heading);
+		} catch (Exception exception) {
+			throw new RuntimeException(exception);
+		}
+ 	}
+	
+	/**
+	 * Checks if the title cluster associated with the given identifier has been already processed.
+	 * 
+	 * @param cluster the cluster.
+	 * @return true if the title cluster associated with the given identifier has been already processed.
+	 */
+	public boolean titleClusterHasBeenAlreadyProcessed(final Cluster cluster) {
+		return clusterService.titleClusterAlreadyProcessed(cluster.getId());
 	}
 	
-	public boolean hasBeenAlreadyProcessed(final Cluster cluster) {
-		return clusterService.alreadyProcessed(cluster.getId());
+	/**
+	 * Marks the title cluster associated with the given identifier as processed.
+	 * 
+	 * @param cluster the cluster.
+	 */
+	public void markTitleClusterAsProcessed(final Cluster cluster) {
+		clusterService.markTitleClusterAsProcessed(cluster.getId());
 	}
 	
-	public void markAsProcessed(final Cluster cluster) {
-		clusterService.markAsProcessed(cluster.getId());
+	/**
+	 * Checks if the name cluster associated with the given identifier has been already processed.
+	 * 
+	 * @param cluster the cluster.
+	 * @return true if the name cluster associated with the given identifier has been already processed.
+	 */
+	public boolean nameClusterHasBeenAlreadyProcessed(final Cluster cluster) {
+		return clusterService.nameClusterAlreadyProcessed(cluster.getId());
+	}
+	
+	/**
+	 * Marks the name cluster associated with the given identifier as processed.
+	 * 
+	 * @param cluster the cluster.
+	 */
+	public void markNameClusterAsProcessed(final Cluster cluster) {
+		clusterService.markNameClusterAsProcessed(cluster.getId());
 	}
 	
 	/**
@@ -75,6 +133,12 @@ public class Function {
 		return ID.get();
 	}
 	
+	/**
+	 * Returns a {@link List} version of the given array.
+	 * 
+	 * @param array the input array.
+	 * @return a {@link List} version of the given array.
+	 */
 	public List<String> asList(final String [] array) {
 		return array != null ? Arrays.asList(array) : null;
 	}

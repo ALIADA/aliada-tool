@@ -20,7 +20,7 @@
 	    p:entityManagerFactory-ref="entityManagerFactory"/>
 
 	<jee:jndi-lookup id="dataSource" jndi-name="jdbc/aliada" expected-type="javax.sql.DataSource" />
-	<jee:jndi-lookup id="authDataSource" jndi-name="jdbc/auth" expected-type="javax.sql.DataSource" />
+	<jee:jndi-lookup id="clusterDataSource" jndi-name="jdbc/cluster" expected-type="javax.sql.DataSource" />
 		
     <bean id="entityManagerFactory" 
           class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean"
