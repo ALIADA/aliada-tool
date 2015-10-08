@@ -219,7 +219,7 @@ $(function(){
 											value="%{value}" />
 										<html:property value="%{key}" /></td>
 							</html:if>
-							<html:elseif test="%{#status.index%6 == 0}">
+							<html:elseif test="%{#status.index%4 == 0}">
 								<tr>
 									<td class="td_size"><html:checkbox disabled="true" key="selectedTags" fieldValue="%{key}"
 											value="%{value}" />
@@ -243,7 +243,7 @@ $(function(){
 											value="%{value}" />
 										<html:property value="%{key}" /></td>
 							</html:if>
-							<html:elseif test="%{#status.index%6 == 0}">
+							<html:elseif test="%{#status.index%4 == 0}">
 								<tr>
 									<td class="td_size"><html:checkbox disabled="true" key="selectedTags" fieldValue="%{key}"
 											value="%{value}" />
@@ -291,7 +291,7 @@ $(function(){
 											value="%{value}" />
 										<html:property value="%{key}" /></td>
 							</html:if>
-							<html:elseif test="%{#status.index%6 == 0}">
+							<html:elseif test="%{#status.index%4 == 0}">
 								<tr>
 									<td class="td_size"><html:checkbox disabled="true" key="selectedTags" fieldValue="%{key}"
 											value="%{value}" />
@@ -342,7 +342,7 @@ $(function(){
 												value="%{value}" />
 											<html:property value="%{key}" /></td>
 								</html:if>
-								<html:elseif test="%{#status.index%6 == 0}">
+								<html:elseif test="%{#status.index%4 == 0}">
 									<tr>
 										<td class="td_size"><html:checkbox key="selectedMarcBibTags" fieldValue="%{key}"
 												value="%{value}" />
@@ -368,7 +368,7 @@ $(function(){
 												value="%{value}" />
 											<html:property value="%{key}" /></td>
 								</html:if>
-								<html:elseif test="%{#status.index%6 == 0}">
+								<html:elseif test="%{#status.index%4 == 0}">
 									<tr>
 										<td class="td_size"><html:checkbox key="selectedMarcAuthTags" fieldValue="%{key}"
 												value="%{value}" />
@@ -420,7 +420,7 @@ $(function(){
 												value="%{value}" />
 											<html:property value="%{key}" /></td>
 								</html:if>
-								<html:elseif test="%{#status.index%6 == 0}">
+								<html:elseif test="%{#status.index%4 == 0}">
 									<tr>
 										<td class="td_size"><html:checkbox key="selectedDcTags" fieldValue="%{key}"
 												value="%{value}" />
@@ -474,7 +474,7 @@ $(function(){
 												value="%{value}" />
 											<html:property value="%{key}" /></td>
 								</html:if>
-								<html:elseif test="%{#status.index%6 == 0}">
+								<html:elseif test="%{#status.index%4 == 0}">
 									<tr>
 										<td class="td_size"><html:checkbox key="selectedMarcBibTags" fieldValue="%{key}"
 												value="%{value}" />
@@ -500,7 +500,7 @@ $(function(){
 												value="%{value}" />
 											<html:property value="%{key}" /></td>
 								</html:if>
-								<html:elseif test="%{#status.index%6 == 0}">
+								<html:elseif test="%{#status.index%4 == 0}">
 									<tr>
 										<td class="td_size"><html:checkbox key="selectedMarcAuthTags" fieldValue="%{key}"
 												value="%{value}" />
@@ -552,7 +552,7 @@ $(function(){
 												value="%{value}" />
 											<html:property value="%{key}" /></td>
 								</html:if>
-								<html:elseif test="%{#status.index%6 == 0}">
+								<html:elseif test="%{#status.index%4 == 0}">
 									<tr>
 										<td class="td_size"><html:checkbox key="selectedDcTags" fieldValue="%{key}"
 												value="%{value}" />
