@@ -5,11 +5,12 @@
 // Responsible: ALIADA Consortiums
 package eu.aliada.rdfizer.pipeline.format.marc.frbr;
 
+import static java.util.stream.Collectors.toList;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.stream.Collectors;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Message;
@@ -196,6 +197,17 @@ public class FrbrEntitiesDetector implements Processor {
 			builder.append(document.getManifestationID());
 			builder.append("\n---------------\n");			
 			builder.append("PERSONs \n");
+			document.getPersonID().forEach((k,v) -> {
+				builder.append("Source tag = ").append(k).append(" (").append(v.size()).append("):\n");
+				v.stream().forEach(cluster -> builder
+						.append("\t - ")
+						.append(cluster.getId())
+						.append(" (").append(cluster.size()).append(" members, has ")
+						.append(cluster.parents().size())
+						.append(" parents) \n"));
+			});
+			
+			
 			
 			builder.append("\n---------------\n");			
 			builder.append("CORPORATEs \n");
@@ -226,7 +238,7 @@ public class FrbrEntitiesDetector implements Processor {
 					entry.getValue()
 						.stream()
 						.map(heading -> function.getTitleCluster(heading))
-						.collect(Collectors.toList()));
+						.collect(toList()));
 		}
 
 		return result;		
@@ -247,7 +259,8 @@ public class FrbrEntitiesDetector implements Processor {
 		if (works == null || works.isEmpty()) {
 			return null;
 		}
-		final List<Cluster> titlesClusters = works.entrySet().iterator().next().getValue();				
+
+//		final Set<Cluster> titlesClusters = works.values().stream().flatMap(clusters -> clusters.stream()).collect(toSet());				
 		final Map<String, List<String>> entities = detector.detect(target);
 		final Map<String, List<Cluster>> result = new HashMap<String, List<Cluster>>(entities.size());
 		for (final Entry<String, List<String>> entry : entities.entrySet()) {
@@ -255,8 +268,8 @@ public class FrbrEntitiesDetector implements Processor {
 					entry.getKey(), 
 					entry.getValue()
 						.stream()
-						.map(heading -> function.getNameCluster(heading, titlesClusters))
-						.collect(Collectors.toList()));
+						.map(heading -> function.getNameCluster(heading, null))
+						.collect(toList()));
 		}
 
 		return result;		

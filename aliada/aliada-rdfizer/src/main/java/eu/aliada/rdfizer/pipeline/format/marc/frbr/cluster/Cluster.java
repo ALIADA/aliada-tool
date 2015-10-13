@@ -2,6 +2,7 @@ package eu.aliada.rdfizer.pipeline.format.marc.frbr.cluster;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 /**
  * A (transient) cluster object representation.
@@ -12,7 +13,8 @@ import java.util.List;
 public class Cluster {
 	private final int id;
 	
-	private List<ClusterEntry> entries = new ArrayList<ClusterEntry>();
+	private List<ClusterEntry> entries;
+	private List<Integer> parents = new ArrayList<Integer>();
 	
 	/**
 	 * Builds a new cluster with the given identifier.
@@ -44,5 +46,17 @@ public class Cluster {
 
 	public int size() {
 		return entries != null ? entries.size() : 0;
+	}
+
+	public List<Integer> parents(){
+		return parents;
+	}
+	
+	public void addParent(final Integer parentId) {
+		parents.add(parentId);
+	}
+	
+	public boolean doesContainOneOfTheseParents(final Set<Cluster> titlesClusters) {
+		return titlesClusters.stream().filter(cluster -> parents.contains(cluster.id)).findFirst().isPresent();
 	}
 }

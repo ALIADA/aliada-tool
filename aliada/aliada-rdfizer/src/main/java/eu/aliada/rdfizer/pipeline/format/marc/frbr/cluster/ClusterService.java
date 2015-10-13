@@ -5,7 +5,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -47,7 +46,7 @@ public class ClusterService {
 	 * @param titlesClusters the list of title clusters associated with this heading.
 	 * @throws SQLException in case of data access failure.
 	 */
-	public Cluster getNameCluster(final String heading, final List<Cluster> titlesClusters) throws SQLException {
+	public Cluster getNameCluster(final String heading, final Set<Cluster> titlesClusters) throws SQLException {
 		Cluster cluster = cachedNameClusters.get(heading);
 		if (cluster == null) {
 			cluster = loadNameCluster(heading);
@@ -129,6 +128,33 @@ public class ClusterService {
 	 * @return the name {@link Cluster} associated with the given heading.
 	 * @throws SQLException in case of data access failure.
 	 */
+	void loadTitlesBelongingToACluster(final Cluster nameCluster, final Connection connection) throws SQLException {
+		PreparedStatement statement = null;
+		ResultSet rs = null;
+		
+		try {
+			statement = connection.prepareStatement("select clstr_ttl_id from clstr_nme_ttl where clstr_nme_id = ?");
+			statement.setInt(1, nameCluster.getId());
+			rs = statement.executeQuery();
+			while (rs.next()) {
+				nameCluster.addParent(rs.getInt("clstr_ttl_id"));
+			}
+		} catch (final Exception exception) {
+			logger.error(MessageCatalog._00031_DATA_ACCESS_FAILURE, exception);
+			throw new SQLException(exception);
+		} finally {
+			if (rs != null) try { rs.close(); } catch (Exception ignore) { }
+			if (statement != null) try { statement.close(); } catch (Exception ignore) { }
+		}
+	}
+	
+	/**
+	 * Loads, from the database, the name {@link Cluster} associated with the given heading.
+	 * 
+	 * @param heading the cluster search criterion.
+	 * @return the name {@link Cluster} associated with the given heading.
+	 * @throws SQLException in case of data access failure.
+	 */
 	Cluster loadNameCluster(final String heading) throws SQLException {
 		Connection connection = null;
 		PreparedStatement statement = null;
@@ -145,8 +171,16 @@ public class ClusterService {
 					cluster = new Cluster(rs.getInt("clstr_id"));
 				}
 				
-//				cluster.addEntry(rs.getString("hdg_id"), rs.getString("name"));
+				cluster.addEntry(
+						new ClusterEntry(
+								rs.getString("name"), 
+								"t".equals(rs.getString("pref_frm")),
+								rs.getString("hdg_id"),
+								null));
 			}
+
+			loadTitlesBelongingToACluster(cluster, connection);
+
 			return cluster;
 		} catch (final Exception exception) {
 			logger.error(MessageCatalog._00031_DATA_ACCESS_FAILURE, exception);
@@ -185,8 +219,8 @@ public class ClusterService {
 				cluster.addEntry(
 						new ClusterEntry(
 								rs.getString("ttl_hdg_id"), 
-								rs.getString("typ_ttl"),
-								rs.getInt("ttl_hdg_id"),
+								rs.getString("typ_ttl") == null,
+								rs.getString("ttl_hdg_id"),
 								rs.getString("viaf_id")));
 			}
 			return cluster;

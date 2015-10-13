@@ -11,6 +11,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 import javax.xml.xpath.XPathExpressionException;
@@ -79,7 +80,7 @@ public class Function {
 	 * @param titlesClusters the list of title clusters associated with this heading.
 	 * @return the name {@link Cluster} associated with the given heading.
 	 */
-	public Cluster getNameCluster(final String heading, final List<Cluster> titlesClusters) {
+	public Cluster getNameCluster(final String heading, final Set<Cluster> titlesClusters) {
 		try {
 			return clusterService.getNameCluster(heading, titlesClusters);
 		} catch (Exception exception) {
