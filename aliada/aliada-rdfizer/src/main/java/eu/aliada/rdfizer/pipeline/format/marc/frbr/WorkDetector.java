@@ -41,6 +41,17 @@ public class WorkDetector extends AbstractEntityDetector<String> {
 		this.uniformTitleDetectionRule = uniformTitleDetectionRule;
 		this.expressions = (expressions != null) ? expressions : NO_EXPRESSIONS;
 	}
+	
+	/**
+	 * Builds a new detector with the following rules.
+	 * 
+	 * @param uniformTitleDetectionRule the uniform title detection rule.
+	 * @param expressions the subsequent detection rules.
+	 */
+	public WorkDetector(
+			final FirstMatch<Document> uniformTitleDetectionRule) {
+		this(uniformTitleDetectionRule, null);
+	}
 
 	/**
 	 * This method concat every xpath values for the work entity

@@ -1,15 +1,24 @@
 package eu.aliada.rdfizer.pipeline.format.marc.frbr.cluster;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
+/**
+ * A (transient) cluster object representation.
+ * 
+ * @author Andrea Gazzarini
+ * @since 1.0
+ */
 public class Cluster {
 	private final int id;
 	
-	private List<Map<String, String>> entries = new ArrayList<Map<String, String>>();
+	private List<ClusterEntry> entries = new ArrayList<ClusterEntry>();
 	
+	/**
+	 * Builds a new cluster with the given identifier.
+	 * 
+	 * @param id the identifier.
+	 */
 	public Cluster(final int id) {
 		this.id = id;
 	}
@@ -18,20 +27,22 @@ public class Cluster {
 		return id;
 	}
 
-	public void addEntry(final String id, final String label) {
-		final Map<String, String> entry = new HashMap<String, String>();
-		entry.put(id, label);
+	public void addEntry(final ClusterEntry entry) {
 		getEntries().add(entry);
 	}
 	
-	public List<Map<String, String>> getEntries() {
+	public List<ClusterEntry> getEntries() {
 		if (entries == null) {
-			entries = new ArrayList<Map<String, String>>();
+			entries = new ArrayList<ClusterEntry>();
 		}
 		return entries;
 	}
 	
 	public boolean isDummy() {
 		return false;
+	}
+
+	public int size() {
+		return entries != null ? entries.size() : 0;
 	}
 }

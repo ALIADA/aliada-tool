@@ -98,7 +98,6 @@ public abstract class AbstractEntityDetector<O> {
 	 */
 	public static String identifier(final String entityKind, final String value) {	
 		if (value != null) {
-			LOGGER.debug(MessageCatalog._00060_FRBR_ENTITY_DEBUG, entityKind, value);
 			return UUID.nameUUIDFromBytes(value.getBytes()).toString();
 		} 
 		return null;

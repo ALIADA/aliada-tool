@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -43,9 +44,10 @@ public class ClusterService {
 	 * 
 	 * @param heading the cluster search criterion.
 	 * @return the name {@link Cluster} associated with the given heading.
+	 * @param titlesClusters the list of title clusters associated with this heading.
 	 * @throws SQLException in case of data access failure.
 	 */
-	public Cluster getNameCluster(final String heading) throws SQLException {
+	public Cluster getNameCluster(final String heading, final List<Cluster> titlesClusters) throws SQLException {
 		Cluster cluster = cachedNameClusters.get(heading);
 		if (cluster == null) {
 			cluster = loadNameCluster(heading);
@@ -143,7 +145,7 @@ public class ClusterService {
 					cluster = new Cluster(rs.getInt("clstr_id"));
 				}
 				
-				cluster.addEntry(rs.getString("hdg_id"), rs.getString("name"));
+//				cluster.addEntry(rs.getString("hdg_id"), rs.getString("name"));
 			}
 			return cluster;
 		} catch (final Exception exception) {
@@ -171,7 +173,7 @@ public class ClusterService {
 		
 		try {
 			connection = clusterDataSource.getConnection();
-			statement = connection.prepareStatement("select * from clstr_nme_grp where clstr_id = ?");
+			statement = connection.prepareStatement("select clstr_id,ttl_hdg_id,ttl_str_txt,viaf_id,typ_ttl from ttl_hdg where clstr_id = ? and (typ_ttl is null or typ_ttl in ('TU','TV'))");
 			statement.setInt(1, Integer.parseInt(heading));
 			rs = statement.executeQuery();
 			Cluster cluster = null;
@@ -180,7 +182,12 @@ public class ClusterService {
 					cluster = new Cluster(rs.getInt("clstr_id"));
 				}
 				
-				cluster.addEntry(rs.getString("hdg_id"), rs.getString("name"));
+				cluster.addEntry(
+						new ClusterEntry(
+								rs.getString("ttl_hdg_id"), 
+								rs.getString("typ_ttl"),
+								rs.getInt("ttl_hdg_id"),
+								rs.getString("viaf_id")));
 			}
 			return cluster;
 		} catch (final Exception exception) {

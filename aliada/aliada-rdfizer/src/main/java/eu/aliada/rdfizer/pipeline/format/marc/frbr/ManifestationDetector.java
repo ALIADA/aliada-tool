@@ -34,7 +34,6 @@ public class ManifestationDetector extends AbstractEntityDetector<String> {
 	@Override
 	String detect(final Document target) {
 		final String id = controlNumberDetectionRule.evaluate(target);
-		LOGGER.debug(MessageCatalog._00060_FRBR_ENTITY_DEBUG, entityKind(), id);
 		return id;
 	}
 

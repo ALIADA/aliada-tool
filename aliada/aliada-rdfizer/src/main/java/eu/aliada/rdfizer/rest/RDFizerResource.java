@@ -291,7 +291,7 @@ public class RDFizerResource implements RDFizer {
 				ManagementRegistrar.registerJob(newJobResource);
 				jobRegistry.addJobResource(newJobResource);
 			} catch (JMException exception) {
-				LOGGER.error(MessageCatalog._00045_MX_JOB_RESOURCE_REGISTRATION_FAILED, configuration.getId());
+				LOGGER.error(MessageCatalog._00045_MX_JOB_RESOURCE_REGISTRATION_FAILED, exception, configuration.getId());
 			}
 			
 			Files.move(source, target, REPLACE_EXISTING);

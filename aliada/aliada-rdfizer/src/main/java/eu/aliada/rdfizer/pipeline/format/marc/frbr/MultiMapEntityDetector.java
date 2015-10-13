@@ -33,7 +33,11 @@ public class MultiMapEntityDetector extends AbstractEntityDetector<Map<String, L
 	public MultiMapEntityDetector(final List<Expression<Map<String, List<String>>, Document>> expressions, final String entityCode) {
 		this.expressions = expressions;
 		this.entityCode = entityCode;
-		this.useLiteralValueAsIdentifier = "PERSON".equals(entityKind()) || "CORPORATE".equals(entityKind()) || "FAMILY".equals(entityKind());
+		this.useLiteralValueAsIdentifier = 
+				"WORK".equals(entityKind()) || 
+				"PERSON".equals(entityKind()) || 
+				"CORPORATE".equals(entityKind()) || 
+				"FAMILY".equals(entityKind());
 	}
 	
 	/**

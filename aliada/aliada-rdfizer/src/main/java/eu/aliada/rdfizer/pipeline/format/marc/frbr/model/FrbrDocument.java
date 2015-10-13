@@ -24,7 +24,7 @@ public final class FrbrDocument implements Serializable {
 	private static final long serialVersionUID = 203862468772292056L;
 
 	private final Document document;
-	private final String workID;
+	private final Map<String, List<Cluster>> workID;
 	private final String expressionID;
 	private final String manifestationID;
 	private final Map<String, List<Cluster>> personID;
@@ -50,7 +50,7 @@ public final class FrbrDocument implements Serializable {
 	 */
 	public FrbrDocument(
 			final Document document,
-			final String workURI,
+			final Map<String, List<Cluster>> workURI,
 			final String expressionURI,
 			final String manifestationURI,
 			final Map<String, List<Cluster>> personURI, 
@@ -87,7 +87,7 @@ public final class FrbrDocument implements Serializable {
 	 * 
 	 * @return the URI that has been associated with the Work.
 	 */
-	public String getWorkID() {
+	public Map<String, List<Cluster>> getWorkID() {
 		return workID;
 	}
 	

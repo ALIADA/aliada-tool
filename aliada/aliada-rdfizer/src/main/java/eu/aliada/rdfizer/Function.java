@@ -76,11 +76,12 @@ public class Function {
 	 * the cluster identifier (i.e. an integer).
 	 * 
 	 * @param heading the cluster search criterion.
+	 * @param titlesClusters the list of title clusters associated with this heading.
 	 * @return the name {@link Cluster} associated with the given heading.
 	 */
-	public Cluster getNameCluster(final String heading) {
+	public Cluster getNameCluster(final String heading, final List<Cluster> titlesClusters) {
 		try {
-			return clusterService.getNameCluster(heading);
+			return clusterService.getNameCluster(heading, titlesClusters);
 		} catch (Exception exception) {
 			throw new RuntimeException(exception);
 		}

@@ -40,7 +40,7 @@ public class FrbrEntitiesDetector implements Processor {
 
 	@Autowired
 	@Qualifier("workDetector")
-	WorkDetector workDetector;
+	MultiMapEntityDetector workDetector;
 	
 	@Autowired
 	@Qualifier("expressionDetector")
@@ -48,7 +48,7 @@ public class FrbrEntitiesDetector implements Processor {
 	
 	@Autowired
 	@Qualifier("manifestationDetector")
-	ManifestationDetector manifestationDetector;
+	UUIDManifestationDetector manifestationDetector;
 	
 	@Autowired
 	@Qualifier("personDetector")
@@ -113,10 +113,8 @@ public class FrbrEntitiesDetector implements Processor {
 		return entitiesDocument.isValid();
 	}
 	
-	protected String work(final Document target) {
-		return AbstractEntityDetector.identifier(
-				workDetector.entityKind(), 
-				workDetector.detect(target));
+	protected Map<String, List<Cluster>> works(final Document target) {
+		return clusteredWorks(target, workDetector);
 	}
 	
 	protected String expression(final Document target) {
@@ -126,21 +124,19 @@ public class FrbrEntitiesDetector implements Processor {
 	}
 	
 	protected String manifestation(final Document target) {
-		return AbstractEntityDetector.identifier(
-				manifestationDetector.entityKind(), 
-				manifestationDetector.detect(target));
+		return manifestationDetector.detect(target);
 	}	
 	
-	protected Map<String, List<Cluster>> people(final Document target) {
-		return clusteredNames(target, personDetector);
+	protected Map<String, List<Cluster>> people(final Document target, final Map<String, List<Cluster>> works) {
+		return clusteredNames(target, personDetector, works);
 	}	
 	
-	protected Map<String, List<Cluster>> families(final Document target) {
-		return clusteredNames(target, familyDetector);
+	protected Map<String, List<Cluster>> families(final Document target, final Map<String, List<Cluster>> works) {
+		return clusteredNames(target, familyDetector, works);
 	}			
 
-	protected Map<String, List<Cluster>> corporates(final Document target) {
-		return clusteredNames(target, corporateBodyDetector);
+	protected Map<String, List<Cluster>> corporates(final Document target, final Map<String, List<Cluster>> works) {
+		return clusteredNames(target, corporateBodyDetector, works);
 	}		
 	
 	protected Map<String, List<String>> items(final Document target) {
@@ -166,21 +162,62 @@ public class FrbrEntitiesDetector implements Processor {
 	 * @return the FRBR value object.
 	 */
 	FrbrDocument frbrDetection(final Document target) {
-		return new FrbrDocument(
+		final Map<String, List<Cluster>> works = works(target);
+		final FrbrDocument document = new FrbrDocument(
 				target,
-				work(target),
+				works,
 				expression(target),
 				manifestation(target),
-				people(target),
-				families(target),
-				corporates(target),
+				people(target, works),
+				families(target, works),
+				corporates(target, works),
 				items(target),
 				concepts(target),
 				events(target),
 				places(target));
+		if (log.isDebugEnabled()) {
+			StringBuilder builder = new StringBuilder();
+			builder.append("************************\n");
+			builder.append("WORKs \n");
+			
+			works.forEach((k,v) -> {
+				builder.append("Source tag = ").append(k).append(" (").append(v.size()).append("):\n");
+				v.stream().forEach(cluster -> builder
+						.append("\t - ")
+						.append(cluster.getId())
+						.append(" (").append(cluster.size()).append(" members) \n"));
+			});
+			
+			builder.append("\n---------------\n");			
+			builder.append("EXPRESSIONs \n");
+			
+			builder.append("\n---------------\n");			
+			builder.append("MANIFESTATION \n");
+			builder.append(document.getManifestationID());
+			builder.append("\n---------------\n");			
+			builder.append("PERSONs \n");
+			
+			builder.append("\n---------------\n");			
+			builder.append("CORPORATEs \n");
+			
+			builder.append("\n---------------\n");			
+			builder.append("FAMILIes \n");
+			
+			log.debug(builder.toString());
+		}
+		return document;
 	}
 	
-	Map<String, List<Cluster>> clusteredNames(final Document target, final MultiMapEntityDetector detector) {
+	/**
+	 * Returns a map containing the source tag as key and a set of corresponding title clusters.
+	 *  
+	 * @param target the current MARC document (XML) representation.
+	 * @param detector the detector currently used.
+	 * @return a map containing the source tag as key and a set of corresponding title clusters.
+	 */
+	Map<String, List<Cluster>> clusteredWorks(
+			final Document target, 
+			final MultiMapEntityDetector detector) {
 		final Map<String, List<String>> entities = detector.detect(target);
 		final Map<String, List<Cluster>> result = new HashMap<String, List<Cluster>>(entities.size());
 		for (final Entry<String, List<String>> entry : entities.entrySet()) {
@@ -188,7 +225,37 @@ public class FrbrEntitiesDetector implements Processor {
 					entry.getKey(), 
 					entry.getValue()
 						.stream()
-						.map(heading -> function.getNameCluster(heading))
+						.map(heading -> function.getTitleCluster(heading))
+						.collect(Collectors.toList()));
+		}
+
+		return result;		
+	}	
+	
+	/**
+	 * Returns a map containing the source tag as key and a set of corresponding name clusters.
+	 *  
+	 * @param target the current MARC document (XML) representation.
+	 * @param detector the detector currently used.
+	 * @param titlesClusters the identifiers of the (title) clusters for this document.
+	 * @return a map containing the source tag as key and a set of corresponding name clusters.
+	 */
+	Map<String, List<Cluster>> clusteredNames(
+			final Document target, 
+			final MultiMapEntityDetector detector, 
+			final Map<String, List<Cluster>> works) {
+		if (works == null || works.isEmpty()) {
+			return null;
+		}
+		final List<Cluster> titlesClusters = works.entrySet().iterator().next().getValue();				
+		final Map<String, List<String>> entities = detector.detect(target);
+		final Map<String, List<Cluster>> result = new HashMap<String, List<Cluster>>(entities.size());
+		for (final Entry<String, List<String>> entry : entities.entrySet()) {
+			result.put(
+					entry.getKey(), 
+					entry.getValue()
+						.stream()
+						.map(heading -> function.getNameCluster(heading, titlesClusters))
 						.collect(Collectors.toList()));
 		}
 
