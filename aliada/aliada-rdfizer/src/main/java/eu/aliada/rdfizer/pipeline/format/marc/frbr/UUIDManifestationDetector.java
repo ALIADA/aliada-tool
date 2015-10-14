@@ -37,7 +37,7 @@ public class UUIDManifestationDetector extends AbstractEntityDetector<String> {
 	}
 
 	@Override
-	String detect(final Document target) {
+	public String detect(final Document target) {
 		try {
 			return new StringBuilder()
 				.append(xpath.df(prefixExp.substring(0,3), prefixExp.substring(3,4), target).getTextContent())
@@ -50,7 +50,7 @@ public class UUIDManifestationDetector extends AbstractEntityDetector<String> {
 	}
 
 	@Override
-	String entityKind() {
+	public String entityKind() {
 		return "MANIFESTATION";
 	}
 }

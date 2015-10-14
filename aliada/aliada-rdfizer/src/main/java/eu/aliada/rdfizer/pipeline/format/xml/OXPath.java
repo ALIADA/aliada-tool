@@ -419,7 +419,7 @@ public class OXPath {
 			.toString();
 		return many(xpath, record);
 	}	
-	
+		
 	/**
 	 * Lazily creates, caches and returns an XPATH expression.
 	 * 

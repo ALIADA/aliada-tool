@@ -15,7 +15,6 @@ import java.util.UUID;
 
 import org.w3c.dom.Document;
 
-import eu.aliada.rdfizer.log.MessageCatalog;
 import eu.aliada.shared.log.Log;
 
 /**
@@ -32,7 +31,7 @@ public abstract class AbstractEntityDetector<O> {
 	 * @param target the (record) document that is the detection target.
 	 * @return an identity Object associated with the detected entity.
 	 */
-	abstract O detect(Document target);
+	public abstract O detect(Document target);
 
 	/**
 	 * Appends a given value to the buffer only if that value is not null and
@@ -108,5 +107,5 @@ public abstract class AbstractEntityDetector<O> {
 	 * 
 	 * @return a mnemonic code of the entity kind detected by this component.
 	 */
-	abstract String entityKind();
+	public abstract String entityKind();
 }

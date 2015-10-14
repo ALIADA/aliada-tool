@@ -46,7 +46,7 @@ public class MultiMapEntityDetector extends AbstractEntityDetector<Map<String, L
 	 * @param target the target
 	 * @return the value 
 	 */
-	Map<String, List<String>> detect(final Document target) {
+	public Map<String, List<String>> detect(final Document target) {
 		final Map<String, List<String>> map = new HashMap<String, List<String>>();
 		for (final Expression<Map<String, List<String>>, Document> expression : expressions) {
 			put(expression.evaluate(target),map);
@@ -76,7 +76,7 @@ public class MultiMapEntityDetector extends AbstractEntityDetector<Map<String, L
 	}
 	
 	@Override
-	String entityKind() {
+	public String entityKind() {
 		return entityCode;
 	}	
 }

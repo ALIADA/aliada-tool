@@ -10,23 +10,14 @@
 		<constructor-arg>
 	      	<list>
       	        <bean class="eu.aliada.rdfizer.pipeline.format.marc.selector.xml.MultipleVariableFieldExpression">
-					<constructor-arg value="500()1" />
+					<constructor-arg value="500()9" />
 				</bean>	
 				<bean class="eu.aliada.rdfizer.pipeline.format.marc.selector.xml.MultipleVariableFieldExpression">
-					<constructor-arg value="454()1" />
+					<constructor-arg value="454()9" />
 				</bean>
       	        <bean class="eu.aliada.rdfizer.pipeline.format.marc.selector.xml.MultipleVariableFieldExpression">
-					<constructor-arg value="950()1" />
+					<constructor-arg value="950()9" />
 				</bean>
-			</list>
-		</constructor-arg>
-	</bean>
-	<bean id="expression-language" class="eu.aliada.rdfizer.pipeline.format.marc.selector.AllMultipleMatches">
-		<constructor-arg>
-			<list>
-				<bean class="eu.aliada.rdfizer.pipeline.format.marc.selector.xml.MultipleVariableFieldExpression">
-					<constructor-arg value="101()a" />
-				</bean>							
 			</list>
 		</constructor-arg>
 	</bean>
@@ -64,13 +55,7 @@
 		</constructor-arg>
 		<constructor-arg value="WORK"/>
 	</bean>
-	<bean id="expressionDetector" class="eu.aliada.rdfizer.pipeline.format.marc.frbr.ExpressionDetector">
-		<constructor-arg>
-			<list>
-				<ref bean="expression-language" />
-			</list>
-		</constructor-arg>
-	</bean>
+	<bean id="expressionDetector" class="eu.aliada.rdfizer.pipeline.format.marc.frbr.ExpressionDetector"/>
 				
 	<bean id="manifestationDetector" class="eu.aliada.rdfizer.pipeline.format.marc.frbr.UUIDManifestationDetector">
       <constructor-arg value="997a" />

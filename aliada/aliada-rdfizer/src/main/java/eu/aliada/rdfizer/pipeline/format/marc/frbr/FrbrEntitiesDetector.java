@@ -118,10 +118,8 @@ public class FrbrEntitiesDetector implements Processor {
 		return clusteredWorks(target, workDetector);
 	}
 	
-	protected String expression(final Document target) {
-		return AbstractEntityDetector.identifier(
-				expressionDetector.entityKind(), 
-				expressionDetector.detect(target));
+	protected List<FrbrExpression> expression(final Document target, final Map<String, List<Cluster>> works) {
+		return expressionDetector.detect(target);
 	}
 	
 	protected String manifestation(final Document target) {
@@ -167,7 +165,7 @@ public class FrbrEntitiesDetector implements Processor {
 		final FrbrDocument document = new FrbrDocument(
 				target,
 				works,
-				expression(target),
+				expression(target, works),
 				manifestation(target),
 				people(target, works),
 				families(target, works),
@@ -190,14 +188,23 @@ public class FrbrEntitiesDetector implements Processor {
 			});
 			
 			builder.append("\n---------------\n");			
-			builder.append("EXPRESSIONs \n");
-			
-			builder.append("\n---------------\n");			
+			if (document.getExpressionIDs() != null && !document.getExpressionIDs().isEmpty()) {
+				builder.append("EXPRESSIONs \n");
+				document
+					.getExpressionIDs()
+						.forEach(
+								expression -> builder
+												.append(expression.lang)
+												.append(" ( Orphan : ")
+												.append(expression.orphan)
+												.append("):\n"));
+				builder.append("\n---------------\n");			
+			}
 			builder.append("MANIFESTATION \n");
 			builder.append(document.getManifestationID());
 			builder.append("\n---------------\n");			
 			builder.append("PERSONs \n");
-			document.getPersonID().forEach((k,v) -> {
+			document.getPersonURIs().forEach((k,v) -> {
 				builder.append("Source tag = ").append(k).append(" (").append(v.size()).append("):\n");
 				v.stream().forEach(cluster -> builder
 						.append("\t - ")
@@ -206,8 +213,6 @@ public class FrbrEntitiesDetector implements Processor {
 						.append(cluster.parents().size())
 						.append(" parents) \n"));
 			});
-			
-			
 			
 			builder.append("\n---------------\n");			
 			builder.append("CORPORATEs \n");

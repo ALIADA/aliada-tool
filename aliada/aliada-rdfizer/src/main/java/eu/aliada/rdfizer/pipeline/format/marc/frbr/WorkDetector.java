@@ -59,7 +59,7 @@ public class WorkDetector extends AbstractEntityDetector<String> {
 	 * @param target the target
 	 * @return the value 
 	 */
-	String detect(final Document target) {
+	public String detect(final Document target) {
 		final StringBuilder buffer = new StringBuilder();
 		
 		final String uniformTitle = uniformTitleDetectionRule.evaluate(target);
@@ -76,7 +76,7 @@ public class WorkDetector extends AbstractEntityDetector<String> {
 	}
 
 	@Override
-	String entityKind() {
+	public String entityKind() {
 		return "WORK";
 	}
 }
