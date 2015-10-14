@@ -186,28 +186,28 @@ public class DBConnectionManager {
 			sql = "SELECT org_name, org_logo FROM organisation WHERE organisationId=" + organisationId;
 			resultSet = sta.executeQuery(sql);
             if (resultSet.next()) {
-				jobConf.setOrgName(resultSet.getString("org_name"));
-	            if (resultSet.getBlob("org_logo") != null) {
-	            	final Blob logo = resultSet.getBlob("org_logo");
-	                final int blobLength = (int) logo.length();
-	                byte[] blobAsBytes = null;
-	                blobAsBytes = logo.getBytes(1, blobLength);
-	            	//Compose initial logo file name 
-	            	final String orgImagePathInit = jobConf.getTmpDir() + File.separator + "orgLogo"  + "_" + System.currentTimeMillis()  + ".jpeg";
-	                try {
-		                final FileOutputStream fos = new FileOutputStream(orgImagePathInit);
-		                fos.write(blobAsBytes);
-		                fos.close();
-		                jobConf.setOrgImagePath(orgImagePathInit);
-	                } catch (IOException exception) {
-	        			LOGGER.error(MessageCatalog._00034_FILE_CREATION_FAILURE, exception, orgImagePathInit);
-	                }
-	                //release the blob and free up memory. (since JDBC 4.0)
-	                logo.free();
-	            }
-			}
-			resultSet.close();
-			sta.close();
+            	jobConf.setOrgName(resultSet.getString("org_name"));
+            	if (resultSet.getBlob("org_logo") != null) {
+            		final Blob logo = resultSet.getBlob("org_logo");
+            		final int blobLength = (int) logo.length();
+            		byte[] blobAsBytes = null;
+            		blobAsBytes = logo.getBytes(1, blobLength);
+            		//Compose initial logo file name 
+            		final String orgImagePathInit = jobConf.getTmpDir() + File.separator + "orgLogo"  + "_" + System.currentTimeMillis()  + ".jpeg";
+            		try {
+            			final FileOutputStream fos = new FileOutputStream(orgImagePathInit);
+            			fos.write(blobAsBytes);
+            			fos.close();
+            			jobConf.setOrgImagePath(orgImagePathInit);
+            		} catch (IOException exception) {
+            			LOGGER.error(MessageCatalog._00034_FILE_CREATION_FAILURE, exception, orgImagePathInit);
+            		}
+            		//release the blob and free up memory. (since JDBC 4.0)
+            		logo.free();
+            	}
+            }
+            resultSet.close();
+            sta.close();
 		} catch (SQLException exception) {
 			LOGGER.error(MessageCatalog._00024_DATA_ACCESS_FAILURE, exception);
 			jobConf = null;
