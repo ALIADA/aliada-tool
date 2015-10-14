@@ -84,7 +84,7 @@ CREATE PROCEDURE replace_symbols_and_equal (IN p_rule_name VARCHAR)
 ----------------------------------------------------------------
 
 ----------------------------------------------------------------
---Dataset default page
+--Domain name default page
 ----------------------------------------------------------------
 DB.DBA.VHOST_REMOVE (
 	 lhost=>'$u{lhost}',

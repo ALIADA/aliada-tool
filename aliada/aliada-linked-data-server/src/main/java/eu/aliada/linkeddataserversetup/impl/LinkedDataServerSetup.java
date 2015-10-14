@@ -18,6 +18,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.InputStream;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -39,8 +40,10 @@ import java.util.Iterator;
 public class LinkedDataServerSetup {
 	/** For logging. */
 	private static final Log LOGGER = new Log(LinkedDataServerSetup.class);
-	/** Format for the ISQL command to execute */
-	private static final String ISQL_COMMAND_FORMAT = "%s %s:%d %s %s %s -u lhost='%s' vhost='%s' uri_id='%s' uri_doc_slash='%s' uri_def='%s' graphs_select_encoded='%s' graphs_encoded='%s' domain_name_encoded='%s' rules_suffix='%s' uri_doc_concept='%s' dataset_page='%s' aliada_ont_encoded='%s' uri_id_encoded='%s' create_virtual_path=%d urrl_list_subset=%d rules_suffix_dataset='%s' uri_doc_concept_parent='%s'";
+	/** Format for the ISQL command to execute for the dataset */
+	private static final String ISQL_COMMAND_FORMAT_DATASET = "%s %s:%d %s %s %s -u lhost='%s' vhost='%s' uri_id='%s' uri_doc_slash='%s' uri_def='%s' graphs_select_encoded='%s' graphs_encoded='%s' domain_name_encoded='%s' rules_suffix='%s' uri_doc_concept='%s' dataset_page='%s' aliada_ont_encoded='%s' uri_id_encoded='%s' create_virtual_path=%d urrl_list_subset=%d rules_suffix_dataset='%s' uri_doc_concept_parent='%s'";
+	/** Format for the ISQL command to execute for the subset */
+	private static final String ISQL_COMMAND_FORMAT_SUBSET = "%s %s:%d %s %s %s -u lhost='%s' vhost='%s' uri_id='%s' uri_doc_slash='%s' uri_def='%s' graphs_select_encoded='%s' graphs_encoded='%s' domain_name_encoded='%s' rules_suffix='%s' uri_doc_concept='%s' dataset_page='%s' aliada_ont_encoded='%s' uri_id_encoded='%s' create_virtual_path=%d urrl_list_subset=%d rules_suffix_dataset='%s' uri_doc_concept_parent='%s'";
 	/** Dataset Index HTML Page*/
 	private static final String DATASET_INDEX_PAGE = "dataset.html"; 
 	/** Dataset CSS file*/
@@ -145,8 +148,9 @@ public class LinkedDataServerSetup {
 			if(jobConf.getUriDocPart() != null) {
 				uriDocConcept = removeLeadingTralingSlashes(jobConf.getUriDocPart());
 			} 
+			String datasetConceptPart = "";
 			if(jobConf.getUriConceptPart() != null) {
-				final String datasetConceptPart = removeLeadingTralingSlashes(jobConf.getUriConceptPart());
+				datasetConceptPart = removeLeadingTralingSlashes(jobConf.getUriConceptPart());
 				if(datasetConceptPart.length() > 0){
 					if(uriDocConcept.length() > 0){
 						uriDocConcept = uriDocConcept + "/" + datasetConceptPart;
@@ -160,6 +164,7 @@ public class LinkedDataServerSetup {
 			rulesNamesSuffix = rulesNamesSuffix.replace(":", "");
 			rulesNamesSuffix = rulesNamesSuffix.replace("/", "");
 			rulesNamesSuffix = rulesNamesSuffix.replace(".", "");
+					
 			//Check that we have the parameter values
 			if((uriIdPart != null) && (uriDefPart!= null) && (graphsEncoded.length() > 0) && (domainNameEncoded != null) &&
 					(ontologyEncoded != null) && (uriDocConcept != null) && (rulesNamesSuffix.length() > 0)) {
@@ -213,7 +218,7 @@ public class LinkedDataServerSetup {
 	}
 
 	/**
-	 * It executes the global ISQL commands that set the rewrite rules in Virtuoso 
+	 * It executes the dataset ISQL commands that set the rewrite rules in Virtuoso 
 	 * for dereferencing the dataset URI-s.
 	 *
 	 * @param jobConf		the {@link eu.aliada.linkeddataserversetup.model.JobConfiguration}
@@ -221,7 +226,7 @@ public class LinkedDataServerSetup {
 	 * @return if the ISQL commands have been executed successfully.  					
 	 * @since 1.0
 	 */
-	public boolean executeGlobalIsqlCommands(final JobConfiguration jobConf) {
+	public boolean executeDatasetIsqlCommands(final JobConfiguration jobConf) {
 		boolean success = false;
 		//Get dataset ISQL commands file for rewriting rules in Virtuoso
 		LOGGER.debug(MessageCatalog._00036_GET_ISQL_COMMANDS_FILE);
@@ -244,7 +249,7 @@ public class LinkedDataServerSetup {
 		}
 		if(isqlCommandsFilename != null){
 			//Compose ISQL command execution statement
-			final String isqlCommand = String.format(ISQL_COMMAND_FORMAT,
+			final String isqlCommand = String.format(ISQL_COMMAND_FORMAT_DATASET,
 					jobConf.getIsqlCommandPath(), jobConf.getStoreIp(),
 					jobConf.getStoreSqlPort(), jobConf.getSqlLogin(),
 					jobConf.getSqlPassword(), isqlCommandsFilename,
@@ -343,13 +348,13 @@ public class LinkedDataServerSetup {
 			String rulesNamesSuffixSubset = rulesNamesSuffix + uriDocConceptSubset;
 			rulesNamesSuffixSubset = rulesNamesSuffixSubset.replace("/", "");
 			//Compose ISQL command execution statement
-			final String isqlCommand = String.format(ISQL_COMMAND_FORMAT,
+			final String isqlCommand = String.format(ISQL_COMMAND_FORMAT_SUBSET,
 					jobConf.getIsqlCommandPath(), jobConf.getStoreIp(),
 					jobConf.getStoreSqlPort(), jobConf.getSqlLogin(),
 					jobConf.getSqlPassword(), isqlCommandsFilename,
 					jobConf.getListeningHost(), jobConf.getVirtualHost(),
 					uriIdPart,  uriDocSlash, uriDefPart, subgraphsSelectEncoded,
-					subgraphsEncoded, domainNameEncoded, rulesNamesSuffixSubset,
+					subgraphsEncoded, domainNameEncoded, rulesNamesSuffixSubset, 
 					uriDocConceptSubset, DATASET_INDEX_PAGE, ontologyEncoded, 
 					uriIdPartEncoded, createVirtualPath, urrlListSubset,
 					rulesNamessuffixDataset, uriDocConceptParent);
@@ -372,7 +377,7 @@ public class LinkedDataServerSetup {
 	}
 
 	/**
-	 * Create the dataset defult HTML page.
+	 * Create the default HTML page for the dataset and for the domain.
 	 *
 	 * @param jobConf		the {@link eu.aliada.linkeddataserversetup.model.JobConfiguration}
 	 *						that contains information to create the dataset HTML page.  
@@ -546,15 +551,6 @@ public class LinkedDataServerSetup {
 	public boolean copyFilesToWebServerPath(final JobConfiguration jobConf, final String pageFolder, final String pageURL) {
 		boolean success = false;
 		try {
-			//Move the organization image file from TMP folder to the definitive folder
-			final File orgImageInitFile= new File(jobConf.getOrgImagePath());
-			final String definitiveImgFileName = pageFolder + File.separator + "orgLogo.jpeg";
-			final File definitiveImgFile = new File (definitiveImgFileName);
-			Files.move(orgImageInitFile.toPath(), definitiveImgFile.toPath(), java.nio.file.StandardCopyOption.REPLACE_EXISTING);
-			jobConf.setOrgImagePath(definitiveImgFileName);
-			final String orgImageURL = pageURL + "/" + definitiveImgFile.getName();
-			jobConf.setOrgImageURL(orgImageURL);
-
 			//Copy the CSS file to the definitive folder
 			final InputStream cssInpuStream= getClass().getResourceAsStream("/"+ DATASET_CSS_FILE);
 			final String definitiveCssFileName = pageFolder + File.separator + "aliada_dataset.css";
@@ -569,7 +565,16 @@ public class LinkedDataServerSetup {
 			jobConf.setCssFilePath(definitiveCssFileName);
 			final String cssFileURL = pageURL + "/" + DATASET_CSS_FILE;
 			jobConf.setCssFileURL(cssFileURL);
-			
+
+			//Move the organization image file from TMP folder to the definitive folder
+			final File orgImageInitFile= new File(jobConf.getOrgImagePath());
+			final String definitiveImgFileName = pageFolder + File.separator + "orgLogo.jpeg";
+			final File definitiveImgFile = new File (definitiveImgFileName);
+			Files.move(orgImageInitFile.toPath(), definitiveImgFile.toPath(), java.nio.file.StandardCopyOption.REPLACE_EXISTING);
+			jobConf.setOrgImagePath(definitiveImgFileName);
+			final String orgImageURL = pageURL + "/" + definitiveImgFile.getName();
+			jobConf.setOrgImageURL(orgImageURL);
+
 			success = true;
 		} catch (Exception exception) {
 			LOGGER.error(MessageCatalog._00035_FILE_ACCESS_FAILURE, exception);
@@ -623,7 +628,7 @@ public class LinkedDataServerSetup {
 		final boolean encoded = encodeParams(jobConf);
 		if(encoded) {
 			//Execute global ISQL commands file for rewriting rules in Virtuoso
-			final boolean success = executeGlobalIsqlCommands(jobConf);
+			final boolean success = executeDatasetIsqlCommands(jobConf);
 			if (success) {
 				//Get subset ISQL commands file for rewriting rules in Virtuoso and execute them
 				for (final Iterator<Subset> iterSubsets = jobConf.getSubsets().iterator(); iterSubsets.hasNext();  ) {
@@ -631,7 +636,7 @@ public class LinkedDataServerSetup {
 					executeSubsetIsqlCommands(jobConf, subset);
 				}
 			}
-			//Create Dataset default HTML page
+			//Create default HTML page for the dataset and the domain
 			createDatasetDefaultPage(jobConf, dbConn);
 		} else {
 			LOGGER.error(MessageCatalog._00039_INPUT_PARAMS_ERROR, jobConf.getId());

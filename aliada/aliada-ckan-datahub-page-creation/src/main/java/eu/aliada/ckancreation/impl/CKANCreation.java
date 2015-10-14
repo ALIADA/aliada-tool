@@ -615,7 +615,7 @@ public class CKANCreation {
 			final String orgImageURL = dataFolderURL + "/" + definitiveFile.getName();
 			jobConf.setOrgImageURL(orgImageURL);
 			success = true;
-		} catch (IOException exception) {
+		} catch (Exception exception) {
 			LOGGER.error(MessageCatalog._00035_FILE_ACCESS_FAILURE, exception, jobConf.getOrgImagePath());
 		}
 		return success;
@@ -640,7 +640,7 @@ public class CKANCreation {
 		//Copy organisation image file to dataset web root
 		copyOrgImageToWebServerPath();
 		try {
-			//Move the generated dump file from TMP folder to the definitive folder
+			//Move the image file from TMP folder to the definitive folder
 			final File orgImageInitFile= new File(jobConf.getOrgImagePath());
 			final String definitiveFileName = dataFolderName + File.separator + orgImageInitFile.getName();
 			final File definitiveFile = new File (definitiveFileName);
@@ -648,7 +648,7 @@ public class CKANCreation {
 			jobConf.setOrgImagePath(definitiveFileName);
 			final String orgImageURL = dataFolderURL + "/" + definitiveFile.getName();
 			jobConf.setOrgImageURL(orgImageURL);
-    	} catch (IOException exception) {
+    	} catch (Exception exception) {
 			LOGGER.error(MessageCatalog._00035_FILE_ACCESS_FAILURE, exception, jobConf.getOrgImagePath());
     	}
 		

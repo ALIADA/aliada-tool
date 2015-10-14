@@ -84,7 +84,7 @@ CREATE PROCEDURE replace_symbols_and_equal (IN p_rule_name VARCHAR)
 ----------------------------------------------------------------
 
 ----------------------------------------------------------------
---Dataset default page
+--Domain name default page
 ----------------------------------------------------------------
 DB.DBA.VHOST_REMOVE (
 	 lhost=>'$u{lhost}',
@@ -555,7 +555,6 @@ NULL,
 303, 
 '' 
 );
-
 
 replace_symbols_and_equal('http_rule_$u{rules_suffix}_Doc_no_extension_htmlvirtuoso');
 replace_symbols_and_equal('http_rule_$u{rules_suffix}_Doc_extension_html');

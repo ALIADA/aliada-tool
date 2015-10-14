@@ -56,6 +56,8 @@ public class JobConfiguration {
 	private String uriDefPart;
 	/** The URI Dataset Concept section. */
 	private String uriConceptPart; 
+	/** The URI Set section. */
+	private String uriSetPart;
 	/** Virtuoso HTTP Server Root physical path. */
 	private String virtHttpServRoot;
 	/** Aliada Ontology URI. */
@@ -439,6 +441,25 @@ public class JobConfiguration {
 	 */
 	public void setUriConceptPart(final String uriConceptPart) {
 		this.uriConceptPart = uriConceptPart;
+	}
+
+	/**
+	 * Returns the URI Set section.
+	 * 
+	 * @return The URI Set section.
+	 * @since 2.0
+	 */
+	public String getUriSetPart() {
+		return uriSetPart;
+	}
+	/**
+	 * Sets the URI Set section.
+	 * 
+	 * @param uriSetPart The URI Set section.
+	 * @since 2.0
+	 */
+	public void setUriSetPart(final String uriSetPart) {
+		this.uriSetPart = uriSetPart;
 	}
 
 	/**

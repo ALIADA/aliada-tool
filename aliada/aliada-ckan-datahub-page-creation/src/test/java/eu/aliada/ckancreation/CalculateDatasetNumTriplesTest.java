@@ -72,6 +72,7 @@ public class CalculateDatasetNumTriplesTest {
 		job.setSqlLogin("sql_login");
 		job.setSqlPassword("sql_password");
 		job.setUriDocPart("doc");
+		job.setUriSetPart("set");
 		job.setDomainName("data.artium.org");
 		job.setOntologyUri("http://aliada-project.eu/2014/aliada-ontology#");
 		job.setUriConceptPart("collections");

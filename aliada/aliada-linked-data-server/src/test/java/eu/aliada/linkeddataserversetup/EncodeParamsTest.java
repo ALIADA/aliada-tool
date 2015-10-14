@@ -68,6 +68,7 @@ public class EncodeParamsTest {
 		job.setUriDocPart("doc");
 		job.setUriIdPart("id");
 		job.setUriDefPart("def");
+		job.setUriSetPart("set");
 		job.setDomainName("data.artium.org");
 		job.setOntologyUri("http://aliada-project.eu/2014/aliada-ontology#");
 		job.setUriConceptPart("collections");

@@ -73,14 +73,14 @@ public class DatasetDescFile {
 		fileName = fileName.replace(":", "");
 		fileName = fileName.replace("/", "");
 		fileName = fileName.replace(".", "")  + FILE_EXTENSION;
-    	this.name = fileName;
-    	//Compose dataset description file path
-    	String filePath = dataFolderName + File.separator + fileName;
+		this.name = fileName;
+		//Compose dataset description file path
+		String filePath = dataFolderName + File.separator + fileName;
 		//Replace Windows file separator by "/" Java file separator
-    	filePath = filePath.replace("\\", "/");
-    	this.path = filePath;
-    	
-    	//Compose dataset description file URL
+		filePath = filePath.replace("\\", "/");
+		this.path = filePath;
+
+		//Compose dataset description file URL
 		this.url = dataFolderURL  + "/" + this.name;
 		
 		//Compose URI document part + URI Concept part
@@ -93,9 +93,7 @@ public class DatasetDescFile {
 			} else {
 				uriDocConcept = removeLeadingTralingSlashes(jobConf.getUriConceptPart());
 			}
-		}
-
-		
+		}	
 	}
 
 	/**
@@ -233,7 +231,7 @@ public class DatasetDescFile {
         	final String datasetUri = "http://" + jobConf.getDomainName();  
 	    	out.write("<" + datasetUri + "> rdf:type void:Dataset ;");
 	    	out.newLine();
-	    	out.write("    foaf:homepage <http://" + jobConf.getDomainName()  + "> ;");
+	    	out.write("    foaf:homepage <" + datasetUri  + "> ;");
 	    	out.newLine();
 	    	out.write("    foaf:page <" + this.ckanDatasetUrl + "> ;");
 	    	out.newLine();
