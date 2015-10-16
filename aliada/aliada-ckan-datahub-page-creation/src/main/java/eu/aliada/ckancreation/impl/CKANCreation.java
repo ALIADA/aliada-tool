@@ -30,6 +30,7 @@ import eu.aliada.ckancreation.model.Job;
 import eu.aliada.ckancreation.model.JobConfiguration;
 import eu.aliada.ckancreation.model.DumpFileInfo;
 import eu.aliada.ckancreation.model.Subset;
+import eu.aliada.ckancreation.model.ExternalDataset;
 import eu.aliada.ckancreation.log.MessageCatalog;
 import eu.aliada.ckancreation.rdbms.DBConnectionManager;
 import eu.aliada.ckancreation.impl.DataDump;
@@ -66,6 +67,14 @@ public class CKANCreation {
 	private String ckanDatasetUrl;
 	/** the info of the dataset dump files. */
 	private final ArrayList<DumpFileInfo> datasetDumpFileInfoList = new ArrayList<DumpFileInfo>(); 
+	/** LIDO Example file*/
+	private static final String LIDO_EXAMPLE_FILE = "LIDOExample.rdf"; 
+	/** DC Example file*/
+	private static final String DC_EXAMPLE_FILE = "DCExample.rdf"; 
+	/** MARC BIB Example file*/
+	private static final String MARCBIB_EXAMPLE_FILE = "MARCBIBExample.rdf"; 
+	/** MARC AUTH Example file*/
+	private static final String MARCAUTH_EXAMPLE_FILE = "MARCAUTHExample.rdf"; 
 
 	/**
 	 * Constructor. 
@@ -95,6 +104,24 @@ public class CKANCreation {
 	}
 	
 	/**
+	 * Remove leading and trailing slashes of a given path.
+	 *
+	 * @param path	path to remove leading and trailing slashes.
+	 * @return the path without leading and trailing slashes.
+	 * @since 2.0
+	 */
+	protected String removeLeadingTralingSlashes(final String path){
+		String cleanPath = "";
+		//Remove leading and trailing spaces
+		cleanPath = path.trim();
+		//Remove leading slashes
+		cleanPath = cleanPath.replaceFirst("^/+", "");
+		//Remove trailing slashes
+		cleanPath = cleanPath.replaceFirst("/+$", "");
+		return cleanPath;
+	}
+
+	/**
 	 * Gets the organization information from CKAN Datahub.
 	 *
 	 * @param orgName	the organization name.
@@ -119,6 +146,7 @@ public class CKANCreation {
 		try {
 			cResponse = mapper.readValue(orgShowResp, CKANOrgResponse.class);
     	} catch (Exception exception) {
+    		cResponse.setSuccess("false");
 			LOGGER.error(MessageCatalog._00032_OBJECT_CONVERSION_FAILURE, exception);
 		}
 		return cResponse;
@@ -176,6 +204,7 @@ public class CKANCreation {
 		try {
 			cResponse = mapper.readValue(orgUpdateResp, CKANOrgResponse.class);
     	} catch (Exception exception) {
+    		cResponse.setSuccess("false");
 			LOGGER.error(MessageCatalog._00032_OBJECT_CONVERSION_FAILURE, exception);
 		}
 		return cResponse;
@@ -205,6 +234,7 @@ public class CKANCreation {
 		try {
 			cResponse = mapper.readValue(datasetShowResp, CKANDatasetResponse.class);
     	} catch (Exception exception) {
+    		cResponse.setSuccess("false");
 			LOGGER.error(MessageCatalog._00032_OBJECT_CONVERSION_FAILURE, exception);
 		}
 		return cResponse;
@@ -282,6 +312,7 @@ public class CKANCreation {
 		try {
 			cResponse = mapper.readValue(datasetCreateResp, CKANDatasetResponse.class);
     	} catch (Exception exception) {
+    		cResponse.setSuccess("false");
 			LOGGER.error(MessageCatalog._00032_OBJECT_CONVERSION_FAILURE, exception);
 		}
 		return cResponse;
@@ -319,6 +350,7 @@ public class CKANCreation {
 		try {
 			cResponse = mapper.readValue(datasetCreateResp, CKANDatasetResponse.class);
     	} catch (Exception exception) {
+    		cResponse.setSuccess("false");
 			LOGGER.error(MessageCatalog._00032_OBJECT_CONVERSION_FAILURE, exception);
 		}
 		return cResponse;
@@ -372,6 +404,7 @@ public class CKANCreation {
 		try {
 			cResponse = mapper.readValue(datasetCreateResp, CKANResourceResponse.class);
     	} catch (Exception exception) {
+    		cResponse.setSuccess("false");
 			LOGGER.error(MessageCatalog._00032_OBJECT_CONVERSION_FAILURE, exception);
 			LOGGER.debug("name=" + resource.getName() + 
 					", packageId=" + resource.getPackageId() + 
@@ -379,6 +412,7 @@ public class CKANCreation {
 					", format=" + resource.getFormat() + 
 					", url=" +  resource.getFormat() + 
 					", type=" + resource.getType());
+			LOGGER.debug("CKAN response="+datasetCreateResp);
 		}
 		return cResponse;
 	}
@@ -430,7 +464,27 @@ public class CKANCreation {
 		final Dataset dataset = new Dataset(jobConf.getCkanDatasetName(), null,
 				jobConf.getDatasetAuthor(),	jobConf.getDatasetLongDesc(), 
 				jobConf.getDatasetSourceURL(), cOrgResponse.getResult().getId(),
-				jobConf.getLicenseCKANId(), "active", numTriples);
+				jobConf.getLicenseCKANId(), "active", numTriples, jobConf.getDatasetAuthorEmail());
+
+		//Set some extra values
+		//Num. triples
+		dataset.setExtra("triples", ""+ numTriples);
+		//Num. links to external datasets
+		ArrayList<ExternalDataset> targetDatasetList = dbConn.getTargetDatasets();
+		for (final Iterator<ExternalDataset> extDatasetIter = targetDatasetList.iterator(); extDatasetIter.hasNext();  ) {
+			final ExternalDataset targetDataset = extDatasetIter.next();
+			final int numLinks = dbConn.getNumLinksToExtDataset(jobConf.getDatasetId(), targetDataset.getName());
+			dataset.setExtra("links:" + targetDataset.getCkanName(), ""+ numLinks);
+		}
+		
+		//Namespace
+       	final String datasetUri = "http://" + jobConf.getDomainName();  
+		final String uriConceptDataset = removeLeadingTralingSlashes(jobConf.getUriConceptPart());
+       	String namespace = datasetUri + "/" + jobConf.getUriIdPart() + "/";
+       	if(uriConceptDataset.length() > 0) {
+       		namespace = namespace + uriConceptDataset + "/";
+       	}
+		dataset.setExtra("namespace", ""+ namespace);
 
 		//Check if dataset already exists. If it exists, update it. 
 		final CKANDatasetResponse cGetDataResponse = getDatasetCKAN(jobConf.getCkanDatasetName());
@@ -511,6 +565,37 @@ public class CKANCreation {
 	}
 
 	/**
+	 * Create a example resource in CKAN.
+	 *
+	 * @param datasetCkanId	the datset Id in CKAN.
+	 * @param exampleType		the example type (LIDO, DC, MARC BIB, MAC AUTH.
+	 * @param exampleFileName	the example file name.
+	 * @return	the {@link eu.aliada.ckancreation.model.CKANResourceResponse}
+	 * 			which contains the information of the resource in CKAN.
+	 * @since 2.0
+	 */
+	public CKANResourceResponse createExampleResource(final String datasetCkanId, final String exampleType, 
+			final String exampleFileName){
+		CKANResourceResponse cResourceResponse = null;
+		String exampleFileURL = copyFileToWebServerPath(exampleFileName);
+		if(exampleFileURL != null) {
+			final String resourceName = "Example resource of " + exampleType;
+			cResourceResponse = createResourceCKAN(datasetCkanId, 
+					resourceName,
+					"Example resource of " + exampleType + " in RDF/XML format",
+					"example/rdf+xml", 
+					exampleFileURL,
+					"file");
+			if(cResourceResponse.getSuccess().equals("true")) {
+				LOGGER.debug(MessageCatalog._00044_CKAN_RESOURCE_CREATED, resourceName);
+			} else {
+				LOGGER.error(MessageCatalog._00039_CREATE_RESOURCE_CKAN_FAILURE, cResourceResponse.getError().getMessage());
+			}
+		} 
+		return cResourceResponse;
+	}
+
+	/**
 	 * Create the dataset in CKAN Datahub.
 	 *
 	 * @param cDataResponse	the {@link eu.aliada.ckancreation.model.CKANDatasetResponse}
@@ -564,6 +649,29 @@ public class CKANCreation {
 			} else {
 				LOGGER.error(MessageCatalog._00039_CREATE_RESOURCE_CKAN_FAILURE, cResourceResponse.getError().getMessage());
 			}
+		}
+
+		//Create resource: Example resource of LIDO.
+		createExampleResource(cDataResponse.getResult().getId(), "LIDO", LIDO_EXAMPLE_FILE);
+		//Create resource: Example resource of DC
+		createExampleResource(cDataResponse.getResult().getId(), "DC", DC_EXAMPLE_FILE);
+		//Create resource: Example resource of MARC BIB.
+		createExampleResource(cDataResponse.getResult().getId(), "MARC BIB", MARCBIB_EXAMPLE_FILE);
+		//Create resource: Example resource of MARC AUTH.
+		createExampleResource(cDataResponse.getResult().getId(), "MARC AUTH", MARCAUTH_EXAMPLE_FILE);
+		
+		//Create resource: schema.
+		resourceName = "RDF Schema";
+		cResourceResponse = createResourceCKAN(cDataResponse.getResult().getId(), 
+				resourceName,
+				"RDF Schema",
+				"meta/rdf-schema", 
+				jobConf.getOntologyUri(),
+				"file");
+		if(cResourceResponse.getSuccess().equals("true")) {
+			LOGGER.debug(MessageCatalog._00044_CKAN_RESOURCE_CREATED, resourceName);
+		} else {
+			LOGGER.error(MessageCatalog._00039_CREATE_RESOURCE_CKAN_FAILURE, cResourceResponse.getError().getMessage());
 		}
 
 		return cResourceResponse;
@@ -620,6 +728,37 @@ public class CKANCreation {
 		}
 		return success;
 	}
+	
+	/**
+	 * It copies a file located in the resources path, to the dataset web root.
+	 *
+	 * @param fileName	the file name.  
+	 * @return the URL of the copied file.  					
+	 * @since 2.0
+	 */
+	public String copyFileToWebServerPath(final String fileName) {
+		String fileURL = null;
+		try {
+			//Copy the file to the definitive folder
+			final InputStream inpuStream= getClass().getResourceAsStream("/"+ fileName);
+			final String outputFilePath = dataFolderName + File.separator + fileName;
+			final File outputFile = new File (outputFilePath);
+			final FileOutputStream outputStream =  new FileOutputStream(outputFile);			
+			int read = 0;
+			final byte[] bytes = new byte[1024]; 
+			while ((read = inpuStream.read(bytes)) != -1) {
+				outputStream.write(bytes, 0, read);
+			}
+			outputStream.close();
+			inpuStream.close();
+			fileURL = dataFolderURL + "/" + fileName;
+		} catch (Exception exception) {
+			LOGGER.error(MessageCatalog._00035_FILE_ACCESS_FAILURE, exception, fileName);
+		}
+		return fileURL;
+	}
+	
+	
 	/**
 	 * It creates a new Dataset in CKAN Datahub. 
 	 * Removes it first if it already exists.

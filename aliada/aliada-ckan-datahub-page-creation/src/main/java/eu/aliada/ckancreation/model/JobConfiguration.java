@@ -56,10 +56,14 @@ public class JobConfiguration {
 	private String orgHomePage;
 	
 	/** DATASET **/
+	/** The dataset Identifier in the internal DB. */
+	private int datasetId;
 	/** The dataset name. */
 	private String ckanDatasetName;
-	/** The dataset  author. */
+	/** The dataset author. */
 	private String datasetAuthor;
+	/** The dataset author e-mail. */
+	private String datasetAuthorEmail;
 	/** The dataset source URL. */
 	private String datasetSourceURL;
 	/** the dataset short description. */
@@ -83,6 +87,8 @@ public class JobConfiguration {
 	/** The virtual host name that the browser presents as Host: 
 	 * entry in the request headers. i.e. Name-based virtual hosting. */
 	private String virtualHost;
+	/** The URI Identifier section. */
+	private String uriIdPart;
 	/** The URI Document section. */
 	private String uriDocPart;
 	/** The URI Dataset Concept section. */
@@ -442,6 +448,26 @@ public class JobConfiguration {
 	}
 
 	/**
+	 * Returns the dataset Identifier in the internal DB.
+	 * 
+	 * @return The dataset Identifier in the internal DB.
+	 * @since 2.0
+	 */
+	public int getDatasetId() {
+		return datasetId;
+	}
+	/**
+	 * Sets the dataset Identifier in the internal DB.
+	 * 
+	 * @param datasetId The dataset Identifier in the internal DB.
+	 * @since 2.0
+	 */
+	public void setDatasetId(final int datasetId) {
+		this.datasetId = datasetId;
+	}
+
+
+	/**
 	 * Returns the dataset name in CKAN.
 	 * 
 	 * @return The dataset name in CKAN.
@@ -477,6 +503,25 @@ public class JobConfiguration {
 	 */
 	public void setDatasetAuthor(final String datasetAuthor) {
 		this.datasetAuthor = datasetAuthor;
+	}
+
+	/**
+	 * Returns the dataset author e-mail.
+	 * 
+	 * @return The dataset author e-mail.
+	 * @since 2.0
+	 */
+	public String getDatasetAuthorEmail() {
+		return datasetAuthorEmail;
+	}
+	/**
+	 * Sets the dataset author e-mail.
+	 * 
+	 * @param datasetAuthor dataset author e-mail.
+	 * @since 2.0
+	 */
+	public void setDatasetAuthorEmail(final String datasetAuthorEmail) {
+		this.datasetAuthorEmail = datasetAuthorEmail;
 	}
 
 	/**
@@ -691,6 +736,25 @@ public class JobConfiguration {
 	 */
 	public void setVirtualHost(final String virtualHost) {
 		this.virtualHost = virtualHost;
+	}
+
+	/**
+	 * Returns the URI Identifier section.
+	 * 
+	 * @return The URI Identifier section.
+	 * @since 2.0
+	 */
+	public String getUriIdPart() {
+		return uriIdPart;
+	}
+	/**
+	 * Sets the URI Identifier section.
+	 * 
+	 * @param uriIdPart The URI Identifier section.
+	 * @since 2.0
+	 */
+	public void setUriIdPart(final String uriIdPart) {
+		this.uriIdPart = uriIdPart;
 	}
 
 	/**

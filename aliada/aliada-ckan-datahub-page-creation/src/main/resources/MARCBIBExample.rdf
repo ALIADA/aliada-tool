@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<rdf:RDF
+	xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+	xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+	xmlns:owl="http://www.w3.org/2002/07/owl#"
+	xmlns:ns3="http://erlangen-crm.org/current/"
+	xmlns:ns4="http://erlangen-crm.org/efrbroo/" >
+  <rdf:Description rdf:about="http://aliada.scanbit.net:8891/id/collections/library/bib/F2_Expression/733bcb48-fbed-3a14-8472-6a90f1fb2e79">
+    <ns4:R4_carriers_provided_by rdf:resource="http://aliada.scanbit.net:8891/id/collections/library/bib/F3_Manifestation_Product_Type/000000083503" />
+  </rdf:Description>
+  <rdf:Description rdf:about="http://aliada.scanbit.net:8891/id/collections/library/bib/F3_Manifestation_Product_Type/000000083503">
+    <rdf:type rdf:resource="http://erlangen-crm.org/efrbroo/F3_Manifestation_Product_Type" />
+    <rdfs:label>Hable con ella</rdfs:label>
+    <owl:sameAs rdf:resource="http://dbpedia.org/resource/Talk_to_Her" />
+    <ns3:P102_has_title rdf:resource="http://aliada.scanbit.net:8891/id/collections/library/bib/E35_Title/be5fe40f-39c8-3dbb-aa0f-ffef4b7acb1b" />
+    <ns3:P148_has_component rdf:resource="http://aliada.scanbit.net:8891/id/collections/library/bib/E33_Linguistic_Object/bf1dd758-d7a2-3aca-a2eb-156fc9ec75f6" />
+    <ns3:P148_has_component rdf:resource="http://aliada.scanbit.net:8891/id/collections/library/bib/E33_Linguistic_Object/3f777700-0267-3cfe-bd66-c48510e574a3" />
+    <ns3:P149_is_identified_by rdf:resource="http://aliada.scanbit.net:8891/id/collections/library/bib/E75_Conceptual_Object_Appellation/4d0819c2-63ca-3c30-887c-a72ecca7a0c9" />
+    <ns4:CLP2_should_have_type rdf:resource="http://aliada.scanbit.net:8891/id/collections/library/bib/E55_Type/34e2d198-9a1d-3f75-8d63-1596133ee5ee" />
+    <ns4:CLP43_should_have_dimension rdf:resource="http://aliada.scanbit.net:8891/id/collections/library/bib/E54_Dimension/75114e7d-bf26-3d82-9792-5592e1a803f8" />
+  </rdf:Description>
+</rdf:RDF>

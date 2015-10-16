@@ -20,7 +20,7 @@ public class CKANDatasetResponse {
 	/** Help text for the API function. */
 	private String help;
 	/** API function result. */
-	private Dataset result;
+	private DatasetDeserialize result;
 	/** It indicates if the API function was executed successfully or not. */
 	private String success;
 	/** If success=false, this field indicates the exception. */
@@ -59,7 +59,7 @@ public class CKANDatasetResponse {
 	 * @return The {@link eu.aliada.ckancreation.model.Dataset} in API function result.
 	 * @since 2.0
 	 */
-	public Dataset getResult() {
+	public DatasetDeserialize getResult() {
 		return this.result;
 	}
 	/**
@@ -68,7 +68,7 @@ public class CKANDatasetResponse {
 	 * @param result The {@link eu.aliada.ckancreation.model.Dataset} in API function result.
 	 * @since 2.0
 	 */
-	public void setResult(final Dataset result) {
+	public void setResult(final DatasetDeserialize result) {
 		this.result = result;
 	}
 

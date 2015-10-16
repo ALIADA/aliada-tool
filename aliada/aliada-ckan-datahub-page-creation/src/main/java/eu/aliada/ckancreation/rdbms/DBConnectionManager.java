@@ -18,11 +18,13 @@ import java.sql.SQLException;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.sql.Blob;
+import java.util.ArrayList;
 
 import eu.aliada.ckancreation.log.MessageCatalog;
 import eu.aliada.ckancreation.model.Job;
 import eu.aliada.ckancreation.model.JobConfiguration;
 import eu.aliada.ckancreation.model.Subset;
+import eu.aliada.ckancreation.model.ExternalDataset;
 import eu.aliada.shared.log.Log;
 
 /**
@@ -145,6 +147,7 @@ public class DBConnectionManager {
 				jobConf.setOrgDescription(resultSet.getString("org_description"));
 				jobConf.setOrgHomePage(resultSet.getString("org_home_page"));
 				datasetId = resultSet.getInt("datasetId");
+				jobConf.setDatasetId(datasetId);
 				organisationId = resultSet.getInt("organisationId");
 		    }
 			resultSet.close();
@@ -153,6 +156,7 @@ public class DBConnectionManager {
 			resultSet = sta.executeQuery(sql);
 			while (resultSet.next()) {
 				jobConf.setDatasetAuthor(resultSet.getString("dataset_author"));
+				jobConf.setDatasetAuthorEmail(resultSet.getString("dataset_author_email"));
 				jobConf.setCkanDatasetName(resultSet.getString("ckan_dataset_name"));
 				jobConf.setDatasetDesc(resultSet.getString("dataset_desc"));
 				jobConf.setDatasetLongDesc(resultSet.getString("dataset_long_desc"));
@@ -165,6 +169,7 @@ public class DBConnectionManager {
 				jobConf.setLicenseURL(resultSet.getString("license_url"));
 				jobConf.setDomainName(resultSet.getString("domain_name"));
 				jobConf.setVirtualHost(resultSet.getString("virtual_host"));
+				jobConf.setUriIdPart(resultSet.getString("uri_id_part"));
 				jobConf.setUriDocPart(resultSet.getString("uri_doc_part"));
 				jobConf.setUriConceptPart(resultSet.getString("uri_concept_part"));
 				jobConf.setUriSetPart(resultSet.getString("uri_set_part"));
@@ -360,4 +365,69 @@ public class DBConnectionManager {
 		return job;
 	}
 
+	/**
+	 * Gets the names of the external datasets to which the aliada dataset is linked.
+	 *
+	 * @return	the list of the names of the external datasets.
+	 * @since 2.0
+	 */
+	public ArrayList<ExternalDataset> getTargetDatasets() {
+		ArrayList<ExternalDataset> targetDatasetList = new ArrayList<ExternalDataset>(); 
+		try {
+			final Statement sta = getConnection().createStatement();
+			String sql = "SELECT DISTINCT external_dataset_name, external_dataset_name_ckan FROM t_external_dataset";
+			ResultSet resultSet = sta.executeQuery(sql);
+			while (resultSet.next()) {
+				final ExternalDataset targetDataset = new ExternalDataset();
+				targetDataset.setName(resultSet.getString("external_dataset_name"));
+				targetDataset.setCkanName(resultSet.getString("external_dataset_name_ckan"));				
+				targetDatasetList.add(targetDataset);
+		    }
+			resultSet.close();
+			sta.close();
+		} catch (SQLException exception) {
+			LOGGER.error(MessageCatalog._00024_DATA_ACCESS_FAILURE, exception);
+		}
+		return targetDatasetList;
+	}
+
+	/**
+	 * Gets the number of links from the specified ALIADA dataset to the specified
+	 * target dataset.
+	 *
+	 * @param datasetId		The dataset Identifier in the internal DB.
+	 * @param targetDataset	The target dataset name.
+	 * @return	the number of links.
+	 * @since 2.0
+	 */
+	public int getNumLinksToExtDataset(final int datasetId, final String targetDataset) {
+		int numLinks = 0;
+		try {
+			final Statement sta = getConnection().createStatement();
+			String sql = "SELECT job.input_graph, subjob.num_links FROM subset, linksdiscovery_job_instances job," +
+					" linksdiscovery_subjob_instances subjob WHERE subset.datasetId=" + datasetId +   
+					" AND job.input_graph=subset.graph_uri AND subjob.job_id=job.job_id" +
+					" AND subjob.name='" + targetDataset +
+					//Order the results to group together the links for the same graph
+					//so that we only use the first row of them, as it is the latest linking
+					//performed against that graph
+					"' ORDER BY job.input_graph DESC,  subjob.end_date DESC";
+			ResultSet resultSet = sta.executeQuery(sql);
+			String prevGraph = "";
+			while (resultSet.next()) {
+				if (!prevGraph.equals(resultSet.getString("input_graph"))) {
+					//Get only the latest number of links found.
+					numLinks = numLinks + resultSet.getInt("num_links");
+					prevGraph = resultSet.getString("input_graph");
+				}
+				
+		    }
+			resultSet.close();
+			sta.close();
+		} catch (SQLException exception) {
+			LOGGER.error(MessageCatalog._00024_DATA_ACCESS_FAILURE, exception);
+		}
+		return numLinks;
+	}
+	
 }

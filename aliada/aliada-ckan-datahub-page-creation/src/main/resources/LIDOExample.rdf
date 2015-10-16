@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<rdf:RDF
+	xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+	xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+	xmlns:ns2="http://erlangen-crm.org/current/" >
+  <rdf:Description rdf:about="http://aliada.scanbit.net:8891/id/collections/museum/E18_Physical_Thing/szepmuveszeti.hu_object_29">
+    <rdf:type rdf:resource="http://erlangen-crm.org/current/E18_Physical_Thing" />
+    <rdfs:label>Világosszürke fal</rdfs:label>
+    <ns2:P3_has_note>60 x 82 cm</ns2:P3_has_note>
+    <ns2:P104_is_subject_to rdf:resource="http://aliada.scanbit.net:8891/id/collections/museum/E30_Right/bf8b8a49-1160-3a6a-bd8a-94d52261d926" />
+    <ns2:P12i_was_present_at rdf:resource="http://aliada.scanbit.net:8891/id/collections/museum/E65_Creation/2521444820727836" />
+    <ns2:P138i_has_representation rdf:resource="http://aliada.scanbit.net:8891/id/collections/museum/E36_Visual_Item/cfd382c5-eb81-3d52-87fa-f45a96f20b81" />
+    <ns2:P138i_has_representation rdf:resource="http://aliada.scanbit.net:8891/id/collections/museum/E36_Visual_Item/6ea9ab1b-aa0e-3b9e-9909-4440c317e21b" />
+    <ns2:P1_is_identified_by rdf:resource="http://aliada.scanbit.net:8891/id/collections/museum/E41_Appellation/9439d2f4-766a-3bbb-af6b-7d88d0cc3a7c" />
+    <ns2:P2_has_type rdf:resource="http://aliada-project.eu/2014/aliada-ontology#id/resource/Concept/MFAB/Department/2" />
+    <ns2:P2_has_type rdf:resource="http://aliada-project.eu/2014/aliada-ontology#id/resource/Concept/IMAGE" />
+    <ns2:P2_has_type rdf:resource="http://aliada-project.eu/2014/aliada-ontology#id/resource/Concept/MFAB/Classification/68" />
+    <ns2:P43_has_dimension rdf:resource="http://aliada.scanbit.net:8891/id/collections/museum/E54_Dimension/2521444820727834" />
+    <ns2:P43_has_dimension rdf:resource="http://aliada.scanbit.net:8891/id/collections/museum/E54_Dimension/2521444820727835" />
+    <ns2:P50_has_current_keeper rdf:resource="http://aliada.scanbit.net:8891/id/collections/museum/E39_Actor/f5f86cb4-b308-34b9-a73b-d40d474d735d" />
+    <ns2:P53_has_former_or_current_location rdf:resource="http://aliada.scanbit.net:8891/id/collections/museum/E53_Place/d2208687-2948-348e-8ddc-4dc8de8ba3e6" />
+    <ns2:P70i_is_documented_in rdf:resource="http://aliada.scanbit.net:8891/id/collections/museum/E31_Document/02df1807-b58b-3190-b7c7-8d7b73a1d4fa" />
+    <ns2:P70i_is_documented_in rdf:resource="http://aliada.scanbit.net:8891/id/collections/museum/E31_Document/6ea9ab1b-aa0e-3b9e-9909-4440c317e21b" />
+  </rdf:Description>
+</rdf:RDF>

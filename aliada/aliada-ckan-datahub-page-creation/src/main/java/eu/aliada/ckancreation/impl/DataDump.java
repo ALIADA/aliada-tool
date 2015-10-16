@@ -33,7 +33,8 @@ public class DataDump {
 	/** Dump file maximum length **/
 	private static final int FILE_LENGTH_LIMIT = 1000000000; 
 	/** Dump file format **/
-	private static final String FILE_FORMAT = "application/x-gzip"; 
+//	private static final String FILE_FORMAT = "application/x-gzip"; 
+	private static final String FILE_FORMAT = "application/x-ntriples"; 
 	/** Dump file extension **/
 	private static final String FILE_EXTENSION = ".gz"; 
 

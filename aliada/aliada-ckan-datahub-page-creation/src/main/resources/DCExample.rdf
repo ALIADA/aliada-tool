@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<rdf:RDF
+	xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+	xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+	xmlns:ns2="http://erlangen-crm.org/current/" >
+  <rdf:Description rdf:about="http://aliada.scanbit.net:8891/id/collections/dc/E73_Information_Object/906b96d2-ba90-3c33-a4f0-906ebf4aa67b">
+    <rdf:type rdf:resource="http://erlangen-crm.org/current/E73_Information_Object" />
+    <rdfs:label>Ivanhoe</rdfs:label>
+    <rdfs:label>oai:aliada-project:7125</rdfs:label>
+    <ns2:P102_has_title rdf:resource="http://aliada.scanbit.net:8891/id/collections/dc/E73_Information_Object/c8adc074-bac4-3b80-aeb2-20d21a6187af" />
+    <ns2:P129_is_about rdf:resource="http://aliada.scanbit.net:8891/id/collections/dc/E1_CRM_Entity/789d7b0d-fd33-3aef-84f8-9463a00a15aa" />
+    <ns2:P129_is_about rdf:resource="http://aliada.scanbit.net:8891/id/collections/dc/E1_CRM_Entity/a35d5267-ba67-3cc5-9939-632d68476a01" />
+    <ns2:P1_is_identified_by rdf:resource="http://aliada.scanbit.net:8891/id/collections/dc/Ε75_Conceptual_Object_Appellation/2521444831018573" />
+    <ns2:P67_refers_to rdf:resource="http://aliada.scanbit.net:8891/id/collections/dc/E24_Physical_Man-Made_Thing/2521444831018578" />
+    <ns2:P94i_was_created_by rdf:resource="http://aliada.scanbit.net:8891/id/collections/dc/E65_Creation/2521444831018577" />
+  </rdf:Description>
+</rdf:RDF>

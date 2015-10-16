@@ -27,7 +27,8 @@ public class DatasetDescFile {
 	/** For logging. */
 	private static final Log LOGGER  = new Log(DataDump.class);
 	/** Description file format **/
-	static final String FILE_FORMAT = "text/turtle"; 
+//	static final String FILE_FORMAT = "text/turtle"; 
+	static final String FILE_FORMAT = "meta/void"; 
 	/** Description file extension **/
 	static final String FILE_EXTENSION = ".ttl"; 
 	//Properties names
@@ -240,6 +241,10 @@ public class DatasetDescFile {
 	    	out.write("    dcterms:description \"" + jobConf.getDatasetLongDesc() + "\" ;");
 	    	out.newLine();
 	    	out.write("    dcterms:publisher \"" + jobConf.getOrgName().toUpperCase() + "\" ;");
+	    	out.newLine();
+	    	out.write("    dcterms:creator \"" + jobConf.getOrgName().toUpperCase() + "\" ;");
+	    	out.newLine();
+	    	out.write("    dcterms:rightsHolder \"" + jobConf.getOrgName().toUpperCase() + "\" ;");
 	    	out.newLine();
 	    	out.write("    dcterms:source <" + jobConf.getDatasetSourceURL() + "> ;");
 	    	out.newLine();

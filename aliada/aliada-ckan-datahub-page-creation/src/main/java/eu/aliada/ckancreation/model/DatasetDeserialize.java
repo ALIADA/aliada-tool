@@ -5,21 +5,17 @@
 // Responsible: ALIADA Consortium
 package eu.aliada.ckancreation.model;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Dataset information.
+ * Dataset information used for the de-serialization of he JSON object received from the CKAN Datahub server.
  * 
  * @author Idoia Murua
  * @since 2.0
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Dataset {
+public class DatasetDeserialize {
 
 	/** The dataset name. */
 	private String name;
@@ -47,17 +43,13 @@ public class Dataset {
 	private int triples;
 	/** The dataset version. */
 	private String version;
-	/** The tags associated to the dataset. */
-	private ArrayList<Map<String, String>> tags = new ArrayList<Map<String, String>>();
-	/** The extra attributes for the dataset. */
-	private ArrayList<Map<String, String>> extras = new ArrayList<Map<String, String>>();
 
 	/**
 	 * Constructor.
 	 * 
 	 * @since 2.0
 	 */
-	public Dataset() {
+	public DatasetDeserialize() {
 	}
 
 	/**
@@ -74,7 +66,7 @@ public class Dataset {
 	 * @param triples		the number of triples in the dataset.
 	 * @since 2.0
 	 */
-	public Dataset(final String name, final String id, final String author, final String notes, 
+	public DatasetDeserialize(final String name, final String id, final String author, final String notes, 
 			final String sourceUrl, final String ownerOrg, final String licenseCKANId, 
 			final String state, final int triples, final String authorEmail)
 	{
@@ -90,21 +82,6 @@ public class Dataset {
 		this.triples = triples;
 		final java.util.Date today = new java.util.Date();
 		this.version = today.toString();
-		//Set the tags associated to the dataset
-		setTag("lod");
-		setTag("publications");
-		setTag("published-by-producer");
-//		setTag("deref-vocab");
-		setTag("no-proprietary-vocab");
-		setTag("no-vocab-mappings");
-		setTag("format-owl");
-		setTag("format-frbroo");
-		setTag("format-foaf");
-		setTag("format-skos");
-		setTag("format-wgs84");
-		setTag("format-owltime");
-		setTag("provenance-metadata");
-		setTag("license-metadata");
 	}
 	
 	/**
@@ -315,89 +292,4 @@ public class Dataset {
 	public void setTriples(final int triples) {
 		this.triples = triples;
 	}
-
-	/**
-	 * Returns the tags associated to the dataset.
-	 * 
-	 * @return The tags associated to the dataset.
-	 * @since 2.0
-	 */
-	public ArrayList<Map<String, String>> getTags() {
-		return this.tags;
-	}
-	/**
-	 * Set the tags associated to the dataset.
-	 * 
-	 * @param tags The tags associated to the dataset.
-	 * @since 2.0
-	 */
-	public void setTags(final ArrayList<Map<String, String>> tags) {
-		this.tags = tags;
-	}
-	/**
-	 * Adds a tag associated to the dataset.
-	 * 
-	 * @param user The tag to add.
-	 * @since 2.0
-	 */
-	public void addTag(final Map<String, String> tag) {
-		tags.add(tag);
-	}
-
-	////////////////////////////////////////////
-	/**
-	 * Adds a tag associated to the dataset.
-	 * 
-	 * @param tagName The name of the tag.
-	 * @since 2.0
-	 */
-	public void setTag(final String tagName) {
-		final Map<String, String> tag = new HashMap<String, String>();
-		tag.put("name", tagName);		
-		this.tags.add(tag);
-	}
-	////////////////////////////////////////////
-
-	/**
-	 * Returns the extra attributes for the dataset.
-	 * 
-	 * @return The extra attributes for the dataset.
-	 * @since 2.0
-	 */
-	public ArrayList<Map<String, String>> getExtras() {
-		return this.extras;
-	}
-	/**
-	 * Set the extra attributes for the dataset.
-	 * 
-	 * @param extras The extra attributes to set.
-	 * @since 2.0
-	 */
-	public void setExtras(final ArrayList<Map<String, String>> extras) {
-		this.extras = extras;
-	}
-	/**
-	 * Adds a extra attribute for the dataset.
-	 * 
-	 * @param extra The extra attribute to add.
-	 * @since 2.0
-	 */
-	public void addExtra(final Map<String, String> extra) {
-		extras.add(extra);
-	}
-	////////////////////////////////////////////
-	/**
-	 * Adds a extra to the dataset.
-	 * 
-	 * @param extraKey		Key name.
-	 * @param extraValue	Key value.
-	 * @since 2.0
-	 */
-	public void setExtra(final String extraKey, final String extraValue) {
-		final Map<String, String> extra = new HashMap<String, String>();
-		extra.put("key", extraKey);		
-		extra.put("value", extraValue);		
-		this.extras.add(extra);
-	}
-	////////////////////////////////////////////
 }

@@ -8,6 +8,7 @@ package eu.aliada.ckancreation.model;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.HashMap;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 
@@ -31,11 +32,11 @@ public class Organization {
 	/** The organization image URL. */
 	private String image_url;
 	/** The users that belong to the organization. */
-	private final ArrayList<Map<String, String>> users = new ArrayList<Map<String, String>>();
+	private ArrayList<Map<String, String>> users = new ArrayList<Map<String, String>>();
 	/** The extra attributes for the organization. */
-	private final ArrayList<Map<String, String>> extras = new ArrayList<Map<String, String>>();
+	private ArrayList<Map<String, String>> extras = new ArrayList<Map<String, String>>();
 	/** The organization packages/datasets. */
-	private final ArrayList<Map<String, String>> packages = new ArrayList<Map<String, String>>();
+	private ArrayList<Map<String, String>> packages = new ArrayList<Map<String, String>>();
 
 	/**
 	 * Constructor.
@@ -174,6 +175,15 @@ public class Organization {
 		return this.users;
 	}
 	/**
+	 * Set the users.
+	 * 
+	 * @param users The users to set.
+	 * @since 2.0
+	 */
+	public void setUsers(final ArrayList<Map<String, String>> users) {
+		this.users = users;
+	}
+	/**
 	 * Adds a user that belong to the organization.
 	 * 
 	 * @param user The user to add.
@@ -193,6 +203,15 @@ public class Organization {
 		return this.extras;
 	}
 	/**
+	 * Set the extra attributes.
+	 * 
+	 * @param extras The extra attributes to set.
+	 * @since 2.0
+	 */
+	public void setExtras(final ArrayList<Map<String, String>> extras) {
+		this.extras = extras;
+	}
+	/**
 	 * Adds a extra attribute for the organization.
 	 * 
 	 * @param extra The extra attribute to add.
@@ -210,6 +229,15 @@ public class Organization {
 	 */
 	public ArrayList<Map<String, String>> getPackages() {
 		return this.packages;
+	}
+	/**
+	 * Set the packages.
+	 * 
+	 * @param packages The packages to set.
+	 * @since 2.0
+	 */
+	public void setPackages(final ArrayList<Map<String, String>> packages) {
+		this.packages = packages;
 	}
 	/**
 	 * Adds a package/dataset to the organization.

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<rdf:RDF
+	xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+	xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+	xmlns:owl="http://www.w3.org/2002/07/owl#"
+	xmlns:ns3="http://erlangen-crm.org/current/" >
+  <rdf:Description rdf:about="http://aliada.scanbit.net:8891/id/collections/library/auth/E21_Person/a4aea8be-47a4-30f0-b66b-0b75c5fcb9e3">
+    <rdf:type rdf:resource="http://erlangen-crm.org/efrbroo/F10_Person" />
+    <owl:sameAs rdf:resource="http://www.viaf.org/viaf/34768718" />
+    <ns3:P131_is_identified_by rdf:resource="http://aliada.scanbit.net:8891/id/collections/library/auth/E82_Actor_Appellation/386bc882-7ee9-39ef-9df5-d6cc5f7d031d" />
+  </rdf:Description>
+</rdf:RDF>
