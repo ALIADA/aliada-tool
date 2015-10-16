@@ -188,6 +188,10 @@ $(function(){
 				<td><html:property value="datasetAuthorForm" /></td>
 			</tr>
 			<tr>
+				<td class="label"><html:text name="datasetAuthorEmailForm"/></td>
+				<td><html:property value="datasetAuthorEmailForm" /></td>
+			</tr>
+			<tr>
 				<td class="label"><html:text name="ckanDatasetNameForm"/></td>
 				<td><html:property value="ckanDatasetNameForm" /></td>
 			</tr>
@@ -400,6 +404,14 @@ $(function(){
 				<td><html:textfield key="sparqlEndpointPasswordForm" maxLength="128" cssClass="inputForm frigth input" /></td>
 			</tr>
 			<tr>
+				<td class="label"><html:text name="datasetAuthorForm"/>
+				<td><html:textfield key="datasetAuthorForm" maxLength="128" cssClass="inputForm frigth input" /></td>
+			</tr>
+			<tr>
+				<td class="label"><html:text name="datasetAuthorEmailForm"/>
+				<td><html:textfield key="datasetAuthorEmailForm" maxLength="128" cssClass="inputForm frigth input" /></td>
+			</tr>
+			<tr>
 				<td class="label"><html:text name="ckanDatasetNameForm"/>
 				<td><html:textfield key="ckanDatasetNameForm" maxLength="128" cssClass="inputForm frigth input" /></td>
 			</tr>
@@ -491,6 +503,14 @@ $(function(){
 			<tr>
 				<td class="label"><html:text name="sparqlEndpointPasswordForm"/></td>
 				<td><html:textfield key="sparqlEndpointPasswordForm" maxLength="128" cssClass="inputForm frigth input" /></td>
+			</tr>
+			<tr>
+				<td class="label"><html:text name="datasetAuthorForm"/>
+				<td><html:textfield key="datasetAuthorForm" maxLength="128" cssClass="inputForm frigth input" /></td>
+			</tr>
+			<tr>
+				<td class="label"><html:text name="datasetAuthorEmailForm"/>
+				<td><html:textfield key="datasetAuthorEmailForm" maxLength="128" cssClass="inputForm frigth input" /></td>
 			</tr>
 			<tr>
 				<td class="label"><html:text name="ckanDatasetNameForm"/></td>

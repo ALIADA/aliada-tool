@@ -58,6 +58,7 @@ public class DatasetsAction  extends ActionSupport{
 	private String sparqlEndpointPasswordForm;
 	private String publicSparqlEndpointURIForm;
 	private String datasetAuthorForm;
+	private String datasetAuthorEmailForm;
 	private String ckanDatasetNameForm;
 	private String datasetLongDescForm;
 	private String datasetSourceURLForm;
@@ -169,6 +170,7 @@ public class DatasetsAction  extends ActionSupport{
                 this.sparqlEndpointPasswordForm = rs.getString("sparql_endpoint_password");
                 this.publicSparqlEndpointURIForm = rs.getString("public_sparql_endpoint_uri");
                 this.datasetAuthorForm = rs.getString("dataset_author");
+                this.datasetAuthorEmailForm = rs.getString("dataset_author_email");
                 this.ckanDatasetNameForm = rs.getString("ckan_dataset_name");
                 this.datasetLongDescForm = rs.getString("dataset_long_desc");
                 this.datasetSourceURLForm = rs.getString("dataset_source_url");
@@ -229,6 +231,8 @@ public class DatasetsAction  extends ActionSupport{
 	                this.virtualHostForm = rs.getString("virtual_host");
 	                this.sparqlEndpointLoginForm = rs.getString("sparql_endpoint_login");
 	                this.sparqlEndpointPasswordForm = rs.getString("sparql_endpoint_password");
+	                this.datasetAuthorForm = rs.getString("dataset_author");
+	                this.datasetAuthorEmailForm = rs.getString("dataset_author_email");
 	                this.ckanDatasetNameForm = rs.getString("ckan_dataset_name");
 	                this.datasetLongDescForm = rs.getString("dataset_long_desc");
 	                this.datasetSourceURLForm = rs.getString("dataset_source_url");
@@ -278,6 +282,8 @@ public class DatasetsAction  extends ActionSupport{
 	                this.virtualHostForm = rs.getString("virtual_host");
 	                this.sparqlEndpointLoginForm = rs.getString("sparql_endpoint_login");
 	                this.sparqlEndpointPasswordForm = rs.getString("sparql_endpoint_password");
+	                this.datasetAuthorForm = rs.getString("dataset_author");
+	                this.datasetAuthorEmailForm = rs.getString("dataset_author_email");
 	                this.ckanDatasetNameForm = rs.getString("ckan_dataset_name");
 	                this.datasetLongDescForm = rs.getString("dataset_long_desc");
 	                this.datasetSourceURLForm = rs.getString("dataset_source_url");
@@ -384,7 +390,7 @@ public class DatasetsAction  extends ActionSupport{
             connection = new DBConnectionManager().getConnection();
             String dd = "", dn = "", uip = "", udp = "", udep = "",
             		ucp = "", usp = "", lh = "", vh = "", sel = "", sep = "",
-            		cdn = "", dld = "", dsu = "", lci = "", lu = "", icfd = "";
+            		ad = "", aed = "", cdn = "", dld = "", dsu = "", lci = "", lu = "", icfd = "";
             Statement statement = connection.createStatement();
             ResultSet rs = statement
                     .executeQuery("select * from aliada.dataset where datasetId='" + datasetId + "'");
@@ -400,6 +406,8 @@ public class DatasetsAction  extends ActionSupport{
             	vh = rs.getString("virtual_host");
             	sel = rs.getString("sparql_endpoint_login");
             	sep = rs.getString("sparql_endpoint_password");
+            	ad = rs.getString("dataset_author");
+            	aed = rs.getString("dataset_author_email");
             	cdn = rs.getString("ckan_dataset_name");
             	dld = rs.getString("dataset_long_desc");
             	dsu = rs.getString("dataset_source_url");
@@ -413,9 +421,10 @@ public class DatasetsAction  extends ActionSupport{
             		&& this.uriDefPartForm.equalsIgnoreCase(udep) && this.uriConceptPartForm.equalsIgnoreCase(ucp)
             		&& this.uriSetPartForm.equalsIgnoreCase(usp) && this.listeningHostForm.equalsIgnoreCase(lh)
             		&& this.virtualHostForm.equalsIgnoreCase(vh) && this.sparqlEndpointLoginForm.equalsIgnoreCase(sel)
-            		&& this.sparqlEndpointPasswordForm.equalsIgnoreCase(sep) && this.ckanDatasetNameForm.equalsIgnoreCase(cdn)
-            		&& this.datasetLongDescForm.equalsIgnoreCase(dld) && this.datasetSourceURLForm.equalsIgnoreCase(dsu)
-            		&& this.licenseCkanIdForm.equalsIgnoreCase(lci) && this.licenseURLForm.equalsIgnoreCase(lu)
+            		&& this.sparqlEndpointPasswordForm.equalsIgnoreCase(sep) && this.datasetAuthorForm.equalsIgnoreCase(ad)
+            		&& this.datasetAuthorEmailForm.equalsIgnoreCase(aed) && this.ckanDatasetNameForm.equalsIgnoreCase(cdn) 
+            		&& this.datasetLongDescForm.equalsIgnoreCase(dld) && this.datasetSourceURLForm.equalsIgnoreCase(dsu) 
+            		&& this.licenseCkanIdForm.equalsIgnoreCase(lci) && this.licenseURLForm.equalsIgnoreCase(lu) 
             		&& this.isqlCommandsFileDatasetForm.equalsIgnoreCase(icfd)) {
             	rs.close();
             	statement.close();
@@ -446,7 +455,9 @@ public class DatasetsAction  extends ActionSupport{
                     + this.listeningHostForm + "',virtual_host='"
                     + this.virtualHostForm + "',sparql_endpoint_login='"
                     + this.sparqlEndpointLoginForm + "',sparql_endpoint_password='"
-                    + this.sparqlEndpointPasswordForm + "',ckan_dataset_name='"
+                    + this.sparqlEndpointPasswordForm + "',dataset_author='"
+                    + this.datasetAuthorForm + "',dataset_author_email='"
+                    + this.datasetAuthorEmailForm + "',ckan_dataset_name='"
                     + this.ckanDatasetNameForm + "',dataset_long_desc='"
                     + this.datasetLongDescForm + "',dataset_source_url='"
                     + this.datasetSourceURLForm + "',license_ckan_id='"
@@ -502,7 +513,7 @@ public class DatasetsAction  extends ActionSupport{
      */
     public String addDataset() {
     	
-    	 String datasetAuthor = "", isqlCommandsFilename = "";
+    	 String isqlCommandsFilename = "";
     	 String sparqlEndpoint = "";
     	 String publicSparqlEndpoint = "";
     	 if (!this.domainNameForm.isEmpty()) {
@@ -534,7 +545,7 @@ public class DatasetsAction  extends ActionSupport{
                  ssp = rs.getInt("store_sql_port");
                  sl = rs.getString("sql_login");
                  sp = rs.getString("sql_password");
-                 datasetAuthor = rs.getString("dataset_author");
+                 setDatasetAuthorForm(rs.getString("dataset_author"));
                  isqlCommandsFilename = rs.getString("isql_commands_file_dataset_creation");
              }
              if (this.datasetDescForm.trim().isEmpty()) {
@@ -650,7 +661,7 @@ public class DatasetsAction  extends ActionSupport{
              		+ "uri_id_part, uri_doc_part, uri_def_part, uri_concept_part, uri_set_part,"
              		+ "listening_host, virtual_host, sparql_endpoint_uri,"
              		+ "sparql_endpoint_login, sparql_endpoint_password,"
-             		+ "public_sparql_endpoint_uri, dataset_author,"
+             		+ "public_sparql_endpoint_uri, dataset_author, dataset_author_email,"
              		+ "ckan_dataset_name, dataset_long_desc, "
              		+ "dataset_source_url, license_ckan_id,"
              		+ "license_url, isql_commands_file_dataset) "
@@ -661,8 +672,8 @@ public class DatasetsAction  extends ActionSupport{
                      + this.listeningHostForm + "', '" + this.virtualHostForm + "', '"
                      + sparqlEndpoint + "', '" + this.sparqlEndpointLoginForm + "', '" 
                      + this.sparqlEndpointPasswordForm + "', '" + publicSparqlEndpoint + "', '"
-                     + datasetAuthor + "', '" + this.ckanDatasetNameForm + "', '" + this.datasetLongDescForm + "', '"
-                     + this.datasetSourceURLForm + "', '" + this.licenseCkanIdForm + "', '" 
+                     + this.datasetAuthorForm + "', '" + this.datasetAuthorEmailForm + "', '" + this.ckanDatasetNameForm + "', '" 
+                     + this.datasetLongDescForm + "', '" + this.datasetSourceURLForm + "', '" + this.licenseCkanIdForm + "', '" 
                      + this.licenseURLForm + "', '" + this.isqlCommandsFileDatasetForm + "')");
              rs.close();
              statement.close();
@@ -1052,6 +1063,23 @@ public class DatasetsAction  extends ActionSupport{
      */
 	public void setDatasetAuthorForm(final String datasetAuthorForm) {
 		this.datasetAuthorForm = datasetAuthorForm;
+	}
+	/**
+     * @return Returns the datasetAuthorEmailForm.
+     * @exception
+     * @since 1.0
+     */
+	public String getDatasetAuthorEmailForm() {
+		return datasetAuthorEmailForm;
+	}
+	/**
+     * @param datasetAuthorEmailForm
+     *            The datasetAuthorEmailForm to set.
+     * @exception
+     * @since 1.0
+     */
+	public void setDatasetAuthorEmailForm(final String datasetAuthorEmailForm) {
+		this.datasetAuthorEmailForm = datasetAuthorEmailForm;
 	}
 	/**
      * @return Returns the ckanDatasetNameForm.
