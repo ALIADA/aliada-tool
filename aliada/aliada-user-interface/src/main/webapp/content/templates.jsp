@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java"
 	pageEncoding="UTF-8"%>
-<%@ taglib uri="/struts-tags" prefix="html"%>
+<%@ taglib prefix="html" uri="/struts-tags"%>
 
 <link type="text/css" rel="stylesheet" href="<html:url value="css/templates.css" />" />
 
@@ -170,8 +170,7 @@ $(function(){
 			<html:form id="templates" action="/deleteTemplate.action">
 				<div class="lMargin45p">
 					<html:iterator value="templates">
-						<html:radio key="selectedTemplate" cssClass="bold lPad10" value="{key}"
-							list="{value}" />
+						<html:radio key="selectedTemplate" cssClass="bold lPad10" list="value" listKey="key" listValue="value"/>
 						<br>
 					</html:iterator>
 				</div>
@@ -210,100 +209,809 @@ $(function(){
 					</tr>
 				</table>
 				<div id="marcBibTagstoShow" class="row">
-					<label class="label"><html:text name="templateFields" /></label>
-					<table class="table">
-						<html:iterator value="tags" status="status">
-							<html:if test="%{#status.index == 0}">
-								<tr>
-									<td class="td_size"><html:checkbox disabled="true" key="selectedTags" fieldValue="%{key}"
-											value="%{value}" />
-										<html:property value="%{key}" /></td>
-							</html:if>
-							<html:elseif test="%{#status.index%4 == 0}">
-								<tr>
-									<td class="td_size"><html:checkbox disabled="true" key="selectedTags" fieldValue="%{key}"
-											value="%{value}" />
-										<html:property value="%{key}" /></td>
-							</html:elseif>
-							<html:else>
-								<td class="td_size"><html:checkbox disabled="true" key="selectedTags" fieldValue="%{key}"
-										value="%{value}" />
-									<html:property value="%{key}" /></td>
-							</html:else>
-						</html:iterator>
-					</table>
+					<div class="label">
+						<html:text name="templateFields" />
+					</div>
+					
+					<html:set var="counter" value="0" />
+						<h3><html:property value="%{entities['10']}"/></h3>
+						
+						<table class="table">
+							<html:iterator value="tags" status="status">		
+								<html:if test="entity == 1">			
+									<html:if test="#counter % 3 == 0">
+										<tr>
+											<td class="td_size">
+												<html:checkbox disabled="true" key="selectedTags" fieldValue="%{tagId}" value="selected" />
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+									</html:if>
+									<html:else>
+										<td class="td_size">
+											<html:checkbox disabled="true" key="selectedTags" fieldValue="%{tagId}" value="selected" />
+											<html:property value="tagDescription" /></td>
+											<html:set var="counter" value="%{#counter+1}"/>
+											<%-- <html:property value="#counter" /> --%>
+										</td>
+									</html:else>
+								</html:if>
+							</html:iterator>
+						</table>
+						
+						<html:set var="counter" value="0" />
+						<h3><html:property value="%{entities['20']}"/></h3>
+						
+						<table class="table">
+							<html:iterator value="tags" status="status">		
+								<html:if test="entity == 2">			
+									<html:if test="#counter % 3 == 0">
+										<tr>
+											<td class="td_size">
+												<html:checkbox disabled="true" key="selectedTags" fieldValue="%{tagId}" value="selected" />
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+									</html:if>
+									<html:else>
+										<td class="td_size">
+											<html:checkbox disabled="true" key="selectedTags" fieldValue="%{tagId}" value="selected" />
+											<html:property value="tagDescription" /></td>
+											<html:set var="counter" value="%{#counter+1}"/>
+											<%-- <html:property value="#counter" /> --%>
+										</td>
+									</html:else>
+								</html:if>
+							</html:iterator>
+						</table>
+						
+						<html:set var="counter" value="0" />
+						<h3><html:property value="%{entities['30']}"/></h3>
+						
+						<table class="table">
+							<html:iterator value="tags" status="status">		
+								<html:if test="entity == 3">			
+									<html:if test="#counter % 3 == 0">
+										<tr>
+											<td class="td_size">
+												<html:checkbox disabled="true" key="selectedTags" fieldValue="%{tagId}" value="selected" />
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+									</html:if>
+									<html:else>
+										<td class="td_size">
+											<html:checkbox disabled="true" key="selectedTags" fieldValue="%{tagId}" value="selected" />
+											<html:property value="tagDescription" /></td>
+											<html:set var="counter" value="%{#counter+1}"/>
+											<%-- <html:property value="#counter" /> --%>
+										</td>
+									</html:else>
+								</html:if>
+							</html:iterator>
+						</table>
+						
+						<html:set var="counter" value="0" />
+						<h3><html:property value="%{entities['40']}"/></h3>
+						
+						<table class="table">
+							<html:iterator value="tags" status="status">		
+								<html:if test="entity == 4">			
+									<html:if test="#counter % 3 == 0">
+										<tr>
+											<td class="td_size">
+												<html:checkbox disabled="true" key="selectedTags" fieldValue="%{tagId}" value="selected" />
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+									</html:if>
+									<html:else>
+										<td class="td_size">
+											<html:checkbox disabled="true" key="selectedTags" fieldValue="%{tagId}" value="selected" />
+											<html:property value="tagDescription" /></td>
+											<html:set var="counter" value="%{#counter+1}"/>
+											<%-- <html:property value="#counter" /> --%>
+										</td>
+									</html:else>
+								</html:if>
+							</html:iterator>
+						</table>
+					
+						<html:set var="counter" value="0" />
+						<h3><html:property value="%{entities['50']}"/></h3>
+						
+						<table class="table">
+							<html:iterator value="tags" status="status">		
+								<html:if test="entity == 5">			
+									<html:if test="#counter % 3 == 0">
+										<tr>
+											<td class="td_size">
+												<html:checkbox disabled="true" key="selectedTags" fieldValue="%{tagId}" value="selected" />
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+									</html:if>
+									<html:else>
+										<td class="td_size">
+											<html:checkbox disabled="true" key="selectedTags" fieldValue="%{tagId}" value="selected" />
+											<html:property value="tagDescription" /></td>
+											<html:set var="counter" value="%{#counter+1}"/>
+											<%-- <html:property value="#counter" /> --%>
+										</td>
+									</html:else>
+								</html:if>
+							</html:iterator>
+						</table>
+						
+						<html:set var="counter" value="0" />
+						<h3><html:property value="%{entities['60']}"/></h3>
+						
+						<table class="table">
+							<html:iterator value="tags" status="status">		
+								<html:if test="entity == 6">			
+									<html:if test="#counter % 3 == 0">
+										<tr>
+											<td class="td_size">
+												<html:checkbox disabled="true" key="selectedTags" fieldValue="%{tagId}" value="selected" />
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+									</html:if>
+									<html:else>
+										<td class="td_size">
+											<html:checkbox disabled="true" key="selectedTags" fieldValue="%{tagId}" value="selected" />
+											<html:property value="tagDescription" /></td>
+											<html:set var="counter" value="%{#counter+1}"/>
+											<%-- <html:property value="#counter" /> --%>
+										</td>
+									</html:else>
+								</html:if>
+							</html:iterator>
+						</table>
+						
+						<html:set var="counter" value="0" />
+						<h3><html:property value="%{entities['70']}"/></h3>
+						
+						<table class="table">
+							<html:iterator value="tags" status="status">		
+								<html:if test="entity == 7">			
+									<html:if test="#counter % 3 == 0">
+										<tr>
+											<td class="td_size">
+												<html:checkbox disabled="true" key="selectedTags" fieldValue="%{tagId}" value="selected" />
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+									</html:if>
+									<html:else>
+										<td class="td_size">
+											<html:checkbox disabled="true" key="selectedTags" fieldValue="%{tagId}" value="selected" />
+											<html:property value="tagDescription" /></td>
+											<html:set var="counter" value="%{#counter+1}"/>
+											<%-- <html:property value="#counter" /> --%>
+										</td>
+									</html:else>
+								</html:if>
+							</html:iterator>
+						</table>
+						
+						<html:set var="counter" value="0" />
+						<h3><html:property value="%{entities['80']}"/></h3>
+						
+						<table class="table">
+							<html:iterator value="tags" status="status">		
+								<html:if test="entity == 8">			
+									<html:if test="#counter % 3 == 0">
+										<tr>
+											<td class="td_size">
+												<html:checkbox disabled="true" key="selectedTags" fieldValue="%{tagId}" value="selected" />
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+									</html:if>
+									<html:else>
+										<td class="td_size">
+											<html:checkbox disabled="true" key="selectedTags" fieldValue="%{tagId}" value="selected" />
+											<html:property value="tagDescription" /></td>
+											<html:set var="counter" value="%{#counter+1}"/>
+											<%-- <html:property value="#counter" /> --%>
+										</td>
+									</html:else>
+								</html:if>
+							</html:iterator>
+						</table>
+						
+						<html:set var="counter" value="0" />
+						<h3><html:property value="%{entities['90']}"/></h3>
+						
+						<table class="table">
+							<html:iterator value="tags" status="status">		
+								<html:if test="entity == 9">			
+									<html:if test="#counter % 3 == 0">
+										<tr>
+											<td class="td_size">
+												<html:checkbox disabled="true" key="selectedTags" fieldValue="%{tagId}" value="selected" />
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+									</html:if>
+									<html:else>
+										<td class="td_size">
+											<html:checkbox disabled="true" key="selectedTags" fieldValue="%{tagId}" value="selected" />
+											<html:property value="tagDescription" /></td>
+											<html:set var="counter" value="%{#counter+1}"/>
+											<%-- <html:property value="#counter" /> --%>
+										</td>
+									</html:else>
+								</html:if>
+							</html:iterator>
+						</table>
+						
+						<html:set var="counter" value="0" />
+						<h3><html:property value="%{entities['100']}"/></h3>
+						
+						<table class="table">
+							<html:iterator value="tags" status="status">		
+								<html:if test="entity == 10">			
+									<html:if test="#counter % 3 == 0">
+										<tr>
+											<td class="td_size">
+												<html:checkbox disabled="true" key="selectedTags" fieldValue="%{tagId}" value="selected" />
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+									</html:if>
+									<html:else>
+										<td class="td_size">
+											<html:checkbox disabled="true" key="selectedTags" fieldValue="%{tagId}" value="selected" />
+											<html:property value="tagDescription" /></td>
+											<html:set var="counter" value="%{#counter+1}"/>
+											<%-- <html:property value="#counter" /> --%>
+										</td>
+									</html:else>
+								</html:if>
+							</html:iterator>
+						</table>
+						
 				</div>
 				<div id="marcAuthTagstoShow" class="row">
-					<label class="label"><html:text name="templateFields" /></label>
-					<table class="table">
-						<html:iterator value="tags" status="status">
-							<html:if test="%{#status.index == 0}">
-								<tr>
-									<td class="td_size"><html:checkbox disabled="true" key="selectedTags" fieldValue="%{key}"
-											value="%{value}" />
-										<html:property value="%{key}" /></td>
-							</html:if>
-							<html:elseif test="%{#status.index%4 == 0}">
-								<tr>
-									<td class="td_size"><html:checkbox disabled="true" key="selectedTags" fieldValue="%{key}"
-											value="%{value}" />
-										<html:property value="%{key}" /></td>
-							</html:elseif>
-							<html:else>
-								<td class="td_size"><html:checkbox disabled="true" key="selectedTags" fieldValue="%{key}"
-										value="%{value}" />
-									<html:property value="%{key}" /></td>
-							</html:else>
-						</html:iterator>
-					</table>
+					<div class="label">
+						<html:text name="templateFields" />
+					</div>
+					
+					<html:set var="counter" value="0" />
+						<h3><html:property value="%{entities['11']}"/></h3>
+						
+						<table class="table">
+							<html:iterator value="tags" status="status">		
+								<html:if test="entity == 1">			
+									<html:if test="#counter % 3 == 0">
+										<tr>
+											<td class="td_size">
+												<html:checkbox disabled="true" key="selectedTags" fieldValue="%{tagId}" value="selected" />
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+									</html:if>
+									<html:else>
+										<td class="td_size">
+											<html:checkbox disabled="true" key="selectedTags" fieldValue="%{tagId}" value="selected" />
+											<html:property value="tagDescription" /></td>
+											<html:set var="counter" value="%{#counter+1}"/>
+											<%-- <html:property value="#counter" /> --%>
+										</td>
+									</html:else>
+								</html:if>
+							</html:iterator>
+						</table>
+						
+						<html:set var="counter" value="0" />
+						<h3><html:property value="%{entities['21']}"/></h3>
+						
+						<table class="table">
+							<html:iterator value="tags" status="status">		
+								<html:if test="entity == 2">			
+									<html:if test="#counter % 3 == 0">
+										<tr>
+											<td class="td_size">
+												<html:checkbox disabled="true" key="selectedTags" fieldValue="%{tagId}" value="selected" />
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+									</html:if>
+									<html:else>
+										<td class="td_size">
+											<html:checkbox disabled="true" key="selectedTags" fieldValue="%{tagId}" value="selected" />
+											<html:property value="tagDescription" /></td>
+											<html:set var="counter" value="%{#counter+1}"/>
+											<%-- <html:property value="#counter" /> --%>
+										</td>
+									</html:else>
+								</html:if>
+							</html:iterator>
+						</table>
+						
+						<html:set var="counter" value="0" />
+						<h3><html:property value="%{entities['31']}"/></h3>
+						
+						<table class="table">
+							<html:iterator value="tags" status="status">		
+								<html:if test="entity == 3">			
+									<html:if test="#counter % 3 == 0">
+										<tr>
+											<td class="td_size">
+												<html:checkbox disabled="true" key="selectedTags" fieldValue="%{tagId}" value="selected" />
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+									</html:if>
+									<html:else>
+										<td class="td_size">
+											<html:checkbox disabled="true" key="selectedTags" fieldValue="%{tagId}" value="selected" />
+											<html:property value="tagDescription" /></td>
+											<html:set var="counter" value="%{#counter+1}"/>
+											<%-- <html:property value="#counter" /> --%>
+										</td>
+									</html:else>
+								</html:if>
+							</html:iterator>
+						</table>
 				</div>
 				<div id="lidoTagstoShow" class="row">
-					<label class="label"><html:text name="templateFields" /></label>
-					<table class="table">
-						<html:iterator value="tags" status="status">
-							<html:if test="%{#status.index == 0}">
-								<tr>
-									<td class="td_size"><html:checkbox disabled="true" key="selectedTags" fieldValue="%{key}"
-											value="%{value}" />
-										<html:property value="%{key}" /></td>
-							</html:if>
-							<html:elseif test="%{#status.index%3 == 0}">
-								<tr>
-									<td class="td_size"><html:checkbox disabled="true" key="selectedTags" fieldValue="%{key}"
-											value="%{value}" />
-										<html:property value="%{key}" /></td>
-							</html:elseif>
-							<html:else>
-								<td class="td_size"><html:checkbox disabled="true" key="selectedTags" fieldValue="%{key}"
-										value="%{value}" />
-									<html:property value="%{key}" /></td>
-							</html:else>
-						</html:iterator>
-					</table>
+					<div class="label">
+						<html:text name="templateFields" />
+					</div>
+					
+					<html:set var="counter" value="0" />
+						<h3><html:property value="%{entities['12']}"/></h3>
+						
+						<table class="table">
+							<html:iterator value="tags" status="status">		
+								<html:if test="entity == 1">			
+									<html:if test="#counter % 3 == 0">
+										<tr>
+											<td class="td_size">
+												<html:checkbox disabled="true" key="selectedTags" fieldValue="%{tagId}" value="selected" />
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+									</html:if>
+									<html:else>
+										<td class="td_size">
+											<html:checkbox disabled="true" key="selectedTags" fieldValue="%{tagId}" value="selected" />
+											<html:property value="tagDescription" /></td>
+											<html:set var="counter" value="%{#counter+1}"/>
+											<%-- <html:property value="#counter" /> --%>
+										</td>
+									</html:else>
+								</html:if>
+							</html:iterator>
+						</table>
+						
+						<html:set var="counter" value="0" />
+						<h3><html:property value="%{entities['22']}"/></h3>
+						
+						<table class="table">
+							<html:iterator value="tags" status="status">		
+								<html:if test="entity == 2">			
+									<html:if test="#counter % 3 == 0">
+										<tr>
+											<td class="td_size">
+												<html:checkbox disabled="true" key="selectedTags" fieldValue="%{tagId}" value="selected" />
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+									</html:if>
+									<html:else>
+										<td class="td_size">
+											<html:checkbox disabled="true" key="selectedTags" fieldValue="%{tagId}" value="selected" />
+											<html:property value="tagDescription" /></td>
+											<html:set var="counter" value="%{#counter+1}"/>
+											<%-- <html:property value="#counter" /> --%>
+										</td>
+									</html:else>
+								</html:if>
+							</html:iterator>
+						</table>
+						
+						<html:set var="counter" value="0" />
+						<h3><html:property value="%{entities['32']}"/></h3>
+						
+						<table class="table">
+							<html:iterator value="tags" status="status">		
+								<html:if test="entity == 3">			
+									<html:if test="#counter % 3 == 0">
+										<tr>
+											<td class="td_size">
+												<html:checkbox disabled="true" key="selectedTags" fieldValue="%{tagId}" value="selected" />
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+									</html:if>
+									<html:else>
+										<td class="td_size">
+											<html:checkbox disabled="true" key="selectedTags" fieldValue="%{tagId}" value="selected" />
+											<html:property value="tagDescription" /></td>
+											<html:set var="counter" value="%{#counter+1}"/>
+											<%-- <html:property value="#counter" /> --%>
+										</td>
+									</html:else>
+								</html:if>
+							</html:iterator>
+						</table>
+						
+						<html:set var="counter" value="0" />
+						<h3><html:property value="%{entities['42']}"/></h3>
+						
+						<table class="table">
+							<html:iterator value="tags" status="status">		
+								<html:if test="entity == 4">			
+									<html:if test="#counter % 3 == 0">
+										<tr>
+											<td class="td_size">
+												<html:checkbox disabled="true" key="selectedTags" fieldValue="%{tagId}" value="selected" />
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+									</html:if>
+									<html:else>
+										<td class="td_size">
+											<html:checkbox disabled="true" key="selectedTags" fieldValue="%{tagId}" value="selected" />
+											<html:property value="tagDescription" /></td>
+											<html:set var="counter" value="%{#counter+1}"/>
+											<%-- <html:property value="#counter" /> --%>
+										</td>
+									</html:else>
+								</html:if>
+							</html:iterator>
+						</table>
+					
+						<html:set var="counter" value="0" />
+						<h3><html:property value="%{entities['52']}"/></h3>
+						
+						<table class="table">
+							<html:iterator value="tags" status="status">		
+								<html:if test="entity == 5">			
+									<html:if test="#counter % 3 == 0">
+										<tr>
+											<td class="td_size">
+												<html:checkbox disabled="true" key="selectedTags" fieldValue="%{tagId}" value="selected" />
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+									</html:if>
+									<html:else>
+										<td class="td_size">
+											<html:checkbox disabled="true" key="selectedTags" fieldValue="%{tagId}" value="selected" />
+											<html:property value="tagDescription" /></td>
+											<html:set var="counter" value="%{#counter+1}"/>
+											<%-- <html:property value="#counter" /> --%>
+										</td>
+									</html:else>
+								</html:if>
+							</html:iterator>
+						</table>
+						
+						<html:set var="counter" value="0" />
+						<h3><html:property value="%{entities['62']}"/></h3>
+						
+						<table class="table">
+							<html:iterator value="tags" status="status">		
+								<html:if test="entity == 6">			
+									<html:if test="#counter % 3 == 0">
+										<tr>
+											<td class="td_size">
+												<html:checkbox disabled="true" key="selectedTags" fieldValue="%{tagId}" value="selected" />
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+									</html:if>
+									<html:else>
+										<td class="td_size">
+											<html:checkbox disabled="true" key="selectedTags" fieldValue="%{tagId}" value="selected" />
+											<html:property value="tagDescription" /></td>
+											<html:set var="counter" value="%{#counter+1}"/>
+											<%-- <html:property value="#counter" /> --%>
+										</td>
+									</html:else>
+								</html:if>
+							</html:iterator>
+						</table>
 				</div>
 				<div id="dcTagstoShow" class="row">
-					<label class="label"><html:text name="templateFields" /></label>
-					<table class="table">
-						<html:iterator value="tags" status="status">
-							<html:if test="%{#status.index == 0}">
-								<tr>
-									<td class="td_size"><html:checkbox disabled="true" key="selectedTags" fieldValue="%{key}"
-											value="%{value}" />
-										<html:property value="%{key}" /></td>
-							</html:if>
-							<html:elseif test="%{#status.index%4 == 0}">
-								<tr>
-									<td class="td_size"><html:checkbox disabled="true" key="selectedTags" fieldValue="%{key}"
-											value="%{value}" />
-										<html:property value="%{key}" /></td>
-							</html:elseif>
-							<html:else>
-								<td class="td_size"><html:checkbox disabled="true" key="selectedTags" fieldValue="%{key}"
-										value="%{value}" />
-									<html:property value="%{key}" /></td>
-							</html:else>
-						</html:iterator>
-					</table>
+					<div class="label">
+						<html:text name="templateFields" />
+					</div>
+					
+					<html:set var="counter" value="0" />
+						<h3><html:property value="%{entities['13']}"/></h3>
+						
+						<table class="table">
+							<html:iterator value="tags" status="status">		
+								<html:if test="entity == 1">			
+									<html:if test="#counter % 3 == 0">
+										<tr>
+											<td class="td_size">
+												<html:checkbox disabled="true" key="selectedTags" fieldValue="%{tagId}" value="selected" />
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+									</html:if>
+									<html:else>
+										<td class="td_size">
+											<html:checkbox disabled="true" key="selectedTags" fieldValue="%{tagId}" value="selected" />
+											<html:property value="tagDescription" /></td>
+											<html:set var="counter" value="%{#counter+1}"/>
+											<%-- <html:property value="#counter" /> --%>
+										</td>
+									</html:else>
+								</html:if>
+							</html:iterator>
+						</table>
+						
+						<html:set var="counter" value="0" />
+						<h3><html:property value="%{entities['23']}"/></h3>
+						
+						<table class="table">
+							<html:iterator value="tags" status="status">		
+								<html:if test="entity == 2">			
+									<html:if test="#counter % 3 == 0">
+										<tr>
+											<td class="td_size">
+												<html:checkbox disabled="true" key="selectedTags" fieldValue="%{tagId}" value="selected" />
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+									</html:if>
+									<html:else>
+										<td class="td_size">
+											<html:checkbox disabled="true" key="selectedTags" fieldValue="%{tagId}" value="selected" />
+											<html:property value="tagDescription" /></td>
+											<html:set var="counter" value="%{#counter+1}"/>
+											<%-- <html:property value="#counter" /> --%>
+										</td>
+									</html:else>
+								</html:if>
+							</html:iterator>
+						</table>
+						
+						<html:set var="counter" value="0" />
+						<h3><html:property value="%{entities['33']}"/></h3>
+						
+						<table class="table">
+							<html:iterator value="tags" status="status">		
+								<html:if test="entity == 3">			
+									<html:if test="#counter % 3 == 0">
+										<tr>
+											<td class="td_size">
+												<html:checkbox disabled="true" key="selectedTags" fieldValue="%{tagId}" value="selected" />
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+									</html:if>
+									<html:else>
+										<td class="td_size">
+											<html:checkbox disabled="true" key="selectedTags" fieldValue="%{tagId}" value="selected" />
+											<html:property value="tagDescription" /></td>
+											<html:set var="counter" value="%{#counter+1}"/>
+											<%-- <html:property value="#counter" /> --%>
+										</td>
+									</html:else>
+								</html:if>
+							</html:iterator>
+						</table>
+						
+						<html:set var="counter" value="0" />
+						<h3><html:property value="%{entities['43']}"/></h3>
+						
+						<table class="table">
+							<html:iterator value="tags" status="status">		
+								<html:if test="entity == 4">			
+									<html:if test="#counter % 3 == 0">
+										<tr>
+											<td class="td_size">
+												<html:checkbox disabled="true" key="selectedTags" fieldValue="%{tagId}" value="selected" />
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+									</html:if>
+									<html:else>
+										<td class="td_size">
+											<html:checkbox disabled="true" key="selectedTags" fieldValue="%{tagId}" value="selected" />
+											<html:property value="tagDescription" /></td>
+											<html:set var="counter" value="%{#counter+1}"/>
+											<%-- <html:property value="#counter" /> --%>
+										</td>
+									</html:else>
+								</html:if>
+							</html:iterator>
+						</table>
+					
+						<html:set var="counter" value="0" />
+						<h3><html:property value="%{entities['53']}"/></h3>
+						
+						<table class="table">
+							<html:iterator value="tags" status="status">		
+								<html:if test="entity == 5">			
+									<html:if test="#counter % 3 == 0">
+										<tr>
+											<td class="td_size">
+												<html:checkbox disabled="true" key="selectedTags" fieldValue="%{tagId}" value="selected" />
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+									</html:if>
+									<html:else>
+										<td class="td_size">
+											<html:checkbox disabled="true" key="selectedTags" fieldValue="%{tagId}" value="selected" />
+											<html:property value="tagDescription" /></td>
+											<html:set var="counter" value="%{#counter+1}"/>
+											<%-- <html:property value="#counter" /> --%>
+										</td>
+									</html:else>
+								</html:if>
+							</html:iterator>
+						</table>
+						
+						<html:set var="counter" value="0" />
+						<h3><html:property value="%{entities['63']}"/></h3>
+						
+						<table class="table">
+							<html:iterator value="tags" status="status">		
+								<html:if test="entity == 6">			
+									<html:if test="#counter % 3 == 0">
+										<tr>
+											<td class="td_size">
+												<html:checkbox disabled="true" key="selectedTags" fieldValue="%{tagId}" value="selected" />
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+									</html:if>
+									<html:else>
+										<td class="td_size">
+											<html:checkbox disabled="true" key="selectedTags" fieldValue="%{tagId}" value="selected" />
+											<html:property value="tagDescription" /></td>
+											<html:set var="counter" value="%{#counter+1}"/>
+											<%-- <html:property value="#counter" /> --%>
+										</td>
+									</html:else>
+								</html:if>
+							</html:iterator>
+						</table>
+						
+						<html:set var="counter" value="0" />
+						<h3><html:property value="%{entities['73']}"/></h3>
+						
+						<table class="table">
+							<html:iterator value="tags" status="status">		
+								<html:if test="entity == 7">			
+									<html:if test="#counter % 3 == 0">
+										<tr>
+											<td class="td_size">
+												<html:checkbox disabled="true" key="selectedTags" fieldValue="%{tagId}" value="selected" />
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+									</html:if>
+									<html:else>
+										<td class="td_size">
+											<html:checkbox disabled="true" key="selectedTags" fieldValue="%{tagId}" value="selected" />
+											<html:property value="tagDescription" /></td>
+											<html:set var="counter" value="%{#counter+1}"/>
+											<%-- <html:property value="#counter" /> --%>
+										</td>
+									</html:else>
+								</html:if>
+							</html:iterator>
+						</table>
+						
+						<html:set var="counter" value="0" />
+						<h3><html:property value="%{entities['83']}"/></h3>
+						
+						<table class="table">
+							<html:iterator value="tags" status="status">		
+								<html:if test="entity == 8">			
+									<html:if test="#counter % 3 == 0">
+										<tr>
+											<td class="td_size">
+												<html:checkbox disabled="true" key="selectedTags" fieldValue="%{tagId}" value="selected" />
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+									</html:if>
+									<html:else>
+										<td class="td_size">
+											<html:checkbox disabled="true" key="selectedTags" fieldValue="%{tagId}" value="selected" />
+											<html:property value="tagDescription" /></td>
+											<html:set var="counter" value="%{#counter+1}"/>
+											<%-- <html:property value="#counter" /> --%>
+										</td>
+									</html:else>
+								</html:if>
+							</html:iterator>
+						</table>
+						
+						<html:set var="counter" value="0" />
+						<h3><html:property value="%{entities['93']}"/></h3>
+						
+						<table class="table">
+							<html:iterator value="tags" status="status">		
+								<html:if test="entity == 9">			
+									<html:if test="#counter % 3 == 0">
+										<tr>
+											<td class="td_size">
+												<html:checkbox disabled="true" key="selectedTags" fieldValue="%{tagId}" value="selected" />
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+									</html:if>
+									<html:else>
+										<td class="td_size">
+											<html:checkbox disabled="true" key="selectedTags" fieldValue="%{tagId}" value="selected" />
+											<html:property value="tagDescription" /></td>
+											<html:set var="counter" value="%{#counter+1}"/>
+											<%-- <html:property value="#counter" /> --%>
+										</td>
+									</html:else>
+								</html:if>
+							</html:iterator>
+						</table>
+						
+						<html:set var="counter" value="0" />
+						<h3><html:property value="%{entities['103']}"/></h3>
+						
+						<table class="table">
+							<html:iterator value="tags" status="status">		
+								<html:if test="entity == 10">			
+									<html:if test="#counter % 3 == 0">
+										<tr>
+											<td class="td_size">
+												<html:checkbox disabled="true" key="selectedTags" fieldValue="%{tagId}" value="selected" />
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+									</html:if>
+									<html:else>
+										<td class="td_size">
+											<html:checkbox disabled="true" key="selectedTags" fieldValue="%{tagId}" value="selected" />
+											<html:property value="tagDescription" /></td>
+											<html:set var="counter" value="%{#counter+1}"/>
+											<%-- <html:property value="#counter" /> --%>
+										</td>
+									</html:else>
+								</html:if>
+							</html:iterator>
+						</table>
+						
 				</div>
 				<div class="buttons row pBottom20">
 					<html:a action="showTemplates" cssClass="fleft"><img alt="help" src="images/back.png"></img></html:a>
@@ -333,104 +1041,1392 @@ $(function(){
 				</table>
 				<div id="marcBibTags" class="row">
 					<div class="label">
-						<html:text name="templateFields" />
+						<div class="label">
+							<html:text name="templateFields" />
+						</div>
+						
+						<html:set var="counter" value="0" />
+						<h3><html:property value="%{entities['10']}"/></h3>
+						
 						<table class="table">
-							<html:iterator value="marcBibTags" status="status">
-								<html:if test="%{#status.index == 0}">
-									<tr>
-										<td class="td_size"><html:checkbox key="selectedMarcBibTags" fieldValue="%{key}"
-												value="%{value}" />
-											<html:property value="%{key}" /></td>
+							<html:iterator value="marcBibTags" status="status">		
+								<html:if test="entity == 1">			
+									<html:if test="#counter % 3 == 0">
+										<tr>
+										<html:if test="mandatory == 1">
+											<td class="td_size">
+												<html:checkbox key="selectedMarcBibTags" fieldValue="%{tagId}" value="selected" onclick = "this.checked = !this.checked" />
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:if>
+										<html:else>
+											<td class="td_size">
+												<html:checkbox key="selectedMarcBibTags" fieldValue="%{tagId}" value="selected" />
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:else>
+									</html:if>
+									<html:else>
+										<html:if test="mandatory == 1">
+											<td class="td_size">
+												<html:checkbox key="selectedMarcBibTags" fieldValue="%{tagId}" value="selected" onclick = "this.checked = !this.checked"/>
+												<html:property value="tagDescription" /></td>
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:if>
+										<html:else>
+											<td class="td_size">
+												<html:checkbox key="selectedMarcBibTags" fieldValue="%{tagId}" value="selected"/>
+												<html:property value="tagDescription" /></td>
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:else>
+									</html:else>
 								</html:if>
-								<html:elseif test="%{#status.index%4 == 0}">
-									<tr>
-										<td class="td_size"><html:checkbox key="selectedMarcBibTags" fieldValue="%{key}"
-												value="%{value}" />
-											<html:property value="%{key}" /></td>
-								</html:elseif>
-								<html:else>
-									<td class="td_size"><html:checkbox key="selectedMarcBibTags" fieldValue="%{key}"
-											value="%{value}" />
-										<html:property value="%{key}" /></td>
-								</html:else>
 							</html:iterator>
 						</table>
+						
+						<html:set var="counter" value="0" />
+						<h3><html:property value="%{entities['20']}"/></h3>
+						
+						<table class="table">
+							<html:iterator value="marcBibTags" status="status">		
+								<html:if test="entity == 2">			
+									<html:if test="#counter % 3 == 0">
+										<tr>
+										<html:if test="mandatory == 1">
+											<td class="td_size">
+												<html:checkbox key="selectedMarcBibTags" fieldValue="%{tagId}" value="selected" onclick = "this.checked = !this.checked"/>
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:if>
+										<html:else>
+											<td class="td_size">
+												<html:checkbox key="selectedMarcBibTags" fieldValue="%{tagId}" value="selected" />
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:else>
+									</html:if>
+									<html:else>
+										<html:if test="mandatory == 1">
+											<td class="td_size">
+												<html:checkbox key="selectedMarcBibTags" fieldValue="%{tagId}" value="selected" onclick = "this.checked = !this.checked"/>
+												<html:property value="tagDescription" /></td>
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:if>
+										<html:else>
+											<td class="td_size">
+												<html:checkbox key="selectedMarcBibTags" fieldValue="%{tagId}" value="selected" />
+												<html:property value="tagDescription" /></td>
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:else>
+									</html:else>
+								</html:if>
+							</html:iterator>
+						</table>
+						
+						<html:set var="counter" value="0" />
+						<h3><html:property value="%{entities['30']}"/></h3>
+						
+						<table class="table">
+							<html:iterator value="marcBibTags" status="status">		
+								<html:if test="entity == 3">			
+									<html:if test="#counter % 3 == 0">
+										<tr>
+										<html:if test="mandatory == 1">
+											<td class="td_size">
+												<html:checkbox key="selectedMarcBibTags" fieldValue="%{tagId}" value="selected" onclick = "this.checked = !this.checked"/>
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:if>
+										<html:else>
+											<td class="td_size">
+												<html:checkbox key="selectedMarcBibTags" fieldValue="%{tagId}" value="selected" />
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:else>
+									</html:if>
+									<html:else>
+										<html:if test="mandatory == 1">
+											<td class="td_size">
+												<html:checkbox key="selectedMarcBibTags" fieldValue="%{tagId}" value="selected" onclick = "this.checked = !this.checked"/>
+												<html:property value="tagDescription" /></td>
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:if>
+										<html:else>
+											<td class="td_size">
+												<html:checkbox key="selectedMarcBibTags" fieldValue="%{tagId}" value="selected" />
+												<html:property value="tagDescription" /></td>
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:else>
+									</html:else>
+								</html:if>
+							</html:iterator>
+						</table>
+						
+						<html:set var="counter" value="0" />
+						<h3><html:property value="%{entities['40']}"/></h3>
+						
+						<table class="table">
+							<html:iterator value="marcBibTags" status="status">		
+								<html:if test="entity == 4">			
+									<html:if test="#counter % 3 == 0">
+										<tr>
+										<html:if test="mandatory == 1">
+											<td class="td_size">
+												<html:checkbox key="selectedMarcBibTags" fieldValue="%{tagId}" value="selected" onclick = "this.checked = !this.checked"/>
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:if>
+										<html:else>
+											<td class="td_size">
+												<html:checkbox key="selectedMarcBibTags" fieldValue="%{tagId}" value="selected" />
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:else>
+									</html:if>
+									<html:else>
+										<html:if test="mandatory == 1">
+											<td class="td_size">
+												<html:checkbox key="selectedMarcBibTags" fieldValue="%{tagId}" value="selected" onclick = "this.checked = !this.checked"/>
+												<html:property value="tagDescription" /></td>
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:if>
+										<html:else>
+											<td class="td_size">
+												<html:checkbox key="selectedMarcBibTags" fieldValue="%{tagId}" value="selected" />
+												<html:property value="tagDescription" /></td>
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:else>
+									</html:else>
+								</html:if>
+							</html:iterator>
+						</table>
+						
+						<html:set var="counter" value="0" />
+						<h3><html:property value="%{entities['50']}"/></h3>
+						
+						<table class="table">
+							<html:iterator value="marcBibTags" status="status">		
+								<html:if test="entity == 5">			
+									<html:if test="#counter % 3 == 0">
+										<tr>
+										<html:if test="mandatory == 1">
+											<td class="td_size">
+												<html:checkbox key="selectedMarcBibTags" fieldValue="%{tagId}" value="selected" onclick = "this.checked = !this.checked"/>
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:if>
+										<html:else>
+											<td class="td_size">
+												<html:checkbox key="selectedMarcBibTags" fieldValue="%{tagId}" value="selected" />
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:else>
+									</html:if>
+									<html:else>
+										<html:if test="mandatory == 1">
+											<td class="td_size">
+												<html:checkbox key="selectedMarcBibTags" fieldValue="%{tagId}" value="selected" onclick = "this.checked = !this.checked"/>
+												<html:property value="tagDescription" /></td>
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:if>
+										<html:else>
+											<td class="td_size">
+												<html:checkbox key="selectedMarcBibTags" fieldValue="%{tagId}" value="selected" />
+												<html:property value="tagDescription" /></td>
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:else>
+									</html:else>
+								</html:if>
+							</html:iterator>
+						</table>
+						
+						<html:set var="counter" value="0" />
+						<h3><html:property value="%{entities['60']}"/></h3>
+						
+						<table class="table">
+							<html:iterator value="marcBibTags" status="status">		
+								<html:if test="entity == 6">			
+									<html:if test="#counter % 3 == 0">
+										<tr>
+										<html:if test="mandatory == 1">
+											<td class="td_size">
+												<html:checkbox key="selectedMarcBibTags" fieldValue="%{tagId}" value="selected" onclick = "this.checked = !this.checked"/>
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:if>
+										<html:else>
+											<td class="td_size">
+												<html:checkbox key="selectedMarcBibTags" fieldValue="%{tagId}" value="selected" />
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:else>
+									</html:if>
+									<html:else>
+										<html:if test="mandatory == 1">
+											<td class="td_size">
+												<html:checkbox key="selectedMarcBibTags" fieldValue="%{tagId}" value="selected" onclick = "this.checked = !this.checked"/>
+												<html:property value="tagDescription" /></td>
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:if>
+										<html:else>
+											<td class="td_size">
+												<html:checkbox key="selectedMarcBibTags" fieldValue="%{tagId}" value="selected" />
+												<html:property value="tagDescription" /></td>
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:else>
+									</html:else>
+								</html:if>
+							</html:iterator>
+						</table>
+						
+						<html:set var="counter" value="0" />
+						<h3><html:property value="%{entities['70']}"/></h3>
+						
+						<table class="table">
+							<html:iterator value="marcBibTags" status="status">		
+								<html:if test="entity == 7">			
+									<html:if test="#counter % 3 == 0">
+										<tr>
+										<html:if test="mandatory == 1">
+											<td class="td_size">
+												<html:checkbox key="selectedMarcBibTags" fieldValue="%{tagId}" value="selected" onclick = "this.checked = !this.checked"/>
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:if>
+										<html:else>
+											<td class="td_size">
+												<html:checkbox key="selectedMarcBibTags" fieldValue="%{tagId}" value="selected" />
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:else>
+									</html:if>
+									<html:else>
+										<html:if test="mandatory == 1">
+											<td class="td_size">
+												<html:checkbox key="selectedMarcBibTags" fieldValue="%{tagId}" value="selected" onclick = "this.checked = !this.checked"/>
+												<html:property value="tagDescription" /></td>
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:if>
+										<html:else>
+											<td class="td_size">
+												<html:checkbox key="selectedMarcBibTags" fieldValue="%{tagId}" value="selected" />
+												<html:property value="tagDescription" /></td>
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:else>
+									</html:else>
+								</html:if>
+							</html:iterator>
+						</table>
+						
+						<html:set var="counter" value="0" />
+						<h3><html:property value="%{entities['80']}"/></h3>
+						
+						<table class="table">
+							<html:iterator value="marcBibTags" status="status">		
+								<html:if test="entity == 8">			
+									<html:if test="#counter % 3 == 0">
+										<tr>
+										<html:if test="mandatory == 1">
+											<td class="td_size">
+												<html:checkbox key="selectedMarcBibTags" fieldValue="%{tagId}" value="selected" onclick = "this.checked = !this.checked"/>
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:if>
+										<html:else>
+											<td class="td_size">
+												<html:checkbox key="selectedMarcBibTags" fieldValue="%{tagId}" value="selected" />
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:else>
+									</html:if>
+									<html:else>
+										<html:if test="mandatory == 1">
+											<td class="td_size">
+												<html:checkbox key="selectedMarcBibTags" fieldValue="%{tagId}" value="selected" onclick = "this.checked = !this.checked"/>
+												<html:property value="tagDescription" /></td>
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:if>
+										<html:else>
+											<td class="td_size">
+												<html:checkbox key="selectedMarcBibTags" fieldValue="%{tagId}" value="selected" />
+												<html:property value="tagDescription" /></td>
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:else>
+									</html:else>
+								</html:if>
+							</html:iterator>
+						</table>
+						
+						<html:set var="counter" value="0" />
+						<h3><html:property value="%{entities['90']}"/></h3>
+						
+						<table class="table">
+							<html:iterator value="marcBibTags" status="status">		
+								<html:if test="entity == 9">			
+									<html:if test="#counter % 3 == 0">
+										<tr>
+										<html:if test="mandatory == 1">
+											<td class="td_size">
+												<html:checkbox key="selectedMarcBibTags" fieldValue="%{tagId}" value="selected" onclick = "this.checked = !this.checked"/>
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:if>
+										<html:else>
+											<td class="td_size">
+												<html:checkbox key="selectedMarcBibTags" fieldValue="%{tagId}" value="selected" />
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:else>
+									</html:if>
+									<html:else>
+										<html:if test="mandatory == 1">
+											<td class="td_size">
+												<html:checkbox key="selectedMarcBibTags" fieldValue="%{tagId}" value="selected" onclick = "this.checked = !this.checked"/>
+												<html:property value="tagDescription" /></td>
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:if>
+										<html:else>
+											<td class="td_size">
+												<html:checkbox key="selectedMarcBibTags" fieldValue="%{tagId}" value="selected" />
+												<html:property value="tagDescription" /></td>
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:else>
+									</html:else>
+								</html:if>
+							</html:iterator>
+						</table>
+						
+						<html:set var="counter" value="0" />
+						<h3><html:property value="%{entities['100']}"/></h3>
+						
+						<table class="table">
+							<html:iterator value="marcBibTags" status="status">		
+								<html:if test="entity == 10">			
+									<html:if test="#counter % 3 == 0">
+										<tr>
+										<html:if test="mandatory == 1">
+											<td class="td_size">
+												<html:checkbox key="selectedMarcBibTags" fieldValue="%{tagId}" value="selected" onclick = "this.checked = !this.checked"/>
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:if>
+										<html:else>
+											<td class="td_size">
+												<html:checkbox key="selectedMarcBibTags" fieldValue="%{tagId}" value="selected" />
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:else>
+									</html:if>
+									<html:else>
+										<html:if test="mandatory == 1">
+											<td class="td_size">
+												<html:checkbox key="selectedMarcBibTags" fieldValue="%{tagId}" value="selected" onclick = "this.checked = !this.checked"/>
+												<html:property value="tagDescription" /></td>
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:if>
+										<html:else>
+											<td class="td_size">
+												<html:checkbox key="selectedMarcBibTags" fieldValue="%{tagId}" value="selected" />
+												<html:property value="tagDescription" /></td>
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:else>
+									</html:else>
+								</html:if>
+							</html:iterator>
+						</table>
+						
 					</div>
 				</div>
 				<div id="marcAuthTags" class="row">
 					<div class="label">
-						<html:text name="templateFields" />
+						<div class="label">
+							<html:text name="templateFields" />
+						</div>
+						
+						<html:set var="counter" value="0" />
+						<h3><html:property value="%{entities['11']}"/></h3>
+						
 						<table class="table">
-							<html:iterator value="marcAuthTags" status="status">
-								<html:if test="%{#status.index == 0}">
-									<tr>
-										<td class="td_size"><html:checkbox key="selectedMarcAuthTags" fieldValue="%{key}"
-												value="%{value}" />
-											<html:property value="%{key}" /></td>
+							<html:iterator value="marcAuthTags" status="status">		
+								<html:if test="entity == 1">			
+									<html:if test="#counter % 3 == 0">
+										<tr>
+										<html:if test="mandatory == 1">
+											<td class="td_size">
+												<html:checkbox key="selectedMarcAuthTags" fieldValue="%{tagId}" value="selected" onclick = "this.checked = !this.checked"/>
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:if>
+										<html:else>
+											<td class="td_size">
+												<html:checkbox key="selectedMarcAuthTags" fieldValue="%{tagId}" value="selected" />
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:else>
+									</html:if>
+									<html:else>
+										<html:if test="mandatory == 1">
+											<td class="td_size">
+												<html:checkbox key="selectedMarcAuthTags" fieldValue="%{tagId}" value="selected" onclick = "this.checked = !this.checked"/>
+												<html:property value="tagDescription" /></td>
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:if>
+										<html:else>
+											<td class="td_size">
+												<html:checkbox key="selectedMarcAuthTags" fieldValue="%{tagId}" value="selected" />
+												<html:property value="tagDescription" /></td>
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:else>
+									</html:else>
 								</html:if>
-								<html:elseif test="%{#status.index%4 == 0}">
-									<tr>
-										<td class="td_size"><html:checkbox key="selectedMarcAuthTags" fieldValue="%{key}"
-												value="%{value}" />
-											<html:property value="%{key}" /></td>
-								</html:elseif>
-								<html:else>
-									<td class="td_size"><html:checkbox key="selectedMarcAuthTags" fieldValue="%{key}"
-											value="%{value}" />
-										<html:property value="%{key}" /></td>
-								</html:else>
+							</html:iterator>
+						</table>
+						
+						<html:set var="counter" value="0" />
+						<h3><html:property value="%{entities['21']}"/></h3>
+						
+						<table class="table">
+							<html:iterator value="marcAuthTags" status="status">		
+								<html:if test="entity == 2">			
+									<html:if test="#counter % 3 == 0">
+										<tr>
+										<html:if test="mandatory == 1">
+											<td class="td_size">
+												<html:checkbox key="selectedMarcAuthTags" fieldValue="%{tagId}" value="selected" onclick = "this.checked = !this.checked"/>
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:if>
+										<html:else>
+											<td class="td_size">
+												<html:checkbox key="selectedMarcAuthTags" fieldValue="%{tagId}" value="selected" />
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:else>
+									</html:if>
+									<html:else>
+										<html:if test="mandatory == 1">
+											<td class="td_size">
+												<html:checkbox key="selectedMarcAuthTags" fieldValue="%{tagId}" value="selected" onclick = "this.checked = !this.checked"/>
+												<html:property value="tagDescription" /></td>
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:if>
+										<html:else>
+											<td class="td_size">
+												<html:checkbox key="selectedMarcAuthTags" fieldValue="%{tagId}" value="selected" />
+												<html:property value="tagDescription" /></td>
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:else>
+									</html:else>
+								</html:if>
+							</html:iterator>
+						</table>
+						
+						<html:set var="counter" value="0" />
+						<h3><html:property value="%{entities['31']}"/></h3>
+						
+						<table class="table">
+							<html:iterator value="marcAuthTags" status="status">		
+								<html:if test="entity == 3">			
+									<html:if test="#counter % 3 == 0">
+										<tr>
+										<html:if test="mandatory == 1">
+											<td class="td_size">
+												<html:checkbox key="selectedMarcAuthTags" fieldValue="%{tagId}" value="selected" onclick = "this.checked = !this.checked"/>
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:if>
+										<html:else>
+											<td class="td_size">
+												<html:checkbox key="selectedMarcAuthTags" fieldValue="%{tagId}" value="selected" />
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:else>
+									</html:if>
+									<html:else>
+										<html:if test="mandatory == 1">
+											<td class="td_size">
+												<html:checkbox key="selectedMarcAuthTags" fieldValue="%{tagId}" value="selected" onclick = "this.checked = !this.checked"/>
+												<html:property value="tagDescription" /></td>
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:if>
+										<html:else>
+											<td class="td_size">
+												<html:checkbox key="selectedMarcAuthTags" fieldValue="%{tagId}" value="selected" />
+												<html:property value="tagDescription" /></td>
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:else>
+									</html:else>
+								</html:if>
 							</html:iterator>
 						</table>
 					</div>
 				</div>
 				<div id="lidoTags" class="row">
 					<div class="label">
-						<html:text name="templateFields" />
+						<div class="label">
+							<html:text name="templateFields" />
+						</div>
+						
+						<html:set var="counter" value="0" />
+						<h3><html:property value="%{entities['12']}"/></h3>
+						
 						<table class="table">
-							<html:iterator value="lidoTags" status="status">
-								<html:if test="%{#status.index == 0}">
-									<tr>
-										<td class="td_size"><html:checkbox key="selectedLidoTags" fieldValue="%{key}"
-												value="%{value}" />
-											<html:property value="%{key}" /></td>
+							<html:iterator value="lidoTags" status="status">		
+								<html:if test="entity == 1">			
+									<html:if test="#counter % 3 == 0">
+										<tr>
+										<html:if test="mandatory == 1">
+											<td class="td_size">
+												<html:checkbox key="selectedLidoTags" fieldValue="%{tagId}" value="selected" onclick = "this.checked = !this.checked"/>
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:if>
+										<html:else>
+											<td class="td_size">
+												<html:checkbox key="selectedLidoTags" fieldValue="%{tagId}" value="selected" />
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:else>
+									</html:if>
+									<html:else>
+										<html:if test="mandatory == 1">
+											<td class="td_size">
+												<html:checkbox key="selectedLidoTags" fieldValue="%{tagId}" value="selected" onclick = "this.checked = !this.checked"/>
+												<html:property value="tagDescription" /></td>
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:if>
+										<html:else>
+											<td class="td_size">
+												<html:checkbox key="selectedLidoTags" fieldValue="%{tagId}" value="selected" />
+												<html:property value="tagDescription" /></td>
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:else>
+									</html:else>
 								</html:if>
-								<html:elseif test="%{#status.index%3 == 0}">
-									<tr>
-										<td class="td_size"><html:checkbox key="selectedLidoTags" fieldValue="%{key}"
-												value="%{value}" />
-											<html:property value="%{key}" /></td>
-								</html:elseif>
-								<html:else>
-									<td class="td_size"><html:checkbox key="selectedLidoTags" fieldValue="%{key}"
-											value="%{value}" />
-										<html:property value="%{key}" /></td>
-								</html:else>
+							</html:iterator>
+						</table>
+						
+						<html:set var="counter" value="0" />
+						<h3><html:property value="%{entities['22']}"/></h3>
+						
+						<table class="table">
+							<html:iterator value="lidoTags" status="status">		
+								<html:if test="entity == 2">			
+									<html:if test="#counter % 3 == 0">
+										<tr>
+										<html:if test="mandatory == 1">
+											<td class="td_size">
+												<html:checkbox key="selectedLidoTags" fieldValue="%{tagId}" value="selected" onclick = "this.checked = !this.checked"/>
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:if>
+										<html:else>
+											<td class="td_size">
+												<html:checkbox key="selectedLidoTags" fieldValue="%{tagId}" value="selected" />
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:else>
+									</html:if>
+									<html:else>
+										<html:if test="mandatory == 1">
+											<td class="td_size">
+												<html:checkbox key="selectedLidoTags" fieldValue="%{tagId}" value="selected" onclick = "this.checked = !this.checked"/>
+												<html:property value="tagDescription" /></td>
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:if>
+										<html:else>
+											<td class="td_size">
+												<html:checkbox key="selectedLidoTags" fieldValue="%{tagId}" value="selected" />
+												<html:property value="tagDescription" /></td>
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:else>
+									</html:else>
+								</html:if>
+							</html:iterator>
+						</table>
+						
+						<html:set var="counter" value="0" />
+						<h3><html:property value="%{entities['32']}"/></h3>
+						
+						<table class="table">
+							<html:iterator value="lidoTags" status="status">		
+								<html:if test="entity == 3">			
+									<html:if test="#counter % 3 == 0">
+										<tr>
+										<html:if test="mandatory == 1">
+											<td class="td_size">
+												<html:checkbox key="selectedLidoTags" fieldValue="%{tagId}" value="selected" onclick = "this.checked = !this.checked"/>
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:if>
+										<html:else>
+											<td class="td_size">
+												<html:checkbox key="selectedLidoTags" fieldValue="%{tagId}" value="selected" />
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:else>
+									</html:if>
+									<html:else>
+										<html:if test="mandatory == 1">
+											<td class="td_size">
+												<html:checkbox key="selectedLidoTags" fieldValue="%{tagId}" value="selected" onclick = "this.checked = !this.checked"/>
+												<html:property value="tagDescription" /></td>
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:if>
+										<html:else>
+											<td class="td_size">
+												<html:checkbox key="selectedLidoTags" fieldValue="%{tagId}" value="selected" />
+												<html:property value="tagDescription" /></td>
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:else>
+									</html:else>
+								</html:if>
+							</html:iterator>
+						</table>
+						
+						<html:set var="counter" value="0" />
+						<h3><html:property value="%{entities['42']}"/></h3>
+						
+						<table class="table">
+							<html:iterator value="lidoTags" status="status">		
+								<html:if test="entity == 4">			
+									<html:if test="#counter % 3 == 0">
+										<tr>
+										<html:if test="mandatory == 1">
+											<td class="td_size">
+												<html:checkbox key="selectedLidoTags" fieldValue="%{tagId}" value="selected" onclick = "this.checked = !this.checked"/>
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:if>
+										<html:else>
+											<td class="td_size">
+												<html:checkbox key="selectedLidoTags" fieldValue="%{tagId}" value="selected" />
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:else>
+									</html:if>
+									<html:else>
+										<html:if test="mandatory == 1">
+											<td class="td_size">
+												<html:checkbox key="selectedLidoTags" fieldValue="%{tagId}" value="selected" onclick = "this.checked = !this.checked"/>
+												<html:property value="tagDescription" /></td>
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:if>
+										<html:else>
+											<td class="td_size">
+												<html:checkbox key="selectedLidoTags" fieldValue="%{tagId}" value="selected" />
+												<html:property value="tagDescription" /></td>
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:else>
+									</html:else>
+								</html:if>
+							</html:iterator>
+						</table>
+						
+						<html:set var="counter" value="0" />
+						<h3><html:property value="%{entities['52']}"/></h3>
+						
+						<table class="table">
+							<html:iterator value="lidoTags" status="status">		
+								<html:if test="entity == 5">			
+									<html:if test="#counter % 3 == 0">
+										<tr>
+										<html:if test="mandatory == 1">
+											<td class="td_size">
+												<html:checkbox key="selectedLidoTags" fieldValue="%{tagId}" value="selected" onclick = "this.checked = !this.checked"/>
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:if>
+										<html:else>
+											<td class="td_size">
+												<html:checkbox key="selectedLidoTags" fieldValue="%{tagId}" value="selected" />
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:else>
+									</html:if>
+									<html:else>
+										<html:if test="mandatory == 1">
+											<td class="td_size">
+												<html:checkbox key="selectedLidoTags" fieldValue="%{tagId}" value="selected" onclick = "this.checked = !this.checked"/>
+												<html:property value="tagDescription" /></td>
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:if>
+										<html:else>
+											<td class="td_size">
+												<html:checkbox key="selectedLidoTags" fieldValue="%{tagId}" value="selected" />
+												<html:property value="tagDescription" /></td>
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:else>
+									</html:else>
+								</html:if>
+							</html:iterator>
+						</table>
+						
+						<html:set var="counter" value="0" />
+						<h3><html:property value="%{entities['62']}"/></h3>
+						
+						<table class="table">
+							<html:iterator value="lidoTags" status="status">		
+								<html:if test="entity == 6">			
+									<html:if test="#counter % 3 == 0">
+										<tr>
+										<html:if test="mandatory == 1">
+											<td class="td_size">
+												<html:checkbox key="selectedLidoTags" fieldValue="%{tagId}" value="selected" onclick = "this.checked = !this.checked"/>
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:if>
+										<html:else>
+											<td class="td_size">
+												<html:checkbox key="selectedLidoTags" fieldValue="%{tagId}" value="selected" />
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:else>
+									</html:if>
+									<html:else>
+										<html:if test="mandatory == 1">
+											<td class="td_size">
+												<html:checkbox key="selectedLidoTags" fieldValue="%{tagId}" value="selected" onclick = "this.checked = !this.checked"/>
+												<html:property value="tagDescription" /></td>
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:if>
+										<html:else>
+											<td class="td_size">
+												<html:checkbox key="selectedLidoTags" fieldValue="%{tagId}" value="selected" />
+												<html:property value="tagDescription" /></td>
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:else>
+									</html:else>
+								</html:if>
 							</html:iterator>
 						</table>
 					</div>
 				</div>
 				<div id="dcTags" class="row">
 					<div class="label">
-						<html:text name="templateFields" />
+						<div class="label">
+							<html:text name="templateFields" />
+						</div>
+						
+						<html:set var="counter" value="0" />
+						<h3><html:property value="%{entities['13']}"/></h3>
+						
 						<table class="table">
-							<html:iterator value="dcTags" status="status">
-								<html:if test="%{#status.index == 0}">
-									<tr>
-										<td class="td_size"><html:checkbox key="selectedDcTags" fieldValue="%{key}"
-												value="%{value}" />
-											<html:property value="%{key}" /></td>
+							<html:iterator value="dcTags" status="status">		
+								<html:if test="entity == 1">			
+									<html:if test="#counter % 3 == 0">
+										<tr>
+										<html:if test="mandatory == 1">
+											<td class="td_size">
+												<html:checkbox key="selectedDcTags" fieldValue="%{tagId}" value="selected" onclick = "this.checked = !this.checked"/>
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:if>
+										<html:else>
+											<td class="td_size">
+												<html:checkbox key="selectedDcTags" fieldValue="%{tagId}" value="selected" />
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:else>
+									</html:if>
+									<html:else>
+										<html:if test="mandatory == 1">
+											<td class="td_size">
+												<html:checkbox key="selectedDcTags" fieldValue="%{tagId}" value="selected" onclick = "this.checked = !this.checked"/>
+												<html:property value="tagDescription" /></td>
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:if>
+										<html:else>
+											<td class="td_size">
+												<html:checkbox key="selectedDcTags" fieldValue="%{tagId}" value="selected" />
+												<html:property value="tagDescription" /></td>
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:else>
+									</html:else>
 								</html:if>
-								<html:elseif test="%{#status.index%4 == 0}">
-									<tr>
-										<td class="td_size"><html:checkbox key="selectedDcTags" fieldValue="%{key}"
-												value="%{value}" />
-											<html:property value="%{key}" /></td>
-								</html:elseif>
-								<html:else>
-									<td class="td_size"><html:checkbox key="selectedDcTags" fieldValue="%{key}"
-											value="%{value}" />
-										<html:property value="%{key}" /></td>
-								</html:else>
+							</html:iterator>
+						</table>
+						
+						<html:set var="counter" value="0" />
+						<h3><html:property value="%{entities['23']}"/></h3>
+						
+						<table class="table">
+							<html:iterator value="dcTags" status="status">		
+								<html:if test="entity == 2">			
+									<html:if test="#counter % 3 == 0">
+										<tr>
+										<html:if test="mandatory == 1">
+											<td class="td_size">
+												<html:checkbox key="selectedDcTags" fieldValue="%{tagId}" value="selected" onclick = "this.checked = !this.checked"/>
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:if>
+										<html:else>
+											<td class="td_size">
+												<html:checkbox key="selectedDcTags" fieldValue="%{tagId}" value="selected" />
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:else>
+									</html:if>
+									<html:else>
+										<html:if test="mandatory == 1">
+											<td class="td_size">
+												<html:checkbox key="selectedDcTags" fieldValue="%{tagId}" value="selected" onclick = "this.checked = !this.checked"/>
+												<html:property value="tagDescription" /></td>
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:if>
+										<html:else>
+											<td class="td_size">
+												<html:checkbox key="selectedDcTags" fieldValue="%{tagId}" value="selected" />
+												<html:property value="tagDescription" /></td>
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:else>
+									</html:else>
+								</html:if>
+							</html:iterator>
+						</table>
+						
+						<html:set var="counter" value="0" />
+						<h3><html:property value="%{entities['33']}"/></h3>
+						
+						<table class="table">
+							<html:iterator value="dcTags" status="status">		
+								<html:if test="entity == 3">			
+									<html:if test="#counter % 3 == 0">
+										<tr>
+										<html:if test="mandatory == 1">
+											<td class="td_size">
+												<html:checkbox key="selectedDcTags" fieldValue="%{tagId}" value="selected" onclick = "this.checked = !this.checked"/>
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:if>
+										<html:else>
+											<td class="td_size">
+												<html:checkbox key="selectedDcTags" fieldValue="%{tagId}" value="selected" />
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:else>
+									</html:if>
+									<html:else>
+										<html:if test="mandatory == 1">
+											<td class="td_size">
+												<html:checkbox key="selectedDcTags" fieldValue="%{tagId}" value="selected" onclick = "this.checked = !this.checked"/>
+												<html:property value="tagDescription" /></td>
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:if>
+										<html:else>
+											<td class="td_size">
+												<html:checkbox key="selectedDcTags" fieldValue="%{tagId}" value="selected" />
+												<html:property value="tagDescription" /></td>
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:else>
+									</html:else>
+								</html:if>
+							</html:iterator>
+						</table>
+						
+						<html:set var="counter" value="0" />
+						<h3><html:property value="%{entities['43']}"/></h3>
+						
+						<table class="table">
+							<html:iterator value="dcTags" status="status">		
+								<html:if test="entity == 4">			
+									<html:if test="#counter % 3 == 0">
+										<tr>
+										<html:if test="mandatory == 1">
+											<td class="td_size">
+												<html:checkbox key="selectedDcTags" fieldValue="%{tagId}" value="selected" onclick = "this.checked = !this.checked"/>
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:if>
+										<html:else>
+											<td class="td_size">
+												<html:checkbox key="selectedDcTags" fieldValue="%{tagId}" value="selected" />
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:else>
+									</html:if>
+									<html:else>
+										<html:if test="mandatory == 1">
+											<td class="td_size">
+												<html:checkbox key="selectedDcTags" fieldValue="%{tagId}" value="selected" onclick = "this.checked = !this.checked"/>
+												<html:property value="tagDescription" /></td>
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:if>
+										<html:else>
+											<td class="td_size">
+												<html:checkbox key="selectedDcTags" fieldValue="%{tagId}" value="selected" />
+												<html:property value="tagDescription" /></td>
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:else>
+									</html:else>
+								</html:if>
+							</html:iterator>
+						</table>
+						
+						<html:set var="counter" value="0" />
+						<h3><html:property value="%{entities['53']}"/></h3>
+						
+						<table class="table">
+							<html:iterator value="dcTags" status="status">		
+								<html:if test="entity == 5">			
+									<html:if test="#counter % 3 == 0">
+										<tr>
+										<html:if test="mandatory == 1">
+											<td class="td_size">
+												<html:checkbox key="selectedDcTags" fieldValue="%{tagId}" value="selected" onclick = "this.checked = !this.checked"/>
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:if>
+										<html:else>
+											<td class="td_size">
+												<html:checkbox key="selectedDcTags" fieldValue="%{tagId}" value="selected" />
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:else>
+									</html:if>
+									<html:else>
+										<html:if test="mandatory == 1">
+											<td class="td_size">
+												<html:checkbox key="selectedDcTags" fieldValue="%{tagId}" value="selected" onclick = "this.checked = !this.checked"/>
+												<html:property value="tagDescription" /></td>
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:if>
+										<html:else>
+											<td class="td_size">
+												<html:checkbox key="selectedDcTags" fieldValue="%{tagId}" value="selected" />
+												<html:property value="tagDescription" /></td>
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:else>
+									</html:else>
+								</html:if>
+							</html:iterator>
+						</table>
+						
+						<html:set var="counter" value="0" />
+						<h3><html:property value="%{entities['63']}"/></h3>
+						
+						<table class="table">
+							<html:iterator value="dcTags" status="status">		
+								<html:if test="entity == 6">			
+									<html:if test="#counter % 3 == 0">
+										<tr>
+										<html:if test="mandatory == 1">
+											<td class="td_size">
+												<html:checkbox key="selectedDcTags" fieldValue="%{tagId}" value="selected" onclick = "this.checked = !this.checked"/>
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:if>
+										<html:else>
+											<td class="td_size">
+												<html:checkbox key="selectedDcTags" fieldValue="%{tagId}" value="selected" />
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:else>
+									</html:if>
+									<html:else>
+										<html:if test="mandatory == 1">
+											<td class="td_size">
+												<html:checkbox key="selectedDcTags" fieldValue="%{tagId}" value="selected" onclick = "this.checked = !this.checked"/>
+												<html:property value="tagDescription" /></td>
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:if>
+										<html:else>
+											<td class="td_size">
+												<html:checkbox key="selectedDcTags" fieldValue="%{tagId}" value="selected" />
+												<html:property value="tagDescription" /></td>
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:else>
+									</html:else>
+								</html:if>
+							</html:iterator>
+						</table>
+						
+						<html:set var="counter" value="0" />
+						<h3><html:property value="%{entities['73']}"/></h3>
+						
+						<table class="table">
+							<html:iterator value="dcTags" status="status">		
+								<html:if test="entity == 7">			
+									<html:if test="#counter % 3 == 0">
+										<tr>
+										<html:if test="mandatory == 1">
+											<td class="td_size">
+												<html:checkbox key="selectedDcTags" fieldValue="%{tagId}" value="selected" onclick = "this.checked = !this.checked"/>
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:if>
+										<html:else>
+											<td class="td_size">
+												<html:checkbox key="selectedDcTags" fieldValue="%{tagId}" value="selected" />
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:else>
+									</html:if>
+									<html:else>
+										<html:if test="mandatory == 1">
+											<td class="td_size">
+												<html:checkbox key="selectedDcTags" fieldValue="%{tagId}" value="selected" onclick = "this.checked = !this.checked"/>
+												<html:property value="tagDescription" /></td>
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:if>
+										<html:else>
+											<td class="td_size">
+												<html:checkbox key="selectedDcTags" fieldValue="%{tagId}" value="selected" />
+												<html:property value="tagDescription" /></td>
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:else>
+									</html:else>
+								</html:if>
+							</html:iterator>
+						</table>
+						
+						<html:set var="counter" value="0" />
+						<h3><html:property value="%{entities['83']}"/></h3>
+						
+						<table class="table">
+							<html:iterator value="dcTags" status="status">		
+								<html:if test="entity == 8">			
+									<html:if test="#counter % 3 == 0">
+										<tr>
+										<html:if test="mandatory == 1">
+											<td class="td_size">
+												<html:checkbox key="selectedDcTags" fieldValue="%{tagId}" value="selected" onclick = "this.checked = !this.checked"/>
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:if>
+										<html:else>
+											<td class="td_size">
+												<html:checkbox key="selectedDcTags" fieldValue="%{tagId}" value="selected" />
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:else>
+									</html:if>
+									<html:else>
+										<html:if test="mandatory == 1">
+											<td class="td_size">
+												<html:checkbox key="selectedDcTags" fieldValue="%{tagId}" value="selected" onclick = "this.checked = !this.checked"/>
+												<html:property value="tagDescription" /></td>
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:if>
+										<html:else>
+											<td class="td_size">
+												<html:checkbox key="selectedDcTags" fieldValue="%{tagId}" value="selected" />
+												<html:property value="tagDescription" /></td>
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:else>
+									</html:else>
+								</html:if>
+							</html:iterator>
+						</table>
+						
+						<html:set var="counter" value="0" />
+						<h3><html:property value="%{entities['93']}"/></h3>
+						
+						<table class="table">
+							<html:iterator value="dcTags" status="status">		
+								<html:if test="entity == 9">			
+									<html:if test="#counter % 3 == 0">
+										<tr>
+										<html:if test="mandatory == 1">
+											<td class="td_size">
+												<html:checkbox key="selectedDcTags" fieldValue="%{tagId}" value="selected" onclick = "this.checked = !this.checked"/>
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:if>
+										<html:else>
+											<td class="td_size">
+												<html:checkbox key="selectedDcTags" fieldValue="%{tagId}" value="selected" />
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:else>
+									</html:if>
+									<html:else>
+										<html:if test="mandatory == 1">
+											<td class="td_size">
+												<html:checkbox key="selectedDcTags" fieldValue="%{tagId}" value="selected" onclick = "this.checked = !this.checked"/>
+												<html:property value="tagDescription" /></td>
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:if>
+										<html:else>
+											<td class="td_size">
+												<html:checkbox key="selectedDcTags" fieldValue="%{tagId}" value="selected" />
+												<html:property value="tagDescription" /></td>
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:else>
+									</html:else>
+								</html:if>
+							</html:iterator>
+						</table>
+						
+						<html:set var="counter" value="0" />
+						<h3><html:property value="%{entities['103']}"/></h3>
+						
+						<table class="table">
+							<html:iterator value="dcTags" status="status">		
+								<html:if test="entity == 10">			
+									<html:if test="#counter % 3 == 0">
+										<tr>
+										<html:if test="mandatory == 1">
+											<td class="td_size">
+												<html:checkbox key="selectedDcTags" fieldValue="%{tagId}" value="selected" onclick = "this.checked = !this.checked"/>
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:if>
+										<html:else>
+											<td class="td_size">
+												<html:checkbox key="selectedDcTags" fieldValue="%{tagId}" value="selected" />
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:else>
+									</html:if>
+									<html:else>
+										<html:if test="mandatory == 1">
+											<td class="td_size">
+												<html:checkbox key="selectedDcTags" fieldValue="%{tagId}" value="selected" onclick = "this.checked = !this.checked"/>
+												<html:property value="tagDescription" /></td>
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:if>
+										<html:else>
+											<td class="td_size">
+												<html:checkbox key="selectedDcTags" fieldValue="%{tagId}" value="selected" />
+												<html:property value="tagDescription" /></td>
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:else>
+									</html:else>
+								</html:if>
 							</html:iterator>
 						</table>
 					</div>
@@ -449,8 +2445,8 @@ $(function(){
 				<table class="lMargin25p">
 					<tr>
 						<td class="label"><html:text name="templateName" /></td>
-						<td><html:textfield key="templateName" cssClass="inputForm frigth input disabled" 
-							readonly="true" /></td>
+						<td><html:textfield key="templateName" maxLength="128"
+						 	cssClass="inputForm frigth input"/></td>
 					</tr>
 					<tr>
 						<td class="label"><html:text name="templateDescription" /></td>
@@ -465,106 +2461,1395 @@ $(function(){
 				</table>
 				<div id="marcBibTagstoEdit" class="row">
 					<div class="label">
-						<html:text name="templateFields" />
+						<div class="label">
+							<html:text name="templateFields" />
+						</div>
+						
+						<html:set var="counter" value="0" />
+						<h3><html:property value="%{entities['10']}"/></h3>
+						
 						<table class="table">
-							<html:iterator value="marcBibTags" status="status">
-								<html:if test="%{#status.index == 0}">
-									<tr>
-										<td class="td_size"><html:checkbox key="selectedMarcBibTags" fieldValue="%{key}"
-												value="%{value}" />
-											<html:property value="%{key}" /></td>
+							<html:iterator value="marcBibTags" status="status">		
+								<html:if test="entity == 1">			
+									<html:if test="#counter % 3 == 0">
+										<tr>
+										<html:if test="mandatory == 1">
+											<td class="td_size">
+												<html:checkbox key="selectedMarcBibTags" fieldValue="%{tagId}" value="selected" onclick = "this.checked = !this.checked"/>
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:if>
+										<html:else>
+											<td class="td_size">
+												<html:checkbox key="selectedMarcBibTags" fieldValue="%{tagId}" value="selected" />
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:else>
+									</html:if>
+									<html:else>
+										<html:if test="mandatory == 1">
+											<td class="td_size">
+												<html:checkbox key="selectedMarcBibTags" fieldValue="%{tagId}" value="selected" onclick = "this.checked = !this.checked"/>
+												<html:property value="tagDescription" /></td>
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:if>
+										<html:else>
+											<td class="td_size">
+												<html:checkbox key="selectedMarcBibTags" fieldValue="%{tagId}" value="selected" />
+												<html:property value="tagDescription" /></td>
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:else>
+									</html:else>
 								</html:if>
-								<html:elseif test="%{#status.index%4 == 0}">
-									<tr>
-										<td class="td_size"><html:checkbox key="selectedMarcBibTags" fieldValue="%{key}"
-												value="%{value}" />
-											<html:property value="%{key}" /></td>
-								</html:elseif>
-								<html:else>
-									<td class="td_size"><html:checkbox key="selectedMarcBibTags" fieldValue="%{key}"
-											value="%{value}" />
-										<html:property value="%{key}" /></td>
-								</html:else>
 							</html:iterator>
 						</table>
+						
+						<html:set var="counter" value="0" />
+						<h3><html:property value="%{entities['20']}"/></h3>
+						
+						<table class="table">
+							<html:iterator value="marcBibTags" status="status">		
+								<html:if test="entity == 2">			
+									<html:if test="#counter % 3 == 0">
+										<tr>
+										<html:if test="mandatory == 1">
+											<td class="td_size">
+												<html:checkbox key="selectedMarcBibTags" fieldValue="%{tagId}" value="selected" onclick = "this.checked = !this.checked"/>
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:if>
+										<html:else>
+											<td class="td_size">
+												<html:checkbox key="selectedMarcBibTags" fieldValue="%{tagId}" value="selected" />
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:else>
+									</html:if>
+									<html:else>
+										<html:if test="mandatory == 1">
+											<td class="td_size">
+												<html:checkbox key="selectedMarcBibTags" fieldValue="%{tagId}" value="selected" onclick = "this.checked = !this.checked"/>
+												<html:property value="tagDescription" /></td>
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:if>
+										<html:else>
+											<td class="td_size">
+												<html:checkbox key="selectedMarcBibTags" fieldValue="%{tagId}" value="selected" />
+												<html:property value="tagDescription" /></td>
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:else>
+									</html:else>
+								</html:if>
+							</html:iterator>
+						</table>
+						
+						<html:set var="counter" value="0" />
+						<h3><html:property value="%{entities['30']}"/></h3>
+						
+						<table class="table">
+							<html:iterator value="marcBibTags" status="status">		
+								<html:if test="entity == 3">			
+									<html:if test="#counter % 3 == 0">
+										<tr>
+										<html:if test="mandatory == 1">
+											<td class="td_size">
+												<html:checkbox key="selectedMarcBibTags" fieldValue="%{tagId}" value="selected" onclick = "this.checked = !this.checked"/>
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:if>
+										<html:else>
+											<td class="td_size">
+												<html:checkbox key="selectedMarcBibTags" fieldValue="%{tagId}" value="selected" />
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:else>
+									</html:if>
+									<html:else>
+										<html:if test="mandatory == 1">
+											<td class="td_size">
+												<html:checkbox key="selectedMarcBibTags" fieldValue="%{tagId}" value="selected" onclick = "this.checked = !this.checked"/>
+												<html:property value="tagDescription" /></td>
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:if>
+										<html:else>
+											<td class="td_size">
+												<html:checkbox key="selectedMarcBibTags" fieldValue="%{tagId}" value="selected" />
+												<html:property value="tagDescription" /></td>
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:else>
+									</html:else>
+								</html:if>
+							</html:iterator>
+						</table>
+						
+						<html:set var="counter" value="0" />
+						<h3><html:property value="%{entities['40']}"/></h3>
+						
+						<table class="table">
+							<html:iterator value="marcBibTags" status="status">		
+								<html:if test="entity == 4">			
+									<html:if test="#counter % 3 == 0">
+										<tr>
+										<html:if test="mandatory == 1">
+											<td class="td_size">
+												<html:checkbox key="selectedMarcBibTags" fieldValue="%{tagId}" value="selected" onclick = "this.checked = !this.checked"/>
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:if>
+										<html:else>
+											<td class="td_size">
+												<html:checkbox key="selectedMarcBibTags" fieldValue="%{tagId}" value="selected" />
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:else>
+									</html:if>
+									<html:else>
+										<html:if test="mandatory == 1">
+											<td class="td_size">
+												<html:checkbox key="selectedMarcBibTags" fieldValue="%{tagId}" value="selected" onclick = "this.checked = !this.checked"/>
+												<html:property value="tagDescription" /></td>
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:if>
+										<html:else>
+											<td class="td_size">
+												<html:checkbox key="selectedMarcBibTags" fieldValue="%{tagId}" value="selected" />
+												<html:property value="tagDescription" /></td>
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:else>
+									</html:else>
+								</html:if>
+							</html:iterator>
+						</table>
+						
+						<html:set var="counter" value="0" />
+						<h3><html:property value="%{entities['50']}"/></h3>
+						
+						<table class="table">
+							<html:iterator value="marcBibTags" status="status">		
+								<html:if test="entity == 5">			
+									<html:if test="#counter % 3 == 0">
+										<tr>
+										<html:if test="mandatory == 1">
+											<td class="td_size">
+												<html:checkbox key="selectedMarcBibTags" fieldValue="%{tagId}" value="selected" onclick = "this.checked = !this.checked"/>
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:if>
+										<html:else>
+											<td class="td_size">
+												<html:checkbox key="selectedMarcBibTags" fieldValue="%{tagId}" value="selected" />
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:else>
+									</html:if>
+									<html:else>
+										<html:if test="mandatory == 1">
+											<td class="td_size">
+												<html:checkbox key="selectedMarcBibTags" fieldValue="%{tagId}" value="selected" onclick = "this.checked = !this.checked"/>
+												<html:property value="tagDescription" /></td>
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:if>
+										<html:else>
+											<td class="td_size">
+												<html:checkbox key="selectedMarcBibTags" fieldValue="%{tagId}" value="selected" />
+												<html:property value="tagDescription" /></td>
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:else>
+									</html:else>
+								</html:if>
+							</html:iterator>
+						</table>
+						
+						<html:set var="counter" value="0" />
+						<h3><html:property value="%{entities['60']}"/></h3>
+						
+						<table class="table">
+							<html:iterator value="marcBibTags" status="status">		
+								<html:if test="entity == 6">			
+									<html:if test="#counter % 3 == 0">
+										<tr>
+										<html:if test="mandatory == 1">
+											<td class="td_size">
+												<html:checkbox key="selectedMarcBibTags" fieldValue="%{tagId}" value="selected" onclick = "this.checked = !this.checked"/>
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:if>
+										<html:else>
+											<td class="td_size">
+												<html:checkbox key="selectedMarcBibTags" fieldValue="%{tagId}" value="selected" />
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:else>
+									</html:if>
+									<html:else>
+										<html:if test="mandatory == 1">
+											<td class="td_size">
+												<html:checkbox key="selectedMarcBibTags" fieldValue="%{tagId}" value="selected" onclick = "this.checked = !this.checked"/>
+												<html:property value="tagDescription" /></td>
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:if>
+										<html:else>
+											<td class="td_size">
+												<html:checkbox key="selectedMarcBibTags" fieldValue="%{tagId}" value="selected" />
+												<html:property value="tagDescription" /></td>
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:else>
+									</html:else>
+								</html:if>
+							</html:iterator>
+						</table>
+						
+						<html:set var="counter" value="0" />
+						<h3><html:property value="%{entities['70']}"/></h3>
+						
+						<table class="table">
+							<html:iterator value="marcBibTags" status="status">		
+								<html:if test="entity == 7">			
+									<html:if test="#counter % 3 == 0">
+										<tr>
+										<html:if test="mandatory == 1">
+											<td class="td_size">
+												<html:checkbox key="selectedMarcBibTags" fieldValue="%{tagId}" value="selected" onclick = "this.checked = !this.checked"/>
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:if>
+										<html:else>
+											<td class="td_size">
+												<html:checkbox key="selectedMarcBibTags" fieldValue="%{tagId}" value="selected" />
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:else>
+									</html:if>
+									<html:else>
+										<html:if test="mandatory == 1">
+											<td class="td_size">
+												<html:checkbox key="selectedMarcBibTags" fieldValue="%{tagId}" value="selected" onclick = "this.checked = !this.checked"/>
+												<html:property value="tagDescription" /></td>
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:if>
+										<html:else>
+											<td class="td_size">
+												<html:checkbox key="selectedMarcBibTags" fieldValue="%{tagId}" value="selected" />
+												<html:property value="tagDescription" /></td>
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:else>
+									</html:else>
+								</html:if>
+							</html:iterator>
+						</table>
+						
+						<html:set var="counter" value="0" />
+						<h3><html:property value="%{entities['80']}"/></h3>
+						
+						<table class="table">
+							<html:iterator value="marcBibTags" status="status">		
+								<html:if test="entity == 8">			
+									<html:if test="#counter % 3 == 0">
+										<tr>
+										<html:if test="mandatory == 1">
+											<td class="td_size">
+												<html:checkbox key="selectedMarcBibTags" fieldValue="%{tagId}" value="selected" onclick = "this.checked = !this.checked"/>
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:if>
+										<html:else>
+											<td class="td_size">
+												<html:checkbox key="selectedMarcBibTags" fieldValue="%{tagId}" value="selected" />
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:else>
+									</html:if>
+									<html:else>
+										<html:if test="mandatory == 1">
+											<td class="td_size">
+												<html:checkbox key="selectedMarcBibTags" fieldValue="%{tagId}" value="selected" onclick = "this.checked = !this.checked"/>
+												<html:property value="tagDescription" /></td>
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:if>
+										<html:else>
+											<td class="td_size">
+												<html:checkbox key="selectedMarcBibTags" fieldValue="%{tagId}" value="selected" />
+												<html:property value="tagDescription" /></td>
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:else>
+									</html:else>
+								</html:if>
+							</html:iterator>
+						</table>
+						
+						<html:set var="counter" value="0" />
+						<h3><html:property value="%{entities['90']}"/></h3>
+						
+						<table class="table">
+							<html:iterator value="marcBibTags" status="status">		
+								<html:if test="entity == 9">			
+									<html:if test="#counter % 3 == 0">
+										<tr>
+										<html:if test="mandatory == 1">
+											<td class="td_size">
+												<html:checkbox key="selectedMarcBibTags" fieldValue="%{tagId}" value="selected" onclick = "this.checked = !this.checked"/>
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:if>
+										<html:else>
+											<td class="td_size">
+												<html:checkbox key="selectedMarcBibTags" fieldValue="%{tagId}" value="selected" />
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:else>
+									</html:if>
+									<html:else>
+										<html:if test="mandatory == 1">
+											<td class="td_size">
+												<html:checkbox key="selectedMarcBibTags" fieldValue="%{tagId}" value="selected" onclick = "this.checked = !this.checked"/>
+												<html:property value="tagDescription" /></td>
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:if>
+										<html:else>
+											<td class="td_size">
+												<html:checkbox key="selectedMarcBibTags" fieldValue="%{tagId}" value="selected" />
+												<html:property value="tagDescription" /></td>
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:else>
+									</html:else>
+								</html:if>
+							</html:iterator>
+						</table>
+						
+						<html:set var="counter" value="0" />
+						<h3><html:property value="%{entities['100']}"/></h3>
+						
+						<table class="table">
+							<html:iterator value="marcBibTags" status="status">		
+								<html:if test="entity == 10">			
+									<html:if test="#counter % 3 == 0">
+										<tr>
+										<html:if test="mandatory == 1">
+											<td class="td_size">
+												<html:checkbox key="selectedMarcBibTags" fieldValue="%{tagId}" value="selected" onclick = "this.checked = !this.checked"/>
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:if>
+										<html:else>
+											<td class="td_size">
+												<html:checkbox key="selectedMarcBibTags" fieldValue="%{tagId}" value="selected" />
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:else>
+									</html:if>
+									<html:else>
+										<html:if test="mandatory == 1">
+											<td class="td_size">
+												<html:checkbox key="selectedMarcBibTags" fieldValue="%{tagId}" value="selected" onclick = "this.checked = !this.checked"/>
+												<html:property value="tagDescription" /></td>
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:if>
+										<html:else>
+											<td class="td_size">
+												<html:checkbox key="selectedMarcBibTags" fieldValue="%{tagId}" value="selected" />
+												<html:property value="tagDescription" /></td>
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:else>
+									</html:else>
+								</html:if>
+							</html:iterator>
+						</table>
+						
 					</div>
 				</div>
 				<div id="marcAuthTagstoEdit" class="row">
 					<div class="label">
-						<html:text name="templateFields" />
+						<div class="label">
+							<html:text name="templateFields" />
+						</div>
+						
+						<html:set var="counter" value="0" />
+						<h3><html:property value="%{entities['11']}"/></h3>
+						
 						<table class="table">
-							<html:iterator value="marcAuthTags" status="status">
-								<html:if test="%{#status.index == 0}">
-									<tr>
-										<td class="td_size"><html:checkbox key="selectedMarcAuthTags" fieldValue="%{key}"
-												value="%{value}" />
-											<html:property value="%{key}" /></td>
+							<html:iterator value="marcAuthTags" status="status">		
+								<html:if test="entity == 1">			
+									<html:if test="#counter % 3 == 0">
+										<tr>
+										<html:if test="mandatory == 1">
+											<td class="td_size">
+												<html:checkbox key="selectedMarcAuthTags" fieldValue="%{tagId}" value="selected" onclick = "this.checked = !this.checked"/>
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:if>
+										<html:else>
+											<td class="td_size">
+												<html:checkbox key="selectedMarcAuthTags" fieldValue="%{tagId}" value="selected" />
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:else>
+									</html:if>
+									<html:else>
+										<html:if test="mandatory == 1">
+											<td class="td_size">
+												<html:checkbox key="selectedMarcAuthTags" fieldValue="%{tagId}" value="selected" onclick = "this.checked = !this.checked"/>
+												<html:property value="tagDescription" /></td>
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:if>
+										<html:else>
+											<td class="td_size">
+												<html:checkbox key="selectedMarcAuthTags" fieldValue="%{tagId}" value="selected" />
+												<html:property value="tagDescription" /></td>
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:else>
+									</html:else>
 								</html:if>
-								<html:elseif test="%{#status.index%4 == 0}">
-									<tr>
-										<td class="td_size"><html:checkbox key="selectedMarcAuthTags" fieldValue="%{key}"
-												value="%{value}" />
-											<html:property value="%{key}" /></td>
-								</html:elseif>
-								<html:else>
-									<td class="td_size"><html:checkbox key="selectedMarcAuthTags" fieldValue="%{key}"
-											value="%{value}" />
-										<html:property value="%{key}" /></td>
-								</html:else>
+							</html:iterator>
+						</table>
+						
+						<html:set var="counter" value="0" />
+						<h3><html:property value="%{entities['21']}"/></h3>
+						
+						<table class="table">
+							<html:iterator value="marcAuthTags" status="status">		
+								<html:if test="entity == 2">			
+									<html:if test="#counter % 3 == 0">
+										<tr>
+										<html:if test="mandatory == 1">
+											<td class="td_size">
+												<html:checkbox key="selectedMarcAuthTags" fieldValue="%{tagId}" value="selected" onclick = "this.checked = !this.checked"/>
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:if>
+										<html:else>
+											<td class="td_size">
+												<html:checkbox key="selectedMarcAuthTags" fieldValue="%{tagId}" value="selected" />
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:else>
+									</html:if>
+									<html:else>
+										<html:if test="mandatory == 1">
+											<td class="td_size">
+												<html:checkbox key="selectedMarcAuthTags" fieldValue="%{tagId}" value="selected" onclick = "this.checked = !this.checked"/>
+												<html:property value="tagDescription" /></td>
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:if>
+										<html:else>
+											<td class="td_size">
+												<html:checkbox key="selectedMarcAuthTags" fieldValue="%{tagId}" value="selected" />
+												<html:property value="tagDescription" /></td>
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:else>
+									</html:else>
+								</html:if>
+							</html:iterator>
+						</table>
+						
+						<html:set var="counter" value="0" />
+						<h3><html:property value="%{entities['31']}"/></h3>
+						
+						<table class="table">
+							<html:iterator value="marcAuthTags" status="status">		
+								<html:if test="entity == 3">			
+									<html:if test="#counter % 3 == 0">
+										<tr>
+										<html:if test="mandatory == 1">
+											<td class="td_size">
+												<html:checkbox key="selectedMarcAuthTags" fieldValue="%{tagId}" value="selected" onclick = "this.checked = !this.checked"/>
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:if>
+										<html:else>
+											<td class="td_size">
+												<html:checkbox key="selectedMarcAuthTags" fieldValue="%{tagId}" value="selected" />
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:else>
+									</html:if>
+									<html:else>
+										<html:if test="mandatory == 1">
+											<td class="td_size">
+												<html:checkbox key="selectedMarcAuthTags" fieldValue="%{tagId}" value="selected" onclick = "this.checked = !this.checked"/>
+												<html:property value="tagDescription" /></td>
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:if>
+										<html:else>
+											<td class="td_size">
+												<html:checkbox key="selectedMarcAuthTags" fieldValue="%{tagId}" value="selected" />
+												<html:property value="tagDescription" /></td>
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:else>
+									</html:else>
+								</html:if>
 							</html:iterator>
 						</table>
 					</div>
 				</div>
 				<div id="lidoTagstoEdit" class="row">
 					<div class="label">
-						<html:text name="templateFields" />
+						<div class="label">
+							<html:text name="templateFields" />
+						</div>
+						
+						<html:set var="counter" value="0" />
+						<h3><html:property value="%{entities['12']}"/></h3>
+						
 						<table class="table">
-							<html:iterator value="lidoTags" status="status">
-								<html:if test="%{#status.index == 0}">
-									<tr>
-										<td class="td_size"><html:checkbox key="selectedLidoTags" fieldValue="%{key}"
-												value="%{value}" />
-											<html:property value="%{key}" /></td>
+							<html:iterator value="lidoTags" status="status">		
+								<html:if test="entity == 1">			
+									<html:if test="#counter % 3 == 0">
+										<tr>
+										<html:if test="mandatory == 1">
+											<td class="td_size">
+												<html:checkbox key="selectedLidoTags" fieldValue="%{tagId}" value="selected" onclick = "this.checked = !this.checked"/>
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:if>
+										<html:else>
+											<td class="td_size">
+												<html:checkbox key="selectedLidoTags" fieldValue="%{tagId}" value="selected" />
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:else>
+									</html:if>
+									<html:else>
+										<html:if test="mandatory == 1">
+											<td class="td_size">
+												<html:checkbox key="selectedLidoTags" fieldValue="%{tagId}" value="selected" onclick = "this.checked = !this.checked"/>
+												<html:property value="tagDescription" /></td>
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:if>
+										<html:else>
+											<td class="td_size">
+												<html:checkbox key="selectedLidoTags" fieldValue="%{tagId}" value="selected" />
+												<html:property value="tagDescription" /></td>
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:else>
+									</html:else>
 								</html:if>
-								<html:elseif test="%{#status.index%3 == 0}">
-									<tr>
-										<td class="td_size"><html:checkbox key="selectedLidoTags" fieldValue="%{key}"
-												value="%{value}" />
-											<html:property value="%{key}" /></td>
-								</html:elseif>
-								<html:else>
-									<td class="td_size"><html:checkbox key="selectedLidoTags" fieldValue="%{key}"
-											value="%{value}" />
-										<html:property value="%{key}" /></td>
-								</html:else>
 							</html:iterator>
 						</table>
+						
+						<html:set var="counter" value="0" />
+						<h3><html:property value="%{entities['22']}"/></h3>
+						
+						<table class="table">
+							<html:iterator value="lidoTags" status="status">		
+								<html:if test="entity == 2">			
+									<html:if test="#counter % 3 == 0">
+										<tr>
+										<html:if test="mandatory == 1">
+											<td class="td_size">
+												<html:checkbox key="selectedLidoTags" fieldValue="%{tagId}" value="selected" onclick = "this.checked = !this.checked"/>
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:if>
+										<html:else>
+											<td class="td_size">
+												<html:checkbox key="selectedLidoTags" fieldValue="%{tagId}" value="selected" />
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:else>
+									</html:if>
+									<html:else>
+										<html:if test="mandatory == 1">
+											<td class="td_size">
+												<html:checkbox key="selectedLidoTags" fieldValue="%{tagId}" value="selected" onclick = "this.checked = !this.checked"/>
+												<html:property value="tagDescription" /></td>
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:if>
+										<html:else>
+											<td class="td_size">
+												<html:checkbox key="selectedLidoTags" fieldValue="%{tagId}" value="selected" />
+												<html:property value="tagDescription" /></td>
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:else>
+									</html:else>
+								</html:if>
+							</html:iterator>
+						</table>
+						
+						<html:set var="counter" value="0" />
+						<h3><html:property value="%{entities['32']}"/></h3>
+						
+						<table class="table">
+							<html:iterator value="lidoTags" status="status">		
+								<html:if test="entity == 3">			
+									<html:if test="#counter % 3 == 0">
+										<tr>
+										<html:if test="mandatory == 1">
+											<td class="td_size">
+												<html:checkbox key="selectedLidoTags" fieldValue="%{tagId}" value="selected" onclick = "this.checked = !this.checked"/>
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:if>
+										<html:else>
+											<td class="td_size">
+												<html:checkbox key="selectedLidoTags" fieldValue="%{tagId}" value="selected" />
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:else>
+									</html:if>
+									<html:else>
+										<html:if test="mandatory == 1">
+											<td class="td_size">
+												<html:checkbox key="selectedLidoTags" fieldValue="%{tagId}" value="selected" onclick = "this.checked = !this.checked"/>
+												<html:property value="tagDescription" /></td>
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:if>
+										<html:else>
+											<td class="td_size">
+												<html:checkbox key="selectedLidoTags" fieldValue="%{tagId}" value="selected" />
+												<html:property value="tagDescription" /></td>
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:else>
+									</html:else>
+								</html:if>
+							</html:iterator>
+						</table>
+						
+						<html:set var="counter" value="0" />
+						<h3><html:property value="%{entities['42']}"/></h3>
+						
+						<table class="table">
+							<html:iterator value="lidoTags" status="status">		
+								<html:if test="entity == 4">			
+									<html:if test="#counter % 3 == 0">
+										<tr>
+										<html:if test="mandatory == 1">
+											<td class="td_size">
+												<html:checkbox key="selectedLidoTags" fieldValue="%{tagId}" value="selected" onclick = "this.checked = !this.checked"/>
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:if>
+										<html:else>
+											<td class="td_size">
+												<html:checkbox key="selectedLidoTags" fieldValue="%{tagId}" value="selected" />
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:else>
+									</html:if>
+									<html:else>
+										<html:if test="mandatory == 1">
+											<td class="td_size">
+												<html:checkbox key="selectedLidoTags" fieldValue="%{tagId}" value="selected" onclick = "this.checked = !this.checked"/>
+												<html:property value="tagDescription" /></td>
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:if>
+										<html:else>
+											<td class="td_size">
+												<html:checkbox key="selectedLidoTags" fieldValue="%{tagId}" value="selected" />
+												<html:property value="tagDescription" /></td>
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:else>
+									</html:else>
+								</html:if>
+							</html:iterator>
+						</table>
+						
+						<html:set var="counter" value="0" />
+						<h3><html:property value="%{entities['52']}"/></h3>
+						
+						<table class="table">
+							<html:iterator value="lidoTags" status="status">		
+								<html:if test="entity == 5">			
+									<html:if test="#counter % 3 == 0">
+										<tr>
+										<html:if test="mandatory == 1">
+											<td class="td_size">
+												<html:checkbox key="selectedLidoTags" fieldValue="%{tagId}" value="selected" onclick = "this.checked = !this.checked"/>
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:if>
+										<html:else>
+											<td class="td_size">
+												<html:checkbox key="selectedLidoTags" fieldValue="%{tagId}" value="selected" />
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:else>
+									</html:if>
+									<html:else>
+										<html:if test="mandatory == 1">
+											<td class="td_size">
+												<html:checkbox key="selectedLidoTags" fieldValue="%{tagId}" value="selected" onclick = "this.checked = !this.checked"/>
+												<html:property value="tagDescription" /></td>
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:if>
+										<html:else>
+											<td class="td_size">
+												<html:checkbox key="selectedLidoTags" fieldValue="%{tagId}" value="selected" />
+												<html:property value="tagDescription" /></td>
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:else>
+									</html:else>
+								</html:if>
+							</html:iterator>
+						</table>
+						
+						<html:set var="counter" value="0" />
+						<h3><html:property value="%{entities['62']}"/></h3>
+						
+						<table class="table">
+							<html:iterator value="lidoTags" status="status">		
+								<html:if test="entity == 6">			
+									<html:if test="#counter % 3 == 0">
+										<tr>
+										<html:if test="mandatory == 1">
+											<td class="td_size">
+												<html:checkbox key="selectedLidoTags" fieldValue="%{tagId}" value="selected" onclick = "this.checked = !this.checked"/>
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:if>
+										<html:else>
+											<td class="td_size">
+												<html:checkbox key="selectedLidoTags" fieldValue="%{tagId}" value="selected" />
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:else>
+									</html:if>
+									<html:else>
+										<html:if test="mandatory == 1">
+											<td class="td_size">
+												<html:checkbox key="selectedLidoTags" fieldValue="%{tagId}" value="selected" onclick = "this.checked = !this.checked"/>
+												<html:property value="tagDescription" /></td>
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:if>
+										<html:else>
+											<td class="td_size">
+												<html:checkbox key="selectedLidoTags" fieldValue="%{tagId}" value="selected" />
+												<html:property value="tagDescription" /></td>
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:else>
+									</html:else>
+								</html:if>
+							</html:iterator>
+						</table>						
 					</div>
 				</div>
 				<div id="dcTagstoEdit" class="row">
 					<div class="label">
-						<html:text name="templateFields" />
+						<div class="label">
+							<html:text name="templateFields" />
+						</div>
+						
+						<html:set var="counter" value="0" />
+						<h3><html:property value="%{entities['13']}"/></h3>
+						
 						<table class="table">
-							<html:iterator value="dcTags" status="status">
-								<html:if test="%{#status.index == 0}">
-									<tr>
-										<td class="td_size"><html:checkbox key="selectedDcTags" fieldValue="%{key}"
-												value="%{value}" />
-											<html:property value="%{key}" /></td>
+							<html:iterator value="dcTags" status="status">		
+								<html:if test="entity == 1">			
+									<html:if test="#counter % 3 == 0">
+										<tr>
+										<html:if test="mandatory == 1">
+											<td class="td_size">
+												<html:checkbox key="selectedDcTags" fieldValue="%{tagId}" value="selected" onclick = "this.checked = !this.checked"/>
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:if>
+										<html:else>
+											<td class="td_size">
+												<html:checkbox key="selectedDcTags" fieldValue="%{tagId}" value="selected" />
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:else>
+									</html:if>
+									<html:else>
+										<html:if test="mandatory == 1">
+											<td class="td_size">
+												<html:checkbox key="selectedDcTags" fieldValue="%{tagId}" value="selected" onclick = "this.checked = !this.checked"/>
+												<html:property value="tagDescription" /></td>
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:if>
+										<html:else>
+											<td class="td_size">
+												<html:checkbox key="selectedDcTags" fieldValue="%{tagId}" value="selected" />
+												<html:property value="tagDescription" /></td>
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:else>
+									</html:else>
 								</html:if>
-								<html:elseif test="%{#status.index%4 == 0}">
-									<tr>
-										<td class="td_size"><html:checkbox key="selectedDcTags" fieldValue="%{key}"
-												value="%{value}" />
-											<html:property value="%{key}" /></td>
-								</html:elseif>
-								<html:else>
-									<td class="td_size"><html:checkbox key="selectedDcTags" fieldValue="%{key}"
-											value="%{value}" />
-										<html:property value="%{key}" /></td>
-								</html:else>
 							</html:iterator>
 						</table>
+						
+						<html:set var="counter" value="0" />
+						<h3><html:property value="%{entities['23']}"/></h3>
+						
+						<table class="table">
+							<html:iterator value="dcTags" status="status">		
+								<html:if test="entity == 2">			
+									<html:if test="#counter % 3 == 0">
+										<tr>
+										<html:if test="mandatory == 1">
+											<td class="td_size">
+												<html:checkbox key="selectedDcTags" fieldValue="%{tagId}" value="selected" onclick = "this.checked = !this.checked"/>
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:if>
+										<html:else>
+											<td class="td_size">
+												<html:checkbox key="selectedDcTags" fieldValue="%{tagId}" value="selected" />
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:else>
+									</html:if>
+									<html:else>
+										<html:if test="mandatory == 1">
+											<td class="td_size">
+												<html:checkbox key="selectedDcTags" fieldValue="%{tagId}" value="selected" onclick = "this.checked = !this.checked"/>
+												<html:property value="tagDescription" /></td>
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:if>
+										<html:else>
+											<td class="td_size">
+												<html:checkbox key="selectedDcTags" fieldValue="%{tagId}" value="selected" />
+												<html:property value="tagDescription" /></td>
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:else>
+									</html:else>
+								</html:if>
+							</html:iterator>
+						</table>
+						
+						<html:set var="counter" value="0" />
+						<h3><html:property value="%{entities['33']}"/></h3>
+						
+						<table class="table">
+							<html:iterator value="dcTags" status="status">		
+								<html:if test="entity == 3">			
+									<html:if test="#counter % 3 == 0">
+										<tr>
+										<html:if test="mandatory == 1">
+											<td class="td_size">
+												<html:checkbox key="selectedDcTags" fieldValue="%{tagId}" value="selected" onclick = "this.checked = !this.checked"/>
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:if>
+										<html:else>
+											<td class="td_size">
+												<html:checkbox key="selectedDcTags" fieldValue="%{tagId}" value="selected" />
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:else>
+									</html:if>
+									<html:else>
+										<html:if test="mandatory == 1">
+											<td class="td_size">
+												<html:checkbox key="selectedDcTags" fieldValue="%{tagId}" value="selected" onclick = "this.checked = !this.checked"/>
+												<html:property value="tagDescription" /></td>
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:if>
+										<html:else>
+											<td class="td_size">
+												<html:checkbox key="selectedDcTags" fieldValue="%{tagId}" value="selected" />
+												<html:property value="tagDescription" /></td>
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:else>
+									</html:else>
+								</html:if>
+							</html:iterator>
+						</table>
+						
+						<html:set var="counter" value="0" />
+						<h3><html:property value="%{entities['43']}"/></h3>
+						
+						<table class="table">
+							<html:iterator value="dcTags" status="status">		
+								<html:if test="entity == 4">			
+									<html:if test="#counter % 3 == 0">
+										<tr>
+										<html:if test="mandatory == 1">
+											<td class="td_size">
+												<html:checkbox key="selectedDcTags" fieldValue="%{tagId}" value="selected" onclick = "this.checked = !this.checked"/>
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:if>
+										<html:else>
+											<td class="td_size">
+												<html:checkbox key="selectedDcTags" fieldValue="%{tagId}" value="selected" />
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:else>
+									</html:if>
+									<html:else>
+										<html:if test="mandatory == 1">
+											<td class="td_size">
+												<html:checkbox key="selectedDcTags" fieldValue="%{tagId}" value="selected" onclick = "this.checked = !this.checked"/>
+												<html:property value="tagDescription" /></td>
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:if>
+										<html:else>
+											<td class="td_size">
+												<html:checkbox key="selectedDcTags" fieldValue="%{tagId}" value="selected" />
+												<html:property value="tagDescription" /></td>
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:else>
+									</html:else>
+								</html:if>
+							</html:iterator>
+						</table>
+						
+						<html:set var="counter" value="0" />
+						<h3><html:property value="%{entities['53']}"/></h3>
+						
+						<table class="table">
+							<html:iterator value="dcTags" status="status">		
+								<html:if test="entity == 5">			
+									<html:if test="#counter % 3 == 0">
+										<tr>
+										<html:if test="mandatory == 1">
+											<td class="td_size">
+												<html:checkbox key="selectedDcTags" fieldValue="%{tagId}" value="selected" onclick = "this.checked = !this.checked"/>
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:if>
+										<html:else>
+											<td class="td_size">
+												<html:checkbox key="selectedDcTags" fieldValue="%{tagId}" value="selected" />
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:else>
+									</html:if>
+									<html:else>
+										<html:if test="mandatory == 1">
+											<td class="td_size">
+												<html:checkbox key="selectedDcTags" fieldValue="%{tagId}" value="selected" onclick = "this.checked = !this.checked"/>
+												<html:property value="tagDescription" /></td>
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:if>
+										<html:else>
+											<td class="td_size">
+												<html:checkbox key="selectedDcTags" fieldValue="%{tagId}" value="selected" />
+												<html:property value="tagDescription" /></td>
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:else>
+									</html:else>
+								</html:if>
+							</html:iterator>
+						</table>
+						
+						<html:set var="counter" value="0" />
+						<h3><html:property value="%{entities['63']}"/></h3>
+						
+						<table class="table">
+							<html:iterator value="dcTags" status="status">		
+								<html:if test="entity == 6">			
+									<html:if test="#counter % 3 == 0">
+										<tr>
+										<html:if test="mandatory == 1">
+											<td class="td_size">
+												<html:checkbox key="selectedDcTags" fieldValue="%{tagId}" value="selected" onclick = "this.checked = !this.checked"/>
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:if>
+										<html:else>
+											<td class="td_size">
+												<html:checkbox key="selectedDcTags" fieldValue="%{tagId}" value="selected" />
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:else>
+									</html:if>
+									<html:else>
+										<html:if test="mandatory == 1">
+											<td class="td_size">
+												<html:checkbox key="selectedDcTags" fieldValue="%{tagId}" value="selected" onclick = "this.checked = !this.checked"/>
+												<html:property value="tagDescription" /></td>
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:if>
+										<html:else>
+											<td class="td_size">
+												<html:checkbox key="selectedDcTags" fieldValue="%{tagId}" value="selected" />
+												<html:property value="tagDescription" /></td>
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:else>
+									</html:else>
+								</html:if>
+							</html:iterator>
+						</table>
+						
+						<html:set var="counter" value="0" />
+						<h3><html:property value="%{entities['73']}"/></h3>
+						
+						<table class="table">
+							<html:iterator value="dcTags" status="status">		
+								<html:if test="entity == 7">			
+									<html:if test="#counter % 3 == 0">
+										<tr>
+										<html:if test="mandatory == 1">
+											<td class="td_size">
+												<html:checkbox key="selectedDcTags" fieldValue="%{tagId}" value="selected" onclick = "this.checked = !this.checked"/>
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:if>
+										<html:else>
+											<td class="td_size">
+												<html:checkbox key="selectedDcTags" fieldValue="%{tagId}" value="selected" />
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:else>
+									</html:if>
+									<html:else>
+										<html:if test="mandatory == 1">
+											<td class="td_size">
+												<html:checkbox key="selectedDcTags" fieldValue="%{tagId}" value="selected" onclick = "this.checked = !this.checked"/>
+												<html:property value="tagDescription" /></td>
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:if>
+										<html:else>
+											<td class="td_size">
+												<html:checkbox key="selectedDcTags" fieldValue="%{tagId}" value="selected" />
+												<html:property value="tagDescription" /></td>
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:else>
+									</html:else>
+								</html:if>
+							</html:iterator>
+						</table>
+						
+						<html:set var="counter" value="0" />
+						<h3><html:property value="%{entities['83']}"/></h3>
+						
+						<table class="table">
+							<html:iterator value="dcTags" status="status">		
+								<html:if test="entity == 8">			
+									<html:if test="#counter % 3 == 0">
+										<tr>
+										<html:if test="mandatory == 1">
+											<td class="td_size">
+												<html:checkbox key="selectedDcTags" fieldValue="%{tagId}" value="selected" onclick = "this.checked = !this.checked"/>
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:if>
+										<html:else>
+											<td class="td_size">
+												<html:checkbox key="selectedDcTags" fieldValue="%{tagId}" value="selected" />
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:else>
+									</html:if>
+									<html:else>
+										<html:if test="mandatory == 1">
+											<td class="td_size">
+												<html:checkbox key="selectedDcTags" fieldValue="%{tagId}" value="selected" onclick = "this.checked = !this.checked"/>
+												<html:property value="tagDescription" /></td>
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:if>
+										<html:else>
+											<td class="td_size">
+												<html:checkbox key="selectedDcTags" fieldValue="%{tagId}" value="selected" />
+												<html:property value="tagDescription" /></td>
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:else>
+									</html:else>
+								</html:if>
+							</html:iterator>
+						</table>
+						
+						<html:set var="counter" value="0" />
+						<h3><html:property value="%{entities['93']}"/></h3>
+						
+						<table class="table">
+							<html:iterator value="dcTags" status="status">		
+								<html:if test="entity == 9">			
+									<html:if test="#counter % 3 == 0">
+										<tr>
+										<html:if test="mandatory == 1">
+											<td class="td_size">
+												<html:checkbox key="selectedDcTags" fieldValue="%{tagId}" value="selected" onclick = "this.checked = !this.checked"/>
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:if>
+										<html:else>
+											<td class="td_size">
+												<html:checkbox key="selectedDcTags" fieldValue="%{tagId}" value="selected" />
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:else>
+									</html:if>
+									<html:else>
+										<html:if test="mandatory == 1">
+											<td class="td_size">
+												<html:checkbox key="selectedDcTags" fieldValue="%{tagId}" value="selected" onclick = "this.checked = !this.checked"/>
+												<html:property value="tagDescription" /></td>
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:if>
+										<html:else>
+											<td class="td_size">
+												<html:checkbox key="selectedDcTags" fieldValue="%{tagId}" value="selected" />
+												<html:property value="tagDescription" /></td>
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:else>
+									</html:else>
+								</html:if>
+							</html:iterator>
+						</table>
+						
+						<html:set var="counter" value="0" />
+						<h3><html:property value="%{entities['103']}"/></h3>
+						
+						<table class="table">
+							<html:iterator value="dcTags" status="status">		
+								<html:if test="entity == 10">			
+									<html:if test="#counter % 3 == 0">
+										<tr>
+										<html:if test="mandatory == 1">
+											<td class="td_size">
+												<html:checkbox key="selectedDcTags" fieldValue="%{tagId}" value="selected" onclick = "this.checked = !this.checked"/>
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:if>
+										<html:else>
+											<td class="td_size">
+												<html:checkbox key="selectedDcTags" fieldValue="%{tagId}" value="selected" />
+												<html:property value="tagDescription" />
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:else>
+									</html:if>
+									<html:else>
+										<html:if test="mandatory == 1">
+											<td class="td_size">
+												<html:checkbox key="selectedDcTags" fieldValue="%{tagId}" value="selected" onclick = "this.checked = !this.checked"/>
+												<html:property value="tagDescription" /></td>
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:if>
+										<html:else>
+											<td class="td_size">
+												<html:checkbox key="selectedDcTags" fieldValue="%{tagId}" value="selected" />
+												<html:property value="tagDescription" /></td>
+												<html:set var="counter" value="%{#counter+1}"/>
+												<%-- <html:property value="#counter" /> --%>
+											</td>
+										</html:else>
+									</html:else>
+								</html:if>
+							</html:iterator>
+						</table>
+						
 					</div>
 				</div>				
 				<div class="buttons row">

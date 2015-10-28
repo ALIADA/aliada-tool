@@ -113,7 +113,7 @@ public class ProfilesAction extends ActionSupport {
             		+ "INNER JOIN aliada.t_metadata_scheme m ON p.metadata_scheme_code=m.metadata_code "
             		+ "INNER JOIN aliada.t_file_type f ON p.file_type_code=f.file_type_code "
             		+ "INNER JOIN aliada.t_file_format fo ON fo.file_format_code=p.file_format_code INNER JOIN aliada.t_character_set c "
-            		+ "ON c.character_set_code=p.character_set_code where p.profile_name='" + this.selectedProfile 
+            		+ "ON c.character_set_code=p.character_set_code where p.profile_id='" + this.selectedProfile 
             		+ "' AND t.language = '" + getLocale().getISO3Language() + "' AND m.language = '" + getLocale().getISO3Language() + "' "
             		+ "AND f.language = '" + getLocale().getISO3Language() + "' AND fo.language = '" + getLocale().getISO3Language() + "' "
             		+ "AND c.language = '" + getLocale().getISO3Language() + "'");
@@ -195,15 +195,17 @@ public class ProfilesAction extends ActionSupport {
     /** The method to edit the profile selected.
      * @return String */
     public String editProfile() {	
+    	int profileId = (int) ServletActionContext.getRequest().getSession().getAttribute("selectedProfileId");
         Connection connection = null;
         try {
             connection = new DBConnectionManager().getConnection();
             Statement statement = connection.createStatement();
-            statement.executeUpdate("UPDATE aliada.profile set profile_type_code='" + this.profileTypeForm + "',profile_description='"
+            statement.executeUpdate("UPDATE aliada.profile set profile_name='" + this.nameForm + "',profile_type_code='" + this.profileTypeForm + "',profile_description='"
                     + this.descriptionForm + "',metadata_scheme_code='" + this.schemeForm + "',file_type_code='" + this.fileTypeForm + "',file_format_code='"
-                    + this.fileFormatForm + "',character_set_code='" + this.characterSetForm + "' where profile_name='" + this.nameForm + "'");
+                    + this.fileFormatForm + "',character_set_code='" + this.characterSetForm + "' where profile_id='" + profileId + "'");
             statement.close();
             connection.close();
+            ServletActionContext.getRequest().getSession().removeAttribute("selectedProfileId");
             addActionMessage(getText("profile.edit.ok"));
             showProfiles();
         } catch (SQLException e) {
@@ -229,8 +231,9 @@ public class ProfilesAction extends ActionSupport {
 		        try {
 		            connection = new DBConnectionManager().getConnection();
 		            Statement statement = connection.createStatement();
-		            ResultSet rs = statement.executeQuery("select * from aliada.profile where profile_name='" + this.selectedProfile + "'");
+		            ResultSet rs = statement.executeQuery("select * from aliada.profile where profile_id='" + this.selectedProfile + "'");
 		            if (rs.next()) {
+		            	int profileId = rs.getInt("profile_id");
 		                this.nameForm = rs.getString("profile_name");
 		                this.profileTypeForm = rs.getInt("profile_type_code");
 		                this.descriptionForm = rs.getString("profile_description");
@@ -244,6 +247,7 @@ public class ProfilesAction extends ActionSupport {
 		                showProfiles();
 		                
 		                ServletActionContext.getRequest().getSession().setAttribute("action", defaults.getString("lang.default"));
+		                ServletActionContext.getRequest().getSession().setAttribute("selectedProfileId", profileId);
 		                
 		                setShowEditProfileForm(true);
 		                return SUCCESS;
@@ -283,7 +287,7 @@ public class ProfilesAction extends ActionSupport {
 		        try {
 		            connection = new DBConnectionManager().getConnection();
 		            Statement statement = connection.createStatement();
-		            int correct = statement.executeUpdate("DELETE FROM aliada.profile WHERE profile_name='" + getSelectedProfile() + "'");
+		            int correct = statement.executeUpdate("DELETE FROM aliada.profile WHERE profile_id='" + getSelectedProfile() + "'");
 		            statement.close();
 		            connection.close();
 		            if (correct == 0) {

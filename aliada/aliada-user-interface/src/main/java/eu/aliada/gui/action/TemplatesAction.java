@@ -22,6 +22,7 @@ import org.apache.struts2.ServletActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 
 import eu.aliada.gui.log.MessageCatalog;
+import eu.aliada.gui.model.Tags;
 import eu.aliada.gui.rdbms.DBConnectionManager;
 import eu.aliada.shared.log.Log;
 
@@ -41,11 +42,11 @@ public class TemplatesAction extends ActionSupport{
     private HashMap<Integer, String> templates;
     
     //tags
-    private HashMap<String, Boolean> tags;
-    private HashMap<String, Boolean> marcBibTags;
-    private HashMap<String, Boolean> marcAuthTags;
-    private HashMap<String, Boolean> lidoTags;
-    private HashMap<String, Boolean> dcTags;
+    private List<Tags> tags;
+    private List<Tags> marcBibTags;
+    private List<Tags> marcAuthTags;
+    private List<Tags> lidoTags;
+    private List<Tags> dcTags;
     
     private List selectedMarcBibTags = new ArrayList();
     private List selectedMarcAuthTags = new ArrayList();
@@ -53,6 +54,7 @@ public class TemplatesAction extends ActionSupport{
     private List selectedDcTags = new ArrayList();
     
     private HashMap<Integer, String> types;
+    private HashMap<String, String> entities;
     private String templateName;
     private String templateDescription;
     private int fileType;
@@ -96,6 +98,7 @@ public class TemplatesAction extends ActionSupport{
         Methods m = new Methods();
         m.setLang(getLocale().getISO3Language());
         types = m.getTypesDb();
+        entities = m.getEntitiesDb();
         return SUCCESS;
     }    
     /** Displays the selected template.
@@ -110,12 +113,11 @@ public class TemplatesAction extends ActionSupport{
             connection = new DBConnectionManager().getConnection();
             Statement statement = connection.createStatement();
             
-            ResultSet rs = statement.executeQuery("select t.template_id,t.template_name,t.template_description,f.file_type_name, t.file_type_code "
+            ResultSet rs = statement.executeQuery("select t.template_name,t.template_description,f.file_type_name, t.file_type_code "
             		+ "from aliada.template t INNER JOIN aliada.t_file_type f ON t.file_type_code=f.file_type_code "
-            		+ "where t.template_name='" + this.selectedTemplate + "' AND f.language='" + getLocale().getISO3Language() + "'");
+            		+ "where t.template_id='" + this.selectedTemplate + "' AND f.language='" + getLocale().getISO3Language() + "'");
 
             if (rs.next()) {
-                int idTemplate = rs.getInt("t.template_id");
                 this.templateName = rs.getString("t.template_name");
                 this.templateDescription = rs.getString("t.template_description");
                 this.fileTypeName = rs.getString("f.file_type_name");
@@ -137,9 +139,8 @@ public class TemplatesAction extends ActionSupport{
                 	setT("D");
                 }
                 
-                tags = m.getTagsDb(type, idTemplate);
+                tags = m.getTagsDb(type, Integer.parseInt(this.selectedTemplate));
                 setShowTheTemplate(true);
-                ServletActionContext.getRequest().getSession().setAttribute("selectedTemplateId", idTemplate);
                 return SUCCESS;
             } else {
                 addActionError(getText("template.not.selected"));
@@ -175,6 +176,7 @@ public class TemplatesAction extends ActionSupport{
             }
             preparedStatement.close();
             Statement statement = connection.createStatement();
+            
             Iterator iterator = null;
             if (this.fileType == 0) {
             	iterator = selectedMarcBibTags.iterator();
@@ -222,18 +224,18 @@ public class TemplatesAction extends ActionSupport{
     /** Updates an existing template.
      * @return String */
     public String editTemplate() {
+    	int templateId = (int) ServletActionContext.getRequest().getSession().getAttribute("selectedTemplateId");
         Connection connection = null;
-        int idTemplate = (int) ServletActionContext.getRequest().getSession().getAttribute("selectedTemplateId");
         try {
             connection = new DBConnectionManager().getConnection();
             Statement statement = connection.createStatement();
-            statement.executeUpdate("UPDATE aliada.template set template_description='" + this.templateDescription + "', file_type_code="
-                            + this.fileType + " where template_id=" + idTemplate + "");
+            statement.executeUpdate("UPDATE aliada.template set template_name='" + this.templateName + "',template_description='" + this.templateDescription + "', file_type_code="
+                            + this.fileType + " where template_id=" + templateId + "");
             statement.close();
             connection.close();
             connection = new DBConnectionManager().getConnection();
         	statement = connection.createStatement();
-            statement.executeUpdate("DELETE FROM aliada.template_xml_tag WHERE template_id='" + idTemplate + "'");
+            statement.executeUpdate("DELETE FROM aliada.template_xml_tag WHERE template_id='" + templateId + "'");
             statement.close();
             Iterator iterator = null;
             if (this.fileType == 0) {
@@ -247,11 +249,11 @@ public class TemplatesAction extends ActionSupport{
             }
             while (iterator.hasNext()) {
                 statement = connection.createStatement();
-                statement.executeUpdate("INSERT IGNORE INTO aliada.template_xml_tag VALUES ('" + idTemplate + "', '" + iterator.next() + "')");
+                statement.executeUpdate("INSERT IGNORE INTO aliada.template_xml_tag VALUES ('" + templateId + "', '" + iterator.next() + "')");
                 statement.close();
             }
-            ServletActionContext.getRequest().getSession().removeAttribute("selectedTemplateId");
             connection.close();
+            ServletActionContext.getRequest().getSession().removeAttribute("selectedTemplateId");
             addActionMessage(getText("template.save.ok"));
             getTemplatesDb();
         } catch (SQLException e) {
@@ -269,7 +271,7 @@ public class TemplatesAction extends ActionSupport{
         m.setLang(getLocale().getISO3Language());
         
     	if (this.selectedTemplate != null) {
-	    	if (getSelectedTemplate().equalsIgnoreCase(defaults.getString("template.bib")) 
+	    	/*if (getSelectedTemplate().equalsIgnoreCase(defaults.getString("template.bib")) 
 	    	|| getSelectedTemplate().equalsIgnoreCase(defaults.getString("template.aut")) 
 	    	|| getSelectedTemplate().equalsIgnoreCase(defaults.getString("template.lido")) 
 	    	|| getSelectedTemplate().equalsIgnoreCase(defaults.getString("template.dc"))) {
@@ -278,14 +280,14 @@ public class TemplatesAction extends ActionSupport{
 			        
 			        tags = m.getTagsDb(0, NOTEMPLATESELECTED);
 		            return ERROR;          	
-	        } else {
+	        } else {*/
 		        Connection connection = null;
 		        try {
 		            connection = new DBConnectionManager().getConnection();
 		            Statement statement = connection.createStatement();
-		            ResultSet rs = statement.executeQuery("select * from aliada.template where template_name='" + this.selectedTemplate + "'");
+		            ResultSet rs = statement.executeQuery("select * from aliada.template where template_id='" + this.selectedTemplate + "'");
 		            if (rs.next()) {
-		                int idTemplate = rs.getInt("template_id");
+		            	int templateId = rs.getInt("template_id");
 		                this.templateName = rs.getString("template_name");
 		                this.templateDescription = rs.getString("template_description");
 		                this.fileType = rs.getInt("file_type_code");
@@ -295,25 +297,25 @@ public class TemplatesAction extends ActionSupport{
 		                connection.close();
 		                if (type == 0) {
 		                	setT("B");
-		                	marcBibTags = m.getTagsDb(type, idTemplate);
+		                	marcBibTags = m.getTagsDb(type, templateId);
 		                	marcAuthTags = m.getTagsDb(1, NOTEMPLATESELECTED);
 		                    lidoTags = m.getTagsDb(2, NOTEMPLATESELECTED);
 		                    dcTags = m.getTagsDb(3, NOTEMPLATESELECTED);
 		                } else if (type == 1) {
 		                	setT("A");
-		                	marcAuthTags = m.getTagsDb(type, idTemplate);
+		                	marcAuthTags = m.getTagsDb(type, templateId);
 		                	marcBibTags = m.getTagsDb(0, NOTEMPLATESELECTED);
 		                    lidoTags = m.getTagsDb(2, NOTEMPLATESELECTED);
 		                    dcTags = m.getTagsDb(3, NOTEMPLATESELECTED);
 		                } else if (type == 2) {
 		                	setT("L");
-		                	lidoTags = m.getTagsDb(type, idTemplate);
+		                	lidoTags = m.getTagsDb(type, templateId);
 		                	marcBibTags = m.getTagsDb(0, NOTEMPLATESELECTED);
 		                	marcAuthTags = m.getTagsDb(1, NOTEMPLATESELECTED);
 		                    dcTags = m.getTagsDb(3, NOTEMPLATESELECTED);
 		                } else {
 		                	setT("D");
-		                	dcTags = m.getTagsDb(type, idTemplate);
+		                	dcTags = m.getTagsDb(type, templateId);
 		                	marcBibTags = m.getTagsDb(0, NOTEMPLATESELECTED);
 		                    marcAuthTags = m.getTagsDb(1, NOTEMPLATESELECTED);
 		                    lidoTags = m.getTagsDb(2, NOTEMPLATESELECTED);
@@ -321,9 +323,9 @@ public class TemplatesAction extends ActionSupport{
 		                getTemplatesDb();
 		                
 		                ServletActionContext.getRequest().getSession().setAttribute("action", defaults.getString("lang.default"));
+		                ServletActionContext.getRequest().getSession().setAttribute("selectedTemplateId", templateId);
 		                
 		                setShowEditTemplateForm(true);
-		                ServletActionContext.getRequest().getSession().setAttribute("selectedTemplateId", idTemplate);
 		                return SUCCESS;
 		            } else {
 		                addActionError(getText("template.not.selected"));
@@ -338,7 +340,7 @@ public class TemplatesAction extends ActionSupport{
 		            logger.error(MessageCatalog._00011_SQL_EXCEPTION, e);
 		            return ERROR;
 		        }
-	        }
+	        //}
     	} else {
 	    	addActionError(getText("template.not.selected"));
 	    	getTemplatesDb();
@@ -363,10 +365,10 @@ public class TemplatesAction extends ActionSupport{
 		            connection = new DBConnectionManager().getConnection();
 		            Statement statement = connection.createStatement();
 		            statement.executeUpdate("DELETE tags.* FROM aliada.template_xml_tag tags INNER JOIN template temp ON "
-		                    		+ "tags.template_id=temp.template_id  WHERE temp.template_name='" + getSelectedTemplate() + "'");
+		                    		+ "tags.template_id=temp.template_id  WHERE temp.template_id='" + getSelectedTemplate() + "'");
 		            statement.close();
 		            statement = connection.createStatement();
-		            int correct = statement.executeUpdate("DELETE FROM aliada.template WHERE template_name='" + getSelectedTemplate() + "'");
+		            int correct = statement.executeUpdate("DELETE FROM aliada.template WHERE template_id='" + getSelectedTemplate() + "'");
 		            statement.close();
 		            connection.close();
 		            if (correct == 0) {
@@ -395,6 +397,14 @@ public class TemplatesAction extends ActionSupport{
     /** @param types The types to set. */
     public void setTypes(final HashMap<Integer, String> types) {
         this.types = types;
+    }
+    /** @return Returns the entities. */
+    public HashMap<String, String> getEntities() {
+        return entities;
+    }
+    /** @param entities The entities to set. */
+    public void setEntities(final HashMap<String, String> entities) {
+        this.entities = entities;
     }
 	/** @return Returns the templates. */
     public HashMap<Integer, String> getTemplates() {
@@ -445,43 +455,43 @@ public class TemplatesAction extends ActionSupport{
         this.showEditTemplateForm = showEditTemplateForm;
     }
     /** @return Returns the tags. */
-    public HashMap<String, Boolean> getTags() {
+    public List<Tags> getTags() {
         return tags;
     }
     /** @param tags The tags to set. */
-    public void setTags(final HashMap<String, Boolean> tags) {
+    public void setTags(final List<Tags> tags) {
         this.tags = tags;
     }
     /** @return Returns the marcBibTags. */
-    public HashMap<String, Boolean> getMarcBibTags() {
+    public List<Tags> getMarcBibTags() {
         return marcBibTags;
     }
     /** @param marcBibTags The marcBibTags to set. */
-    public void setMarcBibTags(final HashMap<String, Boolean> marcBibTags) {
+    public void setMarcBibTags(final List<Tags> marcBibTags) {
         this.marcBibTags = marcBibTags;
     }
     /** @return Returns the marcAuthTags. */
-    public HashMap<String, Boolean> getMarcAuthTags() {
+    public List<Tags> getMarcAuthTags() {
         return marcAuthTags;
     }
     /** @param marcAuthTags The marcAuthTags to set. */
-    public void setMarcAuthTags(final HashMap<String, Boolean> marcAuthTags) {
+    public void setMarcAuthTags(final List<Tags> marcAuthTags) {
         this.marcAuthTags = marcAuthTags;
     }
     /** @return Returns the lidoTags. */
-    public HashMap<String, Boolean> getLidoTags() {
+    public List<Tags> getLidoTags() {
         return lidoTags;
     }
     /** @param lidoTags The lidoTags to set. */
-    public void setLidoTags(final HashMap<String, Boolean> lidoTags) {
+    public void setLidoTags(final List<Tags> lidoTags) {
         this.lidoTags = lidoTags;
     }
     /** @return Returns the dcTags. */
-    public HashMap<String, Boolean> getDcTags() {
+    public List<Tags> getDcTags() {
         return dcTags;
     }
     /** @param dcTags The dcTags to set. */
-    public void setDcTags(final HashMap<String, Boolean> dcTags) {
+    public void setDcTags(final List<Tags> dcTags) {
         this.dcTags = dcTags;
     }
     /** @return Returns the selectedMarcBibTags. */

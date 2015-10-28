@@ -1210,27 +1210,27 @@ INSERT INTO `t_template_entity` (`template_entity_code`,`template_entity_name`,`
 INSERT INTO `t_template_entity` (`template_entity_code`,`template_entity_name`,`template_entity_description`,`xml_tag_type_code`,`language`) VALUES (9,'Evento','Evento',0,'spa');
 INSERT INTO `t_template_entity` (`template_entity_code`,`template_entity_name`,`template_entity_description`,`xml_tag_type_code`,`language`) VALUES (10,'Lugar','Lugar',0,'spa');
 
-INSERT INTO `t_template_entity` (`template_entity_code`,`template_entity_name`,`template_entity_description`,`xml_tag_type_code`,`language`) VALUES (1,'Work','Work',0,'hun');
-INSERT INTO `t_template_entity` (`template_entity_code`,`template_entity_name`,`template_entity_description`,`xml_tag_type_code`,`language`) VALUES (2,'Expression','Expression',0,'hun');
-INSERT INTO `t_template_entity` (`template_entity_code`,`template_entity_name`,`template_entity_description`,`xml_tag_type_code`,`language`) VALUES (3,'Manifestation','Manifestation',0,'hun');
-INSERT INTO `t_template_entity` (`template_entity_code`,`template_entity_name`,`template_entity_description`,`xml_tag_type_code`,`language`) VALUES (4,'Item','Item',0,'hun');
-INSERT INTO `t_template_entity` (`template_entity_code`,`template_entity_name`,`template_entity_description`,`xml_tag_type_code`,`language`) VALUES (5,'Person','Person',0,'hun');
-INSERT INTO `t_template_entity` (`template_entity_code`,`template_entity_name`,`template_entity_description`,`xml_tag_type_code`,`language`) VALUES (6,'Corporate Body','Corporate Body',0,'hun');
-INSERT INTO `t_template_entity` (`template_entity_code`,`template_entity_name`,`template_entity_description`,`xml_tag_type_code`,`language`) VALUES (7,'Concept','Concept',0,'hun');
-INSERT INTO `t_template_entity` (`template_entity_code`,`template_entity_name`,`template_entity_description`,`xml_tag_type_code`,`language`) VALUES (8,'Object','Object',0,'hun');
-INSERT INTO `t_template_entity` (`template_entity_code`,`template_entity_name`,`template_entity_description`,`xml_tag_type_code`,`language`) VALUES (9,'Event','Event',0,'hun');
-INSERT INTO `t_template_entity` (`template_entity_code`,`template_entity_name`,`template_entity_description`,`xml_tag_type_code`,`language`) VALUES (10,'Place','Place',0,'hun');
+INSERT INTO `t_template_entity` (`template_entity_code`,`template_entity_name`,`template_entity_description`,`xml_tag_type_code`,`language`) VALUES (1,'Mű','Mű',0,'hun');
+INSERT INTO `t_template_entity` (`template_entity_code`,`template_entity_name`,`template_entity_description`,`xml_tag_type_code`,`language`) VALUES (2,'Kifejezési forma','Kifejezési forma',0,'hun');
+INSERT INTO `t_template_entity` (`template_entity_code`,`template_entity_name`,`template_entity_description`,`xml_tag_type_code`,`language`) VALUES (3,'Megjelenési forma','Megjelenési forma',0,'hun');
+INSERT INTO `t_template_entity` (`template_entity_code`,`template_entity_name`,`template_entity_description`,`xml_tag_type_code`,`language`) VALUES (4,'Példány','Példány',0,'hun');
+INSERT INTO `t_template_entity` (`template_entity_code`,`template_entity_name`,`template_entity_description`,`xml_tag_type_code`,`language`) VALUES (5,'Személy','Személy',0,'hun');
+INSERT INTO `t_template_entity` (`template_entity_code`,`template_entity_name`,`template_entity_description`,`xml_tag_type_code`,`language`) VALUES (6,'Testület','Testület',0,'hun');
+INSERT INTO `t_template_entity` (`template_entity_code`,`template_entity_name`,`template_entity_description`,`xml_tag_type_code`,`language`) VALUES (7,'Fogalom','Fogalom',0,'hun');
+INSERT INTO `t_template_entity` (`template_entity_code`,`template_entity_name`,`template_entity_description`,`xml_tag_type_code`,`language`) VALUES (8,'Tárgy','Tárgy',0,'hun');
+INSERT INTO `t_template_entity` (`template_entity_code`,`template_entity_name`,`template_entity_description`,`xml_tag_type_code`,`language`) VALUES (9,'Esemény','Esemény',0,'hun');
+INSERT INTO `t_template_entity` (`template_entity_code`,`template_entity_name`,`template_entity_description`,`xml_tag_type_code`,`language`) VALUES (10,'Hely','Hely',0,'hun');
 
-INSERT INTO `t_template_entity` (`template_entity_code`,`template_entity_name`,`template_entity_description`,`xml_tag_type_code`,`language`) VALUES (1,'Work','Work',0,'ita');
-INSERT INTO `t_template_entity` (`template_entity_code`,`template_entity_name`,`template_entity_description`,`xml_tag_type_code`,`language`) VALUES (2,'Expression','Expression',0,'ita');
-INSERT INTO `t_template_entity` (`template_entity_code`,`template_entity_name`,`template_entity_description`,`xml_tag_type_code`,`language`) VALUES (3,'Manifestation','Manifestation',0,'ita');
+INSERT INTO `t_template_entity` (`template_entity_code`,`template_entity_name`,`template_entity_description`,`xml_tag_type_code`,`language`) VALUES (1,'Opera','Opera',0,'ita');
+INSERT INTO `t_template_entity` (`template_entity_code`,`template_entity_name`,`template_entity_description`,`xml_tag_type_code`,`language`) VALUES (2,'Espressione','Espressione',0,'ita');
+INSERT INTO `t_template_entity` (`template_entity_code`,`template_entity_name`,`template_entity_description`,`xml_tag_type_code`,`language`) VALUES (3,'Manifestazione','Manifestazione',0,'ita');
 INSERT INTO `t_template_entity` (`template_entity_code`,`template_entity_name`,`template_entity_description`,`xml_tag_type_code`,`language`) VALUES (4,'Item','Item',0,'ita');
-INSERT INTO `t_template_entity` (`template_entity_code`,`template_entity_name`,`template_entity_description`,`xml_tag_type_code`,`language`) VALUES (5,'Person','Person',0,'ita');
-INSERT INTO `t_template_entity` (`template_entity_code`,`template_entity_name`,`template_entity_description`,`xml_tag_type_code`,`language`) VALUES (6,'Corporate Body','Corporate Body',0,'ita');
-INSERT INTO `t_template_entity` (`template_entity_code`,`template_entity_name`,`template_entity_description`,`xml_tag_type_code`,`language`) VALUES (7,'Concept','Concept',0,'ita');
-INSERT INTO `t_template_entity` (`template_entity_code`,`template_entity_name`,`template_entity_description`,`xml_tag_type_code`,`language`) VALUES (8,'Object','Object',0,'ita');
-INSERT INTO `t_template_entity` (`template_entity_code`,`template_entity_name`,`template_entity_description`,`xml_tag_type_code`,`language`) VALUES (9,'Event','Event',0,'ita');
-INSERT INTO `t_template_entity` (`template_entity_code`,`template_entity_name`,`template_entity_description`,`xml_tag_type_code`,`language`) VALUES (10,'Place','Place',0,'ita');
+INSERT INTO `t_template_entity` (`template_entity_code`,`template_entity_name`,`template_entity_description`,`xml_tag_type_code`,`language`) VALUES (5,'Persona','Persona',0,'ita');
+INSERT INTO `t_template_entity` (`template_entity_code`,`template_entity_name`,`template_entity_description`,`xml_tag_type_code`,`language`) VALUES (6,'Ente','Ente',0,'ita');
+INSERT INTO `t_template_entity` (`template_entity_code`,`template_entity_name`,`template_entity_description`,`xml_tag_type_code`,`language`) VALUES (7,'Soggetto','Soggetto',0,'ita');
+INSERT INTO `t_template_entity` (`template_entity_code`,`template_entity_name`,`template_entity_description`,`xml_tag_type_code`,`language`) VALUES (8,'Oggetto','Oggetto',0,'ita');
+INSERT INTO `t_template_entity` (`template_entity_code`,`template_entity_name`,`template_entity_description`,`xml_tag_type_code`,`language`) VALUES (9,'Evento','Evento',0,'ita');
+INSERT INTO `t_template_entity` (`template_entity_code`,`template_entity_name`,`template_entity_description`,`xml_tag_type_code`,`language`) VALUES (10,'Luogo','Luogo',0,'ita');
 
 
 INSERT INTO `t_template_entity` (`template_entity_code`,`template_entity_name`,`template_entity_description`,`xml_tag_type_code`,`language`) VALUES (1,'Person','Person',1,'eng');
@@ -1241,13 +1241,13 @@ INSERT INTO `t_template_entity` (`template_entity_code`,`template_entity_name`,`
 INSERT INTO `t_template_entity` (`template_entity_code`,`template_entity_name`,`template_entity_description`,`xml_tag_type_code`,`language`) VALUES (2,'Entidad corporativa','Entidad corporativa',1,'spa');
 INSERT INTO `t_template_entity` (`template_entity_code`,`template_entity_name`,`template_entity_description`,`xml_tag_type_code`,`language`) VALUES (3,'Familia','Familia',1,'spa');
 
-INSERT INTO `t_template_entity` (`template_entity_code`,`template_entity_name`,`template_entity_description`,`xml_tag_type_code`,`language`) VALUES (1,'Person','Person',1,'hun');
-INSERT INTO `t_template_entity` (`template_entity_code`,`template_entity_name`,`template_entity_description`,`xml_tag_type_code`,`language`) VALUES (2,'Corporate Body','Corporate Body',1,'hun');
-INSERT INTO `t_template_entity` (`template_entity_code`,`template_entity_name`,`template_entity_description`,`xml_tag_type_code`,`language`) VALUES (3,'Family','Family',1,'hun');
+INSERT INTO `t_template_entity` (`template_entity_code`,`template_entity_name`,`template_entity_description`,`xml_tag_type_code`,`language`) VALUES (1,'Személy','Személy',1,'hun');
+INSERT INTO `t_template_entity` (`template_entity_code`,`template_entity_name`,`template_entity_description`,`xml_tag_type_code`,`language`) VALUES (2,'Testület','Testület',1,'hun');
+INSERT INTO `t_template_entity` (`template_entity_code`,`template_entity_name`,`template_entity_description`,`xml_tag_type_code`,`language`) VALUES (3,'Család','Család',1,'hun');
 
-INSERT INTO `t_template_entity` (`template_entity_code`,`template_entity_name`,`template_entity_description`,`xml_tag_type_code`,`language`) VALUES (1,'Person','Person',1,'ita');
-INSERT INTO `t_template_entity` (`template_entity_code`,`template_entity_name`,`template_entity_description`,`xml_tag_type_code`,`language`) VALUES (2,'Corporate Body','Corporate Body',1,'ita');
-INSERT INTO `t_template_entity` (`template_entity_code`,`template_entity_name`,`template_entity_description`,`xml_tag_type_code`,`language`) VALUES (3,'Family','Family',1,'ita');
+INSERT INTO `t_template_entity` (`template_entity_code`,`template_entity_name`,`template_entity_description`,`xml_tag_type_code`,`language`) VALUES (1,'Persona','Persona',1,'ita');
+INSERT INTO `t_template_entity` (`template_entity_code`,`template_entity_name`,`template_entity_description`,`xml_tag_type_code`,`language`) VALUES (2,'Ente','Ente',1,'ita');
+INSERT INTO `t_template_entity` (`template_entity_code`,`template_entity_name`,`template_entity_description`,`xml_tag_type_code`,`language`) VALUES (3,'Famiglia','Famiglia',1,'ita');
 
 INSERT INTO `t_template_entity` (`template_entity_code`,`template_entity_name`,`template_entity_description`,`xml_tag_type_code`,`language`) VALUES (1,'Object','Object',2,'eng');
 INSERT INTO `t_template_entity` (`template_entity_code`,`template_entity_name`,`template_entity_description`,`xml_tag_type_code`,`language`) VALUES (2,'Event','Event',2,'eng');
@@ -1263,19 +1263,19 @@ INSERT INTO `t_template_entity` (`template_entity_code`,`template_entity_name`,`
 INSERT INTO `t_template_entity` (`template_entity_code`,`template_entity_name`,`template_entity_description`,`xml_tag_type_code`,`language`) VALUES (5,'Dimensión','Dimensión',2,'spa');
 INSERT INTO `t_template_entity` (`template_entity_code`,`template_entity_name`,`template_entity_description`,`xml_tag_type_code`,`language`) VALUES (6,'Derecho','Derecho',2,'spa');
 
-INSERT INTO `t_template_entity` (`template_entity_code`,`template_entity_name`,`template_entity_description`,`xml_tag_type_code`,`language`) VALUES (1,'Object','Object',2,'hun');
-INSERT INTO `t_template_entity` (`template_entity_code`,`template_entity_name`,`template_entity_description`,`xml_tag_type_code`,`language`) VALUES (2,'Event','Event',2,'hun');
-INSERT INTO `t_template_entity` (`template_entity_code`,`template_entity_name`,`template_entity_description`,`xml_tag_type_code`,`language`) VALUES (3,'Place','Place',2,'hun');
-INSERT INTO `t_template_entity` (`template_entity_code`,`template_entity_name`,`template_entity_description`,`xml_tag_type_code`,`language`) VALUES (4,'Person','Person',2,'hun');
-INSERT INTO `t_template_entity` (`template_entity_code`,`template_entity_name`,`template_entity_description`,`xml_tag_type_code`,`language`) VALUES (5,'Dimension','Dimension',2,'hun');
-INSERT INTO `t_template_entity` (`template_entity_code`,`template_entity_name`,`template_entity_description`,`xml_tag_type_code`,`language`) VALUES (6,'Rights','Rights',2,'hun');
+INSERT INTO `t_template_entity` (`template_entity_code`,`template_entity_name`,`template_entity_description`,`xml_tag_type_code`,`language`) VALUES (1,'Tárgy','Tárgy',2,'hun');
+INSERT INTO `t_template_entity` (`template_entity_code`,`template_entity_name`,`template_entity_description`,`xml_tag_type_code`,`language`) VALUES (2,'Esemény','Esemény',2,'hun');
+INSERT INTO `t_template_entity` (`template_entity_code`,`template_entity_name`,`template_entity_description`,`xml_tag_type_code`,`language`) VALUES (3,'Hely','Hely',2,'hun');
+INSERT INTO `t_template_entity` (`template_entity_code`,`template_entity_name`,`template_entity_description`,`xml_tag_type_code`,`language`) VALUES (4,'Személy','Személy',2,'hun');
+INSERT INTO `t_template_entity` (`template_entity_code`,`template_entity_name`,`template_entity_description`,`xml_tag_type_code`,`language`) VALUES (5,'Méret','Méret',2,'hun');
+INSERT INTO `t_template_entity` (`template_entity_code`,`template_entity_name`,`template_entity_description`,`xml_tag_type_code`,`language`) VALUES (6,'Jogok','Jogok',2,'hun');
 
-INSERT INTO `t_template_entity` (`template_entity_code`,`template_entity_name`,`template_entity_description`,`xml_tag_type_code`,`language`) VALUES (1,'Object','Object',2,'ita');
-INSERT INTO `t_template_entity` (`template_entity_code`,`template_entity_name`,`template_entity_description`,`xml_tag_type_code`,`language`) VALUES (2,'Event','Event',2,'ita');
-INSERT INTO `t_template_entity` (`template_entity_code`,`template_entity_name`,`template_entity_description`,`xml_tag_type_code`,`language`) VALUES (3,'Place','Place',2,'ita');
-INSERT INTO `t_template_entity` (`template_entity_code`,`template_entity_name`,`template_entity_description`,`xml_tag_type_code`,`language`) VALUES (4,'Person','Person',2,'ita');
-INSERT INTO `t_template_entity` (`template_entity_code`,`template_entity_name`,`template_entity_description`,`xml_tag_type_code`,`language`) VALUES (5,'Dimension','Dimension',2,'ita');
-INSERT INTO `t_template_entity` (`template_entity_code`,`template_entity_name`,`template_entity_description`,`xml_tag_type_code`,`language`) VALUES (6,'Rights','Rights',2,'ita');
+INSERT INTO `t_template_entity` (`template_entity_code`,`template_entity_name`,`template_entity_description`,`xml_tag_type_code`,`language`) VALUES (1,'Oggetto','Oggetto',2,'ita');
+INSERT INTO `t_template_entity` (`template_entity_code`,`template_entity_name`,`template_entity_description`,`xml_tag_type_code`,`language`) VALUES (2,'Evento','Evento',2,'ita');
+INSERT INTO `t_template_entity` (`template_entity_code`,`template_entity_name`,`template_entity_description`,`xml_tag_type_code`,`language`) VALUES (3,'Luogo','Luogo',2,'ita');
+INSERT INTO `t_template_entity` (`template_entity_code`,`template_entity_name`,`template_entity_description`,`xml_tag_type_code`,`language`) VALUES (4,'Persona','Persona',2,'ita');
+INSERT INTO `t_template_entity` (`template_entity_code`,`template_entity_name`,`template_entity_description`,`xml_tag_type_code`,`language`) VALUES (5,'Dimensione','Dimensione',2,'ita');
+INSERT INTO `t_template_entity` (`template_entity_code`,`template_entity_name`,`template_entity_description`,`xml_tag_type_code`,`language`) VALUES (6,'Diritti','Diritti',2,'ita');
 
 INSERT INTO `t_template_entity` (`template_entity_code`,`template_entity_name`,`template_entity_description`,`xml_tag_type_code`,`language`) VALUES (1,'Work','Work',3,'eng');
 INSERT INTO `t_template_entity` (`template_entity_code`,`template_entity_name`,`template_entity_description`,`xml_tag_type_code`,`language`) VALUES (2,'Expression','Expression',3,'eng');
@@ -1299,27 +1299,27 @@ INSERT INTO `t_template_entity` (`template_entity_code`,`template_entity_name`,`
 INSERT INTO `t_template_entity` (`template_entity_code`,`template_entity_name`,`template_entity_description`,`xml_tag_type_code`,`language`) VALUES (9,'Evento','Evento',3,'spa');
 INSERT INTO `t_template_entity` (`template_entity_code`,`template_entity_name`,`template_entity_description`,`xml_tag_type_code`,`language`) VALUES (10,'Lugar','Lugar',3,'spa');
 
-INSERT INTO `t_template_entity` (`template_entity_code`,`template_entity_name`,`template_entity_description`,`xml_tag_type_code`,`language`) VALUES (1,'Work','Work',3,'hun');
-INSERT INTO `t_template_entity` (`template_entity_code`,`template_entity_name`,`template_entity_description`,`xml_tag_type_code`,`language`) VALUES (2,'Expression','Expression',3,'hun');
-INSERT INTO `t_template_entity` (`template_entity_code`,`template_entity_name`,`template_entity_description`,`xml_tag_type_code`,`language`) VALUES (3,'Manifestation','Manifestation',3,'hun');
-INSERT INTO `t_template_entity` (`template_entity_code`,`template_entity_name`,`template_entity_description`,`xml_tag_type_code`,`language`) VALUES (4,'Item','Item',3,'hun');
-INSERT INTO `t_template_entity` (`template_entity_code`,`template_entity_name`,`template_entity_description`,`xml_tag_type_code`,`language`) VALUES (5,'Person','Person',3,'hun');
-INSERT INTO `t_template_entity` (`template_entity_code`,`template_entity_name`,`template_entity_description`,`xml_tag_type_code`,`language`) VALUES (6,'Corporate Body','Corporate Body',3,'hun');
-INSERT INTO `t_template_entity` (`template_entity_code`,`template_entity_name`,`template_entity_description`,`xml_tag_type_code`,`language`) VALUES (7,'Concept','Concept',3,'hun');
-INSERT INTO `t_template_entity` (`template_entity_code`,`template_entity_name`,`template_entity_description`,`xml_tag_type_code`,`language`) VALUES (8,'Object','Object',3,'hun');
-INSERT INTO `t_template_entity` (`template_entity_code`,`template_entity_name`,`template_entity_description`,`xml_tag_type_code`,`language`) VALUES (9,'Event','Event',3,'hun');
-INSERT INTO `t_template_entity` (`template_entity_code`,`template_entity_name`,`template_entity_description`,`xml_tag_type_code`,`language`) VALUES (10,'Place','Place',3,'hun');
+INSERT INTO `t_template_entity` (`template_entity_code`,`template_entity_name`,`template_entity_description`,`xml_tag_type_code`,`language`) VALUES (1,'Mű','Mű',3,'hun');
+INSERT INTO `t_template_entity` (`template_entity_code`,`template_entity_name`,`template_entity_description`,`xml_tag_type_code`,`language`) VALUES (2,'Kifejezési forma','Kifejezési forma',3,'hun');
+INSERT INTO `t_template_entity` (`template_entity_code`,`template_entity_name`,`template_entity_description`,`xml_tag_type_code`,`language`) VALUES (3,'Megjelenési forma','Megjelenési forma',3,'hun');
+INSERT INTO `t_template_entity` (`template_entity_code`,`template_entity_name`,`template_entity_description`,`xml_tag_type_code`,`language`) VALUES (4,'Példány','Példány',3,'hun');
+INSERT INTO `t_template_entity` (`template_entity_code`,`template_entity_name`,`template_entity_description`,`xml_tag_type_code`,`language`) VALUES (5,'Személy','Személy',3,'hun');
+INSERT INTO `t_template_entity` (`template_entity_code`,`template_entity_name`,`template_entity_description`,`xml_tag_type_code`,`language`) VALUES (6,'Testület','Testület',3,'hun');
+INSERT INTO `t_template_entity` (`template_entity_code`,`template_entity_name`,`template_entity_description`,`xml_tag_type_code`,`language`) VALUES (7,'Fogalom','Fogalom',3,'hun');
+INSERT INTO `t_template_entity` (`template_entity_code`,`template_entity_name`,`template_entity_description`,`xml_tag_type_code`,`language`) VALUES (8,'Tárgy','Tárgy',3,'hun');
+INSERT INTO `t_template_entity` (`template_entity_code`,`template_entity_name`,`template_entity_description`,`xml_tag_type_code`,`language`) VALUES (9,'Esemény','Esemény',3,'hun');
+INSERT INTO `t_template_entity` (`template_entity_code`,`template_entity_name`,`template_entity_description`,`xml_tag_type_code`,`language`) VALUES (10,'Hely','Hely',3,'hun');
 
-INSERT INTO `t_template_entity` (`template_entity_code`,`template_entity_name`,`template_entity_description`,`xml_tag_type_code`,`language`) VALUES (1,'Work','Work',3,'ita');
-INSERT INTO `t_template_entity` (`template_entity_code`,`template_entity_name`,`template_entity_description`,`xml_tag_type_code`,`language`) VALUES (2,'Expression','Expression',3,'ita');
-INSERT INTO `t_template_entity` (`template_entity_code`,`template_entity_name`,`template_entity_description`,`xml_tag_type_code`,`language`) VALUES (3,'Manifestation','Manifestation',3,'ita');
+INSERT INTO `t_template_entity` (`template_entity_code`,`template_entity_name`,`template_entity_description`,`xml_tag_type_code`,`language`) VALUES (1,'Opera','Opera',3,'ita');
+INSERT INTO `t_template_entity` (`template_entity_code`,`template_entity_name`,`template_entity_description`,`xml_tag_type_code`,`language`) VALUES (2,'Espressione','Espressione',3,'ita');
+INSERT INTO `t_template_entity` (`template_entity_code`,`template_entity_name`,`template_entity_description`,`xml_tag_type_code`,`language`) VALUES (3,'Manifestazione','Manifestazione',3,'ita');
 INSERT INTO `t_template_entity` (`template_entity_code`,`template_entity_name`,`template_entity_description`,`xml_tag_type_code`,`language`) VALUES (4,'Item','Item',3,'ita');
-INSERT INTO `t_template_entity` (`template_entity_code`,`template_entity_name`,`template_entity_description`,`xml_tag_type_code`,`language`) VALUES (5,'Person','Person',3,'ita');
-INSERT INTO `t_template_entity` (`template_entity_code`,`template_entity_name`,`template_entity_description`,`xml_tag_type_code`,`language`) VALUES (6,'Corporate Body','Corporate Body',3,'ita');
-INSERT INTO `t_template_entity` (`template_entity_code`,`template_entity_name`,`template_entity_description`,`xml_tag_type_code`,`language`) VALUES (7,'Concept','Concept',3,'ita');
-INSERT INTO `t_template_entity` (`template_entity_code`,`template_entity_name`,`template_entity_description`,`xml_tag_type_code`,`language`) VALUES (8,'Object','Object',3,'ita');
-INSERT INTO `t_template_entity` (`template_entity_code`,`template_entity_name`,`template_entity_description`,`xml_tag_type_code`,`language`) VALUES (9,'Event','Event',3,'ita');
-INSERT INTO `t_template_entity` (`template_entity_code`,`template_entity_name`,`template_entity_description`,`xml_tag_type_code`,`language`) VALUES (10,'Place','Place',3,'ita');
+INSERT INTO `t_template_entity` (`template_entity_code`,`template_entity_name`,`template_entity_description`,`xml_tag_type_code`,`language`) VALUES (5,'Persona','Persona',3,'ita');
+INSERT INTO `t_template_entity` (`template_entity_code`,`template_entity_name`,`template_entity_description`,`xml_tag_type_code`,`language`) VALUES (6,'Ente','Ente',3,'ita');
+INSERT INTO `t_template_entity` (`template_entity_code`,`template_entity_name`,`template_entity_description`,`xml_tag_type_code`,`language`) VALUES (7,'Soggetto','Soggetto',3,'ita');
+INSERT INTO `t_template_entity` (`template_entity_code`,`template_entity_name`,`template_entity_description`,`xml_tag_type_code`,`language`) VALUES (8,'Oggetto','Oggetto',3,'ita');
+INSERT INTO `t_template_entity` (`template_entity_code`,`template_entity_name`,`template_entity_description`,`xml_tag_type_code`,`language`) VALUES (9,'Evento','Evento',3,'ita');
+INSERT INTO `t_template_entity` (`template_entity_code`,`template_entity_name`,`template_entity_description`,`xml_tag_type_code`,`language`) VALUES (10,'Luogo','Luogo',3,'ita');
 
 --
 -- Volcado de datos para la tabla `user`

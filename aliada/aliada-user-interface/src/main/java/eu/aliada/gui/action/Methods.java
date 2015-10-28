@@ -22,6 +22,7 @@ import java.util.Map;
 import org.apache.struts2.ServletActionContext;
 
 import eu.aliada.gui.log.MessageCatalog;
+import eu.aliada.gui.model.Tags;
 import eu.aliada.gui.rdbms.DBConnectionManager;
 import eu.aliada.shared.log.Log;
 
@@ -212,50 +213,31 @@ public class Methods {
 		return types;
     }
     /**
-     * Gets the available tags from the DB.
-     * @param templateId The available templates
-     * @return HashMap<String, Boolean>
+     * The method to show the entities list.
+     * @return HashMap<String, String>
      * @see
      * @since 1.0
      */
-    public HashMap<String, Boolean> getTagsDb(final int type, final int templateId) {
-        final int NOTEMPLATESELECTED = -1;
+    public HashMap<String, String> getEntitiesDb() {
         Connection connection = null;
-        HashMap<String, Boolean> tags = new HashMap<>();
+        HashMap<String, String> entities = new HashMap<>();
         try {
             connection = new DBConnectionManager().getConnection();
             Statement statement = connection.createStatement();
+            
             ResultSet rs = statement
-                    .executeQuery("select * from aliada.xml_tag where xml_tag_type_code=" + type);
-            List tagNames = new ArrayList<String>();
+                    .executeQuery("SELECT template_entity_code, xml_tag_type_code, template_entity_description FROM aliada.t_template_entity where language ='" + getLang() + "'");
+
+            entities = new HashMap<String, String>();
+            int entitity_code;
+            int tag_type_code;
+            String key;
             while (rs.next()) {
-                tagNames.add(rs.getString("xml_tag_id"));
-            }
-            rs.close();
-            statement.close();
-            tags = new HashMap<String, Boolean>();
-            Iterator iterator = tagNames.iterator();
-            if (templateId != NOTEMPLATESELECTED) {
-                statement = connection.createStatement();
-                rs = statement
-                        .executeQuery("select xml_tag_id from aliada.template_xml_tag WHERE template_id="
-                                + templateId);
-                List tagsChecked = new ArrayList<String>();
-                while (rs.next()) {
-                    tagsChecked.add(rs.getString(1));
-                }
-                while (iterator.hasNext()) {
-                    String listTagName = (String) iterator.next();
-                    if (tagsChecked.contains(listTagName)) {
-                        tags.put(listTagName, true);
-                    } else {
-                        tags.put(listTagName, false);
-                    }
-                }
-            } else {
-                while (iterator.hasNext()) {
-                    tags.put((String) iterator.next(), false);
-                }
+            	entitity_code = rs.getInt("template_entity_code");
+            	tag_type_code = rs.getInt("xml_tag_type_code");
+            	key = String.valueOf(entitity_code) + String.valueOf(tag_type_code);
+                entities.put(key,
+                        rs.getString("template_entity_description"));
             }
             rs.close();
             statement.close();
@@ -263,14 +245,116 @@ public class Methods {
         } catch (SQLException e) {
             logger.error(MessageCatalog._00011_SQL_EXCEPTION, e);
         }
+		return entities;
+    }
+    /**
+     * Gets the available tags from the DB.
+     * @param type The tag type code,
+     * @param templateId The available templates
+     * @return List<Tags>
+     * @see
+     * @since 1.0
+     */
+	public List<Tags> getTagsDb(final int type, final int templateId) {
+        final int NOTEMPLATESELECTED = -1;
+        Connection connection = null;
+        Statement statement = null;
+        ResultSet rs = null;
+        List<Tags> tags = new ArrayList<Tags>();
+        try {
+            connection = new DBConnectionManager().getConnection();
+            statement = connection.createStatement();
+            rs = statement
+                    .executeQuery("select * from aliada.xml_tag where xml_tag_type_code=" + type + " AND language='" + getLang() + "'");
+            List<Tags> tagNames = new ArrayList<Tags>();
+            Tags ta;
+            while (rs.next()) {
+            	ta = new Tags();
+            	ta.setTagId(rs.getString("xml_tag_id"));
+            	ta.setMandatory(rs.getInt("xml_tag_mandatory"));
+            	ta.setEntity(rs.getInt("template_entity_code"));
+            	ta.setTagDescription(rs.getString("xml_tag_description"));
+                tagNames.add(ta);
+            }
+            rs.close();
+            statement.close();
+            Iterator iterator = tagNames.iterator();
+            List tagsChecked = new ArrayList<String>();
+            if (templateId != NOTEMPLATESELECTED) {
+                statement = connection.createStatement();
+                rs = statement
+                        .executeQuery("select xml_tag_id from aliada.template_xml_tag WHERE template_id="
+                                + templateId);
+                while (rs.next()) {
+                    tagsChecked.add(rs.getString(1));
+                }
+                while (iterator.hasNext()) {
+                    Tags listTagName = (Tags) iterator.next();
+                    Tags t = new Tags();
+                    if (tagsChecked.contains(listTagName.getTagId())) {
+                    	t.setTagId(listTagName.getTagId());
+                    	t.setSelected(true);
+                    	t.setMandatory(listTagName.getMandatory());
+                    	t.setEntity(listTagName.getEntity());
+                    	t.setTagDescription(listTagName.getTagDescription());
+                        tags.add(t);
+                    } else {
+                    	t.setTagId(listTagName.getTagId());
+                    	t.setSelected(false);
+                    	t.setMandatory(listTagName.getMandatory());
+                    	t.setEntity(listTagName.getEntity());
+                    	t.setTagDescription(listTagName.getTagDescription());
+                        tags.add(t);
+                    }
+                }
+            } else {
+            	statement = connection.createStatement();
+                rs = statement
+                        .executeQuery("select xml_tag_id from aliada.xml_tag where xml_tag_type_code=" + type
+                        		+ " AND xml_tag_mandatory=1");
+                while (rs.next()) {
+                    tagsChecked.add(rs.getString(1));
+                }
+                while (iterator.hasNext()) {
+                    Tags listTagName = (Tags) iterator.next();
+                    Tags t = new Tags();
+                    if (tagsChecked.contains(listTagName.getTagId())) {
+                    	t.setTagId(listTagName.getTagId());
+                    	t.setSelected(true);
+                    	t.setMandatory(1);
+                    	t.setEntity(listTagName.getEntity());
+                    	t.setTagDescription(listTagName.getTagDescription());
+                        tags.add(t);
+                    } else {
+                    	t.setTagId(listTagName.getTagId());
+                    	t.setSelected(false);
+                    	t.setMandatory(0);
+                    	t.setEntity(listTagName.getEntity());
+                    	t.setTagDescription(listTagName.getTagDescription());
+                        tags.add(t);
+                    }
+                }
+            }
+            
+            
+        } catch (SQLException e) {
+            logger.error(MessageCatalog._00011_SQL_EXCEPTION, e);
+        } finally {
+        	try {
+				rs.close();
+				statement.close();
+	        	connection.close();
+			} catch (SQLException e) {
+				logger.error(MessageCatalog._00011_SQL_EXCEPTION, e);
+			}
+        }
         
-        tags = (HashMap<String, Boolean>) sortByKeys(tags);
+        //tags = (HashMap<String, Boolean>) sortByKeys(tags);
         
 		return tags;
     }
     
-
-    /**
+	/**
      * Sorts the available tags from the DB.
      * @param map The available tags
      * @param <K> String

@@ -81,9 +81,9 @@ $(function(){
 		<div id="profilesPanel" class="display row">
 			<html:form id="profiles" action="/deleteProfile.action">
 				<div class="lMargin45p">
-					<html:iterator value="profiles">
-						<html:radio key="selectedProfile" cssClass="bold lPad10" value="{key}" list="{value}"/><br/>
-					</html:iterator>
+					<html:iterator value="profiles"> 
+					    <html:radio key="selectedProfile" cssClass="bold lPad10" list="value" listKey="key" listValue="value"/><br/> 
+					</html:iterator> 
 				</div>
 
 				<html:actionmessage/>
@@ -179,6 +179,7 @@ $(function(){
 									cssClass="inputForm input" list="characterSets" /> </td>
 						</tr>
 				</table>
+				
 				<div class="buttons row">
 					<html:submit action="addProfile" cssClass="submitButton button"
 							key="save" />
@@ -193,7 +194,7 @@ $(function(){
 				<table class="lMargin25p">
 					<tr>
 						<td class="label"><html:text name="nameForm"/></td>
-						<td><html:textfield key="nameForm" cssClass="inputForm frigth input disabled" readonly="true"/></td>
+						<td><html:textfield key="nameForm" maxLength="128" cssClass="inputForm frigth input"/></td>
 					</tr>
 					<tr>				
 						<td class="label"><html:text name="descriptionForm"/></td>
