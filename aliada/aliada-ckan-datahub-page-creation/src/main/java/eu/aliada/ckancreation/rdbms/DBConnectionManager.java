@@ -407,7 +407,7 @@ public class DBConnectionManager {
 			String sql = "SELECT job.input_graph, subjob.num_links FROM subset, linksdiscovery_job_instances job," +
 					" linksdiscovery_subjob_instances subjob WHERE subset.datasetId=" + datasetId +   
 					" AND job.input_graph=subset.graph_uri AND subjob.job_id=job.job_id" +
-					" AND subjob.name='" + targetDataset +
+					" AND subjob.name='ALIADA_" + targetDataset +
 					//Order the results to group together the links for the same graph
 					//so that we only use the first row of them, as it is the latest linking
 					//performed against that graph
