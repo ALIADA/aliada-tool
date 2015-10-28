@@ -139,8 +139,8 @@ public class TasksAction extends ActionSupport{
     				code = String.valueOf(rs.getInt("graph"));
     			  }
     			  
-    			  recoveredFile.setDataset(getDatasetDesc(code));
-  				  recoveredFile.setGraph(getGraphUri(code));
+    			  recoveredFile.setDataset(code);
+  				  recoveredFile.setGraph(code);
     			  
     			  status = rs.getString("status");
     			
