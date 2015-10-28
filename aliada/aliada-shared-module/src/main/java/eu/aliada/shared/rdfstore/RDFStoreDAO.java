@@ -851,29 +851,13 @@ public class RDFStoreDAO {
 		final String query = " PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>" +
 		" PREFIX ecrm:   <http://erlangen-crm.org/current/>" +
 		" PREFIX efrbroo: <http://erlangen-crm.org/efrbroo/>" +
-		" SELECT DISTINCT ?work ?expr ?manif ?title ?dimensions ?extension ?author ?place_publication ?date_publication ?edition FROM <" + graphName + "> " +
+		" SELECT DISTINCT ?work ?expr ?manif ?title FROM <" + graphName + "> " +
 		" WHERE { ?work rdf:type efrbroo:F1_Work . "+
 		" ?work efrbroo:R40_has_representative_expression ?expr ." +
 		" ?expr efrbroo:R4_carriers_provided_by ?manif ." +
 		" ?manif ecrm:P102_has_title ?apel ." +
 		" ?apel ecrm:P3_has_note ?title ." +
-		" OPTIONAL { ?manif ecrm:CLP43_should_have_dimension ?dim ." +
-		" ?dim ecrm:P2_has_type <http://aliada-project.eu/2014/aliada-ontology/id/resource/Concept/MARC/6> ." +
-		" ?dim ecrm:P3_has_note ?dimensions . }" +
-		" OPTIONAL { ?manif ecrm:CLP43_should_have_dimension ?ext ." +
-		" ?ext ecrm:P2_has_type <http://aliada-project.eu/2014/aliada-ontology/id/resource/Concept/MARC/5> ." +
-		" ?ext ecrm:P3_has_note ?extension . }" +
-		" OPTIONAL { ?expr ecrm:P148_has_component ?lingobj1."+
-		" ?lingobj1 ecrm:P2_has_type <http://aliada-project.eu/2014/aliada-ontology/id/resource/Concept/MARC/1> ." +
-		" ?lingobj1 ecrm:P3_has_note ?author . }" +
-		" ?publexpr efrbroo:R14_incorporates ?expr ." +
-		" ?publexpr ecrm:P106_is_composed_of ?lingobj ." +
-		" OPTIONAL { ?lingobj ecrm:P2_has_type <http://aliada-project.eu/2014/aliada-ontology/id/resource/Concept/MARC/3> ." +
-		" ?lingobj ecrm:P3_has_note ?place_publication . }" +
-		" OPTIONAL { ?lingobj ecrm:P2_has_type <http://aliada-project.eu/2014/aliada-ontology/id/resource/Concept/MARC/4> ." +
-		" ?lingobj ecrm:P3_has_note ?date_publication . }" +
-		" OPTIONAL { ?lingobj ecrm:P2_has_type <http://aliada-project.eu/2014/aliada-ontology/id/resource/Concept/MARC/2> ." +
-		" ?lingobj ecrm:P3_has_note ?edition . } }" +
+		" }" +
 		" ORDER BY ?work ?expr ?manif" +
 		" OFFSET " + offset + " LIMIT " + limit;
 
@@ -959,29 +943,13 @@ public class RDFStoreDAO {
 		" PREFIX ecrm:   <http://erlangen-crm.org/current/>" +
 		" PREFIX efrbroo: <http://erlangen-crm.org/efrbroo/>" +
 		" SELECT (COUNT(*) AS ?count) FROM <" + graphName + "> {" +
-		" SELECT DISTINCT ?work ?expr ?manif ?title ?dimensions ?extension ?author ?place_publication ?date_publication ?edition " +
+		" SELECT DISTINCT ?work ?expr ?manif ?title " +
 		" WHERE { ?work rdf:type efrbroo:F1_Work . "+
 		" ?work efrbroo:R40_has_representative_expression ?expr ." +
 		" ?expr efrbroo:R4_carriers_provided_by ?manif ." +
 		" ?manif ecrm:P102_has_title ?apel ." +
 		" ?apel ecrm:P3_has_note ?title ." +
-		" OPTIONAL { ?manif ecrm:CLP43_should_have_dimension ?dim ." +
-		" ?dim ecrm:P2_has_type <http://aliada-project.eu/2014/aliada-ontology/id/resource/Concept/MARC/6> ." +
-		" ?dim ecrm:P3_has_note ?dimensions . }" +
-		" OPTIONAL { ?manif ecrm:CLP43_should_have_dimension ?ext ." +
-		" ?ext ecrm:P2_has_type <http://aliada-project.eu/2014/aliada-ontology/id/resource/Concept/MARC/5> ." +
-		" ?ext ecrm:P3_has_note ?extension . }" +
-		" OPTIONAL { ?expr ecrm:P148_has_component ?lingobj1."+
-		" ?lingobj1 ecrm:P2_has_type <http://aliada-project.eu/2014/aliada-ontology/id/resource/Concept/MARC/1> ." +
-		" ?lingobj1 ecrm:P3_has_note ?author . }" +
-		" ?publexpr efrbroo:R14_incorporates ?expr ." +
-		" ?publexpr ecrm:P106_is_composed_of ?lingobj ." +
-		" OPTIONAL { ?lingobj ecrm:P2_has_type <http://aliada-project.eu/2014/aliada-ontology/id/resource/Concept/MARC/3> ." +
-		" ?lingobj ecrm:P3_has_note ?place_publication . }" +
-		" OPTIONAL { ?lingobj ecrm:P2_has_type <http://aliada-project.eu/2014/aliada-ontology/id/resource/Concept/MARC/4> ." +
-		" ?lingobj ecrm:P3_has_note ?date_publication . }" +
-		" OPTIONAL { ?lingobj ecrm:P2_has_type <http://aliada-project.eu/2014/aliada-ontology/id/resource/Concept/MARC/2> ." +
-		" ?lingobj ecrm:P3_has_note ?edition . } }" +
+		" }" +
 		"}";
 
 		return getNumResources(query, sparqlEndpointURI, user, password);
