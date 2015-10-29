@@ -344,9 +344,7 @@ CREATE TABLE `xml_tag` (
   `xml_tag_description` text NOT NULL,
   `template_entity_code` int(11) NOT NULL,
   `xml_tag_type_code` int(11) NOT NULL,
-  `language` varchar(3) NOT NULL,
-  PRIMARY KEY (`xml_tag_id`,`xml_tag_type_code`,`language`),
-  KEY `xml_tag_type_code` (`xml_tag_type_code`)
+  `language` varchar(3) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
@@ -608,7 +606,7 @@ ADD CONSTRAINT `language_template_entity_frk`
 
   
 ALTER TABLE `xml_tag` 
-ADD CONSTRAINT `language_template_entity_frk`
+ADD CONSTRAINT `language_xml_tag_frk`
   FOREIGN KEY (`language`)
   REFERENCES `t_language` (`language_code`)
   ON DELETE NO ACTION
