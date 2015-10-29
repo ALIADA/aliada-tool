@@ -123,7 +123,7 @@ $s #ecrm('P102_has_title') $title_s .
 ## LANGUAGE
 #set($languages = $xpath.many("language",$root))
 #foreach($language in $languages) 	
-	#set($lang_s = "#uri('Ε56_Language' $language.textContent)") . 
+	#set($lang_s = "#uri('Ε56_Language' $language.textContent)") 
 	$lang_s $is_a #ecrm('Ε56_Language') . 
 	$lang_s $P3_has_note "$function.escape($language.textContent)" . 
 	$s #ecrm('P72_has_language') $lang_s . 
