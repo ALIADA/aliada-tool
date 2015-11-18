@@ -1,6 +1,7 @@
 package eu.aliada.rdfizer.pipeline.format.marc.frbr;
 
-import java.util.ArrayList;
+import static java.util.stream.Collectors.toList;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -56,21 +57,20 @@ public class MultiMapEntityDetector extends AbstractEntityDetector<Map<String, L
 
 	/**
 	 * Add values map into the result map Object after assigned the identifier.
-	 * @param map result map refined with identifier value
+	 * @param tagAndHeadings result map refined with identifier value
 	 * @param result object with the key and values of map @param
 	 * @return the result object 
 	 */
-	protected Map<String, List<String>> put(final Map<String, List<String>> map, final Map<String, List<String>> result) {
-		for (final Entry<String, List<String>> entry : map.entrySet()) {
-			final String tag = entry.getKey();
-			final List<String> headings = entry.getValue();
-			final List<String> uris = new ArrayList<String>(headings.size());
-			
-			for (final String heading : headings) {
-				uris.add(useLiteralValueAsIdentifier ? heading : identifier(entityKind(), Strings.clean(heading)));
-			}
-			
-			result.put(tag, uris);
+	protected Map<String, List<String>> put(final Map<String, List<String>> tagAndHeadings, final Map<String, List<String>> result) {
+		for (final Entry<String, List<String>> entry : tagAndHeadings.entrySet()) {
+			result.put(
+					entry.getKey(), 
+					entry.getValue().stream()
+						.map(
+							heading -> useLiteralValueAsIdentifier 
+											? heading 
+											: identifier(entityKind(), Strings.clean(heading)))
+						.collect(toList()));
 		}
 		return result;
 	}

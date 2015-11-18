@@ -37,6 +37,7 @@ public class JobResource implements Job {
 	private final AtomicLong elapsed = new AtomicLong();
 	
 	private boolean isRunning;
+	private boolean validated;
 	
 	/**
 	 * Builds a new {@link JobResource}. 
@@ -164,15 +165,20 @@ public class JobResource implements Job {
 	public int incrementValidationRecordSet() {
 		return validationRecordSetCount.incrementAndGet();
 	}
-
-	private boolean validated ;
 	
+	/**
+	 * Checks if this job has been validated.
+	 * 
+	 * @return true if this job has been validated, false otherwise.
+	 */	
 	public boolean hasntBeenValidated() {
 		return !validated;
 	}
 	
+	/**
+	 * Marks this job as validated.
+	 */
 	public void markAsValidated() {
 		validated = true;
 	}
-	
 }

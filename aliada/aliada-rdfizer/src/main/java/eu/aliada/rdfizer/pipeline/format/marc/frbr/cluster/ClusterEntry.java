@@ -20,25 +20,45 @@ public final class ClusterEntry {
 	 * @param id the heading identifier.
 	 * @param viafId (optional) the VIAF identifier.
 	 */
-	public ClusterEntry(final String heading, boolean preferred, String id, String viafId) {
+	public ClusterEntry(final String heading, final boolean preferred, final String id, final String viafId) {
 		this.heading = heading;
 		this.preferred = preferred;
 		this.id = id;
 		this.viafId = viafId;
 	}
 
+	/**
+	 * Returns the heading associated with this cluster entry.
+	 * 
+	 * @return the heading associated with this cluster entry.
+	 */
 	public String getHeading() {
 		return heading;
 	}
 
+	/**
+	 * Returns true if the heading associated with this entry is the preferred form.
+	 * 
+	 * @return true if the heading associated with this entry is the preferred form.
+	 */
 	public boolean isPreferred() {
 		return preferred;
 	}
 
+	/**
+	 * Returns the entry identifier.
+	 * 
+	 * @return the entry identifier.
+	 */
 	public String getId() {
 		return id;
 	}
 
+	/**
+	 * Returns the VIAF identifier associated with this entry.
+	 * 
+	 * @return the VIAF identifier associated with this entry.
+	 */
 	public String getViafId() {
 		return viafId;
 	}

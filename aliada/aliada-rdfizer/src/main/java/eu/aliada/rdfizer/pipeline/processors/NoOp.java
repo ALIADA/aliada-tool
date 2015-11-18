@@ -4,7 +4,7 @@ import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 
 /**
- * A simple debug processor.
+ * A NullObject outbound processor.
  * 
  * @author Andrea Gazzarini
  * @since 1.0

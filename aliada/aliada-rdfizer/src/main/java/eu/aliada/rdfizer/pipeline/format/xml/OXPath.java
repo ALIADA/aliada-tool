@@ -149,12 +149,6 @@ public class OXPath {
 							if (matchesAttrFilters(targetChild, element)) {
 								return element.getTextContent();
 							}
-//							final String name = targetChild.substring(indexOfSquareBracket + 2, targetChild.indexOf("="));
-//							int valueStartIndex = targetChild.indexOf("'");
-//							final String value = targetChild.substring(valueStartIndex+1, targetChild.lastIndexOf("'"));
-//							if (element.getAttribute(name).equals(value)) {
-//								return element.getTextContent();
-//							}
 						}
 					}
 				}
@@ -170,13 +164,6 @@ public class OXPath {
 							if (matchesAttrFilters(targetChild, element)) {
 								return element;
 							}
-
-//							final String name = targetChild.substring(indexOfSquareBracket + 2, targetChild.indexOf("="));
-//							int valueStartIndex = targetChild.indexOf("'");
-//							final String value = targetChild.substring(valueStartIndex+1, targetChild.lastIndexOf("'"));
-//							if (element.getAttribute(name).equals(value)) {
-//								return element;
-//							}
 						}
 					}
 				}

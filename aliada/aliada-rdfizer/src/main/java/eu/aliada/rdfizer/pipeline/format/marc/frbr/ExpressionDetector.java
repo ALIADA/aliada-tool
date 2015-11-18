@@ -27,17 +27,6 @@ import eu.aliada.rdfizer.pipeline.format.xml.OXPath;
 public class ExpressionDetector extends AbstractEntityDetector<List<FrbrExpression>> {
 	@Autowired
 	private OXPath xpath;
-
-	
-	
-	/**
-	 * Builds a new detector with the following rules.
-	 * 
-	 * @param expressions the detection rules.
-	 */
-	public ExpressionDetector() {
-		// Nothing to be done here...maybe we should make the detectors configurable
-	}
 		
 	/**
 	 * This method concat every xpath values for the expression entity

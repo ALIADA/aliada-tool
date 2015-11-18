@@ -6,7 +6,7 @@ import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 
 /**
- * A simple debug processor.
+ * A debug outbound processor that counts the outcoming triples.
  * 
  * @author Andrea Gazzarini
  * @since 1.0

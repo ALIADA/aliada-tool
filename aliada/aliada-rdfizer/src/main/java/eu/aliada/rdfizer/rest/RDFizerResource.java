@@ -118,7 +118,7 @@ public class RDFizerResource implements RDFizer {
 	@Path("/ping")
 	@Produces(MediaType.TEXT_PLAIN)
     public String ping() {
-        return "ALIADA Project -- RDFizer V1.0";
+        return "ALIADA Project (UNIMARC Fork) -- RDFizer V2.0";
     }
 	
 	@PUT
@@ -392,15 +392,15 @@ public class RDFizerResource implements RDFizer {
 		return runningJobCount.get();
 	}
 
+	// TODO
 	@Override
 	public int getCompletedJobsCount() {
-		// TODO for 2nd iteration
 		return 0;
 	}
 
+	// TODO
 	@Override
 	public int getProcessedRecordsCount() {
-		// TODO for 2nd iteration
 		return 0;
 	}
 }

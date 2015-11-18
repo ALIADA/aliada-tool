@@ -174,6 +174,7 @@ public class FrbrEntitiesDetector implements Processor {
 				concepts(target),
 				events(target),
 				places(target));
+		
 		if (log.isDebugEnabled()) {
 			StringBuilder builder = new StringBuilder();
 			builder.append("************************\n");

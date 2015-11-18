@@ -41,30 +41,9 @@ public abstract class AbstractEntityDetector<O> {
 	 * @param value the value to append.
 	 * @return the builder reference eventually updated with the incoming value.
 	 */
-	protected StringBuilder append(
-			final StringBuilder builder, 
-			final String value) {
+	protected StringBuilder append(final StringBuilder builder, final String value) {
 		if (isNotNullAndNotEmpty(value)) {
 			return builder.append(value);
-		}
-		return builder;
-	}
-
-	/**
-	 * Appends the given values to the buffer only if that value is not null and
-	 * not empty.
-	 * 
-	 * @param builder the identity buffer actings as accumulator.
-	 * @param values the value to append.
-	 * @return the builder reference eventually updated with the incoming value.
-	 */
-	protected StringBuilder append(
-			final StringBuilder builder,
-			final Map<String, String> values) {
-		if (values != null) {
-			for (final Entry<String, String> entry : values.entrySet()) {
-				append(builder, entry.getValue());
-			}
 		}
 		return builder;
 	}
@@ -96,10 +75,7 @@ public abstract class AbstractEntityDetector<O> {
 	 * @return the identifier associated with the incoming value.
 	 */
 	public static String identifier(final String entityKind, final String value) {	
-		if (value != null) {
-			return UUID.nameUUIDFromBytes(value.getBytes()).toString();
-		} 
-		return null;
+		return (value != null) ? UUID.nameUUIDFromBytes(value.getBytes()).toString() : value;
 	}	
 	
 	/**

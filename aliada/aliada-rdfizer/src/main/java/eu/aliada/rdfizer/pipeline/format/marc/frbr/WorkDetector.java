@@ -48,8 +48,7 @@ public class WorkDetector extends AbstractEntityDetector<String> {
 	 * @param uniformTitleDetectionRule the uniform title detection rule.
 	 * @param expressions the subsequent detection rules.
 	 */
-	public WorkDetector(
-			final FirstMatch<Document> uniformTitleDetectionRule) {
+	public WorkDetector(final FirstMatch<Document> uniformTitleDetectionRule) {
 		this(uniformTitleDetectionRule, null);
 	}
 
@@ -64,13 +63,11 @@ public class WorkDetector extends AbstractEntityDetector<String> {
 		
 		final String uniformTitle = uniformTitleDetectionRule.evaluate(target);
 		if (isNullOrEmpty(uniformTitle)) {
-			// TODO: Log + JMX 
 			return null; 
 		}			
 		
 		append(buffer, uniformTitle);
-		expressions.stream().forEach(
-				expression -> append(buffer, expression.evaluate(target)));
+		expressions.stream().forEach(expression -> append(buffer, expression.evaluate(target)));
 		
 		return buffer.toString();
 	}
