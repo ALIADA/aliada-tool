@@ -239,12 +239,15 @@ public class FrbrEntitiesDetector implements Processor {
 		final Map<String, List<String>> entities = detector.detect(target);
 		final Map<String, List<Cluster>> result = new HashMap<String, List<Cluster>>(entities.size());
 		for (final Entry<String, List<String>> entry : entities.entrySet()) {
-			result.put(
-					entry.getKey(), 
+			final List<Cluster> clusters = 	
 					entry.getValue()
 						.stream()
+						.filter(heading -> function.isNotNullAndNotEmpty(heading))
 						.map(heading -> function.getTitleCluster(heading))
-						.collect(toList()));
+						.collect(toList());
+			if (clusters != null && !clusters.isEmpty()) {
+				result.put(entry.getKey(), clusters);			
+			}
 		}
 
 		return result;		
@@ -265,17 +268,19 @@ public class FrbrEntitiesDetector implements Processor {
 		if (works == null || works.isEmpty()) {
 			return null;
 		}
-
-//		final Set<Cluster> titlesClusters = works.values().stream().flatMap(clusters -> clusters.stream()).collect(toSet());				
+				
 		final Map<String, List<String>> entities = detector.detect(target);
 		final Map<String, List<Cluster>> result = new HashMap<String, List<Cluster>>(entities.size());
 		for (final Entry<String, List<String>> entry : entities.entrySet()) {
-			result.put(
-					entry.getKey(), 
+			final List<Cluster> clusters = 
 					entry.getValue()
 						.stream()
+						.filter(heading -> function.isNotNullAndNotEmpty(heading))
 						.map(heading -> function.getNameCluster(heading, null))
-						.collect(toList()));
+						.collect(toList());
+			if (clusters != null && !clusters.isEmpty()) {		
+					result.put(entry.getKey(), clusters);
+			}
 		}
 
 		return result;		

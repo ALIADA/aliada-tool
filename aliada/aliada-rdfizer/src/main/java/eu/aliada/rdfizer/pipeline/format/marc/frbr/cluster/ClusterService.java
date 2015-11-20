@@ -124,6 +124,7 @@ public class ClusterService {
 	 * @throws SQLException in case of data access failure.
 	 */
 	void loadTitlesBelongingToACluster(final Cluster nameCluster, final Connection connection) throws SQLException {
+		if (nameCluster == null) { return; }
 		try (final PreparedStatement statement = connection.prepareStatement("select clstr_ttl_id from clstr_nme_ttl where clstr_nme_id = ?")) {
 			statement.setInt(1, nameCluster.getId());
 			try( final ResultSet rs = statement.executeQuery()) {

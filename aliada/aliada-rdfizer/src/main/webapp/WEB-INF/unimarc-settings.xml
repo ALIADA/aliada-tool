@@ -16,7 +16,7 @@
 					<constructor-arg value="454()9" />
 				</bean>
       	        <bean class="eu.aliada.rdfizer.pipeline.format.marc.selector.xml.MultipleVariableFieldExpression">
-					<constructor-arg value="950()9" />
+					<constructor-arg value="995()9" />
 				</bean>
 			</list>
 		</constructor-arg>
@@ -73,10 +73,7 @@
 							</bean>	
 							<bean class="eu.aliada.rdfizer.pipeline.format.marc.selector.xml.MultipleVariableFieldExpression">
 								<constructor-arg value="701()0" />
-							</bean>	
-							<bean class="eu.aliada.rdfizer.pipeline.format.marc.selector.xml.MultipleVariableFieldExpression">
-								<constructor-arg value="702()0" />
-							</bean>								
+							</bean>						
 						</list>
 					</constructor-arg>
 				</bean>			
@@ -97,9 +94,6 @@
 							<bean class="eu.aliada.rdfizer.pipeline.format.marc.selector.xml.MultipleVariableFieldExpression">
 								<constructor-arg value="721()0" />
 							</bean>
-							<bean class="eu.aliada.rdfizer.pipeline.format.marc.selector.xml.MultipleVariableFieldExpression">
-								<constructor-arg value="722()0" />
-							</bean>	
 						</list>
 					</constructor-arg>		
 				</bean>
@@ -119,10 +113,7 @@
 							</bean>	
 							<bean class="eu.aliada.rdfizer.pipeline.format.marc.selector.xml.MultipleVariableFieldExpression">
 								<constructor-arg value="711()0" />
-							</bean>					
-							<bean class="eu.aliada.rdfizer.pipeline.format.marc.selector.xml.MultipleVariableFieldExpression">
-								<constructor-arg value="712()0" />
-							</bean>					
+							</bean>								
 						</list>
 					</constructor-arg>
 				</bean>		

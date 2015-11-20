@@ -6,6 +6,7 @@
 package eu.aliada.rdfizer.pipeline.format.marc.frbr.model;
 
 import java.io.Serializable;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -24,6 +25,10 @@ public final class FrbrDocument implements Serializable {
 
 	private static final long serialVersionUID = 203862468772292056L;
 
+	private final static Map<String, List<Cluster>> CLUSTER_NULL_OBJECT = Collections.emptyMap();
+	private final static List<FrbrExpression> EXPRESSIONS_NULL_OBJECT = Collections.emptyList();
+	private final static Map<String, List<String>> HEADINGS_NULL_OBJECT = Collections.emptyMap();
+	
 	private final Document document;
 	private final Map<String, List<Cluster>> worksIDs;
 	private final List<FrbrExpression> expressionIDs;
@@ -62,16 +67,16 @@ public final class FrbrDocument implements Serializable {
 			final Map<String, List<String>> eventIDs,
 			final Map<String, List<String>> placeIDs) {
 		this.document = document;
-		this.worksIDs = workIDs;
-		this.expressionIDs = expressionIDs;
+		this.worksIDs = workIDs == null || workIDs.isEmpty() ? CLUSTER_NULL_OBJECT : workIDs;
+		this.expressionIDs = expressionIDs == null || expressionIDs.isEmpty() ? EXPRESSIONS_NULL_OBJECT : expressionIDs;
 		this.manifestationID = manifestationID;
-		this.personIDs = personIDs;
-		this.familyIDs = familyIDs;
-		this.corporateBodyIDs = corporateBodyIDs;
-		this.itemIDs = itemIDs;
-		this.conceptIDs = conceptIDs;
-		this.eventIDs = eventIDs;
-		this.placeIDs = placeIDs;
+		this.personIDs = personIDs == null || personIDs.isEmpty() ? CLUSTER_NULL_OBJECT : personIDs;
+		this.familyIDs = familyIDs == null || familyIDs.isEmpty() ? CLUSTER_NULL_OBJECT : familyIDs;
+		this.corporateBodyIDs = corporateBodyIDs == null || corporateBodyIDs.isEmpty() ? CLUSTER_NULL_OBJECT : corporateBodyIDs;
+		this.itemIDs = itemIDs == null || itemIDs.isEmpty() ? HEADINGS_NULL_OBJECT : itemIDs;
+		this.conceptIDs = conceptIDs == null || conceptIDs.isEmpty() ? HEADINGS_NULL_OBJECT : itemIDs;
+		this.eventIDs = eventIDs == null || eventIDs.isEmpty() ? HEADINGS_NULL_OBJECT : eventIDs;
+		this.placeIDs = placeIDs == null || placeIDs.isEmpty() ? HEADINGS_NULL_OBJECT : placeIDs;
 	}
 	
 	/**
