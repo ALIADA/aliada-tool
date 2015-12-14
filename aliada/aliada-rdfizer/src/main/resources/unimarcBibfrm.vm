@@ -38,6 +38,27 @@
 #set($classificationUdc = "#bf('classificationUdc')")
 #set($classificationNlm = "#bf('classificationUdc')")
 
+#set($works = $frbr.workIDs)
+#if($works && !$works.isEmpty())
+	#foreach($entry in $works.entrySet()) 
+		#set($tagName = $entry.getKey())
+		#set($clusters = $entry.getValue())
+		## Seleziono tutti i tag che mi interessano
+		#set($tags = $xpath.many("datafield[@tag='${tagName}']", $root))
+		#foreach($cluster in $clusters)
+			#set($cluster_uri = "#uri_literal('Work' $cluster.id)")
+			#if(!$function.titleClusterHasBeenAlreadyProcessed($cluster))
+				## Qui è necessario convertire il cluster 
+				$function.markTitleClusterAsProcessed($cluster)
+			#end
+			
+			#set($index = $velocityCount - 1)
+			#set($tag = $tags.get($index))
+			## Qui bisogna convertire i dati locali del tag 
+			
+		#end 	
+	#end 	
+#end	
 
 $work_s $is_a #bf('Work');
 
@@ -45,6 +66,8 @@ $work_s $is_a #bf('Work');
 ## begin identifier
 
 #set($cluster = $bibfrm.workID.id() ) ## Sicuramente errata, perché il model ha una lista di cluster!
+
+
 
 bf:local [ a bf:Identifier ;
             bf:identifierAssigner "share-cat" ;
