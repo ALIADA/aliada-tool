@@ -1,0 +1,554 @@
+#macro (bf $v)<http://bibframe.org/vocab/$v>#end 
+		
+	
+#set($work_s ="#uri('Work' $bibfrm.workID)") ##<http://share-cate.it/resources/works/26265>   
+#set($manifestation_s = "#uri('Istance' $bibfrm.instanceID)") 
+#set($local_s = "#uri('Local' $bibfrm.workID)") ## <http://share-cat/identifiers/works/Local>
+#set($is_a = "a")
+#set($local = "#bf('local')")
+#set($identifier_c = "#bf('Identifier')")
+#set($identifierAssigner = "#bf('identifierAssigner')")
+#set($identifierScheme = "#bf('identifierScheme')")
+#set($identifierValue = "#bf('identifierValue')")
+#set($authorizedAccessPoint = "#bf('authorizedAccessPoint')")
+#set($contentCategory = "#bf('contentCategory')")
+#set($category_c = "#bf('Category')")
+#set($categoryType = "#bf('categoryType')")
+#set($categoryValue = "#bf('categoryValue')")
+#set($workTitle = "#bf('workTitle')") 
+#set($title_c = "#bf('Title')") 
+#set($titleValue = "#bf('titleValue')")
+#set($originDate = "#bf('originDate')")
+#set($identifierQualifier = "#bf('identifierQualifier')")
+#set($isan = "#bf('isan')")
+#set($issnL = "#bf('issnL')")
+#set($istc = "#bf('istc')")
+#set($iswc = "#bf('iswc')")
+#set($dissertationNote = "#bf('dissertationNote')")
+#set($geographicCoverageNote = "#bf('geographicCoverageNote')")
+#set($dissertationIdentifier = "#bf('dissertationIdentifier')")
+#set($classification = "#bf('classification')")
+#set($classification_c = "#bf('Classification')")
+#set($classificationNumber = "#bf('classificationNumber')")
+#set($classificationDdc = "#bf('classificationDdc')")
+#set($classificationEdition = "#bf('classificationEdition')")
+#set($classificationScheme = "#bf('classificationScheme')")
+#set($label = "#bf('label')")
+#set($classificationLcc = "#bf('classificationLcc')")
+#set($classificationUdc = "#bf('classificationUdc')")
+#set($classificationNlm = "#bf('classificationUdc')")
+
+
+$work_s $is_a #bf('Work');
+
+
+## begin identifier
+
+#set($cluster = $bibfrm.workID.id() ) ## Sicuramente errata, perché il model ha una lista di cluster!
+
+bf:local [ a bf:Identifier ;
+            bf:identifierAssigner "share-cat" ;
+            bf:identifierScheme <http://share-cat/identifiers/works/Local> ;
+            bf:identifierValue "$cluster"
+			] ;
+##end identifier
+			
+
+bf:contentCategory [ a bf:Category ;
+           bf:categoryType "content category" ;
+           bf:categoryValue "Text." ] ; 
+		   
+## authorizedAccesssPoint
+
+##probabilmente bisognerà considerare prima l'ipotesi che ci sia la preferred form del cluster
+
+#set($_500 = $xpath.one("datafield[@tag='500']", $root))
+#set($_v500 = $xpath.combine($_500, "ahijklmnqrsuw"))
+#set($_700 = $xpath.one("datafield[@tag='700']", $root))
+#set($_v700 = $xpath.combine($_700, "abcdfg"))
+#set($_701 = $xpath.one("datafield[@tag='701']", $root))
+#set($_v701 = $xpath.combine($_701, "abcdfg"))
+#set($_710 = $xpath.one("datafield[@tag='710']", $root))
+#set($_v710 = $xpath.combine($_710, "abe"))
+#set($_711 = $xpath.one("datafield[@tag='711']", $root))
+#set($_v711 = $xpath.combine($_711, "abe"))
+#set($_720 = $xpath.one("datafield[@tag='720']", $root))
+#set($_v720 = $xpath.combine($_720, "a"))
+#set($_721 = $xpath.one("datafield[@tag='721']", $root))
+#set($_v721 = $xpath.combine($_721, "a"))
+#set($_200 = $xpath.one("datafield[@tag='200']", $root))
+#set($_v200 = $xpath.combine($_200, "ahi"))
+
+#if($function.isNotNullAndNotEmpty($v500)) 
+	#if($function.isNotNullAndNotEmpty($v700)) 
+		#set($authorizedAccessValue = "$v700 $v500")
+	#elseif($function.isNotNullAndNotEmpty($v701))	
+		#set($authorizedAccessValue = "$v701 $v500")
+	#elseif($function.isNotNullAndNotEmpty($v710))
+		#set($authorizedAccessValue = "$v710 $v500")
+	#elseif( $function.isNotNullAndNotEmpty($v711))
+		#set($authorizedAccessValue = "$v711 $v500")
+	#elseif( $function.isNotNullAndNotEmpty($v720))
+		#set($authorizedAccessValue = "$v720 $v500")
+	#elseif( $function.isNotNullAndNotEmpty($v721))
+		#set($authorizedAccessValue = "$v720 $v500")		
+	#end	
+#else 
+	#set($authorizedAccessValue = "$v200")
+#end
+
+bf:authorizedAccessPoint "$authorizedAccessValue";
+
+## end authorizedAccessPoint
+
+
+	
+
+#set($_500s = $xpath.many("datafield[@tag='500']",$root))
+#foreach($_500 in $_500s)
+	#set($v = $xpath.combine($_500, "k"))
+	
+	##origin date
+	
+	#if($function.isNumber($v))
+		bf:originDate "$v";
+	#end
+
+	
+	## titolo
+	
+	#set($v = $xpath.combine($_500, "ahijklmnqrsuw"))
+	bf:workTitle [ a bf:Title ;
+           bf:titleValue "$v" ];
+		   
+#end
+
+
+
+## Titoli
+
+## forse andrà considerato anche quello attribuito al cluster
+## forse alcuni vanno esclusi, in quanto riguardano solo gli authority
+
+
+#set($_230 = $xpath.many("datafield[@tag='230']", $root))
+#foreach($_230 in $_230s)
+	#set($v = $xpath.combine($_230, "ahiklmnqrsuw"))
+	bf:workTitle [ a bf:Title ;
+           bf:titleValue "$v" ];
+#end
+
+#set($_235 = $xpath.many("datafield[@tag='235']", $root))
+#foreach($_235 in $_235s)
+	#set($v = $xpath.combine($_235, "akmrsuw"))
+	bf:workTitle [ a bf:Title ;
+           bf:titleValue "$v" ];
+#end
+
+#set($_240 = $xpath.many("datafield[@tag='240']", $root))
+#foreach($_240 in $_240s)
+	#set($v = $xpath.combine($_240, "t"))
+	bf:workTitle [ a bf:Title ;
+           bf:titleValue "$v" ];
+#end
+
+#set($_245 = $xpath.many("datafield[@tag='245']", $root))
+#foreach($_245 in $_245s)
+	#set($v = $xpath.combine($_245, "t"))
+	bf:workTitle [ a bf:Title ;
+           bf:titleValue "$v" ];
+#end
+
+
+## fine titoli
+
+
+##questo forse riguarda solo gli authority
+	
+#set($_102s = $xpath.many("datafield[@tag='102']",$root))
+#foreach($_102 in $_102s)
+	#set($v = $xpath.combine($_102, "a"))	
+		bf:originPlace [ a bf:Place;
+		   bf: label "$v" ;
+		   bf: authorizedAccessPoint "$v"];
+#end
+
+
+
+##identifierQualifier
+
+##non si sa bene a quale identificativo vada attribuito...
+#set($_010 = $xpath.one("datafield[@tag='010']", $root))
+#set($v = $xpath.combine($_010, "b"))
+	   bf:local [ a bf:Identifier ;
+           bf:identifierQualifier "$v"];
+
+#set($_013 = $xpath.one("datafield[@tag='013']", $root))
+#set($v = $xpath.combine($_013, "b"))
+	   bf:local [ a bf:Identifier ;
+           bf:identifierQualifier "$v"];
+
+
+#set($_015 = $xpath.one("datafield[@tag='015']", $root))
+#set($v = $xpath.combine($_015, "b"))
+	   bf:local [ a bf:Identifier ;
+           bf:identifierQualifier "$v"];
+		   
+		   
+		   
+#set($_016 = $xpath.one("datafield[@tag='016']", $root))
+#set($v = $xpath.combine($_016, "b"))
+	   bf:local [ a bf:Identifier ;
+           bf:identifierQualifier "$v"];
+
+## fine identifierQualifier
+
+
+
+#set($_012s = $xpath.many("datafield[@tag='012']",$root))
+#foreach($_012 in $_012s)
+	#set($v = $xpath.combine($_012, "a25"))	
+        bf:isan [ a bf:Identifier ;
+                   bf:identifierScheme <http://id.loc.gov/vocabulary/identifiers/isan> ;
+                   bf:identifierValue "$v" ] ;
+#end
+
+
+
+
+
+#set($_011s = $xpath.many("datafield[@tag='011']",$root))
+#foreach($_011 in $_011s)
+	#set($v = $xpath.combine($_011, "a"))	
+        bf:issnL [ a bf:Identifier ;
+                   bf:identifierScheme <http://id.loc.gov/vocabulary/identifiers/issnL> ;
+                   bf:identifierValue "$v" ] ;
+#end
+
+
+
+##dissertationNote
+
+#set($_328s = $xpath.many("datafield[@tag='328']", $root))
+#foreach($_328s in $_328s)
+	#set($v = $xpath.combine($_328, "a"))
+		bf:disserationNote "$v";
+#end
+
+
+
+#set($_607s = $xpath.many("datafield[@tag='607']",$root))
+#foreach($_607 in $_607s)
+	#set($v = $xpath.combine($_607, "a"))	
+		bf:geographicCoverageNote "$v" ;
+#end
+
+
+
+
+
+
+## classification
+## dato che nell'esempio era segnato solo classificationNumber mi sono regolata come se quello fosse il valore da finalizzare, anzichè una più generica label
+
+#set($_686s = $xpath.many("datafield[@tag='686']", $root))
+#foreach($_686s in $_686s)
+	#set($v = $xpath.combine($_686, "a"))
+		bf:classification [ a bf:Classification;
+			bf:classificationNumber "$v"];
+#end
+
+#set($_022s = $xpath.many("datafield[@tag='022']", $root))
+#foreach($_022s in $_022s)
+	#set($v = $xpath.combine($_022, "b"))
+		bf:classification [ a bf:Classification;
+			bf:classificationNumber "$v"];
+#end
+
+
+## classificationDdc
+
+##molti campi non sono finalizzati
+
+#set($_676s = $xpath.many("datafield[@tag='676']", $root))
+#foreach($_676s in $_676s)
+	#set($v = $xpath.combine($_676, "a"))
+		 bf:classification [ a bf:Classification ;
+            bf:classificationEdition " " ;
+            bf:classificationNumber " " ;
+            bf:classificationScheme <http://id.loc.gov/authorities/classSchemes/ddc> ;
+            bf:label "$v" ];
+#end
+
+
+## classificationLcc
+
+#set($_680s = $xpath.many("datafield[@tag='680']", $root))
+#foreach($_680s in $_680s)
+	#set($v = $xpath.combine($_680, "a"))
+	
+		    bf:classificationLcc <http://id.loc.gov/authorities/classification/"$v">];
+#end
+
+
+## classificationUdc
+
+#set($_675s = $xpath.many("datafield[@tag='675']", $root))
+#foreach($_675s in $_675s)
+	#set($v = $xpath.combine($_675, "a"))	
+		bf:classificationUdc [ a bf:Classification ;
+            bf:classificationNumber "$v" ;
+            bf:classificationScheme "classificationUdc" ]; 
+#end
+
+
+## classificationNlm
+
+#set($_686s = $xpath.many("datafield[@tag='686']", $root))
+#foreach($_686s in $_686s)
+	#set($v = $xpath.combine($_686, "a"))	
+		 bf:classificationNlm <http://nlm.example.org/classification/"$v"> ;
+#end
+
+
+##relatedWork
+
+#set($_455s = $xpath.many("datafield[@tag='455']", $root))
+#foreach($_455s in $_455s)
+	#set($v = $xpath.combine($_455, "t"))	
+		 bf:relatedWork [ a bf:Work;
+			bf:label "$v" ];
+#end
+
+#set($_456s = $xpath.many("datafield[@tag='456']", $root))
+#foreach($_456s in $_456s)
+	#set($v = $xpath.combine($_456, "t"))	
+		 bf:relatedWork [ a bf:Work;
+			bf:label "$v" ];
+#end
+
+#set($_470s = $xpath.many("datafield[@tag='470']", $root))
+#foreach($_470s in $_470s)
+	#set($v = $xpath.combine($_470, "t"))	
+		 bf:relatedWork [ a bf:Work;
+			bf:label "$v" ];
+#end
+
+#set($_488s = $xpath.many("datafield[@tag='488']", $root))
+#foreach($_488s in $_488s)
+	#set($v = $xpath.combine($_488, "t"))	
+		 bf:relatedWork [ a bf:Work;
+			bf:label "$v" ];
+#end
+
+
+##series
+#set($_255s = $xpath.many("datafield[@tag='255']", $root))
+#foreach($_255s in $_255s)
+	#set($v = $xpath.combine($_255, "ahi"))	
+		 bf:series [ a bf:Work;
+			bf:label "$v" ];
+#end
+
+
+##subseries
+#set($_411s = $xpath.many("datafield[@tag='411']", $root))
+#foreach($_411s in $_411s)
+	#set($v = $xpath.combine($_411, "t"))	
+		 bf:subseries [ a bf:Work;
+			bf:label "$v" ];
+#end
+
+##subseriesOf
+#set($_410s = $xpath.many("datafield[@tag='410']", $root))
+#foreach($_410s in $_410s)
+	#set($v = $xpath.combine($_410, "t"))	
+		 bf:subseriesOf [ a bf:Work;
+			bf:label "$v" ];
+#end
+
+##supplement
+
+#set($_421s = $xpath.many("datafield[@tag='421']", $root))
+#foreach($_421s in $_421s)
+	#set($v = $xpath.combine($_421, "t"))	
+		 bf:supplement [ a bf:Work;
+			bf:label "$v" ];
+#end
+
+##supplementTo
+
+#set($_422s = $xpath.many("datafield[@tag='422']", $root))
+#foreach($_422s in $_422s)
+	#set($v = $xpath.combine($_422, "t"))	
+		 bf:supplementTo [ a bf:Work;
+			bf:label "$v" ];
+#end
+
+
+##translation
+#set($_453s = $xpath.many("datafield[@tag='453']", $root))
+#foreach($_453s in $_453s)
+	#set($v = $xpath.combine($_453, "t"))	
+		 bf:translation [ a bf:Work;
+			bf:label "$v" ];
+#end
+
+##translationOf
+#set($_454s = $xpath.many("datafield[@tag='454']", $root))
+#foreach($_454s in $_454s)
+	#set($v = $xpath.combine($_454, "t"))	
+		 bf:translationOf [ a bf:Work;
+			bf:label "$v" ];
+#end
+
+##otherEdition
+#set($_451s = $xpath.many("datafield[@tag='451']", $root))
+#foreach($_451s in $_451s)
+	#set($v = $xpath.combine($_451, "t"))	
+		 bf:otherEdition [ a bf:Work;
+			bf:label "$v" ];
+#end
+
+##absorbedInPart
+
+#set($_435s = $xpath.many("datafield[@tag='435']", $root))
+#foreach($_435s in $_435s)
+	#set($v = $xpath.combine($_435, "t"))	
+		 bf:absorbedInPart [ a bf:Work;
+			bf:label "$v" ];
+#end
+
+##separetedFrom
+#set($_437s = $xpath.many("datafield[@tag='437']", $root))
+#foreach($_437s in $_437s)
+	#set($v = $xpath.combine($_437, "t"))	
+		 bf:separatedFrom [ a bf:Work;
+			bf:label "$v" ];
+#end
+
+##supersedes
+
+#set($_432s = $xpath.many("datafield[@tag='432']", $root))
+#foreach($_432s in $_432s)
+	#set($v = $xpath.combine($_432, "t"))	
+		 bf:supersedes [ a bf:Work;
+			bf:label "$v" ];
+#end
+
+##supersedesInPart
+#set($_433s = $xpath.many("datafield[@tag='433']", $root))
+#foreach($_433s in $_433s)
+	#set($v = $xpath.combine($_433, "t"))	
+		 bf:supersedesInPart [ a bf:Work;
+			bf:label "$v" ];
+#end
+
+##unionOf
+#set($_436s = $xpath.many("datafield[@tag='436']", $root))
+#foreach($_436s in $_436s)
+	#set($v = $xpath.combine($_436, "t"))	
+		 bf:unionOf [ a bf:Work;
+			bf:label "$v" ];
+#end
+
+##continues
+#set($_430s = $xpath.many("datafield[@tag='430']", $root))
+#foreach($_430s in $_430s)
+	#set($v = $xpath.combine($_430, "t"))	
+		 bf:continues [ a bf:Work;
+			bf:label "$v" ];
+#end
+
+##continuesInPart
+#set($_431s = $xpath.many("datafield[@tag='431']", $root))
+#foreach($_431s in $_431s)
+	#set($v = $xpath.combine($_431, "t"))	
+		 bf:continuesInPart [ a bf:Work;
+			bf:label "$v" ];
+#end
+
+##absorbed
+#set($_434s = $xpath.many("datafield[@tag='434']", $root))
+#foreach($_434s in $_434s)
+	#set($v = $xpath.combine($_434, "t"))	
+		 bf:absorbed [ a bf:Work;
+			bf:label "$v" ];
+#end
+
+##absorbedBy
+#set($_444s = $xpath.many("datafield[@tag='444']", $root))
+#foreach($_444s in $_444s)
+	#set($v = $xpath.combine($_444, "t"))	
+		 bf:absorbedBy [ a bf:Work;
+			bf:label "$v" ];
+#end
+
+##continuedBy
+#set($_440s = $xpath.many("datafield[@tag='440']", $root))
+#foreach($_440s in $_440s)
+	#set($v = $xpath.combine($_440, "t"))	
+		 bf:continuedBy [ a bf:Work;
+			bf:label "$v" ];
+#end
+
+#set($_448s = $xpath.many("datafield[@tag='448']", $root))
+#foreach($_448s in $_448s)
+	#set($v = $xpath.combine($_448, "t"))	
+		 bf:continuedBy [ a bf:Work;
+			bf:label "$v" ];
+#end
+
+##continuedInPartBy
+
+#set($_441s = $xpath.many("datafield[@tag='441']", $root))
+#foreach($_441s in $_441s)
+	#set($v = $xpath.combine($_441, "t"))	
+		 bf:continuedInPartBy [ a bf:Work;
+			bf:label "$v" ];
+#end
+
+##absorbedInPartBy
+#set($_445s = $xpath.many("datafield[@tag='445']", $root))
+#foreach($_445s in $_445s)
+	#set($v = $xpath.combine($_445, "t"))	
+		 bf:absorbedInPartBy [ a bf:Work;
+			bf:label "$v" ];
+#end
+
+##mergedToForm
+#set($_447s = $xpath.many("datafield[@tag='447']", $root))
+#foreach($_447s in $_447s)
+	#set($v = $xpath.combine($_447, "t"))	
+		 bf:mergedToForm [ a bf:Work;
+			bf:label "$v" ];
+#end
+
+##splitInto
+#set($_446s = $xpath.many("datafield[@tag='446']", $root))
+#foreach($_446s in $_446s)
+	#set($v = $xpath.combine($_446, "t"))	
+		 bf:splitInto [ a bf:Work;
+			bf:label "$v" ];
+#end
+
+
+##supersededBy
+#set($_442s = $xpath.many("datafield[@tag='442']", $root))
+#foreach($_442s in $_442s)
+	#set($v = $xpath.combine($_442, "t"))	
+		 bf:supersededBy [ a bf:Work;
+			bf:label "$v" ];
+#end
+
+
+##supersededInPartBy
+#set($_443s = $xpath.many("datafield[@tag='443']", $root))
+#foreach($_443s in $_443s)
+	#set($v = $xpath.combine($_443, "t"))	
+		 bf:supersededInPartBy [ a bf:Work;
+			bf:label "$v" ];
+#end
+
+
+
