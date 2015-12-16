@@ -80,6 +80,7 @@
 #set($title_c = "#bf('Title')") 
 #set($titleValue = "#bf('titleValue')")
 #set($titleType = "#bf('titleType')")
+#set($subtitle = "#bf('subtitle')")
 #set($originPlace = "#bf('originPlace')")
 #set($place_c = "#bf('Place')")
 #set($originDate = "#bf('originDate')")
@@ -220,6 +221,48 @@
 					#oneValue($cluster_uri $v "workTitle" $title_c $workTitle $titleValue) 
 				#end
 				
+				#set($_454s = $xpath.many("datafield[@tag='454']",$root))
+				#foreach($_454 in $_454s)
+					#set($v = $xpath.combine($_454, "ahitu9"))
+					#oneValue($cluster_uri $v "workTitle" $title_c $workTitle $titleValue) 
+				#end
+				
+				#set($_996s = $xpath.many("datafield[@tag='996']",$root))
+				#foreach($_996 in $_996s)
+					#set($v = $xpath.combine($_996, "a9"))
+					#oneValue($cluster_uri $v "workTitle" $title_c $workTitle $titleValue) 
+				#end
+				
+				#set($_200s = $xpath.many("datafield[@tag='200']",$root))
+				#foreach($_200 in $_200s)
+					#set($v = $xpath.combine($_200, "ahi"))
+					#oneValue($cluster_uri $v "workTitle" $title_c $workTitle $titleValue) 
+				#end
+				
+				#set($_501s = $xpath.many("datafield[@tag='501']",$root))
+				#foreach($_501 in $_501s)
+					#set($v = $xpath.combine($_501, "a"))
+					#oneValue($cluster_uri $v "workTitle" $title_c $workTitle $titleValue) 
+				#end
+				
+				#set($_503s = $xpath.many("datafield[@tag='503']",$root))
+				#foreach($_503 in $_503s)
+					#set($v = $xpath.combine($_503, "a"))
+					#oneValue($cluster_uri $v "workTitle" $title_c $workTitle $titleValue) 
+				#end
+				
+				#set($_530s = $xpath.many("datafield[@tag='530']",$root))
+				#foreach($_530 in $_530s)
+					#set($v = $xpath.combine($_530, "a"))
+					#oneValue($cluster_uri $v "workTitle" $title_c $workTitle $titleValue) 
+				#end
+				
+				#set($_531s = $xpath.many("datafield[@tag='531']",$root))
+				#foreach($_531 in $_531s)
+					#set($v = $xpath.combine($_531, "a"))
+					#oneValue($cluster_uri $v "workTitle" $title_c $workTitle $titleValue) 
+				#end
+				
 				
 				
 				## Qui è necessario convertire il cluster 
@@ -255,6 +298,7 @@
 				#end
 			#end
 			
+						
 		#end 	
 	#end 	
 #end	
@@ -269,76 +313,59 @@ $cluster.id $contentCategory $s1 .
 
    
 ## other title
-#set($_501s = $xpath.many("datafield[@tag='501']",$root))
-#foreach($_501 in $_501s)
-	#set($v = $xpath.combine($_501, "a"))	
-	#twoValue($cluster_uri $v "workTitle" $title_c $workTitle $titleValue $titleType "other title") 
-#end
-#set($_503s = $xpath.many("datafield[@tag='503']",$root))
-#foreach($_503 in $_503s)
-	#set($v = $xpath.combine($_503, "a"))	
-	#twoValue($cluster_uri $v "workTitle" $title_c $workTitle $titleValue $titleType "other title") 
-#end
-#set($_530s = $xpath.many("datafield[@tag='530']",$root))
-#foreach($_530 in $_530s)
-	#set($v = $xpath.combine($_530, "a"))	
-	#twoValue($cluster_uri $v "workTitle" $title_c $workTitle $titleValue $titleType "other title") 
-#end
-#set($_531s = $xpath.many("datafield[@tag='531']",$root))
-#foreach($_531 in $_531s)
-	#set($v = $xpath.combine($_531, "a"))	
-	#twoValue($cluster_uri $v "workTitle" $title_c $workTitle $titleValue $titleType "other title") 
-#end
-#set($_200s = $xpath.many("datafield[@tag='200']",$root))
-#foreach($_200 in $_200s)
-	#set($v = $xpath.combine($_200, "a"))	
-	#twoValue($cluster_uri $v "workTitle" $title_c $workTitle $titleValue $titleType "other title") 
-#end
 
 #set($_510s = $xpath.many("datafield[@tag='510']",$root))
 #foreach($_510 in $_510s)
 	#set($v = $xpath.combine($_510, "a"))	
-	#twoValue($cluster_uri $v "workTitle" $title_c $workTitle $titleValue $titleType "other title") 
+	#set($z = $xpath.combine($_510, "e"))
+	#threeValue($cluster_uri $v "workTitle" $title_c $workTitle $titleValue $titleType "other title" $subtitle $z) 
 #end
 #set($_512s = $xpath.many("datafield[@tag='512']",$root))
 #foreach($_512 in $_512s)
 	#set($v = $xpath.combine($_512, "a"))	
-	#twoValue($cluster_uri $v "workTitle" $title_c $workTitle $titleValue $titleType "other title") 
+	#set($z = $xpath.combine($_512, "e"))
+	#threeValue($cluster_uri $v "workTitle" $title_c $workTitle $titleValue $titleType "other title" $subtitle $z) 
 #end
 #set($_513s = $xpath.many("datafield[@tag='513']",$root))
 #foreach($_513 in $_513s)
-	#set($v = $xpath.combine($_513, "a"))	
-	#twoValue($cluster_uri $v "workTitle" $title_c $workTitle $titleValue $titleType "other title") 
+	#set($v = $xpath.combine($_513, "a"))
+	#set($z = $xpath.combine($_513, "e"))
+	#threeValue($cluster_uri $v "workTitle" $title_c $workTitle $titleValue $titleType "other title" $subtitle $z) 
 #end
 #set($_514s = $xpath.many("datafield[@tag='514']",$root))
 #foreach($_514 in $_514s)
-	#set($v = $xpath.combine($_514, "a"))	
-	#twoValue($cluster_uri $v "workTitle" $title_c $workTitle $titleValue $titleType "other title") 
+	#set($v = $xpath.combine($_514, "a"))
+	#set($z = $xpath.combine($_514, "e"))
+	#threeValue($cluster_uri $v "workTitle" $title_c $workTitle $titleValue $titleType "other title" $subtitle $z) 
 #end
 #set($_515s = $xpath.many("datafield[@tag='515']",$root))
 #foreach($_515 in $_515s)
-	#set($v = $xpath.combine($_515, "a"))	
+	#set($v = $xpath.combine($_515, "a"))		
 	#twoValue($cluster_uri $v "workTitle" $title_c $workTitle $titleValue $titleType "other title") 
 #end
 #set($_516s = $xpath.many("datafield[@tag='516']",$root))
 #foreach($_516 in $_516s)
 	#set($v = $xpath.combine($_516, "a"))	
-	#twoValue($cluster_uri $v "workTitle" $title_c $workTitle $titleValue $titleType "other title") 
+	#set($z = $xpath.combine($_516, "e"))
+	#threeValue($cluster_uri $v "workTitle" $title_c $workTitle $titleValue $titleType "other title" $subtitle $z) 
 #end
 #set($_517s = $xpath.many("datafield[@tag='517']",$root))
 #foreach($_517 in $_517s)
-	#set($v = $xpath.combine($_517, "a"))	
-	#twoValue($cluster_uri $v "workTitle" $title_c $workTitle $titleValue $titleType "other title") 
+	#set($v = $xpath.combine($_517, "a"))
+	#set($z = $xpath.combine($_517, "e"))
+	#threeValue($cluster_uri $v "workTitle" $title_c $workTitle $titleValue $titleType "other title" $subtitle $z) 
 #end
 #set($_520s = $xpath.many("datafield[@tag='520']",$root))
 #foreach($_520 in $_520s)
 	#set($v = $xpath.combine($_520, "a"))	
-	#twoValue($cluster_uri $v "workTitle" $title_c $workTitle $titleValue $titleType "other title") 
+	#set($z = $xpath.combine($_520, "e"))
+	#threeValue($cluster_uri $v "workTitle" $title_c $workTitle $titleValue $titleType "other title" $subtitle $z) 
 #end
 #set($_541s = $xpath.many("datafield[@tag='541']",$root))
 #foreach($_541 in $_541s)
 	#set($v = $xpath.combine($_541, "a"))	
-	#twoValue($cluster_uri $v "workTitle" $title_c $workTitle $titleValue $titleType "other title") 
+	#set($z = $xpath.combine($_541, "e"))
+	#threeValue($cluster_uri $v "workTitle" $title_c $workTitle $titleValue $titleType "other title" $subtitle $z) 
 #end
 
 
@@ -390,6 +417,17 @@ $cluster_uri $local $s1 .
     $s1 $is_a $identifier_c .    
     $s1 identifierValue "$text" .
     $cluster_uri $isan $s1 .
+#end
+
+  
+#set($_012s = $xpath.many("datafield[@tag='012']",$root))
+#foreach($_012 in $_012s)
+    #set($v = $xpath.combine($_012, "a25"))	
+	#set($text = $function.escape($v))
+	#set($s1 = "#uri_with_strong_normalization(${isan} ${text})")                		
+    $s1 $is_a $identifier_c .    
+    $s1 identifierValue "$text" .
+    $cluster_uri $iswc $s1 .
 #end
               
                     
