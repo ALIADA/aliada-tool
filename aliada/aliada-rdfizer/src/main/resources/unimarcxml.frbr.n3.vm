@@ -76,6 +76,20 @@
 #end
 
 
+#set($_501s = $xpath.many("datafield[@tag='501']",$root))
+#foreach($_501 in $_501s)
+	#set($value_501 = $function.escape($xpath.combine($_501, "a")))
+	#if($function.isNotNullAndNotEmpty($value_501))		
+    	#foreach($w in $frbr.flatWorkIDs.id)			
+    		#set($cluster_uri = "#uri_literal('Work' $w)") 
+			#threeValue($cluster_uri $value_501 "workTitle" $title_c $workTitle $titleValue $titleType "collective title" $subtitle "") 
+    	#end 
+	#end	
+#end
+
+
+
+
 
 
 
@@ -228,10 +242,9 @@
 #set($_501s = $xpath.many("datafield[@tag='501']",$root))
 #foreach($_501 in $_501s)
 	#set($value_501 = $function.escape($xpath.combine($_501, "a")))
-	#if($function.isNotNullAndNotEmpty($value_501)) 		
-    	#foreach($w in $frbr.flatWorkIDs)
-			Debug 2
-    		###set($cluster_uri = "#uri_literal('Work' $cluster.id)") ## ma sto cluster non lo reperisco da nessuna parte!!
+	#if($function.isNotNullAndNotEmpty($value_501))		
+    	#foreach($w in $frbr.flatWorkIDs.id)			
+    		#set($cluster_uri = "#uri_literal('Work' $w)") 
 			#threeValue($cluster_uri $value_501 "workTitle" $title_c $workTitle $titleValue $titleType "collective title" $subtitle "") 
     	#end 
 	#end	
@@ -240,8 +253,8 @@
 
 ## INSTANCE OR WORK
 ##se di opera ne ho solo una:
-#if($frbr.flatWorkIDs.size() == 1)
-	#set($s = $frbr.flatWorkIDs.iterator().next())
+#if($frbr.flatWorkIDs.size() == 1)	
+	#set($s = $frbr.flatWorkIDs.iterator().next().id)		
 	#set($p = $workTitle)
 	#set($k = "workTitle")
 #else

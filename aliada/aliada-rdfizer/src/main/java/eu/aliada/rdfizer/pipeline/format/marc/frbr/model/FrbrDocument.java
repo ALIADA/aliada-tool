@@ -101,7 +101,7 @@ public final class FrbrDocument implements Serializable {
 		return worksIDs;
 	}
 	
-	public Set<Cluster> flatWorkIDs() {
+	public Set<Cluster> getFlatWorkIDs() {
 		return flatWorksIDs;
 	}
 	
