@@ -151,14 +151,18 @@ public class ClusterService {
 					while (rs.next()) {
 						if (cluster == null) {
 							cluster = new Cluster(rs.getInt("clstr_id"));
-						}
+						}	
 						
+						String name = rs.getString("name");
+						Boolean pref_form = "t".equals(rs.getString("pref_frm"));					
+						String hdg_id = rs.getString("hdg_id");
+						String viaf_id = null;
+						if (hdg_id.contains("http://viaf.org/viaf")){
+							viaf_id = hdg_id;
+						}
+								
 						cluster.addEntry(
-								new ClusterEntry(
-										rs.getString("name"), 
-										"t".equals(rs.getString("pref_frm")),
-										rs.getString("hdg_id"),
-										null));						
+								new ClusterEntry(name, pref_form,hdg_id, viaf_id));						
 					}
 					loadTitlesBelongingToACluster(cluster, connection);
 					return cluster;
@@ -191,8 +195,10 @@ public class ClusterService {
 										rs.getString("ttl_str_txt"), 
 										rs.getString("typ_ttl") == null,
 										rs.getString("ttl_hdg_id"),
-										rs.getString("viaf_id")));						
-					}
+										rs.getString("viaf_id")));		
+						
+						
+					}					
 					return cluster;
 				}
 			}

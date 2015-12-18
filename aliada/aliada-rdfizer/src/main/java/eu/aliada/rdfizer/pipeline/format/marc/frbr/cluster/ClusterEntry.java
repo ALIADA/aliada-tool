@@ -59,7 +59,7 @@ public final class ClusterEntry {
 	 * 
 	 * @return the VIAF identifier associated with this entry.
 	 */
-	public String getViafId() {
+	public String getViafId() {		
 		return viafId;
 	}
 }

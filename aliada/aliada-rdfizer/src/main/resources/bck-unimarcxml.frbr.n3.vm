@@ -208,7 +208,7 @@
 					#set($secondAddend = $_v200)
 				#end            		              
                 
-                $cluster_uri $authorizedAccessPoint "$firstAddend $secondAddend" .
+                $cluster_uri $authorizedAccessPoint "$firstAddend. $secondAddend" .
                 
                 ## end authorizedAccessPoint
                 				

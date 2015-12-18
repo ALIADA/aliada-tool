@@ -37,7 +37,8 @@
 		#if($function.isNotNullAndNotEmpty($secondValue)) 
 			$s1 $label2 "$secondText" . 
 		#end
-    	$s $predicate $s1 . 	
+    	$s $predicate $s1 . 
+		
 #end	
 
 
@@ -56,7 +57,8 @@
 		#if($function.isNotNullAndNotEmpty($thirdValue)) 
 			$s1 $label3 "$thirdText" . 
 		#end
-    	$s $predicate $s1 . 	
+    	$s $predicate $s1 .
+		
 #end	
 
 
@@ -67,34 +69,102 @@
 #macro(setTitle $root $soggetto $tag $field1 $field2 $type $kind $predicate $label1 $label2 $secondValue $label3)
 	#set($_tags = $xpath.many("datafield[@tag='$tag']",$root))
 	#foreach($_tag in $_tags)
+		## TO DO! CONTROLLARE CJE $_TAG SIA NOT NULL E NOT EMPTY
         #set($field1Value = $xpath.combine($_tag, "$field1"))
     	#set($field2Value = $xpath.combine($_tag, "$field2"))
     	#if($function.isNotNullAndNotEmpty($field1Value))
     		#threeValue($soggetto $field1Value $type $kind $predicate $label1 $label2 $secondValue $label3 $field2Value)
+			
     	#end	
 	#end
 #end
-
-
-#set($_501s = $xpath.many("datafield[@tag='501']",$root))
-#foreach($_501 in $_501s)
-	#set($value_501 = $function.escape($xpath.combine($_501, "a")))
-	#if($function.isNotNullAndNotEmpty($value_501))		
-    	#foreach($w in $frbr.flatWorkIDs.id)			
-    		#set($cluster_uri = "#uri_literal('Work' $w)") 
-			#threeValue($cluster_uri $value_501 "workTitle" $title_c $workTitle $titleValue $titleType "collective title" $subtitle "") 
-    	#end 
-	#end	
+	
+#macro(oneSetAllWorks $root $tag $field $predicate)
+	#set($_tags = $xpath.many("datafield[@tag='$tag']",$root))
+	#foreach($_tag in $_tags)
+		## TO DO! CONTROLLARE CJE $_TAG SIA NOT NULL E NOT EMPTY
+        #set($fieldValue = $function.escape($xpath.combine($_tag, "$field")))
+		#if($function.isNotNullAndNotEmpty($fieldValue))
+			#foreach($w in $frbr.flatWorkIDs)			
+				#set($cluster_uri = "#uri_literal('Work' ${w.id})")
+				$cluster_uri $predicate "$fieldValue" .
+				
+			#end
+		#end
+	#end
 #end
 
+#macro(setAllWorks $root $tag $field $type $kind $predicate $label1 $label2 $secondValue)
+	#set($_tags = $xpath.many("datafield[@tag='$tag']",$root))
+	#foreach($_tag in $_tags)
+		## TO DO! CONTROLLARE CJE $_TAG SIA NOT NULL E NOT EMPTY
+        #set($fieldValue = $function.escape($xpath.combine($_tag, "$field")))
+		#if($function.isNotNullAndNotEmpty($fieldValue))
+			#foreach($w in $frbr.flatWorkIDs)			
+				#set($cluster_uri = "#uri_literal('Work' ${w.id})")
+				#threeValue($cluster_uri $fieldValue $type $kind $predicate $label1 $label2 $secondValue)	
+				
+			#end
+		#end
+	#end
+#end
 
-
-
-
-
+#macro(setAuthorizedAccessPoint $root $cluster_uri $title)
+	#set($_700 = $xpath.one("datafield[@tag='700']", $root))
+	#if($function.isNotNullAndNotEmpty($_700))
+		#set($_v700 = $xpath.combine($_700, "abcdfg"))
+	#end
+    #set($_701s = $xpath.many("datafield[@tag='701']", $root))
+	#foreach($_701 in $_701s)
+		#if($function.isNotNullAndNotEmpty($_701)) 
+			#set($_v701 = $xpath.combine($_701, "abcdfg"))
+		#end
+	#end
+    #set($_710 = $xpath.one("datafield[@tag='710']", $root))
+	#if($function.isNotNullAndNotEmpty($_710)) 
+		#set($_v710 = $xpath.combine($_710, "abe"))	
+	#end
+    #set($_711s = $xpath.many("datafield[@tag='711']", $root))
+	#foreach($_711 in $_711s)
+		#if($function.isNotNullAndNotEmpty($_711)) 
+			#set($_v711 = $xpath.combine($_711, "abe"))
+		#end
+	#end
+    #set($_720 = $xpath.many("datafield[@tag='720']", $root))
+	#if($function.isNotNullAndNotEmpty($_720)) 
+		#set($_v720 = $xpath.combine($_720, "a"))	
+	#end
+    #set($_721s = $xpath.many("datafield[@tag='721']", $root))
+	#foreach($_721 in $_721s)
+		#if($function.isNotNullAndNotEmpty($_721)) 
+			#set($_v721 = $xpath.combine($_721, "a"))
+		#end
+	#end
+	
+     
+	
+	## setto il primo addendo della somma del mapping
+          
+	#if($function.isNotNullAndNotEmpty($_v700)) 
+		#set($firstAddend = $_v700)
+	#elseif($function.isNotNullAndNotEmpty($_v701))	
+		#set($firstAddend = $_v701)
+	#elseif($function.isNotNullAndNotEmpty($_v710))
+		#set($firstAddend = $_v710)
+	#elseif( $function.isNotNullAndNotEmpty($_v711))
+		#set($firstAddend = $_v711)
+	#elseif( $function.isNotNullAndNotEmpty($_v720))
+		#set($firstAddend = $_v720)
+	#else
+		#set($firstAddend = $_v721)		
+	#end	
+	
+	$cluster_uri $authorizedAccessPoint "$firstAddend. $title" .
+#end
+	
 
 #set($manifestation_s = "#uri('Instance' $frbr.manifestationID)") 
-#set($is_a = "a")
+#set($is_a = "#rdf('type')")
 #set($work_c = "#bf('Work')") 
 #set($local = "#bf('local')")
 #set($identifier_c = "#bf('Identifier')")
@@ -174,13 +244,13 @@
 				#set($work_uri = "#uri_literal('Work' $work_id)")
 				$work_uri #bf('creator') $cluster_uri . 
 			#end 
-			#foreach($cluster_entry in $cluster.entries)
+			#foreach($cluster_entry in $cluster.entries)				
 				#if($cluster_entry.preferred)
 					#set($text = $function.escape($cluster_entry.heading))
-					$cluster_uri $label $text . 
+					$cluster_uri $label "$text" . 
 					$cluster_uri $authorizedAccessPoint "$text" . 
 				#elseif ($cluster_entry.viafId)
-					$cluster_uri <http://www.w3.org/2002/07/owl#sameAs> <http://viaf.org/viaf/${cluster_entry.viafId}> . 
+					$cluster_uri <http://www.w3.org/2002/07/owl#sameAs> <${cluster_entry.viafId}> . 
 				#else
 					$cluster_uri $label "$function.escape($cluster_entry.heading)" . 
 				#end 	
@@ -206,6 +276,7 @@
 			#foreach($cluster_entry in $cluster.entries)
 				#if($cluster_entry.preferred)
 					#threeValue($cluster_uri $cluster_entry.heading "workTitle" $title_c $workTitle $titleValue $titleType "Preferred Title" $subtitle "") 
+					#setAuthorizedAccessPoint($root $cluster_uri $cluster_entry.heading)
 				#elseif ($cluster_entry.viafId)
 					$cluster_uri <http://www.w3.org/2002/07/owl#sameAs> <http://viaf.org/viaf/${cluster_entry.viafId}> . 
 				#else
@@ -222,7 +293,8 @@
 		$s1 $identifierScheme <http://share-cat/identifiers/works/Local> .
 		$s1 $identifierValue "$cluster.id" .
 		$cluster_uri $local $s1 .
-		
+		##
+		## TO DO! CONTROLLARE CJE $_TAG SIA NOT NULL E NOT EMPTY
 		#set($v = $xpath.combine($tag, "k"))
 		#if($function.isNotNullAndNotEmpty($v)) 
 			#set($text = $function.escape($v))
@@ -239,22 +311,20 @@
 	#end 			
 #end  
 ##
-#set($_501s = $xpath.many("datafield[@tag='501']",$root))
-#foreach($_501 in $_501s)
-	#set($value_501 = $function.escape($xpath.combine($_501, "a")))
-	#if($function.isNotNullAndNotEmpty($value_501))		
-    	#foreach($w in $frbr.flatWorkIDs.id)			
-    		#set($cluster_uri = "#uri_literal('Work' $w)") 
-			#threeValue($cluster_uri $value_501 "workTitle" $title_c $workTitle $titleValue $titleType "collective title" $subtitle "") 
-    	#end 
-	#end	
-#end
+## FOR ALL WORKS
+
+#setAllWorks($root "501" "a" "workTitle" $title_c $workTitle $titleValue $titleType "collective title")
 ##
+#oneSetAllWorks($root "328" "a" $dissertationNote)
+##
+#oneSetAllWorks($root "607" "a" $geographicCoverageNote)
+##
+
 
 ## INSTANCE OR WORK
 ##se di opera ne ho solo una:
 #if($frbr.flatWorkIDs.size() == 1)	
-	#set($s = $frbr.flatWorkIDs.iterator().next().id)		
+	#set($s = "#uri_literal('Work' ${frbr.flatWorkIDs.iterator().next().id})")	
 	#set($p = $workTitle)
 	#set($k = "workTitle")
 #else
