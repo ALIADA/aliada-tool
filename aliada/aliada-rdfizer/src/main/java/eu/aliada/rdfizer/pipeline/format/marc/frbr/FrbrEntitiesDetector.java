@@ -205,7 +205,7 @@ public class FrbrEntitiesDetector implements Processor {
 			builder.append(document.getManifestationID());
 			builder.append("\n---------------\n");			
 			builder.append("PERSONs \n");
-			document.getPersonURIs().forEach((k,v) -> {
+			document.getPersonIDs().forEach((k,v) -> {
 				builder.append("Source tag = ").append(k).append(" (").append(v.size()).append("):\n");
 				v.stream().forEach(cluster -> builder
 						.append("\t - ")

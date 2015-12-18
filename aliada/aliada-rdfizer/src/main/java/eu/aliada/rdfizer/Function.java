@@ -26,7 +26,7 @@ import eu.aliada.rdfizer.datasource.Cache;
 import eu.aliada.rdfizer.datasource.rdbms.JobInstance;
 import eu.aliada.rdfizer.pipeline.format.marc.frbr.cluster.Cluster;
 import eu.aliada.rdfizer.pipeline.format.marc.frbr.cluster.ClusterService;
-import eu.aliada.rdfizer.pipeline.format.xml.XPath;
+import eu.aliada.rdfizer.pipeline.format.xml.OXPath;
 import eu.aliada.rdfizer.pipeline.nlp.NERSingletonService;
 import eu.aliada.shared.ID;
 import eu.aliada.shared.Strings;
@@ -47,7 +47,7 @@ public class Function {
 	private RDFStoreDAO rdfStore = new RDFStoreDAO();
 	
 	@Autowired
-	private XPath xpath;
+	private OXPath xpath;
 	
 	@Autowired
 	private NERSingletonService ner;

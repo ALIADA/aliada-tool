@@ -188,7 +188,7 @@ public class ClusterService {
 						
 						cluster.addEntry(
 								new ClusterEntry(
-										rs.getString("ttl_hdg_id"), 
+										rs.getString("ttl_str_txt"), 
 										rs.getString("typ_ttl") == null,
 										rs.getString("ttl_hdg_id"),
 										rs.getString("viaf_id")));						

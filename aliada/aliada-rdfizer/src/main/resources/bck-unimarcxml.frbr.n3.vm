@@ -1,0 +1,574 @@
+#macro (bf $v)<http://bibframe.org/vocab/$v>#end 
+		
+				
+#macro(work_related $s $tag $subfield $record $type $kind $predicate) 
+	#set($tagValues = $xpath.dfs($tag,$subfield,$record))
+	#foreach($tagValue in $tagValues) 
+		#if($tagValue) 
+    		#set($text = $function.escape($function.clean($tagValue.textContent)))
+        	#set($s1 = "#uri_with_strong_normalization(${type} ${text})")
+        	$s1 $is_a $kind .         			
+        	$s1 $label "$text" . 
+        	$s $predicate $s1 . 
+		#end	
+	#end	
+#end	
+
+				
+#macro(oneValue $s $firstValue $type $kind $predicate $label1) 	
+	#if($function.isNotNullAndNotEmpty($firstValue)) 		
+		#set($text = $function.escape($firstValue))
+    	#set($s1 = "#uri_with_strong_normalization(${type} ${text})")
+    	$s1 $is_a $kind .         			
+    	$s1 $label1 "$text" . 
+    	$s $predicate $s1 . 			
+	#end	
+#end
+
+
+#macro(twoValue $s $firstValue $type $kind $predicate $label1 $label2 $secondValue) 
+		#set($firstText = $function.escape($firstValue))
+		#set($secondText = $function.escape($secondValue))
+    	#set($s1 = "#uri_with_strong_normalization(${type} ${firstText})")
+    	$s1 $is_a $kind . 
+		#if($function.isNotNullAndNotEmpty($firstValue)) 
+			$s1 $label1 "$firstText" . 
+		#end
+		#if($function.isNotNullAndNotEmpty($secondValue)) 
+			$s1 $label2 "$secondText" . 
+		#end
+    	$s $predicate $s1 . 	
+#end	
+
+
+#macro(threeValue $s $firstValue $type $kind $predicate $label1 $label2 $secondValue $label3 $thirdValue) 
+		#set($firstText = $function.escape($firstValue))
+		#set($secondText = $function.escape($secondValue))
+		#set($thirdText = $function.escape($thirdValue))
+    	#set($s1 = "#uri_with_strong_normalization(${type} ${firstText})")
+    	$s1 $is_a $kind . 
+		#if($function.isNotNullAndNotEmpty($firstValue)) 
+			$s1 $label1 "$firstText" . 
+		#end
+		#if($function.isNotNullAndNotEmpty($secondValue)) 
+			$s1 $label2 "$secondText" . 
+		#end
+		#if($function.isNotNullAndNotEmpty($thirdValue)) 
+			$s1 $label3 "$thirdText" . 
+		#end
+    	$s $predicate $s1 . 	
+#end	
+
+		
+	
+#set($work_s ="#uri('Work' $frbr.workID)") ##<http://share-cate.it/resources/works/26265>   
+#set($manifestation_s = "#uri('Istance' $frbr.instanceID)") 
+#set($local_s = "#uri('Local' $frbr.workID)") ## <http://share-cat/identifiers/works/Local>
+#set($is_a = "a")
+#set($work_c = "#bf('Work')") 
+#set($local = "#bf('local')")
+#set($identifier_c = "#bf('Identifier')")
+#set($identifierAssigner = "#bf('identifierAssigner')")
+#set($identifierScheme = "#bf('identifierScheme')")
+#set($identifierValue = "#bf('identifierValue')")
+#set($authorizedAccessPoint = "#bf('authorizedAccessPoint')")
+#set($contentCategory = "#bf('contentCategory')")
+#set($category_c = "#bf('Category')")
+#set($categoryType = "#bf('categoryType')")
+#set($categoryValue = "#bf('categoryValue')")
+#set($workTitle = "#bf('workTitle')") 
+#set($title_c = "#bf('Title')") 
+#set($titleValue = "#bf('titleValue')")
+#set($titleType = "#bf('titleType')")
+#set($subtitle = "#bf('subtitle')")
+#set($originPlace = "#bf('originPlace')")
+#set($place_c = "#bf('Place')")
+#set($originDate = "#bf('originDate')")
+#set($identifierQualifier = "#bf('identifierQualifier')")
+#set($isan = "#bf('isan')")
+#set($issnL = "#bf('issnL')")
+#set($istc = "#bf('istc')")
+#set($iswc = "#bf('iswc')")
+#set($dissertationNote = "#bf('dissertationNote')")
+#set($geographicCoverageNote = "#bf('geographicCoverageNote')")
+#set($dissertationIdentifier = "#bf('dissertationIdentifier')")
+#set($classification = "#bf('classification')")
+#set($classification_c = "#bf('Classification')")
+#set($classificationNumber = "#bf('classificationNumber')")
+#set($classificationDdc = "#bf('classificationDdc')")
+#set($classificationEdition = "#bf('classificationEdition')")
+#set($classificationScheme = "#bf('classificationScheme')")
+#set($label = "#bf('label')")
+#set($classificationLcc = "#bf('classificationLcc')")
+#set($classificationUdc = "#bf('classificationUdc')")
+#set($classificationNlm = "#bf('classificationUdc')")
+#set($relatedWork = "#bf('relatedWork')")
+#set($series = "#bf('series')")
+#set($subseries = "#bf('subseries')")
+#set($subseriesOf = "#bf('subseriesOf')")
+#set($supplement = "#bf('supplement')")
+#set($supplementTo = "#bf('supplementTo')")
+#set($translation = "#bf('translation')")
+#set($translationOf = "#bf('translationOf')")
+#set($otherEdition = "#bf('otherEdition')")
+#set($absorbedInPart = "#bf('absorbedInPart')")
+#set($separatedFrom = "#bf('separatedFrom')")
+#set($supersedes = "#bf('supersedes')")
+#set($supersedesInPart = "#bf('supersedesInPart')")
+#set($unionOf = "#bf('unionOf')")
+#set($continues = "#bf('continues')")
+#set($continuesInPart = "#bf('continuesInPart')")
+#set($absorbed = "#bf('absorbed')")
+#set($absorbedBy = "#bf('absorbedBy')")
+#set($continuedBy = "#bf('continuedBy')")
+#set($continuedInPartBy = "#bf('continuedInPartBy')")
+#set($absorbedInPartBy = "#bf('absorbedInPartBy')")
+#set($mergedToForm = "#bf('mergedToForm')")
+#set($splitInto = "#bf('splitInto')")
+#set($supersededBy = "#bf('supersededBy')")
+#set($supersededInPartBy = "#bf('supersededInPartBy')")
+
+
+
+
+
+
+#set($works = $frbr.workIDs)
+#if($works && !$works.isEmpty())
+	#foreach($entry in $works.entrySet()) 
+		#set($tagName = $entry.getKey())
+		#set($clusters = $entry.getValue())
+		## Seleziono tutti i tag che mi interessano
+		#set($tags = $xpath.many("datafield[@tag='${tagName}']", $root))
+		#foreach($cluster in $clusters)
+			#set($index = $velocityCount - 1)
+			#set($tag = $tags.get($index))
+			#set($cluster_uri = "#uri_literal('Work' $cluster.id)")
+			#if(!$function.titleClusterHasBeenAlreadyProcessed($cluster))
+							
+				## authorizedAccesssPoint
+                
+                ## equivale alla preferred form del cluster
+				
+				## mapping: 7xx+500 OR 7xx+454 OR 7xx+996	
+                
+                #set($_500 = $xpath.one("datafield[@tag='500']", $root))
+                #set($_v500 = $xpath.combine($_500, "ahijklmnqrsuw9"))
+                #set($_700 = $xpath.one("datafield[@tag='700']", $root))
+                #set($_v700 = $xpath.combine($_700, "abcdfg"))
+                #set($_701 = $xpath.one("datafield[@tag='701']", $root))
+                #set($_v701 = $xpath.combine($_701, "abcdfg"))
+                #set($_710 = $xpath.one("datafield[@tag='710']", $root))
+                #set($_v710 = $xpath.combine($_710, "abe"))
+                #set($_711 = $xpath.one("datafield[@tag='711']", $root))
+                #set($_v711 = $xpath.combine($_711, "abe"))
+                #set($_720 = $xpath.one("datafield[@tag='720']", $root))
+                #set($_v720 = $xpath.combine($_720, "a"))
+                #set($_721 = $xpath.one("datafield[@tag='721']", $root))
+                #set($_v721 = $xpath.combine($_721, "a"))
+                #set($_200 = $xpath.one("datafield[@tag='200']", $root))
+                #set($_v200 = $xpath.combine($_200, "ahi"))
+				#set($_454 = $xpath.one("datafiel[@tag='454']", $root))
+				#set($_v454 = $xpath.combine($_454, "ahitu9"))			
+				#set($_996 = $xpath.one("datafiel[@tag='996']", $root))
+				#set($_996 = $xpath.combine($_996, "a9"))
+								
+				
+				## setto il primo addendo della somma del mapping
+          
+            	#if($function.isNotNullAndNotEmpty($_v700)) 
+            		#set($firstAddend = $_v700)
+            	#elseif($function.isNotNullAndNotEmpty($_v701))	
+            		#set($firstAddend = $_v701)
+            	#elseif($function.isNotNullAndNotEmpty($_v710))
+            		#set($firstAddend = $_v710)
+            	#elseif( $function.isNotNullAndNotEmpty($_v711))
+            		#set($firstAddend = $_v711)
+            	#elseif( $function.isNotNullAndNotEmpty($_v720))
+            		#set($firstAddend = $_v720)
+            	#else
+            		#set($firstAddend = $_v721)		
+            	#end	
+				
+				## setto il secondo addendo della somma del mapping
+				
+				#if($function.isNotNullAndNotEmpty($_v500)) 
+					#set($secondAddend = $_v500)
+				#elseif($function.isNotNullAndNotEmpty($_v454))
+					#set($secondAddend = $_v454)					
+					## se $a presente non considerare il 7xx
+					#set($_454OnlyA = $xpath.combine($_454, "a"))			
+					#if($function.isNotNullAndNotEmpty($_454OnlyA))
+						#set($firstAddend = "") ## verificare se è possibile assegnare blank ad una variabile assegnata precedentemente
+					#end	
+					
+				#elseif($function.isNotNullAndNotEmpty($_v996))
+					#set($secondAddend = $_v996)
+				#else
+					#set($secondAddend = $_v200)
+				#end            		              
+                
+                $cluster_uri $authorizedAccessPoint "$firstAddend $secondAddend" .
+                
+                ## end authorizedAccessPoint
+                				
+                	
+				
+                ## titoli
+				##probabilmente errato, perché non posso attribuire allo stesso cluster titoli diversi(e non si tratta di forme alternativi del titolo)
+				## infatti ogni cluster dovrebbe corrispondere ad una e una sola opera
+				## devo prendere solo il primo?
+				#if($tagName == "500")
+					#set($expression = "ahijklmnqrsuw")
+				#elseif	($tagName == "454")
+					#set($expression = "ahijklmnqrsuw")
+				#elseif ($tagName == "996")
+					#set($expression = "ahijklmnqrsuw")
+				#end
+				
+				#if($expression)
+					#set($v = $xpath.combine($tag, $expression))
+    				#oneValue($cluster_uri $v "workTitle" $title_c $workTitle $titleValue) 
+				#end
+				
+				#set($_200s = $xpath.many("datafield[@tag='200']",$root))
+				#foreach($_200 in $_200s)
+					#set($v = $xpath.combine($_200, "ahi"))
+					#oneValue($cluster_uri $v "workTitle" $title_c $workTitle $titleValue) 
+				#end
+				
+				#set($_501s = $xpath.many("datafield[@tag='501']",$root))
+				#foreach($_501 in $_501s)
+					#set($v = $xpath.combine($_501, "a"))
+					#oneValue($cluster_uri $v "workTitle" $title_c $workTitle $titleValue) 
+				#end
+				
+				#set($_503s = $xpath.many("datafield[@tag='503']",$root))
+				#foreach($_503 in $_503s)
+					#set($v = $xpath.combine($_503, "a"))
+					#oneValue($cluster_uri $v "workTitle" $title_c $workTitle $titleValue) 
+				#end
+				
+				#set($_530s = $xpath.many("datafield[@tag='530']",$root))
+				#foreach($_530 in $_530s)
+					#set($v = $xpath.combine($_530, "a"))
+					#oneValue($cluster_uri $v "workTitle" $title_c $workTitle $titleValue) 
+				#end
+				
+				#set($_531s = $xpath.many("datafield[@tag='531']",$root))
+				#foreach($_531 in $_531s)
+					#set($v = $xpath.combine($_531, "a"))
+					#oneValue($cluster_uri $v "workTitle" $title_c $workTitle $titleValue) 
+				#end
+				
+				
+				
+				## Qui è necessario convertire il cluster 
+				$function.markTitleClusterAsProcessed($cluster)
+			#end
+			## Qui bisogna convertire i dati locali del tag 
+											
+			$cluster_uri $is_a #bf('Work');
+						
+			##local								
+			#set($text = $function.escape($function.clean($cluster.id)))
+			#set($s1 = "#uri_with_strong_normalization(${local} ${text})")
+			$s1 $is_a $indentifier_c .
+			$s1 $identifierAssigner "share-cat" .
+			$s1 $identifierScheme <http://share-cat/identifiers/works/Local> .
+			$s1 $identifierValue "$cluster.id" .
+			$cluster.id $local $s1 .
+			
+			## origin date	
+			#set($_500s = $xpath.many("datafield[@tag='500']",$root))
+            #foreach($_500 in $_500s)
+                #set($v = $xpath.combine($_500, "k"))
+                	
+                ##origin date                	
+                #if($function.isNumber($v))
+					set($text = $function.escape($v))
+                	$cluster_uri $originDate "$text" .
+				#end
+			#end
+				
+            ##contentCategory
+            #set($s1 = "#uri_with_strong_normalization(${contentCategory} ${text})")				
+            $s1 $is_a $category_c .
+            $s1 $categoryType "content category" .
+            $s1 $categoryValue "Text" .
+            $cluster.id $contentCategory $s1 .
+            
+               
+            ## other title
+            
+            #set($_510s = $xpath.many("datafield[@tag='510']",$root))
+            #foreach($_510 in $_510s)
+            	#set($v = $xpath.combine($_510, "a"))	
+            	#set($z = $xpath.combine($_510, "e"))
+            	#threeValue($cluster_uri $v "workTitle" $title_c $workTitle $titleValue $titleType "other title" $subtitle $z) 
+            #end
+            #set($_512s = $xpath.many("datafield[@tag='512']",$root))
+            #foreach($_512 in $_512s)
+            	#set($v = $xpath.combine($_512, "a"))	
+            	#set($z = $xpath.combine($_512, "e"))
+            	#threeValue($cluster_uri $v "workTitle" $title_c $workTitle $titleValue $titleType "other title" $subtitle $z) 
+            #end
+            #set($_513s = $xpath.many("datafield[@tag='513']",$root))
+            #foreach($_513 in $_513s)
+            	#set($v = $xpath.combine($_513, "a"))
+            	#set($z = $xpath.combine($_513, "e"))
+            	#threeValue($cluster_uri $v "workTitle" $title_c $workTitle $titleValue $titleType "other title" $subtitle $z) 
+            #end
+            #set($_514s = $xpath.many("datafield[@tag='514']",$root))
+            #foreach($_514 in $_514s)
+            	#set($v = $xpath.combine($_514, "a"))
+            	#set($z = $xpath.combine($_514, "e"))
+            	#threeValue($cluster_uri $v "workTitle" $title_c $workTitle $titleValue $titleType "other title" $subtitle $z) 
+            #end
+            #set($_515s = $xpath.many("datafield[@tag='515']",$root))
+            #foreach($_515 in $_515s)
+            	#set($v = $xpath.combine($_515, "a"))		
+            	#twoValue($cluster_uri $v "workTitle" $title_c $workTitle $titleValue $titleType "other title") 
+            #end
+            #set($_516s = $xpath.many("datafield[@tag='516']",$root))
+            #foreach($_516 in $_516s)
+            	#set($v = $xpath.combine($_516, "a"))	
+            	#set($z = $xpath.combine($_516, "e"))
+            	#threeValue($cluster_uri $v "workTitle" $title_c $workTitle $titleValue $titleType "other title" $subtitle $z) 
+            #end
+            #set($_517s = $xpath.many("datafield[@tag='517']",$root))
+            #foreach($_517 in $_517s)
+            	#set($v = $xpath.combine($_517, "a"))
+            	#set($z = $xpath.combine($_517, "e"))
+            	#threeValue($cluster_uri $v "workTitle" $title_c $workTitle $titleValue $titleType "other title" $subtitle $z) 
+            #end
+            #set($_520s = $xpath.many("datafield[@tag='520']",$root))
+            #foreach($_520 in $_520s)
+            	#set($v = $xpath.combine($_520, "a"))	
+            	#set($z = $xpath.combine($_520, "e"))
+            	#threeValue($cluster_uri $v "workTitle" $title_c $workTitle $titleValue $titleType "other title" $subtitle $z) 
+            #end
+            #set($_541s = $xpath.many("datafield[@tag='541']",$root))
+            #foreach($_541 in $_541s)
+            	#set($v = $xpath.combine($_541, "a"))	
+            	#set($z = $xpath.combine($_541, "e"))
+            	#threeValue($cluster_uri $v "workTitle" $title_c $workTitle $titleValue $titleType "other title" $subtitle $z) 
+            #end
+                                                     
+           
+                                
+            ## isan  
+            #set($_012s = $xpath.many("datafield[@tag='012']",$root))
+            #foreach($_012 in $_012s)
+                #set($v = $xpath.combine($_012, "a"))	
+            	#set($text = $function.escape($v))
+				#set($z = $xpath.combine($_012, "5"))				
+            	#set($text2 = $function.escape($z))
+            	#set($s1 = "#uri_with_strong_normalization(${isan} ${text})")                		
+                $s1 $is_a $identifier_c .    
+                $s1 $identifierValue "$text" .
+				$s1 $identifierAssigner "$text2" .
+                $cluster_uri $isan $s1 .
+            #end
+            
+            ## iswc  
+            #set($_012s = $xpath.many("datafield[@tag='012']",$root))
+            #foreach($_012 in $_012s)
+                #set($v = $xpath.combine($_012, "a"))	
+            	#set($text = $function.escape($v))
+				#set($z = $xpath.combine($_012, "5"))				
+            	#set($text2 = $function.escape($z))
+            	#set($s1 = "#uri_with_strong_normalization(${isan} ${text})")                		
+                $s1 $is_a $identifier_c .    
+                $s1 $identifierValue "$text" .
+				$s1 $identifierAssigner "$text2" .
+                $cluster_uri $iswc $s1 .
+			#end
+			
+			## istc
+			#set($_012s = $xpath.many("datafield[@tag='012']",$root))
+            #foreach($_012 in $_012s)
+                #set($v = $xpath.combine($_012, "5"))				
+            	#set($text = $function.escape($v))
+				#set($z = $xpath.combine($_012, "5"))				
+            	#set($text2 = $function.escape($z))
+            	#set($s1 = "#uri_with_strong_normalization(${isan} ${text})")                		
+                $s1 $is_a $identifier_c .    
+                $s1 $identifierValue "$text" .
+				$s1 $identifierAssigner "$text2" .
+                $cluster_uri $istc $s1 .
+            #end
+                          
+                
+			## isnl
+            #set($_011s = $xpath.many("datafield[@tag='011']",$root))
+            #foreach($_011 in $_011s)
+            	#set($v = $xpath.combine($_011, "a"))	
+            	#set($text = $function.escape($v))
+            	#set($s1 = "#uri_with_strong_normalization(${issnL} ${text})")                		
+            	$s1 $is_a $identifier_c .
+            	$s1 $identifierScheme <http://id.loc.gov/vocabulary/identifiers/issnL> .
+            	$s1 $identifierValue "$text" .
+            	$cluster_uri $issnL $s1 .
+                		
+            #end  
+            
+               
+                				
+            ##dissertationNote                
+            #set($_328s = $xpath.many("datafield[@tag='328']", $root))
+            #foreach($_328s in $_328s)
+                #set($v = $xpath.combine($_328, "a"))
+            	#set($text = $function.escape($v))						              		
+                $cluster_uri $disserationNote "$text" .
+            #end
+                      		
+                				
+            #set($_607s = $xpath.many("datafield[@tag='607']",$root))
+            #foreach($_607 in $_607s)
+            	#set($v = $xpath.combine($_607, "a"))	
+            	#set($text = $function.escape($v))
+            	$cluster_uri $geographicCoverageNote "$text" .
+            #end
+            
+            
+           
+            
+            ## classificationDdc                
+            ##molti campi non sono finalizzati
+                
+            #set($_676s = $xpath.many("datafield[@tag='676']", $root))
+            #foreach($_676s in $_676s)
+            	#set($v = $xpath.combine($_676, "a"))	
+                #set($text = $function.escape($v))
+            	#set($s1 = "#uri_with_strong_normalization(${classification} ${text})")                			
+                $s1 $is_a $classification_c .
+                $s1 $classificationScheme <http://id.loc.gov/authorities/classSchemes/ddc> .
+                $s1 $label "$text" .
+                $cluster_uri $classification $s1 .
+            #end
+                                  				
+            ## classificationLcc
+                
+            #set($_680s = $xpath.many("datafield[@tag='680']", $root))
+            #foreach($_680s in $_680s)
+            	#set($v = $xpath.combine($_680, "a"))        
+            	#set($text = $function.escape($v))
+            	#set($s1 = "#uri_with_strong_normalization(${classificationLcc} ${text})")
+            	$cluster_uri $classificationLcc <http://id.loc.gov/authorities/classification/"$text"> .
+            #end
+                				
+                				
+            ## classificationUdc
+            #set($_675s = $xpath.many("datafield[@tag='675']", $root))
+            #foreach($_675s in $_675s)
+            	#set($v = $xpath.combine($_675, "a"))
+            	#set($text = $function.escape($v))
+            	#set($s1 = "#uri_with_strong_normalization(${classificationUdc} ${text})")
+            	$s1 $is_a $classification_c .
+            	$s1 $classificationNumber "$text" .
+                $s1 $classificationScheme "classificationUdc" .
+                $cluster_uri $classificationUdc $s1 .
+            #end
+                				
+                				
+            ## classificationNlm    
+            #set($_686s = $xpath.many("datafield[@tag='686']", $root))
+            #foreach($_686s in $_686s)
+            	#set($v = $xpath.combine($_686, "a"))
+            	#set($text = $function.escape($v))
+            	#set($s1 = "#uri_with_strong_normalization(${classificationNlm} ${text})")                		
+                $cluster_uri $classificationNlm <http://nlm.example.org/classification/"$text"> .
+            #end			
+                				
+            ##relatedWork       
+            #work_related($cluster_uri "455" "t" $root "relatedWork" $work_c $relatedWork)
+            #work_related($cluster_uri "456" "t" $root "relatedWork" $work_c $relatedWork)
+            #work_related($cluster_uri "470" "t" $root "relatedWork" $work_c $relatedWork)
+            #work_related($cluster_uri "488" "t" $root "relatedWork" $work_c $relatedWork)				
+                                		
+            ##series
+            #work_related($cluster_uri "255" "ahi" $root "series" $work_c $series)							
+                				
+            ##subseries
+            #work_related($cluster_uri "411" "t" $root "subseries" $work_c $subseries)
+                
+            ##subseriesOf
+            #work_related($cluster_uri "410" "t" $root "subseriesOf" $work_c $subseriesOf)                
+                
+            ##supplement
+            #work_related($cluster_uri "421" "t" $root "supplement" $work_c $supplement)                
+                
+            ##supplementTo
+            #work_related($cluster_uri "422" "t" $root "supplementTo" $work_c $supplementTo)                
+                
+            ##translation
+            #work_related($cluster_uri "453" "t" $root "translation" $work_c $translation)
+                
+            ##translationOf
+            #work_related($cluster_uri "454" "t" $root "translationOf" $work_c $translationOf)
+                
+            ##otherEdition
+            #work_related($cluster_uri "451" "t" $root "otherEdition" $work_c $otherEdition)                 
+                
+            ##absorbedInPart
+            #work_related($cluster_uri "435" "t" $root "absorbedInPart" $work_c $absorbedInPart)
+                                
+            ##separetedFrom
+            #work_related($cluster_uri "437" "t" $root "separatedFrom" $work_c $separatedFrom)
+                
+            ##supersedes
+            #work_related($cluster_uri "432" "t" $root "supersedes" $work_c $supersedes)                
+                
+            ##supersedesInPart
+            #work_related($cluster_uri "433" "t" $root "supersedesInPart" $work_c $supersedesInPart)
+                
+            ##unionOf
+            #work_related($cluster_uri "436" "t" $root "unionOf" $work_c $unionOf)
+                
+            ##continues
+            #work_related($cluster_uri "430" "t" $root "continues" $work_c $continues)
+                
+            ##continuesInPart
+            #work_related($cluster_uri "431" "t" $root "continuesInPart" $work_c $continuesInPart)
+                
+            ##absorbed
+            #work_related($cluster_uri "434" "t" $root "absorbed" $work_c $absorbed)
+                
+            ##absorbedBy
+            #work_related($cluster_uri "444" "t" $root "absorbedBy" $work_c $absorbedBy)
+                
+            ##continuedBy
+            #work_related($cluster_uri "440" "t" $root "continuedBy" $work_c $continuedBy)               
+            #work_related($cluster_uri "448" "t" $root "continuedBy" $work_c $continuedBy)               
+            	
+            ##continuedInPartBy
+            #work_related($cluster_uri "441" "t" $root "continuedInPartBy" $work_c $continuedInPartBy)               
+                
+            ##absorbedInPartBy                
+            #work_related($cluster_uri "445" "t" $root "absorbedInPartBy" $work_c $absorbedInPartBy)
+                
+            ##mergedToForm
+            #work_related($cluster_uri "447" "t" $root "mergedToForm" $work_c $mergedToForm)
+                
+            ##splitInto               
+            #work_related($cluster_uri "446" "t" $root "splitInto" $work_c $splitInto)                
+                
+            ##supersededBy
+            #work_related($cluster_uri "442" "t" $root "supersededBy" $work_c $supersededBy)                
+                
+            ##supersededInPartBy
+            #work_related($cluster_uri "443" "t" $root "supersededInPartBy" $work_c $supersededInPartBy)		
+
+
+
+		#end 	
+	#end 	
+#end	
+
+
+
+
+
+
+

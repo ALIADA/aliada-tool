@@ -9,6 +9,8 @@ import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.w3c.dom.Document;
 
@@ -31,6 +33,7 @@ public final class FrbrDocument implements Serializable {
 	
 	private final Document document;
 	private final Map<String, List<Cluster>> worksIDs;
+	private final Set<Cluster> flatWorksIDs;
 	private final List<FrbrExpression> expressionIDs;
 	private final String manifestationID;
 	private final Map<String, List<Cluster>> personIDs;
@@ -68,6 +71,7 @@ public final class FrbrDocument implements Serializable {
 			final Map<String, List<String>> placeIDs) {
 		this.document = document;
 		this.worksIDs = workIDs == null || workIDs.isEmpty() ? CLUSTER_NULL_OBJECT : workIDs;
+		this.flatWorksIDs = worksIDs.values().stream().flatMap(c -> c.stream()).collect(Collectors.toSet());
 		this.expressionIDs = expressionIDs == null || expressionIDs.isEmpty() ? EXPRESSIONS_NULL_OBJECT : expressionIDs;
 		this.manifestationID = manifestationID;
 		this.personIDs = personIDs == null || personIDs.isEmpty() ? CLUSTER_NULL_OBJECT : personIDs;
@@ -95,6 +99,10 @@ public final class FrbrDocument implements Serializable {
 	 */
 	public Map<String, List<Cluster>> getWorkIDs() {
 		return worksIDs;
+	}
+	
+	public Set<Cluster> flatWorkIDs() {
+		return flatWorksIDs;
 	}
 	
 	/**
@@ -130,14 +138,17 @@ public final class FrbrDocument implements Serializable {
 	 * @return true if the detected FRBR structure can be considered valid, otherwise false.
 	 */
 	public boolean isValid() {
-		return worksIDs != null && expressionIDs != null && manifestationID != null && document != null;
+		return !flatWorksIDs.isEmpty() 
+//				&& expressionIDs != null 
+				&& manifestationID != null 
+				&& document != null;
 	}
 	
 	/**
 	 * Return a map with tag as key and a List of String which represent the URIs.
 	 * @return the personURI
 	 */
-	public  Map<String, List<Cluster>> getPersonURIs() {
+	public  Map<String, List<Cluster>> getPersonIDs() {
 		return personIDs;
 	}
 
@@ -145,7 +156,7 @@ public final class FrbrDocument implements Serializable {
 	 * Return a map with tag as key and a List of String which represent the URIs.
 	 * @return the familyURI
 	 */
-	public  Map<String, List<Cluster>> getFamilyURIs() {
+	public  Map<String, List<Cluster>> getFamilyIDs() {
 		return familyIDs;
 	}
 
