@@ -371,9 +371,9 @@
 #end
 
 #setTitle($root $s "503" "a" "e" $k $title_c $p $titleValue $titleType "Preferred Conventional Heading" $subtitle)
-#setTitle($root $s "510" "a" "e" $k $title_c $p $titleValue $titleType "Parallel Title" $subtitle)
 
 ## INSTANCE
+#setTitle($root $manifestation_s "510" "a" "e" "instanceTitle" $title_c $instanceTitle $titleValue $titleType "Parallel Title Proper" $subtitle)
 #setTitle($root $manifestation_s "511" "a" "e" "instanceTitle" $title_c $instanceTitle $titleValue $titleType "Half Title" $subtitle)
 #setTitle($root $manifestation_s "512" "a" "e" "instanceTitle" $title_c $instanceTitle $titleValue $titleType "Cover Title" $subtitle)
 #setTitle($root $manifestation_s "513" "a" "e" "instanceTitle" $title_c $instanceTitle $titleValue $titleType "Added Title-Page Title" $subtitle)
