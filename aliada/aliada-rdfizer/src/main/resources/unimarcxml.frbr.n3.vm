@@ -1,6 +1,6 @@
 #macro (bf $v)<http://bibframe.org/vocab/$v>#end 
 		
-				
+## per mappare le opere collegata (es. supersedes, serie, relatedTo, ecc.)			
 #macro(work_related $s $tag $subfield $record $type $kind $predicate) 
 	#set($tagValues = $xpath.dfs($tag,$subfield,$record))
 	#foreach($tagValue in $tagValues) 
@@ -14,7 +14,8 @@
 	#end	
 #end	
 
-				
+
+##mappa la relazione tra un nodo ed una tripla complessa, contenent un attributo
 #macro(oneValue $s $firstValue $type $kind $predicate $label1) 	
 	#if($function.isNotNullAndNotEmpty($firstValue)) 		
 		#set($text = $function.escape($firstValue))
@@ -25,7 +26,7 @@
 	#end	
 #end
 
-
+##mappa la relazione tra un nodo ed una tripla complessa, contenent due attributi
 #macro(twoValue $s $firstValue $type $kind $predicate $label1 $label2 $secondValue) 
 		#set($firstText = $function.escape($firstValue))
 		#set($secondText = $function.escape($secondValue))
@@ -41,7 +42,7 @@
 		
 #end	
 
-
+##mappa la relazione tra un nodo ed una tripla complessa, contenent tre attributi
 #macro(threeValue $s $firstValue $type $kind $predicate $label1 $label2 $secondValue $label3 $thirdValue) 
 		#set($firstText = $function.escape($firstValue))
 		#set($secondText = $function.escape($secondValue))
@@ -64,8 +65,6 @@
 
  
 ## #setTitle($s "510" "a" "e" "workTitle" $title_c $workTitle $titleValue $titleType "Preferred Conventional Heading" $subtitle)
-	
-
 #macro(setTitle $root $soggetto $tag $field1 $field2 $type $kind $predicate $label1 $label2 $secondValue $label3)
 	#set($_tags = $xpath.many("datafield[@tag='$tag']",$root))
 	#foreach($_tag in $_tags)
@@ -79,10 +78,10 @@
 	#end
 #end
 	
+
 #macro(oneSetAllWorks $root $tag $field $predicate)
 	#set($_tags = $xpath.many("datafield[@tag='$tag']",$root))
-	#foreach($_tag in $_tags)
-		## TO DO! CONTROLLARE CJE $_TAG SIA NOT NULL E NOT EMPTY
+	#foreach($_tag in $_tags)		
         #set($fieldValue = $function.escape($xpath.combine($_tag, "$field")))
 		#if($function.isNotNullAndNotEmpty($fieldValue))
 			#foreach($w in $frbr.flatWorkIDs)			
@@ -97,7 +96,6 @@
 #macro(setAllWorks $root $tag $field $type $kind $predicate $label1 $label2 $secondValue)
 	#set($_tags = $xpath.many("datafield[@tag='$tag']",$root))
 	#foreach($_tag in $_tags)
-		## TO DO! CONTROLLARE CJE $_TAG SIA NOT NULL E NOT EMPTY
         #set($fieldValue = $function.escape($xpath.combine($_tag, "$field")))
 		#if($function.isNotNullAndNotEmpty($fieldValue))
 			#foreach($w in $frbr.flatWorkIDs)			
@@ -110,38 +108,50 @@
 #end
 
 #macro(setAuthorizedAccessPoint $root $cluster_uri $title)
-	#set($_700 = $xpath.one("datafield[@tag='700']", $root))
-	#if($function.isNotNullAndNotEmpty($_700))
-		#set($_v700 = $xpath.combine($_700, "abcdfg"))
+	#set($_700s = $xpath.many("datafield[@tag='700']",$root))	
+	#foreach($_700 in $_700s)			
+		#set($_v700 = $function.escape($xpath.combine($_700, "abcdfg")))		
 	#end
-    #set($_701s = $xpath.many("datafield[@tag='701']", $root))
-	#foreach($_701 in $_701s)
-		#if($function.isNotNullAndNotEmpty($_701)) 
-			#set($_v701 = $xpath.combine($_701, "abcdfg"))
+    #set($_701s = $xpath.many("datafield[@tag='701']", $root))		
+	#set($_v701 = "")
+	#foreach($_701 in $_701s)		
+		#set($_v701temp = $function.escape($xpath.combine($_701, "abcdfg")))
+		##se sono al primo giro e non voglio avere troppi spazi all'inizio della stringa
+		#if(!$function.isNotNullAndNotEmpty($_v701))
+			#set($_v701 = "${_v701}${_v701temp}")
+		#else
+			#set($_v701 = "${_v701}  ${_v701temp}")
 		#end
 	#end
-    #set($_710 = $xpath.one("datafield[@tag='710']", $root))
-	#if($function.isNotNullAndNotEmpty($_710)) 
-		#set($_v710 = $xpath.combine($_710, "abe"))	
+    #set($_710s = $xpath.many("datafield[@tag='710']", $root))	
+	#foreach($_710 in $_710s)
+		#set($_v710 = $function.escape($xpath.combine($_710, "abe")))	
 	#end
     #set($_711s = $xpath.many("datafield[@tag='711']", $root))
-	#foreach($_711 in $_711s)
-		#if($function.isNotNullAndNotEmpty($_711)) 
-			#set($_v711 = $xpath.combine($_711, "abe"))
+	#set($_v711 = "")
+	#foreach($_711 in $_711s)		
+		#set($_v711temp = $function.escape($xpath.combine($_711, "abe")))	
+		#if(!$function.isNotNullAndNotEmpty($_v711))
+			#set($_v711 = "${_v711}${_v711temp}")
+		#else
+			#set($_v711 = "${_v711}  ${_v711temp}")
 		#end
 	#end
-    #set($_720 = $xpath.many("datafield[@tag='720']", $root))
-	#if($function.isNotNullAndNotEmpty($_720)) 
-		#set($_v720 = $xpath.combine($_720, "a"))	
+    #set($_720s = $xpath.many("datafield[@tag='720']", $root))
+	#foreach($_720 in $_720s)
+		#set($_v720 = $function.escape($xpath.combine($_720, "a")))	
 	#end
     #set($_721s = $xpath.many("datafield[@tag='721']", $root))
-	#foreach($_721 in $_721s)
-		#if($function.isNotNullAndNotEmpty($_721)) 
-			#set($_v721 = $xpath.combine($_721, "a"))
+	#set($_v721 = "")
+	#foreach($_721 in $_721s)		
+		#set($_v721temp = $function.escape($xpath.combine($_721, "a")))
+		#if(!$function.isNotNullAndNotEmpty($_v721))
+			#set($_v721 = "${_v721}${_v721temp}")
+		#else
+			#set($_v721 = "${_v721}  ${_v721temp}")
 		#end
 	#end
-	
-     
+	     
 	
 	## setto il primo addendo della somma del mapping
           
@@ -284,8 +294,7 @@
 				#end 	
 			#end	
 			$function.markTitleClusterAsProcessed($cluster)
-		#end
-					
+		#end					
 		#set($text = $function.escape($function.clean($cluster.id)))
 		#set($s1 = "#uri_with_strong_normalization('local' ${text})")
 		$s1 $is_a $identifier_c .
@@ -293,24 +302,24 @@
 		$s1 $identifierScheme <http://share-cat/identifiers/works/Local> .
 		$s1 $identifierValue "$cluster.id" .
 		$cluster_uri $local $s1 .
-		##
-		## TO DO! CONTROLLARE CJE $_TAG SIA NOT NULL E NOT EMPTY
+		 
+		##				
 		#set($v = $xpath.combine($tag, "k"))
 		#if($function.isNotNullAndNotEmpty($v)) 
 			#set($text = $function.escape($v))
 			$cluster_uri $originDate "$text" .
-		#end
-		
-        ##contentCategory
+			##
+		#end				
+        ##contentCategory		
         #set($s1 = "#uri_with_strong_normalization('contentCategory' ${text})")				
         $s1 $is_a $category_c .
         $s1 $categoryType "content category" .
         $s1 $categoryValue "Text" .
         $cluster_uri $contentCategory $s1 .
-
+		##
 	#end 			
 #end  
-##
+
 ## FOR ALL WORKS
 
 #setAllWorks($root "501" "a" "workTitle" $title_c $workTitle $titleValue $titleType "collective title")
