@@ -53,9 +53,15 @@
 			$s1 $label1 "$firstText" . 
 		#end
 		#if($function.isNotNullAndNotEmpty($secondValue)) 
-			$s1 $label2 "$secondText" . 
+			##controlliamo se ci sono url tra i parametri e in caso rimuoviamo le virgolette
+			##che sono state inserite per poter passare l'url da parametro
+			#if($secondValue.contains("<http://"))
+				$s1 $label2 $secondText .
+			#else	
+				$s1 $label2 "$secondText" .
+			#end
 		#end
-		#if($function.isNotNullAndNotEmpty($thirdValue)) 
+		#if($function.isNotNullAndNotEmpty($thirdValue)) 			
 			$s1 $label3 "$thirdText" . 
 		#end
     	$s $predicate $s1 .
@@ -67,8 +73,7 @@
 ## #setTitle($s "510" "a" "e" "workTitle" $title_c $workTitle $titleValue $titleType "Preferred Conventional Heading" $subtitle)
 #macro(setTitle $root $soggetto $tag $field1 $field2 $type $kind $predicate $label1 $label2 $secondValue $label3)
 	#set($_tags = $xpath.many("datafield[@tag='$tag']",$root))
-	#foreach($_tag in $_tags)
-		## TO DO! CONTROLLARE CJE $_TAG SIA NOT NULL E NOT EMPTY
+	#foreach($_tag in $_tags)		
         #set($field1Value = $xpath.combine($_tag, "$field1"))
     	#set($field2Value = $xpath.combine($_tag, "$field2"))
     	#if($function.isNotNullAndNotEmpty($field1Value))
@@ -87,6 +92,20 @@
 			#foreach($w in $frbr.flatWorkIDs)			
 				#set($cluster_uri = "#uri_literal('Work' ${w.id})")
 				$cluster_uri $predicate "$fieldValue" .
+				
+			#end
+		#end
+	#end
+#end
+
+#macro(oneSetAllWorksWithUri $root $tag $field $predicate $uri)
+	#set($_tags = $xpath.many("datafield[@tag='$tag']",$root))
+	#foreach($_tag in $_tags)		
+        #set($fieldValue = $function.escape($xpath.combine($_tag, "$field")))
+		#if($function.isNotNullAndNotEmpty($fieldValue))
+			#foreach($w in $frbr.flatWorkIDs)			
+				#set($cluster_uri = "#uri_literal('Work' ${w.id})")
+				$cluster_uri $predicate $uri/$fieldValue> .
 				
 			#end
 		#end
@@ -211,8 +230,9 @@
 #set($classificationScheme = "#bf('classificationScheme')")
 #set($label = "#bf('label')")
 #set($classificationLcc = "#bf('classificationLcc')")
+#set($classificationDdc = "#bf('classificationDdc')")
 #set($classificationUdc = "#bf('classificationUdc')")
-#set($classificationNlm = "#bf('classificationUdc')")
+#set($classificationNlm = "#bf('classificationNlm')")
 #set($relatedWork = "#bf('relatedWork')")
 #set($series = "#bf('series')")
 #set($subseries = "#bf('subseries')")
@@ -328,6 +348,14 @@
 ##
 #oneSetAllWorks($root "607" "a" $geographicCoverageNote)
 ##
+#setAllWorks($root "011" "a" "issnL" $identifier_c $issnL $identifierValue $identifierScheme  "<http://id.loc.gov/vocabulary/identifiers/issnL>")
+##
+#setAllWorks($root "686" "a" "classification" $classification_c $classification $classificationNumber "" "")
+#setAllWorks($root "022" "b" "classification" $classification_c $classification $classificationNumber "" "")
+#setAllWorks($root "675" "a" "udc" $classification_c $classificationUdc $classificationNumber $classificationScheme "classificationUdc")
+#setAllWorks($root "676" "a" "ddc" $classification_c $classificationDdc $classificationNumber $classificationScheme "<http://id.loc.gov/authorities/classSchemes/ddc>")
+#oneSetAllWorksWithUri($root "680" "a" $classificationLcc "<http://id.loc.gov/authorities/classification")
+#oneSetAllWorksWithUri($root "686" "a" $classificationNlm "<http://nlm.example.org/classification")
 
 
 ## INSTANCE OR WORK
