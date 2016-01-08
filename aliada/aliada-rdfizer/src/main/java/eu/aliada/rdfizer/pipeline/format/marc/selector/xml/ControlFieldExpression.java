@@ -156,6 +156,6 @@ public class ControlFieldExpression implements Expression<String, Document> {
 	
 	@Override
 	public String toString() {
-		return specs();
+		return specs + "=" + expression;
 	}
 }

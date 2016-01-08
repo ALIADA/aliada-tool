@@ -84,9 +84,6 @@ public class RDFizerResource implements RDFizer {
 	@Value(value = "${dc.input.dir}")
 	protected String dcXmlInputDir;
 	
-	@Value(value = "${unimarcxml.input.dir}")
-	protected String unimarcXmlInputDir;	
-	
 	@Value(value = "${auth.input.dir}")
 	protected String authXmlInputDir;	
 	
@@ -118,7 +115,7 @@ public class RDFizerResource implements RDFizer {
 	@Path("/ping")
 	@Produces(MediaType.TEXT_PLAIN)
     public String ping() {
-        return "ALIADA Project (UNIMARC Fork) -- RDFizer V2.0";
+        return "ALIADA Project -- RDFizer V1.0";
     }
 	
 	@PUT
@@ -291,7 +288,7 @@ public class RDFizerResource implements RDFizer {
 				ManagementRegistrar.registerJob(newJobResource);
 				jobRegistry.addJobResource(newJobResource);
 			} catch (JMException exception) {
-				LOGGER.error(MessageCatalog._00045_MX_JOB_RESOURCE_REGISTRATION_FAILED, exception, configuration.getId());
+				LOGGER.error(MessageCatalog._00045_MX_JOB_RESOURCE_REGISTRATION_FAILED, configuration.getId());
 			}
 			
 			Files.move(source, target, REPLACE_EXISTING);
@@ -324,8 +321,6 @@ public class RDFizerResource implements RDFizer {
 			return dcXmlInputDir;
 		} else if ("auth".equals(format)) {
 			return authXmlInputDir;
-		} else if ("unimarcxml".equals(format)) {
-			return unimarcXmlInputDir;
 		}
 		return null;
 	}
@@ -392,15 +387,15 @@ public class RDFizerResource implements RDFizer {
 		return runningJobCount.get();
 	}
 
-	// TODO
 	@Override
 	public int getCompletedJobsCount() {
+		// TODO for 2nd iteration
 		return 0;
 	}
 
-	// TODO
 	@Override
 	public int getProcessedRecordsCount() {
+		// TODO for 2nd iteration
 		return 0;
 	}
 }

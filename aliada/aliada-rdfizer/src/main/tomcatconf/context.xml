@@ -3,19 +3,9 @@
 		name="jdbc/aliada"
 		auth="Container"
 		type="javax.sql.DataSource"
-		username="aliada" password="aliada01"
+		username="root" password="p2tcQY5t"
 		driverClassName="com.mysql.jdbc.Driver"
-		url="jdbc:postgresql://192.168.0.159:5432/aliada_svl"
-		maxActive="5"
-		maxIdle="5"/>
-    
-    <Resource 
-		name="jdbc/cluster"
-		auth="Container"
-		type="javax.sql.DataSource"
-		username="ldcat" password="ldcat01"
-		driverClassName="org.postgresql.Driver"
-		url="jdbc:postgresql://192.168.0.159:5432/sharecat_svl"
-		maxActive="10"
-		maxIdle="10"/>    
+		url="jdbc:mysql://localhost:3306/aliada"
+		maxActive="2"
+		maxIdle="2"/>
 </Context>

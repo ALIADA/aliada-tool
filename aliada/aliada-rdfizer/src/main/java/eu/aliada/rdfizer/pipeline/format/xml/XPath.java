@@ -2,211 +2,40 @@
 //          of library and museum data
 //
 // Component: aliada-rdfizer
-// Responsible: ALIADA Consortium
+// Responsible: ALIADA Consortiums
 package eu.aliada.rdfizer.pipeline.format.xml;
 
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.HashMap;
 import java.util.Map;
-import java.util.WeakHashMap;
 
-import javax.xml.namespace.QName;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
 import org.springframework.stereotype.Component;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.xml.sax.InputSource;
 
 /**
- * ALIADA O(ptimized)XPath tool.
- * It only supports few XPATH expressions (those needed for the conversion job).
+ * ALIADA XPath tool.
  * 
  * @author Andrea Gazzarini
  * @since 1.0
  */
 @Component
 public class XPath {
-	
-	private final static ImmutableNodeList EMPTY_LIST = new ImmutableNodeList(new MutableNodeList());
-	
 	final ThreadLocal<Map<String, XPathExpression>> expressions = new ThreadLocal<Map<String, XPathExpression>>() {
 		protected Map<String, XPathExpression> initialValue() {
-			return new WeakHashMap<String, XPathExpression>();
+			return new HashMap<String, XPathExpression>();
 		};
 	};
 	
 	final ThreadLocal<javax.xml.xpath.XPath> xpaths = new ThreadLocal<javax.xml.xpath.XPath>() {
 		protected javax.xml.xpath.XPath initialValue() {
-			
 			return xpathfactory.newXPath();
 		};
 	};
-	
-	/**
-	 * A Mutable {@link NodeList}.
-	 * 
-	 * @author Andrea Gazzarini
-	 * @since 2.0
-	 */
-	public static class MutableNodeList implements NodeList {
-
-		final List<Node> nodes;
-		
-		/**
-		 * Builds a new {@link MutableNodeList} with the given nodes.
-		 * 
-		 * @param nodes the nodes.
-		 */
-		public MutableNodeList(final List<Node> nodes) {
-			this.nodes = nodes;
-		}
-		
-		/**
-		 * 
-		 */
-		public MutableNodeList() {
-			this.nodes = new ArrayList<Node>();
-		}
-		
-		public void addNode(Node node) {
-			nodes.add(node);
-		}
-		
-		@Override
-		public Node item(int index) {
-			return nodes.get(index);
-		}
-
-		@Override
-		public int getLength() {
-			return nodes.size();
-		}
-	}
-	
-	/**
-	 * Micro-optimization: avoid XPATH for simple expressions
-	 * 
-	 * @author Andrea Gazzarini
-	 * @since 2.0
-	 */
-	public static class SimpleXPathExpression implements XPathExpression {
-		private final String targetChild;
-		private final String matchingField;
-		
-		/**
-		 * Builds a simple expression with the given target.
-		 * 
-		 * @param targetChild the target node.
-		 */
-		public SimpleXPathExpression(final String targetChild) {
-			this.targetChild = targetChild;
-			int indexOfSquare = targetChild.indexOf("[");
-			this.matchingField = indexOfSquare == -1 ? targetChild : targetChild.substring(0, indexOfSquare);
-		}
-		
-		boolean matchesAttrFilters(final String expression, final Element element) {
-			int currentStartOffset = expression.indexOf("[");
-			int indexOfNextFilter = -1;
-			while ( (indexOfNextFilter = expression.indexOf('@', currentStartOffset)) != -1) {
-				final String filterName = expression.substring(indexOfNextFilter + 1, expression.indexOf("'", indexOfNextFilter)-1).trim();
-				final int valueStartIndex = expression.indexOf("'", indexOfNextFilter) + 1;
-				final int valueEndIndex = expression.indexOf("'", valueStartIndex + 1);
-				final String filterValue = expression.substring(valueStartIndex, valueEndIndex); 
-				final String actualValue = element.getAttribute(filterName);
-				if (!actualValue.equals(filterValue)) {
-					return false;
-				}
-				currentStartOffset = valueEndIndex;
-			}
-			return true;
-		}
-		
-		@Override
-		public Object evaluate(final Object item, final QName returnType) {
-			if (targetChild.startsWith("@")) {
-				return ((Element) item).getAttribute(targetChild.substring(1));
-			}
-			int indexOfSquareBracket = targetChild.indexOf("[");
-			if (returnType == XPathConstants.STRING) {
-				if (targetChild.startsWith("@")) {
-					return ((Element) item).getAttribute(targetChild.substring(1));
-				}
-				final NodeList list = ((Element) item).getElementsByTagName("*");
-				for (int i = 0; i < list.getLength(); i++) {
-					final Element element = (Element)list.item(i);
-					if (element.getNodeName().endsWith(matchingField)) {
-						if (indexOfSquareBracket == -1) {
-							return element.getTextContent();
-						} else {
-							if (matchesAttrFilters(targetChild, element)) {
-								return element.getTextContent();
-							}
-						}
-					}
-				}
-				return (list != null && list.getLength() > 0) ? list.item(0).getTextContent() : null;
-			} else if (returnType == XPathConstants.NODE) {
-				final NodeList list = ((Element) item).getElementsByTagName("*");
-				for (int i = 0; i < list.getLength(); i++) {
-					Element element = (Element)list.item(i);
-					if (element.getNodeName().endsWith(matchingField)) {
-						if (indexOfSquareBracket == -1) {
-							return element.getTextContent();
-						} else {
-							if (matchesAttrFilters(targetChild, element)) {
-								return element;
-							}
-						}
-					}
-				}
-				return null;
-			} else if (returnType == XPathConstants.NODESET) {
-				final NodeList list = ((Element) item).getChildNodes();
-				if (list == null || list.getLength() == 0) return EMPTY_LIST; 
-				MutableNodeList result = new MutableNodeList();		
-				for (int i = 0; i < list.getLength(); i++) {
-					Node n = list.item(i);
-					if (n.getNodeType() == Node.ELEMENT_NODE) {
-						Element element = (Element)n;
-						if (element.getNodeName().endsWith(matchingField)) {
-							if (indexOfSquareBracket == -1) {
-								result.addNode(element);
-							} else {
-								if (matchesAttrFilters(targetChild, element)) {
-									result.addNode(element);
-								}
-							}
-						}
-					}
-				}
-				return result;
-			}
-			throw new IllegalArgumentException("Unsupported QName Type : " + returnType);
-		}
-
-		@Override
-		public String evaluate(final Object item) {
-			return (String) evaluate(item, XPathConstants.STRING);
-		}
-
-		@Override
-		public Object evaluate(final InputSource source, final QName returnType) {
-			throw new UnsupportedOperationException();
-		}
-
-		@Override
-		public String evaluate(final InputSource source) {
-			throw new UnsupportedOperationException();
-		}
-	}	
 	
 	final XPathFactory xpathfactory = XPathFactory.newInstance();
 
@@ -219,80 +48,8 @@ public class XPath {
 	 * @throws XPathExpressionException in case of XPATH failure.
 	 */
 	public String value(final String expression, final Object context) throws XPathExpressionException {
-		final Element doc = (Element) (context instanceof Document ? ((Document)context).getDocumentElement() : context);
-		String [] members = expression.split("/");
-		List<Node> current = null;
-		String firstExp = members[0];
-		final XPathExpression exp = xpath(firstExp);
-		Object obj = exp.evaluate(doc, XPathConstants.NODESET);
-		if (obj instanceof String) return (String)obj;
-		NodeList topLevel = (NodeList) exp.evaluate(doc, XPathConstants.NODESET);
-		if (members.length == 1) {
-			current = new ArrayList<Node>();
-			for (int i = 0; i < topLevel.getLength(); i++) {
-				current.add(topLevel.item(i));
-			}
-		} else {
-			for (int i = 1; i < members.length; i++) {
-				current = (i==1) ? select(topLevel, members[i]) : select(current, members[i]);
-			}
-		}
-		
-		return (current != null && current.size() > 0) ? current.get(0).getTextContent() : "";
-	}	
-		
-	private List<Node> select(NodeList list, String child) throws XPathExpressionException {
-		List<Node> nodes = new ArrayList<Node>();
-		for (int x = 0; x < list.getLength(); x++) {
-			final XPathExpression exp = xpath(child);
-			NodeList result = (NodeList) exp.evaluate(list.item(x), XPathConstants.NODESET);
-			if (result.getLength() > 0) {
-				for (int i = 0; i < result.getLength(); i++) {
-					nodes.add(result.item(i));
-				}
-			}
-		}		
-		return nodes;
-	}
-	
-	private List<Node> select(List<Node> list, String child) throws XPathExpressionException {
-		List<Node> nodes = new ArrayList<Node>();
-		for (int x = 0; x < list.size(); x++) {
-			final XPathExpression exp = xpath(child);
-			NodeList result = (NodeList) exp.evaluate(list.get(x), XPathConstants.NODESET);
-			if (result.getLength() > 0) {
-				for (int i = 0; i < result.getLength(); i++) {
-					nodes.add(result.item(i));
-				}
-			}
-		}		
-		return nodes;
-	}	
-	
-	/**
-	 * Extracts a given set of subfields from the given node (tag).
-	 * 
-	 * @param node the node representing the Datafield node.
-	 * @param expression the expression which actually is a sequence of subfields.
-	 * @return the subfield values in sequence, concatenated by a space.
-	 */
-	public String combine(final Element node, final String expression) {
-		final NodeList subfields = node.getElementsByTagName("*");
-		final String result = Arrays.stream(expression.split(""))	
-			.map(subfield -> {
-				for (int i = 0; i < subfields.getLength(); i++) {
-					if (subfields.item(i) instanceof Element) {
-						final Element e = (Element)subfields.item(i);
-						if (subfield.equals(e.getAttribute("code"))) {
-							return e.getTextContent();
-						}
-					} 
-				}
-				return "";
-			})
-			.reduce("", (a, b) -> a + b)
-			.trim();
-		return result;
+		final String result = (String) xpath(expression).evaluate(context, XPathConstants.STRING);
+		return result != null && result.trim().length() != 0 ? result : null;
 	}	
 	
 	/**
@@ -304,24 +61,7 @@ public class XPath {
 	 * @throws XPathExpressionException in case of XPATH failure.
 	 */
 	public Node one(final String expression, final Object context) throws XPathExpressionException {
-		Element doc = (Element) (context instanceof Document ? ((Document)context).getDocumentElement() : context);
-		String [] members = expression.split("/");
-		List<Node> current = null;
-		String firstExp = members[0];
-		final XPathExpression exp = xpath(firstExp);
-		NodeList topLevel = (NodeList) exp.evaluate(doc, XPathConstants.NODESET);
-		if (members.length == 1) {
-			current = new ArrayList<Node>();
-			for (int i = 0; i < topLevel.getLength(); i++) {
-				current.add(topLevel.item(i));
-			}
-		} else {
-			for (int i = 1; i < members.length; i++) {
-				current = (i==1) ? select(topLevel, members[i]) : select(current, members[i]);
-			}
-		}
-		
-		return (current != null && current.size() > 0) ? current.get(0) : null;
+		return (Node)xpath(expression).evaluate(context, XPathConstants.NODE);
 	}	
 	
 	/**
@@ -332,27 +72,10 @@ public class XPath {
 	 * @return the result as a nodelist.
 	 * @throws XPathExpressionException in case of XPATH failure.
 	 */
-	public List<Node> many(final String expression, final Object context) throws XPathExpressionException {
-		Element doc = (Element) ((context instanceof Document) ? ((Document)context).getDocumentElement() : context);
-		String [] members = expression.split("/");
-		List<Node> current = null;
-		String firstExp = members[0];
-		final XPathExpression exp = xpath(firstExp);
-		NodeList topLevel = (NodeList) exp.evaluate(doc, XPathConstants.NODESET);
-		if (members.length == 1) {
-			current = new ArrayList<Node>();
-			for (int i = 0; i < topLevel.getLength(); i++) {
-				current.add(topLevel.item(i));
-			}
-		} else {
-			for (int i = 1; i < members.length; i++) {
-				current = (i==1) ? select(topLevel, members[i]) : select(current, members[i]);
-			}
-		}
-		
-		return (current != null) ? current : EMPTY_LIST;
+	public ImmutableNodeList many(final String expression, final Object context) throws XPathExpressionException {
+		return new ImmutableNodeList((NodeList) xpath(expression).evaluate(context, XPathConstants.NODESET));
 	}	
-
+	
 	/**
 	 * Returns the value of the control field associated with the given tag.
 	 * 
@@ -397,7 +120,7 @@ public class XPath {
 	 * @return the value of the requested control field, null in case there's no such control field.
 	 * @throws XPathExpressionException in case of XPATH compilation failure.
 	 */
-	public List<Node> dfs(final String tag, final String code, final Object record) throws XPathExpressionException {
+	public ImmutableNodeList dfs(final String tag, final String code, final Object record) throws XPathExpressionException {
 		final String xpath = new StringBuilder("datafield[@tag='")
 			.append(tag)
 			.append("']/subfield[@code='")
@@ -406,7 +129,7 @@ public class XPath {
 			.toString();
 		return many(xpath, record);
 	}	
-		
+	
 	/**
 	 * Lazily creates, caches and returns an XPATH expression.
 	 * 
@@ -415,15 +138,11 @@ public class XPath {
 	 * @throws XPathExpressionException in case of XPATH compilation failure.
 	 */
 	XPathExpression xpath(final String expression) throws XPathExpressionException {
-		XPathExpression xpathExpression = expressions.get().get(expression);
-		if (xpathExpression == null) {		
-			if (expression.indexOf("/") == -1) {
-				xpathExpression = new SimpleXPathExpression(expression);
-			} else {		
-				xpathExpression = xpaths.get().compile(expression);
-			}
-			expressions.get().put(expression, xpathExpression);
+		XPathExpression xpath = expressions.get().get(expression);
+		if (xpath == null) {
+			xpath = xpaths.get().compile(expression);
+			expressions.get().put(expression, xpath);
 		}
-		return xpathExpression;
+		return xpath;
 	}
 }

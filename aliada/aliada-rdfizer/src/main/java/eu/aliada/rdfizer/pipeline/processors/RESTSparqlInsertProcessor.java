@@ -20,7 +20,7 @@ import eu.aliada.shared.log.Log;
 import eu.aliada.shared.rdfstore.RDFStoreDAO;
 
 /**
- * RDF store outbound connector which leverages the target REST capabilities.
+ * RDF store outbound connector.
  * 
  * @author Andrea Gazzarini
  * @since 1.0

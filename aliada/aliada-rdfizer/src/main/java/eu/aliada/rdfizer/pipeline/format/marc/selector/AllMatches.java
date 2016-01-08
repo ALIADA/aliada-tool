@@ -9,6 +9,7 @@ import static eu.aliada.shared.Strings.isNotNullAndNotEmpty;
 
 import java.util.HashMap;
 import java.util.Map;
+import static eu.aliada.shared.Strings.clean;
 /**
  * A composite expression that selects the first not-null evaluation of a set of expressions.
  * 
@@ -35,7 +36,7 @@ public class AllMatches<K> implements Expression<Map<String, String>, K> {
 		for (final Expression<String, K> expression : expressions) {
 			final String value = expression.evaluate(target);
 			if (isNotNullAndNotEmpty(value)) {
-				result.put(expression.specs(), value);
+				result.put(expression.specs(), clean(value));
 			}
 		}
 		return result;

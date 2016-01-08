@@ -29,7 +29,7 @@ public abstract class AliadaResourceFactory {
             case ResourceManager.RESOURCE_CONTENT:
                 return new ContentResource();
             default:
-            	throw new IllegalArgumentException("WARNING: Unknown resource type: " + resourceType);
+            	throw new IllegalArgumentException("WARNIGN: Unknown resource type: " + resourceType);
         }
     }
 }
