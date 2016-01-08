@@ -105,8 +105,4 @@ public class MultipleVariableFieldExpression implements Expression<List<Node>, D
 		return specs;
 	}
 	
-	@Override
-	public String toString() {
-		return specs();
-	}
 }

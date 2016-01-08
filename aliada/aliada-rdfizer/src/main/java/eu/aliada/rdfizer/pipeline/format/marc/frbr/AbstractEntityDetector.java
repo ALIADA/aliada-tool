@@ -15,8 +15,6 @@ import java.util.UUID;
 
 import org.w3c.dom.Document;
 
-import eu.aliada.shared.log.Log;
-
 /**
  * Base class for detecting entities.
  * 
@@ -24,14 +22,13 @@ import eu.aliada.shared.log.Log;
  * @author Andrea Gazzarini
  * @since 1.0
  */
-public abstract class AbstractEntityDetector<O> {	
-	protected static Log LOGGER = new Log(AbstractEntityDetector.class);
-	
+public abstract class AbstractEntityDetector<O> {
+
 	/**
 	 * @param target the (record) document that is the detection target.
 	 * @return an identity Object associated with the detected entity.
 	 */
-	public abstract O detect(Document target);
+	abstract O detect(Document target);
 
 	/**
 	 * Appends a given value to the buffer only if that value is not null and
@@ -41,9 +38,30 @@ public abstract class AbstractEntityDetector<O> {
 	 * @param value the value to append.
 	 * @return the builder reference eventually updated with the incoming value.
 	 */
-	protected StringBuilder append(final StringBuilder builder, final String value) {
+	protected StringBuilder append(
+			final StringBuilder builder, 
+			final String value) {
 		if (isNotNullAndNotEmpty(value)) {
 			return builder.append(value);
+		}
+		return builder;
+	}
+
+	/**
+	 * Appends the given values to the buffer only if that value is not null and
+	 * not empty.
+	 * 
+	 * @param builder the identity buffer actings as accumulator.
+	 * @param values the value to append.
+	 * @return the builder reference eventually updated with the incoming value.
+	 */
+	protected StringBuilder append(
+			final StringBuilder builder,
+			final Map<String, String> values) {
+		if (values != null) {
+			for (final Entry<String, String> entry : values.entrySet()) {
+				append(builder, entry.getValue());
+			}
 		}
 		return builder;
 	}
@@ -60,7 +78,7 @@ public abstract class AbstractEntityDetector<O> {
 			final List<String> headings = entry.getValue();
 			final List<String> uris = new ArrayList<String>(headings.size());
 			for (final String heading : headings) {
-				uris.add(identifier(entityKind(), heading));
+				uris.add(identifier(heading));
 			}
 			
 			result.put(tag, uris);
@@ -74,14 +92,7 @@ public abstract class AbstractEntityDetector<O> {
 	 * @param value the string value.
 	 * @return the identifier associated with the incoming value.
 	 */
-	public static String identifier(final String entityKind, final String value) {	
-		return (value != null) ? UUID.nameUUIDFromBytes(value.getBytes()).toString() : value;
+	public static String identifier(final String value) {
+		return value != null ? UUID.nameUUIDFromBytes(value.getBytes()).toString() : null;
 	}	
-	
-	/**
-	 * Returns a mnemonic code of the entity kind detected by this component.
-	 * 
-	 * @return a mnemonic code of the entity kind detected by this component.
-	 */
-	public abstract String entityKind();
 }
