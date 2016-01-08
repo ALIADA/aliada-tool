@@ -7,6 +7,7 @@ package eu.aliada.rdfizer.pipeline.format.marc.frbr;
 
 import static eu.aliada.shared.Strings.isNullOrEmpty;
 
+import java.util.Collections;
 import java.util.List;
 
 import org.w3c.dom.Document;
@@ -24,8 +25,7 @@ import eu.aliada.rdfizer.pipeline.format.marc.selector.FirstMatch;
 public class WorkDetector extends AbstractEntityDetector<String> {
 
 	private final FirstMatch<Document> uniformTitleDetectionRule;
-
-	//private final List<Expression<Map<String, String>, Document>> expressions;
+	private final static List<Expression<String, Document>> NO_EXPRESSIONS = Collections.emptyList();
 	
 	private final List<Expression<String, Document>> expressions;
 	
@@ -39,7 +39,17 @@ public class WorkDetector extends AbstractEntityDetector<String> {
 			final FirstMatch<Document> uniformTitleDetectionRule,
 			final List<Expression<String, Document>> expressions) {
 		this.uniformTitleDetectionRule = uniformTitleDetectionRule;
-		this.expressions = expressions;
+		this.expressions = (expressions != null) ? expressions : NO_EXPRESSIONS;
+	}
+	
+	/**
+	 * Builds a new detector with the following rules.
+	 * 
+	 * @param uniformTitleDetectionRule the uniform title detection rule.
+	 * @param expressions the subsequent detection rules.
+	 */
+	public WorkDetector(final FirstMatch<Document> uniformTitleDetectionRule) {
+		this(uniformTitleDetectionRule, null);
 	}
 
 	/**
@@ -48,21 +58,22 @@ public class WorkDetector extends AbstractEntityDetector<String> {
 	 * @param target the target
 	 * @return the value 
 	 */
-	String detect(final Document target) {
+	public String detect(final Document target) {
 		final StringBuilder buffer = new StringBuilder();
 		
 		final String uniformTitle = uniformTitleDetectionRule.evaluate(target);
 		if (isNullOrEmpty(uniformTitle)) {
-			// TODO: Log + JMX 
 			return null; 
 		}			
 		
 		append(buffer, uniformTitle);
-		
-		for (final Expression<String, Document> expression : expressions) {
-			append(buffer, expression.evaluate(target));
-		}
+		expressions.stream().forEach(expression -> append(buffer, expression.evaluate(target)));
 		
 		return buffer.toString();
+	}
+
+	@Override
+	public String entityKind() {
+		return "WORK";
 	}
 }

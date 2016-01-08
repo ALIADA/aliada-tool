@@ -31,7 +31,12 @@ public class ManifestationDetector extends AbstractEntityDetector<String> {
 	}
 
 	@Override
-	String detect(final Document target) {
+	public String detect(final Document target) {
 		return controlNumberDetectionRule.evaluate(target);
+	}
+
+	@Override
+	public String entityKind() {
+		return "MANIFESTATION";
 	}
 }

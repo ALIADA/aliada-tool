@@ -5,10 +5,8 @@ import java.util.Collection;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 
-import eu.aliada.rdfizer.pipeline.format.xml.NullObject;
-
 /**
- * A simple debug processor.
+ * A debug outbound processor that counts the outcoming triples.
  * 
  * @author Andrea Gazzarini
  * @since 1.0
@@ -18,15 +16,12 @@ public class JustDebugTriplesCount implements Processor {
 	@SuppressWarnings("rawtypes")
 	@Override
 	public void process(final Exchange exchange) throws Exception {
-		final Object o = exchange.getIn().getBody();
-		if (o instanceof NullObject) {
-			return;
-		}
+		final Object incomingData = exchange.getIn().getBody();
 
-		if (o != null && o instanceof Collection) {
-			System.out.println(((Collection)o).size());
+		if (incomingData != null && incomingData instanceof Collection) {
+			System.out.println(((Collection)incomingData).size());
 		} else {
-			System.out.println("1");
+			System.out.println(incomingData);
 		}
 	}
 }

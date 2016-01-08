@@ -1,0 +1,392 @@
+#macro (bf $v)<http://bibframe.org/vocab/$v>#end 
+		
+## per mappare le opere collegata (es. supersedes, serie, relatedTo, ecc.)			
+#macro(work_related $s $tag $subfield $record $type $kind $predicate) 
+	#set($tagValues = $xpath.dfs($tag,$subfield,$record))
+	#foreach($tagValue in $tagValues) 
+		#if($tagValue) 
+    		#set($text = $function.escape($function.clean($tagValue.textContent)))
+        	#set($s1 = "#uri_with_strong_normalization(${type} ${text})")
+        	$s1 $is_a $kind .         			
+        	$s1 $label "$text" . 
+        	$s $predicate $s1 . 
+		#end	
+	#end	
+#end	
+
+
+##mappa la relazione tra un nodo ed una tripla complessa, contenent un attributo
+#macro(oneValue $s $firstValue $type $kind $predicate $label1) 	
+	#if($function.isNotNullAndNotEmpty($firstValue)) 		
+		#set($text = $function.escape($firstValue))
+    	#set($s1 = "#uri_with_strong_normalization(${type} ${text})")
+    	$s1 $is_a $kind .         			
+    	$s1 $label1 "$text" . 
+    	$s $predicate $s1 . 			
+	#end	
+#end
+
+##mappa la relazione tra un nodo ed una tripla complessa, contenent due attributi
+#macro(twoValue $s $firstValue $type $kind $predicate $label1 $label2 $secondValue) 
+		#set($firstText = $function.escape($firstValue))
+		#set($secondText = $function.escape($secondValue))
+    	#set($s1 = "#uri_with_strong_normalization(${type} ${firstText})")
+    	$s1 $is_a $kind . 
+		#if($function.isNotNullAndNotEmpty($firstValue)) 
+			$s1 $label1 "$firstText" . 
+		#end
+		#if($function.isNotNullAndNotEmpty($secondValue)) 
+			$s1 $label2 "$secondText" . 
+		#end
+    	$s $predicate $s1 . 
+		
+#end	
+
+##mappa la relazione tra un nodo ed una tripla complessa, contenent tre attributi
+#macro(threeValue $s $firstValue $type $kind $predicate $label1 $label2 $secondValue $label3 $thirdValue) 
+		#set($firstText = $function.escape($firstValue))
+		#set($secondText = $function.escape($secondValue))
+		#set($thirdText = $function.escape($thirdValue))
+    	#set($s1 = "#uri_with_strong_normalization(${type} ${firstText})")
+    	$s1 $is_a $kind . 
+		#if($function.isNotNullAndNotEmpty($firstValue)) 
+			$s1 $label1 "$firstText" . 
+		#end
+		#if($function.isNotNullAndNotEmpty($secondValue)) 
+			##controlliamo se ci sono url tra i parametri e in caso rimuoviamo le virgolette
+			##che sono state inserite per poter passare l'url da parametro
+			#if($secondValue.contains("<http://"))
+				$s1 $label2 $secondText .
+			#else	
+				$s1 $label2 "$secondText" .
+			#end
+		#end
+		#if($function.isNotNullAndNotEmpty($thirdValue)) 			
+			$s1 $label3 "$thirdText" . 
+		#end
+    	$s $predicate $s1 .
+		
+#end	
+
+
+ 
+## #setTitle($s "510" "a" "e" "workTitle" $title_c $workTitle $titleValue $titleType "Preferred Conventional Heading" $subtitle)
+#macro(setTitle $root $soggetto $tag $field1 $field2 $type $kind $predicate $label1 $label2 $secondValue $label3)
+	#set($_tags = $xpath.many("datafield[@tag='$tag']",$root))
+	#foreach($_tag in $_tags)		
+        #set($field1Value = $xpath.combine($_tag, "$field1"))
+    	#set($field2Value = $xpath.combine($_tag, "$field2"))
+    	#if($function.isNotNullAndNotEmpty($field1Value))
+    		#threeValue($soggetto $field1Value $type $kind $predicate $label1 $label2 $secondValue $label3 $field2Value)
+			
+    	#end	
+	#end
+#end
+	
+
+#macro(oneSetAllWorks $root $tag $field $predicate)
+	#set($_tags = $xpath.many("datafield[@tag='$tag']",$root))
+	#foreach($_tag in $_tags)		
+        #set($fieldValue = $function.escape($xpath.combine($_tag, "$field")))
+		#if($function.isNotNullAndNotEmpty($fieldValue))
+			#foreach($w in $frbr.flatWorkIDs)			
+				#set($cluster_uri = "#uri_literal('Work' ${w.id})")
+				$cluster_uri $predicate "$fieldValue" .
+				
+			#end
+		#end
+	#end
+#end
+
+#macro(oneSetAllWorksWithUri $root $tag $field $predicate $uri)
+	#set($_tags = $xpath.many("datafield[@tag='$tag']",$root))
+	#foreach($_tag in $_tags)		
+        #set($fieldValue = $function.escape($xpath.combine($_tag, "$field")))
+		#if($function.isNotNullAndNotEmpty($fieldValue))
+			#foreach($w in $frbr.flatWorkIDs)			
+				#set($cluster_uri = "#uri_literal('Work' ${w.id})")
+				$cluster_uri $predicate $uri/$fieldValue> .
+				
+			#end
+		#end
+	#end
+#end
+
+#macro(setAllWorks $root $tag $field $type $kind $predicate $label1 $label2 $secondValue)
+	#set($_tags = $xpath.many("datafield[@tag='$tag']",$root))
+	#foreach($_tag in $_tags)
+        #set($fieldValue = $function.escape($xpath.combine($_tag, "$field")))
+		#if($function.isNotNullAndNotEmpty($fieldValue))
+			#foreach($w in $frbr.flatWorkIDs)			
+				#set($cluster_uri = "#uri_literal('Work' ${w.id})")
+				#threeValue($cluster_uri $fieldValue $type $kind $predicate $label1 $label2 $secondValue)	
+				
+			#end
+		#end
+	#end
+#end
+
+#macro(setAuthorizedAccessPoint $root $cluster_uri $title)
+	#set($_700s = $xpath.many("datafield[@tag='700']",$root))	
+	#foreach($_700 in $_700s)			
+		#set($_v700 = $function.escape($xpath.combine($_700, "abcdfg")))		
+	#end
+    #set($_701s = $xpath.many("datafield[@tag='701']", $root))		
+	#set($_v701 = "")
+	#foreach($_701 in $_701s)		
+		#set($_v701temp = $function.escape($xpath.combine($_701, "abcdfg")))
+		##se sono al primo giro e non voglio avere troppi spazi all'inizio della stringa
+		#if(!$function.isNotNullAndNotEmpty($_v701))
+			#set($_v701 = "${_v701}${_v701temp}")
+		#else
+			#set($_v701 = "${_v701}  ${_v701temp}")
+		#end
+	#end
+    #set($_710s = $xpath.many("datafield[@tag='710']", $root))	
+	#foreach($_710 in $_710s)
+		#set($_v710 = $function.escape($xpath.combine($_710, "abe")))	
+	#end
+    #set($_711s = $xpath.many("datafield[@tag='711']", $root))
+	#set($_v711 = "")
+	#foreach($_711 in $_711s)		
+		#set($_v711temp = $function.escape($xpath.combine($_711, "abe")))	
+		#if(!$function.isNotNullAndNotEmpty($_v711))
+			#set($_v711 = "${_v711}${_v711temp}")
+		#else
+			#set($_v711 = "${_v711}  ${_v711temp}")
+		#end
+	#end
+    #set($_720s = $xpath.many("datafield[@tag='720']", $root))
+	#foreach($_720 in $_720s)
+		#set($_v720 = $function.escape($xpath.combine($_720, "a")))	
+	#end
+    #set($_721s = $xpath.many("datafield[@tag='721']", $root))
+	#set($_v721 = "")
+	#foreach($_721 in $_721s)		
+		#set($_v721temp = $function.escape($xpath.combine($_721, "a")))
+		#if(!$function.isNotNullAndNotEmpty($_v721))
+			#set($_v721 = "${_v721}${_v721temp}")
+		#else
+			#set($_v721 = "${_v721}  ${_v721temp}")
+		#end
+	#end
+	     
+	
+	## setto il primo addendo della somma del mapping
+          
+	#if($function.isNotNullAndNotEmpty($_v700)) 
+		#set($firstAddend = $_v700)
+	#elseif($function.isNotNullAndNotEmpty($_v701))	
+		#set($firstAddend = $_v701)
+	#elseif($function.isNotNullAndNotEmpty($_v710))
+		#set($firstAddend = $_v710)
+	#elseif( $function.isNotNullAndNotEmpty($_v711))
+		#set($firstAddend = $_v711)
+	#elseif( $function.isNotNullAndNotEmpty($_v720))
+		#set($firstAddend = $_v720)
+	#else
+		#set($firstAddend = $_v721)		
+	#end	
+	
+	$cluster_uri $authorizedAccessPoint "$firstAddend. $title" .
+#end
+	
+
+#set($manifestation_s = "#uri('Instance' $frbr.manifestationID)") 
+#set($is_a = "#rdf('type')")
+#set($work_c = "#bf('Work')") 
+#set($local = "#bf('local')")
+#set($identifier_c = "#bf('Identifier')")
+#set($identifierAssigner = "#bf('identifierAssigner')")
+#set($identifierScheme = "#bf('identifierScheme')")
+#set($identifierValue = "#bf('identifierValue')")
+#set($authorizedAccessPoint = "#bf('authorizedAccessPoint')")
+#set($contentCategory = "#bf('contentCategory')")
+#set($category_c = "#bf('Category')")
+#set($categoryType = "#bf('categoryType')")
+#set($categoryValue = "#bf('categoryValue')")
+#set($workTitle = "#bf('workTitle')") 
+#set($instanceTitle = "#bf('instanceTitle')") 
+#set($title_c = "#bf('Title')") 
+#set($titleValue = "#bf('titleValue')")
+#set($titleType = "#bf('titleType')")
+#set($subtitle = "#bf('subtitle')")
+#set($originPlace = "#bf('originPlace')")
+#set($place_c = "#bf('Place')")
+#set($originDate = "#bf('originDate')")
+#set($identifierQualifier = "#bf('identifierQualifier')")
+#set($isan = "#bf('isan')")
+#set($issnL = "#bf('issnL')")
+#set($istc = "#bf('istc')")
+#set($iswc = "#bf('iswc')")
+#set($dissertationNote = "#bf('dissertationNote')")
+#set($geographicCoverageNote = "#bf('geographicCoverageNote')")
+#set($dissertationIdentifier = "#bf('dissertationIdentifier')")
+#set($classification = "#bf('classification')")
+#set($classification_c = "#bf('Classification')")
+#set($classificationNumber = "#bf('classificationNumber')")
+#set($classificationDdc = "#bf('classificationDdc')")
+#set($classificationEdition = "#bf('classificationEdition')")
+#set($classificationScheme = "#bf('classificationScheme')")
+#set($label = "#bf('label')")
+#set($classificationLcc = "#bf('classificationLcc')")
+#set($classificationDdc = "#bf('classificationDdc')")
+#set($classificationUdc = "#bf('classificationUdc')")
+#set($classificationNlm = "#bf('classificationNlm')")
+#set($relatedWork = "#bf('relatedWork')")
+#set($series = "#bf('series')")
+#set($subseries = "#bf('subseries')")
+#set($subseriesOf = "#bf('subseriesOf')")
+#set($supplement = "#bf('supplement')")
+#set($supplementTo = "#bf('supplementTo')")
+#set($translation = "#bf('translation')")
+#set($translationOf = "#bf('translationOf')")
+#set($otherEdition = "#bf('otherEdition')")
+#set($absorbedInPart = "#bf('absorbedInPart')")
+#set($separatedFrom = "#bf('separatedFrom')")
+#set($supersedes = "#bf('supersedes')")
+#set($supersedesInPart = "#bf('supersedesInPart')")
+#set($unionOf = "#bf('unionOf')")
+#set($continues = "#bf('continues')")
+#set($continuesInPart = "#bf('continuesInPart')")
+#set($absorbed = "#bf('absorbed')")
+#set($absorbedBy = "#bf('absorbedBy')")
+#set($continuedBy = "#bf('continuedBy')")
+#set($continuedInPartBy = "#bf('continuedInPartBy')")
+#set($absorbedInPartBy = "#bf('absorbedInPartBy')")
+#set($mergedToForm = "#bf('mergedToForm')")
+#set($splitInto = "#bf('splitInto')")
+#set($supersededBy = "#bf('supersededBy')")
+#set($supersededInPartBy = "#bf('supersededInPartBy')")
+
+#set($people = $frbr.personIDs)
+#foreach($entry in $people.entrySet()) 
+	#set($tagName = $entry.getKey())
+	#set($clusters = $entry.getValue())
+	#set($tags = $xpath.many("datafield[@tag='${tagName}']", $root))
+	#foreach($cluster in $clusters)
+		#set($index = $velocityCount)
+		#set($tag = $tags.get($index))
+		#set($cluster_uri = "#uri_literal('Person' $cluster.id)")
+		#if(!$function.nameClusterHasBeenAlreadyProcessed($cluster))
+			$cluster_uri $is_a #bf('Person') .
+			#foreach($work_id in $cluster.parents())
+				#set($work_uri = "#uri_literal('Work' $work_id)")
+				$work_uri #bf('creator') $cluster_uri . 
+			#end 
+			#foreach($cluster_entry in $cluster.entries)				
+				#if($cluster_entry.preferred)
+					#set($text = $function.escape($cluster_entry.heading))
+					$cluster_uri $label "$text" . 
+					$cluster_uri $authorizedAccessPoint "$text" . 
+				#elseif ($cluster_entry.viafId)
+					$cluster_uri <http://www.w3.org/2002/07/owl#sameAs> <${cluster_entry.viafId}> . 
+				#else
+					$cluster_uri $label "$function.escape($cluster_entry.heading)" . 
+				#end 	
+			#end				
+			$function.markNameClusterAsProcessed($cluster)
+		#end	
+	#end 	
+#end
+
+#set($works = $frbr.workIDs)
+#foreach($entry in $works.entrySet()) 
+	#set($tagName = $entry.getKey())
+	#set($clusters = $entry.getValue())
+	#set($tags = $xpath.many("datafield[@tag='${tagName}']", $root))
+	#foreach($cluster in $clusters)
+		#set($index = $velocityCount)
+		#set($tag = $tags.get($index))
+		#set($cluster_uri = "#uri_literal('Work' $cluster.id)")
+		#if(!$function.titleClusterHasBeenAlreadyProcessed($cluster))
+			$cluster_uri $is_a #bf('Work') . 
+			$cluster_uri #bf('hasInstance') $manifestation_s . 
+			$manifestation_s #bf('instanceOf') $cluster_uri . 
+			#foreach($cluster_entry in $cluster.entries)
+				#if($cluster_entry.preferred)
+					#threeValue($cluster_uri $cluster_entry.heading "workTitle" $title_c $workTitle $titleValue $titleType "Preferred Title" $subtitle "") 
+					#setAuthorizedAccessPoint($root $cluster_uri $cluster_entry.heading)
+				#elseif ($cluster_entry.viafId)
+					$cluster_uri <http://www.w3.org/2002/07/owl#sameAs> <http://viaf.org/viaf/${cluster_entry.viafId}> . 
+				#else
+					#threeValue($cluster_uri $cluster_entry.heading "workTitle" $title_c $workTitle $titleValue $titleType "Other Variant Title" $subtitle "") 
+				#end 	
+			#end	
+			$function.markTitleClusterAsProcessed($cluster)
+		#end					
+		#set($text = $function.escape($function.clean($cluster.id)))
+		#set($s1 = "#uri_with_strong_normalization('local' ${text})")
+		$s1 $is_a $identifier_c .
+		$s1 $identifierAssigner "share-cat" .
+		$s1 $identifierScheme <http://share-cat/identifiers/works/Local> .
+		$s1 $identifierValue "$cluster.id" .
+		$cluster_uri $local $s1 .
+		 
+		##				
+		#set($v = $xpath.combine($tag, "k"))
+		#if($function.isNotNullAndNotEmpty($v)) 
+			#set($text = $function.escape($v))
+			$cluster_uri $originDate "$text" .
+			##
+		#end				
+        ##contentCategory		
+        #set($s1 = "#uri_with_strong_normalization('contentCategory' ${text})")				
+        $s1 $is_a $category_c .
+        $s1 $categoryType "content category" .
+        $s1 $categoryValue "Text" .
+        $cluster_uri $contentCategory $s1 .
+		##
+	#end 			
+#end  
+
+## FOR ALL WORKS
+
+#setAllWorks($root "501" "a" "workTitle" $title_c $workTitle $titleValue $titleType "collective title")
+##
+#oneSetAllWorks($root "328" "a" $dissertationNote)
+##
+#oneSetAllWorks($root "607" "a" $geographicCoverageNote)
+##
+#setAllWorks($root "011" "a" "issnL" $identifier_c $issnL $identifierValue $identifierScheme  "<http://id.loc.gov/vocabulary/identifiers/issnL>")
+##
+#setAllWorks($root "686" "a" "classification" $classification_c $classification $classificationNumber "" "")
+#setAllWorks($root "022" "b" "classification" $classification_c $classification $classificationNumber "" "")
+#setAllWorks($root "675" "a" "udc" $classification_c $classificationUdc $classificationNumber $classificationScheme "classificationUdc")
+#setAllWorks($root "676" "a" "ddc" $classification_c $classificationDdc $classificationNumber $classificationScheme "<http://id.loc.gov/authorities/classSchemes/ddc>")
+#oneSetAllWorksWithUri($root "680" "a" $classificationLcc "<http://id.loc.gov/authorities/classification")
+#oneSetAllWorksWithUri($root "686" "a" $classificationNlm "<http://nlm.example.org/classification")
+
+
+## INSTANCE OR WORK
+##se di opera ne ho solo una:
+#if($frbr.flatWorkIDs.size() == 1)	
+	#set($s = "#uri_literal('Work' ${frbr.flatWorkIDs.iterator().next().id})")	
+	#set($p = $workTitle)
+	#set($k = "workTitle")
+#else
+	#set($s = $manifestation_s)
+	#set($p = $instanceTitle)
+	#set($k = "instanceTitle")
+#end
+
+#setTitle($root $s "503" "a" "e" $k $title_c $p $titleValue $titleType "Preferred Conventional Heading" $subtitle)
+
+## INSTANCE
+#setTitle($root $manifestation_s "510" "a" "e" "instanceTitle" $title_c $instanceTitle $titleValue $titleType "Parallel Title Proper" $subtitle)
+#setTitle($root $manifestation_s "511" "a" "e" "instanceTitle" $title_c $instanceTitle $titleValue $titleType "Half Title" $subtitle)
+#setTitle($root $manifestation_s "512" "a" "e" "instanceTitle" $title_c $instanceTitle $titleValue $titleType "Cover Title" $subtitle)
+#setTitle($root $manifestation_s "513" "a" "e" "instanceTitle" $title_c $instanceTitle $titleValue $titleType "Added Title-Page Title" $subtitle)
+#setTitle($root $manifestation_s "514" "a" "e" "instanceTitle" $title_c $instanceTitle $titleValue $titleType "Caption Title" $subtitle)
+#setTitle($root $manifestation_s "515" "a" "e" "instanceTitle" $title_c $instanceTitle $titleValue $titleType "Running Title" $subtitle)
+#setTitle($root $manifestation_s "516" "a" "e" "instanceTitle" $title_c $instanceTitle $titleValue $titleType "Spine Title" $subtitle)
+#setTitle($root $manifestation_s "517" "a" "e" "instanceTitle" $title_c $instanceTitle $titleValue $titleType "Other Variant Title" $subtitle)
+#setTitle($root $manifestation_s "518" "a" "e" "instanceTitle" $title_c $instanceTitle $titleValue $titleType "Title in Standard Modern Spelling" $subtitle)
+#setTitle($root $manifestation_s "530" "a" "e" "instanceTitle" $title_c $instanceTitle $titleValue $titleType "Key-Title" $subtitle)
+#setTitle($root $manifestation_s "531" "a" "e" "instanceTitle" $title_c $instanceTitle $titleValue $titleType "Abbreviated Title" $subtitle)
+#setTitle($root $manifestation_s "532" "a" "e" "instanceTitle" $title_c $instanceTitle $titleValue $titleType "Expanded Title" $subtitle)
+#setTitle($root $manifestation_s "540" "a" "e" "instanceTitle" $title_c $instanceTitle $titleValue $titleType "Additional Title Supplied by Cataloguer" $subtitle)
+#setTitle($root $manifestation_s "541" "a" "e" "instanceTitle" $title_c $instanceTitle $titleValue $titleType "Translated Title Supplied by Cataloguer" $subtitle)
+#setTitle($root $manifestation_s "545" "a" "e" "instanceTitle" $title_c $instanceTitle $titleValue $titleType "Section Title" $subtitle)
+#setTitle($root $manifestation_s "560" "a" "e" "instanceTitle" $title_c $instanceTitle $titleValue $titleType "Artificial Title" $subtitle)
+

@@ -81,7 +81,7 @@ public class SynchXmlDocumentTranslator implements Processor, ApplicationContext
 	protected VelocityEngine velocityEngine;
 	
 	@Autowired
-	protected XPath xpath;
+	protected OXPath xpath;
 
 	@Autowired
 	protected OXPath oxpath;

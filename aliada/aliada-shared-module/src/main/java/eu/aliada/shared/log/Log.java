@@ -86,4 +86,8 @@ public final class Log
 			log.debug(String.format(message, parameters));
 		}
 	}
+	
+	public boolean isDebugEnabled() {
+		return log.isDebugEnabled();
+	}
 }

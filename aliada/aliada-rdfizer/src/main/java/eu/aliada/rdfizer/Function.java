@@ -11,6 +11,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 import javax.xml.xpath.XPathExpressionException;
@@ -23,7 +24,9 @@ import com.hp.hpl.jena.sparql.util.FmtUtils;
 
 import eu.aliada.rdfizer.datasource.Cache;
 import eu.aliada.rdfizer.datasource.rdbms.JobInstance;
-import eu.aliada.rdfizer.pipeline.format.xml.XPath;
+import eu.aliada.rdfizer.pipeline.format.marc.frbr.cluster.Cluster;
+import eu.aliada.rdfizer.pipeline.format.marc.frbr.cluster.ClusterService;
+import eu.aliada.rdfizer.pipeline.format.xml.OXPath;
 import eu.aliada.rdfizer.pipeline.nlp.NERSingletonService;
 import eu.aliada.shared.ID;
 import eu.aliada.shared.Strings;
@@ -44,10 +47,84 @@ public class Function {
 	private RDFStoreDAO rdfStore = new RDFStoreDAO();
 	
 	@Autowired
-	private XPath xpath;
+	private OXPath xpath;
 	
 	@Autowired
 	private NERSingletonService ner;
+	
+	@Autowired
+	private ClusterService clusterService;
+
+	/**
+	 * Returns the title {@link Cluster} associated with the given heading.
+	 * NOTE: although the heading is a string, the current implementation assumes that is actually 
+	 * the cluster identifier (i.e. an integer).
+	 * 
+	 * @param heading the cluster search criterion.
+	 * @return the title {@link Cluster} associated with the given heading.
+	 */
+	public Cluster getTitleCluster(final String heading) {
+		try {	
+			return clusterService.getTitleCluster(heading);
+		} catch (Exception exception) {
+			throw new RuntimeException(exception);
+		}
+ 	}
+	
+	/**
+	 * Returns the name {@link Cluster} associated with the given heading.
+	 * NOTE: although the heading is a string, the current implementation assumes that is actually 
+	 * the cluster identifier (i.e. an integer).
+	 * 
+	 * @param heading the cluster search criterion.
+	 * @param titlesClusters the list of title clusters associated with this heading.
+	 * @return the name {@link Cluster} associated with the given heading.
+	 */
+	public Cluster getNameCluster(final String heading, final Set<Cluster> titlesClusters) {
+		try {
+			return clusterService.getNameCluster(heading, titlesClusters);
+		} catch (Exception exception) {
+			throw new RuntimeException(exception);
+		}
+ 	}
+	
+	/**
+	 * Checks if the title cluster associated with the given identifier has been already processed.
+	 * 
+	 * @param cluster the cluster.
+	 * @return true if the title cluster associated with the given identifier has been already processed.
+	 */
+	public boolean titleClusterHasBeenAlreadyProcessed(final Cluster cluster) {
+		return clusterService.titleClusterAlreadyProcessed(cluster.getId());
+	}
+	
+	/**
+	 * Marks the title cluster associated with the given identifier as processed.
+	 * 
+	 * @param cluster the cluster.
+	 */
+	public void markTitleClusterAsProcessed(final Cluster cluster) {
+		clusterService.markTitleClusterAsProcessed(cluster.getId());
+	}
+	
+	/**
+	 * Checks if the name cluster associated with the given identifier has been already processed.
+	 * 
+	 * @param cluster the cluster.
+	 * @return true if the name cluster associated with the given identifier has been already processed.
+	 */
+	public boolean nameClusterHasBeenAlreadyProcessed(final Cluster cluster) {
+		return clusterService.nameClusterAlreadyProcessed(cluster.getId());
+	}
+	
+	/**
+	 * Marks the name cluster associated with the given identifier as processed.
+	 * 
+	 * @param cluster the cluster.
+	 */
+	public void markNameClusterAsProcessed(final Cluster cluster) {
+		clusterService.markNameClusterAsProcessed(cluster.getId());
+	}
 	
 	/**
 	 * Returns a new generated UID.
@@ -58,6 +135,12 @@ public class Function {
 		return ID.get();
 	}
 	
+	/**
+	 * Returns a {@link List} version of the given array.
+	 * 
+	 * @param array the input array.
+	 * @return a {@link List} version of the given array.
+	 */
 	public List<String> asList(final String [] array) {
 		return array != null ? Arrays.asList(array) : null;
 	}
@@ -172,6 +255,15 @@ public class Function {
 	 */
 	public boolean isNotNullAndNotEmpty(final String value) {
 		return Strings.isNotNullAndNotEmpty(value);
+	}
+	
+	public boolean isNumber(final String value) {
+		try {
+			Integer.parseInt(value);
+			return true;
+		} catch (Exception exception) {
+			return false;
+		}
 	}
 	
 	/**

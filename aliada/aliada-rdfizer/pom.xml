@@ -22,6 +22,10 @@
 			<id>nxparser-repo</id>
 			<url>http://nxparser.googlecode.com/svn/repository</url>
 		</repository>
+		<repository>
+			<id>bigdata.releases</id>
+			<url>http://www.systap.com/maven/releases</url>
+		</repository>
 	</repositories>
 	<dependencies>
 		<!-- Spring -->
@@ -133,6 +137,22 @@
 			<groupId>edu.stanford.nlp</groupId>
 			<artifactId>stanford-corenlp</artifactId>
 			<version>3.5.1</version>
+		</dependency>
+		<dependency>
+			<groupId>com.bigdata</groupId>
+			<artifactId>bigdata</artifactId>
+			<version>1.5.3</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>javax.servlet-api</artifactId>
+					<groupId>javax.servlet</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.jetty</groupId>
+			<artifactId>jetty-client</artifactId>
+			<version>9.3.4.RC1</version>
 		</dependency>
 	</dependencies>
 </project>

@@ -149,12 +149,6 @@ public class OXPath {
 							if (matchesAttrFilters(targetChild, element)) {
 								return element.getTextContent();
 							}
-//							final String name = targetChild.substring(indexOfSquareBracket + 2, targetChild.indexOf("="));
-//							int valueStartIndex = targetChild.indexOf("'");
-//							final String value = targetChild.substring(valueStartIndex+1, targetChild.lastIndexOf("'"));
-//							if (element.getAttribute(name).equals(value)) {
-//								return element.getTextContent();
-//							}
 						}
 					}
 				}
@@ -170,13 +164,6 @@ public class OXPath {
 							if (matchesAttrFilters(targetChild, element)) {
 								return element;
 							}
-
-//							final String name = targetChild.substring(indexOfSquareBracket + 2, targetChild.indexOf("="));
-//							int valueStartIndex = targetChild.indexOf("'");
-//							final String value = targetChild.substring(valueStartIndex+1, targetChild.lastIndexOf("'"));
-//							if (element.getAttribute(name).equals(value)) {
-//								return element;
-//							}
 						}
 					}
 				}
@@ -280,6 +267,32 @@ public class OXPath {
 			}
 		}		
 		return nodes;
+	}	
+	
+	/**
+	 * Extracts a given set of subfields from the given node (tag).
+	 * 
+	 * @param node the node representing the Datafield node.
+	 * @param expression the expression which actually is a sequence of subfields.
+	 * @return the subfield values in sequence, concatenated by a space.
+	 */
+	public String combine(final Element node, final String expression) {
+		final NodeList subfields = node.getElementsByTagName("*");
+		final String result = Arrays.stream(expression.split(""))	
+			.map(subfield -> {
+				for (int i = 0; i < subfields.getLength(); i++) {
+					if (subfields.item(i) instanceof Element) {
+						final Element e = (Element)subfields.item(i);
+						if (subfield.equals(e.getAttribute("code"))) {
+							return e.getTextContent();
+						}
+					} 
+				}
+				return "";
+			})
+			.reduce("", (a, b) -> a + b)
+			.trim();
+		return result;
 	}	
 	
 	/**
@@ -393,7 +406,7 @@ public class OXPath {
 			.toString();
 		return many(xpath, record);
 	}	
-	
+		
 	/**
 	 * Extracts a given set of subfields from the given node (tag).
 	 * 
