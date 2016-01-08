@@ -14,7 +14,11 @@
 	<bean id="debugger" class="eu.aliada.rdfizer.pipeline.processors.JustDebug"/> 
 	<bean id="count-debugger" class="eu.aliada.rdfizer.pipeline.processors.JustDebugTriplesCount"/>
 	<bean id="no-op" class="eu.aliada.rdfizer.pipeline.processors.NoOp"/>
-	<bean id="add-2-rdf-store" class="eu.aliada.rdfizer.pipeline.processors.RESTSparqlInsertProcessor"/>
+	<bean id="add-2-rdf-store" class="eu.aliada.rdfizer.pipeline.processors.AddToRDFStore">
+	    <constructor-arg value="http://localhost:9999/blazegraph/namespace/aliada/sparql"/>
+	    <constructor-arg value="1000"/>
+	    <constructor-arg value="-1"/>
+	</bean>
 	<bean id="check-job-completeness" class="eu.aliada.rdfizer.pipeline.processors.CheckJobCompleteness"/>
 	<bean id="xpath" class="eu.aliada.rdfizer.pipeline.format.xml.XPath"/> 
 	<bean id="rdf-sample-validation" class="eu.aliada.rdfizer.pipeline.processors.Validator"/>
@@ -83,8 +87,8 @@
 		</route>
 		<route> 
 			<from uri="seda:triples-channel?concurrentConsumers=10&amp;size=250&amp;blockWhenFull=true" />
-<!-- 			<process ref="add-2-rdf-store"/> -->
-			<process ref="debugger"/>
+			<process ref="add-2-rdf-store"/>
+<!-- 			<process ref="debugger"/> -->
 		</route>
 	</camelContext>
 </beans>

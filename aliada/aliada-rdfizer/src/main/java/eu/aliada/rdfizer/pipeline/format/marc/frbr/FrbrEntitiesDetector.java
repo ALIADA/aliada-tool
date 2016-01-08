@@ -37,6 +37,8 @@ import eu.aliada.shared.log.Log;
  * @since 1.0
  */
 public class FrbrEntitiesDetector implements Processor {
+	private final static boolean TRACE_FRBR_ENTITIES = Boolean.getBoolean("trace.frbr.entities");
+	
 	private Log log = new Log(FrbrEntitiesDetector.class);
 
 	@Autowired
@@ -175,7 +177,7 @@ public class FrbrEntitiesDetector implements Processor {
 				events(target),
 				places(target));
 		
-		if (log.isDebugEnabled()) {
+		if (TRACE_FRBR_ENTITIES && log.isDebugEnabled()) {
 			StringBuilder builder = new StringBuilder();
 			builder.append("************************\n");
 			builder.append("WORKs \n");

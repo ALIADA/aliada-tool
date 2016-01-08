@@ -5,6 +5,7 @@
 // Responsible: ALIADA Consortiums
 package eu.aliada.rdfizer.pipeline.processors;
 
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Queue;
@@ -20,18 +21,22 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 
 import javax.annotation.PreDestroy;
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.Entity;
-import javax.ws.rs.client.WebTarget;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
-import org.semanticweb.yars.nx.Triple;
+import org.openrdf.model.Statement;
+import org.openrdf.rio.RDFFormat;
+import org.openrdf.rio.RDFHandlerException;
+import org.openrdf.rio.RDFParser;
+import org.openrdf.rio.Rio;
+import org.openrdf.rio.helpers.RDFHandlerBase;
 
+import com.bigdata.rdf.sail.webapp.client.RemoteRepository;
+import com.bigdata.rdf.sail.webapp.client.RemoteRepositoryManager;
 import com.google.common.util.concurrent.AtomicDouble;
 
 import eu.aliada.rdfizer.log.MessageCatalog;
+import eu.aliada.rdfizer.pipeline.format.xml.NullObject;
 import eu.aliada.shared.log.Log;
 
 /**
@@ -71,7 +76,7 @@ public class AddToRDFStore implements Processor {
 	 * @since 1.0
 	 */
 	class BulkInsertCallable implements Callable<InsertStatResult> {
-		private final List<Triple> statements;
+		private final List<Statement> statements;
 		private final int statementsCount;
 
 		/**
@@ -79,9 +84,9 @@ public class AddToRDFStore implements Processor {
 		 * 
 		 * @param statements the statement that will be inserted.
 		 */
-		public BulkInsertCallable(final List<Triple> statements) {
+		public BulkInsertCallable(final List<Statement> statements) {
 			statementsCount = statements.size();
-			this.statements = new ArrayList<Triple>(statements);
+			this.statements = new ArrayList<Statement>(statements);
 		}
 
 		/**
@@ -93,11 +98,7 @@ public class AddToRDFStore implements Processor {
 		@Override
 		public InsertStatResult call() throws Exception {
 			long begin = System.currentTimeMillis();
-			final StringBuilder builder = new StringBuilder();
-			for (final Triple statement : statements) {
-				builder.append(statement).append("\n");
-			}
-			target.request().post(Entity.text(builder.toString()));
+			repository.getRepositoryForNamespace("aliada").add(new RemoteRepository.AddOp(statements));
 			return new InsertStatResult(System.currentTimeMillis() - begin, statementsCount);
 		}
 	}	
@@ -109,7 +110,7 @@ public class AddToRDFStore implements Processor {
 	
 	private final Queue<Future<InsertStatResult>> futures;
 
-	private final List<Triple> buffer;
+	private final List<Statement> buffer;
 	
 	private AtomicInteger failures = new AtomicInteger();
 	
@@ -119,9 +120,7 @@ public class AddToRDFStore implements Processor {
 	private AtomicLong totalElapsed = new AtomicLong();
 	
 	private AtomicDouble triplesPerSecond = new AtomicDouble();
-	
-	final Client client;
-	final WebTarget target;
+	private final RemoteRepositoryManager repository;
 	
 	private boolean dequeuerIsActive = true;
 	private final Runnable dequeuer = new Runnable() {	
@@ -172,11 +171,10 @@ public class AddToRDFStore implements Processor {
 	 * @param cleanUpPeriod the sleep interval of the buffer cleanup worker.
 	 */
 	public AddToRDFStore(final String url, final int batchSize, final long cleanUpPeriod) {
-		client = ClientBuilder.newClient();
-		target = client.target(url);
+		this.repository = new RemoteRepositoryManager(url, false);
 
 		this.futures = new ConcurrentLinkedQueue<Future<InsertStatResult>>();
-		this.buffer = new ArrayList<Triple>(batchSize);
+		this.buffer = new ArrayList<Statement>(batchSize);
 		
 		final int howManyWorkers = computeWorkersPoolSize();
 		final RejectedExecutionHandler rejectedExecutionHandler = new ThreadPoolExecutor.CallerRunsPolicy();
@@ -202,18 +200,26 @@ public class AddToRDFStore implements Processor {
 		return Runtime.getRuntime().availableProcessors() + 2;
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public void process(final Exchange exchange) throws Exception {
-		final List<Triple> statements = (List<Triple>) exchange.getIn().getBody();
-		if (statements != null && !statements.isEmpty()) {
-			synchronized (buffer) {
-				buffer.addAll(statements);
+		final Object obj = exchange.getIn().getBody();
+		if (obj instanceof NullObject) {
+			return;
+		}
+		
+		final RDFParser rdfParser = Rio.createParser(RDFFormat.NTRIPLES);
+		
+		rdfParser.setRDFHandler(new RDFHandlerBase() {
+			@Override
+			public void handleStatement(final Statement st) throws RDFHandlerException {
+				buffer.add(st);
 				if (buffer.size() >= batchSize) {
 					insertChunk();
 				}
 			}
-		}
+		});
+		
+		rdfParser.parse(new StringReader(exchange.getIn().getBody(String.class)), "http://example.org");
 	}
 	
 	/**
@@ -234,8 +240,7 @@ public class AddToRDFStore implements Processor {
 		cleanerIsActive = false;
 		
 		// CHECKSTYLE:OFF
-		if (workers != null) { try { workers.shutdown(); } catch (Exception ignore){} }
-		if (client != null) { try { client.close(); } catch (Exception ignore){} }
+		if (repository != null) { try { repository.close(); } catch (Exception ignore){} }
 		// CHECKSTYLE:ON
 	}
 	

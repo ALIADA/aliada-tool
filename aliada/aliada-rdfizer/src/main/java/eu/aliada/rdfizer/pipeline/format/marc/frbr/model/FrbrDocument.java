@@ -139,7 +139,6 @@ public final class FrbrDocument implements Serializable {
 	 */
 	public boolean isValid() {
 		return !flatWorksIDs.isEmpty() 
-//				&& expressionIDs != null 
 				&& manifestationID != null 
 				&& document != null;
 	}

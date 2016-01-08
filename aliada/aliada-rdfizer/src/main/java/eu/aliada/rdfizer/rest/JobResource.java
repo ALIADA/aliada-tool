@@ -88,7 +88,7 @@ public class JobResource implements Job {
 	 * @param increment the delta that will be added to the total amount.
 	 */
 	public void incrementOutputStatementsCount(final int increment) {
-		totalOutputStatementsCount.addAndGet(increment);
+		System.out.println(totalOutputStatementsCount.addAndGet(increment));
 	}
 	
 	@XmlElement(name = "total-records-count")

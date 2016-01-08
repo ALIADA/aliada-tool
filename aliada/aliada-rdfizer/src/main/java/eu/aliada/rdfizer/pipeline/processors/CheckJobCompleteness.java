@@ -111,9 +111,7 @@ public class CheckJobCompleteness implements Processor {
 				job.getStatementsThroughput() > 0
 					? BigDecimal.valueOf(job.getStatementsThroughput())
 					: BigDecimal.ZERO);		
-		if (!jobStatsRepository.exists(stats.getId())) {
 			jobStatsRepository.save(stats);					
-		}
 	}		
 	
 	/**
