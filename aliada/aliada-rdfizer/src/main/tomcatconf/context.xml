@@ -3,9 +3,9 @@
 		name="jdbc/aliada"
 		auth="Container"
 		type="javax.sql.DataSource"
-		username="root" password="p2tcQY5t"
+		username="aliada" password="aliada01"
 		driverClassName="com.mysql.jdbc.Driver"
-		url="jdbc:mysql://localhost:3306/aliada"
+		url="jdbc:postgresql://192.168.0.159:5432/aliada_svl"
 		maxActive="5"
 		maxIdle="5"/>
     
