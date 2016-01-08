@@ -16,7 +16,7 @@
 					<constructor-arg value="454()9" />
 				</bean>
       	        <bean class="eu.aliada.rdfizer.pipeline.format.marc.selector.xml.MultipleVariableFieldExpression">
-					<constructor-arg value="995()9" />
+					<constructor-arg value="996()9" />
 				</bean>
 			</list>
 		</constructor-arg>
