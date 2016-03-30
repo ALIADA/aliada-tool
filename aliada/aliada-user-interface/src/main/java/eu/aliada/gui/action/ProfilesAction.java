@@ -219,14 +219,14 @@ public class ProfilesAction extends ActionSupport {
      * @return String */
     public String showEditProfile() {	
     	if (this.selectedProfile != null) {
-	    	if (getSelectedProfile().equalsIgnoreCase(defaults.getString("profile.bib")) 
+	    	/*if (getSelectedProfile().equalsIgnoreCase(defaults.getString("profile.bib")) 
 	    	|| getSelectedProfile().equalsIgnoreCase(defaults.getString("profile.aut")) 
 	    	|| getSelectedProfile().equalsIgnoreCase(defaults.getString("profile.lido")) 
 	    	|| getSelectedProfile().equalsIgnoreCase(defaults.getString("profile.dc"))) {
 			        addActionError(getText("err.not.allow.edit"));
 			       	showProfiles();
 			        return ERROR;          	
-	        } else {
+	        } else {*/
 		        Connection connection = null;
 		        try {
 		            connection = new DBConnectionManager().getConnection();
@@ -263,7 +263,7 @@ public class ProfilesAction extends ActionSupport {
 		            logger.error(MessageCatalog._00011_SQL_EXCEPTION, e);
 		            return ERROR;
 		        }
-	        }
+	        //}
 	    } else {
 	    	addActionError(getText("profile.not.selected"));
 	    	showProfiles();
