@@ -36,7 +36,7 @@ public class Organization {
 	/** The extra attributes for the organization. */
 	private ArrayList<Map<String, String>> extras = new ArrayList<Map<String, String>>();
 	/** The organization packages/datasets. */
-	private ArrayList<Map<String, String>> packages = new ArrayList<Map<String, String>>();
+	//private ArrayList<Map<String, String>> packages = new ArrayList<Map<String, String>>();
 
 	/**
 	 * Constructor.
@@ -227,27 +227,30 @@ public class Organization {
 	 * @return The organization packages/datasets.
 	 * @since 2.0
 	 */
+	/*
 	public ArrayList<Map<String, String>> getPackages() {
 		return this.packages;
-	}
+	}*/
 	/**
 	 * Set the packages.
 	 * 
 	 * @param packages The packages to set.
 	 * @since 2.0
 	 */
+	/*
 	public void setPackages(final ArrayList<Map<String, String>> packages) {
 		this.packages = packages;
-	}
+	}*/
 	/**
 	 * Adds a package/dataset to the organization.
 	 * 
 	 * @param pack The package/dataset to add.
 	 * @since 2.0
 	 */
+	/*
 	public void addPackage(final Map<String, String> pack) {
 		packages.add(pack);
-	}
+	}*/
 
 	////////////////////////////////////////////
 	/**

@@ -17,6 +17,12 @@ import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Response;
+import javax.net.ssl.*;
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+import java.security.cert.CertificateException;
+import java.security.cert.X509Certificate;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -122,6 +128,47 @@ public class CKANCreation {
 	}
 
 	/**
+	 * Generate a Client for SSL connection.
+	 *
+	 * @return a {@link javax.ws.rs.client.Client} for SSL.
+	 * @since 2.1
+	 */
+	protected  Client getClientForSSL() {
+		try {
+			TrustManager[] trustAllCerts = new TrustManager[]{new X509TrustManager(){
+				public void checkClientTrusted(X509Certificate[] arg0, String arg1)
+						throws CertificateException {
+				}
+
+				public void checkServerTrusted(X509Certificate[] arg0, String arg1)
+						throws CertificateException {
+				}
+
+				public X509Certificate[] getAcceptedIssuers() {
+					return null;
+				}
+
+			}};
+			final SSLContext sslContext = SSLContext.getInstance("SSL");
+			sslContext.init(null, trustAllCerts, new SecureRandom());
+
+			final HostnameVerifier allHostsValid = new HostnameVerifier() {
+				public boolean verify(String hostname, SSLSession session) {
+					return true;
+				}
+			};
+			ClientBuilder clientBuilder = ClientBuilder.newBuilder();
+			return clientBuilder.sslContext(sslContext).hostnameVerifier(allHostsValid).build();
+		} catch (NoSuchAlgorithmException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (KeyManagementException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}  
+	/**
 	 * Gets the organization information from CKAN Datahub.
 	 *
 	 * @param orgName	the organization name.
@@ -130,7 +177,7 @@ public class CKANCreation {
 	 * @since 2.0
 	 */
     public CKANOrgResponse getOrganizationCKAN(final String orgName){
-		final Client client = ClientBuilder.newClient();
+		final Client client = getClientForSSL();
 		final WebTarget webTarget = client.target(jobConf.getCkanApiURL());
 		
 		//GET 
@@ -147,6 +194,7 @@ public class CKANCreation {
 			cResponse = mapper.readValue(orgShowResp, CKANOrgResponse.class);
     	} catch (Exception exception) {
     		cResponse.setSuccess("false");
+			LOGGER.error("CKAN organization_show Response=" + orgShowResp);
 			LOGGER.error(MessageCatalog._00032_OBJECT_CONVERSION_FAILURE, exception);
 		}
 		return cResponse;
@@ -169,7 +217,7 @@ public class CKANCreation {
 	public CKANOrgResponse updateOrganizationCKAN(final String orgId, final String orgName, 
 			final String orgTitle, final String orgDescription, final String orgImageURL, 
 			final String orgHomePage, final ArrayList<Map<String, String>> lUsers){
-		final Client client = ClientBuilder.newClient();
+		final Client client = getClientForSSL();
 		final WebTarget webTarget = client.target(jobConf.getCkanApiURL());
 		
 		//Create a Java Object with the organization data
@@ -219,7 +267,7 @@ public class CKANCreation {
 	 * @since 2.0
 	 */
     public CKANDatasetResponse getDatasetCKAN(final String datasetName){
-    	final Client client = ClientBuilder.newClient();
+    	final Client client = getClientForSSL();
     	final WebTarget webTarget = client.target(jobConf.getCkanApiURL());
 		
 		//GET 
@@ -251,7 +299,7 @@ public class CKANCreation {
 	 * @since 2.0
 	 */
 	public String deleteDatasetCKAN(final String packId){
-		final Client client = ClientBuilder.newClient();
+		final Client client = getClientForSSL();
 		final WebTarget webTarget = client.target(jobConf.getCkanApiURL());
 		
 		//Create a Java Object with the dataset data
@@ -289,7 +337,7 @@ public class CKANCreation {
 	 * @since 2.0
 	 */
 	public CKANDatasetResponse createDatasetCKAN(final Dataset dataset){
-		final Client client = ClientBuilder.newClient();
+		final Client client = getClientForSSL();
 		final WebTarget webTarget = client.target(jobConf.getCkanApiURL());
 		
 		//Convert Java Object to JSON representation with JACKSON libraries
@@ -327,7 +375,7 @@ public class CKANCreation {
 	 * @since 2.0
 	 */
 	public CKANDatasetResponse updateDatasetCKAN(final Dataset dataset){
-		final Client client = ClientBuilder.newClient();
+		final Client client = getClientForSSL();
 		final WebTarget webTarget = client.target(jobConf.getCkanApiURL());
 		
 		//Convert Java Object to JSON representation with JACKSON libraries
@@ -371,7 +419,7 @@ public class CKANCreation {
 	 */
 	public CKANResourceResponse createResourceCKAN(final String datasetId, final String resName, 
 			final String resDescription, final String resFormat, final String resUrl, final String resType){
-		final Client client = ClientBuilder.newClient();
+		final Client client = getClientForSSL();
 		final WebTarget webTarget = client.target(jobConf.getCkanApiURL());
 		
 		//Create a Java Object with the resource data
