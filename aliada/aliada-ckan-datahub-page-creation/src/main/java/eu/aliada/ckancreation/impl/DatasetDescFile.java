@@ -293,7 +293,7 @@ public class DatasetDescFile {
 					//Compose URI set part + URI Dataset Concept part + URI Subset Concept part
 					final String subsetUri = datasetUri + "/" + jobConf.getUriSetPart() + "/" + uriConceptSubset;
 					//Enumerate subset
-			    	out.write("    void:subset :" + subsetUri + " ;");
+			    	out.write("    void:subset " + subsetUri + " ;");
 			    	out.newLine();
 				}
 			}
